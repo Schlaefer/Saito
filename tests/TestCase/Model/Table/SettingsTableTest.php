@@ -12,29 +12,37 @@ class SettingsTableTest extends SaitoTableTestCase
 
     public $fixtures = ['app.setting'];
 
-    protected $_settingsCompact = [
-        'autolink' => '1',
-        'block_user_ui' => '1',
-        'edit_delay' => 180,
-        'edit_period' => '20',
-        'email_contact' => 'contact@example.com',
-        'email_register' => 'register@example.com',
-        'email_system' => 'system@example.com',
-        'forum_email' => 'forum_email@example.com',
-        'forum_name' => 'macnemo',
-        'quote_symbol' => '>',
-        'smilies' => '1',
-        'subject_maxlength' => '40',
-        'thread_depth_indent' => '25',
-        'timezone' => 'UTC',
-        'topics_per_page' => '20',
-        'tos_enabled' => '1',
-        'tos_url' => 'http://example.com/tos-url.html/',
-        'category_chooser_global' => '0',
-        'category_chooser_user_override' => '1',
-        'upload_max_img_size' => '1500',
-        'upload_max_number_of_uploads' => '10',
-    ];
+    public function settingsDataProvider()
+    {
+        return [
+            [
+                [
+                'autolink' => '1',
+                'block_user_ui' => '1',
+                'db_version' => null,
+                'edit_delay' => 180,
+                'edit_period' => '20',
+                'email_contact' => 'contact@example.com',
+                'email_register' => 'register@example.com',
+                'email_system' => 'system@example.com',
+                'forum_email' => 'forum_email@example.com',
+                'forum_name' => 'macnemo',
+                'quote_symbol' => '>',
+                'smilies' => '1',
+                'subject_maxlength' => '40',
+                'thread_depth_indent' => '25',
+                'timezone' => 'UTC',
+                'topics_per_page' => '20',
+                'tos_enabled' => '1',
+                'tos_url' => 'http://example.com/tos-url.html/',
+                'category_chooser_global' => '0',
+                'category_chooser_user_override' => '1',
+                'upload_max_img_size' => '1500',
+                'upload_max_number_of_uploads' => '10',
+                ]
+            ]
+        ];
+    }
 
     public function testFillOptionalMailAddresses()
     {
@@ -57,7 +65,10 @@ class SettingsTableTest extends SaitoTableTestCase
         $this->assertEquals($expected, $result['email_system']);
     }
 
-    public function testAfterSave()
+    /**
+     * @dataProvider settingsDataProvider
+     */
+    public function testAfterSave($fixture)
     {
         $setting = $this->Table->get('forum_name');
         $setting->set('value', 'fuselage');
@@ -65,16 +76,19 @@ class SettingsTableTest extends SaitoTableTestCase
 
         $result = $this->Table->getSettings();
         $expected = array_merge(
-            $this->_settingsCompact,
+            $fixture,
             ['forum_name' => 'fuselage']
         );
         $this->assertEquals($result, $expected);
     }
 
-    public function testGetSettings()
+    /**
+     * @dataProvider settingsDataProvider
+     */
+    public function testGetSettings($fixture)
     {
         $result = $this->Table->getSettings();
-        $expected = $this->_settingsCompact;
+        $expected = $fixture;
         $this->assertEquals($result, $expected);
     }
 
@@ -82,26 +96,31 @@ class SettingsTableTest extends SaitoTableTestCase
      *
      *
      * preset must force a refresh
+     *
+     * @dataProvider settingsDataProvider
      */
-    public function testLoadWithPreset()
+    public function testLoadWithPreset($fixture)
     {
         $this->Table->load();
 
         $preset = ['lock' => 'hatch', 'timezone' => 'island'];
         $this->Table->load($preset);
         $result = Configure::read('Saito.Settings');
-        $expected = $this->_settingsCompact;
+        $expected = $fixture;
         $expected['lock'] = 'hatch';
         $expected['timezone'] = 'island';
         $this->assertEquals($result, $expected);
     }
 
-    public function testLoad()
+    /**
+     * @dataProvider settingsDataProvider
+     */
+    public function testLoad($fixture)
     {
         Configure::write('Saito.Settings', null);
         $this->Table->load();
         $result = Configure::read('Saito.Settings');
-        $expected = $this->_settingsCompact;
+        $expected = $fixture;
         $this->assertEquals($result, $expected);
     }
 

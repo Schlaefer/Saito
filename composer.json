@@ -75,6 +75,7 @@
       "ImageUploader\\": "plugins/ImageUploader/src",
       "ImageUploader\\Test\\": "plugins/ImageUploader/tests",
       "Installer\\": "plugins/Installer/src",
+      "Installer\\Test\\": "plugins/Installer/tests",
       "SaitoHelp\\": "./plugins/SaitoHelp/src",
       "SaitoSearch\\": "./plugins/SaitoSearch/src",
       "Sitemap\\": "./plugins/Sitemap/src",

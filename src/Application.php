@@ -14,6 +14,7 @@
  */
 namespace App;
 
+use App\Middleware\SaitoBootstrapMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
@@ -59,7 +60,7 @@ class Application extends BaseApplication
         $this->addPlugin(\Bookmarks\Plugin::class, ['routes' => true]);
         $this->addPlugin(\BbcodeParser\Plugin::class);
         $this->addPlugin(\Feeds\Plugin::class, ['bootstrap' => true, 'routes' => true]);
-        $this->addPlugin(\Installer\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        $this->addPlugin(\Installer\Plugin::class, ['bootstrap' => true]);
         $this->addPlugin(\SaitoHelp\Plugin::class, ['bootstrap' => true]);
         $this->addPlugin(\SaitoSearch\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Sitemap\Plugin::class, ['bootstrap' => true, 'routes' => true]);
@@ -112,6 +113,8 @@ class Application extends BaseApplication
             Configure::read('Security.cookieSalt')
         );
         $middlewareQueue->add($cookies);
+
+        $middlewareQueue->insertAfter(RoutingMiddleware::class, new SaitoBootstrapMiddleware());
 
         $security = (new SecurityHeadersMiddleware())
             ->setXFrameOptions(strtolower(Configure::read('Saito.X-Frame-Options')));

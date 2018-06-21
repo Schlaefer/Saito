@@ -6,12 +6,16 @@
 $config = [
     'Saito' => [
         /**
-         * Is forum installed? Runs installer if not.
+         * Is the forum installed? Runs installer if not. Default: run installer.
          */
         'installed' => filter_var(
             env('INSTALLED', !file_exists(CONFIG . '/installer')),
             FILTER_VALIDATE_BOOLEAN
         ),
+        /**
+         * Is the forum up-to-date? Run updater if not. Default: run updater.
+         */
+        'updated' => filter_var(env('UPDATED', false), FILTER_VALIDATE_BOOLEAN),
         /**
          * Setting default language (mandatory)
          *

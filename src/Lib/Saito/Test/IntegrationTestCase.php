@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2012-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Test;
 
 use App\Test\Fixture\UserFixture;
@@ -33,6 +43,7 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         $this->disableErrorHandlerMiddleware();
         $this->setUpSaito();
         $this->_clearCaches();
+        $this->markUpdated();
     }
 
     /**
@@ -209,5 +220,16 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         if (strpos($class, $datasource)) {
             $this->markTestSkipped("Skipped on datasource '$datasource'");
         }
+    }
+
+    /**
+     * Marks the Saito installation installed and updated (don't run installer or updater)
+     *
+     * @return void
+     */
+    private function markUpdated()
+    {
+        Configure::write('Saito.installed', true);
+        Configure::write('Saito.updated', true);
     }
 }

@@ -23,7 +23,8 @@ class UsersControllerTest extends IntegrationTestCase
         'app.user_ignore',
         'app.user_read',
         'app.useronline',
-        'plugin.bookmarks.bookmark'
+        'plugin.bookmarks.bookmark',
+        'plugin.image_uploader.uploads',
     ];
 
     public function setUp()
@@ -110,12 +111,16 @@ class UsersControllerTest extends IntegrationTestCase
         $this->_loginUser(2);
         $this->post('/admin/users/delete/6', $data);
         $this->assertTrue($this->_controller->Users->exists(6));
+    }
 
-        /*
-         * admin deletes user
-         */
+    public function testDeleteAdminDeletesUserSuccess()
+    {
+        $this->mockSecurity();
         $this->_loginUser(6);
+        $data = ['modeDelete' => 1];
+
         $this->post('/admin/users/delete/5', $data);
+
         $this->assertFalse($this->_controller->Users->exists(5));
         $this->assertRedirect('/');
     }

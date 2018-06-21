@@ -84,8 +84,10 @@ class SettingsTable extends AppSettingTable
     {
         Stopwatch::start('Settings->getSettings()');
 
+        $cacheKey = 'Saito.appSettings.' . Configure::read('Saito.v');
+
         $settings = Cache::remember(
-            'Saito.appSettings',
+            $cacheKey,
             function () {
                 return $this->getSettings();
             }

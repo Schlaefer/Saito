@@ -24,6 +24,7 @@ class SettingsSeed extends AbstractSeed
             ['name' => 'autolink', 'value' => '1'],
             ['name' => 'bbcode_img', 'value' => '1'],
             ['name' => 'block_user_ui', 'value' => '1'],
+            ['name' => 'db_version', 'value' => null],
             ['name' => 'category_chooser_global', 'value' => '0'],
             ['name' => 'category_chooser_user_override', 'value' => '1'],
             ['name' => 'edit_delay', 'value' => '3'],

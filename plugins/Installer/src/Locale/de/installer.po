@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-05-17 17:34+0200\n"
+"POT-Creation-Date: 2018-06-23 09:07+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -9,88 +9,109 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.0.8\n"
 "X-Poedit-KeywordsList: __d:2\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Template/Install/start.ctp:3
+#: Controller/UpdaterController.php:53
+msgid "update.failure.explanation"
+msgstr ""
+"Die Aktualisierung ist fehlgeschlagen. Die Datenbank befindet sich in einem "
+"unbekannten Zustand. Stellen Sie die Datenbank aus einer Sicherung wieder "
+"her und versuchen Sie es erneut. Für das Nachverfolgen dieses Fehlers "
+"notieren Sie bitte den folgenden Bericht:"
+
+#: Controller/UpdaterController.php:62
+msgid "update.failure.nodbversion"
+msgstr ""
+"Aktualisierung kann nicht vorgenommen werden. Der Updater kann die Version "
+"der Datenbank nicht feststellen."
+
+#: Controller/UpdaterController.php:68
+msgid "update.failure.wrongdbversion"
+msgstr ""
+"Aktualisierung kann nicht vorgenommen werden. Eine aktualisierung von "
+"Version {v} wird nicht unterstützt."
+
+#: Template/Install/start.ctp:3 Template/Updater/failure.ctp:3
+#: Template/Updater/start.ctp:3 Template/Updater/success.ctp:3
 msgid "reload"
 msgstr "Änderungen testen"
 
-#: Template/Install/start.ctp:9 Template/Layout/default.ctp:11
+#: Template/Install/start.ctp:10 Template/Layout/default.ctp:11
 msgid "title"
 msgstr "Saito Installation"
 
-#: Template/Install/start.ctp:13
+#: Template/Install/start.ctp:15
 msgid "language"
 msgstr "Set a language in <code>config/saito_config.php</code>."
 
-#: Template/Install/start.ctp:18
+#: Template/Install/start.ctp:21
 msgid "connection.title"
 msgstr "Datenbank-Verbindung"
 
-#: Template/Install/start.ctp:23
+#: Template/Install/start.ctp:26
 msgid "connection.failure"
 msgstr "❌ Keine Verbindung zur Datenbank."
 
-#: Template/Install/start.ctp:26
+#: Template/Install/start.ctp:29
 msgid "connection.explanation"
 msgstr ""
 "Eine Datenbank wird benötigt. Normalerweise ist dies entweder MySQL oder "
 "MariaDB. Die Datenbank-Verbindung wird als <code>Datasource => default</"
 "code> in <code>config/app.php</code> konfiguriert."
 
-#: Template/Install/start.ctp:29
+#: Template/Install/start.ctp:32
 msgid "connection.see"
 msgstr ""
 "Für weitere Informationen siehe die <a href=\"https://book.cakephp.org/3.0/"
 "en/orm/database-basics.html#configuration\" target=\"_blank\">CakePHP-"
 "Dokumentation</a> (CakePHP ist das unterliegende PHP-Framework)."
 
-#: Template/Install/start.ctp:33
+#: Template/Install/start.ctp:37
 msgid "connection.success"
 msgstr "👍 Verbindung zur Datenbank hergestellt."
 
-#: Template/Install/start.ctp:48
+#: Template/Install/start.ctp:61
 msgid "populate.title"
 msgstr "Datenbank vorbereiten"
 
-#: Template/Install/start.ctp:53
+#: Template/Install/start.ctp:66
 msgid "populate.failure"
 msgstr "❌ Datenbank ist nicht vorbereitet."
 
-#: Template/Install/start.ctp:56
+#: Template/Install/start.ctp:69
 msgid "populate.explanation"
 msgstr ""
 "Dieser Schritt befüllt die Datenbank mit Tabellen und Daten. Bitte geben Sie "
 "einen Nutzernamen und Passwort für das Anlegen einen Administrator-Kontos an:"
 
-#: Template/Install/start.ctp:61
+#: Template/Install/start.ctp:74
 msgid "populate.form.username"
 msgstr "Name"
 
-#: Template/Install/start.ctp:62
+#: Template/Install/start.ctp:75
 msgid "populate.form.password"
 msgstr "Passwort"
 
-#: Template/Install/start.ctp:63
+#: Template/Install/start.ctp:76
 msgid "populate.form.submit"
 msgstr "Anlegen"
 
-#: Template/Install/start.ctp:68
+#: Template/Install/start.ctp:81
 msgid "populate.success"
 msgstr "👍  Datenbank ist eingerichtet."
 
-#: Template/Install/start.ctp:88
+#: Template/Install/start.ctp:101
 msgid "salt.title"
 msgstr "Sicherheits-Salt setzen"
 
-#: Template/Install/start.ctp:93
+#: Template/Install/start.ctp:106
 msgid "salt.failure"
 msgstr "❌ Sicherheits-Salt nicht gesetzt."
 
-#: Template/Install/start.ctp:96
+#: Template/Install/start.ctp:109
 msgid "salt.explanation"
 msgstr ""
 "Ein Sichereits-Salt muss als <code>Security => salt</code> und "
@@ -101,29 +122,85 @@ msgstr ""
 "Passwörtern und Zugangsdaten unterstützt. Hier sind zwei bereit für die "
 "Nutzung:"
 
-#: Template/Install/start.ctp:105
+#: Template/Install/start.ctp:118
 msgid "salt.warning"
 msgstr ""
 "⚠️ Die verwendeten Salts aufschreiben und sicher verwahren! Das Forum kann "
 "ohne diese nicht erneut mit Bestandsdaten aufgesetzt werden!"
 
-#: Template/Install/start.ctp:109
-msgid "salt.success"
-msgstr "👍  Sicherheits-Salt konfiguriert."
-
 #: Template/Install/start.ctp:123
+msgid "salt.success"
+msgstr "👍 Sicherheits-Salt konfiguriert."
+
+#: Template/Install/start.ctp:137
 msgid "finished.title"
 msgstr "Installer deaktivieren"
 
-#: Template/Install/start.ctp:127
+#: Template/Install/start.ctp:141
 msgid "finished.explanation"
 msgstr ""
 "Um den Installer zu beenden und das Forum aufzurufen löschen Sie die Datei. "
 "<code>config/installer</code>. 🏁 🙂"
 
-#: Template/Install/start.ctp:130
+#: Template/Install/start.ctp:144
 msgid "finished.debug"
 msgstr ""
 "Bei Problemen hilft ein Blick in die Log-Dateien (insbesondere <code>logs/"
 "error.log</code>) oder ein Aktivieren des Debug-Modus in <code>config/app."
 "php</code> (<code>'debug' => true;</code>)."
+
+#: Template/Updater/failure.ctp:10 Template/Updater/start.ctp:10
+#: Template/Updater/success.ctp:10
+msgid "update.title"
+msgstr "Saito Aktualisierung"
+
+#: Template/Updater/failure.ctp:15
+msgid "update.failure.title"
+msgstr "Aktualisierung Fehlgeschlagen"
+
+#: Template/Updater/failure.ctp:22
+msgid "update.failure.seelog"
+msgstr "Detailiertere Informationen finden sich im Installer-Log."
+
+#: Template/Updater/start.ctp:15
+msgid "update.dbOutdated.title"
+msgstr "Datenbank Aktualisieren"
+
+#: Template/Updater/start.ctp:19
+msgid "update.dbOutdated.failure"
+msgstr "❌ Datenbank ist nicht auf dem neuesten Stand."
+
+#: Template/Updater/start.ctp:22
+msgid "update.dbOutdated.explanation"
+msgstr ""
+"Die Datenbank wurde zuletzt mit einer anderen Forumsversion verwendet. Die "
+"Datenbank befindet sich auf Stand {dbVersion}, während das Forum in Version "
+"{saitoVersion} installiert ist. Die Datenbank kann im folgenden aktualisiert "
+"werden."
+
+#: Template/Updater/start.ctp:25
+msgid "update.dbOutdated.backup"
+msgstr ""
+"⚠️ Sie sollten vor dem Fortfahren eine Sicherung Ihrer Datenbank vornehmen. "
+"Es besteht immer die Möglichkeit, dass die Aktualisierung fehlschlägt und "
+"die Datenbank in einem beschädigten Zustand zurücklässt."
+
+#: Template/Updater/start.ctp:29
+msgid "update.dbOutdated.submit"
+msgstr "Aktualisierung starten"
+
+#: Template/Updater/success.ctp:15
+msgid "update.finished.title"
+msgstr "Aktualisierung Abgeschlossen"
+
+#: Template/Updater/success.ctp:19
+msgid "update.finished.success"
+msgstr "👍 Alles aktuell."
+
+#: Template/Updater/success.ctp:22
+msgid "update.finished.explanation"
+msgstr "Die Aktualisierung wurde erfolgreich abgeschlossen."
+
+#: Template/Updater/success.ctp:26
+msgid "update.finished.btn"
+msgstr "Zum Forum"

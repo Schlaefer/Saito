@@ -30,7 +30,7 @@ class Initial extends AbstractMigration
             ->addColumn('comment', 'string', [
                 'default' => null,
                 'limit' => 255,
-                'null' => true,
+                'null' => false,
             ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
@@ -83,16 +83,6 @@ class Initial extends AbstractMigration
                 'limit' => 4,
                 'null' => false,
             ])
-            ->addColumn('accession_new_thread', 'integer', [
-                'default' => '0',
-                'limit' => 4,
-                'null' => false,
-            ])
-            ->addColumn('accession_new_posting', 'integer', [
-                'default' => '0',
-                'limit' => 4,
-                'null' => false,
-            ])
             ->addColumn('thread_count', 'integer', [
                 'default' => '0',
                 'limit' => 11,
@@ -100,7 +90,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('entries', ['engine' => 'MyISAM'])
+        $this->table('entries')
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -173,29 +163,19 @@ class Initial extends AbstractMigration
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('email_notify', 'integer', [
-                'default' => '0',
-                'limit' => 1,
-                'null' => true,
-            ])
             ->addColumn('locked', 'integer', [
                 'default' => '0',
-                'limit' => 1,
+                'limit' => 4,
                 'null' => true,
             ])
             ->addColumn('fixed', 'integer', [
                 'default' => '0',
-                'limit' => 1,
+                'limit' => 4,
                 'null' => true,
             ])
             ->addColumn('views', 'integer', [
                 'default' => '0',
                 'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('nsfw', 'boolean', [
-                'default' => null,
-                'limit' => null,
                 'null' => true,
             ])
             ->addColumn('ip', 'string', [
@@ -207,21 +187,6 @@ class Initial extends AbstractMigration
                 'default' => '0',
                 'limit' => 11,
                 'null' => false,
-            ])
-            ->addColumn('rf_karma', 'integer', [
-                'default' => '0',
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('rf_votes', 'integer', [
-                'default' => '0',
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('flattr', 'boolean', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
             ])
             ->addIndex(
                 [
@@ -269,10 +234,99 @@ class Initial extends AbstractMigration
             ->addIndex(
                 [
                     'subject',
-                    'text',
                     'name',
+                    'text',
                 ],
                 ['type' => 'fulltext']
+            )
+            ->create();
+
+        $this->table('esevents')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('subject', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('event', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addIndex(
+                [
+                    'subject',
+                    'event',
+                ]
+            )
+            ->create();
+
+        $this->table('esnotifications')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('esevent_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('esreceiver_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('deactivate', 'integer', [
+                'default' => null,
+                'limit' => 8,
+                'null' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addIndex(
+                [
+                    'user_id',
+                    'esreceiver_id',
+                ]
+            )
+            ->addIndex(
+                [
+                    'esevent_id',
+                    'esreceiver_id',
+                    'user_id',
+                ]
             )
             ->create();
 
@@ -292,6 +346,41 @@ class Initial extends AbstractMigration
             ->addColumn('value', 'string', [
                 'default' => null,
                 'limit' => 255,
+                'null' => true,
+            ])
+            ->create();
+
+        $this->table('shouts')
+            ->addColumn('id', 'integer', [
+                'autoIncrement' => true,
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addPrimaryKey(['id'])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('text', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('time', 'timestamp', [
+                'default' => null,
+                'limit' => null,
                 'null' => true,
             ])
             ->create();
@@ -369,19 +458,19 @@ class Initial extends AbstractMigration
                 'limit' => 11,
                 'null' => true,
             ])
-            ->addColumn('user_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('modified', 'datetime', [
                 'default' => null,
                 'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('user_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
                 'null' => true,
             ])
             ->create();
@@ -535,7 +624,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('useronline', ['engine' => 'MEMORY'])
+        $this->table('useronline')
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -545,7 +634,7 @@ class Initial extends AbstractMigration
             ])
             ->addPrimaryKey(['id'])
             ->addColumn('uuid', 'string', [
-                'default' => '',
+                'default' => null,
                 'limit' => 32,
                 'null' => false,
             ])
@@ -635,14 +724,29 @@ class Initial extends AbstractMigration
                 'limit' => 255,
                 'null' => true,
             ])
+            ->addColumn('user_place_lat', 'float', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('user_place_lng', 'float', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('user_place_zoom', 'integer', [
+                'default' => null,
+                'limit' => 4,
+                'null' => true,
+            ])
             ->addColumn('signature', 'string', [
                 'default' => null,
                 'limit' => 255,
                 'null' => true,
             ])
-            ->addColumn('profile', 'string', [
+            ->addColumn('profile', 'text', [
                 'default' => null,
-                'limit' => 255,
+                'limit' => null,
                 'null' => true,
             ])
             ->addColumn('entry_count', 'integer', [
@@ -740,6 +844,27 @@ class Initial extends AbstractMigration
                 'limit' => 512,
                 'null' => true,
             ])
+            ->addColumn('show_userlist', 'boolean', [
+                'comment' => 'stores if userlist is shown in front layout',
+                'default' => false,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('show_recentposts', 'boolean', [
+                'default' => false,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('show_recententries', 'boolean', [
+                'default' => false,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('show_shoutbox', 'boolean', [
+                'default' => false,
+                'limit' => null,
+                'null' => false,
+            ])
             ->addColumn('inline_view_on_click', 'boolean', [
                 'default' => false,
                 'limit' => null,
@@ -771,41 +896,6 @@ class Initial extends AbstractMigration
                 'null' => false,
                 'signed' => false,
             ])
-            ->addColumn('rf_karma', 'integer', [
-                'default' => '0',
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('rf_votes', 'integer', [
-                'default' => '0',
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('flattr_uid', 'string', [
-                'default' => null,
-                'limit' => 24,
-                'null' => true,
-            ])
-            ->addColumn('flattr_allow_user', 'boolean', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('flattr_allow_posting', 'boolean', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('avatar', 'string', [
-                'default' => null,
-                'limit' => 255,
-                'null' => true,
-            ])
-            ->addColumn('avatar_dir', 'string', [
-                'default' => null,
-                'limit' => 255,
-                'null' => true,
-            ])
             ->addIndex(
                 [
                     'username',
@@ -820,7 +910,10 @@ class Initial extends AbstractMigration
         $this->dropTable('bookmarks');
         $this->dropTable('categories');
         $this->dropTable('entries');
+        $this->dropTable('esevents');
+        $this->dropTable('esnotifications');
         $this->dropTable('settings');
+        $this->dropTable('shouts');
         $this->dropTable('smiley_codes');
         $this->dropTable('smilies');
         $this->dropTable('uploads');

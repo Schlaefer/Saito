@@ -392,8 +392,15 @@ return [
             'size' => '2MB',
             'rotate' => 2,
             'scopes' => ['saito.forbidden']
-        ]
-
+        ],
+        'saito-install-update' => [
+            'className' => 'Cake\Log\Engine\FileLog',
+            'path' => LOGS,
+            'file' => 'saito-install',
+            'size' => '2MB',
+            'rotate' => 2,
+            'scopes' => ['saito.install']
+        ],
     ],
 
     /**

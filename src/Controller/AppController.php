@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Controller\Component\CurrentUserComponent;
-use App\Model\Table\SettingsTable;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
@@ -25,7 +24,6 @@ use Stopwatch\Lib\Stopwatch;
  * @property JsDataComponent $JsData
  * @property SaitoEmailComponent $SaitoEmail
  * @property SlidetabsComponent $Slidetabs
- * @property SettingsTable $Settings
  * @property ThemesComponent $Themes
  * @property TitleComponent $Title
  * @package App\Controller
@@ -100,9 +98,6 @@ class AppController extends Controller
         Stopwatch::start('App->beforeFilter()');
 
         $this->Themes->set();
-        $this->loadModel('Settings');
-        $this->Settings->load(Configure::read('Saito.Settings'));
-
         // disable forum with admin pref
         if (Configure::read('Saito.Settings.forum_disabled') &&
             $this->request['action'] !== 'login' &&

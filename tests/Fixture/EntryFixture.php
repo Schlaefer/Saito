@@ -117,14 +117,6 @@ class EntryFixture extends TestFixture
             'comment' => '',
             'charset' => 'utf8'
         ],
-        'email_notify' => [
-            'type' => 'integer',
-            'null' => true,
-            'default' => '0',
-            'length' => 4,
-            'collate' => null,
-            'comment' => ''
-        ],
         'locked' => [
             'type' => 'integer',
             'null' => true,

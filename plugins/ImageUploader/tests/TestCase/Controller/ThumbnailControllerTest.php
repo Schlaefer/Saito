@@ -22,6 +22,7 @@ use Saito\Test\IntegrationTestCase;
 class ThumbnailControllerTest extends IntegrationTestCase
 {
     public $fixtures = [
+        'app.setting',
         'plugin.ImageUploader.uploads',
     ];
 
