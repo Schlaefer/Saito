@@ -83,7 +83,7 @@ class CategoryFixture extends TestFixture
             'accession' => 2,
             'accession_new_thread' => 2,
             'accession_new_posting' => 2,
-            'thread_count' => 1
+            'thread_count' => 1,
         ],
         [
             'id' => 2,
@@ -93,7 +93,7 @@ class CategoryFixture extends TestFixture
             'accession' => 0, // !important
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
-            'thread_count' => 3
+            'thread_count' => 3,
         ],
         [
             'id' => 3,
@@ -103,6 +103,7 @@ class CategoryFixture extends TestFixture
             'accession' => 0,
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
+            'thread_count' => 0,
         ],
         [
             'id' => 4,
@@ -122,6 +123,7 @@ class CategoryFixture extends TestFixture
             'accession' => 1,
             'accession_new_thread' => 1,
             'accession_new_posting' => 1,
+            'thread_count' => 0,
         ],
     ];
 }
