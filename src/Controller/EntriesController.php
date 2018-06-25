@@ -10,6 +10,8 @@
 namespace App\Controller;
 
 use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\MarkAsReadComponent;
+use App\Controller\Component\ThreadsComponent;
 use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;

@@ -85,7 +85,7 @@ class MarkAsReadComponent extends Component
             $session->write('User.last_refresh_tmp', $lastRefreshTemp);
         }
 
-        if ($this->request->getQueryParams('mar')) {
+        if ($this->request->getQuery('mar', false) !== false) {
             // a second session A shall not accidentally mark something as read that isn't read on session B
             if ($lastRefreshTemp > $CU->get('last_refresh_unix')) {
                 $CU->LastRefresh->set();
