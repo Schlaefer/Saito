@@ -972,6 +972,7 @@ class UsersControllerTest extends IntegrationTestCase
                     'error' => 0,
                     'name' => 'test.png',
                     'type' => 'image/png',
+                    'size' => strlen($imageData),
                 ],
                 'avatarDelete' => null
             ];
