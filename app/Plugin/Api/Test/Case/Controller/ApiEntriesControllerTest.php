@@ -189,7 +189,7 @@
 			$this->_loginUser(3);
 			$this->setExpectedException('ForbiddenException', 'The user `Ulysses` is not allowed to edit.');
 			$id = 2;
-			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
+			$ApiEntries->Entry->save(['id' => $id, 'time' => bdate()]);
 			$this->testAction(
 				$this->_apiRoot . 'entries/' . $id,
 				[
@@ -287,7 +287,7 @@
 			$this->_loginUser(1);
 			$this->setExpectedException('BadRequestException', 'Tried to save entry but failed for unknown reason.');
 			$id = 1;
-			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
+			$ApiEntries->Entry->save(['id' => $id, 'time' => bdate()]);
 			$ApiEntries->Entry->expects($this->once())
 				->method('update')
 				->will($this->returnValue(false));
