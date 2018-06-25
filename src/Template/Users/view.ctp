@@ -68,9 +68,9 @@ if ($user->get('user_place')) {
 
 $table[] = [
     __('user_since'),
-    strftime(
-        __('date_short'),
-        strtotime($user->get('registered'))
+    $this->TimeH->formatTime(
+        $user->get('registered'),
+        '%d.%m.%Y'
     )
 ];
 
