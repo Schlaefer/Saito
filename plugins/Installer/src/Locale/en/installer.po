@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-23 09:08+0200\n"
+"POT-Creation-Date: 2018-06-26 12:08+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-KeywordsList: __d:2\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Controller/UpdaterController.php:53
+#: Controller/UpdaterController.php:56
 msgid "update.failure.explanation"
 msgstr ""
 "The update failed. The database is in an unknown state and data may be "
@@ -24,11 +24,11 @@ msgstr ""
 "\n"
 "If you want to report the issue please provide the log below."
 
-#: Controller/UpdaterController.php:62
+#: Controller/UpdaterController.php:65
 msgid "update.failure.nodbversion"
 msgstr "Updater failed. The updater can't determine the database version."
 
-#: Controller/UpdaterController.php:68
+#: Controller/UpdaterController.php:73
 msgid "update.failure.wrongdbversion"
 msgstr ""
 "Can't apply update. An update from version {v} is not supported by the "
@@ -182,7 +182,24 @@ msgstr ""
 "that the automated update fails and leaves your database in a nonrecoverable "
 "state."
 
-#: Template/Updater/start.ctp:29
+#: Template/Updater/start.ctp:28
+msgid "update.form.explanation"
+msgstr ""
+"Please provide the name and password of the database you are about to update:"
+
+#: Template/Updater/start.ctp:30
+msgid "update.form.dbname"
+msgstr "Database Name"
+
+#: Template/Updater/start.ctp:31
+msgid "update.form.dbpassword"
+msgstr "Database Password"
+
+#: Template/Updater/start.ctp:33
+msgid "update.form.error"
+msgstr "The provided data is not correct."
+
+#: Template/Updater/start.ctp:35
 msgid "update.dbOutdated.submit"
 msgstr "Update the database"
 

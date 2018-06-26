@@ -13,13 +13,12 @@ declare(strict_types = 1);
 namespace Installer\Controller;
 
 use Cake\Core\Configure;
-use Cake\Datasource\ConnectionManager;
-use Cake\Datasource\ConnectionRegistry;
 use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\I18n\I18n;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Installer\Form\UpdaterStartForm;
 use Installer\Lib\DbVersion;
 use Psr\Log\LogLevel;
 
@@ -78,7 +77,18 @@ class UpdaterController extends AppController
             return;
         }
 
+        $startForm = new UpdaterStartForm();
+        $this->set('startForm', $startForm);
+
         if (!$this->getRequest()->is('post')) {
+            return;
+        }
+
+        if (!$startForm->execute($this->request->getData())) {
+            // don't emit errors in frontend in case form is accidental on live-installation
+            $startForm->setErrors([]);
+            $this->set('startAuthError', true);
+
             return;
         }
 

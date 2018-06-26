@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-23 09:07+0200\n"
+"POT-Creation-Date: 2018-06-26 12:10+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Controller/UpdaterController.php:53
+#: Controller/UpdaterController.php:56
 msgid "update.failure.explanation"
 msgstr ""
 "Die Aktualisierung ist fehlgeschlagen. Die Datenbank befindet sich in einem "
@@ -22,13 +22,13 @@ msgstr ""
 "her und versuchen Sie es erneut. Für das Nachverfolgen dieses Fehlers "
 "notieren Sie bitte den folgenden Bericht:"
 
-#: Controller/UpdaterController.php:62
+#: Controller/UpdaterController.php:65
 msgid "update.failure.nodbversion"
 msgstr ""
 "Aktualisierung kann nicht vorgenommen werden. Der Updater kann die Version "
 "der Datenbank nicht feststellen."
 
-#: Controller/UpdaterController.php:68
+#: Controller/UpdaterController.php:73
 msgid "update.failure.wrongdbversion"
 msgstr ""
 "Aktualisierung kann nicht vorgenommen werden. Eine aktualisierung von "
@@ -185,7 +185,24 @@ msgstr ""
 "Es besteht immer die Möglichkeit, dass die Aktualisierung fehlschlägt und "
 "die Datenbank in einem beschädigten Zustand zurücklässt."
 
-#: Template/Updater/start.ctp:29
+#: Template/Updater/start.ctp:28
+msgid "update.form.explanation"
+msgstr ""
+"Bitte geben Sie die Daten für die Datenbank ein, die aktualisiert wird:"
+
+#: Template/Updater/start.ctp:30
+msgid "update.form.dbname"
+msgstr "Datenbank-Name"
+
+#: Template/Updater/start.ctp:31
+msgid "update.form.dbpassword"
+msgstr "Datenbank-Passwort"
+
+#: Template/Updater/start.ctp:33
+msgid "update.form.error"
+msgstr "Die eingegebenen Daten sind nicht korrekt."
+
+#: Template/Updater/start.ctp:35
 msgid "update.dbOutdated.submit"
 msgstr "Aktualisierung starten"
 

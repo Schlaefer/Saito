@@ -77,7 +77,7 @@ class UpdaterControllerTest extends IntegrationTestCase
         $this->assertResponseContains((string)1529737648);
     }
 
-    public function testUpdaterInitMigrations()
+    public function testUpdaterInitMigrationsFormEmpty()
     {
         $this->dropTables();
         $migration = new Migrations(['connection' => 'test']);
@@ -90,8 +90,57 @@ class UpdaterControllerTest extends IntegrationTestCase
         $this->post('/');
 
         $this->assertResponseOk();
+        $this->assertEquals('start', $this->_controller->viewBuilder()->getTemplate());
+
+        $this->assertTrue($this->viewVariable('startAuthError'));
+
+        $status = $migration->status();
+        $this->assertEquals('down', array_pop($status)['status']);
+    }
+
+    public function testUpdaterInitMigrationsFailureWrongPassword()
+    {
+        $this->dropTables();
+        $migration = new Migrations(['connection' => 'test']);
+        $migration->migrate(['target' => '20180620081553']);
+        $migration->seed(['seed' => 'SettingsSeed']);
+        $this->dbVersion->set('4.10.0');
+        $connection = ConnectionManager::get('test');
+        $connection->execute('DROP TABLE `phinxlog`;');
+
+        $connection = ConnectionManager::get('default');
+        $config = $connection->config();
+
+        $this->mockSecurity();
+        $this->post('/', ['dbname' => $config['database'], 'dbpassword' => 'foobar']);
+
+        $this->assertResponseOk();
+        $this->assertEquals('start', $this->_controller->viewBuilder()->getTemplate());
+
+        $this->assertTrue($this->viewVariable('startAuthError'));
+
+        $status = $migration->status();
+        $this->assertEquals('down', array_pop($status)['status']);
+    }
+
+    public function testUpdaterInitMigrationsSuccess()
+    {
+        $this->dropTables();
+        $migration = new Migrations(['connection' => 'test']);
+        $migration->migrate(['target' => '20180620081553']);
+        $migration->seed(['seed' => 'SettingsSeed']);
+        $this->dbVersion->set('4.10.0');
+        $connection = ConnectionManager::get('test');
+        $connection->execute('DROP TABLE `phinxlog`;');
+
+        $connection = ConnectionManager::get('default');
+        $config = $connection->config();
+
+        $this->mockSecurity();
+        $this->post('/', ['dbname' => $config['database'], 'dbpassword' => $config['password']]);
+
+        $this->assertResponseOk();
         $this->assertEquals('success', $this->_controller->viewBuilder()->getTemplate());
-        // $this->assertResponseContains((string)1529737648);
 
         $status = $migration->status();
         $this->assertEquals('up', array_pop($status)['status']);

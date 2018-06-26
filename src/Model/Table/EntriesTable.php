@@ -655,7 +655,6 @@ class EntriesTable extends AppTable
             Stopwatch::stop('EntriesTable::treesForThreads() CPU');
         }
 
-
         return $threads;
     }
 
