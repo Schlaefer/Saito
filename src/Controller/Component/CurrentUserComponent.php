@@ -87,6 +87,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     public function initialize(array $config)
     {
+        Stopwatch::start('CurrentUser::initialize()');
         Registry::set('CU', $this);
 
         $this->Categories = new Categories($this);
@@ -114,6 +115,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         }
 
         $this->_markOnline();
+        Stopwatch::stop('CurrentUser::initialize()');
     }
 
     /**
@@ -201,8 +203,11 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             // Session-data may be outdated. Make sure that user-data is up-to-date:
             // user not locked/user-type wasn't changend/… since session-storage was written.
             // Notice: is going to hit DB
-            $user = $this->_User->findAllowedToLoginById($user['id'])
+            Stopwatch::start('CurrentUser read user from DB');
+            $user = $this->_User
+                ->findAllowedToLoginById($user['id'])
                 ->first();
+            Stopwatch::stop('CurrentUser read user from DB');
 
             if (empty($user)) {
                 //// no user allowed to login found

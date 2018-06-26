@@ -624,7 +624,6 @@ class EntriesTable extends AppTable
             return [];
         }
 
-        Stopwatch::start('EntriesTable::treesForThreads()');
         if (empty($order)) {
             $order = ['last_answer' => 'ASC'];
         }
@@ -633,13 +632,16 @@ class EntriesTable extends AppTable
             $fieldlist = $this->threadLineFieldList;
         }
 
+        Stopwatch::start('EntriesTable::treesForThreads() DB');
         $postings = $this->_getThreadEntries(
             $ids,
             ['order' => $order, 'fields' => $fieldlist]
         );
+        Stopwatch::stop('EntriesTable::treesForThreads() DB');
 
         $threads = false;
         if ($postings->count()) {
+            Stopwatch::start('EntriesTable::treesForThreads() CPU');
             $threads = [];
             $postings = $this->treeBuild($postings);
             foreach ($postings as $thread) {
@@ -650,9 +652,9 @@ class EntriesTable extends AppTable
                     ['rawData' => $thread]
                 );
             }
+            Stopwatch::stop('EntriesTable::treesForThreads() CPU');
         }
 
-        Stopwatch::stop('EntriesTable::treesForThreads()');
 
         return $threads;
     }
