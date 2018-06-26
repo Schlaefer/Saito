@@ -69,7 +69,7 @@ class Bookmarks
 
             return;
         }
-        $this->_bookmarks = TableRegistry::get('Bookmarks')
+        $this->_bookmarks = TableRegistry::get('Bookmarks.Bookmarks')
             ->find('list', ['keyField' => 'entry_id', 'valueField' => 'id'])
             ->where(['user_id' => $this->_CurrentUser->getId()])
             ->toArray();
