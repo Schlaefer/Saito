@@ -142,3 +142,13 @@
     }
   }
 }
+
+/* Badges
+// ------------------------------------- */
+
+.posting-badge {
+  @extend .badge;
+
+  font-size: 90%;
+  font-weight: normal;
+}

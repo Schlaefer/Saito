@@ -55,4 +55,6 @@
 // ------------------------------------- */
 .postingform-buttons {
   @extend .d-md-flex;
+
+  justify-content: space-between;
 }
