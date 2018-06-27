@@ -5,7 +5,6 @@
     <?php
     echo $this->Html->charset();
 
-    $this->Flash->render();
     echo $this->Html->script([
         'vendor.bundle.js',
         'exports.bundle.js',
@@ -23,11 +22,11 @@
 
 <div class="container">
     <?php
-    echo $this->element('Flash/render');
-
     $breadcrumbs = $this->Breadcrumbs
         ->render(['class' => 'breadcrumb']);
     echo $this->Html->tag('nav', $breadcrumbs);
+
+    echo $this->Flash->render();
 
     echo $this->fetch('content');
     ?>
