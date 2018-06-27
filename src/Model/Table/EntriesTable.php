@@ -10,6 +10,7 @@
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
+use App\Lib\Model\Table\FieldFilter;
 use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
 use Cake\Cache\Cache;
@@ -52,7 +53,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class EntriesTable extends AppTable
 {
-
     use RememberTrait;
 
     /**
@@ -142,6 +142,9 @@ class EntriesTable extends AppTable
         'Users.user_place'
     ];
 
+    /** @var FieldFilter */
+    public $fieldFilter;
+
     protected $_settings = [
         'edit_period' => 20,
         'subject_maxlength' => 100
@@ -152,6 +155,10 @@ class EntriesTable extends AppTable
      */
     public function initialize(array $config)
     {
+        $this->fieldFilter = (new FieldFilter())
+            ->setConfig('create', ['category_id', 'pid', 'subject', 'text'])
+            ->setConfig('update', ['category_id', 'subject', 'text']);
+
         $this->addBehavior('IpLogging');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tree');
@@ -425,13 +432,7 @@ class EntriesTable extends AppTable
         }
 
         try {
-            $fields = [
-                'category_id',
-                'pid',
-                'subject',
-                'text'
-            ];
-            $this->filterFields($data, $fields);
+            $data = $this->fieldFilter->filterFields($data, 'create');
             $data = $this->prepareChildPosting($data);
         } catch (\Exception $e) {
             return false;
@@ -516,12 +517,7 @@ class EntriesTable extends AppTable
      */
     public function update(Entity $posting, $data)
     {
-        $fields = [
-            'category_id',
-            'subject',
-            'text',
-        ];
-        $this->filterFields($data, $fields);
+        $data = $this->fieldFilter->filterFields($data, 'update');
         $data['id'] = $posting->get('id');
         $data = $this->prepareChildPosting($data);
 

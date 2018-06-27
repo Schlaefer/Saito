@@ -10,6 +10,7 @@
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
+use App\Lib\Model\Table\FieldFilter;
 use App\Model\Entity\User;
 use App\Model\Table\EntriesTable;
 use App\Model\Table\UserBlocksTable;
@@ -618,7 +619,8 @@ class UsersTable extends AppTable
 
         $data = array_merge($data, $defaults);
 
-        if (!$this->requireFields($data, $fields)) {
+        $fieldFilter = (new FieldFilter())->setConfig('register', $fields);
+        if (!$fieldFilter->requireFields($data, 'register')) {
             return false;
         }
 
