@@ -13,12 +13,12 @@ body {
 
 #site {
   @extend .px-md-3;
-  @extend .pb-3;
 
+  background: $body-bg;
   box-sizing: border-box;
+  padding-bottom: 1.7rem; // space for #footer-pinned
   min-height: 100%;
   position: relative; // pins #footer-pinned
-  background: $body-bg;
 }
 
 #header {
@@ -77,5 +77,9 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0 2*$spacer;
+}
+
+#footer-pinned,
+#site {
+  @extend .px-md-3;
 }

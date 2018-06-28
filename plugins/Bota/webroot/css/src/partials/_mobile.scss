@@ -1,7 +1,7 @@
 /******************************************************************************
  * Adjustment Tablet Portrait or smaller
  ******************************************************************************/
-@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+@media only screen and (max-width: map-get($grid-breakpoints, sm)) {
   .threadBox {
     max-width: 100%;
     overflow-x: scroll;
