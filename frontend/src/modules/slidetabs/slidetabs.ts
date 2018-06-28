@@ -1,9 +1,7 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import * as $ from 'jquery';
 import { InitFromDom } from 'lib/saito/InitFromDom';
 import App from 'models/app';
-import * as _ from 'underscore';
 import { SlidetabCollection, SlidetabView } from './slidetab';
 
 class SlidetabsView extends View<Model> {
@@ -18,9 +16,11 @@ class SlidetabsView extends View<Model> {
         this.makeSortable();
     }
 
+    /**
+     * Make slidetabs sortable and send order to server for sync
+     */
     private makeSortable() {
-        const webroot = App.settings.get('webroot');
-        this.$el.sortable({
+        const sortable = this.$el.sortable({
             handle: '.slidetab-tab',
             start: (event, ui) => {
                 this.$el.css('overflow', 'visible');
@@ -28,17 +28,18 @@ class SlidetabsView extends View<Model> {
             stop: (event, ui) => {
                 this.$el.css('overflow', 'hidden');
             },
-            update: (event, ui) => {
-                let slidetabsOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-                slidetabsOrder = slidetabsOrder.map((name) => {
-                    return 'slidetab_' + name;
-                });
-                // @todo make model/collection
-                $.post(
-                    webroot + 'users/slidetabOrder',
-                    { slidetabOrder: slidetabsOrder },
-                );
-            },
+        });
+
+        sortable.on('sortupdate', function(event, ui) {
+            let slidetabsOrder = $(this).sortable('toArray', { attribute: 'data-id' });
+            slidetabsOrder = slidetabsOrder.map((name) => {
+                return 'slidetab_' + name;
+            });
+            // @todo make model/collection
+            $.post(
+                App.settings.get('webroot') + 'users/slidetabOrder',
+                { slidetabOrder: slidetabsOrder },
+            );
         });
     }
 }
