@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
  * Saito - The Threaded Web Forum
  *
@@ -42,7 +45,6 @@ class SettingsTable extends AppSettingTable
     public function initialize(array $config)
     {
         $this->setPrimaryKey('name');
-        $this->setTable('settings');
     }
 
     /* @td getSettings vs Load why to functions? */

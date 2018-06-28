@@ -55,4 +55,38 @@ class AppControllerTest extends IntegrationTestCase
         $result = $this->viewVariable('titleForLayout');
         $this->assertEquals('Register – macnemo', $result);
     }
+
+    public function testForumDisabledUser()
+    {
+        Configure::write('Saito.Settings.forum_disabled', true);
+
+        $this->get('/');
+
+        $text = Configure::read('Saito.Settings.forum_disabled_text');
+        $this->assertResponseContains($text);
+        $this->assertResponseCode(503);
+    }
+
+    public function testForumDisabledAdmin()
+    {
+        $this->_loginUser(1);
+        Configure::write('Saito.Settings.forum_disabled', true);
+
+        $this->get('/');
+
+        $text = Configure::read('Saito.Settings.forum_disabled_text');
+        $this->assertResponseNotContains($text);
+        $this->assertResponseCode(200);
+    }
+
+    public function testForumDisabledLogin()
+    {
+        Configure::write('Saito.Settings.forum_disabled', true);
+
+        $this->get('/login');
+
+        $text = Configure::read('Saito.Settings.forum_disabled_text');
+        $this->assertResponseNotContains($text);
+        $this->assertResponseCode(200);
+    }
 }
