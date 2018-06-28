@@ -15,6 +15,10 @@ class SubjectInputModel extends Model {
 
     public initialize() {
         this.listenTo(this, 'change:value', this.updateMeta);
+        const max = App.settings.get('subject_maxlength');
+        if (!max) {
+            throw new Error('No subject_maxlength in App settings.');
+        }
         this.set('max', App.settings.get('subject_maxlength'));
         this.updateMeta();
     }
@@ -59,7 +63,8 @@ class SubjectInputView extends View<Model> {
 
     public initialize() {
         this.model = new SubjectInputModel();
-        this.updateCounter();
+        this.handleInput(); // initialize non-empty input field (edit posting)
+        this.update();
     }
 
     private handleInput() {
