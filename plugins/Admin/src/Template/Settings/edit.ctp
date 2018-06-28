@@ -9,12 +9,26 @@ echo $this->Form->create(
     $setting,
     ['inputDefaults' => [], 'class' => 'well']
 );
-echo $this->Form->control(
-    'value',
-    [
-        'label' => __d('nondynamic', $setting->get('name')),
-    ]
-);
+
+if ($setting->get('type') === 'bool') {
+    $checkbox = $this->Form->control(
+        'value',
+        [
+            'class' => 'form-check-input',
+            'label' => __d('nondynamic', $setting->get('name')),
+            'type' => 'checkbox',
+        ]
+    );
+    echo $this->Html->div('form-check', $checkbox);
+} else {
+    echo $this->Form->control(
+        'value',
+        [
+            'label' => __d('nondynamic', $setting->get('name')),
+        ]
+    );
+}
+
 echo $this->Form->submit(
     __('Submit'),
     [

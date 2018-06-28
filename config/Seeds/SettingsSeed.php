@@ -19,8 +19,6 @@ class SettingsSeed extends AbstractSeed
     public function run()
     {
         $data = [
-            ['name' => 'api_crossdomain', 'value' => ''],
-            ['name' => 'api_enabled', 'value' => '1'],
             ['name' => 'autolink', 'value' => '1'],
             ['name' => 'bbcode_img', 'value' => '1'],
             ['name' => 'block_user_ui', 'value' => '1'],

@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Admin\Controller;
 
 use Cake\Http\Exception\NotFoundException;
@@ -7,50 +17,55 @@ use Cake\Http\Exception\NotFoundException;
 class SettingsController extends AdminAppController
 {
 
-    public $name = 'Settings';
-
     public $helpers = [
-        'Setting',
+        'Admin.Setting',
         'TimeH'
     ];
 
     protected $settingsShownInAdminIndex = [
-        'api_crossdomain' => 1,
-        'api_enabled' => 1,
-        'autolink' => 1,
-        'bbcode_img' => 1,
-        'block_user_ui' => 1,
+        'autolink' => ['type' => 'bool'],
+        'bbcode_img' => ['type' => 'bool'],
+        'block_user_ui' => ['type' => 'bool'],
         // Activates and deactivates the category-chooser on entries/index
-        'category_chooser_global' => 1,
+        'category_chooser_global' => ['type' => 'bool'],
         // Allows users to show the category-chooser even if the default
         // setting `category_chooser_global` is off
-        'category_chooser_user_override' => 1,
+        'category_chooser_user_override' => ['type' => 'bool'],
         'edit_delay' => 1,
         'edit_period' => 1,
         'email_contact' => 1,
         'email_register' => 1,
         'email_system' => 1,
-        'forum_disabled' => 1,
+        'forum_disabled' => ['type' => 'bool'],
         'forum_disabled_text' => 1,
         'forum_email' => 1,
         'forum_name' => 1,
         'quote_symbol' => 1,
-        'smilies' => 1,
+        'smilies' => 1, // @todo ?
         'signature_separator' => 1,
-        'stopwatch_get' => 1,
-        'store_ip' => 1,
-        'store_ip_anonymized' => 1,
+        'stopwatch_get' => ['type' => 'bool'],
+        'store_ip' => ['type' => 'bool'],
+        'store_ip_anonymized' => ['type' => 'bool'],
         'subject_maxlength' => 1,
         'text_word_maxlength' => 1,
         'thread_depth_indent' => 1,
         'timezone' => 1,
         'topics_per_page' => 1,
-        'tos_enabled' => 1,
+        'tos_enabled' => ['type' => 'bool'],
         'tos_url' => 1,
         'upload_max_img_size' => 1,
         'upload_max_number_of_uploads' => 1,
         'video_domains_allowed' => 1,
     ];
+
+    /**
+     * {@inheritDoc}
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadModel('Settings');
+    }
 
     /**
      * index settings
@@ -98,6 +113,9 @@ class SettingsController extends AdminAppController
             }
             $this->Flash->set('Something went wrong @lo', ['element' => 'error']);
         }
+
+        $type = $this->settingsShownInAdminIndex[$id]['type'] ?? null;
+        $setting->set('type', $type);
 
         $this->set('setting', $setting);
 

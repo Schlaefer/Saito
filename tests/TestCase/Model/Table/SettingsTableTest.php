@@ -1,7 +1,18 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Test\TestCase\Model\Table;
 
+use App\Test\Fixture\SettingFixture;
 use Cake\Core\Configure;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
@@ -14,34 +25,11 @@ class SettingsTableTest extends SaitoTableTestCase
 
     public function settingsDataProvider()
     {
-        return [
-            [
-                [
-                'autolink' => '1',
-                'block_user_ui' => '1',
-                'db_version' => null,
-                'edit_delay' => 180,
-                'edit_period' => '20',
-                'email_contact' => 'contact@example.com',
-                'email_register' => 'register@example.com',
-                'email_system' => 'system@example.com',
-                'forum_email' => 'forum_email@example.com',
-                'forum_name' => 'macnemo',
-                'quote_symbol' => '>',
-                'smilies' => '1',
-                'subject_maxlength' => '40',
-                'thread_depth_indent' => '25',
-                'timezone' => 'UTC',
-                'topics_per_page' => '20',
-                'tos_enabled' => '1',
-                'tos_url' => 'http://example.com/tos-url.html/',
-                'category_chooser_global' => '0',
-                'category_chooser_user_override' => '1',
-                'upload_max_img_size' => '1500',
-                'upload_max_number_of_uploads' => '10',
-                ]
-            ]
-        ];
+        $data = (new SettingFixture())->records;
+        $extracted = array_combine(array_column($data, 'name'), array_column($data, 'value'));
+        $extracted['edit_delay'] *= 60;
+
+        return [[$extracted]];
     }
 
     public function testFillOptionalMailAddresses()

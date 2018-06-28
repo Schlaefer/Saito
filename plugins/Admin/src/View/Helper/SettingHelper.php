@@ -7,7 +7,7 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace App\View\Helper;
+namespace Admin\View\Helper;
 
 use App\View\Helper\AppHelper;
 use SaitoHelp\View\Helper\SaitoHelpHelper;
