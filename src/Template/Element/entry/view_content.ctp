@@ -29,75 +29,66 @@ $schemaMeta = [];
         </h2>
     </header>
     <aside class="postingBody-info">
-                <span class="c-category acs-<?= $entry->get('category')['accession']; ?>"
-                      title="<?= $entry->get('category')['description'] ?> (<?= __d('nondynamic', 'category_acs_' . $entry->get('category')['accession'] . '_exp') ?>)">
-                <?= $entry->get('category')['category']; ?>
-                </span>
+        <span class="c-category acs-<?= $entry->get('category')['accession']; ?>"
+                title="<?= $entry->get('category')['description'] ?> (<?= __d('nondynamic', 'category_acs_' . $entry->get('category')['accession'] . '_exp') ?>)">
+        <?= $entry->get('category')['category']; ?>
+        </span>
         –
-                <span itemscope itemprop="author"
-                      itemtype="http://schema.org/Person">
-                    <span itemprop="name" class="c-username">
-                        <?=
-                        $this->User->linkToUserProfile(
-                            $entry->get('user'),
-                            $CurrentUser
-                        );
+        <span itemscope itemprop="author"
+                itemtype="http://schema.org/Person">
+            <span itemprop="name" class="c-username">
+                <?=
+                $this->User->linkToUserProfile(
+                    $entry->get('user'),
+                    $CurrentUser
+                );
 ?></span>,
-                </span>
+        </span>
 
-                <span class="meta">
-                    <?php
-                    if ($entry->get('user')->get('user_place')) {
-                        echo h($entry->get('user')->get('user_place')) . ', ';
-                    }
+        <span class="meta">
+            <?php
+            if ($entry->get('user')->get('user_place')) {
+                echo h($entry->get('user')->get('user_place')) . ', ';
+            }
 
-                    echo $this->TimeH->formatTime($entry->get('time'));
-                    $schemaMeta['datePublished'] = date(
-                        'c',
-                        strtotime($entry->get('time'))
+            echo $this->TimeH->formatTime($entry->get('time'));
+            $schemaMeta['datePublished'] = date(
+                'c',
+                strtotime($entry->get('time'))
+            );
+
+            $editedBy = $entry->get('edited_by');
+            if (!empty($editedBy)) {
+                $editDelay = strtotime($entry->get('time')) +
+                    ((int)Configure::read('Saito.Settings.edit_delay') * 60);
+                if (strtotime($entry->get('edited')) > $editDelay) {
+                    echo ' – ';
+                    echo __(
+                        '{0} edited by {1}',
+                        [
+                            $this->TimeH->formatTime($entry->get('edited')),
+                            $entry->get('edited_by')
+                        ]
                     );
+                }
+                $schemaMeta['dateModified'] = date('c', strtotime($entry->get('edited')));
+            }
 
-                    $editedBy = $entry->get('edited_by');
-                    if (!empty($editedBy)) {
-                        $editDelay = strtotime($entry->get('time')) +
-                            ((int)Configure::read('Saito.Settings.edit_delay') * 60);
-                        if (strtotime($entry->get('edited')) > $editDelay) {
-                            echo ' – ';
-                            echo __(
-                                '{0} edited by {1}',
-                                [
-                                    $this->TimeH->formatTime(
-                                        $entry->get('edited')
-                                    ),
-                                    $entry->get('edited_by')
-                                ]
-                            );
-                        }
-                        $schemaMeta['dateModified'] = date(
-                            'c',
-                            strtotime(
-                                $entry->get(
-                                    'edited'
-                                )
-                            )
-                        );
-                    }
+            // SEO: removes keyword "views"
+            if ($CurrentUser->isLoggedIn()) {
+                echo ', ' . $this->Posting->views($entry);
+            }
+            $schemaMeta['interactionCount'] = "UserPageVisits:{$entry->get('views')}";
 
-                    // SEO: removes keyword "views"
-                    if ($CurrentUser->isLoggedIn()) {
-                        echo ', ' . $this->Posting->views($entry);
-                    }
-                    $schemaMeta['interactionCount'] = "UserPageVisits:{$entry->get('views')}";
+            if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->permission('saito.core.view.ip')) {
+                echo ', IP: ' . $entry->get('ip');
+            }
 
-                    if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->permission('saito.core.view.ip')) {
-                        echo ', IP: ' . $entry->get('ip');
-                    }
-
-                    echo ' <span class="posting-badges">';
-                    echo $this->Posting->getBadges($entry);
-                    echo '</span>';
-                    ?>
-                </span>
+            echo ' <span class="posting-badges">';
+            echo $this->Posting->getBadges($entry);
+            echo '</span>';
+            ?>
+        </span>
     </aside>
 
     <div itemprop="articleBody text" class='postingBody-text'>
