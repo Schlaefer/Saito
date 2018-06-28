@@ -60,7 +60,7 @@ $schemaMeta = [];
                     $editedBy = $entry->get('edited_by');
                     if (!empty($editedBy)) {
                         $editDelay = strtotime($entry->get('time')) +
-                            Configure::read('Saito.Settings.edit_delay');
+                            ((int)Configure::read('Saito.Settings.edit_delay') * 60);
                         if (strtotime($entry->get('edited')) > $editDelay) {
                             echo ' – ';
                             echo __(

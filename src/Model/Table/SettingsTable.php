@@ -67,8 +67,6 @@ class SettingsTable extends AppSettingTable
         }
         $settings = $this->_compactKeyValue($settings);
 
-        // edit_delay is normed to seconds
-        $this->_normToSeconds($settings, 'edit_delay');
         $this->_fillOptionalEmailAddresses($settings);
 
         return $settings;
@@ -129,18 +127,6 @@ class SettingsTable extends AppSettingTable
         }
 
         return $settings;
-    }
-
-    /**
-     * norm to seconds
-     *
-     * @param array $settings settings
-     * @param string $field field
-     * @return void
-     */
-    protected function _normToSeconds(&$settings, $field)
-    {
-        $settings[$field] = (int)$settings[$field] * 60;
     }
 
     /**

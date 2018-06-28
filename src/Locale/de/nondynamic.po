@@ -210,7 +210,7 @@ msgstr "Nachbearbeiten anzeigen"
 
 #
 msgid "edit_delay_exp"
-msgstr "Sekunden, die ein Eintrag nach dem Anlegen ohne Bearbeitungshinweis nachbearbeitet werden kann."
+msgstr "Minuten, die ein Eintrag nach dem Anlegen ohne Bearbeitungshinweis nachbearbeitet werden kann."
 
 #
 msgid "topics_per_page"

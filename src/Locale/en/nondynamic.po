@@ -197,11 +197,11 @@ msgstr "Minutes a user can edit a new entry."
 
 #
 msgid "edit_delay"
-msgstr "Show Edit"
+msgstr "Indicate Edit"
 
 #
 msgid "edit_delay_exp"
-msgstr "Seconds a new entry can be edited without being marked as edited."
+msgstr "Minutes a new entry can be edited without being marked as edited."
 
 #
 msgid "topics_per_page"

@@ -27,7 +27,6 @@ class SettingsTableTest extends SaitoTableTestCase
     {
         $data = (new SettingFixture())->records;
         $extracted = array_combine(array_column($data, 'name'), array_column($data, 'value'));
-        $extracted['edit_delay'] *= 60;
 
         return [[$extracted]];
     }

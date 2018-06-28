@@ -2062,16 +2062,6 @@ msgstr "Gestern"
 #~ "Minuten, die ein neuer Eintrag nach dem Anlegen nachbearbeitet werden "
 #~ "kann."
 
-#
-#~ msgid "edit_delay"
-#~ msgstr "Nachbearbeiten anzeigen"
-
-#
-#~ msgid "edit_delay_exp"
-#~ msgstr ""
-#~ "Minuten, die ein Eintrag nach dem Anlegen ohne Bearbeitungshinweis "
-#~ "nachbearbeitet werden kann."
-
 #~ msgid "topics_per_page"
 #~ msgstr "Threads pro Seite"
 
