@@ -3,7 +3,7 @@
 namespace Saito\Smiley;
 
 use Cake\Cache\Cache as CakeCache;
-use Cake\View\Helper;
+use Cake\View\Helper\HtmlHelper;
 use Saito\Smiley\SmileyLoader;
 
 class SmileyRenderer
@@ -23,7 +23,7 @@ class SmileyRenderer
     /**
      * @var Helper
      */
-    protected $_Helper;
+    protected $HtmlHelper;
 
     /**
      * Constructor
@@ -62,11 +62,13 @@ class SmileyRenderer
      * Set Helper
      *
      * @param Helper $Helper helper
-     * @return void
+     * @return self
      */
-    public function setHelper(Helper $Helper)
+    public function setHelper(HtmlHelper $Helper): self
     {
-        $this->_Helper = $Helper;
+        $this->HtmlHelper = $Helper;
+
+        return $this;
     }
 
     /**
@@ -154,7 +156,7 @@ class SmileyRenderer
 
             //= vector font smileys
             if ($smiley['type'] === 'font') {
-                $replacements['html'][$k] = $this->_Helper->Html->tag(
+                $replacements['html'][$k] = $this->HtmlHelper->tag(
                     'i',
                     '',
                     [
@@ -164,7 +166,7 @@ class SmileyRenderer
                 );
                 //= pixel image smileys
             } else {
-                $replacements['html'][$k] = $this->_Helper->Html->image(
+                $replacements['html'][$k] = $this->HtmlHelper->image(
                     'smilies/' . $smiley['image'],
                     [
                         'alt' => $smiley['code'],

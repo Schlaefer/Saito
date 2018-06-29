@@ -122,15 +122,6 @@ class SaitoDummyDataShell extends Shell
         $ratio = (int)$this->in('Average answers per thread?', null, 10);
         $seed = $nPostings / $ratio;
 
-        new Settings(
-            [
-                'hashBaseUrl' => 'entries/view/',
-                'atBaseUrl' => 'users/name/',
-                'server' => Router::fullBaseUrl(),
-                'webroot' => Router::fullBaseUrl()
-            ]
-        );
-
         $CurrentUser = new SaitoUserDummy();
         $CurrentUser->Categories = new Categories($CurrentUser);
         Registry::set('CU', $CurrentUser);

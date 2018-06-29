@@ -3,23 +3,15 @@
 namespace Saito\User\Userlist;
 
 use App\Model\Table\UsersTable;
+use Cake\ORM\TableRegistry;
 use Saito\RememberTrait;
 
+/**
+ * Lazy load list of all users and cache
+ */
 class UserlistModel
 {
     use RememberTrait;
-
-    protected $_User;
-
-    /**
-     * Constructor
-     *
-     * @param UsersTable $User user-table
-     */
-    public function __construct(UsersTable $User)
-    {
-        $this->_User = $User;
-    }
 
     /**
      * Returns array with list of usernames
@@ -29,7 +21,10 @@ class UserlistModel
     public function get(): array
     {
         return $this->remember('userlist', function () {
-            return $this->_User->userlist();
+            /** @var UsersTable $users */
+            $users = TableRegistry::get('Users');
+
+            return $users->userlist();
         });
     }
 }

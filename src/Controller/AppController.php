@@ -10,7 +10,6 @@ use Cake\Event\Event;
 use Cake\I18n\I18n;
 use Cake\Network\Http\Response;
 use Cake\Routing\Router;
-use Saito\App\Registry;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
 use Saito\User\CurrentUser\CurrentUser;
@@ -60,7 +59,6 @@ class AppController extends Controller
     public function initialize()
     {
         Stopwatch::start('------------------- Controller -------------------');
-        Registry::initialize();
 
         parent::initialize();
 

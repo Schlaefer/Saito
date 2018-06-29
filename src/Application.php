@@ -24,6 +24,7 @@ use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Saito\App\Registry;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -54,6 +55,7 @@ class Application extends BaseApplication
         Stopwatch::start('Application::bootstrap');
 
         parent::bootstrap();
+        Registry::initialize();
 
         $this->addPlugin(\Admin\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);

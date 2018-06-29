@@ -4,12 +4,13 @@ namespace App\Test\TestCase\Model\Entity;
 
 use App\Model\Entity\Entry;
 use Cake\ORM\TableRegistry;
+use Plugin\BbcodeParser\src\Lib\Markup;
+use Saito\App\Registry;
 use Saito\Markup\Settings;
 use Saito\Test\SaitoTestCase;
 
 class EntryTest extends SaitoTestCase
 {
-
     public $fixtures = ['app.category', 'app.entry', 'app.user'];
 
     public function testIsRoot()
@@ -30,13 +31,12 @@ class EntryTest extends SaitoTestCase
      */
     public function testTextMutatorMarkupPreprocessor()
     {
-        new Settings(
-            [
-                'server' => 'http://example.com',
-                'webroot' => '/foo/',
-                'hashBaseUrl' => 'hash/base/'
-            ]
-        );
+        $markupSettings = Registry::get('MarkupSettings');
+        $markupSettings->set([
+            'server' => 'http://example.com',
+            'webroot' => '/foo/',
+            'hashBaseUrl' => 'hash/base/'
+        ]);
 
         $input = 'http://example.com/foo/hash/base/345';
         $entity = (new Entry())->set('text', $input);

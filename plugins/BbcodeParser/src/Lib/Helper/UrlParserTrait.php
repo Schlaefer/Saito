@@ -85,10 +85,10 @@ trait UrlParserTrait
      */
     protected function _truncate($string)
     {
-        if (!isset($this->_sOptions['text_word_maxlength'])) {
+        $_textWordMaxLength = $this->_sOptions->get('text_word_maxlength');
+        if (empty($_textWordMaxLength)) {
             throw new \Exception('Text word maxlength not set.');
         }
-        $_textWordMaxLength = $this->_sOptions['text_word_maxlength'];
 
         if (mb_strlen($string) <= $_textWordMaxLength) {
             return $string;

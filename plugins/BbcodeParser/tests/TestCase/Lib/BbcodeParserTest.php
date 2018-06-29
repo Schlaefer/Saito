@@ -8,6 +8,7 @@ use Cake\Core\Configure;
 use Cake\View\View;
 use Plugin\BbcodeParser\Lib;
 use Plugin\BbcodeParser\src\Lib\Parser;
+use Saito\Markup\MarkupSettings;
 use Saito\Test\SaitoTestCase;
 use Saito\User\Userlist;
 use Saito\User\Userlist\UserlistModel;
@@ -19,6 +20,9 @@ class BbcodeParserTest extends SaitoTestCase
      * @var Parser
      */
     protected $_Parser = null;
+
+    /** @var MarkupSettings */
+    protected $MarkupSettings;
 
     public function testBold()
     {
@@ -613,21 +617,17 @@ EOF;
     public function testShortenLink()
     {
         $maxLength = 15;
+        $this->MarkupSettings->setSingle('text_word_maxlength', $maxLength);
 
         $input = '[url]http://this/url/is/32/chars/long[/url]';
         $expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
-        $result = $this->_Parser->parse(
-            $input,
-            ['text_word_maxlength' => $maxLength]
-        );
+
+        $result = $this->_Parser->parse($input);
         $this->assertEquals($expected, $result);
 
         $input = 'http://this/url/is/32/chars/long';
         $expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
-        $result = $this->_Parser->parse(
-            $input,
-            ['text_word_maxlength' => $maxLength]
-        );
+        $result = $this->_Parser->parse($input);
         $this->assertEquals($expected, $result);
     }
 
@@ -676,10 +676,8 @@ EOF;
             'src=http://www.youtubescam.com/embed/HdoW3t_WorU ' .
             '][/iframe]';
         $expected = 'src="http://www.youtubescam.com/embed/HdoW3t_WorU';
-        $result = $this->_Parser->parse(
-            $input,
-            ['video_domains_allowed' => '*']
-        );
+        $this->MarkupSettings->setSingle('video_domains_allowed', '*');
+        $result = $this->_Parser->parse($input);
         $this->assertContains($expected, $result);
     }
 
@@ -950,7 +948,7 @@ EOF;
 
     public function testQuote()
     {
-        $_qs = h($this->_Helper->getConfig('quote_symbol'));
+        $_qs = $this->MarkupSettings->get('quote_symbol');
         $input = $_qs . ' fo [b]test[/b] ba';
         $result = $this->_Parser->parse($input);
         $expected = [
@@ -1085,11 +1083,6 @@ EOF;
             $this->server_port = false;
         }
 
-        $this->text_word_maxlength = Configure::read(
-            'Saito.Settings.text_word_maxlength'
-        );
-        Configure::write('Saito.Settings.text_word_maxlength', 10000);
-
         $this->autolink = Configure::read('Saito.Settings.autolink');
         Configure::write('Saito.Settings.autolink', true);
 
@@ -1138,31 +1131,34 @@ EOF;
         $Userlist->method('get')->willReturn(['Alice', 'Bobby Junior', 'Dr. No']);
 
         //= ParserHelper
-        $settings = [
+        $markupSettingsMock = new class extends MarkupSettings {
+            public function setSingle(string $key, $value)
+            {
+                $this->_settings[$key] = $value;
+            }
+        };
+        $this->MarkupSettings = new $markupSettingsMock([
             'autolink' => true,
             'bbcode_img' => true,
-            'embed' => true,
-            'multimedia' => true,
             'quote_symbol' => '»',
             'hashBaseUrl' => '/hash/',
             'atBaseUrl' => '/at/',
             'return' => 'html',
             'smilies' => true,
             'smiliesData' => $SmileyLoader,
-            'text_word_maxlength' => 120,
+            'text_word_maxlength' => 100000,
             'UserList' => $Userlist,
+            'video_domains_allowed' => 'youtube',
             'webroot' => ''
-        ];
-        $this->_Helper = $ParserHelper = new ParserHelper($View, $settings);
+        ]);
+        $this->_Helper = $ParserHelper = new ParserHelper($View);
         $ParserHelper->beforeRender(null);
 
         //= Smiley Renderer
-        $SmileyRenderer = new \Saito\Smiley\SmileyRenderer($SmileyLoader);
-        $SmileyRenderer->setHelper($this->_Helper);
-        $this->_Helper->SmileyRenderer = $SmileyRenderer;
+        $this->_Helper->getView()->set('smiliesData', $SmileyLoader);
 
         //= Parser
-        $this->_Parser = new Parser($ParserHelper, $settings);
+        $this->_Parser = new Parser($ParserHelper, $this->MarkupSettings);
     }
 
     public function tearDown()
@@ -1175,11 +1171,6 @@ EOF;
         if ($this->server_name) {
             $_SERVER['SERVER_PORT'] = $this->server_port;
         }
-
-        Configure::write(
-            'Saito.Settings.text_word_maxlength',
-            $this->text_word_maxlength
-        );
 
         Configure::write('Saito.Settings.autolink', $this->autolink);
 

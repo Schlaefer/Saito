@@ -1,9 +1,30 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Plugin\BbcodeParser\src\Lib;
 
-class Preprocessor extends \Saito\Markup\Preprocessor
+class Preprocessor
 {
+    protected $_settings;
+
+    /**
+     * Constructor
+     *
+     * @param array $settings settings
+     */
+    public function __construct($settings)
+    {
+        $this->_settings = $settings;
+    }
 
     /**
      * Process

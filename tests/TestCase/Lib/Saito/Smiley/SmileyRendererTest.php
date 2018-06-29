@@ -2,8 +2,8 @@
 
 namespace Saito\Test\Smiley;
 
-use App\View\Helper\ParserHelper;
 use Cake\Cache\Cache;
+use Cake\View\Helper\HtmlHelper;
 use Cake\View\View;
 use Saito\Smiley\SmileyLoader;
 use Saito\Smiley\SmileyRenderer;
@@ -49,7 +49,7 @@ class SmileyRenderTest extends SaitoTestCase
         $this->Renderer = new SmileyRenderer($loader);
 
         $View = new View();
-        $this->Helper = new ParserHelper($View);
+        $this->Helper = new HtmlHelper($View);
 
         $this->Renderer->setHelper($this->Helper);
     }

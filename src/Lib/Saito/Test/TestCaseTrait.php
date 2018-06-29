@@ -9,6 +9,7 @@ use Cake\Mailer\Email;
 use Cake\Utility\Inflector;
 use claviska\SimpleImage;
 use Cron\Lib\Cron;
+use Plugin\BbcodeParser\src\Lib\Markup;
 use Saito\App\Registry;
 use Saito\Cache\CacheSupport;
 use Saito\User\ForumsUserInterface;
@@ -87,7 +88,7 @@ trait TestCaseTrait
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
         Configure::write('Saito.language', 'en');
-        Configure::write('Saito.Settings.ParserPlugin', 'Bbcode');
+        Configure::write('Saito.Settings.ParserPlugin', \Plugin\BbcodeParser\src\Lib\Markup::class);
     }
 
     /**

@@ -1,70 +1,49 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Saito\Markup\Settings;
-use Saito\User\Userlist;
+use Saito\App\Registry;
+use Saito\Smiley\SmileyLoader;
+use Saito\User\Userlist\UserlistModel;
 
 class ParserComponent extends Component
 {
-
-    /**
-     * @var Settings
-     */
-    protected $_settings;
-
     /**
      * {@inheritDoc}
      */
     public function initialize(array $config)
     {
-        // is needed in Markup Behavior
-        $this->_settings = new Settings(
-            [
-                'server' => Router::fullBaseUrl(),
-                'webroot' => $this->_registry->getController()->request->getAttribute('webroot')
-            ]
-        );
-    }
+        $smilies = new SmileyLoader();
+        $this->getController()->set('smiliesData', $smilies);
 
-    /**
-     * {@inheritDoc}
-     */
-    public function beforeRender(Event $event)
-    {
-        $this->_initHelper($event->getSubject());
-    }
+        $settings = Configure::read('Saito.Settings');
 
-    /**
-     * Inits the ParserHelper for use in a View
-     *
-     * Call this instead of including in the controller's $helpers array.
-     *
-     * @param Controller $controller controller
-     * @return void
-     */
-    protected function _initHelper(Controller $controller)
-    {
-        $userlist = new Userlist\UserlistModel(TableRegistry::get('Users'));
-        $smilies = new \Saito\Smiley\SmileyLoader();
-        $controller->set('smiliesData', $smilies);
-
-        $this->_settings->add(
-            [
-                'quote_symbol' => Configure::read(
-                    'Saito.Settings.quote_symbol'
-                ),
+        $markup = Registry::get('MarkupSettings');
+        $markup->set([
+                'autolink' => $settings['autolink'],
+                'bbcode_img' => $settings['bbcode_img'],
+                'quote_symbol' => $settings['quote_symbol'],
+                'smilies' => $settings['smilies'],
                 'smiliesData' => $smilies,
-                'UserList' => $userlist
-            ]
-        );
-
-        $controller->helpers['Parser'] = $this->_settings->get();
+                'server' => Router::fullBaseUrl(),
+                'text_word_maxlength' => $settings['text_word_maxlength'],
+                'UserList' => new UserlistModel(TableRegistry::get('Users')),
+                'video_domains_allowed' => $settings['video_domains_allowed'],
+                'webroot' => $this->request->getAttribute('webroot')
+        ]);
     }
 }

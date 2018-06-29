@@ -171,7 +171,7 @@ eof;
             return $this->_allowedVideoDomains;
         }
 
-        $ad = explode('|', $this->_sOptions['video_domains_allowed']);
+        $ad = explode('|', $this->_sOptions->get('video_domains_allowed'));
         $trim = function ($v) {
             return trim($v);
         };

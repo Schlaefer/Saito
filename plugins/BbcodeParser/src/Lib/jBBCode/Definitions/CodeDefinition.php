@@ -4,6 +4,7 @@ namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
 use Cake\View\Helper;
 use JBBCode\ElementNode;
+use Saito\Markup\MarkupSettings;
 
 abstract class CodeDefinition extends \JBBCode\CodeDefinition
 {
@@ -30,7 +31,7 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
     /**
      * {@inheritDoc}
      */
-    public function __construct(Helper $Helper, array $options = [])
+    public function __construct(Helper $Helper, MarkupSettings $options)
     {
         $this->_sOptions = $options;
         $this->_sHelper = $Helper;
@@ -72,6 +73,7 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
      *
      * @param string $content content
      * @param array $attributes attributes
+     * @param ElementNode $node node
      *
      * @return mixed parsed string or bool false if parsing failed
      */

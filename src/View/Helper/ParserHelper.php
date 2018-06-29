@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -11,6 +14,9 @@ namespace App\View\Helper;
 
 use Cake\Core\Configure;
 use Geshi\View\Helper\GeshiHelper;
+use Saito\App\Registry;
+use Saito\Markup\Markup;
+use Saito\Markup\MarkupInterface;
 use Saito\Smiley\SmileyRenderer;
 use Stopwatch\Lib\Stopwatch;
 
@@ -45,9 +51,17 @@ class ParserHelper extends AppHelper
      */
     protected $_parserCache = [];
 
-    protected $_Parser;
+    /** @var MarkupInterface */
+    protected $Markup;
 
-    public $SmileyRenderer;
+    /**
+     * {@inheritDoc}
+     */
+    public function initialize(array $config)
+    {
+        parent::initialize($config);
+        $this->markup = Registry::get('Markup');
+    }
 
     /**
      * {@inheritDoc}
@@ -67,7 +81,7 @@ class ParserHelper extends AppHelper
      */
     public function citeText($string)
     {
-        return $this->_getParser()->citeText($string);
+        return $this->markup->citeText($string);
     }
 
     /**
@@ -77,7 +91,7 @@ class ParserHelper extends AppHelper
      */
     public function editorHelp()
     {
-        return $this->_getMarkupEditor()->getEditorHelp();
+        return $this->markup->getEditorHelp($this);
     }
 
     /**
@@ -87,7 +101,7 @@ class ParserHelper extends AppHelper
      */
     public function getButtonSet()
     {
-        return $this->_getMarkupEditor()->getMarkupSet();
+        return $this->markup->getMarkupSet();
     }
 
     /**
@@ -113,7 +127,7 @@ class ParserHelper extends AppHelper
         if (isset($this->_parserCache[$cacheId])) {
             $html = $this->_parserCache[$cacheId];
         } else {
-            $html = $this->_getParser()->parse($string, $options);
+            $html = $this->markup->parse($string, $this, $options);
             $this->_parserCache[$cacheId] = $html;
         }
         if ($options['return'] === 'html' && $options['wrap']) {
@@ -122,45 +136,5 @@ class ParserHelper extends AppHelper
         Stopwatch::stop('ParseHelper::parse()');
 
         return $html;
-    }
-
-    /**
-     * get markitup editor
-     *
-     * @return mixed
-     */
-    protected function _getMarkupEditor()
-    {
-        if ($this->_MarkupEditor === null) {
-            $this->_MarkupEditor = \Saito\Plugin::getParserClassInstance(
-                'Editor',
-                $this
-            );
-        }
-
-        return $this->_MarkupEditor;
-    }
-
-    /**
-     * get parser
-     *
-     * @return mixed
-     */
-    protected function _getParser()
-    {
-        if ($this->_Parser === null) {
-            $settings = Configure::read('Saito.Settings') + $this->_config;
-
-            $this->SmileyRenderer = new SmileyRenderer($settings['smiliesData']);
-            $this->SmileyRenderer->setHelper($this);
-
-            $this->_Parser = \Saito\Plugin::getParserClassInstance(
-                'Parser',
-                $this,
-                $settings
-            );
-        }
-
-        return $this->_Parser;
     }
 }

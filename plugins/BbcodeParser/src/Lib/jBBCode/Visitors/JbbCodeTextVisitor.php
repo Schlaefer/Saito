@@ -3,6 +3,7 @@
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
 
 use Cake\View\Helper;
+use Saito\Markup\MarkupSettings;
 
 abstract class JbbCodeTextVisitor implements \JBBcode\NodeVisitor
 {
@@ -14,12 +15,12 @@ abstract class JbbCodeTextVisitor implements \JBBcode\NodeVisitor
      */
     protected $_sHelper;
 
-    protected $_sOptions = [];
+    protected $_sOptions;
 
     /**
      * {@inheritDoc}
      */
-    public function __construct(Helper $Helper, array $_sOptions)
+    public function __construct(Helper $Helper, MarkupSettings $_sOptions)
     {
         $this->_sOptions = $_sOptions;
         $this->_sHelper = $Helper;

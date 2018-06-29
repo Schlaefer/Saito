@@ -44,7 +44,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
 
         // would be cleaner to pass userlist by value, but for performance reasons
         // we only query the db if we actually have any @ tags
-        $users = $this->_sOptions['UserList']->get();
+        $users = $this->_sOptions->get('UserList')->get();
         sort($users);
         $names = [];
         if (empty($tags[2]) === false) {
@@ -69,7 +69,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
             }
         }
         krsort($names);
-        $baseUrl = $this->_sOptions['webroot'] . $this->_sOptions['atBaseUrl'];
+        $baseUrl = $this->_sOptions->get('webroot') . $this->_sOptions->get('atBaseUrl');
         foreach ($names as $name => $v) {
             $title = urlencode($name);
             $link = $this->_url(
@@ -156,7 +156,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
      */
     protected function _hashLink($string)
     {
-        $baseUrl = $this->_sOptions['webroot'] . $this->_sOptions['hashBaseUrl'];
+        $baseUrl = $this->_sOptions->get('webroot') . $this->_sOptions->get('hashBaseUrl');
         $string = preg_replace_callback(
             '/(?<=\s|^|])(?<tag>#)(?<element>\d+)(?!\w)/',
             function ($m) use ($baseUrl) {

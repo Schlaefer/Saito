@@ -1,15 +1,26 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Plugin\BbcodeParser\src\Lib;
 
 use Cake\Core\Plugin;
+use Cake\View\Helper;
 use Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 use Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
 use Plugin\BbcodeParser\src\Lib\Processors;
+use Saito\Markup\MarkupSettings;
 
-class Parser extends \Saito\Markup\Parser
+class Parser
 {
-
     /**
      * @var \JBBCode\Parser
      */
@@ -184,6 +195,28 @@ class Parser extends \Saito\Markup\Parser
     protected $_initializedParsers = [];
 
     /**
+     * @var array cache for app settings
+     */
+    protected $_cSettings;
+
+    /**
+     * @var Helper Helper usually the ParseHelper
+     */
+    protected $_Helper;
+
+    /**
+     * Constructor
+     *
+     * @param Helper $Helper helper
+     * @param array $settings settings
+     */
+    public function __construct(Helper $Helper, MarkupSettings $settings)
+    {
+        $this->_Helper = $Helper;
+        $this->_cSettings = $settings;
+    }
+
+    /**
      * Parses BBCode
      *
      * @param string $string string to parse
@@ -196,6 +229,12 @@ class Parser extends \Saito\Markup\Parser
      */
     public function parse($string, array $options = [])
     {
+        $options += [
+            'embed' => true,
+            'multimedia' => true,
+            'return' => 'html',
+        ];
+
         $this->_initParser($options);
 
         $string = $this->_Preprocessors->process($string);
@@ -203,16 +242,16 @@ class Parser extends \Saito\Markup\Parser
         $this->_Parser->parse($string);
 
         $this->_Parser->accept(
-            new Visitors\JbbCodeNl2BrVisitor($this->_Helper, $options)
+            new Visitors\JbbCodeNl2BrVisitor($this->_Helper, $this->_cSettings)
         );
-        if ($this->_cSettings['autolink']) {
+        if ($this->_cSettings->get('autolink')) {
             $this->_Parser->accept(
-                new Visitors\JbbCodeAutolinkVisitor($this->_Helper, $options)
+                new Visitors\JbbCodeAutolinkVisitor($this->_Helper, $this->_cSettings)
             );
         }
-        if ($this->_cSettings['smilies']) {
+        if ($this->_cSettings->get('smilies')) {
             $this->_Parser->accept(
-                new Visitors\JbbCodeSmileyVisitor($this->_Helper, $options)
+                new Visitors\JbbCodeSmileyVisitor($this->_Helper, $this->_cSettings)
             );
         }
 
@@ -232,15 +271,13 @@ class Parser extends \Saito\Markup\Parser
     /**
      * Init parser
      *
-     * @param array $options options
+     * @param array $options merged MarkupSettings and parse-run-option
      *
      * @return void
      * @throws \Exception
      */
-    protected function _initParser(&$options)
+    protected function _initParser($options)
     {
-        $options = array_merge($this->_cSettings, $options);
-
         // serializing complex objects kills PHP
         $serializable = array_filter(
             $options,
@@ -256,20 +293,20 @@ class Parser extends \Saito\Markup\Parser
         }
 
         $this->_Parser = new \JBBCode\Parser();
-        $this->_addDefinitionSet('basic', $options);
+        $this->_addDefinitionSet('basic', $this->_cSettings);
 
-        if (!empty($this->_cSettings['bbcode_img']) && $options['multimedia']) {
-            $this->_addDefinitionSet('multimedia', $options);
+        if ($this->_cSettings->get('bbcode_img') && $options['multimedia']) {
+            $this->_addDefinitionSet('multimedia', $this->_cSettings);
         }
 
-        if (!empty($this->_cSettings['bbcode_img']) && $options['embed']) {
-            $this->_addDefinitionSet('embed', $options);
+        if ($this->_cSettings->get('bbcode_img') && $options['embed']) {
+            $this->_addDefinitionSet('embed', $this->_cSettings);
         }
 
-        $this->_Preprocessors = new Processors\BbcodeProcessorCollection();
-        $this->_Preprocessors->add(new Processors\BbcodePreparePreprocessor());
-        $this->_Postprocessors = new Processors\BbcodeProcessorCollection();
-        $this->_Postprocessors->add(new Processors\BbcodeQuotePostprocessor($options));
+        $this->_Preprocessors = new Processors\BbcodeProcessorCollection($this->_cSettings);
+        $this->_Preprocessors->add(new Processors\BbcodePreparePreprocessor($this->_cSettings));
+        $this->_Postprocessors = new Processors\BbcodeProcessorCollection($this->_cSettings);
+        $this->_Postprocessors->add(new Processors\BbcodeQuotePostprocessor($this->_cSettings));
 
         $this->_initializedParsers[$parserId] = $this->_Parser;
     }
@@ -283,7 +320,7 @@ class Parser extends \Saito\Markup\Parser
      * @return void
      * @throws \Exception
      */
-    protected function _addDefinitionSet($set, $options)
+    protected function _addDefinitionSet($set, MarkupSettings $options)
     {
         $this->loadCombinedClassFiles();
 

@@ -35,7 +35,7 @@ $config = [
              *
              * Parser hould be placed in app/Plugin/<name>Parser
              */
-            'ParserPlugin' => 'Bbcode',
+            'ParserPlugin' => \Plugin\BbcodeParser\src\Lib\Markup::class,
             /**
              * Upload directory root with trailing slash
              */

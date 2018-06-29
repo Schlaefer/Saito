@@ -2,6 +2,8 @@
 
 namespace Plugin\BbcodeParser\src\Lib\Processors;
 
+use Saito\Markup\MarkupSettings;
+
 abstract class BbcodeProcessor
 {
 
@@ -12,7 +14,7 @@ abstract class BbcodeProcessor
      *
      * @param array $options options
      */
-    public function __construct(array $options = [])
+    public function __construct(MarkupSettings $options)
     {
         $this->_sOptions = $options;
     }

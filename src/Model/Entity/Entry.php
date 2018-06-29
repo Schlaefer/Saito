@@ -2,7 +2,6 @@
 
 namespace App\Model\Entity;
 
-use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Saito\App\Registry;
 use Saito\Plugin;
@@ -28,12 +27,8 @@ class Entry extends Entity implements BasicPostingInterface
             return $text;
         }
 
-        //// sends text through markup preprocessor
-        $markupSettings = Configure::read('Saito.Settings.Parser');
-        if ($markupSettings) {
-            $Preprocessor = Plugin::getParserClassInstance('Preprocessor', $markupSettings);
-            $text = $Preprocessor->process($text);
-        }
+        $markup = Registry::get('Markup');
+        $text = $markup->preprocess($text);
 
         return $text;
     }

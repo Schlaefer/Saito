@@ -10,7 +10,7 @@ class BbcodeQuotePostprocessor extends BbcodeProcessor
      */
     public function process($string)
     {
-        $quoteSymbolSanitized = h($this->_sOptions['quote_symbol']);
+        $quoteSymbolSanitized = h($this->_sOptions->get('quote_symbol'));
         $string = preg_replace(
             // Begin of the text or a new line in the text, maybe one space afterwards
             '/(^|\n\r\s?)' .

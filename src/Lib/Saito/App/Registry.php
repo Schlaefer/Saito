@@ -3,7 +3,9 @@
 namespace Saito\App;
 
 use Aura\Di\Container;
+use Cake\Core\Configure;
 use Cron\Lib\Cron;
+use Saito\Markup\MarkupSettings;
 
 /**
  * Global registry for Saito app.
@@ -29,9 +31,14 @@ class Registry
         $dic->set('Cron', new Cron());
         $dic->set('Permission', $dic->lazyNew('Saito\User\Permission'));
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
-        $dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet(
-            'CU'
-        );
+        $dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet('CU');
+
+        $dic->set('MarkupSettings', $dic->lazyNew(MarkupSettings::class));
+        $markupClass = Configure::read('Saito.Settings.ParserPlugin');
+        ;
+        $dic->set('Markup', $dic->lazyNew($markupClass));
+        $dic->params[$markupClass]['settings'] = $dic->lazyGet('MarkupSettings');
+
         self::$_DIC = $dic;
 
         return $dic;

@@ -1,15 +1,27 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Plugin\BbcodeParser\src\Lib;
 
-class Editor extends \Saito\Markup\Editor
+use App\View\Helper\ParserHelper;
+
+class Editor
 {
     /**
      * {@inheritDoc}
      */
-    public function getEditorHelp()
+    public function getEditorHelp(ParserHelper $helper): string
     {
-        return $this->_Helper->SaitoHelp->icon(
+        return $helper->SaitoHelp->icon(
             'BbcodeParser.1',
             ['label' => __d('bbcode_parser', 'parsedAsBbcode')]
         );
@@ -18,7 +30,7 @@ class Editor extends \Saito\Markup\Editor
     /**
      * {@inheritDoc}
      */
-    public function getMarkupSet()
+    public function getMarkupSet(): array
     {
         return [
             'Bold' => [
