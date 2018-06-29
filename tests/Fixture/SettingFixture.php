@@ -54,5 +54,8 @@ class SettingFixture extends TestFixture
                 'value' => 'youtube | youtube-nocookie | vimeo | vine',
         ],
         ['id' => '31', 'name' => 'stopwatch_get', 'value' => '0'],
+        ['id' => '32', 'name' => 'content_embed_active', 'value' => '1'],
+        ['id' => '33', 'name' => 'content_embed_media', 'value' => '1'],
+        ['id' => '34', 'name' => 'content_embed_text', 'value' => '1'],
     ];
 }

@@ -341,6 +341,34 @@ msgid "stopwatch_get_exp"
 msgstr "Ausgabe der Stopuhrzeiten durch Anfügen von <code>?stopwatch=true</code> an URL in Production-Modus für eingeloggte Nutzer."
 
 #
+msgid "content_embed.t"
+msgstr "Externe Inhalte in Karten"
+
+#
+msgid "content_embed_active"
+msgstr "Aktiv"
+
+#
+msgid "content_embed_active_exp"
+msgstr "Zeige externe Inhalte in Karten."
+
+#
+msgid "content_embed_text"
+msgstr "Text"
+
+#
+msgid "content_embed_text_exp"
+msgstr "Versuche einen Text-Anreißer bei externen Inhalten anzuzeigen."
+
+#
+msgid "content_embed_media"
+msgstr "Medien"
+
+#
+msgid "content_embed_media_exp"
+msgstr "Versuche einen Bild-Anreißer bei externen Inhalten anzuzeigen."
+
+#
 # Smilies
 # -------------------------------------
 

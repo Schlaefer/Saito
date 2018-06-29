@@ -1032,6 +1032,41 @@ EOF;
         $this->assertHtml($expected, $result);
     }
 
+    public function testEmbedDisabledWithoutAutolinking()
+    {
+        $this->MarkupSettings->setSingle('autolink', false);
+        $this->MarkupSettings->setSingle('content_embed_active', false);
+
+        $url = 'http://foo.bar/baz';
+        $input = "[embed]{$url}[/embed]";
+
+        $result = $this->_Parser->parse($input);
+
+        $this->assertHtml($url, $result);
+    }
+
+    public function testEmbedDisabledWithAutolinking()
+    {
+        $this->MarkupSettings->setSingle('autolink', true);
+        $this->MarkupSettings->setSingle('content_embed_active', false);
+
+        $url = 'http://foo.bar/baz';
+        $input = "[embed]{$url}[/embed]";
+
+        $result = $this->_Parser->parse($input);
+
+        $expected = [
+            'a' => [
+                'href' => $url,
+                'target' => '_blank',
+            ],
+            $url,
+            '/a',
+        ];
+
+        $this->assertHtml($expected, $result);
+    }
+
     public function testHtml5Audio()
     {
         //* setup
@@ -1138,16 +1173,18 @@ EOF;
             }
         };
         $this->MarkupSettings = new $markupSettingsMock([
+            'UserList' => $Userlist,
+            'atBaseUrl' => '/at/',
             'autolink' => true,
             'bbcode_img' => true,
-            'quote_symbol' => '»',
+            'content_embed_active' => true,
+            'content_embed_media' => true,
+            'content_embed_text' => true,
             'hashBaseUrl' => '/hash/',
-            'atBaseUrl' => '/at/',
-            'return' => 'html',
+            'quote_symbol' => '»',
             'smilies' => true,
             'smiliesData' => $SmileyLoader,
             'text_word_maxlength' => 100000,
-            'UserList' => $Userlist,
             'video_domains_allowed' => 'youtube',
             'webroot' => ''
         ]);

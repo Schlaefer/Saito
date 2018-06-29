@@ -57,6 +57,16 @@ echo $this->Setting->table(
 );
 
 echo $this->Setting->table(
+    __d('nondynamic', 'content_embed.t'),
+    [
+        'content_embed_active',
+        'content_embed_media',
+        'content_embed_text',
+    ],
+    $Settings
+);
+
+echo $this->Setting->table(
     __('Category Chooser'),
     ['category_chooser_global', 'category_chooser_user_override'],
     $Settings

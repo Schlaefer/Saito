@@ -36,6 +36,9 @@ class ParserComponent extends Component
         $markup->set([
                 'autolink' => $settings['autolink'],
                 'bbcode_img' => $settings['bbcode_img'],
+                'content_embed_active' => $settings['content_embed_active'],
+                'content_embed_media' => $settings['content_embed_media'],
+                'content_embed_text' => $settings['content_embed_text'],
                 'quote_symbol' => $settings['quote_symbol'],
                 'smilies' => $settings['smilies'],
                 'smiliesData' => $smilies,

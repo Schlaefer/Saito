@@ -47,6 +47,12 @@ class Saitox5x0x0 extends AbstractMigration
                 'null' => true,
             ])
             ->update();
+
+            $this->table('settings')
+                ->insert(['name'  => 'content_embed_active', 'value' => '1'])
+                ->insert(['name'  => 'content_embed_media', 'value' => '1'])
+                ->insert(['name'  => 'content_embed_text', 'value' => '1'])
+                ->saveData();
     }
 
     public function down()
@@ -57,7 +63,7 @@ class Saitox5x0x0 extends AbstractMigration
             ->removeColumn('accession_new_posting')
             ->update();
 
-        /* Was MySQL TINYINT(4), this would change to INT. Not desired.
+        /* Was MySQL TINYINT(4), this would change to INT. Not desired and not required to roll back.
         $this->table('entries')
             ->changeColumn('locked', 'integer', [
                 'default' => '0',
@@ -76,6 +82,11 @@ class Saitox5x0x0 extends AbstractMigration
             ->removeColumn('avatar')
             ->removeColumn('avatar_dir')
             ->update();
+
+
+        $this->execute('DELETE FROM `settings` WHERE `name` IN (\'content_embed_active\')');
+        $this->execute('DELETE FROM `settings` WHERE `name` IN (\'content_embed_media\')');
+        $this->execute('DELETE FROM `settings` WHERE `name` IN (\'content_embed_text\')');
     }
 }
 

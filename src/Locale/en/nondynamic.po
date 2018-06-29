@@ -315,6 +315,34 @@ msgstr "Stopwatch"
 msgid "stopwatch_get_exp"
 msgstr "Outputs stopwatch times in production mode for logged in users by appending <code>?stopwatch=true</code> to url."
 
+#
+msgid "content_embed.t"
+msgstr "Content Embedding Cards"
+
+#
+msgid "content_embed_active"
+msgstr "Active"
+
+#
+msgid "content_embed_active_exp"
+msgstr "Embed third party content in cards."
+
+#
+msgid "content_embed_text"
+msgstr "Text"
+
+#
+msgid "content_embed_text_exp"
+msgstr "Try to show a short paragraph in content cards."
+
+#
+msgid "content_embed_media"
+msgstr "Media"
+
+#
+msgid "content_embed_media_exp"
+msgstr "Try to show an article image in content cards."
+
 # Smilies
 # -------------------------------------
 

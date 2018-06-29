@@ -63,6 +63,14 @@ class Embed extends CodeDefinition
      */
     protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
+        if (!$this->_sOptions->get('content_embed_active')) {
+            if (!$this->_sOptions->get('autolink')) {
+                return $url;
+            }
+
+            return $this->Html->link($url, $url, ['target' => '_blank']);
+        }
+
         $loader = function () use ($url) {
             $embed = ['url' => $url];
 
@@ -76,15 +84,21 @@ class Embed extends CodeDefinition
                 );
 
                 $embed = [
-                    'description' => $info->description,
                     'html' => $info->code,
-                    'image' => $info->image,
                     'providerIcon' => $info->providerIcon,
                     'providerName' => $info->providerName,
                     'providerUrl' => $info->providerUrl,
                     'title' => $info->title,
                     'url' => $info->url ?? $url,
                 ];
+
+                if ($this->_sOptions->get('content_embed_text')) {
+                    $embed['description'] = $info->description;
+                }
+
+                if ($this->_sOptions->get('content_embed_media')) {
+                    $embed['image'] = $info->image;
+                }
             } catch (\Throwable $e) {
             }
 

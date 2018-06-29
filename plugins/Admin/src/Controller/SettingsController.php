@@ -31,6 +31,9 @@ class SettingsController extends AdminAppController
         // Allows users to show the category-chooser even if the default
         // setting `category_chooser_global` is off
         'category_chooser_user_override' => ['type' => 'bool'],
+        'content_embed_active' => ['type' => 'bool'],
+        'content_embed_media' => ['type' => 'bool'],
+        'content_embed_text' => ['type' => 'bool'],
         'edit_delay' => 1,
         'edit_period' => 1,
         'email_contact' => 1,
