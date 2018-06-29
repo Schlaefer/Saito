@@ -258,6 +258,8 @@ class EntriesTable extends AppTable
      * Advanced search configuration from SaitoSearch plugin
      *
      * @see https://github.com/FriendsOfCake/search
+     *
+     * @return Manager
      */
     public function searchManager(): Manager
     {
@@ -522,7 +524,7 @@ class EntriesTable extends AppTable
         $data = $this->prepareChildPosting($data);
 
         // prevents normal user of changing category of complete thread when answering
-        // @todo this should be refactored together with the change category handling in beforeSave()
+        // @td this should be refactored together with the change category handling in beforeSave()
         if (!$posting->isRoot()) {
             unset($data['category_id']);
         }

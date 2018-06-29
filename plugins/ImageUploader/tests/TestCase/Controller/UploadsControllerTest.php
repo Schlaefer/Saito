@@ -118,7 +118,9 @@ class UploadsControllerTest extends IntegrationTestCase
         $fixture->copy($this->file->path);
 
         $readExif = function (File $file) {
+            //@codingStandardsIgnoreStart
             return @exif_read_data($file->path);
+            //@codingStandardsIgnoreEnd
         };
         $exif = $readExif($this->file);
         $this->assertNotEmpty($exif['SectionsFound']);

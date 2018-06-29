@@ -56,7 +56,7 @@ class BookmarksController extends ApiAppController
     /**
      * Add a new bookmark.
      *
-     * @return \Cake\Network\Response
+     * @return void
      * @throws MethodNotAllowedException
      * @throws BadRequestException
      */
@@ -105,6 +105,7 @@ class BookmarksController extends ApiAppController
      * Delete a single bookmark.
      *
      * @param int $id bookmark-ID
+     * @return void
      */
     public function delete($id)
     {

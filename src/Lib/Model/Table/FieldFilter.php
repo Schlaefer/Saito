@@ -32,7 +32,7 @@ class FieldFilter
      *
      * @param array $data data
      * @param string $action action to use
-     * @return void
+     * @return array
      */
     public function filterFields(array $data, string $action): array
     {

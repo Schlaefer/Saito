@@ -131,8 +131,8 @@ class ThreadsComponent extends Component
             return;
         }
 
-        /* @var $Entries EntriesTable */
-        // @todo bogus why not use $this->Entries?
+        // @bogus why not use $this->Entries?
+        /** @var $Entries EntriesTable */
         $Entries = TableRegistry::get('Entries');
         $cUserId = $CurrentUser->getId();
 

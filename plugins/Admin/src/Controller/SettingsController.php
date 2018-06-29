@@ -44,7 +44,6 @@ class SettingsController extends AdminAppController
         'forum_email' => 1,
         'forum_name' => 1,
         'quote_symbol' => 1,
-        'smilies' => 1, // @todo ?
         'signature_separator' => 1,
         'stopwatch_get' => ['type' => 'bool'],
         'store_ip' => ['type' => 'bool'],

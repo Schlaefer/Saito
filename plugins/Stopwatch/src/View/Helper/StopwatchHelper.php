@@ -32,9 +32,9 @@ class StopwatchHelper extends Helper
     /**
      * Renders Stopwatch Html results
      *
-     * @return void
+     * @return string
      */
-    public function html()
+    public function html(): string
     {
         $memory = 'Peak memory usage: ' . $this->Number->toReadableSize(memory_get_peak_usage());
         $html = $this->Html->para('', $memory);

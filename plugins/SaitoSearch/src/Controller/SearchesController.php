@@ -62,6 +62,8 @@ class SearchesController extends AppController
 
     /**
      * Simple search
+     *
+     * @return null|Response
      */
     public function simple()
     {
@@ -70,7 +72,7 @@ class SearchesController extends AppController
             'order' => 'time'
         ];
 
-        // @todo pgsql
+        // @td pgsql
         $connection = $this->Entries->getConnection();
         if (!($connection->getDriver() instanceof Mysql)) {
             return $this->redirect(['action' => 'advanced']);
@@ -108,6 +110,8 @@ class SearchesController extends AppController
 
     /**
      * Advanced Search
+     *
+     * @return void
      */
     public function advanced()
     {
