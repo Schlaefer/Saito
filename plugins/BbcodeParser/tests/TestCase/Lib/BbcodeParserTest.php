@@ -696,9 +696,6 @@ EOF;
 
     public function testExternalImageAbsoluteAutoLinked()
     {
-        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-        Configure::write('Saito.Settings.bbcode_img', true);
-
         // test for standard URIs
         $input = '[img]http://foo.bar/img/macnemo.png[/img]';
         $expected = [
@@ -718,9 +715,6 @@ EOF;
 
     public function testExternalImageRelativeAutoLinked()
     {
-        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-        Configure::write('Saito.Settings.bbcode_img', true);
-
         // test for standard URIs
         $input = '[img]/somewhere/macnemo.png[/img]';
         $expected = [
@@ -742,9 +736,6 @@ EOF;
      */
     public function testExternalImageAbsoluteAutoLinkedScaledByOne()
     {
-        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-        Configure::write('Saito.Settings.bbcode_img', true);
-
         // test for standard URIs
         $input = '[img=50]http://foo.bar/img/macnemo.png[/img]';
         $expected = [
@@ -767,9 +758,6 @@ EOF;
      */
     public function testExternalImageAbsoluteAutoLinkedScaledByTwo()
     {
-        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-        Configure::write('Saito.Settings.bbcode_img', true);
-
         // test for standard URIs
         $input = '[img=50x100]http://foo.bar/img/macnemo.png[/img]';
         $expected = [
@@ -788,11 +776,27 @@ EOF;
         $this->assertHtml($expected, $result);
     }
 
+    public function testExternalImageWithHttpsEnforced()
+    {
+        $_SERVER['HTTPS'] = true;
+        $input = '[img=]http://foo.bar/img/macnemo.png[/img]';
+        $expected = [
+            'a' => [
+                'href' => 'https://foo.bar/img/macnemo.png',
+                'target' => '_blank',
+            ],
+            'img' => [
+                'src' => 'https://foo.bar/img/macnemo.png',
+                'alt' => '',
+            ]
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+        unset($_SERVER['HTTPS']);
+    }
+
     public function testImageNestedInExternalLink()
     {
-        $bbcodeImg = Configure::read('Saito.Settings.bbcode_img');
-        Configure::write('Saito.Settings.bbcode_img', true);
-
         $input = '[url=http://heise.de][img]http://heise.de/img.png[/img][/url]';
 
         /*
@@ -816,8 +820,6 @@ EOF;
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
-
-        Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
     }
 
     public function testInternalImageAutoLinked()

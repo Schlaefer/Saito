@@ -7,6 +7,23 @@ use Saito\DomainParser;
 
 trait UrlParserTrait
 {
+    /**
+     * Enforces HTTPS-scheme on URL
+     *
+     * Applied if:
+     * - current host runs on HTTPS
+     *
+     * @param string $url URL
+     * @return string
+     */
+    protected function _urlToHttps(string $url): string
+    {
+        if (!env('HTTPS')) {
+            return $url;
+        }
+
+        return str_replace('http://', 'https://', $url);
+    }
 
     /**
      * Generate email link

@@ -283,6 +283,8 @@ class Flash extends Iframe
 class Image extends CodeDefinition
 //@codingStandardsIgnoreEnd
 {
+    use UrlParserTrait;
+
     protected $_sTagName = 'img';
 
     protected $_sParseContent = false;
@@ -316,6 +318,7 @@ class Image extends CodeDefinition
             }
         }
 
+        $url = $this->_urlToHttps($url);
         $image = $this->Html->image($url, $options);
 
         if ($node->getParent()->getTagName() === 'Document') {
