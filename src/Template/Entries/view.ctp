@@ -15,10 +15,8 @@ echo $this->Layout->navbarBack(
 );
 $this->end();
 ?>
-<div class="entry view">
-    <div class="panel">
-        <?= $this->element('/entry/view_posting', ['entry' => $entry]); ?>
-    </div>
+<div class="viewEntry">
+    <?= $this->element('/entry/view_posting', ['entry' => $entry]); ?>
     <?=
     $this->element(
         'entry/thread_cached_init',

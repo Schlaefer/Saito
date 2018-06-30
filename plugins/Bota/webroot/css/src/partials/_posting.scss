@@ -12,6 +12,11 @@
   @extend .text-success;
 }
 
+.postingLayout {
+  max-width: $readingWidth;
+  margin: 0 auto;
+}
+
 .postingLayout-main {
   @extend .flex-lefty;
 }
@@ -29,6 +34,11 @@
 }
 
 .postingLayout-body {
+  width: 100%;
+
+  @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+    margin-top: 1em;
+  }
 }
 
 .postingLayout-actions {

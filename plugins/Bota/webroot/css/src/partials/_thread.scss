@@ -129,6 +129,11 @@ $btn-strip-top-width: 25px;
   // prevents wide inline content to drop below slidetabs
   overflow: hidden;
   margin-left: $btn-strip-top-width;
+
+  .postingLayout {
+    // inline opened posting's content is left-aligned
+    margin-left: 0;
+  }
 }
 
 .thread_inline {
@@ -138,12 +143,15 @@ $btn-strip-top-width: 25px;
 
 // page specific
 // -------------------------------------
-.entry.view {
-  max-width: 60em;
+.viewEntry {
+  @extend .panel;
+
+  max-width: $readingWidth;
   margin: 0 auto;
 
-  .threadBox {
-    border-top: 1px solid $border-color;
+  @media only screen and (max-width: map-get($grid-breakpoints, sm)) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 

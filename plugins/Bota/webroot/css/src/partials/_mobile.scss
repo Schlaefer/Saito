@@ -1,6 +1,7 @@
 /******************************************************************************
  * Adjustment Tablet Portrait or smaller
  ******************************************************************************/
+
 @media only screen and (max-width: map-get($grid-breakpoints, sm)) {
   .threadBox {
     max-width: 100%;
@@ -10,9 +11,5 @@
 
   .threadTree-node {
     min-width: 10em;
-  }
-
-  .postingLayout-body {
-    margin-top: 1em;
   }
 }
