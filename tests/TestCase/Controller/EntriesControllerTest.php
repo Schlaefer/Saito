@@ -574,6 +574,47 @@ class EntriesControllerTestCase extends IntegrationTestCase
     }
 
     /**
+     * Edit message should not be shown. Edit time is below settings treshold.
+     */
+    public function testViewEditNoticeIsNotShown()
+    {
+        $this->_loginUser(1);
+        Configure::write('Saito.Settings.edit_delay', '3');
+        $Table = TableRegistry::get('Entries');
+        $posting = $Table->findById(3)->first();
+        $editDelay = Configure::read('Saito.Settings.edit_delay');
+        $posting->set('edited', $posting->get('time')->addMinutes($editDelay)->addSeconds(-1));
+        $posting->set('edited_by', $posting->get('name'));
+        $Table->save($posting);
+
+        $this->get('/entries/view/' . $posting->get('id'));
+
+        $this->assertResponseOk();
+        $this->assertResponseNotContains('edited by');
+    }
+
+    /**
+     * Edit message should be shown. Edit time is above settings treshold.
+     */
+    public function testViewEditNoticeIsShown()
+    {
+        $this->_loginUser(1);
+
+        Configure::write('Saito.Settings.edit_delay', '3');
+        $Table = TableRegistry::get('Entries');
+        $posting = $Table->findById(3)->first();
+        $editDelay = Configure::read('Saito.Settings.edit_delay');
+        $posting->set('edited', $posting->get('time')->addMinutes($editDelay)->addSeconds(1));
+        $posting->set('edited_by', $posting->get('name'));
+        $Table->save($posting);
+
+        $this->get('/entries/view/' . $posting->get('id'));
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('edited by ' . $posting->get('author'));
+    }
+
+    /**
      * anon user views posting available for him
      */
     public function testViewNotLoggedInSuccess()
