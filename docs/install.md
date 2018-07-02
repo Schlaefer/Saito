@@ -1,1 +1,0 @@
-Please see [admin-install.md](admin-install.md)
