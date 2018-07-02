@@ -211,6 +211,7 @@ class AppController extends Controller
     protected function _l10nRenderFile()
     {
         $locale = Configure::read('Saito.language');
+        I18n::useFallback(false); // @see <https://github.com/cakephp/cakephp/pull/6812>
         I18n::setLocale($locale);
         if (!$locale) {
             return;
