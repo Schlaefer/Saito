@@ -100,7 +100,7 @@ class PostingHelper extends AppHelper
                 'empty' => true,
                 'label' => [
                     'class' => 'col-form-label mr-3',
-                    'value' => __('Category'),
+                    'text' => __('Category'),
                 ],
                 'tabindex' => 1,
                 'error' => ['notEmpty' => __('error_category_empty')],

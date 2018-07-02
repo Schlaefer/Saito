@@ -154,7 +154,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('user_automaticaly_mark_as_read_exp'),
+                                    'text' => __('user_automaticaly_mark_as_read_exp'),
                                 ],
                             ]
                         )
@@ -177,7 +177,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('user_signatures_hide_exp')
+                                    'text' => __('user_signatures_hide_exp')
                                 ],
                             ]
                         )
@@ -191,7 +191,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('user_signatures_images_hide_exp')
+                                    'text' => __('user_signatures_images_hide_exp')
                                 ],
                             ]
                         )
@@ -289,7 +289,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('inline_view_on_click_exp')
+                                    'text' => __('inline_view_on_click_exp')
                                 ],
                             ]
                         )
@@ -308,7 +308,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('user_show_thread_collapsed_exp')
+                                    'text' => __('user_show_thread_collapsed_exp')
                                 ],
                             ]
                         )
@@ -327,7 +327,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('user_pers_msg_exp')
+                                    'text' => __('user_pers_msg_exp')
                                 ],
                             ]
                         )
@@ -352,7 +352,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'value' => __('user_category_override_exp')
+                                    'text' => __('user_category_override_exp')
                                 ],
                             ]
                         )
