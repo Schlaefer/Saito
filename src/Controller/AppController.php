@@ -36,7 +36,6 @@ class AppController extends Controller
         'Html',
         'JsData',
         'Layout',
-        'Markitup.Markitup',
         'SaitoHelp.SaitoHelp',
         'Stopwatch.Stopwatch',
         'TimeH',

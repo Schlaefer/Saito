@@ -34,6 +34,7 @@ class ParserHelper extends AppHelper
     public $helpers = [
         'MailObfuscator.MailObfuscator',
         'Geshi.Geshi',
+        'Form',
         'Html',
         'Text',
         'Url',
@@ -95,13 +96,51 @@ class ParserHelper extends AppHelper
     }
 
     /**
+     * Get HTML for text editor
+     *
+     * @param string $field model-field
+     * @return string HTML
+     */
+    public function editor(string $field): string
+    {
+        ['buttons' => $buttons, 'smilies' => $smilies] = $this->getButtonSet();
+        $editor = $this->Form->textarea(
+            $field,
+            [
+                'class' => 'form-control',
+                'data-buttons' => json_encode($buttons),
+                'data-smilies' => json_encode($smilies),
+                'tabindex' => 3
+            ]
+        );
+
+        return $this->Html->div('js-editor form-group', $editor);
+    }
+
+    /**
      * get button set
      *
      * @return mixed
      */
-    public function getButtonSet()
+    private function getButtonSet()
     {
-        return $this->markup->getMarkupSet();
+        $buttons = $this->markup->getMarkupSet();
+        $smilies = $this->_View->get('smiliesData')->get();
+
+        if (!empty($smilies)) {
+            $buttons[] = [
+                'type' => 'separator'
+            ];
+            $buttons[] = [
+                'name' => "<i class='fa fa-s-smile-o'></i>",
+                'title' => __('Smilies'),
+                'className' => 'btn-markup-Smilies',
+                'type' => 'saito-smilies',
+                'handler' => 'smilies',
+            ];
+        }
+
+        return compact('buttons', 'smilies');
     }
 
     /**

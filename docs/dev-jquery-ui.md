@@ -5,5 +5,5 @@
 - Effects
   - Highlight
   - Fade (was dialogs)
-  - Shake (dialog wrong data)
+  - Shake (was dialogs)
   - Slide (bookmarks/index -> delete)

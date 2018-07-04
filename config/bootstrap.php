@@ -244,12 +244,6 @@ if (Configure::read('debug')) {
 }
 
 /**
- * Add additional buttons to editor
- * @td document in namespace
- */
-Configure::write('Saito.markItUp.nextCssId', 10);
-
-/**
  * Add custom Database-types
  */
 Type::map('serialize', 'App\Database\Type\SerializeType');

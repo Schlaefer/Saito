@@ -75,7 +75,6 @@ class Application extends BaseApplication
         Plugin::load('Cron');
         Plugin::load('Detectors');
         Plugin::load('MailObfuscator');
-        Plugin::load('Markitup');
         Plugin::load('Bota');
         Plugin::load('Search');
         Plugin::load('SpectrumColorpicker');

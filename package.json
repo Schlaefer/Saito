@@ -15,6 +15,7 @@
     "humanize": "github:taijinlee/humanize",
     "jQuery-tinyTimer": "odyniec/jQuery-tinyTimer",
     "jquery": "^3.3.1",
+    "jquery-textrange": "^1.4.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "pnotify": "^4.0.0-alpha.4",

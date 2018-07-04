@@ -5,12 +5,17 @@ import _ from 'underscore';
 
 class PostingModel extends Model {
     public defaults() {
-        return {
+        const posting = {
+            text: null,
+        };
+        const meta = {
             html: '',
             isAnsweringFormShown: false,
             isBookmarked: false,
             isSolves: false,
         };
+
+        return _.extend(posting, meta);
     }
 
     public initialize() {

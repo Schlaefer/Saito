@@ -43,9 +43,6 @@ $this->end();
             echo $this->Html->div('card-header', $heading);
         }
         ?>
-        <div id="markitup_upload">
-            <div class="body"></div>
-        </div>
 
         <div class="card-body" style="position: relative;">
             <?php
@@ -72,24 +69,9 @@ $this->end();
             $subjectInput .= $this->Html->div('postingform-subject-count', '');
             echo $this->Html->div('postingform-subject-wrapper form-group', $subjectInput);
 
-            echo $this->html->div('js-rgSmilies', '');
-
             echo $this->Form->hidden('pid');
 
-            $editor = $this->MarkitupEditor->getButtonSet('markItUp_' . $formId);
-            $editor .= $this->MarkitupEditor->editor(
-                'text',
-                [
-                    'class' => 'form-control',
-                    'parser' => false,
-                    'set' => 'default',
-                    'skin' => 'macnemo',
-                    'label' => false,
-                    'tabindex' => 3,
-                    'settings' => 'markitupSettings'
-                ]
-            );
-            echo $this->Html->div('form-group', $editor);
+            echo $this->Parser->editor('text');
 
             ?>
             <div class="postingform-buttons">

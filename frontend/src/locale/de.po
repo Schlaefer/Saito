@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-15 11:44+0200\n"
+"POT-Creation-Date: 2018-07-04 13:04+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -18,6 +18,30 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
+#: modules/answering/editor/template/linkView.html:4
+msgid "editor.link.title.t"
+msgstr "Verweis-Titel"
+
+#: modules/answering/editor/template/linkView.html:10
+msgid "editor.link.url.t"
+msgstr "Verweis-URL"
+
+#: modules/answering/editor/template/linkView.html:17
+msgid "editor.link.insert"
+msgstr "Verweis einfügen"
+
+#: modules/answering/editor/template/mediaInsert.html:5
+msgid "medins.exp"
+msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
+
+#: modules/answering/editor/template/mediaInsert.html:13
+msgid "medins.insert.btn"
+msgstr "Einbinden"
+
+#: modules/answering/editor/template/mediaInsert.html:18
+msgid "medins.notRecognized"
+msgstr "Nicht erkannt."
+
 #: modules/bookmarks/templates/bookmarkItemTpl.html:2
 msgid "bkm.delete.title"
 msgstr "Lesezeichen löschen"
@@ -30,7 +54,8 @@ msgstr "Kommentieren"
 msgid "bkm.save.btn"
 msgstr "Lesezeichen speichern"
 
-#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:190
+#: modules/uploader/templates/uploaderAddTpl.html:8
+#: modules/answering/answering.ts:166
 msgid "upl.title"
 msgstr "Hochladen"
 
@@ -42,23 +67,27 @@ msgstr "Max. {size}; jpg, png"
 msgid "upl.btn.title"
 msgstr "Hochladen"
 
-#: templates/mediaInsert.html:5
-msgid "medins.exp"
-msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
-
-#: templates/mediaInsert.html:13
-msgid "medins.insert.btn"
-msgstr "Einbinden"
-
-#: templates/mediaInsert.html:18
-msgid "medins.notRecognized"
-msgstr "Nicht erkannt."
-
 #: lib/saito/templateHelpers.js:42
 msgid "time.relative.yesterday"
 msgstr "Gestern"
 
-#: modules/bookmarks/bookmarksModule.ts:39
+#: modules/answering/answering.ts:219
+msgid "preview.e.generic"
+msgstr "Fehler: Vorschau konnte nicht geladen werden."
+
+#: modules/answering/editor/LinkView.ts:40
+msgid "editor.link.t"
+msgstr "Verweis"
+
+#: modules/answering/editor/MediaInsertView.ts:57
+msgid "medins.title"
+msgstr "Inhalte einbinden"
+
+#: modules/answering/preview.ts:43
+msgid "preview.t"
+msgstr "Vorschau"
+
+#: modules/bookmarks/bookmarksModule.ts:38
 msgid "bkm.failure.loading"
 msgstr "Fehler: Lesezeichen konnten nicht geladen werden."
 
@@ -69,6 +98,10 @@ msgstr "Fehler: Lesezeichen konnte nicht gespeichert werden."
 #: modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
 msgstr "Fehler: Lesezeichen konnte nicht gelöscht werden."
+
+#: modules/bookmarks/views/bookmarksVw.ts:12
+msgid "bkm.ncy"
+msgstr "Noch keine Lesezeichen angelegt."
 
 #: modules/uploader/views/uploaderAddVw.js:68
 msgid "upl.failure"
@@ -94,21 +127,9 @@ msgstr "Lesezeichen"
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: views/answering.js:173
-msgid "upl.btn.insert"
-msgstr "Einfügen"
-
-#: views/answering.js:246
-msgid "preview.e.generic"
-msgstr "Fehler: Vorschau konnte nicht geladen werden."
-
 #: views/categoryChooser.js:34
 msgid "category.title.pl"
 msgstr "Kategorien"
-
-#: views/mediaInsert.js:56
-msgid "medins.title"
-msgstr "Inhalte einbinden"
 
 #: views/postingActionBookmark.js:61
 msgid "bmk.isBookmarked"
@@ -134,15 +155,8 @@ msgstr "Löschen"
 msgid "posting.helpful"
 msgstr "Beitrag als hilfreich markieren."
 
-#: views/prerequisitesTester.js:16
-msgid "prq.storage.warning"
-msgstr ""
-"Diese Web-Anwendung benötigt Cookies und localStorage. Bitte stellen Sie "
-"sicher, dass beides gegeben ist."
+msgid "upl.btn.insert"
+msgstr "Einfügen"
 
-#: views/preview.ts:43
-msgid "preview.t"
-msgstr "Vorschau"
-
-msgid "bkm.ncy"
-msgstr "Noch keine Lesezeichen angelegt."
+#~ msgid "prq.storage.warning"
+#~ msgstr "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte stellen Sie sicher, dass beides gegeben ist."

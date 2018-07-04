@@ -1,19 +1,17 @@
-import * as autosize from 'autosize';
 import { Collection, Model } from 'backbone';
 import { View } from 'backbone.marionette';
+import * as Radio from 'backbone.radio';
 import * as $ from 'jquery';
+import 'jquery-textrange';
 import { CakeFormErrorView } from 'lib/saito/CakeFormErrorView';
-import 'lib/saito/jquery.insertAtCaret';
 import 'lib/saito/jquery.scrollIntoView';
 import App from 'models/app';
 import { PreviewView } from 'modules/answering/preview';
-import { SmiliesCollectionView } from 'modules/answering/smilies';
 import { SubjectInputView } from 'modules/answering/SubjectInputView';
-import ModalDialog from 'modules/modalDialog/modalDialog';
-import UploaderView from 'modules/uploader/uploader';
 import * as _ from 'underscore';
-import MediaInsertView from 'views/mediaInsert';
+import { PostingModel } from '../posting/models/PostingModel';
 import { EditCountdownView } from './editCountdown';
+import { EditorView } from './editor/EditorView';
 
 class AnsweringView extends View<Model> {
     /** answering form was loaded via ajax request */
@@ -36,13 +34,7 @@ class AnsweringView extends View<Model> {
 
     public constructor(options: any = {}) {
         _.defaults(options, {
-            childViewEvents: {
-                'answering:insert': '_insert',
-            },
             events: {
-                'click .btn-markItUp-Media': '_media',
-                'click .btn-markItUp-Smilies': '_handleSmilies',
-                'click .btn-markItUp-Upload': 'showUploadForm',
                 'click .btn-primary': '_send',
                 'click .js-btnCite': '_handleCite',
                 'click .js-btnPreview': '_showPreview',
@@ -55,7 +47,6 @@ class AnsweringView extends View<Model> {
             model: null,
             regions: {
                 preview: '.preview-wrapper',
-                smilies: '.js-rgSmilies',
             },
             template: _.noop,
         });
@@ -118,7 +109,7 @@ class AnsweringView extends View<Model> {
     private _handleCite(event) {
         event.preventDefault();
         const parentText = this.$('.js-btnCite').data('text');
-        this._insert(parentText);
+        Radio.channel('editor').request('insert:text', parentText);
     }
 
     private _onKeyPressSubject(event) {
@@ -126,68 +117,6 @@ class AnsweringView extends View<Model> {
         if (event.keyCode === 13) {
             this._send(event);
         }
-    }
-
-    private _handleSmilies(event) {
-        event.preventDefault();
-
-        const region = this.getRegion('smilies');
-        if (!region.hasView()) {
-            const view = new SmiliesCollectionView();
-            view.collection.add((window as any).smiliesData);
-            this.showChildView('smilies', view);
-        }
-        this.getChildView('smilies').$el.collapse('toggle');
-    }
-
-    private showUploadForm(event) {
-        const answering = this;
-
-        class InsertVw extends View<Model> {
-            public constructor(options: object = {}) {
-                _.defaults(options, {
-                    events: { 'click button': 'handleInsert' },
-                    template: _.template('<button class="btn btn-primary"><%- $.i18n.__("upl.btn.insert") %></button>'),
-                });
-                super(options);
-            }
-            private handleInsert() {
-                const text = '[upload]' + this.model.get('name') + '[/upload]';
-                answering._insert(text, { focus: false });
-                ModalDialog.hide();
-            }
-        }
-
-        const uploadsView = new UploaderView({
-            InsertVw,
-            className: 'imageUploader',
-            el: '#markitup_upload',
-        });
-
-        ModalDialog.show(uploadsView, { title: $.i18n.__('upl.title'), width: 'max' });
-        uploadsView.render();
-    }
-
-    /**
-     * Inserts text at current cursor position in textfield.
-     *
-     * @param {string} text text to insert
-     * @param {object} options addiontal options
-     * - {bool} focus focus textfield after insertion
-     * @private
-     */
-    private _insert(text, options: any = {}) {
-        options = _.defaults(options, { focus: true });
-        const textarea = this.$('textarea');
-        textarea.insertAtCaret(text);
-        autosize.update(textarea);
-
-        options.focus ? textarea.focus() : textarea.blur();
-    }
-
-    private _media(event) {
-        event.preventDefault();
-        new MediaInsertView({ model: this.model }).render();
     }
 
     private _showPreview(event) {
@@ -245,11 +174,6 @@ class AnsweringView extends View<Model> {
         this.$('.preview-wrapper').slideUp('fast');
     }
 
-    private _setupTextArea() {
-        const $textarea = this.$('textarea');
-        autosize($textarea);
-    }
-
     private _requestAnsweringForm() {
         $.ajax({
             // don't append timestamp to requestUrl or Cake's
@@ -269,12 +193,31 @@ class AnsweringView extends View<Model> {
         this._onFormReady();
     }
 
-    private _onFormReady() {
-        this.subjectView = new SubjectInputView({
-            el: this.$('.postingform-subject-wrapper'),
-        });
+    /**
+     * Initialize editor
+     *
+     * @param selector selector for region with textarea
+     */
+    private initEditor(selector: string) {
+        this.addRegion('editor', selector);
 
-        this._setupTextArea();
+        const el = this.$(selector);
+        el.prepend('<div class="js-editor-buttons"></div>');
+        el.prepend('<div class="js-rgSmilies"></div>');
+
+        // @todo
+        // - change autosize on posting change
+        // - attach to answering itself
+        const model = new PostingModel();
+        const editor = new EditorView({ el, model });
+
+        this.showChildView('editor', editor);
+        editor.render();
+    }
+
+    private _onFormReady() {
+        this.initEditor('.js-editor');
+        this.subjectView = new SubjectInputView({ el: this.$('.postingform-subject-wrapper') });
 
         const data = this.$('.js-data').data();
         const action = _.property(['meta', 'action'])(data);

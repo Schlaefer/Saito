@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-15 11:43+0200\n"
+"POT-Creation-Date: 2018-07-04 13:05+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -18,6 +18,30 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
+#: modules/answering/editor/template/linkView.html:4
+msgid "editor.link.title.t"
+msgstr "Title"
+
+#: modules/answering/editor/template/linkView.html:10
+msgid "editor.link.url.t"
+msgstr "URL"
+
+#: modules/answering/editor/template/linkView.html:17
+msgid "editor.link.insert"
+msgstr "Insert link"
+
+#: modules/answering/editor/template/mediaInsert.html:5
+msgid "medins.exp"
+msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
+
+#: modules/answering/editor/template/mediaInsert.html:13
+msgid "medins.insert.btn"
+msgstr "Insert"
+
+#: modules/answering/editor/template/mediaInsert.html:18
+msgid "medins.notRecognized"
+msgstr "Nothing recognized."
+
 #: modules/bookmarks/templates/bookmarkItemTpl.html:2
 msgid "bkm.delete.title"
 msgstr "Delete bookmark"
@@ -30,7 +54,8 @@ msgstr "Comment"
 msgid "bkm.save.btn"
 msgstr "Save bookmark."
 
-#: modules/uploader/templates/uploaderAddTpl.html:8 views/answering.js:190
+#: modules/uploader/templates/uploaderAddTpl.html:8
+#: modules/answering/answering.ts:166
 msgid "upl.title"
 msgstr "Uploads"
 
@@ -42,23 +67,27 @@ msgstr "Max. size: {size}; type: jpg, png"
 msgid "upl.btn.title"
 msgstr "Upload"
 
-#: templates/mediaInsert.html:5
-msgid "medins.exp"
-msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
-
-#: templates/mediaInsert.html:13
-msgid "medins.insert.btn"
-msgstr "Insert"
-
-#: templates/mediaInsert.html:18
-msgid "medins.notRecognized"
-msgstr "Nothing recognized."
-
 #: lib/saito/templateHelpers.js:42
 msgid "time.relative.yesterday"
 msgstr "yesterday"
 
-#: modules/bookmarks/bookmarksModule.ts:39
+#: modules/answering/answering.ts:219
+msgid "preview.e.generic"
+msgstr "Error: Couldn't load preview."
+
+#: modules/answering/editor/LinkView.ts:40
+msgid "editor.link.t"
+msgstr "Insert Link"
+
+#: modules/answering/editor/MediaInsertView.ts:57
+msgid "medins.title"
+msgstr "Embed Content"
+
+#: modules/answering/preview.ts:43
+msgid "preview.t"
+msgstr "Preview"
+
+#: modules/bookmarks/bookmarksModule.ts:38
 msgid "bkm.failure.loading"
 msgstr "Error: Bookmarks could not be loaded."
 
@@ -69,6 +98,10 @@ msgstr "Error: Bookmark could not be saved."
 #: modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
 msgstr "Error: Bookmark could not be deleted."
+
+#: modules/bookmarks/views/bookmarksVw.ts:12
+msgid "bkm.ncy"
+msgstr "No bookmarks created yet."
 
 #: modules/uploader/views/uploaderAddVw.js:68
 msgid "upl.failure"
@@ -94,21 +127,9 @@ msgstr "Bookmarks"
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: views/answering.js:173
-msgid "upl.btn.insert"
-msgstr "Insert"
-
-#: views/answering.js:246
-msgid "preview.e.generic"
-msgstr "Error: Couldn't load preview."
-
 #: views/categoryChooser.js:34
 msgid "category.title.pl"
 msgstr "Categories"
-
-#: views/mediaInsert.js:56
-msgid "medins.title"
-msgstr "Embed Content"
 
 #: views/postingActionBookmark.js:61
 msgid "bmk.isBookmarked"
@@ -134,15 +155,8 @@ msgstr "Löschen"
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
 
-#: views/prerequisitesTester.js:16
-msgid "prq.storage.warning"
-msgstr ""
-"This web-application depends on Cookies and localStorage. Please make those "
-"available in your browser."
+msgid "upl.btn.insert"
+msgstr "Insert"
 
-#: views/preview.ts:43 views/preview.ts:57
-msgid "preview.t"
-msgstr "Preview"
-
-msgid "bkm.ncy"
-msgstr "No bookmarks created yet."
+#~ msgid "prq.storage.warning"
+#~ msgstr "This web-application depends on Cookies and localStorage. Please make those available in your browser."

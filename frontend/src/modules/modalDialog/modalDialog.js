@@ -54,6 +54,13 @@ const dialog = Marionette.View.extend({
         this.$('.modal-dialog').css('max-width', '');
     }
   },
+
+  invalidInput() {
+    this.$el.addClass('animation shake');
+    _.delay(() => {
+      this.$el.removeClass('animation shake', 1000);
+    });
+  }
 });
 
 export default new dialog();

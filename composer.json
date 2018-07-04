@@ -69,7 +69,6 @@
       "Detectors\\": "./plugins/Detectors/src",
       "Cron\\": "./plugins/Cron/src",
       "MailObfuscator\\": "./plugins/MailObfuscator/src",
-      "Markitup\\": "./plugins/Markitup/src",
       "Feeds\\": "./plugins/Feeds/src",
       "Feeds\\Test\\": "./plugins/Feeds/tests",
       "ImageUploader\\": "plugins/ImageUploader/src",

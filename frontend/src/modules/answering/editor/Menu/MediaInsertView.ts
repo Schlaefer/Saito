@@ -1,0 +1,62 @@
+import { Model } from 'backbone';
+import { View } from 'backbone.marionette';
+import $ from 'jquery';
+import { MarkupMultimedia } from 'lib/saito/markup.media';
+import ModalDialog from 'modules/modalDialog/modalDialog';
+import * as _ from 'underscore';
+import mediaInsertTpl from './template/mediaInsert.html';
+
+class MediaInsertView extends View<Model> {
+    public constructor(options: any = {}) {
+        _.defaults(options, {
+            events: {
+                'click @ui.submit': '_insert',
+            },
+            template: mediaInsertTpl,
+            ui: {
+                message: '#markup_media_message',
+                submit: '#markup_media_btn',
+                textarea: '#markup_media_txta',
+            },
+        });
+        super(options);
+    }
+
+    public onRender() {
+        this._showDialog();
+    }
+
+    private _insert(event) {
+        event.preventDefault();
+
+        const markupMedia = new MarkupMultimedia();
+        const out = markupMedia.multimedia(String(this.getUI('textarea').val()));
+
+        if (out === '') {
+            this._invalidInput();
+
+            return;
+        }
+
+        this.trigger('out', out);
+        this._closeDialog();
+    }
+
+    private _invalidInput() {
+        this.getUI('message').show();
+        ModalDialog.invalidInput();
+    }
+
+    private _closeDialog() {
+        ModalDialog.hide();
+        this.destroy();
+    }
+
+    private _showDialog() {
+        ModalDialog.once('shown', () => { this.$('textarea').focus(); });
+        ModalDialog.show(this, { title: $.i18n.__('medins.title') });
+    }
+
+}
+
+export { MediaInsertView };

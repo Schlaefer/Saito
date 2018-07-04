@@ -3,8 +3,8 @@ interface JQueryStatic {
 }
 
 interface JQuery {
-    insertAtCaret(text: string): JQuery;
     scrollIntoView(method: string): any;
+    textrange(method: string|object, arg1?: number|string, arg2?: number|string, arg3?: number|string): any;
     tinyTimer(options: object): void;
 }
 

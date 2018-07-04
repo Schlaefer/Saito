@@ -352,7 +352,6 @@ msgstr "Blocking"
 #: plugins/Admin/src/Template/Smilies/edit.ctp:1
 #: plugins/Admin/src/Template/Smilies/index.ctp:5
 #: plugins/Admin/src/Template/Smilies/index.ctp:9
-#: src/View/Helper/MarkitupEditorHelper.php:151
 msgid "Smilies"
 msgstr ""
 
