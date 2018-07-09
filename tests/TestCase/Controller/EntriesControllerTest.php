@@ -165,6 +165,17 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertRedirect('entries/view/' . $nextId);
     }
 
+    public function testAddFormCitedTextIsEncoded()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(1);
+        $this->_setAjax();
+
+        $this->get('entries/add/11');
+
+        $this->assertResponseContains('data-text="&gt; &amp;&lt;Text"');
+    }
+
     public function testNoDirectCallOfAnsweringFormWithId()
     {
         $this->_loginUser(1);

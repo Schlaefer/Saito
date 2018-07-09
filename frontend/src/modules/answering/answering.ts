@@ -9,6 +9,7 @@ import App from 'models/app';
 import { PreviewView } from 'modules/answering/preview';
 import { SubjectInputView } from 'modules/answering/SubjectInputView';
 import * as _ from 'underscore';
+import { unescapeHTML } from 'underscore.string';
 import { PostingModel } from '../posting/models/PostingModel';
 import { EditCountdownView } from './editCountdown';
 import { EditorView } from './editor/EditorView';
@@ -106,10 +107,19 @@ class AnsweringView extends View<Model> {
      *
      * @private
      */
-    private _handleCite(event) {
-        event.preventDefault();
-        const parentText = this.$('.js-btnCite').data('text');
-        Radio.channel('editor').request('insert:text', parentText);
+    private _handleCite() {
+        // Without defering a click on a selection which deselects (and should therefore be empty)
+        // still holds the previously selected text.
+        _.defer(() => {
+            let text = window.getSelection().toString();
+            if (text !== '') {
+                text = App.settings.get('quote_symbol') + ' ' + text;
+            } else {
+                text = unescapeHTML(this.$('.js-btnCite').data('text'));
+            }
+
+            Radio.channel('editor').request('insert:text', text);
+        });
     }
 
     private _onKeyPressSubject(event) {

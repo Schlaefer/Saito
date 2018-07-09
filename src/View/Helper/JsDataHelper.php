@@ -54,6 +54,7 @@ class JsDataHelper extends AppHelper
      */
     public function getAppJs(View $View, ForumsUserInterface $CurrentUser)
     {
+        $settings = Configure::read('Saito.Settings');
         $js = $this->_JsData->getJs();
         $js += [
             'app' => [
@@ -71,9 +72,10 @@ class JsDataHelper extends AppHelper
                             'fullBase' => true
                         ]
                     ),
-                    'subject_maxlength' => (int)Configure::read('Saito.Settings.subject_maxlength'),
-                    'upload_max_img_size' => (int)Configure::read('Saito.Settings.upload_max_img_size') * 1024,
-                    'upload_max_number_of_uploads' => (int)Configure::read('Saito.Settings.upload_max_number_of_uploads'),
+                    'quote_symbol' => $settings['quote_symbol'],
+                    'subject_maxlength' => $settings['subject_maxlength'],
+                    'upload_max_img_size' => $settings['upload_max_img_size'] * 1024,
+                    'upload_max_number_of_uploads' => (int)$settings['upload_max_number_of_uploads'],
                     'theme' => $View->getTheme(),
                     'apiroot' => $View->request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $View->request->getAttribute('webroot')

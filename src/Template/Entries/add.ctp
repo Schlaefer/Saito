@@ -103,12 +103,13 @@ $this->end();
                 $middle = '';
                 // citation button
                 if (empty($citeText) === false) {
-                    $citeLink = $this->Html->link(
+                    $citeLink = $this->Form->button(
                         Configure::read('Saito.Settings.quote_symbol') . ' ' . __('Cite'),
-                        '#',
                         [
-                            'data-text' => $this->Parser->citeText($citeText),
-                            'class' => 'btn js-btnCite label'
+                            'class' => 'btn btn-link js-btnCite label',
+                            // Encode so that " in quoted text doesn't break out of HTML Attribute.
+                            'data-text' => htmlspecialchars($this->Parser->citeText($citeText)),
+                            'type' => 'button',
                         ]
                     );
                     $citeLink = $this->Html->div('form-group', $citeLink);
