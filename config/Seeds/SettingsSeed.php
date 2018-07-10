@@ -47,7 +47,7 @@ class SettingsSeed extends AbstractSeed
             ['name' => 'store_ip_anonymized', 'value' => '1'],
             ['name' => 'subject_maxlength', 'value' => '75'],
             ['name' => 'text_word_maxlength', 'value' => '120'],
-            ['name' => 'thread_depth_indent', 'value' => '25'],
+            ['name' => 'thread_depth_indent', 'value' => '20'],
             ['name' => 'timezone', 'value' => 'UTC'],
             ['name' => 'topics_per_page', 'value' => '20'],
             ['name' => 'tos_enabled', 'value' => '0'],

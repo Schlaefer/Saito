@@ -1,15 +1,44 @@
-/******************************************************************************
- * Adjustment Tablet Portrait or smaller
- ******************************************************************************/
+// Responsive threadBox layout for main page. We can't use flex or table because slidetabs
+// will push the whole threadBox container with all threadlines to the side. This way the
+// threadlines  are not in a container and able to float around slidetabs.
+@media only screen and (min-width: map-get($grid-breakpoints, lg)) {
+  $threadBoxResponseMargin: 6em !default;
 
-@media only screen and (max-width: map-get($grid-breakpoints, sm)) {
+  .threadBox {
+    // anchor for absolute threadBox-tools
+    position: relative;
+  }
+
+  .threadBox-body {
+    margin-left: $threadBoxResponseMargin - 1em;
+  }
+
+  .threadBox-tools {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    width: $threadBoxResponseMargin;
+  }
+}
+
+// reduce indent to prevent overflow; test with macnemo #654543; see macnemo #654580
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .threadTree-node {
+    padding-left: 20px;
+  }
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, md)) {
+  .threadTree-node {
+    padding-left: 15px;
+    min-width: 10em;
+  }
+
+  // allow horizontal scrolling
   .threadBox {
     max-width: 100%;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
-  }
-
-  .threadTree-node {
-    min-width: 10em;
   }
 }
