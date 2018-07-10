@@ -17,5 +17,8 @@ schema-dump-default.lock
 /webroot/useruploads/*
 /build/
 /dist/
-# Saito 4/Cake 2 checkout
-/app
+
+### Assets ###
+plugins/Bota/webroot/css/*
+webroot/css/stylesheets/*
+webroot/js/*
