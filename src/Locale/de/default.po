@@ -856,19 +856,19 @@ msgstr "<gelöscht>"
 
 #: src/Model/Table/UsersTable.php:148
 msgid "user.avatar.error.extension"
-msgstr ""
+msgstr "Unbekanntes Dateiformat. Erlaubt: {0}."
 
 #: src/Model/Table/UsersTable.php:156
 msgid "user.avatar.error.size"
-msgstr ""
+msgstr "Datei ist zu groß. Limit: {0}"
 
 #: src/Model/Table/UsersTable.php:164
 msgid "user.avatar.error.mime"
-msgstr ""
+msgstr "MIME-Typ nicht erlaubt."
 
 #: src/Model/Table/UsersTable.php:179
 msgid "user.avatar.error.dimension"
-msgstr ""
+msgstr "Bild ist zu groß oder zu klein. Bitte ein Format zwischen {0} und {1} verwenden."
 
 #: src/Model/Table/UsersTable.php:194
 msgid "error_password_confirm"
