@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     },
     shell: {
       testCake: {
-        command: './app/Console/cake test app all --stderr',
+        command: './app/Console/cake test app All --stderr',
         options: {
           stdout: true,
           stderr: true,
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         }
       },
       testCakeStopOn: {
-        command: './app/Console/cake test app all --stderr --stop-on-error --stop-on-failure',
+        command: './app/Console/cake test app All --stderr --stop-on-error --stop-on-failure',
         options: {
           stdout: true,
           stderr: true,

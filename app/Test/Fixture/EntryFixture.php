@@ -58,6 +58,7 @@
 				],
 				'last_answer' => [
 						'type' => 'timestamp',
+						'null' => true,
 						'default' => null,
 						'key' => 'index',
 						'collate' => null,
