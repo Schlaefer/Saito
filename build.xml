@@ -37,7 +37,7 @@
         <input propertyName="git.branch" defaultValue="master" message="Remote git branch to use?"></input>
 
         <echo msg="Checkout ${git.branch}"/>
-        <exec command="git clone -b ${git.branch} https://github.com/Schlaefer/Saito.git"
+        <exec command="git clone -b ${git.branch} -l ../ ../${git.dir}"
               dir="${build.dir}"/>
 
         <echo msg="Install composer packages"/>
