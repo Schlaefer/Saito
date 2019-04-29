@@ -83,6 +83,8 @@ class Application extends BaseApplication
         Plugin::load('ADmad/JwtAuth');
         Plugin::load('Proffer');
 
+        $this->loadDefaultThemePlugin();
+
         Stopwatch::stop('Application::bootstrap');
     }
 
@@ -122,5 +124,24 @@ class Application extends BaseApplication
         $middlewareQueue->add($security);
 
         return $middlewareQueue;
+    }
+
+    /**
+     * Load the plugin for Saito's default theme
+     *
+     * @return void
+     */
+    private function loadDefaultThemePlugin()
+    {
+        $defaultTheme = Configure::read('Saito.themes.default');
+        if (empty($defaultTheme)) {
+            throw new \RuntimeException(
+                'Could not resolve default theme for plugin loading.',
+                1556562215
+            );
+        }
+        if (Plugin::loaded($defaultTheme) !== true) {
+            Plugin::load($defaultTheme);
+        }
     }
 }
