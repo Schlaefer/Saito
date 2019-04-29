@@ -29,7 +29,7 @@ class Saitox5x0x0 extends AbstractMigration
                 'after' => 'accession_new_thread',
                 'default' => '2',
                 'length' => 4,
-                'null' => true,
+                'null' => false,
             ])
             ->update();
 
