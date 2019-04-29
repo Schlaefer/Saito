@@ -16,7 +16,7 @@ class AppStatusCellTest extends SaitoTestCase
     public $fixtures = [
         'app.category',
         'app.entry',
-        'app.useronline',
+        'app.user_online',
         'app.user'
     ];
 

@@ -32,7 +32,7 @@ class UploadsControllerTest extends IntegrationTestCase
         'app.user',
         'app.user_block',
         'app.user_read',
-        'app.useronline',
+        'app.user_online',
         'plugin.ImageUploader.uploads',
     ];
 

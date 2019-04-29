@@ -14,7 +14,7 @@ class SitemapsControllerTest extends IntegrationTestCase
         'app.setting',
         'app.user',
         'app.user_block',
-        'app.useronline'
+        'app.user_online'
     ];
 
     /**

@@ -42,7 +42,7 @@ class SearchesControllerTest extends IntegrationTestCase
         'app.user_block',
         'app.user_ignore',
         'app.user_read',
-        'app.useronline',
+        'app.user_online',
     ];
 
     /**

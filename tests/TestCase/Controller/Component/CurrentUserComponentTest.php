@@ -27,7 +27,7 @@ class CurrentUserComponentTest extends IntegrationTestCase
     public $fixtures = [
         'app.setting',
         'app.user',
-        'app.useronline',
+        'app.user_online',
     ];
 
     /**

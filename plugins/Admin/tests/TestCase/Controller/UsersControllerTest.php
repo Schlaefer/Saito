@@ -22,7 +22,7 @@ class UsersControllerTest extends IntegrationTestCase
         'app.user_block',
         'app.user_ignore',
         'app.user_read',
-        'app.useronline',
+        'app.user_online',
         'plugin.bookmarks.bookmark',
         'plugin.image_uploader.uploads',
     ];
