@@ -13,6 +13,7 @@
     "datatables.net": "^1.10.16",
     "datatables.net-bs4": "^1.10.16",
     "font-awesome": "^4.7.0",
+    "grunt": "^1.0.4",
     "humanize": "github:taijinlee/humanize",
     "jQuery-tinyTimer": "odyniec/jQuery-tinyTimer",
     "jquery": "^3.3.1",
@@ -24,7 +25,7 @@
     "string-template": "^1.0.0",
     "underscore": "^1.9.0",
     "underscore.string": "^3.3.4",
-    "yarn": "^1.6.0"
+    "yarn": "^1.15.2"
   },
   "devDependencies": {
     "@types/autosize": "^3.0.6",
