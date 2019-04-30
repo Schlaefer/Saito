@@ -65,19 +65,28 @@
 //
 // don't forget to apply changes here to the user custom color CSS
 // -------------------------------------
-.et-root .et,
+
+// posting starting the thread
+.et-root .et {
+  color: $font-color-root;
+}
+
+// replies in thread
 .et-reply .et {
-  color: $link-color;
+  color: $font-color-reply;
 }
 
+// new postings
 .et-new .et {
-  // no extra color set
+  color: $font-color-new;
 }
 
+// read postings
 .et-old .et {
-  color: $font-color-read;
+  color: $font-color-old;
 }
 
+// currently active posting
 .et-current .et {
   color: $font-color-current;
 }

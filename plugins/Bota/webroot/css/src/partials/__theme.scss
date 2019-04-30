@@ -9,8 +9,12 @@
  ******************************************************************************/
 
 $form-bg: $card-cap-bg !default;
-$font-color-read: $body-color !default;
+
+$font-color-new: $link-color !default;
+$font-color-old: $body-color !default;
 $font-color-current: $primary !default;
+$font-color-root: $link-color !default;
+$font-color-reply: $link-color !default;
 
 /******************************************************************************
  * Saito Variables
