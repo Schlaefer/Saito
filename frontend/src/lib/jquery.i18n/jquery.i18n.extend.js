@@ -35,8 +35,9 @@ $.extend($.i18n, {
     /**
      * Localice string with tokens
      *
-     * Token replacement compatible to CakePHP's String::insert()
+     * Token replacement compatible to CakePHP's localization
      *
+     * @see https://github.com/Matt-Esch/string-template
      */
     __: function (string, tokens) {
         var isTranslated;

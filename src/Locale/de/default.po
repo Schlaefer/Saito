@@ -1426,8 +1426,8 @@ msgid "Block User"
 msgstr "Nutzer sperren"
 
 #: src/Template/Users/view.ctp:341
-msgid ":hours hours"
-msgstr ":hours Stunden"
+msgid "user.block.hours"
+msgstr "{hours} Stunden"
 
 #: src/View/Helper/PostingHelper.php:94
 #, fuzzy

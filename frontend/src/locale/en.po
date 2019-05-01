@@ -158,5 +158,8 @@ msgstr "Mark entry as helpful."
 msgid "upl.btn.insert"
 msgstr "Insert"
 
+msgid "user.block.hours"
+msgstr "{hours} hours"
+
 #~ msgid "prq.storage.warning"
 #~ msgstr "This web-application depends on Cookies and localStorage. Please make those available in your browser."

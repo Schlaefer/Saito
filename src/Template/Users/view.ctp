@@ -297,10 +297,7 @@ if ($items) {
                 );
                 $lock[] = $this->Html->tag(
                     'span',
-                    Text::insert(
-                        __(':hours hours'),
-                        ['hours' => $defaultValue / 3600]
-                    ),
+                    __('user.block.hours', ['hours' => $defaultValue / 3600]),
                     ['id' => 'lockTimeGauge', 'style' => 'padding: 0.5em']
                 );
                 $lock[] = $this->Form->end();
@@ -313,7 +310,7 @@ if ($items) {
                                 events: {'input #lockrange': '_onRangeChange'},
                                 _onRangeChange: function (event) {
                                     var value = event.target.value;
-                                    var l10n = $.i18n.__(':hours hours', {hours: value / 3600});
+                                    var l10n = $.i18n.__('user.block.hours', {hours: value / 3600});
                                     event.preventDefault();
                                     if (value === event.target.max) {
                                         l10n = '∞';

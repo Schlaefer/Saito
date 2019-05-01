@@ -1400,8 +1400,8 @@ msgid "Block User"
 msgstr ""
 
 #: src/Template/Users/view.ctp:341
-msgid ":hours hours"
-msgstr ""
+msgid "user.block.hours"
+msgstr "{hours} hours"
 
 #: src/View/Helper/PostingHelper.php:94
 msgid "Category"
