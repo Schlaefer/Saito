@@ -44,7 +44,7 @@ export default Marionette.View.extend({
     var id, url;
     event.preventDefault();
     id = this.model.get('id');
-    url = App.settings.get('webroot') + '/entries/delete/' + id;
+    url = App.settings.get('webroot') + 'entries/delete/' + id;
     window.location = url;
   },
 

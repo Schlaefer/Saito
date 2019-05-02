@@ -70,7 +70,7 @@ export default Marionette.View.extend({
   _sendToggle: function (key) {
     const id = this.model.get('id');
     const webroot = App.settings.get('webroot');
-    const url = webroot +  '/entries/ajaxToggle/' + id + '/' + key;
+    const url = webroot +  'entries/ajaxToggle/' + id + '/' + key;
 
     $.ajax({ url: url, buffer: false })
       .done(function (data) {
