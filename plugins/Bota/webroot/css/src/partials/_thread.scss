@@ -120,7 +120,10 @@
 .threadLine-content {
   // wide click target and hover-highlight
   flex-grow: 1;
+
+  /*** try to handle long words/links esp. next to open slidetabs  ***/
   word-wrap: break-word;
+  overflow-x: hidden; // experimental: seems to trigger better breaking for some reason
 }
 
 .threadLine-post {

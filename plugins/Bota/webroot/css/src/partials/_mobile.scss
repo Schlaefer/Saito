@@ -38,7 +38,24 @@
   // allow horizontal scrolling
   .threadBox {
     max-width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, sm)) {
+  /* Slidetabs open to full width on Phone size
+  // ------------------------------------- */
+  #slidetabs {
+    float: none;
+  }
+
+  .slidetabs {
+    margin: 0;
+  }
+
+  .slidetab.is-open {
+    float: none;
+    width: 100%;
   }
 }

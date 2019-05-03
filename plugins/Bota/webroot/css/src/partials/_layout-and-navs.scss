@@ -33,6 +33,8 @@ body {
 
   background: $body-bg;
   font-size: 1.3rem;
+
+  position: relative; // anchors sub-element (menu bar open button)
 }
 
 #hero-homeLink {

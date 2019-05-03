@@ -25,7 +25,13 @@
   @extend .border-top;
   @extend .small;
 
-  background: $body-bg;
+  background: $form-bg;
+}
+
+.disclaimer-card {
+  @extend .col-md-4;
+  @extend .p-3;
+
   text-align: center;
 }
 

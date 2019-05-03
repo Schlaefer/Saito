@@ -7,7 +7,7 @@ Stopwatch::start('layout/disclaimer.ctp');
 <div class="disclaimer">
     <div class="container">
         <div class="row justify-content-between">
-            <div class="col-md-4 p-3">
+            <div class="disclaimer-card">
                 <h3><?= __('Ressources') ?></h3>
                 <ul>
                     <li>
@@ -21,11 +21,11 @@ Stopwatch::start('layout/disclaimer.ctp');
                     </li>
                 </ul>
             </div>
-            <div class="col-md-4 p-3">
+            <div class="disclaimer-card">
                 <h3><?= __('Status') ?></h3>
                 <?= $this->cell('AppStatus') ?>
             </div>
-            <div class="col-md-4 p-3">
+            <div class="disclaimer-card">
                 <h3><?= __('About') ?></h3>
 
                 <p>
