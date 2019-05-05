@@ -51,8 +51,8 @@ export default Marionette.View.extend({
         model: this.model,
         parentThreadline: this.parentThreadline
       });
+      this.answeringForm.render();
     }
-    this.answeringForm.render();
   },
 
   _hideAnsweringForm: function () {
