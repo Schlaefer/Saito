@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
       git \
       zlib1g-dev \
       libzip-dev \
-      unzip
+      unzip \
+      # chromium for headless testing
+      chromium
 
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \

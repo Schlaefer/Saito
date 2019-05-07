@@ -1,6 +1,10 @@
 const path = require('path');
 const webpackConfig = require('./webpack.config.js');
 
+process.env.CHROMIUM_BIN = '/usr/bin/chromium';
+// Timezone the browser should be in (timezone offset on timestamps)
+process.env.TZ = 'Europe/Berlin';
+
 // Karma configuration
 // Generated on Thu May 24 2018 09:05:27 GMT+0200 (CEST)
 
@@ -72,7 +76,14 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    //browsers: ['Chrome'],
+    browsers: ['ChromiumHeadlessCustom'],
+    customLaunchers: {
+      ChromiumHeadlessCustom: {
+        base: 'ChromiumHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
 
 
     // Continuous Integration mode

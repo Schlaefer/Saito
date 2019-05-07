@@ -34,12 +34,12 @@ describe('Template Helpers', function () {
       });
 
       it('should accept JS-millisecond timestamp', function () {
-        var result = this.Time.format(1397487471000);
+        var result = this.Time.format(1397487471);
         expect($(result)).toHaveAttr('title', '2014-04-14 16:57:51');
       });
 
       it('should output attribute datetime on time-tag', function () {
-        var result = this.Time.format(1397487471);
+        var result = this.Time.format(1397487471); // 2014-04-14 14:57:51 UTC
         expect($(result)).toHaveAttr('datetime', '2014-04-14T16:57:51+02:00');
       });
 
