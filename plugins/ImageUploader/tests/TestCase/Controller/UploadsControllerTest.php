@@ -45,7 +45,7 @@ class UploadsControllerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->file = new File(TMP . 'my new_upload.png');
+        $this->file = new File(TMP . 'my new-upload.png');
         $this->mockMediaFile($this->file);
     }
 
@@ -92,8 +92,8 @@ class UploadsControllerTest extends IntegrationTestCase
                 'type' => 'uploads',
                 'attributes' => [
                     'id' => 3,
-                    'name' => '1-my-new-upload.png',
-                    'url' => '/useruploads/1-my-new-upload.png',
+                    'name' => '1_my_new_upload.png',
+                    'url' => '/useruploads/1_my_new_upload.png',
                     'thumbnail_url' => '/api/v2/uploads/thumb/3',
                 ],
             ],
@@ -103,7 +103,7 @@ class UploadsControllerTest extends IntegrationTestCase
         $Uploads = TableRegistry::get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
 
-        $this->assertSame('1-my-new-upload.png', $upload->get('name'));
+        $this->assertSame('1_my_new_upload.png', $upload->get('name'));
         $this->assertSame('image/png', $upload->get('type'));
         $this->assertTrue($upload->get('file')->exists());
     }

@@ -35,7 +35,7 @@ class Upload extends Entity
         }
 
         $ext = array_pop($parts);
-        $text = Text::slug(implode('.', $parts)) . '.' . $ext;
+        $text = Text::slug(implode('.', $parts), '_') . '.' . $ext;
 
         return $text;
     }

@@ -57,7 +57,7 @@ class UploadsController extends ApiAppController
         }
         $data = [
             'document' => $submitted,
-            'name' => $this->CurrentUser->getId() . '-' . $submitted['name'],
+            'name' => $this->CurrentUser->getId() . '_' . $submitted['name'],
             'size' => $submitted['size'],
             'type' => $submitted['type'],
             'user_id' => $this->CurrentUser->getId(),
