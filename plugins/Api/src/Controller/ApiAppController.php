@@ -34,8 +34,12 @@ class ApiAppController extends AppController
 
         parent::initialize();
 
-        $this->components()->unload('Csrf');
-        $this->components()->unload('Security');
+        if ($this->components()->has('Csrf')) {
+            $this->components()->unload('Csrf');
+        }
+        if ($this->components()->has('Security')) {
+            $this->components()->unload('Security');
+        }
     }
 
     /**
