@@ -52,7 +52,7 @@ class SettingsSeed extends AbstractSeed
             ['name' => 'topics_per_page', 'value' => '20'],
             ['name' => 'tos_enabled', 'value' => '0'],
             ['name' => 'tos_url', 'value' => ''],
-            ['name' => 'upload_max_img_size', 'value' => '300'],
+            ['name' => 'upload_max_img_size', 'value' => '5000'],
             ['name' => 'upload_max_number_of_uploads', 'value' => '10'],
             [
                     'name' => 'video_domains_allowed',
