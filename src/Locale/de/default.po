@@ -722,7 +722,7 @@ msgstr ""
 #: src/Controller/EntriesController.php:320
 #: src/Controller/EntriesController.php:448
 msgid "back_to_posting_from_linkname"
-msgstr "zurück zum Posting von %s"
+msgstr "zurück zum Posting von {0}"
 
 #: src/Controller/EntriesController.php:324
 msgid "Write a Reply"
@@ -969,7 +969,7 @@ msgstr "mix"
 
 #: src/Template/Element/entry/thread_cached_init.ctp:14
 msgid "gn.btn.collapse.t"
-msgstr "Einklappen"
+msgstr "Ein-/Ausklappen"
 
 #: src/Template/Element/entry/thread_cached_init.ctp:15
 msgid "gn.btn.more.t"
@@ -1375,7 +1375,7 @@ msgstr ""
 
 #: src/Template/Users/index.ctp:55
 msgid "{0} banned"
-msgstr ""
+msgstr "{0} gesperrt"
 
 #: src/Template/Users/login.ctp:9
 msgid "login_linkname"

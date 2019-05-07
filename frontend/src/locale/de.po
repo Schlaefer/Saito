@@ -65,7 +65,7 @@ msgstr "Max. {size}; jpg, png"
 
 #: modules/uploader/templates/uploaderAddTpl.html:24
 msgid "upl.btn.title"
-msgstr "Hochladen"
+msgstr "Bild auswählen…"
 
 #: lib/saito/templateHelpers.js:42
 msgid "time.relative.yesterday"
@@ -109,7 +109,7 @@ msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
 #: modules/uploader/views/uploaderAddVw.js:104
 msgid "upl.new.title"
-msgstr "Neues Bild hier hineinwerfen"
+msgstr "Bild hier hineinziehen"
 
 #: modules/uploader/views/uploaderCollectionVw.js:21
 msgid "upl.ncy"
