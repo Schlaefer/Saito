@@ -43,7 +43,7 @@
 			}
 			if ($state) {
 				if ($options['adminId']) {
-					$conditions['by'] = $options['adminId'];
+					$conditions['blocked_by_user_id'] = $options['adminId'];
 				}
 				$this->_Model->create();
 				if ($options['duration']) {

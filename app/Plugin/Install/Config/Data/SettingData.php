@@ -12,6 +12,7 @@ class SettingData {
 			['name' => 'block_user_ui', 'value' => '1'],
 			['name' => 'category_chooser_global', 'value' => '0'],
 			['name' => 'category_chooser_user_override', 'value' => '1'],
+			['name' => 'db_version', 'value' => '4.10.0'],
 			['name' => 'edit_delay', 'value' => '3'],
 			['name' => 'edit_period', 'value' => '20'],
 			['name' => 'email_contact', 'value' => ''],

@@ -64,8 +64,15 @@ class Stopwatch {
 		if (!self::$_wallStart) {
 			self::$_wallStart = $wtime;
 		}
-		$dat = getrusage();
-		$utime = ($dat['ru_utime.tv_sec'] + $dat['ru_utime.tv_usec'] / 1000000);
+
+		$dat = @getrusage();
+		if ($dat === null) {
+			// some hosters disable getrusage() while hardening their PHP
+			$utime = 0;
+		} else {
+			$utime = ($dat['ru_utime.tv_sec'] + $dat['ru_utime.tv_usec'] / 1000000);
+		}
+
 		if (!self::$_userStart) {
 			self::$_userStart = $utime;
 		}

@@ -276,7 +276,7 @@
           <div class="panel-footer panel-form">
             <?php
               $defaultValue = 86400;
-              echo $this->Form->create(['action' => 'lock']);
+              echo $this->Form->create(['url' => ['controller' => 'users', 'action' => 'lock']]);
               echo $this->Form->submit(
                 __('Block User'),
                 ['div' => false, 'class' => 'btnLink']
@@ -292,7 +292,7 @@
               $this->Form->unlockField('User.lockPeriod');
               echo $this->Form->hidden('lockUserId', ['value' => $user['User']['id']]);
               echo $this->Html->tag('span',
-                String::insert(__(':hours hours'), ['hours' => $defaultValue / 3600]),
+                CakeText::insert(__(':hours hours'), ['hours' => $defaultValue / 3600]),
                 ['id' => 'lockTimeGauge', 'style' => 'padding: 0.5em']
               );
               echo $this->Form->end();

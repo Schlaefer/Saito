@@ -1,6 +1,9 @@
 <?php
 
-  echo $this->Form->create('User', ['action' => 'register']);
+  echo $this->Form->create(
+    'User',
+    ['url' => ['controller' => 'users', 'action' => 'register']]
+  );
   echo $this->element('users/register-form-core');
   echo $this->SimpleCaptcha->input('User', [
       'error' => [

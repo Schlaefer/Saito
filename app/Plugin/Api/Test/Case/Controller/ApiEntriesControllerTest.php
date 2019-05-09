@@ -189,7 +189,7 @@
 			$this->_loginUser(3);
 			$this->setExpectedException('ForbiddenException', 'The user `Ulysses` is not allowed to edit.');
 			$id = 2;
-			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
+			$ApiEntries->Entry->save(['id' => $id, 'time' => bdate()]);
 			$this->testAction(
 				$this->_apiRoot . 'entries/' . $id,
 				[
@@ -256,6 +256,7 @@
 				"thread_id": 1,
 				"subject": "foo",
 				"is_nt": false,
+				"is_pinned": false,
 				"is_locked": false,
 				"time": "2000-01-01T20:00:00+00:00",
 				"last_answer": "2000-01-04T20:02:00+00:00",
@@ -286,7 +287,7 @@
 			$this->_loginUser(1);
 			$this->setExpectedException('BadRequestException', 'Tried to save entry but failed for unknown reason.');
 			$id = 1;
-			$ApiEntries->Entry->save(['id' => $id, 'time' => date('c', time())]);
+			$ApiEntries->Entry->save(['id' => $id, 'time' => bdate()]);
 			$ApiEntries->Entry->expects($this->once())
 				->method('update')
 				->will($this->returnValue(false));
@@ -339,7 +340,8 @@
 						"edit_time": "2000-01-01T20:04:00+00:00",
 						"category_id": 2,
 						"category_name": "Ontopic",
-						"is_locked": false
+						"is_locked": false,
+						"is_pinned": false
 				}
 			]
 EOF;

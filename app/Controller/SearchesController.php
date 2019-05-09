@@ -49,7 +49,8 @@
 				return;
 			}
 
-			$minWordLength = $this->Entry->query("SHOW VARIABLES LIKE 'ft_min_word_len'")[0]['VARIABLES']['Value'];
+			$minWordLength = $this->Entry->query("SHOW VARIABLES LIKE 'ft_min_word_len'")[0];
+			$minWordLength = array_shift($minWordLength)['Value'];
 			$this->set(compact('minWordLength'));
 
 			if (!isset($this->request->query['q'])) {

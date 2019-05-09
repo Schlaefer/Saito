@@ -8,7 +8,7 @@
   $this->end();
 ?>
 <div class="user edit">
-  <?php echo $this->Form->create('User', array( 'action' => 'edit' ) ); ?>
+  <?php echo $this->Form->create('User', ['url' => ['controller' => 'users', 'action' => 'edit']] ); ?>
 	<div class="panel">
 		<?= $this->Layout->panelHeading($title_for_page,
 				['pageHeading' => true]) ?>

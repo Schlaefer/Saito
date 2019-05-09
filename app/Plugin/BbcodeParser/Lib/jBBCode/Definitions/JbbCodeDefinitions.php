@@ -53,7 +53,7 @@
 
 		protected function _parse($content, $attributes) {
 			if (empty($this->_sOptions['embedly_enabled'])) {
-				return __('[embed] tag not enabled.');
+				return $this->_sHelper->Html->link($content, $content);
 			}
 
 			$this->Embedly->setApiKey($this->_sOptions['embedly_key']);

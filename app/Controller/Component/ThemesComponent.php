@@ -35,8 +35,12 @@
 			}
 			if (empty($this->_applied)) {
 				if ($params === null) {
-					throw new UnexpectedValueException('Theme could not be determined: ',
-							print_r($params, true));
+					throw new UnexpectedValueException(
+						sprintf(
+							'Theme could not be determined: %s',
+							print_r($params, true)
+						)
+					);
 				} else {
 					throw new InvalidArgumentException('Theme is not set yet.');
 				}

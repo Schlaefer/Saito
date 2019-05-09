@@ -22,7 +22,7 @@
 				'default' => null, 'unsigned' => true, 'key' => 'index'),
 			'reason' => array('type' => 'string', 'null' => true, 'default' => null,
 				'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-			'by' => array('type' => 'integer', 'null' => true, 'default' => null,
+			'blocked_by_user_id' => array('type' => 'integer', 'null' => true, 'default' => null,
 				'unsigned' => true),
 			'ends' => array('type' => 'datetime', 'null' => true, 'default' => null,
 				'key' => 'index'),
@@ -51,7 +51,7 @@
 				'user_id' => 1,
 				'reason' => 1,
 				'ends' => '2014-08-11 08:59:43',
-				'by' => 1,
+				'blocked_by_user_id' => 1,
 				'ended' => null
 			),
 			array(
@@ -61,7 +61,7 @@
 				'user_id' => 2,
 				'reason' => 1,
 				'ends' => null,
-				'by' => 1,
+				'blocked_by_user_id' => 1,
 				'ended' => null
 			),
 		);

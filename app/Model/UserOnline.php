@@ -47,7 +47,6 @@
 			if (!is_bool($loggedIn)) {
 				throw new InvalidArgumentException('Invalid Argument $logged_in in setOnline()');
 			}
-
 			$now = time();
 
 			$id = $this->_getShortendedId($id);

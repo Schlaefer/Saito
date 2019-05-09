@@ -5,6 +5,7 @@
 		'thread_id'     => (int)$entry['Entry']['tid'],
 		'subject'       => $entry['Entry']['subject'],
 		'is_nt'         => empty($entry['Entry']['text']),
+		'is_pinned'     => !empty($entry['Entry']['fixed']),
 		'time'          => $this->Api->mysqlTimestampToIso(
 			$entry['Entry']['time']
 		),

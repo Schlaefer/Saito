@@ -223,6 +223,7 @@ endif;
 Configure::write('Saito.markItUp.nextCssId', 11);
 
 //= attach Saito event manager to Cake event manager
+App::uses('CakeEventManager', 'Event');
 App::uses('SaitoEventManager', 'Lib/Saito/Event');
 CakeEventManager::instance()->attach(SaitoEventManager::getInstance());
 

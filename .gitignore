@@ -18,6 +18,7 @@ tags
 /app/Config/database.php
 /app/Config/database.php.dev
 /app/Config/installed.txt
+/app/webroot/dev/bower_components/*
 /app/webroot/useruploads/*.*
 build/
 /dist/

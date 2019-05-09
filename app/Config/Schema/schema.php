@@ -159,7 +159,7 @@ class AppSchema extends CakeSchema {
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'index'),
 		'reason' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'by' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => true),
+		'blocked_by_user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'unsigned' => true),
 		'ends' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index'),
 		'ended' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'hash' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -186,7 +186,7 @@ class AppSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 
-	public $user_read = array(
+	public $user_reads = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'primary'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
 		'entry_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'unsigned' => false, 'key' => 'index'),
@@ -241,7 +241,7 @@ class AppSchema extends CakeSchema {
 		'user_lock' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'activate_code' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 7, 'unsigned' => false),
 		'user_signatures_hide' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'user_signatures_images_hide' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'unsigned' => false),
+		'user_signatures_images_hide' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'user_forum_refresh_time' => array('type' => 'integer', 'null' => true, 'default' => '0', 'unsigned' => false),
 		'user_automaticaly_mark_as_read' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'user_sort_last_answer' => array('type' => 'boolean', 'null' => false, 'default' => '1'),

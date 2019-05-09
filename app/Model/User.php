@@ -73,7 +73,7 @@
 		public $validate = [
 				'username' => [
 						'isUnique' => ['rule' => 'isUniqueCiString'],
-						'notEmpty' => ['rule' => 'notEmpty'],
+						'notEmpty' => ['rule' => 'notBlank'],
 						'hasAllowedChars' => ['rule' => ['validateHasAllowedChars']],
 						'isUsernameEqual' => [
 							'on' => 'create',
@@ -84,7 +84,7 @@
 						'allowedChoice' => ['rule' => ['inList', ['user', 'admin', 'mod']]]
 				],
 				'password' => [
-						'notEmpty' => ['rule' => 'notEmpty'],
+						'notEmpty' => ['rule' => 'notBlank'],
 						'pwConfirm' => [
 								'rule' => ['validateConfirmPassword'],
 								'message' => 'validation_error_pwConfirm'
@@ -92,7 +92,7 @@
 				],
 				'password_old' => [
 						'notEmpty' => [
-								'rule' => 'notEmpty',
+								'rule' => 'notBlank',
 								'last' => 'true',
 						],
 						'pwCheckOld' => [
@@ -105,7 +105,7 @@
 						'isUnique' => ['rule' => 'isUnique', 'last' => 'true'],
 						'isEmail' => ['rule' => ['email', true], 'last' => 'true']
 				],
-				'registered' => ['rule' => ['notEmpty']],
+				'registered' => ['rule' => ['notBlank']],
 				'logins' => ['rule' => 'numeric'],
 				'personal_messages' => ['rule' => ['boolean']],
 				'user_lock' => ['rule' => ['boolean']],

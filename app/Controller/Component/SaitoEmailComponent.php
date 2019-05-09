@@ -277,7 +277,7 @@
 			} else {
 				$str = __('Copy of your message: ":subject"');
 			}
-			$config['subject'] = String::insert($str, $data);
+			$config['subject'] = CakeText::insert($str, $data);
 
 			// set new addresses
 			$config['to'] = $config['from'];

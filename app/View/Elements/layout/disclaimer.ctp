@@ -25,7 +25,7 @@
 					if ($CurrentUser->isLoggedIn()) {
 						$loggedin = $this->Html->link($loggedin, '/users/index');
 					}
-					echo String::insert( __('discl.status'), [
+					echo CakeText::insert( __('discl.status'), [
                 'entries' => number_format($HeaderCounter['entries'], null, null, '.'),
                 'threads' => number_format($HeaderCounter['threads'], null, null, '.'),
                 'registered' => number_format($HeaderCounter['user'], null, null, '.'),

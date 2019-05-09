@@ -36,7 +36,7 @@ class FarbtasticHelper extends Helper  {
 
         $icon_file = '../../js/farbtastic/color.png'; // update to wherever your icon is.
 
-        list($model, $fieldname) = split('\.', $name);
+        list($model, $fieldname) = explode('.', $name);
         if (empty($label)) {
             $label = Inflector::Humanize($fieldname);
         }

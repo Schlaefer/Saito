@@ -21,13 +21,6 @@
 		public $actsAs = ['Containable'];
 
 		/**
-		 * Use table
-		 *
-		 * @var mixed False or table name
-		 */
-		public $useTable = 'user_read';
-
-		/**
 		 * belongsTo associations
 		 *
 		 * @var array

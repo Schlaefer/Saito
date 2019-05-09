@@ -11,12 +11,6 @@
       "forum": "http://saito.siezi.com/forum/"
     }
   },
-  "repositories": [
-    {
-      "type": "pear",
-      "url": "http://pear.cakephp.org"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "Plugin\\": "Plugin/",
@@ -27,10 +21,10 @@
     "vendor-dir": "Vendor/"
   },
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=5.6.0",
     "ext-mcrypt": "*",
     "markstory/geshi": "0.3.*",
-    "pear-pear.cakephp.org/CakePHP": "2.6.12",
+    "cakephp/cakephp": "2.10.x",
     "kzykhys/ciconia": "~1.0.3",
     "jbbcode/jbbcode": "~1.3",
     "aura/di": "~2.1"
