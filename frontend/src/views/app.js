@@ -284,6 +284,7 @@ export default Marionette.View.extend({
   showLoginForm: function (event) {
     event.preventDefault();
     const title = event.currentTarget.title;
+    ModalDialog.once('shown', () => { this.$('#tf-login-username').focus(); });
     ModalDialog.show(new LoginView(), { title: title });
   },
 
