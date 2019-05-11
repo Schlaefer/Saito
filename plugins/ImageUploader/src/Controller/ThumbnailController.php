@@ -16,6 +16,7 @@ use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
 use claviska\SimpleImage;
+use Saito\Exception\SaitoForbiddenException;
 
 /**
  * Thumbnail Controller
@@ -34,10 +35,11 @@ class ThumbnailController extends Controller
     public function thumb(): Response
     {
         $id = (int)$this->request->getParam('id');
-        ['type' => $type, 'raw' => $raw] = Cache::remember((string)$id, function () use ($id) {
+        ['hash' => $fingerprint, 'type' => $type, 'raw' => $raw] = Cache::remember((string)$id, function () use ($id) {
             $Uploads = $this->loadModel('ImageUploader.Uploads');
             $document = $Uploads->get($id);
 
+            $hash = $document->get('hash');
             $type = $document->get('type');
             $file = $document->get('file');
             $raw = $file->read();
@@ -49,8 +51,15 @@ class ThumbnailController extends Controller
                     ->toString();
             }
 
-            return compact('raw', 'type');
+            return compact('hash', 'raw', 'type');
         }, 'uploadsThumbnails');
+
+        $hash = (string)$this->request->getQuery('h');
+        if ($hash !== $fingerprint) {
+            throw new SaitoForbiddenException(
+                "Attempt to access image-thumbnail $id."
+            );
+        }
 
         return $this->response
             ->withHeader('Content-Type', $type)

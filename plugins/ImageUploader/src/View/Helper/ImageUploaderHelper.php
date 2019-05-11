@@ -44,7 +44,11 @@ class ImageUploaderHelper extends AppHelper
                     ['fullBase' => true]
                 ),
                 'thumbnail_url' => $this->Url->build(
-                    ['_name' => 'imageUploader-thumbnail', 'id' => $image->get('id')],
+                    [
+                        '_name' => 'imageUploader-thumbnail',
+                        'id' => $image->get('id'),
+                        '?' => ['h' => $image->get('hash')]
+                    ],
                     ['fullBase' => true]
                 ),
             ],

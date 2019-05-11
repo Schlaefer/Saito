@@ -43,11 +43,23 @@ class Upload extends Entity
     /**
      * Virtual property getting a File to the upload
      *
-     * @return File
+     * @return File handle to the file
      */
     public function _getFile(): File
     {
         $folderPath = rtrim(Configure::read('Saito.Settings.uploadDirectory'), DS) . DS;
         return new File($folderPath . $this->get('name'));
+    }
+
+    /**
+     * Generates hash for the file
+     *
+     * Isn't secure or unique; performance preferred.
+     *
+     * @return string hash
+     */
+    public function _getHash(): string
+    {
+        return md5($this->get('name'));
     }
 }

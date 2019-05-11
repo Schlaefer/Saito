@@ -32,6 +32,7 @@ class UploadsTable extends AppTable
     public function initialize(array $config)
     {
         $this->addBehavior('Timestamp');
+        $this->setEntityClass(Upload::class);
 
         $this->belongsTo('Users', ['foreignKey' => 'user_id']);
     }

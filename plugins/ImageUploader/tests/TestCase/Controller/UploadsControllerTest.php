@@ -94,7 +94,7 @@ class UploadsControllerTest extends IntegrationTestCase
                     'id' => 3,
                     'name' => '1_my_new_upload.png',
                     'url' => '/useruploads/1_my_new_upload.png',
-                    'thumbnail_url' => '/api/v2/uploads/thumb/3',
+                    'thumbnail_url' => '/api/v2/uploads/thumb/3?h=a57eb1b1d9edb0faef2c0821f894c7f3',
                 ],
             ],
         ];
@@ -235,7 +235,7 @@ class UploadsControllerTest extends IntegrationTestCase
                         'id' => 2,
                         'name' => '3-another-upload.jpg',
                         'url' => '/useruploads/3-another-upload.jpg',
-                        'thumbnail_url' => '/api/v2/uploads/thumb/2',
+                        'thumbnail_url' => '/api/v2/uploads/thumb/2?h=be7ef71551c4245f82223d0c8e652eee',
                     ],
                 ],
             ],
