@@ -1,5 +1,4 @@
 <title><?= h($titleForLayout) ?></title>
-<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
 <?php
 echo $this->Html->charset();
 echo $this->fetch('meta');
