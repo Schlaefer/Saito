@@ -46,6 +46,11 @@ class Saitox5x0x0 extends AbstractMigration
                 'length' => 255,
                 'null' => true,
             ])
+            ->changeColumn('user_category_custom', 'string', [
+                'default' => null,
+                'length' => 1024,
+                'null' => true,
+            ])
             ->update();
 
             $this->table('settings')
@@ -81,6 +86,11 @@ class Saitox5x0x0 extends AbstractMigration
         $this->table('users')
             ->removeColumn('avatar')
             ->removeColumn('avatar_dir')
+            ->changeColumn('user_category_custom', 'string', [
+                'default' => null,
+                'length' => 512,
+                'null' => true,
+            ])
             ->update();
 
 
