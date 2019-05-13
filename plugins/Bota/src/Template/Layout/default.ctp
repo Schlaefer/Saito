@@ -23,7 +23,7 @@ $this->start('theme_head');
         })(SaitoApp);
     </script>
     <noscript>
-        <?= $this->Html->css('Bota.stylesheets/theme.css') ?>
+        <?= $this->Html->css('Bota.theme.css') ?>
     </noscript>
 
 <?php
