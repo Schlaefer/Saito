@@ -31,13 +31,11 @@ export default Marionette.View.extend({
       <button class="btn btn-link js-delete"><%- $.i18n.__('posting.delete.title') %></button>
   </div>
 </div>
-
   `),
 
   _onAbort: function (event) {
     event.preventDefault();
-    this.$el.dialog('close');
-    this.close();
+    ModalDialog.hide();
   },
 
   _onSubmit: function (event) {
@@ -49,7 +47,7 @@ export default Marionette.View.extend({
   },
 
   onBeforeClose: function () {
-    this.$el.dialog('destroy');
+    this.destroy();
   },
 
   onRender: function () {
