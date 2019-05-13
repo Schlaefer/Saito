@@ -23,8 +23,8 @@ msgstr ""
 
 #: plugins/Admin/src/Controller/CategoriesController.php:50
 #: plugins/Admin/src/Controller/CategoriesController.php:90
-msgid "The category has been saved"
-msgstr ""
+msgid "cat.save.success"
+msgstr "Die Kategorie wurde erfolgreich gespeichert."
 
 #: plugins/Admin/src/Controller/CategoriesController.php:57
 #: plugins/Admin/src/Controller/CategoriesController.php:96
@@ -1583,8 +1583,8 @@ msgstr "Gestern"
 #~ msgid "search.nstrict"
 #~ msgstr "Exakter Name"
 
-#~ msgid "search_since"
-#~ msgstr "Seit"
+msgid "search_since"
+msgstr "Seit"
 
 #~ msgid "Sort by: %s"
 #~ msgstr "Sortieren nach: %s"
@@ -1844,8 +1844,8 @@ msgstr "Gestern"
 #~ msgid "Category Order"
 #~ msgstr "Kategorienreihenfolge"
 
-#~ msgid "Description"
-#~ msgstr "Beschreibung"
+msgid "description"
+msgstr "Beschreibung"
 
 #, fuzzy
 #~ msgid "Standard Category"

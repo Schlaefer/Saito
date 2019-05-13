@@ -23,8 +23,8 @@ msgstr ""
 
 #: plugins/Admin/src/Controller/CategoriesController.php:50
 #: plugins/Admin/src/Controller/CategoriesController.php:90
-msgid "The category has been saved"
-msgstr ""
+msgid "cat.save.success"
+msgstr "The category has been saved."
 
 #: plugins/Admin/src/Controller/CategoriesController.php:57
 #: plugins/Admin/src/Controller/CategoriesController.php:96
@@ -1443,6 +1443,9 @@ msgstr ""
 msgid "yesterday"
 msgstr ""
 
+msgid "description"
+msgstr "Description"
+
 #~ msgid "user.map.b.locate"
 #~ msgstr "Locate"
 
@@ -1509,8 +1512,8 @@ msgstr ""
 #~ msgid "search.nstrict"
 #~ msgstr "Exact username"
 
-#~ msgid "search_since"
-#~ msgstr "Since"
+msgid "search_since"
+msgstr "Since"
 
 #~ msgid "upload_btn_delete_upload"
 #~ msgstr "Delete Upload"

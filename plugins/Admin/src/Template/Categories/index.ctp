@@ -16,7 +16,7 @@
     <tr>
         <th><?= $this->Paginator->sort('category_order', __('sort.order')); ?></th>
         <th><?= $this->Paginator->sort('category'); ?></th>
-        <th><?= $this->Paginator->sort('description'); ?></th>
+        <th><?= $this->Paginator->sort('description', __('description')); ?></th>
         <th><?= $this->Paginator->sort('accession', __('accession.read')); ?></th>
         <th><?= $this->Paginator->sort('accession_new_thread', __('accession.new_thread')); ?></th>
         <th><?= $this->Paginator->sort('accession_new_posting', __('accession.new_posting')); ?></th>

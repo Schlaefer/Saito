@@ -47,7 +47,7 @@ class CategoriesController extends AdminAppController
             );
             if ($this->Categories->save($category)) {
                 $this->Flash->set(
-                    __('The category has been saved'),
+                    __('cat.save.success'),
                     ['element' => 'success']
                 );
 
@@ -87,7 +87,7 @@ class CategoriesController extends AdminAppController
             );
             if ($this->Categories->save($category)) {
                 $this->Flash->set(
-                    __('The category has been saved'),
+                    __('cat.save.success'),
                     ['element' => 'success']
                 );
                 $this->redirect(['action' => 'index']);

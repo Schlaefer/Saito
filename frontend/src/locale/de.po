@@ -149,7 +149,7 @@ msgstr "Abbrechen"
 
 #: views/postingActionDelete.js:31 views/postingActionDelete.js:56
 msgid "posting.delete.title"
-msgstr "Löschen"
+msgstr "Beitrag löschen"
 
 #: views/postingActionSolves.js:28
 msgid "posting.helpful"

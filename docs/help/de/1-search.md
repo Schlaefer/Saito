@@ -1,6 +1,6 @@
 # Einfache Suche #
 
-Die einfache Suche erlaubt die Eingabe eines oder mehrerer Suchbegriffe. Exakte Phrasen können in Anführungszeichen gesetzt werden.
+Die einfache Suche erlaubt die Eingabe eines oder mehrerer Suchbegriffe. Exakte Phrasen können in Anführungszeichen "" gesetzt werden. Ein angehängtes Sternchen * dient als Platzhalter für beliebige Inhalte.
 
 Zu kurze Suchbegriffe (für gewöhnlich 4 Zeichen) können nicht gefunden werden und führen zu einem entsprechenden Hinweis.
 

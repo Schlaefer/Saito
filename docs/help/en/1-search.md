@@ -1,6 +1,6 @@
 # Simple Search #
 
-Searches for one or more words. Wrapping into quotes searches for an exact phrase.
+Searches for one or more words. Wrapping into quotes "" searches for an exact phrase. Appending a star to a word * serves as a wildcard operator.
 
 Words must have a minimum length (usually 4 characters).
 
