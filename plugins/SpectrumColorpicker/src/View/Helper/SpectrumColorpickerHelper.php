@@ -61,7 +61,13 @@ class SpectrumColorpickerHelper extends Helper
 
         $id = $this->_domId($field);
         $options = json_encode($options);
-        $js = "$(function() { $('input#{$id}').spectrum({$options}); });";
+        // "hide.spectrum"-event: Spectrum doesn't apply color value if
+        // the dialog is closed by pressing the open button again
+        $js = "$(function() {
+            let el = $('input#{$id}');
+            el.spectrum({$options});
+            el.on('hide.spectrum', function(e, color) { e.currentTarget.value = color === null ? '' : '#' + color.toHex(); });
+        });";
         $this->Html->scriptBlock($js, ['block' => 'script']);
     }
 
