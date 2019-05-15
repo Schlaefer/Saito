@@ -207,6 +207,7 @@ $this->end();
                     echo $this->Form->control(
                         'user_forum_refresh_time',
                         [
+                            'class' => 'form-control',
                             'maxLength' => 3,
                             'label' => false,
                             'min' => 0,
