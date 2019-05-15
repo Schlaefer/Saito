@@ -292,11 +292,17 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * get recent entries
+     * Get recent postings
      *
-     * @param ForumsUserInterface $User user
-     * @param array $options options
-     * @return array|mixed
+     * ### Options:
+     *
+     * - `user_id` int|<null> If provided finds only postings of that user.
+     * - `limit` int <10> Number of postings to find.
+     *
+     * @param ForumsUserInterface $User User who has access to postings
+     * @param array $options find options
+     *
+     * @return array Array of Postings
      */
     public function getRecentEntries(
         ForumsUserInterface $User,
@@ -305,11 +311,11 @@ class EntriesTable extends AppTable
         Stopwatch::start('Model->User->getRecentEntries()');
 
         $options += [
-            // @bogus why shouldn't that be tied to $User?
             'user_id' => null,
             'limit' => 10,
-            'category_id' => $User->Categories->getAll('read')
         ];
+
+        $options['category_id'] = $User->Categories->getAll('read');
 
         $read = function () use ($options) {
             $conditions = [];
@@ -331,17 +337,27 @@ class EntriesTable extends AppTable
                         'order' => ['time' => 'DESC']
                     ]
                 )
+                // hydrating kills performance
+                ->enableHydration(false)
                 ->all();
 
             return $result;
         };
 
         $key = 'Entry.recentEntries-' . md5(serialize($options));
-        $result = Cache::remember($key, $read, 'entries');
+        $results = Cache::remember($key, $read, 'entries');
+
+        $threads = [];
+        foreach ($results as $result) {
+            $threads[$result['id']] = Registry::newInstance(
+                '\Saito\Posting\Posting',
+                ['rawData' => $result]
+            );
+        }
 
         Stopwatch::stop('Model->User->getRecentEntries()');
 
-        return $result;
+        return $threads;
     }
 
     /**

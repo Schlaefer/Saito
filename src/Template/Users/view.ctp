@@ -346,7 +346,7 @@ if ($items) {
                 $threads = [];
                 foreach ($lastEntries as $entry) {
                     $threads[] = $this->Posting->renderThread(
-                        $entry->toPosting(),
+                        $entry,
                         ['ignore' => false]
                     );
                 }
