@@ -43,8 +43,6 @@ class ParserHelper extends AppHelper
         'SaitoHelp'
     ];
 
-    protected $_MarkupEditor;
-
     /**
      * @var array parserCache for parsed markup
      *
@@ -61,7 +59,7 @@ class ParserHelper extends AppHelper
     public function initialize(array $config)
     {
         parent::initialize($config);
-        $this->markup = Registry::get('Markup');
+        $this->Markup = Registry::get('Markup');
     }
 
     /**
@@ -82,7 +80,7 @@ class ParserHelper extends AppHelper
      */
     public function citeText($string)
     {
-        return $this->markup->citeText($string);
+        return $this->Markup->citeText($string);
     }
 
     /**
@@ -92,7 +90,7 @@ class ParserHelper extends AppHelper
      */
     public function editorHelp()
     {
-        return $this->markup->getEditorHelp($this);
+        return $this->Markup->getEditorHelp($this);
     }
 
     /**
@@ -124,7 +122,7 @@ class ParserHelper extends AppHelper
      */
     private function getButtonSet()
     {
-        $buttons = $this->markup->getMarkupSet();
+        $buttons = $this->Markup->getMarkupSet();
         $smilies = $this->_View->get('smiliesData')->get();
 
         if (!empty($smilies)) {
@@ -166,7 +164,7 @@ class ParserHelper extends AppHelper
         if (isset($this->_parserCache[$cacheId])) {
             $html = $this->_parserCache[$cacheId];
         } else {
-            $html = $this->markup->parse($string, $this, $options);
+            $html = $this->Markup->parse($string, $this, $options);
             $this->_parserCache[$cacheId] = $html;
         }
         if ($options['return'] === 'html' && $options['wrap']) {

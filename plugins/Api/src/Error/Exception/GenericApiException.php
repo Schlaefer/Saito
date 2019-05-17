@@ -21,7 +21,6 @@ class GenericApiException extends BadRequestException
      * {@inheritdoc}
      *
      * @param string $message exception message
-     * @return void
      */
     public function __construct($message = '')
     {

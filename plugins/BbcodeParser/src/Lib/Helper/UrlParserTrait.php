@@ -3,8 +3,12 @@
 namespace Plugin\BbcodeParser\src\Lib\Helper;
 
 use Cake\Validation\Validator;
+use MailObfuscator\View\Helper\MailObfuscatorHelper;
 use Saito\DomainParser;
 
+/**
+ * @property MailObfuscatorHelper $MailObfuscator
+ */
 trait UrlParserTrait
 {
     /**
@@ -47,7 +51,7 @@ trait UrlParserTrait
      * Generate URL
      *
      * @param string $url URL
-     * @param sting $text title
+     * @param string $text title
      * @param bool $label show label
      * @param bool $truncate trunctate
      *
@@ -95,7 +99,7 @@ trait UrlParserTrait
      * @bogus what about [url=][img]...[/img][url]. Is the [img] url truncated
      *     too?
      *
-     * @param type $string type
+     * @param string $string string
      *
      * @throws \Exception
      * @return string

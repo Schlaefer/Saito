@@ -2,6 +2,11 @@
 
 namespace Admin\Controller;
 
+use App\Model\Table\SmiliesTable;
+
+/**
+ * @property SmiliesTable $Smilies
+ */
 class SmiliesController extends AdminAppController
 {
     /**

@@ -3,8 +3,13 @@
 namespace Admin\View\Helper;
 
 use App\View\Helper\AppHelper;
+use App\View\Helper\TimeHHelper;
+use Cake\View\Helper\BreadcrumbsHelper;
+use Cake\View\Helper\HtmlHelper;
+use SaitoHelp\View\Helper\SaitoHelpHelper;
 
 //@codingStandardsIgnoreStart
+// @bogus the ability to see logs isn't in Saito 5 anymore
 class CakeLogEntry
 {
 
@@ -49,6 +54,12 @@ class CakeLogEntry
 
 //@codingStandardsIgnoreStart
 
+/**
+ * @property BreadcrumbsHelper $Breadcrumbs
+ * @property HtmlHelper $Html
+ * @property SaitoHelpHelper $SaitoHelp
+ * @property TimeHHelper $TimeH
+ */
 class AdminHelper extends AppHelper
 {
 
@@ -139,6 +150,8 @@ class AdminHelper extends AppHelper
 
     /**
      * format cake log
+     *
+     * @bogus the ability to see logs isn't in Saito 5 anymore
      *
      * @param string $log log
      * @return string

@@ -3,7 +3,13 @@
 namespace SpectrumColorpicker\View\Helper;
 
 use Cake\View\Helper;
+use Cake\View\Helper\FormHelper;
+use Cake\View\Helper\HtmlHelper;
 
+/**
+ * @property FormHelper $Form
+ * @property HtmlHelper $Html
+ */
 class SpectrumColorpickerHelper extends Helper
 {
     use Helper\IdGeneratorTrait;

@@ -2,8 +2,12 @@
 
 namespace Admin\Controller;
 
+use App\Controller\Component\CacheSupportComponent;
 use Saito\Event\SaitoEventManager;
 
+/**
+ * @property CacheSupportComponent $CacheSupport
+ */
 class AdminsController extends AdminAppController
 {
 

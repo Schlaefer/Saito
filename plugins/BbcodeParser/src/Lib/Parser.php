@@ -303,9 +303,9 @@ class Parser
             $this->_addDefinitionSet('embed', $this->_cSettings);
         }
 
-        $this->_Preprocessors = new Processors\BbcodeProcessorCollection($this->_cSettings);
+        $this->_Preprocessors = new Processors\BbcodeProcessorCollection();
         $this->_Preprocessors->add(new Processors\BbcodePreparePreprocessor($this->_cSettings));
-        $this->_Postprocessors = new Processors\BbcodeProcessorCollection($this->_cSettings);
+        $this->_Postprocessors = new Processors\BbcodeProcessorCollection();
         $this->_Postprocessors->add(new Processors\BbcodeQuotePostprocessor($this->_cSettings));
 
         $this->_initializedParsers[$parserId] = $this->_Parser;

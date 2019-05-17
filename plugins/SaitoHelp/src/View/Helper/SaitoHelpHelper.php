@@ -3,8 +3,17 @@
 namespace SaitoHelp\View\Helper;
 
 use Cake\View\Helper;
+use Commonmark\View\Helper\CommonmarkHelper;
 use Saito\User\CurrentUser\CurrentUserInterface;
 
+/**
+ * Helper for Saito-help
+ *
+ * @property CommonmarkHelper $Commonmark
+ * @property HtmlHelper $Html
+ * @property LayoutHelper $Layout
+ * @property UrlHelper $Url
+ */
 class SaitoHelpHelper extends Helper
 {
     public $helpers = ['Commonmark.Commonmark', 'Html', 'Layout', 'Url'];
@@ -46,14 +55,7 @@ class SaitoHelpHelper extends Helper
      */
     public function parse($text, CurrentUserInterface $CurrentUser)
     {
-        $this->_CurrentUser = $CurrentUser;
-        $this->_webroot = $this->Url->build('/', true);
-
-        $text = preg_replace_callback(
-            '/\[(?P<text>.*?)\]\((?P<url>.*?)\)/',
-            [$this, '_replaceUrl'],
-            $text
-        );
+        $text = $this->_replaceUrl($text, $CurrentUser);
 
         return $this->Commonmark->parse($text);
     }
@@ -61,26 +63,37 @@ class SaitoHelpHelper extends Helper
     /**
      * Allow linking within the Saito app
      *
-     * @param array $matches matches
-     * @return string
+     * @param string $text text to parse with link markup
+     * @param CurrentUserInterface $CurrentUser current user
+     * @return string text with links replaced
      */
-    protected function _replaceUrl(array $matches)
+    private function _replaceUrl($text, $CurrentUser)
     {
-        $text = $matches['text'];
-        $url = $matches['url'];
+        $webroot = $this->Url->build('/', true);
 
-        if (strpos($matches['url'], ':uid')) {
-            if (!$this->_CurrentUser->isLoggedIn()) {
-                return $text;
-            }
-            $uid = $this->_CurrentUser->getId();
-            $url = str_replace(':uid', $uid, $url);
-        }
+        $text = preg_replace_callback(
+            '/\[(?P<text>.*?)\]\((?P<url>.*?)\)/',
+            function ($matches) use ($CurrentUser, $webroot) {
+                $text = $matches['text'];
+                $url = $matches['url'];
 
-        if (strpos($url, 'webroot:') === 0) {
-            $url = str_replace('webroot:', $this->_webroot, $url);
-        }
+                if (strpos($matches['url'], ':uid')) {
+                    if (!$CurrentUser->isLoggedIn()) {
+                        return $text;
+                    }
+                    $uid = $CurrentUser->getId();
+                    $url = str_replace(':uid', $uid, $url);
+                }
 
-        return "[$text]($url)";
+                if (strpos($url, 'webroot:') === 0) {
+                    $url = str_replace('webroot:', $webroot, $url);
+                }
+
+                return "[$text]($url)";
+            },
+            $text
+        );
+
+        return $text;
     }
 }

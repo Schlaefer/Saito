@@ -50,6 +50,7 @@ use Stopwatch\Lib\Stopwatch;
  *
  * @property BookmarksTable $Bookmarks
  * @property CategoriesTable $Categories
+ * @method array treeBuild(array $postings)
  */
 class EntriesTable extends AppTable
 {
@@ -155,6 +156,7 @@ class EntriesTable extends AppTable
      */
     public function initialize(array $config)
     {
+        $this->setPrimaryKey('id');
         $this->fieldFilter = (new FieldFilter())
             ->setConfig('create', ['category_id', 'pid', 'subject', 'text'])
             ->setConfig('update', ['category_id', 'subject', 'text']);

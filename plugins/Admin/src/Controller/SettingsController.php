@@ -12,8 +12,12 @@ declare(strict_types = 1);
 
 namespace Admin\Controller;
 
+use App\Model\Table\SettingsTable;
 use Cake\Http\Exception\NotFoundException;
 
+/**
+ * @property SettingsTable $Settings
+ */
 class SettingsController extends AdminAppController
 {
 

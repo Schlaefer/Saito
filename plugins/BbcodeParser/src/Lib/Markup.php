@@ -22,7 +22,7 @@ class Markup implements MarkupInterface
     protected $parser;
     /** @var Preprocessor */
     protected $preproccesor;
-    /** @var Settings */
+    /** @var MarkupSettings */
     protected $settings;
 
     /**

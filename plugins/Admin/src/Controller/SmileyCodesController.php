@@ -2,8 +2,12 @@
 
 namespace Admin\Controller;
 
+use App\Model\Table\SmileyCodesTable;
 use Cake\ORM\Entity;
 
+/**
+ * @property SmileyCodesTable $SmileyCodes
+ */
 class SmileyCodesController extends AdminAppController
 {
     /**

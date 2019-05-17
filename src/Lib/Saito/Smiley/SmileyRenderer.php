@@ -21,7 +21,7 @@ class SmileyRenderer
     protected $_useCache;
 
     /**
-     * @var Helper
+     * @var HtmlHelper
      */
     protected $HtmlHelper;
 

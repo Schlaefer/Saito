@@ -211,7 +211,7 @@ class Categories
     /**
      * Filter out unallowed categories
      *
-     * @param array $action action to filter for
+     * @param string $action action to filter for
      * @param array $categories categories to filter
      * @return array categories
      */

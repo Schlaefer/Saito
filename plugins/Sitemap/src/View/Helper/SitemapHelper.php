@@ -3,7 +3,11 @@
 namespace Sitemap\View\Helper;
 
 use Cake\View\Helper;
+use Cake\View\Helper\UrlHelper;
 
+/**
+ * @property UrlHelper $Url
+ */
 class SitemapHelper extends Helper
 {
     public $helpers = ['Url'];

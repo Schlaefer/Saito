@@ -18,11 +18,14 @@ use Cake\Chronos\Chronos;
 use Cake\Database\Driver\Mysql;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Response;
 use SaitoSearch\Lib\SimpleSearchString;
 use Saito\Exception\SaitoForbiddenException;
+use Search\Controller\Component\PrgComponent;
 
 /**
  * @property EntriesTable $Entries
+ * @property PrgComponent $Prg
  */
 class SearchesController extends AppController
 {

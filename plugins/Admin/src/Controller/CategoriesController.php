@@ -2,8 +2,12 @@
 
 namespace Admin\Controller;
 
+use App\Model\Table\CategoriesTable;
 use Cake\Http\Exception\BadRequestException;
 
+/**
+ * @property CategoriesTable $Categories
+ */
 class CategoriesController extends AdminAppController
 {
 

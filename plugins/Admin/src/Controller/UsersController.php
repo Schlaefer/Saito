@@ -3,7 +3,11 @@
 namespace Admin\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\UsersTable;
 
+/**
+ * @property UsersTable $Users
+ */
 class UsersController extends AdminAppController
 {
     public $actionAuthConfig = [

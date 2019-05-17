@@ -10,8 +10,11 @@
 namespace App\View\Helper;
 
 use App\Model\Entity\Entry;
+use App\View\Helper\TimeHHelper;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\View\Helper\FormHelper;
+use Cake\View\Helper\HtmlHelper;
 use Saito\Event\SaitoEventManager;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\PostingInterface;
@@ -20,6 +23,9 @@ use Saito\Thread\Renderer;
 /**
  * Class PostingHelper
  *
+ * @property FormHelper $Form
+ * @property HtmlHelper $Html
+ * @property TimeHHelper $TimeH
  * @package App\View\Helper
  */
 class PostingHelper extends AppHelper

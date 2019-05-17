@@ -1,22 +1,11 @@
 parameters:
     level: 1
     paths:
-        - plugins/BbcodeParser
-        - plugins/Bookmarks
-        - plugins/Commonmark
-        - plugins/Cron
-        - plugins/Detectors
-        - plugins/Feeds
-        - plugins/ImageUplaoder
-        - plugins/MailObfuscator
-        - plugins/Paz
-        - plugins/SaitoHelp
-        - plugins/SaitoSearch
-        - plugins/Sitemap
-        - plugins/Stopwatch
+        - plugins/
         - src/
     excludes_analyse:
         - **/*.ctp
+        - **/TestCase/*
     autoload_files:
         - tests/bootstrap.php
     ignoreErrors:

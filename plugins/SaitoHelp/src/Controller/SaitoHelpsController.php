@@ -5,7 +5,11 @@ namespace SaitoHelp\Controller;
 use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use SaitoHelp\Model\Table\SaitoHelpTable;
 
+/**
+ * @property SaitoHelpTable $SaitoHelp
+ */
 class SaitoHelpsController extends AppController
 {
     /**

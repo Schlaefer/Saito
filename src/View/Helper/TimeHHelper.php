@@ -34,8 +34,10 @@ class TimeHHelper extends AppHelper
         'Pacific' => DateTimeZone::PACIFIC,
     ];
 
-    protected $_now = false;
+    /** @var int unix timestamp of current time */
+    protected $_now = null;
 
+    /** @var int unix timestamp of today */
     protected $_today = false;
 
     protected $_start = false;
