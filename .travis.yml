@@ -1,75 +1,59 @@
+sudo: false
+
 language: php
 
 php:
-  - 5.4
-  - 5.5
+  - 7.1
 
 env:
-  - DB=mysql
-  - DB=pgsql
+  matrix:
+    - DB=mysql DATABASE_TEST_URL='mysql://root:password@127.0.0.1/cakephp_test'
+  global:
+    - DEFAULT=1
+    - PHPCS=0
+
+matrix:
+  fast_finish: true
+
+  include:
+    - php: 7.1
+    - php: 7.1
+      env: PHPCS=1 DEFAULT=0
+
+dist: trusty
+
+services:
+  - mysql
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+before_install:
+  - phpenv config-rm xdebug.ini
+
+  - if [ $DB = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
+  - if [ $DB = 'mysql' ]; then mysql -u root -e "USE mysql; UPDATE user SET password=PASSWORD('password') WHERE user='root'; FLUSH PRIVILEGES;"; fi
+
+  - pecl channel-update pecl.php.net
+  - |
+      if [[ ${TRAVIS_PHP_VERSION} != "5.6" ]]; then
+        echo 'extension = memcached.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini;
+      fi
+  - echo 'extension = apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo 'apc.enable_cli = 1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]] ; then echo "yes" | pecl install channel://pecl.php.net/apcu-5.1.5 || true; fi
+  - sudo locale-gen da_DK
 
 before_script:
-  - if [ ! -f composer.phar ]; then curl -s http://getcomposer.org/installer | php; fi; php composer.phar  install -d app -o
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi"
-  - chmod -R 777 ./app/tmp
-  - echo "var net = require('net');
-    var server = net.createServer();
-    server.listen(80, 'localhost');
-    console.log('TCP server listening on port 80 at localhost.');" > app/tmp/socket.js
-  - sudo node ./app/tmp/socket.js &
-  - set +H
-  - echo "<?php
-    class DATABASE_CONFIG {
-    private \$identities = array(
-      'mysql' => array(
-        'datasource' => 'Database/Mysql',
-        'host' => '0.0.0.0',
-        'login' => 'travis'
-      ),
-      'pgsql' => array(
-        'datasource' => 'Database/Postgres',
-        'host' => '127.0.0.1',
-        'login' => 'postgres',
-        'database' => 'cakephp_test',
-      ),
-    );
-    public \$default = array(
-      'persistent' => false,
-      'host' => '',
-      'login' => '',
-      'password' => '',
-      'database' => 'cakephp_test',
-      'prefix' => ''
-    );
-    public \$test = array(
-      'persistent' => false,
-      'host' => '',
-      'login' => '',
-      'password' => '',
-      'database' => 'cakephp_test',
-      'prefix' => ''
-    );
-    public function __construct() {
-      \$db = 'mysql';
-      if (!empty(\$_SERVER['DB'])) {
-        \$db = \$_SERVER['DB'];
-      }
-      foreach (array('default', 'test') as \$source) {
-        \$config = array_merge(\$this->{\$source}, \$this->identities[\$db]);
-        if (is_array(\$config['database'])) {
-          \$config['database'] = \$config['database'][\$source];
-        }
-        if (!empty(\$config['schema']) && is_array(\$config['schema'])) {
-          \$config['schema'] = \$config['schema'][\$source];
-        }
-        \$this->{\$source} = \$config;
-      }
-    }
-      }" > app/Config/database.php
+  - composer install --prefer-source --no-interaction;
+  - if [ $PHPCS = 1 ]; then vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer; fi
 
 script:
-  - ./app/Console/cake testsuite app All --stderr
+  - if [ $DEFAULT = 1 ]; then vendor/bin/phpunit; fi
+  - if [ $PHPCS = 1 ]; then vendor/bin/phpcs; fi
 
 notifications:
   email: false
