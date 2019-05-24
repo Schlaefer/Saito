@@ -25,7 +25,7 @@
     <?php
     $i = 0;
     foreach ($categories as $category) :
-        $class = null;
+        $class = '';
         if ($i++ % 2 == 0) {
             $class = ' class="altrow"';
         }

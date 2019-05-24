@@ -33,6 +33,10 @@ class CategoriesController extends AdminAppController
      */
     public function index()
     {
+        $this->paginate = [
+            'limit' => 1000, // limit high enough so that no paging should occur
+            'order' => ['Categories.category_order' => 'ASC']
+        ];
         $this->set('categories', $this->paginate());
     }
 
