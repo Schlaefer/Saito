@@ -66,6 +66,10 @@ class CategoriesController extends AdminAppController
                     ['element' => 'error']
                 );
             }
+        } else {
+            $category->set('accession', 1);
+            $category->set('accession_new_thread', 1);
+            $category->set('accession_new_posting', 1);
         }
         $this->set(compact('category'));
     }

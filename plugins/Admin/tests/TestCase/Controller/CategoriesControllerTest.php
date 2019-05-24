@@ -34,6 +34,26 @@ class CategoriesControllerTest extends IntegrationTestCase
     }
 
     /**
+     * Tests viewing empty "add new category" form
+     */
+    public function testAddGet()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(1);
+
+        $this->get('/admin/categories/add');
+
+        $this->assertResponseOk();
+
+        $category = $this->viewVariable('category');
+
+        // default accession for new categories should be set to logged-in user (1)
+        $this->assertEquals(1, $category->get('accession'));
+        $this->assertEquals(1, $category->get('accession_new_thread'));
+        $this->assertEquals(1, $category->get('accession_new_posting'));
+    }
+
+    /**
      * delete category and postings
      */
     public function testDeleteDelete()
