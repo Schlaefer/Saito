@@ -8,9 +8,11 @@ You may push the priority of the following features by donating to them directly
 
 ## Two-Factor Authentication ##
 
-<span style="color: #CA870D;">50 €</span> of 300 €
+<span style="/*color: #CA870D;*/ color: green;">300 €</span> of 300 € – 
+*Funded on 2018-07-02 - implementation in progress*
 <div style="width: 100%; height: 20px; border: 1px solid silver; position: relative;">
-  <div style="width: 17%; height: 100%; background: orange;">
+  <!-- div style="width: 100%; height: 100%; background: orange;" -->
+  <div style="width: 100%; height: 100%; background: green;">
   </div>
 </div>
 <br>

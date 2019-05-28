@@ -35,11 +35,15 @@ Make *your* feature happen or get *your* bug fixed by [placing a bounty on it.](
 	&nbsp;
 </form>
 
+<!--
+
 ## Bitcoin ##
 
 <a href="bitcoin:15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR?label=Saito%20Donation">15qymm4QASusbagaKxk4gk2ysZ2aJhUtGR</a>
 
 I'm not able to see who donates, so please send a quick email so I know whom to thank.
+
+-->
 
 # Thanks
 
@@ -50,8 +54,8 @@ And a shout-out to all the donors!
 
  Donors <span><small class="text-muted">(sorted by year &amp; amount)</small></span> | Last Seen
  ------| -----
- CocoaBärchi &amp; dakapo   | 2018
  fwskxgrd                   | 2018
+ CocoaBärchi &amp; dakapo   | 2018
  [macfix.de]                | 2016
  iXimus                     | 2016
  [macnemo.de] (Panxatony)   | 2015
