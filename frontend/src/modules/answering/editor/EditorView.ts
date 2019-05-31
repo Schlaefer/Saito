@@ -41,15 +41,6 @@ class EditorView extends View<Model> {
         autosize.destroy(this.getUI('text'));
     }
 
-    public insertText(text: string, cursor?: number) {
-        this.getUI('text').textrange({ method: 'replace', nofocus: true }, text);
-        if (!cursor) {
-            cursor = String(this.getUI('text').val()).length;
-        }
-        this.getUI('text').textrange('setcursor', cursor);
-        this.postContentChanged();
-    }
-
     public wrapText(pre?: string, post?: string) {
         const current = this.getUI('text').textrange('get');
         let text: string = current.text;
@@ -72,6 +63,25 @@ class EditorView extends View<Model> {
 
     public selectedText() {
         return this.getUI('text').textrange('get', 'text');
+    }
+
+    /**
+     * Inserts text at the current cursor position
+     *
+     * @param text - Text to insert
+     * @param cursor - New cursor position; default: after inserted text
+     */
+    private insertText(text: string, cursor?: number) {
+        const textarea = this.getUI('text');
+        if (!cursor) {
+            const current = textarea.textrange('get');
+            const isTextSelected: boolean = current.length > 0;
+            cursor = isTextSelected ? current.start : current.position;
+            cursor += text.length;
+        }
+        textarea.textrange({ method: 'replace', nofocus: true }, text);
+        textarea.textrange('setcursor', cursor);
+        this.postContentChanged();
     }
 
     /**
