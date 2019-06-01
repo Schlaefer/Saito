@@ -45,7 +45,7 @@ msgstr "Saito Installation"
 
 #: Template/Install/start.ctp:15
 msgid "language"
-msgstr "🇺🇳 Set a language in <code>config/saito_config.php</code>."
+msgstr "🇺🇳 Set a language in <code>config/saito_config.php</code>."
 
 #: Template/Install/start.ctp:21
 msgid "connection.title"
@@ -53,7 +53,7 @@ msgstr "Database Connection"
 
 #: Template/Install/start.ctp:26
 msgid "connection.failure"
-msgstr "❌ No connection to database."
+msgstr "❌ No connection to database."
 
 #: Template/Install/start.ctp:29
 msgid "connection.explanation"
@@ -79,7 +79,7 @@ msgstr "Fill Database"
 
 #: Template/Install/start.ctp:66
 msgid "populate.failure"
-msgstr "❌ Database not set-up."
+msgstr "❌ Database not set-up."
 
 #: Template/Install/start.ctp:69
 msgid "populate.explanation"
@@ -109,7 +109,7 @@ msgstr "Set Security Salt"
 
 #: Template/Install/start.ctp:106
 msgid "salt.failure"
-msgstr "❌ Security salt not secure."
+msgstr "❌ Security salt not secure."
 
 #: Template/Install/start.ctp:109
 msgid "salt.explanation"
@@ -128,7 +128,7 @@ msgstr ""
 
 #: Template/Install/start.ctp:123
 msgid "salt.success"
-msgstr "👍 Security salt is set."
+msgstr "👍 Security salt is set."
 
 #: Template/Install/start.ctp:137
 msgid "finished.title"
@@ -138,7 +138,7 @@ msgstr "Disable This Installer"
 msgid "finished.explanation"
 msgstr ""
 "Delete the file <code>config/installer</code> to disable this installer and "
-"start using the forum. 🏁 🙂"
+"start using the forum. 🏁 🙂"
 
 #: Template/Install/start.ctp:144
 msgid "finished.debug"
@@ -166,7 +166,7 @@ msgstr "Database Update"
 
 #: Template/Updater/start.ctp:19
 msgid "update.dbOutdated.failure"
-msgstr "❌ The database is not up to date."
+msgstr "❌ The database is not up to date."
 
 #: Template/Updater/start.ctp:22
 msgid "update.dbOutdated.explanation"
@@ -209,7 +209,7 @@ msgstr "Update Finished"
 
 #: Template/Updater/success.ctp:19
 msgid "update.finished.success"
-msgstr "👍 Everything up to date."
+msgstr "👍 Everything up to date."
 
 #: Template/Updater/success.ctp:22
 msgid "update.finished.explanation"
