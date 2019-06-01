@@ -2,7 +2,7 @@
 
 ## What is it?
 
-Saito is an open source classic threaded web forum written atop of [CakePHP][cake].
+Saito is an open source classic threaded web forum written atop of [CakePHP][cake]. It performs well even on a modest server.
 
 [Test it here][SaitoSupport] (login: test/test).
 
@@ -14,44 +14,34 @@ For more information please [visit the homepage][SaitoHomepage] or the see the `
 
 [cake]: http://cakephp.org/
 [SaitoHomepage]: http://saito.siezi.com/
-[SaitoSupport]: http://saito.siezi.com/forum/
+[SaitoSupport]: http://saitotest.bplaced.net/saito/
 
 ## Get Started
 
-You need composer and yarn. Clone the repository:
+The git branching is following the gitflow model.
 
-```shell
-git clone <saito5-repository> .
-```
+### Install Files
 
-Install PHP dependencies
+Checkout files from git.
 
-```shell
-composer install --no-dev
-```
-
-At this stage you're able to run the forum.
-
-## Get Started with Development
-
-The git branching is following the gitflow model. PHP coding standards are generally following CakePHP.
-
-Install the PHP development packages:
+Install the PHP packages:
 
 ```shell
 composer install
 ```
 
-and the Javascript-packages setup:
+Install Javascript packages:
+
+```shell
+yarn
+```
+
+## Development
+
+Move files into places:
 
 ```shell
 grunt dev-setup
-```
-
-Create minimized assets with:
-
-```shell
-grunt release
 ```
 
 Run all test cases:
@@ -60,9 +50,17 @@ Run all test cases:
 composer test-all
 ```
 
-See `packages.json` and `composer.json` for additional scripts to run.
+See `Gruntfile`, `packages.json` and `composer.json` for additional scripts to run.
 
-To create a release-zip push the changes to the repository and run:
+## Create Production Files
+
+Create minimized assets with:
+
+```shell
+grunt release
+```
+
+Create a release-zip:
 
 ```shell
 vendor/bin/phing
