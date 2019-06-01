@@ -49,7 +49,7 @@ module.exports = function (grunt) {
         // font-awesome
         './webroot/css/stylesheets/fonts/',
       ],
-      release: ['./webroot/js'],
+      release: ['./webroot/js/**/!(empty)'],
       releasePost: ['./webroot/release-tmp']
     },
     shell: {
