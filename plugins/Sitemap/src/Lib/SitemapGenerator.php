@@ -22,13 +22,13 @@ abstract class SitemapGenerator
 
     /**
      * @param Controller $Controller controller
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct(Controller $Controller)
     {
         $this->_Controller = $Controller;
         if ($this->_type === null) {
-            throw new Exception('SitemapGenerator type not set.');
+            throw new \Exception('SitemapGenerator type not set.', 1559477829);
         }
 
         return $this;
@@ -69,7 +69,10 @@ abstract class SitemapGenerator
             $matches
         );
         if (empty($matches['type'])) {
-            throw new InvalidArgumentException;
+            throw new \InvalidArgumentException(
+                sprintf('File not found for: %s', $name),
+                1559477721
+            );
         }
 
         return [$matches['type'], explode('-', $matches['params'])];

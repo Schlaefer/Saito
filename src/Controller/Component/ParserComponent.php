@@ -51,7 +51,7 @@ class ParserComponent extends Component
                 'smiliesData' => $smilies,
                 'server' => Router::fullBaseUrl(),
                 'text_word_maxlength' => $settings['text_word_maxlength'],
-                'UserList' => new UserlistModel(TableRegistry::get('Users')),
+                'UserList' => new UserlistModel(),
                 'video_domains_allowed' => $settings['video_domains_allowed'],
                 'webroot' => $this->request->getAttribute('webroot')
         ]);

@@ -40,7 +40,7 @@
     "psy/psysh": "@stable",
     "phpunit/phpunit": "~6",
     "squizlabs/php_codesniffer": "*",
-    "phpstan/phpstan": "dev-master",
+    "phpstan/phpstan": "^0.11.8",
 
     "phing/phing": "^2.16",
     "symfony/css-selector": "*",
@@ -65,6 +65,7 @@
       "BbcodeParser\\Test\\": "./plugins/BbcodeParser/tests",
       "Bookmarks\\": "./plugins/Bookmarks/src",
       "Bookmarks\\Test\\": "./plugins/Bookmarks/tests",
+      "Bota\\": "./plugins/Bota/src",
       "Commonmark\\": "./plugins/Commonmark/src",
       "Detectors\\": "./plugins/Detectors/src",
       "Cron\\": "./plugins/Cron/src",

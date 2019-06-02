@@ -45,6 +45,13 @@ class UsersController extends AppController
     ];
 
     /**
+     * Are moderators allowed to bloack users
+     *
+     * @var bool
+     */
+    protected $modLocking = false;
+
+    /**
      * {@inheritDoc}
      */
     public function initialize()
@@ -79,36 +86,33 @@ class UsersController extends AppController
         $username = $this->request->getData('username');
         $readUser = $this->Users->findByUsername($username)->first();
 
-        $status = null;
+        $message = __('auth_loginerror');
 
         if (!empty($readUser)) {
             $User = new SaitoUser($readUser);
-            $status = $User->isForbidden();
-        }
-
-        switch ($status) {
-            case 'locked':
-                $ends = $this->Users->UserBlocks
-                    ->getBlockEndsForUser($User->getId());
-                if ($ends) {
-                    $time = new Time($ends);
-                    $data = [
-                        $username,
-                        $time->timeAgoInWords(['accuracy' => 'hour'])
-                    ];
-                    $message = __('user.block.pubExpEnds', $data);
-                } else {
-                    $message = __('user.block.pubExp', $username);
-                }
-                break;
-            case 'unactivated':
-                $message = __(
-                    'User {0} is not activated yet.',
-                    [$readUser->get('username')]
-                );
-                break;
-            default:
-                $message = __('auth_loginerror');
+            switch ($User->isForbidden()) {
+                case 'locked':
+                    $ends = $this->Users->UserBlocks
+                        ->getBlockEndsForUser($User->getId());
+                    if ($ends) {
+                        $time = new Time($ends);
+                        $data = [
+                            $username,
+                            $time->timeAgoInWords(['accuracy' => 'hour'])
+                        ];
+                        $message = __('user.block.pubExpEnds', $data);
+                    } else {
+                        $message = __('user.block.pubExp', $username);
+                    }
+                    break;
+                case 'unactivated':
+                    $message = __(
+                        'User {0} is not activated yet.',
+                        [$readUser->get('username')]
+                    );
+                    break;
+                default:
+            }
         }
 
         // don't autofill password

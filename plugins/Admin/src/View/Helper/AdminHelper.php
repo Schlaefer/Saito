@@ -2,57 +2,12 @@
 
 namespace Admin\View\Helper;
 
+use Admin\Lib\CakeLogEntry;
 use App\View\Helper\AppHelper;
 use App\View\Helper\TimeHHelper;
 use Cake\View\Helper\BreadcrumbsHelper;
 use Cake\View\Helper\HtmlHelper;
 use SaitoHelp\View\Helper\SaitoHelpHelper;
-
-//@codingStandardsIgnoreStart
-// @bogus the ability to see logs isn't in Saito 5 anymore
-class CakeLogEntry
-{
-
-    public function __construct($text)
-    {
-        $lines = explode("\n", trim($text));
-        $_firstLine = array_shift($lines);
-        preg_match(
-            '/^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (.*?): (.*)/',
-            $_firstLine,
-            $matches
-        );
-        $this->_time = $matches[1];
-        $this->_type = $matches[2];
-        $this->_message = trim($matches[3]);
-        if (empty($this->_message)) {
-            $this->_message = array_shift($lines);
-        }
-        $this->_detail = implode($lines, '<br>');
-    }
-
-    public function time()
-    {
-        return $this->_time;
-    }
-
-    public function type()
-    {
-        return $this->_type;
-    }
-
-    public function message()
-    {
-        return $this->_message;
-    }
-
-    public function details()
-    {
-        return $this->_detail;
-    }
-}
-
-//@codingStandardsIgnoreStart
 
 /**
  * @property BreadcrumbsHelper $Breadcrumbs
@@ -62,7 +17,6 @@ class CakeLogEntry
  */
 class AdminHelper extends AppHelper
 {
-
     public $helpers = [
         'Breadcrumbs',
         'SaitoHelp',
@@ -103,6 +57,7 @@ class AdminHelper extends AppHelper
             default:
                 $badge = 'info';
         }
+
         return $badge;
     }
 
@@ -122,6 +77,7 @@ class AdminHelper extends AppHelper
         } else {
             $badge = 'info';
         }
+
         return $this->Html->tag(
             'span',
             $text,
@@ -134,6 +90,10 @@ class AdminHelper extends AppHelper
      *
      * @see BreadcrumbsHelper::add()
      *
+     * @param string $title Title
+     * @param string $url URL
+     * @param array $options Options
+     * @return BreadcrumbsHelper
      */
     public function addBreadcrumb($title, $url = null, array $options = [])
     {
@@ -145,6 +105,7 @@ class AdminHelper extends AppHelper
             // set breadcrumb active item class for Bootstrap
             $options['class'] .= ' active';
         }
+
         return $this->Breadcrumbs->add($title, $url, $options);
     }
 
@@ -178,8 +139,8 @@ class AdminHelper extends AppHelper
             $_details = $e->details();
             if (!empty($_details)) {
                 $out .= '<button class="btn btn-mini" style="float:right;" onclick="$(\'#' . $_i . '\').toggle(); return false;">' . __(
-                        'Details'
-                    ) . '</button>' . "\n";
+                    'Details'
+                ) . '</button>' . "\n";
             }
             $out .= '<pre style="font-size: 10px;">' . "\n";
             $out .= '<div class="row"><div class="span2" style="text-align: right">';
@@ -198,8 +159,8 @@ class AdminHelper extends AppHelper
             if ($k++ > $_nErrorsToShow) {
                 break;
             }
-
         }
+
         return $out;
     }
 
@@ -208,13 +169,14 @@ class AdminHelper extends AppHelper
      *
      * @param string $selector selector
      * @param string $sort sort
+     *
+     * @return void
      */
     public function jqueryTable($selector, $sort)
     {
         $this->Html->css(
-                '../js/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css',
-                ['block'  => 'script']
-
+            '../js/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css',
+            ['block' => 'script']
         );
         $this->Html->script(
             [
@@ -251,6 +213,5 @@ EOF;
             case (3):
                 return __('user.type.admin');
         }
-
     }
 }

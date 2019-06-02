@@ -6,7 +6,7 @@ use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Log\LogTrait;
 use Cake\Mailer\Email;
-use Cake\Network\Email\DebugTransport;
+use Cake\Mailer\Transport\DebugTransport;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 use Saito\Contact\SaitoEmailContact;

@@ -25,6 +25,8 @@ $getUri = function () {
         $uri = $_SERVER['HTTP_X_REWRITE_URL'];
     } elseif ($var = env('argv')) {
         $uri = $var[0];
+    } else {
+        throw new \Exception('Could not evaluate URL', 155949137);
     }
 
     return $uri;

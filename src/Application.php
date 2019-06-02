@@ -16,6 +16,7 @@ namespace App;
 
 use App\Middleware\SaitoBootstrapMiddleware;
 use Cake\Core\Configure;
+use Cake\Core\Exception\MissingPluginException;
 use Cake\Core\Plugin;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Event\EventManagerInterface;

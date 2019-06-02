@@ -9,5 +9,4 @@ parameters:
     autoload_files:
         - tests/bootstrap.php
     ignoreErrors:
-        - '#Access to an undefined property object::\$sub#'
         - '#Call to an undefined method.*Table::findBy.*\(\)#'
