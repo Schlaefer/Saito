@@ -85,7 +85,7 @@ class PostingsController extends AppController
      */
     private function checkRss(): void
     {
-        if ($this->RequestHandler->isRss()) {
+        if ($this->RequestHandler->prefers('rss')) {
             return;
         }
         throw new BadRequestException();

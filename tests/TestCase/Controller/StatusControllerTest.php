@@ -8,14 +8,14 @@ class StatusControllerTest extends IntegrationTestCase
 {
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.user',
-        'app.user_block',
-        'app.user_online',
-        'app.user_read',
-        'plugin.bookmarks.bookmark'
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.User',
+        'app.UserBlock',
+        'app.UserOnline',
+        'app.UserRead',
+        'plugin.Bookmarks.Bookmark'
     ];
 
     public function testStatusMustBeAjax()

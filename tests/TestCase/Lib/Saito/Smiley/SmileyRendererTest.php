@@ -12,7 +12,7 @@ use Saito\Test\SaitoTestCase;
 class SmileyRenderTest extends SaitoTestCase
 {
 
-    public $fixtures = ['app.smiley', 'app.smiley_code'];
+    public $fixtures = ['app.Smiley', 'app.SmileyCode'];
 
     public function setUp()
     {
@@ -64,7 +64,7 @@ class SmileyRenderTest extends SaitoTestCase
         $input = ';)';
         $expected = [
             'img' => [
-                'src' => $this->Helper->request->getAttribute('webroot') . 'img/smilies/wink.png',
+                'src' => $this->Helper->getView()->getRequest()->getAttribute('webroot') . 'img/smilies/wink.png',
                 'alt' => ';)',
                 'class' => 'saito-smiley-image',
                 'title' => 'Wink'
@@ -96,7 +96,7 @@ class SmileyRenderTest extends SaitoTestCase
         $input = ';)';
         $expected = [
             'img' => [
-                'src' => $this->Helper->request->getAttribute('webroot') . 'img/smilies/wink.png',
+                'src' => $this->Helper->getView()->getRequest()->getAttribute('webroot') . 'img/smilies/wink.png',
                 'alt' => ';)',
                 'class' => 'saito-smiley-image',
                 'title' => 'Wink'

@@ -10,20 +10,10 @@ declare(strict_types = 1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Installer;
+namespace SpectrumColorpicker;
 
 use Cake\Core\BasePlugin;
-use Cake\Core\PluginApplicationInterface;
 
 class Plugin extends BasePlugin
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function bootstrap(PluginApplicationInterface $app)
-    {
-        parent::bootstrap($app);
-
-        $app->addPlugin('Migrations');
-    }
 }

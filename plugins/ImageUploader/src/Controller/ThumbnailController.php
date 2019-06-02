@@ -16,6 +16,7 @@ use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
 use claviska\SimpleImage;
+use ImageUploader\Plugin;
 use Saito\Exception\SaitoForbiddenException;
 
 /**
@@ -52,7 +53,7 @@ class ThumbnailController extends Controller
             }
 
             return compact('hash', 'raw', 'type');
-        }, 'uploadsThumbnails');
+        }, Plugin::CACHE_KEY);
 
         $hash = (string)$this->request->getQuery('h');
         if ($hash !== $fingerprint) {

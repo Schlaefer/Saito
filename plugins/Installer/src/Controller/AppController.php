@@ -54,7 +54,6 @@ class AppController extends Controller
 
         $this->loadModel('Settings');
 
-        Plugin::load('Migrations');
         $configName = $this->Settings->getConnection()->configName();
         $this->migrations = new Migrations(['connection' => $configName]);
 

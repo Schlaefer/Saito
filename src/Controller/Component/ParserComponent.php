@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace App\Controller\Component;
 
+use App\Controller\ErrorController;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
@@ -27,8 +28,14 @@ class ParserComponent extends Component
      */
     public function initialize(array $config)
     {
+        $controller = $this->getController();
+
+        if ($controller instanceof ErrorController) {
+            return;
+        }
+
         $smilies = new SmileyLoader();
-        $this->getController()->set('smiliesData', $smilies);
+        $controller->set('smiliesData', $smilies);
 
         $settings = Configure::read('Saito.Settings');
 

@@ -23,11 +23,11 @@ class BookmarksTableTest extends SaitoTableTestCase
     public $tableClass = 'Bookmarks.Bookmarks';
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.user',
-        'app.user_online',
-        'plugin.bookmarks.bookmark'
+        'app.Category',
+        'app.Entry',
+        'app.User',
+        'app.UserOnline',
+        'plugin.Bookmarks.Bookmark'
        ];
 
     /**

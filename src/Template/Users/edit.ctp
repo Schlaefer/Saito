@@ -158,7 +158,7 @@ $this->end();
                                 ],
                             ]
                         )
-?>
+                        ?>
                         <p>
                             <?= $this->SaitoHelp->icon(2) ?>
                         </p>
@@ -181,7 +181,7 @@ $this->end();
                                 ],
                             ]
                         )
-?>
+                        ?>
                     </div>
                     <div class="form-group form-check">
                         <?= $this->Form->control(
@@ -252,7 +252,7 @@ $this->end();
                             'style' => 'height: auto; display: block; width: 100%'
                         ]
                     )
-?>
+                        ?>
                     <p class="exp"> <?php echo __('user_color_new_postings_exp') ?> </p>
                     <br/>
                     <?=
@@ -263,7 +263,7 @@ $this->end();
                             'style' => 'height: auto; display: block; width: 100%'
                         ]
                     )
-?>
+                                    ?>
                     <p class="exp"> <?php echo __('user_color_old_postinings_exp') ?> </p>
                     <br/>
                     <?=
@@ -274,7 +274,7 @@ $this->end();
                             'style' => 'height: auto; display: block; width: 100%'
                         ]
                     )
-?>
+                                    ?>
                     <p class="exp"> <?php echo __('user_color_actual_posting_exp') ?> </p>
                 </td>
             </tr>
@@ -294,7 +294,7 @@ $this->end();
                                 ],
                             ]
                         )
-?>
+                        ?>
                     </div>
                 </td>
             </tr>
@@ -313,7 +313,7 @@ $this->end();
                                 ],
                             ]
                         )
-?>
+                        ?>
                     </div>
                 </td>
             </tr>

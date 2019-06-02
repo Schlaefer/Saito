@@ -15,17 +15,17 @@ class PreviewControllerTest extends IntegrationTestCase
     public $Table;
 
     public $fixtures = [
-        'plugin.bookmarks.bookmark',
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.smiley',
-        'app.smiley_code',
-        'app.user',
-        'app.user_block',
-        'app.user_ignore',
-        'app.user_online',
-        'app.user_read'
+        'plugin.Bookmarks.Bookmark',
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.Smiley',
+        'app.SmileyCode',
+        'app.User',
+        'app.UserBlock',
+        'app.UserIgnore',
+        'app.UserOnline',
+        'app.UserRead'
     ];
 
     public function setUp()

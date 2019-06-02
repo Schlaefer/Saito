@@ -10,8 +10,8 @@ class UserBlocksTableTest extends SaitoTableTestCase
     public $tableClass = 'UserBlocks';
 
     public $fixtures = [
-        'app.user',
-        'app.user_block'
+        'app.User',
+        'app.UserBlock'
     ];
 
     public function testFindToGc()

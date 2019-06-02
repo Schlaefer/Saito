@@ -24,6 +24,7 @@ use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cron\Lib\Cron;
 use Saito\App\Registry;
 use Stopwatch\Lib\Stopwatch;
 
@@ -55,33 +56,41 @@ class Application extends BaseApplication
         Stopwatch::start('Application::bootstrap');
 
         parent::bootstrap();
+
+        if (PHP_SAPI === 'cli') {
+            $this->bootstrapCli();
+        }
+        /*
+         * Only try to load DebugKit in development mode
+         * Debug Kit should not be installed on a production system
+         */
+        if (Configure::read('debug')) {
+            // $this->addPlugin(\DebugKit\Plugin::class);
+        }
+        // Load more plugins here
+
         Registry::initialize();
 
-        $this->addPlugin(\Admin\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        $this->addPlugin(\Admin\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Bookmarks\Plugin::class, ['routes' => true]);
         $this->addPlugin(\BbcodeParser\Plugin::class);
-        $this->addPlugin(\Feeds\Plugin::class, ['bootstrap' => true, 'routes' => true]);
-        $this->addPlugin(\Installer\Plugin::class, ['bootstrap' => true]);
-        $this->addPlugin(\SaitoHelp\Plugin::class, ['bootstrap' => true]);
+        $this->addPlugin(\Feeds\Plugin::class, ['routes' => true]);
+        $this->addPlugin(\Installer\Plugin::class);
+        $this->addPlugin(\SaitoHelp\Plugin::class, ['routes' => true]);
         $this->addPlugin(\SaitoSearch\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Sitemap\Plugin::class, ['bootstrap' => true, 'routes' => true]);
-        // Cake 3.6 Plugin fubar: bootstrap is not loaded in test cases: moved plugin loading to
-        // older but working loading in config/bootstrap.php
-        // $this->addPlugin(\ImageUploader\Plugin::class, ['bootstrap' => true, 'routes' => true]);
+        $this->addPlugin(\ImageUploader\Plugin::class, ['routes' => true]);
 
-        Plugin::load('Cron');
-        Plugin::load('Commonmark');
-        Plugin::load('Cron');
-        Plugin::load('Detectors');
-        Plugin::load('MailObfuscator');
-        Plugin::load('Bota');
-        Plugin::load('Search');
-        Plugin::load('SpectrumColorpicker');
-        Plugin::load('Stopwatch');
+        $this->addPlugin(\Cron\Plugin::class);
+        $this->addPlugin(\Commonmark\Plugin::class);
+        $this->addPlugin(\Detectors\Plugin::class);
+        $this->addPlugin(\MailObfuscator\Plugin::class);
+        $this->addPlugin(\SpectrumColorpicker\Plugin::class);
+        $this->addPlugin(\Stopwatch\Plugin::class);
 
-        Plugin::load('ADmad/JwtAuth');
-        Plugin::load('Proffer');
+        $this->addPlugin('ADmad/JwtAuth');
+        $this->addPlugin('Proffer');
 
         $this->loadDefaultThemePlugin();
 
@@ -140,8 +149,22 @@ class Application extends BaseApplication
                 1556562215
             );
         }
-        if (Plugin::loaded($defaultTheme) !== true) {
-            Plugin::load($defaultTheme);
+        if (Plugin::isLoaded($defaultTheme) !== true) {
+            $this->addPlugin($defaultTheme);
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function bootstrapCli()
+    {
+        try {
+            $this->addPlugin('Bake');
+        } catch (MissingPluginException $e) {
+            // Do not halt if the plugin is missing
+        }
+        $this->addPlugin('Migrations');
+        // Load more plugins here
     }
 }

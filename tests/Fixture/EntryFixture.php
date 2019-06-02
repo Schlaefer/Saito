@@ -118,18 +118,16 @@ class EntryFixture extends TestFixture
             'charset' => 'utf8'
         ],
         'locked' => [
-            'type' => 'integer',
+            'type' => 'boolean',
             'null' => true,
-            'default' => '0',
-            'length' => 4,
+            'default' => null,
             'collate' => null,
             'comment' => ''
         ],
         'fixed' => [
-            'type' => 'integer',
+            'type' => 'boolean',
             'null' => true,
-            'default' => '0',
-            'length' => 4,
+            'default' => null,
             'collate' => null,
             'comment' => ''
         ],

@@ -11,10 +11,10 @@ class UserOnlineTableTest extends SaitoTableTestCase
     public $tableClass = 'UserOnline';
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.user',
-        'app.user_online'
+        'app.Category',
+        'app.Entry',
+        'app.User',
+        'app.UserOnline'
     ];
 
     protected $_fields = [

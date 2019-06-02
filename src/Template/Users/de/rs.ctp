@@ -24,7 +24,7 @@ $this->end();
             <p>
                 Der Benutzer wurde bereits in der Vergangenheit aktiviert.
             </p>
-        <?php
+            <?php
         else : ?>
             <h2>Aktivierung fehlgeschlagen</h2>
             <p>

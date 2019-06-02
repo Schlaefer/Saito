@@ -9,14 +9,14 @@ class ContactsControllerTestCase extends IntegrationTestCase
 {
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.user',
-        'app.user_block',
-        'app.user_online',
-        'app.user_ignore',
-        'app.user_read',
-        'app.setting'
+        'app.Category',
+        'app.Entry',
+        'app.User',
+        'app.UserBlock',
+        'app.UserOnline',
+        'app.UserIgnore',
+        'app.UserRead',
+        'app.Setting'
     ];
 
     public function testContactEmailSuccessWithCc()

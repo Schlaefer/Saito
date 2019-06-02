@@ -44,7 +44,7 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
 class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 {
     public $fixtures = [
-        'app.user',
+        'app.User',
     ];
 
     public function testAbstractIsReadNoTimestamp()

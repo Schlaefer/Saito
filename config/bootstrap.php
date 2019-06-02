@@ -41,6 +41,7 @@ use Cake\Error\ErrorHandler;
 use Cake\Http\ServerRequest;
 use Cake\Log\Log;
 use Cake\Mailer\Email;
+use Cake\Mailer\TransportFactory;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Inflector;
 use Cake\Utility\Security;
@@ -160,7 +161,7 @@ if (!Configure::read('App.fullBaseUrl')) {
 
 Cache::setConfig(Configure::consume('Cache'));
 ConnectionManager::setConfig(Configure::consume('Datasources'));
-Email::setConfigTransport(Configure::consume('EmailTransport'));
+TransportFactory::setConfig(Configure::consume('EmailTransport'));
 Email::setConfig(Configure::consume('Email'));
 Log::setConfig(Configure::consume('Log'));
 Security::setSalt(Configure::consume('Security.salt'));
@@ -219,29 +220,9 @@ Type::build('timestamp')
 Inflector::rules('plural', ['/^(smil)ey$/i' => '\1ies']);
 Inflector::rules('singular', ['/^(smil)ies$/i' => '\1ey']);
 
-/*
- * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
- * Uncomment one of the lines below, as you need. make sure you read the documentation on Plugin to use more
- * advanced ways of loading plugins
- *
- * Plugin::loadAll(); // Loads all plugins at once
- * Plugin::load('Migrations'); //Loads a single plugin named Migrations
- *
- */
-
-Plugin::load('ImageUploader', ['bootstrap' => true, 'routes' => true]);
-
 include Cake\Core\App::path('Lib')[0] . 'BaseFunctions.php';
 
 \Cake\Event\EventManager::instance()->on(\Saito\Event\SaitoEventManager::getInstance());
-
-/*
- * Only try to load DebugKit in development mode
- * Debug Kit should not be installed on a production system
- */
-if (Configure::read('debug')) {
-    // Plugin::load('DebugKit', ['bootstrap' => true]);
-}
 
 /**
  * Add custom Database-types

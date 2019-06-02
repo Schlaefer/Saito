@@ -20,9 +20,9 @@ use Saito\Test\SaitoTestCase;
 class ThreadsComponentTest extends SaitoTestCase
 {
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.user'
+        'app.Category',
+        'app.Entry',
+        'app.User'
     ];
 
     /**

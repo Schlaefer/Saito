@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Controller\Component;
 
+use App\Controller\ErrorController;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -19,6 +20,9 @@ class TitleComponent extends Component
     public function beforeRender(Event $event)
     {
         $controller = $event->getSubject();
+        if ($controller instanceof ErrorController) {
+            return;
+        }
         $page = $this->getPageTitle($controller);
         $forum = $this->getForumName($controller);
         $title = $this->getTitleForLayout($controller, $page, $forum);

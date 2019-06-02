@@ -14,18 +14,18 @@ class UsersTableTest extends SaitoTableTestCase
     public $tableClass = 'Users';
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.smiley',
-        'app.smiley_code',
-        'app.user',
-        'app.user_block',
-        'app.user_ignore',
-        'app.user_online',
-        'app.user_read',
-        'plugin.bookmarks.bookmark',
-        'plugin.image_uploader.uploads',
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.Smiley',
+        'app.SmileyCode',
+        'app.User',
+        'app.UserBlock',
+        'app.UserIgnore',
+        'app.UserOnline',
+        'app.UserRead',
+        'plugin.Bookmarks.Bookmark',
+        'plugin.ImageUploader.Uploads',
     ];
 
     public function testEmptyUserCategoryCustom()

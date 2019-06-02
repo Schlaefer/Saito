@@ -16,15 +16,15 @@ class EntriesTest extends SaitoTableTestCase
     public $tableClass = 'Entries';
 
     public $fixtures = [
-        'app.user',
-        'app.user_online',
-        'app.user_read',
-        'app.entry',
-        'app.category',
-        'app.smiley',
-        'app.smiley_code',
-        'app.setting',
-        'plugin.bookmarks.bookmark'
+        'app.User',
+        'app.UserOnline',
+        'app.UserRead',
+        'app.Entry',
+        'app.Category',
+        'app.Smiley',
+        'app.SmileyCode',
+        'app.Setting',
+        'plugin.Bookmarks.Bookmark'
     ];
 
     public function testCreateSuccessNewThread()
