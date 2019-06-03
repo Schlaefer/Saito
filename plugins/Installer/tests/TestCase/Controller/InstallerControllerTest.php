@@ -57,19 +57,24 @@ class InstallerControllerTest extends IntegrationTestCase
     {
         Configure::write('Saito.installed', false);
 
-        $this->post('/', ['username' => 'admin', 'password' => 'admin']);
+        $email = 'test@example.com';
+        $this->post('/', ['username' => 'admin', 'password' => 'admin', 'user_email' => $email]);
 
         $this->assertResponseOk();
 
         $this->assertTrue($this->viewVariable('database'));
         $this->assertTrue($this->viewVariable('tables'));
 
-        $dbVersion = (new DbVersion(TableRegistry::get('Settings')))->get();
+        $Settings = TableRegistry::getTableLocator()->get('Settings');
+        $this->assertEquals($email, $Settings->findByName('forum_email')->first()->get('value'));
+
+        $dbVersion = (new DbVersion($Settings))->get();
         $this->assertEquals(Configure::read('Saito.v'), $dbVersion);
 
-        $Users = TableRegistry::get('Users');
+        $Users = TableRegistry::getTableLocator()->get('Users');
         $admin = $Users->get(1);
         $this->assertEquals('21232f297a57a5a743894a0e4a801fc3', $admin->get('password'));
+        $this->assertEquals($email, $admin->get('user_email'));
     }
 
     public function testInstallerWithExistingDb()
@@ -100,5 +105,6 @@ class InstallerControllerTest extends IntegrationTestCase
         $connection->execute('ALTER TABLE settings ADD `name` VARCHAR(100)  NULL  DEFAULT NULL  AFTER `id`;');
         $connection->execute('ALTER TABLE settings ADD `value` VARCHAR(100)  NULL  DEFAULT NULL  AFTER `id`;');
         $connection->execute("INSERT INTO `settings` (`id`, `name`, `value`) VALUES ('1', 'db_version', NULL);");
+        $connection->execute("INSERT INTO `settings` (`id`, `name`, `value`) VALUES ('2', 'forum_email', NULL);");
     }
 }

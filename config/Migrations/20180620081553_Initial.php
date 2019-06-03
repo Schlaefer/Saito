@@ -907,20 +907,20 @@ class Initial extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('bookmarks');
-        $this->dropTable('categories');
-        $this->dropTable('entries');
-        $this->dropTable('esevents');
-        $this->dropTable('esnotifications');
-        $this->dropTable('settings');
-        $this->dropTable('shouts');
-        $this->dropTable('smiley_codes');
-        $this->dropTable('smilies');
-        $this->dropTable('uploads');
-        $this->dropTable('user_blocks');
-        $this->dropTable('user_ignores');
-        $this->dropTable('user_reads');
-        $this->dropTable('useronline');
-        $this->dropTable('users');
+        $this->table('bookmarks')->drop()->save();
+        $this->table('categories')->drop()->save();
+        $this->table('entries')->drop()->save();
+        $this->table('esevents')->drop()->save();
+        $this->table('esnotifications')->drop()->save();
+        $this->table('settings')->drop()->save();
+        $this->table('shouts')->drop()->save();
+        $this->table('smiley_codes')->drop()->save();
+        $this->table('smilies')->drop()->save();
+        $this->table('uploads')->drop()->save();
+        $this->table('user_blocks')->drop()->save();
+        $this->table('user_ignores')->drop()->save();
+        $this->table('user_reads')->drop()->save();
+        $this->table('useronline')->drop()->save();
+        $this->table('users')->drop()->save();
     }
 }
