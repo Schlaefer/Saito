@@ -198,9 +198,16 @@ class AnsweringView extends View<Model> {
     }
 
     private _postRendering() {
-        this.$el.scrollIntoView('bottom');
         this._focusSubject();
         this._onFormReady();
+
+        // On a fast server the answering form might be inserted
+        // before the slide down animation from postingSlider is even
+        // finished. So we just wait for a little time here.
+        // @bogus, Fix/obsolete when implementing a new posting form.
+        _.delay(() => {
+            this.$el.scrollIntoView('bottom');
+        }, 300);
     }
 
     /**

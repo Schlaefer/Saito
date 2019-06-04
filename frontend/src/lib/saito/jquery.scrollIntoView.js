@@ -7,7 +7,7 @@ import jQuery from 'jquery';
     var helpers = {
 
         _scrollToTop: function(elem) {
-            $('body').animate(
+            $('html,body').animate(
                 {
                     scrollTop: elem.offset().top - 10,
                     easing: "swing"
@@ -18,13 +18,15 @@ import jQuery from 'jquery';
 
         _scrollToBottom: function(elem) {
 
-            $('body').animate(
+            $('html,body').animate(
                 {
                     scrollTop: helpers._elementBottom(elem) - $(window).height() + 20,
                     easing: "swing"
                 },
                 300,
                 function() {
+                    // @see https://stackoverflow.com/questions/3042651/jquery-scrolltop-not-working-in-chrome-but-working-in-firefox
+                    if (this.nodeName == "BODY") { return; }
                     if (helpers._isHeigherThanView(elem)) {
                         helpers._scrollToTop(elem);
                     }
