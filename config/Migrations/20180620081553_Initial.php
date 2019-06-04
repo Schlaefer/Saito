@@ -8,8 +8,7 @@ class Initial extends AbstractMigration
 
     public function up()
     {
-
-        $this->table('bookmarks')
+        $this->table('bookmarks', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -55,7 +54,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('categories')
+        $this->table('categories', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -90,7 +89,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('entries')
+        $this->table('entries', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -241,7 +240,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('esevents')
+        $this->table('esevents', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -277,7 +276,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('esnotifications')
+        $this->table('esnotifications', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -330,7 +329,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('settings')
+        $this->table('settings', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -350,7 +349,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('shouts')
+        $this->table('shouts', ['engine' => 'MEMORY', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -385,7 +384,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('smiley_codes')
+        $this->table('smiley_codes', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -405,7 +404,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('smilies')
+        $this->table('smilies', ['engine' => 'MyISAM', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -435,7 +434,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('uploads')
+        $this->table('uploads', ['engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -475,7 +474,7 @@ class Initial extends AbstractMigration
             ])
             ->create();
 
-        $this->table('user_blocks')
+        $this->table('user_blocks', ['engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -538,7 +537,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('user_ignores')
+        $this->table('user_ignores', ['engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -584,7 +583,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('user_reads')
+        $this->table('user_reads', ['engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -624,7 +623,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('useronline')
+        $this->table('useronline', ['engine' => 'MEMORY', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
@@ -681,7 +680,7 @@ class Initial extends AbstractMigration
             )
             ->create();
 
-        $this->table('users')
+        $this->table('users', ['engine' => 'InnoDB', 'collation' => 'utf8_unicode_ci'])
             ->addColumn('id', 'integer', [
                 'autoIncrement' => true,
                 'default' => null,
