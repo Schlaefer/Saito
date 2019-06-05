@@ -18,8 +18,8 @@ $config = [
         'saito' => [
             // default: local PHP mailer
             'className' => 'Smtp',
-            'host' => 'saito.dev',
-            'port' => 1025
+            'host' => 'mailhog',
+            'port' => 1025,
         ]
     ]
 ];
