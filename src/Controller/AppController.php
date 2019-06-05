@@ -32,7 +32,14 @@ class AppController extends Controller
     use InstanceConfigTrait;
 
     public $helpers = [
-        'Form',
+        'Form' => [
+            // Bootstrap 4 CSS-class for invalid input elements
+            'errorClass' => 'is-invalid',
+            'templates' => [
+                // Bootstrap 4 CSS-class for input validation message
+                'error' => '<div class="invalid-feedback">{{content}}</div>',
+            ],
+        ],
         'Html',
         'JsData',
         'Layout',
