@@ -158,6 +158,9 @@ msgstr "Mark entry as helpful."
 msgid "upl.btn.insert"
 msgstr "Insert"
 
+msgid "upl.loading"
+msgstr "Loading"
+
 msgid "user.block.hours"
 msgstr "{hours} hours"
 

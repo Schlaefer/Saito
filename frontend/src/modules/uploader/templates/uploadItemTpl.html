@@ -1,7 +1,10 @@
 <a href="<%= url %>" target="_blank">
     <div class="card-img-container">
-
-        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw image-uploader-spinner"></i>
+        <div class="spinner-border image-uploader-spinner" role="status">
+            <span class="sr-only">
+                <%- $.i18n.__('upl.loading') %>
+            </span>
+        </div>
         <img class="b-lazy card-img-top" data-src="<%= thumbnail_url %>">
     </div>
 </a>
@@ -11,4 +14,3 @@
         <i class="fa fa-trash-o"></i>
     </button>
 </div>
-
