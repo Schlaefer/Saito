@@ -1,12 +1,10 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import App from 'models/app';
-import Marionette from 'backbone.marionette';
 import EventBus from 'app/vent';
 
 import Application from 'app/core';
 import AppView from 'views/app';
-import NotificationView from 'modules/notification/notification.ts';
 import Html5NotificationModule from 'modules/notification/html5-notification';
 
 import 'lib/jquery.i18n/jquery.i18n.extend';
@@ -117,9 +115,6 @@ var app = {
     app.configureAjax($, App);
 
     Html5NotificationModule.start();
-
-    //noinspection JSHint
-    new NotificationView(EventBus.vent);
 
     var callbacks = options.SaitoApp.callbacks.beforeAppInit;
     _.each(callbacks, function (fct) {

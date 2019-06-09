@@ -3,8 +3,6 @@
 $fa-font-path: "../stylesheets/fonts";
 @import "../../../node_modules/font-awesome/scss/font-awesome";
 
-@import "partials/lib/_pnotify";
-
 @import "partials/_basic";
 @import "partials/_font-awesome-extend";
 @import "partials/_jquery-ui";

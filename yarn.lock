@@ -6265,10 +6265,6 @@ pkg-up@^1.0.0:
   dependencies:
     find-up "^1.0.0"
 
-pnotify@^4.0.0-alpha.4:
-  version "4.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/pnotify/-/pnotify-4.0.0-alpha.4.tgz#3d5ab2906fdb24ed58f060014c148378a4508608"
-
 po2json@^0.4.5:
   version "0.4.5"
   resolved "https://registry.yarnpkg.com/po2json/-/po2json-0.4.5.tgz#47bb2952da32d58a1be2f256a598eebc0b745118"

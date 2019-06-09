@@ -8,6 +8,7 @@ import CategoryChooserView from 'views/categoryChooser';
 import { SaitoHelpView } from 'views/helps.ts';
 import LoginView from 'views/loginView';
 import ModalDialog from 'modules/modalDialog/modalDialog';
+import NotificationView from 'modules/notification/notification.ts';
 import PostingCollection from 'collections/postings';
 import { PostingLayoutView as PostingLayout } from 'modules/posting/postingLayout.ts';
 import { PostingModel } from 'modules/posting/models/PostingModel';
@@ -52,6 +53,8 @@ export default Marionette.View.extend({
   },
 
   initialize: function () {
+    this._initNotifications();
+
     this.threads = new ThreadCollection();
     if (App.request.controller === 'Entries' && App.request.action === 'index') {
       this.threads.fetch();
@@ -100,6 +103,13 @@ export default Marionette.View.extend({
         window.history.replaceState(null, null, newLocation);
       }
     }
+  },
+
+  _initNotifications() {
+      //noinspection JSHint
+      const notificationElement = $('<div id="#notifications" aria-live="polite" aria-atomic="true">');
+      this.$el.prepend(notificationElement)
+      new NotificationView({el: notificationElement}).render();
   },
 
   _initUser: function (element) {
