@@ -16,9 +16,16 @@ For more information please [visit the homepage][SaitoHomepage] or the see the `
 [SaitoHomepage]: http://saito.siezi.com/
 [SaitoSupport]: http://saitotest.bplaced.net/saito/
 
+## Requirements
+
+- PHP 7.1
+- Database (MySQL/MariaDB tested, [others untested](https://book.cakephp.org/3.0/en/orm/database-basics.html#supported-databases)).
+
 ## Get Started
 
-The git branching is following the gitflow model.
+A full prepackaged zip if is available on the [release page](https://github.com/Schlaefer/Saito/releases).
+
+## Development
 
 ### Install Files
 
@@ -36,8 +43,6 @@ Install Javascript packages:
 yarn
 ```
 
-## Development
-
 Move files into places:
 
 ```shell
@@ -52,7 +57,7 @@ composer test-all
 
 See `Gruntfile`, `packages.json` and `composer.json` for additional scripts to run.
 
-## Create Production Files
+### Create Production Files
 
 Create minimized assets with:
 

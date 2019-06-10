@@ -66,13 +66,13 @@ if (!$database) {
             <?= __d('installer', 'populate.failure') ?>
         </div>
         <p class="card-text">
-            <?= __d('installer', 'populate.explanation') ?>
-
+            <?= nl2br(__d('installer', 'populate.explanation')) ?>
         </p>
             <?php
             echo $this->Form->create(null);
             echo $this->Form->control('username', ['label' => __d('installer', 'populate.form.username')]);
             echo $this->Form->control('password', ['type' => 'text', 'label' => __d('installer', 'populate.form.password')]);
+            echo $this->Form->control('user_email', ['type' => 'text', 'label' => __d('installer', 'populate.form.email')]);
             echo $this->Form->submit(__d('installer', 'populate.form.submit'), ['class' => 'btn btn-primary']);
             echo $this->Form->end();
             ?>

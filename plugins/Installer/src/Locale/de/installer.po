@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-06-26 12:10+0200\n"
+"POT-Creation-Date: 2019-06-03 11:35+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-KeywordsList: __d:2\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -85,7 +85,11 @@ msgstr "❌ Datenbank ist nicht vorbereitet."
 msgid "populate.explanation"
 msgstr ""
 "Dieser Schritt befüllt die Datenbank mit Tabellen und Daten. Bitte geben Sie "
-"einen Nutzernamen und Passwort für das Anlegen einen Administrator-Kontos an:"
+"einen Nutzernamen, Passwort und Email-Adresse für das Anlegen einen "
+"Administrator-Kontos an.\n"
+"\n"
+"Die Email-Adresse wird zudem als Standardadresse für Forums-Email verwendet "
+"und kann in den Einstellungen nachträglich geändert werden:"
 
 #: Template/Install/start.ctp:74
 msgid "populate.form.username"
@@ -96,22 +100,26 @@ msgid "populate.form.password"
 msgstr "Passwort"
 
 #: Template/Install/start.ctp:76
+msgid "populate.form.email"
+msgstr "Email-Adresse"
+
+#: Template/Install/start.ctp:77
 msgid "populate.form.submit"
 msgstr "Anlegen"
 
-#: Template/Install/start.ctp:81
+#: Template/Install/start.ctp:82
 msgid "populate.success"
 msgstr "👍  Datenbank ist eingerichtet."
 
-#: Template/Install/start.ctp:101
+#: Template/Install/start.ctp:102
 msgid "salt.title"
 msgstr "Sicherheits-Salt setzen"
 
-#: Template/Install/start.ctp:106
+#: Template/Install/start.ctp:107
 msgid "salt.failure"
 msgstr "❌ Sicherheits-Salt nicht gesetzt."
 
-#: Template/Install/start.ctp:109
+#: Template/Install/start.ctp:110
 msgid "salt.explanation"
 msgstr ""
 "Ein Sichereits-Salt muss als <code>Security => salt</code> und "
@@ -122,27 +130,27 @@ msgstr ""
 "Passwörtern und Zugangsdaten unterstützt. Hier sind zwei bereit für die "
 "Nutzung:"
 
-#: Template/Install/start.ctp:118
+#: Template/Install/start.ctp:119
 msgid "salt.warning"
 msgstr ""
 "⚠️ Die verwendeten Salts aufschreiben und sicher verwahren! Das Forum kann "
 "ohne diese nicht erneut mit Bestandsdaten aufgesetzt werden!"
 
-#: Template/Install/start.ctp:123
+#: Template/Install/start.ctp:124
 msgid "salt.success"
 msgstr "👍 Sicherheits-Salt konfiguriert."
 
-#: Template/Install/start.ctp:137
+#: Template/Install/start.ctp:138
 msgid "finished.title"
 msgstr "Installer deaktivieren"
 
-#: Template/Install/start.ctp:141
+#: Template/Install/start.ctp:142
 msgid "finished.explanation"
 msgstr ""
 "Um den Installer zu beenden und das Forum aufzurufen löschen Sie die Datei. "
 "<code>config/installer</code>. 🏁 🙂"
 
-#: Template/Install/start.ctp:144
+#: Template/Install/start.ctp:145
 msgid "finished.debug"
 msgstr ""
 "Bei Problemen hilft ein Blick in die Log-Dateien (insbesondere <code>logs/"
@@ -194,15 +202,15 @@ msgstr ""
 msgid "update.form.dbname"
 msgstr "Datenbank-Name"
 
-#: Template/Updater/start.ctp:31
+#: Template/Updater/start.ctp:33
 msgid "update.form.dbpassword"
 msgstr "Datenbank-Passwort"
 
-#: Template/Updater/start.ctp:33
+#: Template/Updater/start.ctp:36
 msgid "update.form.error"
 msgstr "Die eingegebenen Daten sind nicht korrekt."
 
-#: Template/Updater/start.ctp:35
+#: Template/Updater/start.ctp:38
 msgid "update.dbOutdated.submit"
 msgstr "Aktualisierung starten"
 

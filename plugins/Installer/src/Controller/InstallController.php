@@ -39,9 +39,11 @@ class InstallController extends AppController
         $database = $tables = false;
         try {
             $connection = ConnectionManager::get('default');
-            $connected = $connection->connect();
-            $database = true;
+            if ($connection->connect()) {
+                $database = true;
+            }
         } catch (\Throwable $connectionError) {
+            // connection manager will throw error if no connection
         }
 
         $this->set(compact('database', 'tables'));
@@ -53,19 +55,18 @@ class InstallController extends AppController
         }
         $this->log('Database connection found.', LogLevel::INFO, ['saito.install']);
 
-        $foundDbVersion = null;
         $hasSettingsTable = false;
         try {
-            $foundDbVersion = (new DbVersion($this->loadModel('Settings')))->get();
+            (new DbVersion($this->loadModel('Settings')))->get();
             $hasSettingsTable = true;
         } catch (\Throwable $e) {
+            // Settings-table doesn't exist yet
         }
 
         if ($hasSettingsTable) {
             $this->log('Installer found Settings-table. Moving on to Updater.', LogLevel::INFO, ['saito.install']);
             //// disable installer and move on to updater instead
-            $token = (new File(CONFIG . 'installer'))
-                ->delete();
+            (new File(CONFIG . 'installer'))->delete();
 
             return $this->redirect('/');
         }
@@ -88,6 +89,7 @@ class InstallController extends AppController
             return;
         }
 
+        //// setting admin user
         $this->log('Installer starting migrate.', LogLevel::INFO, ['saito.install']);
         $this->migrations->migrate();
         $this->log('Installer starting seed.', LogLevel::INFO, ['saito.install']);
@@ -96,11 +98,20 @@ class InstallController extends AppController
         $this->log('Installer setting admin user.', LogLevel::INFO, ['saito.install']);
         $Users = TableRegistry::getTableLocator()->get('Users', ['className' => Table::class]);
         $admin = $Users->get(1);
-        $data['password'] = md5($data['password']);
+        $data['password'] = md5($data['password']); // is updated to secure hash on first login
         $Users->patchEntity($admin, $data);
         if (!$Users->save($admin)) {
             return;
         }
+        $this->log('Installer admin user set.', LogLevel::INFO, ['saito.install']);
+
+        //// setting forum-default email
+        $this->log('Installer setting forum email.', LogLevel::INFO, ['saito.install']);
+        $Settings = TableRegistry::getTableLocator()->get('Settings');
+        $forumEmail = $Settings->findByName('forum_email')->first();
+        $forumEmail->set('value', $data['user_email']);
+        $Settings->save($forumEmail);
+        $this->log('Installer forum email set.', LogLevel::INFO, ['saito.install']);
 
         $this->log('Marking installed.', LogLevel::INFO, ['saito.install']);
         (new DbVersion($this->loadModel('Settings')))->set(Configure::read('Saito.v'));
