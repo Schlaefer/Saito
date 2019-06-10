@@ -97,7 +97,8 @@ class UpdaterController extends AppController
         $token->write('');
 
         try {
-            if (version_compare($this->dbVersion, '4.10.0', '==')) {
+            if (version_compare($this->dbVersion, '4.10.0', '>=')
+                && version_compare($this->dbVersion, '5.0.0', '<')) {
                 $this->migrations->markMigrated('20180620081553');
                 $this->logCurrentState('Marked version 4.10.0 migrated.');
             }

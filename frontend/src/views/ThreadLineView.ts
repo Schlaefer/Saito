@@ -129,6 +129,7 @@ class ThreadLineView extends View<PostingModel> {
                     this.$el.scrollIntoView('bottom');
                 }
             } else {
+                // @bogus What is this about? - Schlaefer 2019-06-04
                 this.model.set('shouldScrollOnInlineOpen', true);
             }
         };
