@@ -89,9 +89,6 @@ if (!$database) {
 if (!$tables) {
     return;
 }
-
-$secured = (Cake\Utility\Security::getSalt() !== '__SALT__')
-    && (Cake\Core\Configure::read('Security.cookieSalt') !== '__SALT__');
 ?>
 
 

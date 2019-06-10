@@ -19,6 +19,7 @@ use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Security;
 use Installer\Lib\DbVersion;
 use Psr\Log\LogLevel;
 
@@ -36,7 +37,7 @@ class InstallController extends AppController
     {
         $this->log('Start installer.', LogLevel::INFO, ['saito.install']);
 
-        $database = $tables = false;
+        $database = $tables = $secured = false;
         try {
             $connection = ConnectionManager::get('default');
             if ($connection->connect()) {
@@ -46,7 +47,7 @@ class InstallController extends AppController
             // connection manager will throw error if no connection
         }
 
-        $this->set(compact('database', 'tables'));
+        $this->set(compact('database', 'tables', 'secured'));
 
         if (!$database) {
             $this->log('No database connection.', LogLevel::INFO, ['saito.install']);
@@ -63,7 +64,10 @@ class InstallController extends AppController
             // Settings-table doesn't exist yet
         }
 
-        if ($hasSettingsTable) {
+        $secured = (Security::getSalt() !== '__SALT__')
+            && (Configure::read('Security.cookieSalt') !== '__SALT__');
+
+        if ($secured && $hasSettingsTable) {
             $this->log('Installer found Settings-table. Moving on to Updater.', LogLevel::INFO, ['saito.install']);
             //// disable installer and move on to updater instead
             (new File(CONFIG . 'installer'))->delete();
@@ -77,14 +81,14 @@ class InstallController extends AppController
         if (empty($status[0]) || empty($status[0]['status']) || $status[0]['status'] !== 'down') {
             $this->log('Installer migration has run.', LogLevel::INFO, ['saito.install']);
             $tables = true;
-            $this->set(compact('database', 'tables'));
+            $this->set(compact('database', 'tables', 'secured'));
 
             return;
         }
 
         $data = $this->request->getData();
         if (empty($data)) {
-            $this->set(compact('database', 'tables'));
+            $this->set(compact('database', 'tables', 'secured'));
 
             return;
         }
@@ -119,6 +123,6 @@ class InstallController extends AppController
         $tables = true;
 
         $this->log('Installer finished.', LogLevel::INFO, ['saito.install']);
-        $this->set(compact('database', 'tables'));
+        $this->set(compact('database', 'tables', 'secured'));
     }
 }

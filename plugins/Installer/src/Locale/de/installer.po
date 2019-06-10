@@ -142,13 +142,12 @@ msgstr "👍 Sicherheits-Salt konfiguriert."
 
 #: Template/Install/start.ctp:138
 msgid "finished.title"
-msgstr "Installer deaktivieren"
+msgstr "Installer beendet"
 
 #: Template/Install/start.ctp:142
 msgid "finished.explanation"
 msgstr ""
-"Um den Installer zu beenden und das Forum aufzurufen löschen Sie die Datei. "
-"<code>config/installer</code>. 🏁 🙂"
+"Die Installation ist abeschlossen. 🏁 🙂"
 
 #: Template/Install/start.ctp:145
 msgid "finished.debug"
