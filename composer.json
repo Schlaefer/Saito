@@ -102,7 +102,7 @@
 
     "phpunit-stop": "phpunit --colors=always --stderr --stop-on-error --stop-on-failure",
     "phpunit": "phpunit --colors=always",
-    "test": ["@phpunit", "@check"],
+    "test": ["@phpunit", "@phpstan", "@check"],
 
     "js-all": "yarn run test",
 
