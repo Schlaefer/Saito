@@ -3,13 +3,13 @@
 namespace Saito\User\ReadPostings;
 
 use App\Controller\Component\CurrentUserComponent;
-use Cake\Utility\Hash;
 use Saito\Posting\Posting;
+use Saito\User\ReadPostings\ReadPostingsInterface;
 
 /**
  * Handles read postings for the current users
  */
-abstract class ReadPostingsAbstract
+abstract class ReadPostingsAbstract implements ReadPostingsInterface
 {
 
     /**
@@ -29,6 +29,9 @@ abstract class ReadPostingsAbstract
      */
     protected $readPostings = null;
 
+    /** @var mixed $storage storage for read postings */
+    protected $storage;
+
     /**
      * Constructor.
      *
@@ -41,26 +44,16 @@ abstract class ReadPostingsAbstract
     ) {
         $this->CurrentUser = $CurrentUser;
         $this->LastRefresh = $this->CurrentUser->LastRefresh;
+        $this->storage = $storage;
     }
 
     /**
-     * sets entry/entries as read for the current user
-     *
-     * @param array $postings single ['Entry' => []] or multiple [0 =>
-     *     ['Entry' => …]
-     * @return void
+     * {@inheritdoc}
      */
     abstract public function set($postings);
 
     /**
-     * checks if entry is read by the current user
-     *
-     * if timestamp is provided it is checked against user's last refresh
-     * time
-     *
-     * @param int $id posting-ID
-     * @param mixed $timestamp unix timestamp or timestamp string
-     * @return bool
+     * {@inheritdoc}
      */
     public function isRead($id, $timestamp = null)
     {
@@ -78,9 +71,7 @@ abstract class ReadPostingsAbstract
     }
 
     /**
-     * delete all read entries for the current user
-     *
-     * @return void
+     * {@inheritdoc}
      */
     abstract public function delete();
 

@@ -2,7 +2,6 @@
 
 namespace Saito\User\ReadPostings;
 
-use App\Controller\Component\CurrentUserComponent;
 use Saito\User\Cookie\Storage;
 
 /**
@@ -16,18 +15,8 @@ class ReadPostingsCookie extends ReadPostingsAbstract
      */
     protected $maxPostings = 240;
 
-    protected $Cookie;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __construct(
-        CurrentUserComponent $CurrentUser,
-        Storage $storage
-    ) {
-        parent::__construct($CurrentUser);
-        $this->Cookie = $storage;
-    }
+    /** @var Storage */
+    protected $storage;
 
     /**
      * {@inheritDoc}
@@ -51,7 +40,7 @@ class ReadPostingsCookie extends ReadPostingsAbstract
         // make simple string and don't encrypt it to keep cookie small enough
         // to fit $this->_maxPostings into 4 kB
         $data = implode('.', array_keys($this->readPostings));
-        $this->Cookie->write($data);
+        $this->storage->write($data);
     }
 
     /**
@@ -59,7 +48,7 @@ class ReadPostingsCookie extends ReadPostingsAbstract
      */
     public function delete()
     {
-        $this->Cookie->delete();
+        $this->storage->delete();
     }
 
     /**
@@ -92,7 +81,7 @@ class ReadPostingsCookie extends ReadPostingsAbstract
         if ($this->readPostings !== null) {
             return $this->readPostings;
         }
-        $this->readPostings = $this->Cookie->read();
+        $this->readPostings = $this->storage->read();
         if (empty($this->readPostings)
             || !preg_match('/^[0-9\.]*$/', $this->readPostings)
         ) {

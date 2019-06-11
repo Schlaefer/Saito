@@ -20,7 +20,7 @@ class LastRefreshCookie extends LastRefreshAbstract
      */
     public function __construct(CurrentuserComponent $CurrentUser)
     {
-        $this->_CurrentUser = $CurrentUser;
+        parent::__construct($CurrentUser);
         $this->_Cookie = new Cookie\Storage(
             $this->_CurrentUser->getController(),
             'lastRefresh'

@@ -28,6 +28,9 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
 
     public function __get($property)
     {
+        if ($property === 'Cookie') {
+            return $this->storage;
+        }
         if (property_exists($this, $property)) {
             return $this->{$property};
         }
