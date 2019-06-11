@@ -555,23 +555,15 @@ class UsersController extends AppController
         } else {
             try {
                 $duration = (int)$this->request->getData('lockPeriod');
-                $status = $this->Users->UserBlocks->block(
-                    new ManualBlocker,
-                    $id,
-                    [
-                        'adminId' => $this->CurrentUser->getId(),
-                        'duration' => $duration
-                    ]
-                );
-                $username = $readUser['User']['username'];
-                if ($status === true) {
-                    $message = __('User {0} is locked.', [$username]);
-                } else {
-                    $message = __('User {0} is unlocked.', [$username]);
+                $blocker = new ManualBlocker($this->CurrentUser->getId(), $duration);
+                $status = $this->Users->UserBlocks->block($blocker, $id);
+                if (!$status) {
+                    throw new \Exception();
                 }
+                $message = __('User {0} is locked.', $readUser->get('username'));
                 $this->Flash->set($message, ['element' => 'success']);
             } catch (\Exception $e) {
-                $message = __('Error while un/locking.');
+                $message = __('Error while locking.');
                 $this->Flash->set($message, ['element' => 'error']);
             }
         }
@@ -586,6 +578,8 @@ class UsersController extends AppController
      */
     public function unlock($id)
     {
+        $user = $this->Users->UserBlocks->findById($id)->contain(['Users'])->first();
+
         if (!$id || !$this->modLocking) {
             throw new BadRequestException;
         }
@@ -595,6 +589,9 @@ class UsersController extends AppController
                 ['element' => 'error']
             );
         }
+
+        $message = __('User {0} is unlocked.', $user->user->get('username'));
+        $this->Flash->set($message, ['element' => 'success']);
         $this->redirect($this->referer());
     }
 

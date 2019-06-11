@@ -1,16 +1,40 @@
 <?php
 
+declare(strict_types = 1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\User\Blocker;
 
+/**
+ * Manually block a user through a admin/mod action
+ */
 class ManualBlocker extends BlockerAbstract
 {
 
-    protected $defaults = [
-        // which state to set: block or unblock; null (default): toggle
-        'state' => null,
-        'adminId' => null,
-        'duration' => null
-    ];
+    /** @var int admin-ID */
+    private $adminId;
+
+    /** @var int duration in seconds */
+    private $duration;
+
+    /**
+     * Constructor
+     *
+     * @param int $adminId user-ID of the person performing the block operation
+     * @param int|null $duration Time in seconds how long the block should be active
+     */
+    public function __construct(int $adminId, ?int $duration = null)
+    {
+        $this->adminId = $adminId;
+        $this->duration = $duration;
+    }
 
     /**
      * {@inheritDoc}
@@ -21,48 +45,31 @@ class ManualBlocker extends BlockerAbstract
     }
 
     /**
-     * block user manually
+     * {@inheritdoc}
      *
-     * @param int $userId user-ID
-     * @param array $options options
      * @throws \InvalidArgumentException
      * @throws \Exception
-     * @return bool
      */
-    public function block($userId, array $options = []): bool
+    public function block(int $userId): bool
     {
-        $options += $this->defaults;
-
         $user = $this->Table->Users->get($userId);
         if (empty($user)) {
             throw new \InvalidArgumentException;
         }
+
         $conditions = [
+            'blocked_by_user_id' => $this->adminId,
             'ended IS' => null,
             'reason' => $this->getReason(),
             'user_id' => $userId
         ];
-        if ($options['state'] === null) {
-            $existing = $this->Table->find('all', ['conditions' => $conditions])
-                ->first();
-            $state = empty($existing);
-        }
-        if ($state) {
-            if ($options['adminId']) {
-                $conditions['blocked_by_user_id'] = $options['adminId'];
-            }
-            if ($options['duration']) {
-                $conditions['ends'] = bDate(time() + $options['duration']);
-            }
-            $entity = $this->Table->newEntity($conditions);
-            $success = $this->Table->save($entity);
-            if (empty($success)) {
-                throw new \Exception;
-            }
-        } else {
-            $this->Table->unblock($existing->get('id'));
+
+        if ($this->duration) {
+            $conditions['ends'] = bDate(time() + $this->duration);
         }
 
-        return $state;
+        $entity = $this->Table->newEntity($conditions);
+
+        return (bool)$this->Table->save($entity);
     }
 }

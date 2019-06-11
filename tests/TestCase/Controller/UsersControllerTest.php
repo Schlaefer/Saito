@@ -675,7 +675,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertEquals(0, $Ignores->find()->count());
     }
 
-    public function testLockSet()
+    public function testLockFailure()
     {
         /* setup */
         $this->mockSecurity();
@@ -694,16 +694,7 @@ class UsersControllerTest extends IntegrationTestCase
         $user = $Users->findById(4)->first();
         $this->assertFalse($user->get('user_lock'));
 
-        // mod locks user
         $this->_loginUser(2);
-        $this->post('/users/lock', ['lockUserId' => 4]);
-        $user = $Users->findById(4)->first();
-        $this->assertTrue($user->get('user_lock') == true);
-
-        // mod unlocks user
-        $this->post('/users/lock', ['lockUserId' => 4]);
-        $user = $Users->findById(4)->first();
-        $this->assertTrue($user->get('user_lock') == false);
 
         // you can't lock yourself out
         $this->post('/users/lock', ['lockUserId' => 2]);
@@ -716,6 +707,38 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertTrue($user->get('user_lock') == false);
 
         // user does not exit
+    }
+
+    public function testLockAndUnlockSuccess()
+    {
+        /* setup */
+        $this->mockSecurity();
+        $Users = TableRegistry::get('Users');
+
+        // mod locks user
+        $this->_loginUser(2);
+
+        $count = $Users->UserBlocks->find()->count();
+
+        $this->post('/users/lock', ['lockUserId' => 3]);
+        $user = $Users->findById(3)->first();
+        $this->assertTrue($user->get('user_lock') == true);
+
+        $this->post('/users/lock', ['lockUserId' => 4]);
+        $user = $Users->findById(4)->first();
+        $this->assertTrue($user->get('user_lock') == true);
+
+        // mod unlocks user in reverse order
+        $this->get('/users/unlock/' . ($count + 2));
+        $user = $Users->findById(4)->first();
+        $this->assertTrue($user->get('user_lock') == false);
+
+        $this->get('/users/unlock/' . ($count + 1));
+        $user = $Users->findById(3)->first();
+        $this->assertTrue($user->get('user_lock') == false);
+
+        $after = $Users->UserBlocks->find()->count();
+        $this->assertEquals($count + 2, $after);
     }
 
     public function testLockSetUserDoesNotExistFailure()
