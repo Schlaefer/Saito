@@ -7,7 +7,7 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
-use Cake\Http\Http\Response;
+use Cake\Http\Response;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Saito\App\SettingsImmutable;
