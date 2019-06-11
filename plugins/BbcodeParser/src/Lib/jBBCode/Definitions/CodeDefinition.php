@@ -19,7 +19,7 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
     protected $_sUseOptions = false;
 
     /**
-     * @var bbcode-tag
+     * @var string bbcode-tag
      */
     protected $_sTagName;
 

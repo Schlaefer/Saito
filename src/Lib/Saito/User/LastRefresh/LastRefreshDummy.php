@@ -9,14 +9,6 @@ namespace Saito\User\LastRefresh;
  */
 class LastRefreshDummy extends LastRefreshAbstract
 {
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * {@inheritDoc}
      */

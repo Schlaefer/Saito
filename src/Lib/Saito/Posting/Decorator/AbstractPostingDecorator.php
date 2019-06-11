@@ -6,6 +6,17 @@ use Saito\Posting;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\PostingInterface;
 
+/**
+ * Abstract class which allows to decorate Postings
+ *
+ * class MyDecorator extends AbstractPostingDecorator ...
+ *
+ * $postings = $postings->addDecorator(
+ *   function ($node) {
+ *      return new MyDecorator($node);
+ *    }
+ * );
+ */
 abstract class AbstractPostingDecorator implements BasicPostingInterface, PostingInterface
 {
 
@@ -24,7 +35,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
             return call_user_func_array([$this->_Posting, $method], $args);
         }
         throw new \RuntimeException(
-            'Undefined method ' . get_class($this->object) . '::' . $method
+            'Undefined method ' . get_class($this) . '::' . $method
         );
     }
 

@@ -58,13 +58,12 @@ class UserBlocksTable extends Table
      *
      * @param BlockerAbstract $Blocker blocker
      * @param int $userId user-ID
-     * @param array $options options
-     * @return bool
+     * @return bool success
      */
-    public function block(BlockerAbstract $Blocker, int $userId, array $options): bool
+    public function block(BlockerAbstract $Blocker, int $userId): bool
     {
         $Blocker->setUserBlockTable($this);
-        $success = $Blocker->block($userId, $options);
+        $success = $Blocker->block($userId);
         if ($success) {
             $this->_updateIsBlocked($userId);
         }

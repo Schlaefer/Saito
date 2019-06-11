@@ -3,15 +3,16 @@
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
 
 use Cake\View\Helper;
+use JBBCode\NodeVisitor;
 use Saito\Markup\MarkupSettings;
 
-abstract class JbbCodeTextVisitor implements \JBBcode\NodeVisitor
+abstract class JbbCodeTextVisitor implements NodeVisitor
 {
 
     protected $_disallowedTags = ['code'];
 
     /**
-     * @var \Helper calling CakePHP helper
+     * @var Helper calling CakePHP helper
      */
     protected $_sHelper;
 

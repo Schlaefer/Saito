@@ -2,21 +2,15 @@
 
 namespace Saito\User\ReadPostings;
 
+use Saito\User\ReadPostings\ReadPostingsInterface;
+
 /**
  * Nothing can be set read
  *
  * used as dummy for bots and test cases
  */
-class ReadPostingsDummy extends ReadPostingsAbstract
+class ReadPostingsDummy implements ReadPostingsInterface
 {
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -37,13 +31,5 @@ class ReadPostingsDummy extends ReadPostingsAbstract
     public function isRead($posting, $key = 'time')
     {
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function _get()
-    {
-        return [];
     }
 }
