@@ -27,7 +27,6 @@ class CacheSupportComponent extends Component
     public function initialize(array $config)
     {
         $this->_CacheSupport = new CacheSupport();
-        $this->_addConfigureCachelets();
         $this->_initLineCache();
     }
 
@@ -47,30 +46,6 @@ class CacheSupportComponent extends Component
         $this->_CacheSupport->add(
             new LineCacheSupportCachelet($this->LineCache)
         );
-    }
-
-    /**
-     * Adds additional cachelets from Configure `Saito.Cachelets`
-     *
-     * E.g. use in `Plugin/<foo>/Config/bootstrap.php`:
-     *
-     * <code>
-     * Configure::write('Saito.Cachelets.M', ['location' => 'M.Lib', 'name' =>
-     * 'MCacheSupportCachelet']);
-     * </code>
-     *
-     * @return void
-     */
-    protected function _addConfigureCachelets()
-    {
-        $_additionalCachelets = Configure::read('Saito.Cachelets');
-        if (!$_additionalCachelets) {
-            return;
-        }
-        foreach ($_additionalCachelets as $_c) {
-            App::uses($_c['name'], $_c['location']);
-            $this->_CacheSupport->add(new $_c['name']);
-        }
     }
 
     /**
