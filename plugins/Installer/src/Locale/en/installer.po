@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2019-06-03 11:37+0200\n"
+"POT-Creation-Date: 2019-06-14 14:02+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -14,7 +14,15 @@ msgstr ""
 "X-Poedit-KeywordsList: __d:2\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Controller/UpdaterController.php:56
+#: Controller/InstallController.php:38
+msgid "title"
+msgstr "Saito Installation"
+
+#: Controller/UpdaterController.php:51
+msgid "update.title"
+msgstr "Saito Update"
+
+#: Controller/UpdaterController.php:64
 msgid "update.failure.explanation"
 msgstr ""
 "The update failed. The database is in an unknown state and data may be "
@@ -24,102 +32,128 @@ msgstr ""
 "\n"
 "If you want to report the issue please provide the log below."
 
-#: Controller/UpdaterController.php:65
+#: Controller/UpdaterController.php:73
 msgid "update.failure.nodbversion"
 msgstr "Updater failed. The updater can't determine the database version."
 
-#: Controller/UpdaterController.php:73
+#: Controller/UpdaterController.php:81
 msgid "update.failure.wrongdbversion"
 msgstr ""
 "Can't apply update. An update from version {v} is not supported by the "
 "updater."
 
-#: Template/Install/start.ctp:3 Template/Updater/failure.ctp:3
-#: Template/Updater/start.ctp:3 Template/Updater/success.ctp:3
-msgid "reload"
-msgstr "Try Changes"
+#: Template/Install/connected.ctp:4
+msgid "connected.title"
+msgstr "Existing Installation"
 
-#: Template/Install/start.ctp:10 Template/Layout/default.ctp:11
-msgid "title"
-msgstr "Saito Installation"
-
-#: Template/Install/start.ctp:15
-msgid "language"
-msgstr "🇺🇳 Set a language in <code>config/saito_config.php</code>."
-
-#: Template/Install/start.ctp:21
-msgid "connection.title"
-msgstr "Database Connection"
-
-#: Template/Install/start.ctp:26
-msgid "connection.failure"
-msgstr "❌ No connection to database."
-
-#: Template/Install/start.ctp:29
-msgid "connection.explanation"
+#: Template/Install/connected.ctp:8
+msgid "connected.explanation"
 msgstr ""
-"You have to connect to a database. Usually this should be a MySQL or MariaDB "
-"database. Set the database connection configuration as <code>Datasource => "
-"default</code> in <code>config/app.php</code>."
+"There seems to be an existing installation in the database.\n"
+"\n"
+"Delete the existing tables manually and restart the installation or proceed "
+"to update the existing installation.\n"
+"\n"
+"If you want to update an existing installation please delete the file "
+"<code>config/installer</code>"
 
-#: Template/Install/start.ctp:32
-msgid "connection.see"
-msgstr ""
-"For detailed information see <a href=\"https://book.cakephp.org/3.0/en/orm/"
-"database-basics.html#configuration\" target=\"_blank\">CakePHP's "
-"documentation</a> (this is the PHP-framework we use)."
+#: Template/Install/connected.ctp:12
+msgid "connected.button.restart"
+msgstr "Restart installation"
 
-#: Template/Install/start.ctp:37
-msgid "connection.success"
-msgstr "👍 Connected to database."
-
-#: Template/Install/start.ctp:61
+#: Template/Install/data.ctp:3
 msgid "populate.title"
 msgstr "Fill Database"
 
-#: Template/Install/start.ctp:66
-msgid "populate.failure"
-msgstr "❌ Database not set-up."
-
-#: Template/Install/start.ctp:69
+#: Template/Install/data.ctp:7
 msgid "populate.explanation"
 msgstr ""
-"This step fills the database with the necessary tables and initial data. "
 "Please provide a name, a password and an email-address for an administrator "
 "account.\n"
 "\n"
 "The email-address is also used as the forum's default email-address. You may "
 "change that in the settings later."
 
-#: Template/Install/start.ctp:74
-msgid "populate.form.username"
-msgstr "Name"
-
-#: Template/Install/start.ctp:75
-msgid "populate.form.password"
-msgstr "Password"
-
-#: Template/Install/start.ctp:76
-msgid "populate.form.email"
-msgstr "Email-Address"
-
-#: Template/Install/start.ctp:77
+#: Template/Install/data.ctp:12
 msgid "populate.form.submit"
-msgstr "Create Tables and Data"
+msgstr "Save data"
 
-#: Template/Install/start.ctp:82
-msgid "populate.success"
-msgstr "👍 Database is set-up."
+#: Template/Install/dbconnection.ctp:3 Template/Install/salt.ctp:3
+#: Template/Updater/failure.ctp:3 Template/Updater/start.ctp:3
+#: Template/Updater/success.ctp:3
+msgid "reload"
+msgstr "Try Changes"
 
-#: Template/Install/start.ctp:102
+#: Template/Install/dbconnection.ctp:11
+msgid "connection.title"
+msgstr "Database Connection"
+
+#: Template/Install/dbconnection.ctp:16
+msgid "connection.failure"
+msgstr "❌ No connection to database."
+
+#: Template/Install/dbconnection.ctp:19
+msgid "connection.explanation"
+msgstr ""
+"You have to connect to a database. Usually this should be a MySQL or MariaDB "
+"database. Set the database connection configuration as <code>Datasource => "
+"default</code> in <code>config/app.php</code>."
+
+#: Template/Install/dbconnection.ctp:22
+msgid "connection.see"
+msgstr ""
+"For detailed information see <a href=\"https://book.cakephp.org/3.0/en/orm/"
+"database-basics.html#configuration\" target=\"_blank\">CakePHP's "
+"documentation</a> (this is the PHP-framework we use)."
+
+#: Template/Install/dbconnection.ctp:27
+msgid "connection.success"
+msgstr "👍 Connected to database."
+
+#: Template/Install/finished.ctp:3
+msgid "finished.title"
+msgstr "🏁 🙂 Installation Finished"
+
+#: Template/Install/finished.ctp:7
+msgid "finished.explanation"
+msgstr ""
+"Delete the file <code>config/installer</code> to deactivate the installer and "
+"proceed to the forum."
+
+#: Template/Install/finished.ctp:10
+msgid "finished.debug"
+msgstr ""
+"To solve problems check the log-files (esp. <code>logs/error.log</code>) or "
+"activate the debug-mode with <code>'debug' => true;</code> in <code>config/"
+"app.php</code>."
+
+#: Template/Install/finished.ctp:14
+#, fuzzy
+#| msgid "update.finished.btn"
+msgid "finished.btn"
+msgstr "Go to forum"
+
+#: Template/Install/migrate.ctp:4
+msgid "migrate.title"
+msgstr "Create Tables"
+
+#: Template/Install/migrate.ctp:8
+msgid "migrate.explanation"
+msgstr "This step creates the tables with the initial data."
+
+#: Template/Install/migrate.ctp:12
+msgid "migrate.form.startMigration"
+msgstr "Create tables"
+
+#: Template/Install/salt.ctp:10
 msgid "salt.title"
 msgstr "Set Security Salt"
 
-#: Template/Install/start.ctp:107
+#: Template/Install/salt.ctp:15
 msgid "salt.failure"
 msgstr "❌ Security salt not secure."
 
-#: Template/Install/start.ctp:110
+#: Template/Install/salt.ctp:18
 msgid "salt.explanation"
 msgstr ""
 "Next you have to set the security salts <code>Security => salt</code> and "
@@ -128,100 +162,101 @@ msgstr ""
 "Salts are long random strings securing passwords and logins. Here are two "
 "strings ready to use for you:"
 
-#: Template/Install/start.ctp:119
+#: Template/Install/salt.ctp:27
 msgid "salt.warning"
 msgstr ""
 "⚠️ Store those and keep them in a save place! Without you can't set-up the "
 "forum using your existing data again later."
 
-#: Template/Install/start.ctp:124
+#: Template/Install/salt.ctp:32
 msgid "salt.success"
 msgstr "👍 Security salt is set."
 
-#: Template/Install/start.ctp:138
-msgid "finished.title"
-msgstr "Finished"
+#: Template/Layout/default.ctp:20
+msgid "language"
+msgstr "🇺🇳 Set a language in <code>config/saito_config.php</code>."
 
-#: Template/Install/start.ctp:142
-msgid "finished.explanation"
-msgstr ""
-"Installation finished. 🏁 🙂"
-
-#: Template/Install/start.ctp:145
-msgid "finished.debug"
-msgstr ""
-"To solve problems check the log-files (esp. <code>logs/error.log</code>) or "
-"activate the debug-mode with <code>'debug' => true;</code> in <code>config/"
-"app.php</code>."
-
-#: Template/Updater/failure.ctp:10 Template/Updater/start.ctp:10
-#: Template/Updater/success.ctp:10
-msgid "update.title"
-msgstr "Saito Update"
-
-#: Template/Updater/failure.ctp:15
+#: Template/Updater/failure.ctp:11
 msgid "update.failure.title"
 msgstr "Update Failed"
 
-#: Template/Updater/failure.ctp:22
+#: Template/Updater/failure.ctp:18
 msgid "update.failure.seelog"
 msgstr "See the the Installer-log for more information."
 
-#: Template/Updater/start.ctp:15
+#: Template/Updater/start.ctp:11
 msgid "update.dbOutdated.title"
 msgstr "Database Update"
 
-#: Template/Updater/start.ctp:19
+#: Template/Updater/start.ctp:15
 msgid "update.dbOutdated.failure"
 msgstr "❌ The database is not up to date."
 
-#: Template/Updater/start.ctp:22
+#: Template/Updater/start.ctp:18
 msgid "update.dbOutdated.explanation"
 msgstr ""
 "The database was last used with a different forum version. The database was "
 "last used with Saito {dbVersion}. The currently installed Saito version is "
 "{saitoVersion}. You can upate the database to match the forum below."
 
-#: Template/Updater/start.ctp:25
+#: Template/Updater/start.ctp:21
 msgid "update.dbOutdated.backup"
 msgstr ""
 "⚠️ You should backup you database before proceding. There's always the chance "
 "that the automated update fails and leaves your database in a nonrecoverable "
 "state."
 
-#: Template/Updater/start.ctp:28
+#: Template/Updater/start.ctp:24
 msgid "update.form.explanation"
 msgstr ""
 "Please provide the name and password of the database you are about to update:"
 
-#: Template/Updater/start.ctp:30
+#: Template/Updater/start.ctp:26
 msgid "update.form.dbname"
 msgstr "Database Name"
 
-#: Template/Updater/start.ctp:33
+#: Template/Updater/start.ctp:29
 msgid "update.form.dbpassword"
 msgstr "Database Password"
 
-#: Template/Updater/start.ctp:36
+#: Template/Updater/start.ctp:32
 msgid "update.form.error"
 msgstr "The provided data is not correct."
 
-#: Template/Updater/start.ctp:38
+#: Template/Updater/start.ctp:34
 msgid "update.dbOutdated.submit"
 msgstr "Update the database"
 
-#: Template/Updater/success.ctp:15
+#: Template/Updater/success.ctp:11
 msgid "update.finished.title"
 msgstr "Update Finished"
 
-#: Template/Updater/success.ctp:19
+#: Template/Updater/success.ctp:15
 msgid "update.finished.success"
 msgstr "👍 Everything up to date."
 
-#: Template/Updater/success.ctp:22
+#: Template/Updater/success.ctp:18
 msgid "update.finished.explanation"
 msgstr "The update was successfully applied."
 
-#: Template/Updater/success.ctp:26
+#: Template/Updater/success.ctp:22
 msgid "update.finished.btn"
 msgstr "Go to forum"
+
+#~ msgid "connected.form.deleteInstallerToken"
+#~ msgstr "Update existing installation"
+
+#~ msgid "populate.failure"
+#~ msgstr "❌ Database not set-up."
+
+#~ msgid "populate.form.username"
+#~ msgstr "Name"
+
+#~ msgid "populate.form.password"
+#~ msgstr "Password"
+
+#~ msgid "populate.form.email"
+#~ msgstr "Email-Address"
+
+#~ msgid "populate.success"
+#~ msgstr "👍 Database is set-up."

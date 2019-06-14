@@ -44,6 +44,14 @@ class UpdaterController extends AppController
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function beforeRender(\Cake\Event\Event $event)
+    {
+        $this->set('titleForLayout', __d('installer', 'update.title'));
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|void

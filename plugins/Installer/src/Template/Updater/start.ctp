@@ -5,10 +5,6 @@
         ['class' => 'btn btn-primary']
     );
     ?>
-<div class="jumbotron">
-    <h1>
-<?= __d('installer', 'update.title') ?></h1>
-</div>
 
 <div class="card mb-3" id="a1">
     <div class="card-header">
