@@ -50,7 +50,7 @@ class UsersTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    protected $_settings = [
+    protected $_defaultConfig = [
         'user_name_disallowed_chars' => ['\'', ';', '&', '<', '>']
     ];
 
@@ -555,7 +555,7 @@ class UsersTable extends AppTable
      */
     public function validateHasAllowedChars($value, array $context)
     {
-        foreach ($this->_setting('user_name_disallowed_chars') as $char) {
+        foreach ($this->getConfig('user_name_disallowed_chars') as $char) {
             if (mb_strpos($value, $char) !== false) {
                 return false;
             }

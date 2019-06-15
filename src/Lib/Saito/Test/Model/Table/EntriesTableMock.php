@@ -36,6 +36,6 @@ class EntriesTableMock extends EntriesTable
      */
     public function setting()
     {
-        return $this->_setting('subject_maxlength');
+        return $this->getConfig('subject_maxlength');
     }
 }
