@@ -19,139 +19,115 @@ class EntryFixture extends TestFixture
             'type' => 'datetime',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'modified' => [
             'type' => 'datetime',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'pid' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'collate' => null,
             'comment' => ''
         ],
         'tid' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'collate' => null,
             'comment' => ''
         ],
         'time' => [
             'type' => 'timestamp',
             'null' => false,
             'default' => 'CURRENT_TIMESTAMP',
-            'collate' => null,
             'comment' => ''
         ],
         'last_answer' => [
             'type' => 'timestamp',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'edited' => [
             'type' => 'timestamp',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'edited_by' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
             'comment' => '',
-            'charset' => 'utf8'
         ],
         'user_id' => [
             'type' => 'integer',
             'null' => true,
             'default' => '0',
-            'collate' => null,
             'comment' => ''
         ],
         'name' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
             'comment' => '',
-            'charset' => 'utf8'
         ],
         'subject' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
             'comment' => '',
-            'charset' => 'utf8'
         ],
         'category_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'collate' => null,
             'comment' => ''
         ],
         'text' => [
             'type' => 'text',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
             'comment' => '',
-            'charset' => 'utf8'
         ],
         'locked' => [
             'type' => 'boolean',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'fixed' => [
             'type' => 'boolean',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'views' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'collate' => null,
             'comment' => ''
         ],
         'flattr' => [
             'type' => 'boolean',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'ip' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
             'comment' => '',
-            'charset' => 'utf8'
         ],
         'reposts' => [
             'type' => 'integer',
@@ -167,9 +143,9 @@ class EntryFixture extends TestFixture
             ]
         ],
         '_options' => [
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'MyISAM',
-            'charset' => 'utf8',
-            'collate' => 'utf8_general_ci'
         ]
     ];
 

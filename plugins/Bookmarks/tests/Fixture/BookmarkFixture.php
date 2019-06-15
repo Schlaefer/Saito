@@ -46,8 +46,6 @@ class BookmarkFixture extends TestFixture
             'null' => true,
             'default' => null,
             'limit' => 255,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
         'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
@@ -58,9 +56,9 @@ class BookmarkFixture extends TestFixture
             ]
         ],
         '_options' => [
-            'charset' => 'utf8',
-            'collate' => 'utf8_unicode_ci',
-            'engine' => 'MyISAM'
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
+            'engine' => 'InnoDB',
         ]
     ];
 

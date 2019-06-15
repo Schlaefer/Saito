@@ -231,6 +231,12 @@ class UsersTable extends AppTable
                         'message' => __(
                             'model.user.validate.username.hasAllowedChars'
                         )
+                    ],
+                    'isNotEmoji' => [
+                        'rule' => 'utf8',
+                        'message' => __(
+                            'model.user.validate.username.hasAllowedChars'
+                        )
                     ]
                 ]
             );

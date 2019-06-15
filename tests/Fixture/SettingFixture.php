@@ -11,8 +11,8 @@ class SettingFixture extends TestFixture
         'name' => ['type' => 'string', 'null' => true, 'default' => null],
         'value' => ['type' => 'string', 'null' => true, 'default' => null],
         '_options' => [
-            'charset' => 'utf8',
-            'collate' => 'utf8_unicode_ci',
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB'
         ]
     ];

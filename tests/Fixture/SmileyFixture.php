@@ -26,23 +26,17 @@ class SmileyFixture extends TestFixture
             'null' => true,
             'default' => null,
             'length' => 100,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         'image' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
             'length' => 100,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'title' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         '_constraints' => [
             'primary' => [
@@ -51,8 +45,8 @@ class SmileyFixture extends TestFixture
             ]
         ],
         '_options' => [
-            'charset' => 'utf8',
-            'collate' => 'utf8_general_ci',
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB'
         ],
     ];
