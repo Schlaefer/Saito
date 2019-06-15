@@ -16,10 +16,10 @@ use App\Model\Table\SettingsTable;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\I18n\I18n;
 use Cake\Log\LogTrait;
+use Cake\ORM\Table;
 use Migrations\Migrations;
 
 /**
@@ -53,11 +53,29 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadModel('Settings');
-
-        $configName = $this->Settings->getConnection()->configName();
-        $this->migrations = new Migrations(['connection' => $configName]);
+        $this->migrations = $this->initializeMigrations($this->Settings);
 
         $locale = Configure::read('Saito.language');
         I18n::setLocale($locale);
+    }
+
+    /**
+     * Initialize migration property
+     *
+     * @param Table $table a table to read the config from
+     * @return Migrations
+     */
+    private function initializeMigrations(Table $table)
+    {
+        $installerConfigName = 'installer';
+        // if: static configuration only allowed once, but done multiple times in test-cases
+        if (ConnectionManager::getConfig($installerConfigName) === null) {
+            $defaultConfigName = $table->getConnection()->configName();
+            $connectionConfig = ConnectionManager::getConfig($defaultConfigName);
+            $connectionConfig['quoteIdentifiers'] = true;
+            ConnectionManager::setConfig($installerConfigName, $connectionConfig);
+        }
+
+        return new Migrations(['connection' => $installerConfigName]);
     }
 }

@@ -34,7 +34,7 @@ class UserBlocksTable extends Table
         $this->belongsTo('Users', ['foreignKey' => 'user_id']);
         // User responsible for the blocking.
         $this->belongsTo(
-            'By',
+            'BlockedBy',
             ['className' => 'Users', 'foreignKey' => 'blocked_by_user_id']
         );
     }
@@ -179,7 +179,7 @@ class UserBlocksTable extends Table
         $callback = function (Query $query) {
             return $query->select(['id', 'username']);
         };
-        $query->contain(['By' => $callback, 'Users' => $callback]);
+        $query->contain(['BlockedBy' => $callback, 'Users' => $callback]);
 
         return $query;
     }

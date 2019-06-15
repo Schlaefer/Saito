@@ -40,7 +40,7 @@ $format = ($mode === 'full') ? 'eng' : 'normal';
             $reason = __d($domain, "user.block.reason.{$reason}");
         } else {
             $by = $this->User->linkToUserProfile(
-                $block->get('by'),
+                $block->get('blocked_by'),
                 $CurrentUser
             );
             $reason = __('user.block.reason.1', $by);
