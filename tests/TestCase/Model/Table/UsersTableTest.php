@@ -546,6 +546,19 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertArrayHasKey('username', $user->getErrors());
     }
 
+    public function testRegisterValidationUsernameEmojiUtf()
+    {
+        $data = [
+            'username' => '☸🏝',
+            'user_email' => 'redacted@example.com',
+            'password' => 'Benjamin',
+            'password_confirm' => 'Benjamin'
+        ];
+        $user = $this->Table->register($data);
+
+        $this->assertArrayHasKey('username', $user->getErrors());
+    }
+
     public function testRegisterValidationUsernameIsEqualDisallowed()
     {
         $data = [

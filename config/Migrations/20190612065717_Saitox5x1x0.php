@@ -43,6 +43,10 @@ class Saitox5x1x0 extends AbstractMigration
 
         $this->table('shouts')->drop()->save();
 
+        //// Migrate tables to InnoDB
+        foreach (['bookmarks', 'categories', 'settings', 'smiley_codes', 'smilies'] as $table) {
+            $this->execute('ALTER TABLE ' . $table . ' ENGINE=InnoDB');
+        }
     }
 
     public function down()
@@ -212,5 +216,9 @@ class Saitox5x1x0 extends AbstractMigration
                 'null' => true,
             ])
             ->create();
+
+        foreach (['bookmarks', 'categories', 'settings', 'smiley_codes', 'smilies'] as $table) {
+            $this->execute('ALTER TABLE ' . $table . ' ENGINE=MyISAM');
+        }
     }
 }
