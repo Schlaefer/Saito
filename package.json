@@ -16,7 +16,7 @@
     "grunt": "^1.0.4",
     "humanize": "github:taijinlee/humanize",
     "jQuery-tinyTimer": "odyniec/jQuery-tinyTimer",
-    "jquery": "^3.4.0",
+    "jquery": "~3.3",
     "jquery-textrange": "^1.4.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
