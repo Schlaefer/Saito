@@ -39,8 +39,7 @@ msgstr "Updater failed. The updater can't determine the database version."
 #: Controller/UpdaterController.php:81
 msgid "update.failure.wrongdbversion"
 msgstr ""
-"Can't apply update. An update from version {v} is not supported by the "
-"updater."
+"Can't apply update. An update from version {v} is not supported by the updater."
 
 #: Template/Install/connected.ctp:4
 msgid "connected.title"
@@ -51,8 +50,8 @@ msgid "connected.explanation"
 msgstr ""
 "There seems to be an existing installation in the database.\n"
 "\n"
-"Delete the existing tables manually and restart the installation or proceed "
-"to update the existing installation.\n"
+"Delete the existing tables manually and restart the installation or proceed to "
+"update the existing installation.\n"
 "\n"
 "If you want to update an existing installation please delete the file "
 "<code>config/installer</code>"
@@ -124,8 +123,8 @@ msgstr ""
 msgid "finished.debug"
 msgstr ""
 "To solve problems check the log-files (esp. <code>logs/error.log</code>) or "
-"activate the debug-mode with <code>'debug' => true;</code> in <code>config/"
-"app.php</code>."
+"activate the debug-mode with <code>'debug' => true;</code> in <code>config/app."
+"php</code>."
 
 #: Template/Install/finished.ctp:14
 #, fuzzy
@@ -202,8 +201,8 @@ msgstr ""
 #: Template/Updater/start.ctp:21
 msgid "update.dbOutdated.backup"
 msgstr ""
-"⚠️ You should backup you database before proceding. There's always the chance "
-"that the automated update fails and leaves your database in a nonrecoverable "
+"⚠️ You should backup the database before proceeding. There's always the chance "
+"that the automated update fails leaving your database in a non-recoverable "
 "state."
 
 #: Template/Updater/start.ctp:24
