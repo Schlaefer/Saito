@@ -1,7 +1,7 @@
 # Docker file for Saito 5
 
 # Apache Webserver with PHP
-FROM php:7.1-apache
+FROM php:7.2-apache
 
  #install all the system dependencies and enable PHP modules
 RUN apt-get update && apt-get install -y \
@@ -24,7 +24,6 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
       exif \
       intl \
       mbstring \
-      mcrypt \
       pcntl \
       pdo_mysql \
 #      pdo_pgsql \

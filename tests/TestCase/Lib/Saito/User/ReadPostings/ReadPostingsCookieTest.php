@@ -232,7 +232,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             ->setMethods($methods)
             ->getMock();
         $this->ReadPostings->setLastRefresh(
-            $this->getMockBuilder('Object')
+            $this->getMockBuilder(stdClass::class)
                 ->setMethods(['isNewerThan'])
                 ->getMock()
         );

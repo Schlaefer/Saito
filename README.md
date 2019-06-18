@@ -18,7 +18,7 @@ Saito is a web forum. It is different from the majority of other solutions as it
 
 ## Requirements
 
-- PHP 7.1
+- PHP 7.2
 - Database (MySQL/MariaDB tested, [others untested](https://book.cakephp.org/3.0/en/orm/database-basics.html#supported-databases)).
 
 ## Get Started

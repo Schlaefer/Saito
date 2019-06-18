@@ -63,7 +63,7 @@ class ItemCacheTest extends SaitoTestCase
             ->setConstructorArgs(['test', null, $options])
             ->setMethods($methods)
             ->getMock();
-        $this->CacheEngine = $this->getMockBuilder('Object')
+        $this->CacheEngine = $this->getMockBuilder(stdClasss::class)
             ->setMethods(['read', 'write'])
             ->getMock();
         $this->ItemCache->setCacheEngine($this->CacheEngine);

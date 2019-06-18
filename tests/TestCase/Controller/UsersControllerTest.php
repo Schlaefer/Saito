@@ -92,7 +92,7 @@ class UsersControllerTest extends IntegrationTestCase
         //# last login time should be set
         $Users = TableRegistry::get('Users');
         $user = $Users->get(3, ['fields' => 'last_login']);
-        $this->assertWithinRange(time($user->get('last_login')), time(), 1);
+        $this->assertWithinRange($user->get('last_login')->toUnixString(), time(), 1);
     }
 
     public function testLoginShowForm()
