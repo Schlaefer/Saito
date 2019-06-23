@@ -5,16 +5,56 @@ declare(strict_types = 1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace ImageUploader;
 
+use Cake\Cache\Cache;
 use Cake\Core\BasePlugin;
 use Cake\Core\PluginApplicationInterface;
 
 class Plugin extends BasePlugin
 {
+    /**
+     * Cache key for image thumbnails
+     */
+    public const CACHE_KEY = 'uploadsThumbnails';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function bootstrap(PluginApplicationInterface $app)
+    {
+        // Add constants, load configuration defaults.
+        // By default will load `config/bootstrap.php` in the plugin.
+        parent::bootstrap($app);
+
+        self::configureCache();
+    }
+
+    /**
+     * Configures the thumbnail cache
+     *
+     * @return void
+     */
+    public static function configureCache(): void
+    {
+        if (Cache::getConfig(self::CACHE_KEY) !== null) {
+            return;
+        }
+
+        Cache::setConfig(
+            self::CACHE_KEY,
+            [
+                'className' => 'File',
+                'prefix' => 'saito_thumbnails-',
+                'path' => CACHE,
+                'groups' => ['uploads'],
+                'duration' => '+1 year'
+            ]
+        );
+    }
 }

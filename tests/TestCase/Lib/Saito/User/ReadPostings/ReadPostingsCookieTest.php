@@ -28,6 +28,9 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
 
     public function __get($property)
     {
+        if ($property === 'Cookie') {
+            return $this->storage;
+        }
         if (property_exists($this, $property)) {
             return $this->{$property};
         }
@@ -44,7 +47,7 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
 class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 {
     public $fixtures = [
-        'app.user',
+        'app.User',
     ];
 
     public function testAbstractIsReadNoTimestamp()
@@ -229,7 +232,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             ->setMethods($methods)
             ->getMock();
         $this->ReadPostings->setLastRefresh(
-            $this->getMockBuilder('Object')
+            $this->getMockBuilder(stdClass::class)
                 ->setMethods(['isNewerThan'])
                 ->getMock()
         );

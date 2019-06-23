@@ -17,14 +17,14 @@ class AdminControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.user',
-        'app.user_block',
-        'app.user_ignore',
-        'app.user_online',
-        'app.user_read',
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.User',
+        'app.UserBlock',
+        'app.UserIgnore',
+        'app.UserOnline',
+        'app.UserRead',
     ];
 
     /**

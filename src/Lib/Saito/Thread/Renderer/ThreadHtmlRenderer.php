@@ -29,7 +29,7 @@ class ThreadHtmlRenderer extends HtmlRendererAbstract
     public function setOptions($options)
     {
         parent::setOptions($options);
-        $this->_webroot = $this->_Helper->request->getAttribute('webroot');
+        $this->_webroot = $this->_Helper->getView()->getRequest()->getAttribute('webroot');
         if (isset($options['lineCache'])) {
             $this->_LineCache = $options['lineCache'];
         }

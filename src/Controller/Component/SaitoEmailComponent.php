@@ -6,14 +6,13 @@ use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Log\LogTrait;
 use Cake\Mailer\Email;
-use Cake\Network\Email\DebugTransport;
+use Cake\Mailer\Transport\DebugTransport;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 use Saito\Contact\SaitoEmailContact;
 
 class SaitoEmailComponent extends Component
 {
-
     use LogTrait;
 
     /**
@@ -44,12 +43,12 @@ class SaitoEmailComponent extends Component
         $from = new SaitoEmailContact($params['sender']);
         $to = new SaitoEmailContact($params['recipient']);
 
-        $email = (new Email('saito'))
-            ->setEmailFormat('text')
-            ->setTemplate($params['template'])
+        $email = new Email('saito');
+        $email->setEmailFormat('text')
             ->setFrom($from->toCake())
             ->setTo($to->toCake())
-            ->setSubject($params['subject']);
+            ->setSubject($params['subject'])
+            ->viewBuilder()->setTemplate($params['template']);
 
         $params['viewVars']['message'] = $params['message'];
         $email->setViewVars($params['viewVars'] + $defaults['viewVars']);

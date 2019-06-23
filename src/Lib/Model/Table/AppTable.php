@@ -3,6 +3,7 @@
 namespace App\Lib\Model\Table;
 
 use Cake\Core\Configure;
+use Cake\Core\InstanceConfigTrait;
 use Cake\Database\Expression\QueryExpression;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -12,11 +13,12 @@ use Saito\Event\SaitoEventManager;
 
 class AppTable extends Table
 {
+    use InstanceConfigTrait {
+        getConfig as private traitGetConfig;
+    }
 
-    /**
-     * @var array model settings; can be overwritten by DB or config Settings
-     */
-    protected $_settings = [];
+    /** @var array default config for InstanceConfigTrait */
+    protected $_defaultConfig = [];
 
     public $SharedObjects;
 
@@ -122,23 +124,17 @@ class AppTable extends Table
     }
 
     /**
-     * gets app setting
-     *
-     * falls back to local definition if available
-     *
-     * @param string $name setting
-     * @return mixed
-     * @throws \UnexpectedValueException
+     * {@inheritdoc}
      */
-    protected function _setting($name)
+    public function getConfig($key = null, $default = null)
     {
-        $setting = Configure::read('Saito.Settings.' . $name);
-        if ($setting !== null) {
-            return $setting;
+        if (is_string($key)) {
+            $setting = Configure::read('Saito.Settings.' . $key);
+            if ($setting !== null) {
+                return $setting;
+            }
         }
-        if (isset($this->_settings[$name])) {
-            return $this->_settings[$name];
-        }
-        throw new \UnexpectedValueException;
+
+        return $this->traitGetConfig($key, $default);
     }
 }

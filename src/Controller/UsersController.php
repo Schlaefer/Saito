@@ -45,6 +45,13 @@ class UsersController extends AppController
     ];
 
     /**
+     * Are moderators allowed to bloack users
+     *
+     * @var bool
+     */
+    protected $modLocking = false;
+
+    /**
      * {@inheritDoc}
      */
     public function initialize()
@@ -79,36 +86,33 @@ class UsersController extends AppController
         $username = $this->request->getData('username');
         $readUser = $this->Users->findByUsername($username)->first();
 
-        $status = null;
+        $message = __('auth_loginerror');
 
         if (!empty($readUser)) {
             $User = new SaitoUser($readUser);
-            $status = $User->isForbidden();
-        }
-
-        switch ($status) {
-            case 'locked':
-                $ends = $this->Users->UserBlocks
-                    ->getBlockEndsForUser($User->getId());
-                if ($ends) {
-                    $time = new Time($ends);
-                    $data = [
-                        $username,
-                        $time->timeAgoInWords(['accuracy' => 'hour'])
-                    ];
-                    $message = __('user.block.pubExpEnds', $data);
-                } else {
-                    $message = __('user.block.pubExp', $username);
-                }
-                break;
-            case 'unactivated':
-                $message = __(
-                    'User {0} is not activated yet.',
-                    [$readUser->get('username')]
-                );
-                break;
-            default:
-                $message = __('auth_loginerror');
+            switch ($User->isForbidden()) {
+                case 'locked':
+                    $ends = $this->Users->UserBlocks
+                        ->getBlockEndsForUser($User->getId());
+                    if ($ends) {
+                        $time = new Time($ends);
+                        $data = [
+                            $username,
+                            $time->timeAgoInWords(['accuracy' => 'hour'])
+                        ];
+                        $message = __('user.block.pubExpEnds', $data);
+                    } else {
+                        $message = __('user.block.pubExp', $username);
+                    }
+                    break;
+                case 'unactivated':
+                    $message = __(
+                        'User {0} is not activated yet.',
+                        [$readUser->get('username')]
+                    );
+                    break;
+                default:
+            }
         }
 
         // don't autofill password
@@ -551,23 +555,15 @@ class UsersController extends AppController
         } else {
             try {
                 $duration = (int)$this->request->getData('lockPeriod');
-                $status = $this->Users->UserBlocks->block(
-                    new ManualBlocker,
-                    $id,
-                    [
-                        'adminId' => $this->CurrentUser->getId(),
-                        'duration' => $duration
-                    ]
-                );
-                $username = $readUser['User']['username'];
-                if ($status === true) {
-                    $message = __('User {0} is locked.', [$username]);
-                } else {
-                    $message = __('User {0} is unlocked.', [$username]);
+                $blocker = new ManualBlocker($this->CurrentUser->getId(), $duration);
+                $status = $this->Users->UserBlocks->block($blocker, $id);
+                if (!$status) {
+                    throw new \Exception();
                 }
+                $message = __('User {0} is locked.', $readUser->get('username'));
                 $this->Flash->set($message, ['element' => 'success']);
             } catch (\Exception $e) {
-                $message = __('Error while un/locking.');
+                $message = __('Error while locking.');
                 $this->Flash->set($message, ['element' => 'error']);
             }
         }
@@ -582,6 +578,8 @@ class UsersController extends AppController
      */
     public function unlock($id)
     {
+        $user = $this->Users->UserBlocks->findById($id)->contain(['Users'])->first();
+
         if (!$id || !$this->modLocking) {
             throw new BadRequestException;
         }
@@ -591,6 +589,9 @@ class UsersController extends AppController
                 ['element' => 'error']
             );
         }
+
+        $message = __('User {0} is unlocked.', $user->user->get('username'));
+        $this->Flash->set($message, ['element' => 'success']);
         $this->redirect($this->referer());
     }
 

@@ -17,14 +17,15 @@ use Cake\Core\Configure;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use claviska\SimpleImage;
+use ImageUploader\Plugin;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
 class ThumbnailControllerTest extends IntegrationTestCase
 {
     public $fixtures = [
-        'app.setting',
-        'plugin.ImageUploader.uploads',
+        'app.Setting',
+        'plugin.ImageUploader.Uploads',
     ];
 
     public function testCacheCreation()
@@ -40,11 +41,12 @@ class ThumbnailControllerTest extends IntegrationTestCase
         // pad image
         $file->append(str_repeat('0', $upload->get('size')));
 
-        $this->assertFalse(Cache::read($upload->get('id'), 'uploadsThumbnails'));
+        Plugin::configureCache(); // cache isn't bootstraped through request yet
+        $this->assertFalse(Cache::read($upload->get('id'), Plugin::CACHE_KEY));
 
         $this->get('/api/v2/uploads/thumb/1?h=' . $upload->get('hash'));
 
-        $cache = Cache::read($upload->get('id'), 'uploadsThumbnails');
+        $cache = Cache::read($upload->get('id'), Plugin::CACHE_KEY);
 
         $image = imagecreatefromstring($cache['raw']);
         $this->assertSame(300, imagesx($image));

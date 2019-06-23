@@ -11,10 +11,10 @@ class CategoriesTableTest extends SaitoTableTestCase
     public $tableClass = 'Categories';
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.user',
-        'app.user_online'
+        'app.Category',
+        'app.Entry',
+        'app.User',
+        'app.UserOnline'
     ];
 
     public function testUpdateEvent()

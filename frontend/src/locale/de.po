@@ -158,6 +158,9 @@ msgstr "Beitrag als hilfreich markieren."
 msgid "upl.btn.insert"
 msgstr "Einfügen"
 
+msgid "upl.loading"
+msgstr "Lade"
+
 msgid "user.block.hours"
 msgstr "{hours} Stunden"
 

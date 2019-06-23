@@ -16,12 +16,12 @@ class UserReadsTableTest extends SaitoTableTestCase
      * @var array
      */
     public $fixtures = [
-        'app.user_read',
-        'app.user',
-        'app.user_online',
-        'app.entry',
-        'app.category',
-        'plugin.bookmarks.bookmark'
+        'app.UserRead',
+        'app.User',
+        'app.UserOnline',
+        'app.Entry',
+        'app.Category',
+        'plugin.Bookmarks.Bookmark'
     ];
 
     /**

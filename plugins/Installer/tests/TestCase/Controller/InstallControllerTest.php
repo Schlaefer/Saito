@@ -5,7 +5,7 @@ declare(strict_types = 1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -17,6 +17,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use Installer\Lib\DbVersion;
+use Installer\Lib\InstallerState;
 use Installer\Lib\IntegrationTestCase;
 
 class InstallerControllerTest extends IntegrationTestCase
@@ -28,6 +29,7 @@ class InstallerControllerTest extends IntegrationTestCase
         parent::setUp();
         $this->dropTables();
         $this->createInstallerToken();
+        InstallerState::reset();
 
         Configure::write('Saito.installed', false);
         Configure::write('Saito.updated', false);
@@ -37,33 +39,50 @@ class InstallerControllerTest extends IntegrationTestCase
     {
         $this->createInstallerToken();
         $this->dropTables();
+        InstallerState::reset();
         parent::tearDown();
     }
 
-    public function testInstallerConnectionIsMade()
+    public function testIndex()
     {
-        Configure::write('Saito.installed', false);
-
         $this->get('/');
 
-        $this->assertResponseOk();
-        $this->assertResponseContains('Saito Installation');
-
-        $this->assertTrue($this->viewVariable('database'));
-        $this->assertFalse($this->viewVariable('tables'));
+        $this->assertRedirect('install/dbconnection');
     }
 
-    public function testInstallerCreateTablesOnEmptyDb()
+    public function testWrongInstallerState()
     {
-        Configure::write('Saito.installed', false);
+        $actions = [
+            'salt',
+            'connected',
+            'migrate',
+            'data',
+            'finished',
+        ];
+
+        foreach ($actions as $action) {
+            $this->get('install/' . $action);
+            $this->assertRedirect('/');
+        }
+    }
+
+    public function testMigrateAndData()
+    {
+        InstallerState::set('migrate');
+        $this->post('install/migrate');
 
         $email = 'test@example.com';
-        $this->post('/', ['username' => 'admin', 'password' => 'admin', 'user_email' => $email]);
+        $this->post(
+            'install/data',
+            [
+                'username' => 'admin',
+                'password' => 'admin',
+                'password_confirm' => 'admin',
+                'user_email' => $email
+            ]
+        );
 
-        $this->assertResponseOk();
-
-        $this->assertTrue($this->viewVariable('database'));
-        $this->assertTrue($this->viewVariable('tables'));
+        $this->assertRedirect('install/finished');
 
         $Settings = TableRegistry::getTableLocator()->get('Settings');
         $this->assertEquals($email, $Settings->findByName('forum_email')->first()->get('value'));
@@ -73,23 +92,22 @@ class InstallerControllerTest extends IntegrationTestCase
 
         $Users = TableRegistry::getTableLocator()->get('Users');
         $admin = $Users->get(1);
-        $this->assertEquals('21232f297a57a5a743894a0e4a801fc3', $admin->get('password'));
+        $this->assertTextContains('$2y$', $admin->get('password'));
         $this->assertEquals($email, $admin->get('user_email'));
     }
 
-    public function testInstallerWithExistingDb()
+    public function testConnectedDbExists()
     {
-        Configure::write('Saito.installed', false);
+        InstallerState::set('connected');
         $this->createSettings();
         (new DbVersion(TableRegistry::get('Settings')))->set('4.10.0');
 
         $token = new File(CONFIG . 'installer');
         $this->assertTrue($token->exists());
 
-        $this->get('/');
+        $this->get('install/connected');
 
-        $this->assertFalse($token->exists());
-        $this->assertRedirect('/');
+        $this->assertResponseCode(200);
     }
 
     private function createInstallerToken()

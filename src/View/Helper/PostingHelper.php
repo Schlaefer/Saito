@@ -53,7 +53,7 @@ class PostingHelper extends AppHelper
     {
         $params = [];
         if ($lastAction !== 'add') {
-            $session = $this->request->getSession();
+            $session = $this->getView()->getRequest()->getSession();
             if ($session->read('paginator.lastPage')) {
                 $params[] = 'page=' . $session->read('paginator.lastPage');
             }
@@ -74,7 +74,7 @@ class PostingHelper extends AppHelper
     {
         $options += ['class' => ''];
         $id = $posting->get('id');
-        $webroot = $this->request->getAttribute('webroot');
+        $webroot = $this->getView()->getRequest()->getAttribute('webroot');
         $url = "{$webroot}entries/view/{$id}";
         $link = "<a href=\"{$url}\" class=\"{$options['class']}\">" . $this->getSubject($posting) . '</a>';
 

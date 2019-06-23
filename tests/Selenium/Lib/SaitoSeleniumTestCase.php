@@ -63,13 +63,13 @@ class SaitoSeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public $fixtures = [
         'app.bookmark',
-        'app.user',
-        'app.user_online',
-        'app.entry',
-        'app.category',
-        'app.smiley',
-        'app.smiley_code',
-        'app.setting',
+        'app.User',
+        'app.UserOnline',
+        'app.Entry',
+        'app.Category',
+        'app.Smiley',
+        'app.SmileyCode',
+        'app.Setting',
     ];
 
     public function setUp()

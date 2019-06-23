@@ -288,7 +288,7 @@ return [
             /*
              * You do not need to set this flag to use full utf-8 encoding (internal default since CakePHP 3.6).
              */
-            'encoding' => 'utf8',
+            //'encoding' => 'utf8mb4',
             'timezone' => 'UTC',
             'flags' => [],
             'cacheMetadata' => true,
@@ -302,7 +302,7 @@ return [
              * decreases performance because each query needs to be traversed and
              * manipulated before being executed.
              */
-            'quoteIdentifiers' => true,
+            'quoteIdentifiers' => false,
 
             /**
              * During development, if using MySQL < 5.6, uncommenting the
@@ -331,7 +331,7 @@ return [
             //'encoding' => 'utf8mb4',
             'timezone' => 'UTC',
             'cacheMetadata' => true,
-            'quoteIdentifiers' => true,
+            'quoteIdentifiers' => false,
             'log' => false,
             //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
             'url' => env('DATABASE_TEST_URL', null),

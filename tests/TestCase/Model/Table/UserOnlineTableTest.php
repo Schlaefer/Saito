@@ -11,10 +11,10 @@ class UserOnlineTableTest extends SaitoTableTestCase
     public $tableClass = 'UserOnline';
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.user',
-        'app.user_online'
+        'app.Category',
+        'app.Entry',
+        'app.User',
+        'app.UserOnline'
     ];
 
     protected $_fields = [
@@ -61,8 +61,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $this->assertEquals($result, $expected);
 
         //= insert anonymous user
-        session_id('sessionIdTest');
-        $_userId = session_id();
+        $_userId = 'sessionIdTest';
         $this->_startUsersOnline[1] = [
             'uuid' => substr(($_userId), 0, 32),
             'user_id' => null,
@@ -98,8 +97,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $this->assertEquals($result, $expected);
 
         //= update anonymous user before time
-        session_id('sessionIdTest');
-        $_userId = session_id();
+        $_userId = 'sessionIdTest';
         $this->Table->setOnline($_userId, false);
 
         $result = $this->Table->find()
@@ -116,8 +114,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         //= update anonymous user after time
         $this->Table->timeUntilOffline = 1;
-        session_id('sessionIdTest');
-        $_userId = session_id();
+        $_userId = 'sessionIdTest';
         $this->_startUsersOnline = [];
         $this->_startUsersOnline[0] = [
             'uuid' => substr(($_userId), 0, 32),
@@ -223,8 +220,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $_userId = 3;
         $this->Table->setOnline($_userId, true);
 
-        session_id('sessionIdTest');
-        $_userId = session_id();
+        $_userId = 'sessionIdTest';
         $this->Table->setOnline($_userId, false);
 
         $result = $this->Table->getLoggedIn()

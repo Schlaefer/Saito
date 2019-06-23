@@ -15,16 +15,16 @@ class UsersControllerTest extends IntegrationTestCase
 {
 
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.user',
-        'app.user_block',
-        'app.user_ignore',
-        'app.user_read',
-        'app.user_online',
-        'plugin.bookmarks.bookmark',
-        'plugin.image_uploader.uploads',
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.User',
+        'app.UserBlock',
+        'app.UserIgnore',
+        'app.UserRead',
+        'app.UserOnline',
+        'plugin.Bookmarks.Bookmark',
+        'plugin.ImageUploader.Uploads',
     ];
 
     public function setUp()

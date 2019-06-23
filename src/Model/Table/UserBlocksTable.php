@@ -34,7 +34,7 @@ class UserBlocksTable extends Table
         $this->belongsTo('Users', ['foreignKey' => 'user_id']);
         // User responsible for the blocking.
         $this->belongsTo(
-            'By',
+            'BlockedBy',
             ['className' => 'Users', 'foreignKey' => 'blocked_by_user_id']
         );
     }
@@ -58,13 +58,12 @@ class UserBlocksTable extends Table
      *
      * @param BlockerAbstract $Blocker blocker
      * @param int $userId user-ID
-     * @param array $options options
-     * @return bool
+     * @return bool success
      */
-    public function block(BlockerAbstract $Blocker, int $userId, array $options): bool
+    public function block(BlockerAbstract $Blocker, int $userId): bool
     {
         $Blocker->setUserBlockTable($this);
-        $success = $Blocker->block($userId, $options);
+        $success = $Blocker->block($userId);
         if ($success) {
             $this->_updateIsBlocked($userId);
         }
@@ -180,7 +179,7 @@ class UserBlocksTable extends Table
         $callback = function (Query $query) {
             return $query->select(['id', 'username']);
         };
-        $query->contain(['By' => $callback, 'Users' => $callback]);
+        $query->contain(['BlockedBy' => $callback, 'Users' => $callback]);
 
         return $query;
     }

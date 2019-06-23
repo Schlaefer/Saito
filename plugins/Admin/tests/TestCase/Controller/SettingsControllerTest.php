@@ -21,14 +21,14 @@ use Saito\Test\IntegrationTestCase;
 class SettingsControllerTest extends IntegrationTestCase
 {
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.user',
-        'app.user_block',
-        'app.user_ignore',
-        'app.user_read',
-        'app.user_online'
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.User',
+        'app.UserBlock',
+        'app.UserIgnore',
+        'app.UserRead',
+        'app.UserOnline'
     ];
 
     public function testIndexFailureUserNotLoggedIn()

@@ -26,14 +26,14 @@ use Saito\Test\IntegrationTestCase;
 class UploadsControllerTest extends IntegrationTestCase
 {
     public $fixtures = [
-        'app.category',
-        'app.entry',
-        'app.setting',
-        'app.user',
-        'app.user_block',
-        'app.user_read',
-        'app.user_online',
-        'plugin.ImageUploader.uploads',
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.User',
+        'app.UserBlock',
+        'app.UserRead',
+        'app.UserOnline',
+        'plugin.ImageUploader.Uploads',
     ];
 
     /**

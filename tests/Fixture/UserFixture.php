@@ -18,64 +18,47 @@ class UserFixture extends TestFixture
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'username' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
+            'length' => 191,
         ],
         'user_real_name' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'password' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'user_email' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'user_hp' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'user_place' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'signature' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'profile' => [
             'type' => 'text',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         'entry_count' => [
             'type' => 'integer',
@@ -152,37 +135,27 @@ class UserFixture extends TestFixture
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'user_color_actual_posting' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'user_color_old_postings' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'user_theme' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'slidetab_order' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
             'length' => 512,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'inline_view_on_click' => [
             'type' => 'boolean',
@@ -210,8 +183,6 @@ class UserFixture extends TestFixture
             'null' => true,
             'default' => null,
             'length' => 512,
-            'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
         ],
         'ignore_count' => [
             'type' => 'integer',
@@ -224,17 +195,11 @@ class UserFixture extends TestFixture
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
-            'comment' => '',
-            'charset' => 'utf8'
         ],
         'avatar_dir' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
-            'comment' => '',
-            'charset' => 'utf8'
         ],
         '_constraints' => [
             'primary' => [
@@ -244,8 +209,8 @@ class UserFixture extends TestFixture
             'username' => ['type' => 'unique', 'columns' => 'username']
         ],
         '_options' => [
-            'charset' => 'utf8',
-            'collate' => 'utf8_unicode_ci',
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB'
         ]
     ];

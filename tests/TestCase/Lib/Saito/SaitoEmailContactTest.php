@@ -15,7 +15,7 @@ use Saito\Test\SaitoTestCase;
 class SaitoEmailContactTest extends SaitoTestCase
 {
 
-    public $fixtures = ['app.user'];
+    public $fixtures = ['app.User'];
 
     public function testCakeFormat()
     {

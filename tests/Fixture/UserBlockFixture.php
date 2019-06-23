@@ -18,7 +18,6 @@ class UserBlockFixture extends TestFixture
             'type' => 'datetime',
             'null' => true,
             'default' => null,
-            'collate' => null,
             'comment' => ''
         ],
         'user_id' => [
@@ -31,8 +30,6 @@ class UserBlockFixture extends TestFixture
             'type' => 'string',
             'null' => true,
             'default' => null,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         'blocked_by_user_id' => [
             'type' => 'integer',
@@ -47,15 +44,13 @@ class UserBlockFixture extends TestFixture
             'null' => true,
             'default' => null,
             'length' => 32,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id']]
         ],
         '_options' => [
-            'charset' => 'utf8',
-            'collate' => 'utf8_general_ci',
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB'
         ],
     ];

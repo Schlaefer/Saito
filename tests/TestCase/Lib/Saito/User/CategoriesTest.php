@@ -11,7 +11,7 @@ use Saito\User\SaitoUser;
  */
 class CategoriesTest extends SaitoTestCase
 {
-    public $fixtures = ['app.category'];
+    public $fixtures = ['app.Category'];
 
     public function testGetAllForAnon()
     {

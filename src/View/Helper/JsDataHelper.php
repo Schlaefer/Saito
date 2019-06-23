@@ -55,6 +55,8 @@ class JsDataHelper extends AppHelper
     public function getAppJs(View $View, ForumsUserInterface $CurrentUser)
     {
         $settings = Configure::read('Saito.Settings');
+        $request = $View->getRequest();
+
         $js = $this->_JsData->getJs();
         $js += [
             'app' => [
@@ -77,15 +79,15 @@ class JsDataHelper extends AppHelper
                     'upload_max_img_size' => $settings['upload_max_img_size'] * 1024,
                     'upload_max_number_of_uploads' => (int)$settings['upload_max_number_of_uploads'],
                     'theme' => $View->getTheme(),
-                    'apiroot' => $View->request->getAttribute('webroot') . 'api/v2/',
-                    'webroot' => $View->request->getAttribute('webroot')
+                    'apiroot' => $request->getAttribute('webroot') . 'api/v2/',
+                    'webroot' => $request->getAttribute('webroot')
                 ]
             ],
             'request' => [
-                'action' => $View->request->getParam('action'),
-                'controller' => $View->request->getParam('controller'),
-                'isMobile' => $View->request->isMobile(),
-                'isPreview' => $View->request->isPreview(),
+                'action' => $request->getParam('action'),
+                'controller' => $request->getParam('controller'),
+                'isMobile' => $request->isMobile(),
+                'isPreview' => $request->isPreview(),
                 'csrf' => $this->_getCsrf($View)
             ],
             'currentUser' => [
@@ -117,9 +119,9 @@ class JsDataHelper extends AppHelper
     protected function _getCsrf(View $View)
     {
         $key = 'csrfToken';
-        $token = $View->request->getCookie($key);
+        $token = $View->getRequest()->getCookie($key);
         if (empty($token)) {
-            $token = $View->response->getCookie($key)['value'];
+            $token = $View->getResponse()->getCookie($key)['value'];
         }
         $header = 'X-CSRF-Token';
 

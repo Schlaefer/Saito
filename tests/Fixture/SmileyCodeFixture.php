@@ -27,8 +27,6 @@ class SmileyCodeFixture extends TestFixture
             'null' => true,
             'default' => null,
             'length' => 32,
-            'collate' => 'utf8_general_ci',
-            'charset' => 'utf8'
         ],
         '_constraints' => [
             'primary' => [
@@ -37,8 +35,8 @@ class SmileyCodeFixture extends TestFixture
             ]
         ],
         '_options' => [
-            'charset' => 'utf8',
-            'collate' => 'utf8_unicode_ci',
+            'charset' => 'utf8mb4',
+            'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB'
         ]
     ];

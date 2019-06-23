@@ -9,7 +9,7 @@ use Saito\Test\SaitoTestCase;
 class UserTest extends SaitoTestCase
 {
 
-    public $fixtures = ['app.category', 'app.user'];
+    public $fixtures = ['app.Category', 'app.User'];
 
     public function testNumberOfPostings()
     {

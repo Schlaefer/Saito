@@ -23,7 +23,7 @@ $this->end();
             <p>
                 The registration was already finished in the past.
             </p>
-        <?php
+            <?php
         else : ?>
             <h2>Registration Failed</h2>
             <p>

@@ -56,8 +56,13 @@
             </then>
         </if>
 
+        <!-- __SALT__ will be replaced by the composer CakePHP post task  -->
+        <replaceregexp file="${git.dir}/config/app.php" match="__SALT__" replace="@@SALT@@"/>
+
         <echo msg="Install composer packages"/>
         <exec command="composer install --optimize-autoloader --no-dev --no-interaction" dir="${git.dir}"/>
+
+        <replaceregexp file="${git.dir}/config/app.php" match="@@SALT@@" replace="__SALT__"/>
 
         <echo msg="Install yarn packages"/>
         <exec command="yarn" dir="${git.dir}"/>

@@ -106,7 +106,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             $storage = TableRegistry::get('UserReads');
             $this->ReadEntries = new ReadPostingsDatabase($this, $storage);
         } elseif ($this->isBot()) {
-            $this->LastRefresh = new LastRefresh\LastRefreshDummy();
+            $this->LastRefresh = new LastRefresh\LastRefreshDummy($this);
             $this->ReadEntries = new ReadPostingsDummy();
         } else {
             $this->LastRefresh = new LastRefresh\LastRefreshCookie($this);

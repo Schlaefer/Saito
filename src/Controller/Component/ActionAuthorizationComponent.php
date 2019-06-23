@@ -19,7 +19,8 @@ class ActionAuthorizationComponent extends Component
     public function isAuthorized(CurrentUserInterface $user, $action)
     {
         $Controller = $this->_registry->getController();
-        if (isset($Controller->actionAuthConfig[$action])) {
+        if (isset($Controller->actionAuthConfig)
+            && isset($Controller->actionAuthConfig[$action])) {
             $requiredRole = $Controller->actionAuthConfig[$action];
 
             return Registry::get('Permission')

@@ -12,9 +12,9 @@ class PostingTest extends SaitoTestCase
     public $Table;
 
     public $fixtures = [
-        'app.entry',
-        'app.category',
-        'app.user',
+        'app.Entry',
+        'app.Category',
+        'app.User',
     ];
 
     public function setUp()

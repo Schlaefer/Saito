@@ -31,7 +31,7 @@ class FeedsHelper extends Helper
         $this->channel
             ->title($this->getView()->get('titleForLayout'))
             ->url($url)
-            ->feedUrl($this->getView()->request->getRequestTarget())
+            ->feedUrl($this->getView()->getRequest()->getRequestTarget())
             ->language($language)
             ->appendTo($this->feed);
     }

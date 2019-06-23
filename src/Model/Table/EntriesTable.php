@@ -104,7 +104,7 @@ class EntriesTable extends AppTable
      *
      * Entry.text determine if Entry is n/t
      *
-     * @var string
+     * @var array
      */
     public $threadLineFieldList = [
         'Entries.id',
@@ -130,7 +130,7 @@ class EntriesTable extends AppTable
     /**
      * fields additional to $threadLineFieldList to show complete entry
      *
-     * @var string
+     * @var array
      */
     public $showEntryFieldListAdditional = [
         'Entries.edited',
@@ -146,8 +146,7 @@ class EntriesTable extends AppTable
     /** @var FieldFilter */
     public $fieldFilter;
 
-    protected $_settings = [
-        'edit_period' => 20,
+    protected $_defaultConfig = [
         'subject_maxlength' => 100
     ];
 
@@ -1120,7 +1119,7 @@ class EntriesTable extends AppTable
      */
     public function validateSubjectMaxLength($subject)
     {
-        return mb_strlen($subject) <= $this->_setting('subject_maxlength');
+        return mb_strlen($subject) <= $this->getConfig('subject_maxlength');
     }
 
     /**

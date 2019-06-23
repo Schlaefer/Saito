@@ -18,7 +18,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
     /**
      * @var UserReadsTable
      */
-    protected $userReadsTable;
+    protected $storage;
 
     protected $minPostingsToKeep;
 
@@ -27,8 +27,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      */
     public function __construct(CurrentUserComponent $CurrentUser, UserReadsTable $storage)
     {
-        parent::__construct($CurrentUser);
-        $this->userReadsTable = $storage;
+        parent::__construct($CurrentUser, $storage);
         $this->_registerGc();
     }
 
@@ -47,7 +46,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
             return;
         }
 
-        $this->userReadsTable->setEntriesForUser($entries, $this->_getId());
+        $this->storage->setEntriesForUser($entries, $this->_getId());
         Stopwatch::stop('ReadPostingsDatabase::set()');
     }
 
@@ -56,7 +55,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      */
     public function delete()
     {
-        $this->userReadsTable->deleteAllFromUser($this->_getId());
+        $this->storage->deleteAllFromUser($this->_getId());
     }
 
     /**
@@ -120,7 +119,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         $nCategories = $Categories->find()->count();
         $entriesToKeep = $nCategories * $this->_minNPostingsToKeep();
         $lastEntryId = $lastEntry->get('id') - $entriesToKeep;
-        $this->userReadsTable->deleteEntriesBefore($lastEntryId);
+        $this->storage->deleteEntriesBefore($lastEntryId);
     }
 
     /**
@@ -152,7 +151,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         // assign dummy var to prevent Strict notice on reference passing
         $dummy = array_slice($entries, $entriesToDelete, 1);
         $oldestIdToKeep = array_shift($dummy);
-        $this->userReadsTable->deleteUserEntriesBefore(
+        $this->storage->deleteUserEntriesBefore(
             $this->_getId(),
             $oldestIdToKeep
         );
@@ -170,7 +169,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
             ->first();
         // can't use  $this->_CU->LastRefresh->set() because this would also
         // delete all of this user's UserRead entries
-        $this->userReadsTable->Users
+        $this->storage->Users
             ->setLastRefresh(
                 $this->_getId(),
                 $youngestDeletedEntry->get('time')
@@ -185,7 +184,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         if ($this->readPostings !== null) {
             return $this->readPostings;
         }
-        $this->readPostings = $this->userReadsTable->getUser($this->_getId());
+        $this->readPostings = $this->storage->getUser($this->_getId());
 
         return $this->readPostings;
     }

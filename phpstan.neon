@@ -6,8 +6,9 @@ parameters:
     excludes_analyse:
         - **/*.ctp
         - **/TestCase/*
+        # Inline classes are not picked up by phpstan
+        - */BbcodeParser/src/Lib/jBBCode/Definitions/*
     autoload_files:
         - tests/bootstrap.php
     ignoreErrors:
-        - '#Access to an undefined property object::\$sub#'
         - '#Call to an undefined method.*Table::findBy.*\(\)#'

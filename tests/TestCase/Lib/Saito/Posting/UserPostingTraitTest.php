@@ -30,7 +30,7 @@ class UserPostingTraitTest extends SaitoTestCase
 
     public $editPeriod = 20;
 
-    public $fixtures = ['app.category'];
+    public $fixtures = ['app.Category'];
 
     public function setUp()
     {

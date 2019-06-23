@@ -18,7 +18,7 @@ class Registry
     /**
      * @var Container;
      */
-    static protected $_DIC;
+    protected static $_DIC;
 
     /**
      * Initialize

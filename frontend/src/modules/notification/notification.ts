@@ -1,9 +1,8 @@
+import EventBus from 'app/vent';
+import { Collection, Model } from 'backbone';
 import * as Mn from 'backbone.marionette';
-import * as Radio from 'backbone.radio';
 import * as $ from 'jquery';
-import App from 'models/app';
 import * as _ from 'underscore';
-import * as PNotify from './../../../../node_modules/pnotify/lib/umd/PNotify.js';
 
 enum NotificationType {
     error = 'error',
@@ -19,11 +18,86 @@ interface INotification {
     type?: NotificationType;
 }
 
-class NotificationRenderer extends Mn.Object {
-    constructor(eventBus: Radio.Channel) {
+class NotificationView extends Mn.View<Model> {
+    public constructor(options: any = {}) {
+        _.defaults(options, {
+            attributes: {
+                'aria-atomic': 'true',
+                'aria-live': 'assertive',
+                'role': 'alert',
+            },
+            className: 'toast',
+            events: {
+                'hidden.bs.toast': 'onClosed',
+            },
+            template: _.template(`
+<div class="toast-header">
+    <svg class="bd-placeholder-img
+        <%= addclass %>"
+        width="20" height="20"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice"
+        focusable="false"
+        role="img">
+    </svg>
+    <strong class="mr-auto"><%- title %></strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="toast-body">
+    <%- text %>
+</div>
+`),
+            ui: {
+                toast: '.toast',
+            },
+
+        });
+        super(options);
+    }
+
+    public onRender() {
+        this.$el
+            .toast({autohide: this.model.get('autohide'), delay: this.model.get('delay')})
+            .toast('show');
+    }
+
+    public onClosed() {
+        this.model.collection.remove(this.model);
+    }
+}
+
+class NotificationsCollectionView extends Mn.CollectionView<Model, Mn.View<Model>, Collection<Model>> {
+    public constructor(options: any = {}) {
+        _.defaults(options, {
+            childView: NotificationView,
+        });
         super(...arguments);
-        this.listenTo(eventBus, 'notification', this._showMessages);
-        this.listenTo(eventBus, 'notificationUnset', this._unset);
+    }
+}
+
+class NotificationsView extends Mn.View<Model> {
+    public constructor(options: any = {}) {
+        _.defaults(options, {
+            template: _.template(`<div class="notifications";"></div>`),
+            ui: {
+                inner: '.notifications',
+            },
+        });
+        super(...arguments);
+    }
+
+    public initialize() {
+        this.collection = new Collection();
+        this.listenTo(EventBus.vent, 'notification', this.showMessages);
+    }
+
+    public onRender() {
+        new NotificationsCollectionView({
+            collection: this.collection,
+            el: this.getUI('inner'),
+        }).render();
     }
 
     /**
@@ -45,15 +119,15 @@ class NotificationRenderer extends Mn.Object {
      *
      * @param options
      */
-    private _showMessages(message: INotification | INotification[]) {
+    private showMessages(message: INotification | INotification[]) {
         if (Array.isArray(message)) {
             _.each(message, function(msg) {
-                this._showMessages(msg);
+                this.showMessages(msg);
             }, this);
 
             return;
         }
-        this._showMessage(message);
+        this.showMessage(message);
     }
 
     /**
@@ -62,62 +136,33 @@ class NotificationRenderer extends Mn.Object {
      * @param msg single message
      * @private
      */
-    private _showMessage(msg: INotification) {
-        msg.channel = msg.channel || 'notification';
-        // msg.title = msg.title || $.i18n.__(msg.type);
-        msg.message = $.i18n.__(msg.message.trim());
+    private showMessage(message: INotification) {
+             const logOptions = {
+                addclass: 'bg-info',
+                autohide: true,
+                delay: 5000,
+                text: $.i18n.__(message.message.trim()),
+                title: message.title || '',
+            };
+             const type: string = message.type;
 
-        switch (msg.channel) {
-            case 'popover':
-            // this._popover(msg);
-            // break;
-            default:
-                this._showNotification(msg);
-                break;
+             switch (type) {
+                case 'success':
+                    logOptions.addclass = 'bg-success';
+                    break;
+                case 'warning':
+                    logOptions.addclass = 'bg-warning';
+                    logOptions.autohide = false;
+                    break;
+                case 'error':
+                    logOptions.addclass = 'bg-danger';
+                    logOptions.autohide = false;
+                    break;
+                default:
+            }
+
+             this.collection.add(new Model(logOptions));
         }
     }
 
-    private _unset(msg) {
-        if (msg === 'all') {
-            $('.error-message').remove();
-        }
-    }
-
-    private _showNotification(options: INotification) {
-        const delay: number = 5000;
-        const logOptions = {
-            addclass: 'flash',
-            delay,
-            history: false,
-            icon: false,
-            text: options.message,
-            title: options.title || false,
-        };
-        let type: string = options.type;
-
-        switch (type) {
-            case 'success':
-                logOptions.addclass += ' flash-success';
-                break;
-            case 'warning':
-                type = 'notice'; // changed from pnotify 1.x to 4.x
-                logOptions.addclass += ' flash-warning';
-                break;
-            case 'error':
-                logOptions.addclass += ' flash-error';
-                logOptions.delay = delay * 2;
-                // logOptions.hide = false;
-                break;
-            default:
-                type = 'info';
-                logOptions.addclass += ' flash-notice';
-                break;
-        }
-
-        PNotify[type](logOptions);
-    }
-}
-
-export default NotificationRenderer;
-
-export { INotification };
+export default NotificationsView;
