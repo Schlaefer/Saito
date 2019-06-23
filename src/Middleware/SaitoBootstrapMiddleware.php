@@ -47,11 +47,11 @@ class SaitoBootstrapMiddleware
                 ->withParam('controller', 'Install');
 
             return $next($request, $response);
-        } elseif (strpos($url, 'installer/finished')) {
+        } elseif (strpos($url, 'install/finished')) {
             //// User has has removed installer token. Installer no longer available.
             InstallerState::reset();
 
-            return (new Response())->withLocation(Router::fullBaseUrl('/'));
+            return (new Response())->withLocation(Router::url('/'));
         }
 
         //// load settings
