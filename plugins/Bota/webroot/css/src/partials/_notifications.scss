@@ -1,0 +1,12 @@
+.notifications {
+  @extend .m-3;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index:1000;
+
+  .bd-placeholder-img {
+    @extend .mr-2;
+  }
+}
