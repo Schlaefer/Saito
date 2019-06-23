@@ -47,7 +47,7 @@ class ThumbnailController extends Controller
 
             if ($document->get('size') > 150000) {
                 $raw = (new SimpleImage())
-                    ->fromString($raw)
+                    ->fromFile($file->path)
                     ->bestFit(300, 300)
                     ->toString();
             }

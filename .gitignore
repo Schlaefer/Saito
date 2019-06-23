@@ -20,5 +20,7 @@ schema-dump-default.lock
 
 ### Assets ###
 plugins/Bota/webroot/css/*
+!plugins/Bota/webroot/css/src/
 webroot/css/stylesheets/*
+!webroot/css/stylesheets/src/
 webroot/js/*

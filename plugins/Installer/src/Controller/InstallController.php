@@ -53,7 +53,7 @@ class InstallController extends AppController
         $this->log('Start installer.');
         InstallerState::reset();
 
-        return $this->redirect('install/dbconnection');
+        return $this->redirect('/install/dbconnection');
     }
 
     /**
@@ -242,6 +242,6 @@ class InstallController extends AppController
     {
         InstallerState::set($action);
 
-        return $this->redirect('installer/' . $action);
+        return $this->redirect('/install/' . $action);
     }
 }

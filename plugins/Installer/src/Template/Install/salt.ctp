@@ -15,7 +15,7 @@
                 <?= __d('installer', 'salt.failure') ?>
             </div>
             <p class="card-text">
-                <?= __d('installer', 'salt.explanation') ?>
+                <?= nl2br(__d('installer', 'salt.explanation')) ?>
             </p>
             <pre>
             <?= Cake\Utility\Security::randomString(64) ?>

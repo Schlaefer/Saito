@@ -61,7 +61,7 @@ class InstallerControllerTest extends IntegrationTestCase
         ];
 
         foreach ($actions as $action) {
-            $this->get('installer/' . $action);
+            $this->get('install/' . $action);
             $this->assertRedirect('/');
         }
     }
@@ -69,11 +69,11 @@ class InstallerControllerTest extends IntegrationTestCase
     public function testMigrateAndData()
     {
         InstallerState::set('migrate');
-        $this->post('installer/migrate');
+        $this->post('install/migrate');
 
         $email = 'test@example.com';
         $this->post(
-            'installer/data',
+            'install/data',
             [
                 'username' => 'admin',
                 'password' => 'admin',
@@ -82,7 +82,7 @@ class InstallerControllerTest extends IntegrationTestCase
             ]
         );
 
-        $this->assertRedirect('installer/finished');
+        $this->assertRedirect('install/finished');
 
         $Settings = TableRegistry::getTableLocator()->get('Settings');
         $this->assertEquals($email, $Settings->findByName('forum_email')->first()->get('value'));
@@ -105,7 +105,7 @@ class InstallerControllerTest extends IntegrationTestCase
         $token = new File(CONFIG . 'installer');
         $this->assertTrue($token->exists());
 
-        $this->get('installer/connected');
+        $this->get('install/connected');
 
         $this->assertResponseCode(200);
     }
