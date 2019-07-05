@@ -82,7 +82,7 @@ trait UrlParserTrait
         if ($label !== false && $label !== 'none' && $label !== 'false') {
             if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
                 $host = DomainParser::domainAndTld($url);
-                if ($host !== false && $host !== env('SERVER_NAME')) {
+                if ($host !== null && $host !== env('SERVER_NAME')) {
                     $out .= ' <span class=\'richtext-linkInfo\'>[' . $host . ']</span>';
                 }
             }
