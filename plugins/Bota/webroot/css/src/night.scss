@@ -40,6 +40,11 @@ $custom-select-padding-y: 0.1rem !default;
 // overwrites primary color shadow
 $input-focus-box-shadow: $input-focus-border-color !default;
 
+/// Toasts
+$toast-background-color: $body-bg !default;
+$toast-header-background-color: $form-bg !default;
+$toast-header-color: $body-color !default;
+
 /******************************************************************************
  * Core Theme Include
  ******************************************************************************/
