@@ -178,7 +178,8 @@ class EntryFixture extends TestFixture
             'time' => '2000-01-01 20:00:00',
             'last_answer' => '2000-01-04 20:02:00',
             'category_id' => 2, // accession = 0
-            'user_id' => 3
+            'user_id' => 3,
+            'name' => 'Alice',
         ],
         [
             'id' => 2,

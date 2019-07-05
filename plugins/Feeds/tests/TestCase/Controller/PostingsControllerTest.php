@@ -30,6 +30,7 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $this->assertResponseOk();
         $this->assertResponseContains('<title><![CDATA[First_Subject]]></title>');
+        $this->assertResponseContains('<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alice</dc:creator>');
     }
 
     public function testThreads()
