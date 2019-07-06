@@ -29,10 +29,17 @@ $table[] = [
     $this->User->getAvatar($user, ['link' => false])
 ];
 
-if ($user->isForbidden()) {
+if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate')) {
+    $table[] = [
+        h(__('user.actv.t')),
+        h(__('user.actv.ny'))
+    ];
+}
+
+if ($user->isLocked()) {
     $table[] = [
         __('user.set.lock.t'),
-        $this->User->banned($user->get('user_lock')),
+        $this->User->banned(true),
     ];
 }
 

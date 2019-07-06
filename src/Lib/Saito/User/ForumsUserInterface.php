@@ -65,7 +65,14 @@ interface ForumsUserInterface
      *
      * @return bool
      */
-    public function isForbidden();
+    public function isLocked() : bool;
+
+    /**
+     * Checks if the user is activated
+     *
+     * @return bool
+     */
+    public function isActivated() : bool;
 
     /**
      * Checks if the user is the same user as $user

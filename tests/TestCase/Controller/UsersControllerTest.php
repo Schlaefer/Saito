@@ -573,6 +573,70 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertResponseContains('2013531');
     }
 
+    /**
+     * User doesn't see activation status of unactivated user
+     */
+    public function testViewUserNotActivatedUser()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(3);
+        $this->get('/users/view/10');
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('user.actv.t');
+        $this->assertResponseNotContains('user.actv.ny');
+    }
+
+    /**
+     * User doesn't see activation status of unactivated user
+     */
+    public function testIndexUserNotActivatedUser()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(3);
+        $this->get('/users/index');
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('user.actv.t');
+        $this->assertResponseNotContains('user.actv.ny');
+    }
+
+    /**
+     * Admin sees activation status of unactivated user
+     */
+    public function testViewUserNotActivatedAdmin()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(1);
+        $this->get('/users/view/10');
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('user.actv.t');
+        $this->assertResponseContains('user.actv.ny');
+    }
+
+    /**
+     * Admin doesn't see activation status for activated user
+     */
+    public function testViewUserActivatedAdmin()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(1);
+        $this->get('/users/view/3');
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('user.actv.t');
+        $this->assertResponseNotContains('user.actv.ny');
+    }
+
+    /**
+     * Admin sees activation status of unactivated user
+     */
+    public function testIndexUserNotActivatedAdmin()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(1);
+        $this->get('/users/index');
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('user.actv.ny');
+    }
+
     public function testViewSanitation()
     {
         $this->_loginUser(3);

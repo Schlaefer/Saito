@@ -90,28 +90,22 @@ class UsersController extends AppController
 
         if (!empty($readUser)) {
             $User = new SaitoUser($readUser);
-            switch ($User->isForbidden()) {
-                case 'locked':
-                    $ends = $this->Users->UserBlocks
-                        ->getBlockEndsForUser($User->getId());
-                    if ($ends) {
-                        $time = new Time($ends);
-                        $data = [
-                            $username,
-                            $time->timeAgoInWords(['accuracy' => 'hour'])
-                        ];
-                        $message = __('user.block.pubExpEnds', $data);
-                    } else {
-                        $message = __('user.block.pubExp', $username);
-                    }
-                    break;
-                case 'unactivated':
-                    $message = __(
-                        'User {0} is not activated yet.',
-                        [$readUser->get('username')]
-                    );
-                    break;
-                default:
+
+            if (!$User->isActivated()) {
+                $message = __('user.actv.ny');
+            } elseif ($User->isLocked()) {
+                $ends = $this->Users->UserBlocks
+                    ->getBlockEndsForUser($User->getId());
+                if ($ends) {
+                    $time = new Time($ends);
+                    $data = [
+                        $username,
+                        $time->timeAgoInWords(['accuracy' => 'hour'])
+                    ];
+                    $message = __('user.block.pubExpEnds', $data);
+                } else {
+                    $message = __('user.block.pubExp', $username);
+                }
             }
         }
 
