@@ -66,8 +66,9 @@ class ContactsController extends AppController
         }
         $this->set('user', $recipient);
 
-        if (!$recipient->get('personal_messages')) {
-            throw new BadRequestException();
+        if (!$recipient->get('personal_messages')
+            && !$this->CurrentUser->permission('saito.core.user.view.contact')) {
+            throw new BadRequestException(null, 1562415010);
         }
 
         $this->set(

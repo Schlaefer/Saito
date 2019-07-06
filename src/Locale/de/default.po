@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-06 08:28+0200\n"
-"PO-Revision-Date: 2019-07-06 08:32+0200\n"
+"POT-Creation-Date: 2019-07-06 12:45+0200\n"
+"PO-Revision-Date: 2019-07-06 12:49+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -392,86 +392,91 @@ msgstr "Alle Kategorien"
 msgid "auth_loginerror"
 msgstr "Fehler beim Login!"
 
-#: src/Controller/UsersController.php:108
+#: src/Controller/UsersController.php:95 src/Template/Users/index.ctp:51
+#: src/Template/Users/view.ctp:35
+msgid "user.actv.ny"
+msgstr "Das Nutzerkonto wurde noch nicht aktiviert"
+
+#: src/Controller/UsersController.php:105
 msgid "user.block.pubExpEnds"
 msgstr "Mitglied %s wurde gesperrt. Versuchen Sie es in %s erneut."
 
-#: src/Controller/UsersController.php:110
+#: src/Controller/UsersController.php:107
 msgid "user.block.pubExp"
 msgstr "Mitglied %s wurde gesperrt."
 
-#: src/Controller/UsersController.php:196
+#: src/Controller/UsersController.php:193
 msgid "register_email_subject"
 msgstr "Willkommen zu {0}!"
 
-#: src/Controller/UsersController.php:252
+#: src/Controller/UsersController.php:249
 #: plugins/Admin/src/Template/Users/index.ctp:20 src/Template/Users/edit.ctp:21
 #: src/Template/Users/edit.ctp:47 src/Template/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Benutzername"
 
-#: src/Controller/UsersController.php:253
+#: src/Controller/UsersController.php:250
 #: plugins/Admin/src/Template/Users/index.ctp:21 src/Template/Users/edit.ctp:29
 msgid "user_type"
 msgstr "Typ"
 
-#: src/Controller/UsersController.php:255
+#: src/Controller/UsersController.php:252
 msgid "userlist_online"
 msgstr "Online"
 
-#: src/Controller/UsersController.php:258
+#: src/Controller/UsersController.php:255
 #: plugins/Admin/src/Template/Users/index.ctp:23
 msgid "registered"
 msgstr "Registriert"
 
-#: src/Controller/UsersController.php:263
+#: src/Controller/UsersController.php:260
 #: plugins/Admin/src/Template/Users/index.ctp:26 src/Template/Users/view.ctp:41
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Sperre"
 
-#: src/Controller/UsersController.php:355
-#: src/Controller/UsersController.php:389
+#: src/Controller/UsersController.php:352
+#: src/Controller/UsersController.php:386
 msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
-#: src/Controller/UsersController.php:449
+#: src/Controller/UsersController.php:446
 msgid "user.avatar.edit.t"
 msgstr "Bearbeite Nutzer Avatar {0}"
 
-#: src/Controller/UsersController.php:480
+#: src/Controller/UsersController.php:477
 msgid "user.edit.t"
 msgstr "Bearbeite Profil {0}"
 
-#: src/Controller/UsersController.php:517
+#: src/Controller/UsersController.php:514
 msgid "The user could not be saved. Please, try again."
 msgstr "Der Benutzer konnte nicht gespeichert werden."
 
-#: src/Controller/UsersController.php:547
+#: src/Controller/UsersController.php:544
 msgid "You can't lock yourself."
 msgstr "Man kann sich nicht selbst sperren."
 
-#: src/Controller/UsersController.php:550
+#: src/Controller/UsersController.php:547
 msgid "You can't lock administrators."
 msgstr "Administratoren können nicht gesperrt werden."
 
-#: src/Controller/UsersController.php:560
+#: src/Controller/UsersController.php:557
 msgid "User {0} is locked."
 msgstr ""
 
-#: src/Controller/UsersController.php:563
+#: src/Controller/UsersController.php:560
 msgid "Error while locking."
 msgstr ""
 
-#: src/Controller/UsersController.php:585
+#: src/Controller/UsersController.php:582
 msgid "Error while unlocking."
 msgstr ""
 
-#: src/Controller/UsersController.php:590
+#: src/Controller/UsersController.php:587
 msgid "User {0} is unlocked."
 msgstr "Benutzer {0} wurde freigegeben."
 
-#: src/Controller/UsersController.php:637
+#: src/Controller/UsersController.php:634
 msgid "change_password_success"
 msgstr "Passwort erfolgreich geändert."
 
@@ -704,14 +709,14 @@ msgstr "Antwort verfassen"
 #: plugins/Admin/src/Template/Settings/index.ctp:38
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:47
 #: plugins/Admin/src/Template/Smilies/index.ctp:73
-#: src/Template/Users/view.ctp:220
+#: src/Template/Users/view.ctp:225
 msgid "Edit"
 msgstr "Bearbeiten"
 
 #: plugins/Admin/src/Template/Categories/index.ctp:51
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:56
 #: plugins/Admin/src/Template/Smilies/index.ctp:83
-#: src/Template/Users/view.ctp:228
+#: src/Template/Users/view.ctp:233
 msgid "Delete"
 msgstr "Löschen"
 
@@ -764,7 +769,7 @@ msgstr "Benutzer"
 
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:32
 #: plugins/Admin/src/Template/Users/block.ctp:3
-#: plugins/Admin/src/Template/Users/block.ctp:4 src/Template/Users/view.ctp:257
+#: plugins/Admin/src/Template/Users/block.ctp:4 src/Template/Users/view.ctp:262
 msgid "user.block.history"
 msgstr "Sperren"
 
@@ -1038,7 +1043,7 @@ msgstr "Löschen"
 msgid "Ressources"
 msgstr "Ressourcen"
 
-#: src/Template/Element/layout/disclaimer.ctp:15 src/Template/Users/view.ctp:59
+#: src/Template/Element/layout/disclaimer.ctp:15 src/Template/Users/view.ctp:64
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -1076,7 +1081,7 @@ msgid "login_btn"
 msgstr "Anmelden"
 
 #: src/Template/Element/layout/header_login.ctp:23
-#: src/Template/Users/view.ctp:161
+#: src/Template/Users/view.ctp:166
 #, fuzzy
 msgid "user.b.profile"
 msgstr "Profil"
@@ -1252,7 +1257,7 @@ msgstr "Realer Name"
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:64
+#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:69
 msgid "user_hp"
 msgstr "Homepage"
 
@@ -1264,11 +1269,11 @@ msgstr "(optional)"
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:95 src/Template/Users/view.ctp:71
+#: src/Template/Users/edit.ctp:95 src/Template/Users/view.ctp:76
 msgid "user_place"
 msgstr "Ort"
 
-#: src/Template/Users/edit.ctp:99 src/Template/Users/view.ctp:135
+#: src/Template/Users/edit.ctp:99 src/Template/Users/view.ctp:140
 msgid "user_profile"
 msgstr "Profil"
 
@@ -1276,7 +1281,7 @@ msgstr "Profil"
 msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
-#: src/Template/Users/edit.ctp:108 src/Template/Users/view.ctp:142
+#: src/Template/Users/edit.ctp:108 src/Template/Users/view.ctp:147
 msgid "user_signature"
 msgstr "Signatur"
 
@@ -1382,10 +1387,7 @@ msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
 #: src/Template/Users/edit.ctp:331
 msgid "user_pers_msg_exp"
-msgstr ""
-"Sollen persönliche Nachrichten registrierter Benutzer per E-Mail empfangen "
-"werden können? (die E-Mail-Adresse kann dabei nicht vom Sender eingesehen "
-"werden)"
+msgstr "Nachrichten von anderen Benutzern via Kontaktformular erlauben."
 
 #: src/Template/Users/edit.ctp:345
 msgid "user_category_override"
@@ -1416,51 +1418,47 @@ msgstr "log in"
 msgid "user.actv.t"
 msgstr "Kontoaktivierung"
 
-#: src/Template/Users/view.ctp:35
-msgid "user.actv.ny"
-msgstr "Das Nutzerkonto wurde noch nicht aktiviert"
-
-#: src/Template/Users/view.ctp:77
+#: src/Template/Users/view.ctp:82
 msgid "user_since"
 msgstr "Mitglied seit"
 
-#: src/Template/Users/view.ctp:85
+#: src/Template/Users/view.ctp:90
 msgid "user_postings"
 msgstr "Beiträge"
 
-#: src/Template/Users/view.ctp:105
+#: src/Template/Users/view.ctp:110
 msgid "user_ignored_by"
 msgstr "Ignoriert von"
 
-#: src/Template/Users/view.ctp:127
+#: src/Template/Users/view.ctp:132
 msgid "user_ignores"
 msgstr "Ignorierte Mitglieder"
 
-#: src/Template/Users/view.ctp:176
+#: src/Template/Users/view.ctp:181
 msgid "edit_userdata"
 msgstr "Bearbeiten"
 
-#: src/Template/Users/view.ctp:188
+#: src/Template/Users/view.ctp:193
 msgid "unignore_this_user"
 msgstr "Ignorierung aufheben"
 
-#: src/Template/Users/view.ctp:202
+#: src/Template/Users/view.ctp:207
 msgid "ignore_this_user"
 msgstr "Ignorieren"
 
-#: src/Template/Users/view.ctp:276
+#: src/Template/Users/view.ctp:281
 msgid "Block User"
 msgstr "Nutzer sperren"
 
-#: src/Template/Users/view.ctp:307
+#: src/Template/Users/view.ctp:312
 msgid "user.block.hours"
 msgstr "{hours} Stunden"
 
-#: src/Template/Users/view.ctp:350
+#: src/Template/Users/view.ctp:355
 msgid "No entries created yet."
 msgstr "Noch keine Beiträge verfasst."
 
-#: src/Template/Users/view.ctp:370
+#: src/Template/Users/view.ctp:375
 msgid "Show all"
 msgstr "Alle anzeigen"
 

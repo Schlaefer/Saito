@@ -637,6 +637,48 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertResponseContains('user.actv.ny');
     }
 
+    /**
+     * User has messaging disabled. Normal user can't see it
+     */
+    public function testContactMsgNotAllowed()
+    {
+        $this->_loginUser(3);
+        $userId = 4;
+
+        $this->get('/users/view/' . $userId);
+
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('<a href="/contacts/user/' . $userId . '">');
+    }
+
+    /**
+     * User has messaging disabled. Privileged user may see it
+     */
+    public function testContactMsgNotAllowedButPrivileged()
+    {
+        $this->_loginUser(1);
+        $userId = 4;
+
+        $this->get('/users/view/' . $userId);
+
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('<a href="/contacts/user/' . $userId . '">');
+    }
+
+    /**
+     * User has messaging enabled. Normal user can see it
+     */
+    public function testContactMsgAllowed()
+    {
+        $this->_loginUser(3);
+        $userId = 9;
+
+        $this->get('/users/view/' . $userId);
+
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('<a href="/contacts/user/' . $userId . '">');
+    }
+
     public function testViewSanitation()
     {
         $this->_loginUser(3);
