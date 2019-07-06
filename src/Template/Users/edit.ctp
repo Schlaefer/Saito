@@ -42,6 +42,20 @@ $this->end();
                     )
                 ]
             ];
+
+            /// Change password option already exists if same user
+            if ($CurrentUser->getId() !== $user->get('id')) {
+                $cells[] = [
+                    __('user_pw'),
+                    $this->Html->link(
+                        __('user.pw.set.btn'),
+                        [
+                            'action' => 'setpassword',
+                            $user->get('id')
+                        ]
+                    )
+                ];
+            }
         } else {
             $cells = [
                 [__('username_marking'), h($user->get('username'))],

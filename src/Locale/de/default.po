@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-06 12:45+0200\n"
-"PO-Revision-Date: 2019-07-06 12:49+0200\n"
+"POT-Creation-Date: 2019-07-06 15:38+0200\n"
+"PO-Revision-Date: 2019-07-06 15:48+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -309,15 +309,15 @@ msgstr ""
 msgid ":subject (:type) | :category"
 msgstr ""
 
-#: src/Controller/ContactsController.php:75
+#: src/Controller/ContactsController.php:76
 msgid "user_contact_title"
 msgstr "Kontaktiere {0}"
 
-#: src/Controller/ContactsController.php:111
+#: src/Controller/ContactsController.php:112
 msgid "Message was send."
 msgstr "Nachricht wurde versandt."
 
-#: src/Controller/ContactsController.php:119
+#: src/Controller/ContactsController.php:120
 msgid "Message couldn't be send: {0}"
 msgstr ""
 
@@ -411,7 +411,7 @@ msgstr "Willkommen zu {0}!"
 
 #: src/Controller/UsersController.php:249
 #: plugins/Admin/src/Template/Users/index.ctp:20 src/Template/Users/edit.ctp:21
-#: src/Template/Users/edit.ctp:47 src/Template/Users/view.ctp:19
+#: src/Template/Users/edit.ctp:58 src/Template/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Benutzername"
 
@@ -478,6 +478,10 @@ msgstr "Benutzer {0} wurde freigegeben."
 
 #: src/Controller/UsersController.php:634
 msgid "change_password_success"
+msgstr "Passwort erfolgreich geändert."
+
+#: src/Controller/UsersController.php:675
+msgid "user.pw.set.s"
 msgstr "Passwort erfolgreich geändert."
 
 #: src/Form/ContactForm.php:34
@@ -752,7 +756,7 @@ msgstr "Übersicht"
 #: plugins/Admin/src/Template/Settings/index.ctp:2
 #: plugins/Admin/src/Template/Settings/index.ctp:100
 #: plugins/Admin/src/Template/Settings/timezone.ctp:3
-#: src/Template/Users/edit.ctp:124
+#: src/Template/Users/edit.ctp:135
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -1140,7 +1144,7 @@ msgstr "Gesperrt durch Moderator {0}."
 
 #: src/Template/Element/users/login_form.ctp:28
 #: src/Template/Element/users/register-form-core.ctp:22
-#: src/Template/Users/edit.ctp:54
+#: src/Template/Users/edit.ctp:47 src/Template/Users/edit.ctp:65
 msgid "user_pw"
 msgstr "Passwort"
 
@@ -1204,7 +1208,7 @@ msgstr ""
 msgid "RSS Feeds"
 msgstr ""
 
-#: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:387
+#: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:398
 msgid "gn.btn.save.t"
 msgstr "Speichern"
 
@@ -1212,7 +1216,7 @@ msgstr "Speichern"
 msgid "gn.btn.delete.t"
 msgstr "Löschen"
 
-#: src/Template/Users/changepassword.ctp:12 src/Template/Users/edit.ctp:56
+#: src/Template/Users/changepassword.ctp:12 src/Template/Users/edit.ctp:67
 msgid "change_password_link"
 msgstr "Passwort ändern"
 
@@ -1221,10 +1225,12 @@ msgid "change_password_old_password"
 msgstr "Altes Passwort"
 
 #: src/Template/Users/changepassword.ctp:52
+#: src/Template/Users/setpassword.ctp:26
 msgid "change_password_new_password"
 msgstr "Neues Passwort"
 
 #: src/Template/Users/changepassword.ctp:64
+#: src/Template/Users/setpassword.ctp:38
 msgid "change_password_new_password_confirm"
 msgstr "Neues Passwort wiederholen"
 
@@ -1237,163 +1243,167 @@ msgstr "Passwort ändern"
 msgid "Profile"
 msgstr "Profil"
 
-#: src/Template/Users/edit.ctp:25 src/Template/Users/edit.ctp:48
+#: src/Template/Users/edit.ctp:25 src/Template/Users/edit.ctp:59
 msgid "userlist_email"
 msgstr "E-Mail"
 
-#: src/Template/Users/edit.ctp:67
+#: src/Template/Users/edit.ctp:49 src/Template/Users/setpassword.ctp:45
+msgid "user.pw.set.btn"
+msgstr "Passwort ändern"
+
+#: src/Template/Users/edit.ctp:78
 msgid "user.set.avatar.t"
 msgstr "Avatar ändern"
 
-#: src/Template/Users/edit.ctp:72 src/Template/Users/view.ctp:28
+#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:28
 msgid "user.avatar.t"
 msgstr "Avatar"
 
-#: src/Template/Users/edit.ctp:77 src/Template/Users/view.ctp:48
+#: src/Template/Users/edit.ctp:88 src/Template/Users/view.ctp:48
 msgid "user_real_name"
 msgstr "Realer Name"
 
-#: src/Template/Users/edit.ctp:79
+#: src/Template/Users/edit.ctp:90
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:69
+#: src/Template/Users/edit.ctp:94 src/Template/Users/view.ctp:69
 msgid "user_hp"
 msgstr "Homepage"
 
-#: src/Template/Users/edit.ctp:85
+#: src/Template/Users/edit.ctp:96
 msgid "user_hp_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:93
+#: src/Template/Users/edit.ctp:104
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:95 src/Template/Users/view.ctp:76
+#: src/Template/Users/edit.ctp:106 src/Template/Users/view.ctp:76
 msgid "user_place"
 msgstr "Ort"
 
-#: src/Template/Users/edit.ctp:99 src/Template/Users/view.ctp:140
+#: src/Template/Users/edit.ctp:110 src/Template/Users/view.ctp:140
 msgid "user_profile"
 msgstr "Profil"
 
-#: src/Template/Users/edit.ctp:104
+#: src/Template/Users/edit.ctp:115
 msgid "user_profile_exp"
 msgstr "wird in der Benutzerinfo angezeigt (optional)"
 
-#: src/Template/Users/edit.ctp:108 src/Template/Users/view.ctp:147
+#: src/Template/Users/edit.ctp:119 src/Template/Users/view.ctp:147
 msgid "user_signature"
 msgstr "Signatur"
 
-#: src/Template/Users/edit.ctp:113
+#: src/Template/Users/edit.ctp:124
 msgid "user_signature_exp"
 msgstr "Signatur, welche an eigene Postings angehängt wird."
 
-#: src/Template/Users/edit.ctp:128
+#: src/Template/Users/edit.ctp:139
 msgid "user_sort_last_answer"
 msgstr "Sortierreihenfolge"
 
-#: src/Template/Users/edit.ctp:136
+#: src/Template/Users/edit.ctp:147
 msgid "user_sort_last_answer_time"
 msgstr "Zeit"
 
-#: src/Template/Users/edit.ctp:137
+#: src/Template/Users/edit.ctp:148
 msgid "user_sort_last_answer_last_answer"
 msgstr "Letzte Antwort"
 
-#: src/Template/Users/edit.ctp:142
+#: src/Template/Users/edit.ctp:153
 msgid "user_sort_last_answer_exp"
 msgstr ""
 "Reihenfolge nach der die Threads auf der Startseite geordnet werden. Zeit: "
 "feste Reihenfolge nach Startzeitpunkt des Threads. Letzte Antwort: Threads "
 "mit neuen Antworten wandern nach oben."
 
-#: src/Template/Users/edit.ctp:147
+#: src/Template/Users/edit.ctp:158
 msgid "user_automaticaly_mark_as_read"
 msgstr "Intelligentes Gelesen-Markieren"
 
-#: src/Template/Users/edit.ctp:157
+#: src/Template/Users/edit.ctp:168
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Intelligentes Gelesen-Markieren (iMAR)"
 
-#: src/Template/Users/edit.ctp:170
+#: src/Template/Users/edit.ctp:181
 msgid "user_signatures_hide"
 msgstr "Signaturen ausblenden"
 
-#: src/Template/Users/edit.ctp:180
+#: src/Template/Users/edit.ctp:191
 msgid "user_signatures_hide_exp"
 msgstr "Signaturen der anderen Benutzer komplett ausblenden."
 
-#: src/Template/Users/edit.ctp:194
+#: src/Template/Users/edit.ctp:205
 msgid "user_signatures_images_hide_exp"
 msgstr "Nur Bilder in Signaturen der anderen Benutzer ausblenden."
 
-#: src/Template/Users/edit.ctp:204
+#: src/Template/Users/edit.ctp:215
 msgid "user_forum_refresh_time"
 msgstr "Aktualisierungszeit"
 
-#: src/Template/Users/edit.ctp:217
+#: src/Template/Users/edit.ctp:228
 msgid "user_forum_refresh_time_exp"
 msgstr ""
 "Zeit in Minuten, nach der die Forumsübersicht automatisch neu geladen wird "
 "(optional)"
 
-#: src/Template/Users/edit.ctp:224
+#: src/Template/Users/edit.ctp:235
 msgid "user_theme"
 msgstr "Theme"
 
-#: src/Template/Users/edit.ctp:234
+#: src/Template/Users/edit.ctp:245
 msgid "user_theme_exp"
 msgstr "Anderes Aussehen auswählen. (optional)"
 
-#: src/Template/Users/edit.ctp:240
+#: src/Template/Users/edit.ctp:251
 msgid "user_colors"
 msgstr "Farben"
 
-#: src/Template/Users/edit.ctp:256
+#: src/Template/Users/edit.ctp:267
 msgid "user_color_new_postings_exp"
 msgstr "Neue Beiträge"
 
-#: src/Template/Users/edit.ctp:267
+#: src/Template/Users/edit.ctp:278
 msgid "user_color_old_postinings_exp"
 msgstr "Alte Beiträge"
 
-#: src/Template/Users/edit.ctp:278
+#: src/Template/Users/edit.ctp:289
 msgid "user_color_actual_posting_exp"
 msgstr "Aktueller Beitrag"
 
-#: src/Template/Users/edit.ctp:283
+#: src/Template/Users/edit.ctp:294
 msgid "inline_view_on_click"
 msgstr "Posting aufklappen"
 
-#: src/Template/Users/edit.ctp:293
+#: src/Template/Users/edit.ctp:304
 msgid "inline_view_on_click_exp"
 msgstr ""
 "Beim Klick auf den Link zu einem Posting wird dieses nicht auf einer neuen "
 "Seite geöffnet, sondern direkt an der Stelle aufgeklappt."
 
-#: src/Template/Users/edit.ctp:302
+#: src/Template/Users/edit.ctp:313
 msgid "user_show_thread_collapsed"
 msgstr "Threads einklappen"
 
-#: src/Template/Users/edit.ctp:312
+#: src/Template/Users/edit.ctp:323
 msgid "user_show_thread_collapsed_exp"
 msgstr ""
 "Threads sind standardmässig eingeklappt und müssen manuell geöffnet werden."
 
-#: src/Template/Users/edit.ctp:321
+#: src/Template/Users/edit.ctp:332
 msgid "user_pers_msg"
 msgstr "Persönliche&nbsp;Nachrichten empfangen"
 
-#: src/Template/Users/edit.ctp:331
+#: src/Template/Users/edit.ctp:342
 msgid "user_pers_msg_exp"
 msgstr "Nachrichten von anderen Benutzern via Kontaktformular erlauben."
 
-#: src/Template/Users/edit.ctp:345
+#: src/Template/Users/edit.ctp:356
 msgid "user_category_override"
 msgstr "Kategorienfilter"
 
-#: src/Template/Users/edit.ctp:356
+#: src/Template/Users/edit.ctp:367
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Aktiviert den Kategorienfilter auf der Frontseite."
@@ -1413,6 +1423,12 @@ msgstr "{0} gesperrt"
 #: src/Template/Users/login.ctp:10
 msgid "login_linkname"
 msgstr "log in"
+
+#: src/Template/Users/setpassword.ctp:12
+#, fuzzy
+#| msgid "user.edit.t"
+msgid "user.pw.set.t"
+msgstr "Bearbeite Profil {0}"
 
 #: src/Template/Users/view.ctp:34
 msgid "user.actv.t"

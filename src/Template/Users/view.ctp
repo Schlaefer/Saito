@@ -50,7 +50,7 @@ if ($user->get('user_real_name')) {
     ];
 }
 
-$viewContactPermission = $CurrentUser->permission('saito.core.user.view.contact');
+$viewContactPermission = $CurrentUser->permission('saito.core.user.contact');
 if ($user->get('user_email') && ($user->get('personal_messages') || $viewContactPermission)) {
     $concat = $this->Html->link(
         '<i class="fa fa-envelope-o fa-lg"></i>',

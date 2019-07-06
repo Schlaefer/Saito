@@ -43,9 +43,10 @@ class Permission
         'saito.core.posting.edit.unrestricted' => ['admin' => true],
         'saito.core.user.activate' => ['admin' => true],
         'saito.core.user.block' => ['admin' => true],
+        'saito.core.user.password.set' => ['admin' => true],
         'saito.core.user.delete' => ['admin' => true],
         'saito.core.user.edit' => ['admin' => true],
-        'saito.core.user.view.contact' => ['admin' => true],
+        'saito.core.user.contact' => ['admin' => true],
         'saito.core.view.ip' => ['mod' => true],
         // = controller actions =
         // @td @sm make action specific instead of generic group names

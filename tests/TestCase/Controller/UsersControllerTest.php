@@ -4,6 +4,7 @@ namespace App\Test\TestCase\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
@@ -11,6 +12,7 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
 class UsersControllerTest extends IntegrationTestCase
@@ -980,6 +982,69 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertTrue($pwH->check('test_new', $result->get('password')));
 
         $this->assertRedirect('users/edit/5');
+    }
+
+    public function testSetPasswordAnon()
+    {
+        $this->get('/users/setpassword/4');
+        $this->assertRedirectLogin('/users/setpassword/4');
+    }
+
+    public function testSetPasswordUser()
+    {
+        $this->_loginUser(3);
+        $this->expectException(SaitoForbiddenException::class);
+        $this->get('/users/setpassword/4');
+    }
+
+    public function testSetPasswordUserNotFound()
+    {
+        $this->_loginUser(1);
+        $this->expectException(RecordNotFoundException::class);
+        $this->get('/users/setpassword/9999');
+    }
+
+    public function testSetPasswordGet()
+    {
+        $this->_loginUser(1);
+        $this->get('/users/setpassword/4');
+        $this->assertResponseCode(200);
+    }
+
+    public function testSetPasswordPostSuccess()
+    {
+        $this->_loginUser(1);
+        $this->mockSecurity();
+        $data = [
+            'password' => 'test_new',
+            'password_confirm' => 'test_new',
+        ];
+        $this->post('/users/setpassword/5', $data);
+
+        $user = TableRegistry::get('Users');
+        $result = $user->get(5, ['fields' => 'password']);
+        $pwH = new DefaultPasswordHasher();
+        $this->assertTrue($pwH->check('test_new', $result->get('password')));
+
+        $this->assertRedirect('users/edit/5');
+    }
+
+    public function testSetPasswordPostFailurePwDontMatch()
+    {
+        $this->_loginUser(1);
+        $this->mockSecurity();
+        $data = [
+            'password' => 'test_new',
+            'password_confirm' => 'test_foo',
+        ];
+        $this->post('/users/setpassword/5', $data);
+
+        $expected = '098f6bcd4621d373cade4e832627b4f6';
+        $user = TableRegistry::get('Users');
+        $result = $user->get(5, ['fields' => 'password']);
+        $this->assertEquals($result->get('password'), $expected);
+
+        $this->assertNoRedirect();
     }
 
     /**

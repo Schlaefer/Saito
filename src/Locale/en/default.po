@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-06 08:32+0200\n"
-"PO-Revision-Date: 2019-07-06 08:36+0200\n"
+"POT-Creation-Date: 2019-07-06 15:38+0200\n"
+"PO-Revision-Date: 2019-07-06 15:49+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -299,15 +299,15 @@ msgstr ""
 msgid ":subject (:type) | :category"
 msgstr ""
 
-#: src/Controller/ContactsController.php:75
+#: src/Controller/ContactsController.php:76
 msgid "user_contact_title"
 msgstr "Contact {0}"
 
-#: src/Controller/ContactsController.php:111
+#: src/Controller/ContactsController.php:112
 msgid "Message was send."
 msgstr ""
 
-#: src/Controller/ContactsController.php:119
+#: src/Controller/ContactsController.php:120
 msgid "Message couldn't be send: {0}"
 msgstr ""
 
@@ -382,87 +382,96 @@ msgstr ""
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: src/Controller/UsersController.php:108
+#: src/Controller/UsersController.php:95 src/Template/Users/index.ctp:51
+#: src/Template/Users/view.ctp:35
+msgid "user.actv.ny"
+msgstr "The user account is not activated yet."
+
+#: src/Controller/UsersController.php:105
 msgid "user.block.pubExpEnds"
 msgstr "User {0} is locked. Try again in %s."
 
-#: src/Controller/UsersController.php:110
+#: src/Controller/UsersController.php:107
 msgid "user.block.pubExp"
 msgstr "User {0} is locked."
 
-#: src/Controller/UsersController.php:196
+#: src/Controller/UsersController.php:193
 msgid "register_email_subject"
 msgstr "Welcome to {0}!"
 
-#: src/Controller/UsersController.php:252
+#: src/Controller/UsersController.php:249
 #: plugins/Admin/src/Template/Users/index.ctp:20 src/Template/Users/edit.ctp:21
-#: src/Template/Users/edit.ctp:47 src/Template/Users/view.ctp:19
+#: src/Template/Users/edit.ctp:58 src/Template/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Name"
 
-#: src/Controller/UsersController.php:253
+#: src/Controller/UsersController.php:250
 #: plugins/Admin/src/Template/Users/index.ctp:21 src/Template/Users/edit.ctp:29
 msgid "user_type"
 msgstr "Type"
 
-#: src/Controller/UsersController.php:255
+#: src/Controller/UsersController.php:252
 msgid "userlist_online"
 msgstr "Online"
 
-#: src/Controller/UsersController.php:258
+#: src/Controller/UsersController.php:255
 #: plugins/Admin/src/Template/Users/index.ctp:23
 msgid "registered"
 msgstr "Registered"
 
-#: src/Controller/UsersController.php:263
+#: src/Controller/UsersController.php:260
 #: plugins/Admin/src/Template/Users/index.ctp:26 src/Template/Users/view.ctp:41
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Banned"
 
-#: src/Controller/UsersController.php:355
-#: src/Controller/UsersController.php:389
+#: src/Controller/UsersController.php:352
+#: src/Controller/UsersController.php:386
 msgid "Invalid user"
 msgstr ""
 
-#: src/Controller/UsersController.php:449
+#: src/Controller/UsersController.php:446
 msgid "user.avatar.edit.t"
 msgstr "Edit User Avatar {0}"
 
-#: src/Controller/UsersController.php:480
+#: src/Controller/UsersController.php:477
 msgid "user.edit.t"
 msgstr "Edit User {0}"
 
-#: src/Controller/UsersController.php:517
+#: src/Controller/UsersController.php:514
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: src/Controller/UsersController.php:547
+#: src/Controller/UsersController.php:544
 msgid "You can't lock yourself."
 msgstr ""
 
-#: src/Controller/UsersController.php:550
+#: src/Controller/UsersController.php:547
 msgid "You can't lock administrators."
 msgstr ""
 
-#: src/Controller/UsersController.php:560
+#: src/Controller/UsersController.php:557
 msgid "User {0} is locked."
 msgstr ""
 
-#: src/Controller/UsersController.php:563
+#: src/Controller/UsersController.php:560
 msgid "Error while locking."
 msgstr ""
 
-#: src/Controller/UsersController.php:585
+#: src/Controller/UsersController.php:582
 msgid "Error while unlocking."
 msgstr ""
 
-#: src/Controller/UsersController.php:590
+#: src/Controller/UsersController.php:587
 msgid "User {0} is unlocked."
 msgstr ""
 
-#: src/Controller/UsersController.php:637
+#: src/Controller/UsersController.php:634
 msgid "change_password_success"
+msgstr "Password was changed."
+
+#: src/Controller/UsersController.php:675
+msgid "user.pw.set.s"
 msgstr "Password was changed."
 
 #: src/Form/ContactForm.php:34
@@ -688,14 +697,14 @@ msgstr "Create New Answer"
 #: plugins/Admin/src/Template/Settings/index.ctp:38
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:47
 #: plugins/Admin/src/Template/Smilies/index.ctp:73
-#: src/Template/Users/view.ctp:220
+#: src/Template/Users/view.ctp:225
 msgid "Edit"
 msgstr ""
 
 #: plugins/Admin/src/Template/Categories/index.ctp:51
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:56
 #: plugins/Admin/src/Template/Smilies/index.ctp:83
-#: src/Template/Users/view.ctp:228
+#: src/Template/Users/view.ctp:233
 msgid "Delete"
 msgstr ""
 
@@ -731,7 +740,7 @@ msgstr ""
 #: plugins/Admin/src/Template/Settings/index.ctp:2
 #: plugins/Admin/src/Template/Settings/index.ctp:100
 #: plugins/Admin/src/Template/Settings/timezone.ctp:3
-#: src/Template/Users/edit.ctp:124
+#: src/Template/Users/edit.ctp:135
 msgid "Settings"
 msgstr ""
 
@@ -747,7 +756,7 @@ msgstr ""
 
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:32
 #: plugins/Admin/src/Template/Users/block.ctp:3
-#: plugins/Admin/src/Template/Users/block.ctp:4 src/Template/Users/view.ctp:257
+#: plugins/Admin/src/Template/Users/block.ctp:4 src/Template/Users/view.ctp:262
 msgid "user.block.history"
 msgstr "Blocking"
 
@@ -1014,7 +1023,7 @@ msgstr "Delete"
 msgid "Ressources"
 msgstr ""
 
-#: src/Template/Element/layout/disclaimer.ctp:15 src/Template/Users/view.ctp:59
+#: src/Template/Element/layout/disclaimer.ctp:15 src/Template/Users/view.ctp:64
 msgid "Contact"
 msgstr ""
 
@@ -1052,7 +1061,7 @@ msgid "login_btn"
 msgstr "Login"
 
 #: src/Template/Element/layout/header_login.ctp:23
-#: src/Template/Users/view.ctp:161
+#: src/Template/Users/view.ctp:166
 #, fuzzy
 msgid "user.b.profile"
 msgstr "Profile"
@@ -1108,7 +1117,7 @@ msgstr "Blocked by moderator {0}."
 
 #: src/Template/Element/users/login_form.ctp:28
 #: src/Template/Element/users/register-form-core.ctp:22
-#: src/Template/Users/edit.ctp:54
+#: src/Template/Users/edit.ctp:47 src/Template/Users/edit.ctp:65
 msgid "user_pw"
 msgstr "Password"
 
@@ -1172,7 +1181,7 @@ msgstr ""
 msgid "RSS Feeds"
 msgstr ""
 
-#: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:387
+#: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:398
 msgid "gn.btn.save.t"
 msgstr "Save"
 
@@ -1180,7 +1189,7 @@ msgstr "Save"
 msgid "gn.btn.delete.t"
 msgstr "Delete"
 
-#: src/Template/Users/changepassword.ctp:12 src/Template/Users/edit.ctp:56
+#: src/Template/Users/changepassword.ctp:12 src/Template/Users/edit.ctp:67
 msgid "change_password_link"
 msgstr "Change password"
 
@@ -1189,10 +1198,12 @@ msgid "change_password_old_password"
 msgstr "Old Password"
 
 #: src/Template/Users/changepassword.ctp:52
+#: src/Template/Users/setpassword.ctp:26
 msgid "change_password_new_password"
 msgstr "New Password"
 
 #: src/Template/Users/changepassword.ctp:64
+#: src/Template/Users/setpassword.ctp:38
 msgid "change_password_new_password_confirm"
 msgstr "Confirm New Password"
 
@@ -1205,159 +1216,163 @@ msgstr "Change Password"
 msgid "Profile"
 msgstr "User Profile"
 
-#: src/Template/Users/edit.ctp:25 src/Template/Users/edit.ctp:48
+#: src/Template/Users/edit.ctp:25 src/Template/Users/edit.ctp:59
 msgid "userlist_email"
 msgstr "Email"
 
-#: src/Template/Users/edit.ctp:67
+#: src/Template/Users/edit.ctp:49 src/Template/Users/setpassword.ctp:45
+msgid "user.pw.set.btn"
+msgstr "Set Password"
+
+#: src/Template/Users/edit.ctp:78
 msgid "user.set.avatar.t"
 msgstr "Set Avatar"
 
-#: src/Template/Users/edit.ctp:72 src/Template/Users/view.ctp:28
+#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:28
 msgid "user.avatar.t"
 msgstr "Avatar"
 
-#: src/Template/Users/edit.ctp:77 src/Template/Users/view.ctp:48
+#: src/Template/Users/edit.ctp:88 src/Template/Users/view.ctp:48
 msgid "user_real_name"
 msgstr "Real Name"
 
-#: src/Template/Users/edit.ctp:79
+#: src/Template/Users/edit.ctp:90
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:64
+#: src/Template/Users/edit.ctp:94 src/Template/Users/view.ctp:69
 msgid "user_hp"
 msgstr "Homepage"
 
-#: src/Template/Users/edit.ctp:85
+#: src/Template/Users/edit.ctp:96
 msgid "user_hp_exp"
 msgstr "URL to homepage (optional)"
 
-#: src/Template/Users/edit.ctp:93
+#: src/Template/Users/edit.ctp:104
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:95 src/Template/Users/view.ctp:71
+#: src/Template/Users/edit.ctp:106 src/Template/Users/view.ctp:76
 msgid "user_place"
 msgstr "Place"
 
-#: src/Template/Users/edit.ctp:99 src/Template/Users/view.ctp:135
+#: src/Template/Users/edit.ctp:110 src/Template/Users/view.ctp:140
 msgid "user_profile"
 msgstr "Profile"
 
-#: src/Template/Users/edit.ctp:104
+#: src/Template/Users/edit.ctp:115
 msgid "user_profile_exp"
 msgstr "Info shown in user profile"
 
-#: src/Template/Users/edit.ctp:108 src/Template/Users/view.ctp:142
+#: src/Template/Users/edit.ctp:119 src/Template/Users/view.ctp:147
 msgid "user_signature"
 msgstr "Signature"
 
-#: src/Template/Users/edit.ctp:113
+#: src/Template/Users/edit.ctp:124
 msgid "user_signature_exp"
 msgstr "Signature shown at every posting"
 
-#: src/Template/Users/edit.ctp:128
+#: src/Template/Users/edit.ctp:139
 msgid "user_sort_last_answer"
 msgstr "Thread Sort Order"
 
-#: src/Template/Users/edit.ctp:136
+#: src/Template/Users/edit.ctp:147
 msgid "user_sort_last_answer_time"
 msgstr "Time"
 
-#: src/Template/Users/edit.ctp:137
+#: src/Template/Users/edit.ctp:148
 msgid "user_sort_last_answer_last_answer"
 msgstr "Last Answer"
 
-#: src/Template/Users/edit.ctp:142
+#: src/Template/Users/edit.ctp:153
 msgid "user_sort_last_answer_exp"
 msgstr ""
 "Order of thread on homepage. Time: fixed order by thread start time. Last "
 "Answer: threads with new answers are shown first."
 
-#: src/Template/Users/edit.ctp:147
+#: src/Template/Users/edit.ctp:158
 msgid "user_automaticaly_mark_as_read"
 msgstr "Intelligent Mark as Read"
 
-#: src/Template/Users/edit.ctp:157
+#: src/Template/Users/edit.ctp:168
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Intelligent Mark as Read (iMAR)"
 
-#: src/Template/Users/edit.ctp:170
+#: src/Template/Users/edit.ctp:181
 msgid "user_signatures_hide"
 msgstr "Hide Signatures"
 
-#: src/Template/Users/edit.ctp:180
+#: src/Template/Users/edit.ctp:191
 msgid "user_signatures_hide_exp"
 msgstr "Hide other user's signatures"
 
-#: src/Template/Users/edit.ctp:194
+#: src/Template/Users/edit.ctp:205
 msgid "user_signatures_images_hide_exp"
 msgstr "Hide images in other user's signatures"
 
-#: src/Template/Users/edit.ctp:204
+#: src/Template/Users/edit.ctp:215
 msgid "user_forum_refresh_time"
 msgstr "Auto Refresh"
 
-#: src/Template/Users/edit.ctp:217
+#: src/Template/Users/edit.ctp:228
 msgid "user_forum_refresh_time_exp"
 msgstr "Reload homepage after this amount of minutes"
 
-#: src/Template/Users/edit.ctp:224
+#: src/Template/Users/edit.ctp:235
 msgid "user_theme"
 msgstr "Theme"
 
-#: src/Template/Users/edit.ctp:234
+#: src/Template/Users/edit.ctp:245
 msgid "user_theme_exp"
 msgstr "Choose a different look. (optional)"
 
-#: src/Template/Users/edit.ctp:240
+#: src/Template/Users/edit.ctp:251
 msgid "user_colors"
 msgstr "Colors"
 
-#: src/Template/Users/edit.ctp:256
+#: src/Template/Users/edit.ctp:267
 msgid "user_color_new_postings_exp"
 msgstr "New postings"
 
-#: src/Template/Users/edit.ctp:267
+#: src/Template/Users/edit.ctp:278
 msgid "user_color_old_postinings_exp"
 msgstr "Old postings"
 
-#: src/Template/Users/edit.ctp:278
+#: src/Template/Users/edit.ctp:289
 msgid "user_color_actual_posting_exp"
 msgstr "Currently viewed posting"
 
-#: src/Template/Users/edit.ctp:283
+#: src/Template/Users/edit.ctp:294
 msgid "inline_view_on_click"
 msgstr "Inline-Open"
 
-#: src/Template/Users/edit.ctp:293
+#: src/Template/Users/edit.ctp:304
 msgid "inline_view_on_click_exp"
 msgstr "Click on a posting opens inline"
 
-#: src/Template/Users/edit.ctp:302
+#: src/Template/Users/edit.ctp:313
 msgid "user_show_thread_collapsed"
 msgstr "Thread Collpase"
 
-#: src/Template/Users/edit.ctp:312
+#: src/Template/Users/edit.ctp:323
 msgid "user_show_thread_collapsed_exp"
 msgstr "Show all thread collapsed by default"
 
-#: src/Template/Users/edit.ctp:321
+#: src/Template/Users/edit.ctp:332
 msgid "user_pers_msg"
 msgstr "Messaging"
 
-#: src/Template/Users/edit.ctp:331
+#: src/Template/Users/edit.ctp:342
 msgid "user_pers_msg_exp"
 msgstr ""
 "Allow other users to contact you via email. You email address is not visible."
 
-#: src/Template/Users/edit.ctp:345
+#: src/Template/Users/edit.ctp:356
 #, fuzzy
 msgid "user_category_override"
 msgstr "Category-Chooser"
 
-#: src/Template/Users/edit.ctp:356
+#: src/Template/Users/edit.ctp:367
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
@@ -1378,55 +1393,57 @@ msgstr ""
 msgid "login_linkname"
 msgstr "Login"
 
+#: src/Template/Users/setpassword.ctp:12
+#, fuzzy
+#| msgid "user.edit.t"
+msgid "user.pw.set.t"
+msgstr "Edit User {0}"
+
 #: src/Template/Users/view.ctp:34
 msgid "user.actv.t"
 msgstr "Account Activation"
 
-#: src/Template/Users/view.ctp:35
-msgid "user.actv.ny"
-msgstr "The user account is not activated yet."
-
-#: src/Template/Users/view.ctp:77
+#: src/Template/Users/view.ctp:82
 msgid "user_since"
 msgstr "Joined"
 
-#: src/Template/Users/view.ctp:85
+#: src/Template/Users/view.ctp:90
 msgid "user_postings"
 msgstr "Postings"
 
-#: src/Template/Users/view.ctp:105
+#: src/Template/Users/view.ctp:110
 msgid "user_ignored_by"
 msgstr "Ignored By"
 
-#: src/Template/Users/view.ctp:127
+#: src/Template/Users/view.ctp:132
 msgid "user_ignores"
 msgstr "Ingored Users"
 
-#: src/Template/Users/view.ctp:176
+#: src/Template/Users/view.ctp:181
 msgid "edit_userdata"
 msgstr "Edit"
 
-#: src/Template/Users/view.ctp:188
+#: src/Template/Users/view.ctp:193
 msgid "unignore_this_user"
 msgstr "Un-Ignore"
 
-#: src/Template/Users/view.ctp:202
+#: src/Template/Users/view.ctp:207
 msgid "ignore_this_user"
 msgstr "Ignore"
 
-#: src/Template/Users/view.ctp:276
+#: src/Template/Users/view.ctp:281
 msgid "Block User"
 msgstr ""
 
-#: src/Template/Users/view.ctp:307
+#: src/Template/Users/view.ctp:312
 msgid "user.block.hours"
 msgstr "{hours} hours"
 
-#: src/Template/Users/view.ctp:350
+#: src/Template/Users/view.ctp:355
 msgid "No entries created yet."
 msgstr ""
 
-#: src/Template/Users/view.ctp:370
+#: src/Template/Users/view.ctp:375
 msgid "Show all"
 msgstr ""
 

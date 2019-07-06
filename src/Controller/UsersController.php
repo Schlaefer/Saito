@@ -654,6 +654,46 @@ class UsersController extends AppController
     }
 
     /**
+     * Directly set password for user
+     *
+     * @param string $id user-ID
+     * @return Response|null
+     */
+    public function setpassword($id)
+    {
+        if (!$this->CurrentUser->permission('saito.core.user.password.set')) {
+            throw new SaitoForbiddenException(
+                "Attempt to set password for user $id.",
+                ['CurrentUser' => $this->CurrentUser]
+            );
+        }
+
+        $user = $this->Users->get($id);
+
+        if ($this->getRequest()->is('post')) {
+            $this->Users->patchEntity($user, $this->getRequest()->getData(), ['fields' => 'password']);
+
+            if ($this->Users->save($user)) {
+                $this->Flash->set(
+                    __('user.pw.set.s'),
+                    ['element' => 'success']
+                );
+
+                return $this->redirect(['controller' => 'users', 'action' => 'edit', $id]);
+            }
+            $errors = $user->getErrors();
+            if (!empty($errors)) {
+                $this->Flash->set(
+                    __d('nondynamic', current(array_pop($errors))),
+                    ['element' => 'error']
+                );
+            }
+        }
+
+        $this->set(compact('user'));
+    }
+
+    /**
      * Set slidetab-order.
      *
      * @return \Cake\Network\Response
