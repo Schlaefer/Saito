@@ -86,4 +86,33 @@ $config = [
     ]
 ];
 
+/**
+ * Uploader Configuration
+ */
+
+use ImageUploader\Lib\UploaderConfig;
+
+$config['Saito']['Settings']['uploader'] = (new UploaderConfig())
+    /**
+     * Max number of uploads per user
+     */
+    ->setMaxNumberOfUploadsPerUser(20)
+    /**
+     * Max file size
+     */
+    ->setDefaultMaxFileSize('8MB')
+    /**
+     * Allowed mime/types
+     */
+    ->addType('audio/mpeg')
+    ->addType('audio/mp4')
+    ->addType('audio/webm')
+    ->addType('image/jpeg', '19MB')
+    ->addType('image/png',  '19MB')
+    ->addType('image/svg+xml')
+    ->addType('text/plain')
+    ->addType('video/mp4')
+    ->addType('video/webm');
+
+
 return $config;

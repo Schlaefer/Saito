@@ -39,8 +39,6 @@ class SettingFixture extends TestFixture
         ['id' => '19', 'name' => 'category_chooser_global', 'value' => '0'],
         ['id' => '20', 'name' => 'category_chooser_user_override', 'value' => '1'],
         ['id' => '21', 'name' => 'category_chooser_user_override', 'value' => '1'],
-        ['id' => '22', 'name' => 'upload_max_img_size', 'value' => '1500'],
-        ['id' => '23', 'name' => 'upload_max_number_of_uploads', 'value' => '10'],
         ['id' => '24', 'name' => 'forum_disabled', 'value' => '0'],
         ['id' => '24', 'name' => 'forum_disabled_text', 'value' => 'We\'ll back soon'],
         ['id' => '25', 'name' => 'store_ip', 'value' => '0'],

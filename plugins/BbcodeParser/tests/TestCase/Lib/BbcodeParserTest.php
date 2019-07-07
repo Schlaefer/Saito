@@ -822,6 +822,9 @@ EOF;
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * [uploads]<image>[/uploads]
+     */
     public function testInternalImageAutoLinked()
     {
         //// internal image
@@ -832,7 +835,10 @@ EOF;
                     'href' => '/useruploads/test.png',
                     'target' => '_blank',
                 ],
-                'img' => ['src' => '/useruploads/test.png']
+                'img' => [
+                    'alt' => '',
+                    'src' => '/useruploads/test.png',
+                ],
             ],
         ];
         $result = $this->_Parser->parse($input);
@@ -848,6 +854,7 @@ EOF;
                 ],
                 'img' =>
                     [
+                        'alt' => '',
                         'src' => '/useruploads/test.png',
                         'width' => '50',
                         'height' => '60',
@@ -875,11 +882,99 @@ EOF;
                     'rel' => 'external',
                     'target' => '_blank',
                 ],
-                'img' => ['src' => '/useruploads/test.png']
+                'img' => [
+                    'src' => '/useruploads/test.png',
+                    'alt' => '',
+                ]
             ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
+    }
+
+    public function testUploadTypeImage()
+    {
+        //// internal image
+        $input = '[img src=upload]test.png[/img]';
+        $expected = [
+            [
+                'a' => [
+                    'href' => '/useruploads/test.png',
+                    'target' => '_blank',
+                ],
+                'img' => [
+                    'src' => '/useruploads/test.png',
+                    'alt' => '',
+                ]
+            ],
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+    }
+
+    public function testUploadTypeAudio()
+    {
+        //// internal image
+        $input = '[audio src=upload]test.mp3[/audio]';
+        $expected = [
+            'audio' => [
+                'controls' => 'controls',
+                'preload' => 'metadata',
+                'src' => '/useruploads/test.mp3',
+                'x-webkit-airplay' => 'allow',
+            ]
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+    }
+
+    public function testUploadTypeVideo()
+    {
+        $input = '[video src=upload]test.mp4[/video]';
+        $expected = [
+            'video' => [
+                'controls' => 'controls',
+                'preload' => 'metadata',
+                'src' => '/useruploads/test.mp4',
+                'x-webkit-airplay' => 'allow',
+            ]
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+    }
+
+    public function testUploadTypeFile()
+    {
+        $input = '[file src=upload]test.txt[/file]';
+        $expected = [
+            'a' => [
+                'href' => '/useruploads/test.txt',
+                'target' => '_blank',
+            ],
+            'test.txt',
+            '/a'
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+    }
+
+    public function testUploadTypeFileSrcNotValid()
+    {
+        $input = '[file src=foo]test.txt[/file]';
+        $expected = [
+            'div' => [
+                'class' => 'richtext-imessage',
+            ],
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+    }
+
+    public function testUploadTypeFileNoSource()
+    {
+        $input = '[file]test.txt[/file]';
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($input, $result);
     }
 
     public function testSmiliesNoSmiliesInCodeTag()
@@ -978,23 +1073,12 @@ EOF;
         $expected = [
             'video' => [
                 'src' => $url,
+                'preload' => 'metadata',
                 'controls' => 'controls',
                 'x-webkit-airplay' => 'allow'
             ],
         ];
         $this->assertHtml($expected, $result);
-
-        //* test autoconversion for audio files
-        $html5AudioExtensions = ['m4a', 'ogg', 'mp3', 'wav', 'opus'];
-        foreach ($html5AudioExtensions as $extension) {
-            $url = 'http://example.com/audio.' . $extension;
-            $input = "[video]{$url}[/video]";
-            $result = $this->_Parser->parse($input);
-            $expected = [
-                'audio' => ['src' => $url, 'controls' => 'controls'],
-            ];
-            $this->assertHtml($expected, $result);
-        }
 
         //* teardown
         Configure::write('Saito.Settings.bbcode_img', $bbcodeImg);
@@ -1080,7 +1164,13 @@ EOF;
         $input = "[audio]{$url}[/audio]";
         $result = $this->_Parser->parse($input);
         $expected = [
-            'audio' => ['src' => $url, 'controls' => 'controls'],
+            'audio' => [
+                'src' => $url,
+                'controls' => 'controls',
+                'preload' => 'metadata',
+                'x-webkit-airplay' => 'allow',
+            ],
+            '/audio',
         ];
         $this->assertHtml($expected, $result);
 

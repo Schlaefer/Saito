@@ -42,11 +42,14 @@ class ThumbnailControllerTest extends IntegrationTestCase
         $file->append(str_repeat('0', $upload->get('size')));
 
         Plugin::configureCache(); // cache isn't bootstraped through request yet
-        $this->assertFalse(Cache::read($upload->get('id'), Plugin::CACHE_KEY));
+
+        $cacheKey = Configure::read('Saito.Settings.uploader')->getCacheKey();
+
+        $this->assertFalse(Cache::read($upload->get('id'), $cacheKey));
 
         $this->get('/api/v2/uploads/thumb/1?h=' . $upload->get('hash'));
 
-        $cache = Cache::read($upload->get('id'), Plugin::CACHE_KEY);
+        $cache = Cache::read($upload->get('id'), $cacheKey);
 
         $image = imagecreatefromstring($cache['raw']);
         $this->assertSame(300, imagesx($image));

@@ -22,3 +22,6 @@ session_id('cli');
 
 // test userupload in tmp directory
 Configure::write('Saito.Settings.uploadDirectory', TMP . 'tests' . DS);
+
+// disable <asset-url>?<timestamp> for tests
+Configure::write('Asset.timestamp', false);

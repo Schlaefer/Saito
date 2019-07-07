@@ -5,7 +5,7 @@ declare(strict_types = 1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -158,9 +158,17 @@ class Parser
                 'type' => 'class',
                 'title' => 'Html5Audio'
             ],
+            'html5audioWithAttributes' => [
+                'type' => 'class',
+                'title' => 'Html5AudioWithAttributes',
+            ],
             'html5video' => [
                 'type' => 'class',
                 'title' => 'Html5Video'
+            ],
+            'html5videoWithAttributes' => [
+                'type' => 'class',
+                'title' => 'Html5VideoWithAttributes'
             ],
             'upload' => [
                 'type' => 'class',
@@ -170,6 +178,10 @@ class Parser
                 'type' => 'class',
                 'title' => 'UploadWithAttributes'
             ],
+            'fileWithAttributes' => [
+                'type' => 'class',
+                'title' => 'fileWithAttributes',
+            ]
         ],
         'embed' => [
             'embed' => [

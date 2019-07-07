@@ -55,6 +55,15 @@ module.exports = function (grunt) {
     shell: {
       locale: {
         command: `
+          node dev/gettextExtractor.js;
+          msgmerge --update --backup=none frontend/src/locale/de.po frontend/src/locale/messages.pot;
+          msgmerge --update --backup=none frontend/src/locale/en.po frontend/src/locale/messages.pot;
+          rm frontend/src/locale/messages.pot;
+        `,
+        options: { stdout: true, stderr: true, failOnError: true, }
+      },
+      localeRelease: {
+        command: `
         targetDir="./webroot/js/locale/"
         mkdir -p "$targetDir";
         for line in $(find './frontend/src/locale' -type f -name '*.po'); do
@@ -171,7 +180,7 @@ module.exports = function (grunt) {
     'copy:nonmin',
     'uglify:release',
     // l10n
-    'shell:locale',
+    'shell:localeRelease',
     // cleanup
     'clean:releasePost'
   ]);

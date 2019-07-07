@@ -59,8 +59,6 @@ class SettingsController extends AdminAppController
         'topics_per_page' => 1,
         'tos_enabled' => ['type' => 'bool'],
         'tos_url' => 1,
-        'upload_max_img_size' => 1,
-        'upload_max_number_of_uploads' => 1,
         'video_domains_allowed' => 1,
     ];
 

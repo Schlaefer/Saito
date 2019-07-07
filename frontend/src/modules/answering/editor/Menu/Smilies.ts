@@ -26,9 +26,9 @@ class SmiliesView extends View<Model> {
         <i class="saito-smiley-font saito-smiley-<%= icon %>"></i>
     </button>
 <% } else { %>
-    <button class="btn btn-text btn-smiley-image" type="button" style="
-        background-image: url(<%= webroot %><%= theme %>/img/smilies/<%= icon %>);
-    ">
+    <button class="btn btn-text btn-smiley-image" type="button"
+        style="background-image: url(<%= webroot %><%= theme %>/img/smilies/<%= icon %>);"
+    >
 </button>
 <% } %>`),
             ui: {

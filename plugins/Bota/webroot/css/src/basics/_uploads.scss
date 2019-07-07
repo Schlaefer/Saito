@@ -1,12 +1,12 @@
 .imageUploader {
   .card {
     @extend .m-3;
-
-    text-align: center;
   }
 }
 
 .imageUploader-add {
+  text-align: center;
+
   .card-body {
     // anchors dropLayer and dropIndicator absolute
     position: relative;
@@ -51,19 +51,40 @@
   overflow: hidden;
 }
 
+.imageUploader-card-details {
+  @extend .card-footer;
+  @extend .py-1;
+  @extend .text-monospace;
+  // anchors .btnUploadDelete
+  position: relative;
+
+  &,
+  .h6,
+  h6 {
+    font-size: 0.7rem;
+  }
+
+  .btnUploadDelete {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.imageUploader-action {
+  @extend .card-footer;
+}
+
+.imageUploader-action-btn {
+  width: 100%;
+}
+
 .imageUploader-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 
-  > .card {
-    > .card-footer {
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-
-  .card-img-container {
+  .card-upload-container {
     height: 7rem;
     margin: 0 auto;
     padding: 4px;
@@ -71,6 +92,20 @@
     display: flex;
     align-content: center;
     position: relative;
+
+    &.generic {
+      align-items: center;
+      justify-content: center;
+
+      .upload-generic-icon {
+        font-size: 4rem;
+      }
+    }
+
+    &.audio {
+      // vertically center native audio playback controls on card
+      align-items: center;
+    }
   }
 
   .card-img-top {

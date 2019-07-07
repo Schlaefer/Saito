@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Lokalize 19.04.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: ;__\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -18,151 +18,184 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
-#: modules/answering/editor/template/linkView.html:4
-msgid "editor.link.title.t"
-msgstr "Title"
-
-#: modules/answering/editor/template/linkView.html:10
-msgid "editor.link.url.t"
-msgstr "URL"
-
-#: modules/answering/editor/template/linkView.html:17
-msgid "editor.link.insert"
-msgstr "Insert link"
-
-#: modules/answering/editor/template/mediaInsert.html:5
-msgid "medins.exp"
-msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
-
-#: modules/answering/editor/template/mediaInsert.html:13
-msgid "medins.insert.btn"
-msgstr "Insert"
-
-#: modules/answering/editor/template/mediaInsert.html:18
-msgid "medins.notRecognized"
-msgstr "Nothing recognized."
-
-#: modules/bookmarks/templates/bookmarkItemTpl.html:2
-msgid "bkm.delete.title"
-msgstr "Delete bookmark"
-
-#: modules/bookmarks/templates/bookmarkItemTpl.html:5
-msgid "bkm.edit.title"
-msgstr "Comment"
-
-#: modules/bookmarks/templates/bookmarkItemTpl.html:8
-msgid "bkm.save.btn"
-msgstr "Save bookmark."
-
-#: modules/uploader/templates/uploaderAddTpl.html:8
-#: modules/answering/answering.ts:166
-msgid "upl.title"
-msgstr "Uploads"
-
-#: modules/uploader/templates/uploaderAddTpl.html:11
-msgid "upl.new.info"
-msgstr "Max. size: {size}; type: jpg, png"
-
-#: modules/uploader/templates/uploaderAddTpl.html:24
-msgid "upl.btn.title"
-msgstr "Chose image…"
-
-#: lib/saito/templateHelpers.js:42
-msgid "time.relative.yesterday"
-msgstr "yesterday"
-
-#: modules/answering/answering.ts:219
-msgid "preview.e.generic"
-msgstr "Error: Couldn't load preview."
-
-#: modules/answering/editor/LinkView.ts:40
-msgid "editor.link.t"
-msgstr "Insert Link"
-
-#: modules/answering/editor/MediaInsertView.ts:57
-msgid "medins.title"
-msgstr "Embed Content"
-
-#: modules/answering/preview.ts:43
-msgid "preview.t"
-msgstr "Preview"
-
-#: modules/bookmarks/bookmarksModule.ts:38
-msgid "bkm.failure.loading"
-msgstr "Error: Bookmarks could not be loaded."
-
-#: modules/bookmarks/views/bookmarkItemVw.ts:65
-msgid "bkm.save.failure"
-msgstr "Error: Bookmark could not be saved."
-
-#: modules/bookmarks/views/bookmarkItemVw.ts:88
+#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
+#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
 msgstr "Error: Bookmark could not be deleted."
 
-#: modules/bookmarks/views/bookmarksVw.ts:12
+#: frontend/src/modules/bookmarks/templates/bookmarkItemTpl.html:2
+msgid "bkm.delete.title"
+msgstr "Delete bookmark"
+
+#: frontend/src/modules/bookmarks/templates/bookmarkItemTpl.html:5
+msgid "bkm.edit.title"
+msgstr "Comment"
+
+#: frontend/src/modules/bookmarks/bookmarksModule.ts:20
+#: frontend/src/modules/bookmarks/bookmarksModule.ts:38
+msgid "bkm.failure.loading"
+msgstr "Error: Bookmarks could not be loaded."
+
+#: frontend/src/modules/bookmarks/views/bookmarksVw.ts:7
+#: frontend/src/modules/bookmarks/views/bookmarksVw.ts:12
 msgid "bkm.ncy"
 msgstr "No bookmarks created yet."
 
-#: modules/uploader/views/uploaderAddVw.js:68
-msgid "upl.failure"
-msgstr "Error occurred on upload."
+#: frontend/src/modules/bookmarks/templates/bookmarkItemTpl.html:8
+msgid "bkm.save.btn"
+msgstr "Save bookmark."
 
-#: modules/uploader/views/uploaderAddVw.js:104
-msgid "upl.new.title"
-msgstr "Drop Image Here"
+#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
+#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:65
+msgid "bkm.save.failure"
+msgstr "Error: Bookmark could not be saved."
 
-#: modules/uploader/views/uploaderCollectionVw.js:21
-msgid "upl.ncy"
-msgstr "No uploads yet."
-
-#: modules/user/userVw.ts:15
-msgid "user.recentposts.t"
-msgstr "Recent Postings"
-
-#: modules/user/userVw.ts:21
+#: frontend/src/modules/user/userVw.ts:20
 msgid "bkm.title.pl"
 msgstr "Bookmarks"
 
-#: modules/user/userVw.ts:26
-msgid "upl.title.pl"
-msgstr "Uploads"
-
-#: views/categoryChooser.js:34
-msgid "category.title.pl"
-msgstr "Categories"
-
-#: views/postingActionBookmark.js:61
-msgid "bmk.isBookmarked"
-msgstr "Entry is bookmarked"
-
-#: views/postingActionBookmark.js:65
+#: frontend/src/views/postingActionBookmark.js:13
+#: frontend/src/views/postingActionBookmark.js:65
 msgid "bmk.doBookmark"
 msgstr "Bookmark the entry"
 
-#: views/postingActionDelete.js:25
-msgid "tree.delete.confirm"
-msgstr "Are sure?"
+#: frontend/src/views/postingActionBookmark.js:13
+#: frontend/src/views/postingActionBookmark.js:61
+msgid "bmk.isBookmarked"
+msgstr "Entry is bookmarked"
 
-#: views/postingActionDelete.js:29
+#: frontend/src/views/categoryChooserVw.ts:6
+#: frontend/src/views/categoryChooserVw.ts:26
+msgid "category.title.pl"
+msgstr "Categories"
+
+#: frontend/src/modules/answering/editor/Menu/template/linkView.html:29
+msgid "editor.link.insert"
+msgstr "Insert link"
+
+#: frontend/src/modules/answering/editor/Menu/LinkView.ts:7
+#: frontend/src/modules/answering/editor/Menu/LinkView.ts:48
+msgid "editor.link.t"
+msgstr "Insert Link"
+
+#: frontend/src/modules/answering/editor/Menu/template/linkView.html:3
+#: frontend/src/modules/answering/editor/Menu/template/linkView.html:4
+msgid "editor.link.title.t"
+msgstr "Title"
+
+#: frontend/src/modules/answering/editor/Menu/template/linkView.html:15
+#: frontend/src/modules/answering/editor/Menu/template/linkView.html:16
+msgid "editor.link.url.t"
+msgstr "URL"
+
+#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:4
+#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:5
+msgid "medins.exp"
+msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
+
+#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:12
+msgid "medins.insert.btn"
+msgstr "Insert"
+
+#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:17
+#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:18
+msgid "medins.notRecognized"
+msgstr "Nothing recognized."
+
+#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:9
+#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:57
+msgid "medins.title"
+msgstr "Embed Content"
+
+#: frontend/src/views/postingActionDelete.js:29
 msgid "posting.delete.abort.btn"
 msgstr "Abort"
 
-#: views/postingActionDelete.js:31 views/postingActionDelete.js:56
+#: frontend/src/views/postingActionDelete.js:31
+#: frontend/src/views/postingActionDelete.js:33
+#: frontend/src/views/postingActionDelete.js:54
 msgid "posting.delete.title"
 msgstr "Delete Posting"
 
-#: views/postingActionSolves.js:28
+#: frontend/src/views/postingActionSolves.js:12
+#: frontend/src/views/postingActionSolves.js:28
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
 
+#: frontend/src/modules/answering/answering.ts:31
+#: frontend/src/modules/answering/answering.ts:164
+msgid "preview.e.generic"
+msgstr "Error: Couldn't load preview."
+
+#: frontend/src/modules/answering/preview.ts:43
+msgid "preview.t"
+msgstr "Preview"
+
+#: frontend/src/lib/saito/templateHelpers.js:1
+#: frontend/src/lib/saito/templateHelpers.js:42
+msgid "time.relative.yesterday"
+msgstr "yesterday"
+
+#: frontend/src/views/postingActionDelete.js:24
+msgid "tree.delete.confirm"
+msgstr "Are sure?"
+
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
 msgid "upl.btn.insert"
 msgstr "Insert"
 
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:20
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:21
+msgid "upl.btn.title"
+msgstr "Chose file…"
+
+#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:26
+msgid "upl.del.btn"
+msgstr "Delete file"
+
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:62
+msgid "upl.failure"
+msgstr "Error occurred on upload."
+
+#: frontend/src/modules/uploader/templates/uploadItemAudioTpl.html:4
+#: frontend/src/modules/uploader/templates/uploadItemImageTpl.html:4
+#: frontend/src/modules/uploader/templates/uploadItemVideoTpl.html:4
+#: frontend/src/modules/uploader/templates/uploadItemAudioTpl.html:5
+#: frontend/src/modules/uploader/templates/uploadItemImageTpl.html:5
+#: frontend/src/modules/uploader/templates/uploadItemVideoTpl.html:5
 msgid "upl.loading"
 msgstr "Loading"
 
-msgid "user.block.hours"
-msgstr "{hours} hours"
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:10
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:24
+msgid "upl.ncy"
+msgstr "No uploads yet."
+
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:101
+msgid "upl.new.title"
+msgstr "Drop File Here"
+
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:65
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
+msgid "upl.title"
+msgstr "Uploads"
+
+#: frontend/src/modules/user/userVw.ts:25
+msgid "upl.title.pl"
+msgstr "Uploads"
+
+#: frontend/src/modules/user/userVw.ts:14
+msgid "user.recentposts.t"
+msgstr "Recent Postings"
+
+#~ msgid "user.block.hours"
+#~ msgstr "{hours} hours"
 
 #~ msgid "prq.storage.warning"
-#~ msgstr "This web-application depends on Cookies and localStorage. Please make those available in your browser."
+#~ msgstr ""
+#~ "This web-application depends on Cookies and localStorage. Please make "
+#~ "those available in your browser."

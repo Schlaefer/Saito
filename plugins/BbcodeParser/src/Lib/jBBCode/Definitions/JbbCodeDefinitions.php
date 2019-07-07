@@ -280,6 +280,35 @@ class Flash extends Iframe
 }
 
 //@codingStandardsIgnoreStart
+class FileWithAttributes extends CodeDefinition
+//@codingStandardsIgnoreEnd
+{
+    use UrlParserTrait;
+
+    protected $_sTagName = 'file';
+
+    protected $_sParseContent = false;
+
+    protected $_sUseOptions = true;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
+    {
+        if (empty($attributes['src']) || $attributes['src'] !== 'upload') {
+            $message = sprintf(__('File not allowed.'));
+
+            return Message::format($message);
+        }
+
+        $url = $this->_linkToUploadedFile($content);
+
+        return $this->_sHelper->Html->link($content, $url, ['target' => '_blank']);
+    }
+}
+
+//@codingStandardsIgnoreStart
 class Image extends CodeDefinition
 //@codingStandardsIgnoreEnd
 {
@@ -294,6 +323,11 @@ class Image extends CodeDefinition
      */
     protected function _parse($url, $attributes, \JBBCode\ElementNode $node)
     {
+        // image is internaly uploaded
+        if (!empty($attributes['src']) && $attributes['src'] === 'upload') {
+            $url = $this->_linkToUploadedFile($url);
+        }
+
         // process [img=(parameters)]
         $options = [];
         if (!empty($attributes['img'])) {
@@ -464,74 +498,42 @@ EOF;
 
 /**
  * Hanldes [upload]<image>[/upload]
+ *
+ * @deprecated since Saito 5.2; kept for backwards compatability
  */
 //@codingStandardsIgnoreStart
-class Upload extends CodeDefinition
+class Upload extends Image
 //@codingStandardsIgnoreEnd
 {
-    use UrlParserTrait;
-
     protected $_sTagName = 'upload';
-
-    protected $_sParseContent = false;
 
     /**
      * {@inheritDoc}
      */
     protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
-        $root = Configure::read('Saito.Settings.uploadDirectory');
-        $params = $this->_getUploadParams($attributes);
-        $params += [
-            'alt' => false,
-            'fullBase' => true,
-        ];
-
-        $url = '/useruploads/' . $content;
-        $image = $this->_sHelper->Html->image($url, $params);
-
-        if ($node->getParent()->getTagName() === 'Document') {
-            $image = $this->_sHelper->Html->link(
-                $image,
-                $url,
-                ['escape' => false, 'target' => '_blank']
-            );
+        $attributes['src'] = 'upload';
+        if (!empty($attributes['width'])) {
+            $attributes['img'] = $attributes['width'];
+        }
+        if (!empty($attributes['height'])) {
+            $attributes['img'] .= 'x' . $attributes['height'];
         }
 
-        return $image;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function _getUploadParams($attributes)
-    {
-        return [];
+        return parent::_parse($content, $attributes, $node);
     }
 }
 
 /**
  * Hanldes [upload width=<width> height=<height>]<image>[/upload]
+ *
+ * @deprecated since Saito 5.2; kept for backwards compatability
  */
 //@codingStandardsIgnoreStart
 class UploadWithAttributes extends Upload
 //@codingStandardsIgnoreEnd
 {
     protected $_sUseOptions = true;
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function _getUploadParams($attributes)
-    {
-        if (empty($attributes)) {
-            return [];
-        }
-
-        $allowed = array_fill_keys(['width', 'height'], false);
-
-        return array_intersect_key($attributes, $allowed);
-    }
 }
 
 /**

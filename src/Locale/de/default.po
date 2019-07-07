@@ -2146,20 +2146,6 @@ msgstr "Alle anzeigen"
 #~ "Erlaubt einem Benutzern den Kategorienfilter in seinen Einstellungen zu "
 #~ "aktivieren, selbst wenn der Filter standardmässig deaktiviert ist."
 
-#~ msgid "upload_max_img_size"
-#~ msgstr "Uploadgröße maximal"
-
-#~ msgid "upload_max_img_size_exp"
-#~ msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
-
-#~ msgid "upload_max_number_of_uploads"
-#~ msgstr "Anzahl an Uploads pro Benutzer"
-
-#~ msgid "upload_max_number_of_uploads_exp"
-#~ msgstr ""
-#~ "Maximale Anzahl von Dateien, die ein einzelner Benutzer gleichzeitig auf "
-#~ "dem Server hochgeladen haben kann."
-
 #~ msgid "stopwatch_get"
 #~ msgstr "Stopuhr"
 

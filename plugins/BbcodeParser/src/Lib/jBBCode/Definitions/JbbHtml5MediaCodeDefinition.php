@@ -2,96 +2,65 @@
 
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
-use Plugin\BbcodeParser\src\Lib\Helper\Message;
-
-abstract class Html5Media extends CodeDefinition
-{
-    protected $_sParseContent = false;
-
-    protected static $_html5AudioExtensions = [
-        'm4a',
-        'ogg',
-        'opus',
-        'mp3',
-        'wav',
-    ];
-
-    /**
-     * Process audio
-     *
-     * @param string $content string
-     *
-     * @return string
-     */
-    protected function _audio($content)
-    {
-        $out = "<audio src='$content' controls='controls'>";
-        $out .= Message::format(
-            __(
-                'Your browser does not support HTML5 audio. Please updgrade to a modern ' .
-                'browser. In order to watch this stream you need an HTML5 capable browser.',
-                true
-            )
-        );
-        $out .= "</audio>";
-
-        return $out;
-    }
-
-    /**
-     * Process video
-     *
-     * @param string $content content
-     *
-     * @return string
-     */
-    protected function _video($content)
-    {
-        // fix audio files mistakenly wrapped into an [video] tag
-        if (preg_match('/(' . implode('|', self::$_html5AudioExtensions) . ')$/i', $content) === 1) {
-            return $this->_audio($content);
-        }
-
-        $out = "<video src='$content' controls='controls' x-webkit-airplay='allow'>";
-        $out .= Message::format(
-            __(
-                'Your browser does not support HTML5 video. Please updgrade to a modern ' .
-                'browser. In order to watch this stream you need an HTML5 capable browser.',
-                true
-            )
-        );
-        $out .= '</video>';
-
-        return $out;
-    }
-}
+use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
+use Plugin\BbcodeParser\src\Lib\jBBCode\Definitions\CodeDefinition;
 
 //@codingStandardsIgnoreStart
-class Html5Audio extends Html5Media
+class Html5Audio extends CodeDefinition
 //@codingStandardsIgnoreEnd
 {
+    use UrlParserTrait;
+
     protected $_sTagName = 'audio';
 
+    protected $_sParseContent = false;
+
     /**
      * {@inheritDoc}
      */
     protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
-        return $this->_audio($content);
+        if (!empty($attributes['src']) && $attributes['src'] === 'upload') {
+            $content = $this->_linkToUploadedFile($content);
+        }
+
+        return "<audio src='$content' controls='controls' preload='metadata' x-webkit-airplay='allow'></audio>";
     }
 }
 
 //@codingStandardsIgnoreStart
-class Html5Video extends Html5Media
+class Html5AudioWithAttributes extends Html5Audio
 //@codingStandardsIgnoreEnd
 {
+    protected $_sUseOptions = true;
+}
+
+//@codingStandardsIgnoreStart
+class Html5Video extends CodeDefinition
+//@codingStandardsIgnoreEnd
+{
+    use UrlParserTrait;
+
     protected $_sTagName = 'video';
+
+    protected $_sParseContent = false;
 
     /**
      * {@inheritDoc}
      */
     protected function _parse($content, $attributes, \JBBCode\ElementNode $node)
     {
-        return $this->_video($content);
+        if (!empty($attributes['src']) && $attributes['src'] === 'upload') {
+            $content = $this->_linkToUploadedFile($content);
+        }
+
+        return "<video src='$content' controls='controls' preload='metadata' x-webkit-airplay='allow'></video>";
     }
+}
+
+//@codingStandardsIgnoreStart
+class Html5VideoWithAttributes extends Html5Video
+//@codingStandardsIgnoreEnd
+{
+    protected $_sUseOptions = true;
 }

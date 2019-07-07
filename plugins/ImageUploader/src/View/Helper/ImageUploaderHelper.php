@@ -5,7 +5,7 @@ declare(strict_types = 1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -38,7 +38,11 @@ class ImageUploaderHelper extends AppHelper
             'type' => 'uploads',
             'attributes' => [
                 'id' => $image->get('id'),
+                'created' => $image->get('created'),
+                'mime' => $image->get('type'),
                 'name' => $image->get('name'),
+                'title' => $image->get('title') ?: $image->get('name'),
+                'size' => $image->get('size'),
                 'url' => $this->Url->assetUrl(
                     'useruploads/' . $image->get('name'),
                     ['fullBase' => true]

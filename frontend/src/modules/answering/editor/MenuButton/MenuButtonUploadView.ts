@@ -1,37 +1,72 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
+import { Channel } from 'backbone.radio';
+import App from 'models/app';
 import ModalDialog from 'modules/modalDialog/modalDialog';
-import UploaderView from 'modules/uploader/uploader';
+import UploaderVw from 'modules/uploader/uploader';
 import * as _ from 'underscore';
 import { AbstractMenuButtonView } from './AbstractMenuButtonView';
 
-class MenuButtonUploadView extends AbstractMenuButtonView {
-    protected handleButton() {
-        const channel = this.channel;
+/**
+ * Button on upload-card which inserts the upload into the posting textfield
+ */
+class InsertVw extends View<Model> {
+    /**
+     * Constructor
+     *
+     * @param options marionette init
+     */
+    public constructor(options: object = {}) {
+        _.defaults(options, {
+            className: 'imageUploader-action',
+            events: { 'click @ui.button': 'onButtonClick' },
+            template: _.template(`
+                <button class="btn btn-primary imageUploader-action-btn">
+                    <%- $.i18n.__("upl.btn.insert") %>
+                </button>`),
+            ui: { button: 'button' },
+        });
+        super(options);
+    }
 
-        class InsertVw extends View<Model> {
-            public constructor(options: object = {}) {
-                _.defaults(options, {
-                    events: { 'click button': 'handleInsert' },
-                    template: _.template('<button class="btn btn-primary"><%- $.i18n.__("upl.btn.insert") %></button>'),
-                });
-                super(options);
-            }
-            private handleInsert() {
-                const text = '[upload]' + this.model.get('name') + '[/upload]';
-                channel.request('insert:text', text);
-                ModalDialog.hide();
-            }
+    /**
+     * Insert upload-BBCode into answering textarea
+     */
+    private onButtonClick() {
+        const mime: string = this.model.get('mime').match('^(.*)?/')[1];
+        let tag: string;
+
+        switch (mime) {
+            case('audio'):
+            case('video'):
+                tag = mime;
+                break;
+            case('image'):
+                tag = 'img';
+                break;
+            default:
+                tag = 'file';
         }
 
-        const uploadsView = new UploaderView({
-            InsertVw,
-            className: 'imageUploader',
-        });
-
-        ModalDialog.show(uploadsView, { title: $.i18n.__('upl.title'), width: 'max' });
-        uploadsView.render();
+        this.getOption('channel').request(
+            'insert:text',
+             '[' + tag + ' src=upload]' + this.model.get('name') + '[/' + tag + ']',
+        );
+        ModalDialog.hide();
     }
 }
 
-export { MenuButtonUploadView };
+class MenuButtonUploadView extends AbstractMenuButtonView {
+    protected handleButton() {
+        App.eventBus.reply(
+            'uploader:item:action',
+            () => {
+                return new InsertVw({ channel: this.channel });
+            });
+        const uploadsView = new UploaderVw();
+
+        ModalDialog.show(uploadsView, { title: $.i18n.__('upl.title'), width: 'max' });
+    }
+}
+
+export { InsertVw, MenuButtonUploadView };

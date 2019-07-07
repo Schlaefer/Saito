@@ -73,12 +73,6 @@ echo $this->Setting->table(
 );
 
 echo $this->Setting->table(
-    __('Uploads'),
-    ['upload_max_img_size', 'upload_max_number_of_uploads'],
-    $Settings
-);
-
-echo $this->Setting->table(
     __('Debug'),
     ['stopwatch_get'],
     $Settings
