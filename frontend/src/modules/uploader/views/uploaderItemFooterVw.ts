@@ -60,7 +60,8 @@ class UploaderItemFooterVw extends View<Model> {
         };
 
         return {
-            created: new Date(this.model.get('created')).toDateString(),
+            created: new Date(this.model.get('created'))
+                .toLocaleDateString(App.settings.get('language')),
             filesize: humanize.filesize(this.model.get('size')),
             titleTrunc: trunc(this.model.get('title'), 20),
         };
