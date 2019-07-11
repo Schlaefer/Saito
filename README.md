@@ -4,7 +4,7 @@
 
 Saito is a web forum. It is different from the majority of other solutions as it puts the emphasis on presenting threads and conversations in a classic tree style view. It is optimized to display hundreds of individual posts on a single page request while running on a modest shared-hoster.
 
-[See a demo here][SaitoSupport] (login: test/test).
+[Test it here][SaitoSupport] (log-in: test/test).
 
 ## Status
 
@@ -14,7 +14,7 @@ Saito is a web forum. It is different from the majority of other solutions as it
 [cake]: http://cakephp.org/
 [marionette]: https://marionettejs.com/
 [SaitoHomepage]: http://saito.siezi.com/
-[SaitoSupport]: http://saitotest.bplaced.net/saito/
+[SaitoSupport]: http://saito-forum.de/
 
 ## Requirements
 

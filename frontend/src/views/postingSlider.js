@@ -39,7 +39,7 @@ export default Marionette.View.extend({
   },
 
   _showAnsweringForm: function () {
-    App.eventBus.trigger('breakAutoreload');
+    App.eventBus.request('app:autoreload:stop');
     if (this.answeringForm === false) {
       const spinner = (new SpinnerView()).render();
       this.$el.html(spinner.$el);

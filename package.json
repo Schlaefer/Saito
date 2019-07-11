@@ -2,6 +2,7 @@
   "name": "Saito",
   "private": true,
   "dependencies": {
+    "@types/favico.js": "^0.0.28",
     "@types/underscore.string": "^0.0.32",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
@@ -12,6 +13,7 @@
     "bootstrap": "^4.3.0",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.16",
+    "favico.js": "^0.3.10",
     "font-awesome": "^4.7.0",
     "gettext-extractor": "^3.4.3",
     "grunt": "^1.0.4",

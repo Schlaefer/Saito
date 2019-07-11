@@ -1,0 +1,45 @@
+# Header entry was created by Lokalize.
+#
+# Schlaefer <openmail+sourcecode@siezi.com>, 2019.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"PO-Revision-Date: 2019-07-11 13:13+0200\n"
+"Project-Id-Version: \n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 19.04.2\n"
+
+msgid "cancel"
+msgstr "Cancel"
+
+msgid "cat.del.t"
+msgstr "Delete Category {0}"
+
+msgid "cat.del.exp"
+msgstr "What should happen to existing threads and postings in this category?"
+
+msgid "cat.del.mbd.t"
+msgstr "Move Before Delete"
+
+msgid "cat.del.mbd.exp"
+msgstr "Preserves all existing posting by moving them to another category."
+
+msgid "cat.del.mbd.l"
+msgstr "Target category"
+
+msgid "cat.del.mbd.b"
+msgstr "Move Postings and Delete Category"
+
+msgid "cat.del.d.t"
+msgstr "Delete"
+
+msgid "cat.del.d.exp"
+msgstr "Deletes the category and all postings."
+
+msgid "cat.del.d.b"
+msgstr "Delete Everything"

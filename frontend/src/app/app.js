@@ -6,6 +6,8 @@ import EventBus from 'app/vent';
 import Application from 'app/core';
 import AppView from 'views/app';
 import Html5NotificationModule from 'modules/notification/html5-notification';
+import 'app/faviconBadge.ts';
+import 'app/pageAutoreload.ts';
 
 import 'lib/jquery.i18n/jquery.i18n.extend';
 import 'lib/saito/backbone.initHelper';
