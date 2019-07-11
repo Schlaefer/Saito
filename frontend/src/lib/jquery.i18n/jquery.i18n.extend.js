@@ -27,6 +27,7 @@ $.extend($.i18n, {
         return $.ajax({
             url: this.dictUrl,
             dataType: 'json',
+            mimeType: 'application/json',
             async: false,
             cache: true
         }).done(success);
