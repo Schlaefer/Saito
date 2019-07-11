@@ -563,7 +563,7 @@ class UsersTableTest extends SaitoTableTestCase
     {
         $data = [
             'username' => 'Mitsch',
-            'user_email' => 'mib@island.com',
+            'user_email' => 'mib@example.com',
             'password' => 'beforeandagain',
             'password_confirm' => 'beforeandagain'
         ];
@@ -573,12 +573,12 @@ class UsersTableTest extends SaitoTableTestCase
 
         $data = [
             'username' => 'Mischa',
-            'user_email' => 'mib@island.com',
+            'user_email' => 'mib@example.com',
             'password' => 'beforeandagain',
             'password_confirm' => 'beforeandagain'
         ];
         $entity = $this->Table->register($data);
-        $this->assertEmpty($entity->getErrors());
+        $this->assertArrayNotHasKey('username', $entity->getErrors());
     }
 
     /**
