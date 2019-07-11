@@ -14,15 +14,11 @@ namespace ImageUploader;
 
 use Cake\Cache\Cache;
 use Cake\Core\BasePlugin;
+use Cake\Core\Configure;
 use Cake\Core\PluginApplicationInterface;
 
 class Plugin extends BasePlugin
 {
-    /**
-     * Cache key for image thumbnails
-     */
-    public const CACHE_KEY = 'uploadsThumbnails';
-
     /**
      * {@inheritdoc}
      */
@@ -42,12 +38,13 @@ class Plugin extends BasePlugin
      */
     public static function configureCache(): void
     {
-        if (Cache::getConfig(self::CACHE_KEY) !== null) {
+        $cacheKey = Configure::read('Saito.Settings.uploader')->getCacheKey();
+        if (Cache::getConfig($cacheKey) !== null) {
             return;
         }
 
         Cache::setConfig(
-            self::CACHE_KEY,
+            $cacheKey,
             [
                 'className' => 'File',
                 'prefix' => 'saito_thumbnails-',

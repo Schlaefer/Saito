@@ -301,14 +301,6 @@ msgid "category_chooser_user_override_exp"
 msgstr "Erlaubt einem Benutzern den Kategorienfilter in seinen Einstellungen zu aktivieren, selbst wenn der Filter standardmässig deaktiviert ist."
 
 #
-msgid "upload_max_img_size"
-msgstr "Uploadgröße maximal"
-
-#
-msgid "upload_max_img_size_exp"
-msgstr "Maximale Größe, die ein Upload besitzen darf in kB."
-
-#
 msgid "upload_max_number_of_uploads"
 msgstr "Anzahl an Uploads pro Benutzer"
 

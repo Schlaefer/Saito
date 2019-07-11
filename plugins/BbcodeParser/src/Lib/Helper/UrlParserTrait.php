@@ -3,11 +3,13 @@
 namespace Plugin\BbcodeParser\src\Lib\Helper;
 
 use Cake\Validation\Validator;
+use Cake\View\Helper\UrlHelper;
 use MailObfuscator\View\Helper\MailObfuscatorHelper;
 use Saito\DomainParser;
 
 /**
  * @property MailObfuscatorHelper $MailObfuscator
+ * @property UrlHelper $Url
  */
 trait UrlParserTrait
 {
@@ -82,7 +84,7 @@ trait UrlParserTrait
         if ($label !== false && $label !== 'none' && $label !== 'false') {
             if (!empty($url) && preg_match('/\<img\s*?src=/', $text) !== 1) {
                 $host = DomainParser::domainAndTld($url);
-                if ($host !== false && $host !== env('SERVER_NAME')) {
+                if ($host !== null && $host !== env('SERVER_NAME')) {
                     $out .= ' <span class=\'richtext-linkInfo\'>[' . $host . ']</span>';
                 }
             }
@@ -158,5 +160,19 @@ trait UrlParserTrait
             $decorator,
             $string
         );
+    }
+
+    /**
+     * Creates an URL to an uploaded file based on $id
+     *
+     * @param string $id currently name in uploads folder
+     * @return string URL
+     */
+    protected function _linkToUploadedFile(string $id) : string
+    {
+        // @bogus, there's an user-config for that
+        $root = '/useruploads/';
+
+        return $this->Url->build($root . $id, ['fullBase' => true]);
     }
 }

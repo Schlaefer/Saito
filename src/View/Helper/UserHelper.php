@@ -95,26 +95,6 @@ class UserHelper extends AppHelper
     }
 
     /**
-     * Creates link to user contact page with image
-     *
-     * @param Entity $user user
-     * @return string
-     */
-    public function contact(Entity $user)
-    {
-        $out = '';
-        if ($user->get('personal_messages') && $user->get('user_email')) {
-            $out = $this->Html->link(
-                '<i class="fa fa-envelope-o fa-lg"></i>',
-                ['controller' => 'contacts', 'action' => 'user', $user['id']],
-                ['escape' => false]
-            );
-        }
-
-        return $out;
-    }
-
-    /**
      * Creates link to user's external (non-Saito) homepage
      *
      * @param string $url user provided URL-string

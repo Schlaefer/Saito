@@ -5,7 +5,7 @@ declare(strict_types = 1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -64,27 +64,27 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->post('api/v2/uploads', []);
     }
 
+    /**
+     * png is successfully uploaded and converted to jpeg
+     */
     public function testAddSuccess()
     {
         $this->loginJwt(1);
 
-        $data = [
-            'upload' => [
-                0 => [
-                    'file' => [
-                        'tmp_name' => $this->file->path,
-                        'name' => $this->file->name() . '.' . $this->file->ext(),
-                        'size' => $this->file->size(),
-                        'type' => $this->file->mime(),
-                    ]
-                ]
-            ]
-        ];
-        $this->post('api/v2/uploads.json', $data);
-
+        $this->upload($this->file);
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertResponseCode(200);
+
+        $this->assertWithinRange(
+            time(),
+            strtotime($response['data']['attributes']['created']),
+            3
+        );
+        unset($response['data']['attributes']['created']);
+
+        $this->assertGreaterThan(0, $response['data']['attributes']['size']);
+        unset($response['data']['attributes']['size']);
 
         $expected = [
             'data' => [
@@ -92,9 +92,11 @@ class UploadsControllerTest extends IntegrationTestCase
                 'type' => 'uploads',
                 'attributes' => [
                     'id' => 3,
-                    'name' => '1_my_new_upload.png',
-                    'url' => '/useruploads/1_my_new_upload.png',
-                    'thumbnail_url' => '/api/v2/uploads/thumb/3?h=a57eb1b1d9edb0faef2c0821f894c7f3',
+                    'mime' => 'image/jpeg',
+                    'name' => '1_ebd536d37aff03f2b570329b20ece832.jpg',
+                    'thumbnail_url' => '/api/v2/uploads/thumb/3?h=e1fddb2ea8f448fac14ec06b88d4ce94',
+                    'title' => 'my new-upload.png',
+                    'url' => '/useruploads/1_ebd536d37aff03f2b570329b20ece832.jpg',
                 ],
             ],
         ];
@@ -103,8 +105,53 @@ class UploadsControllerTest extends IntegrationTestCase
         $Uploads = TableRegistry::get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
 
-        $this->assertSame('1_my_new_upload.png', $upload->get('name'));
-        $this->assertSame('image/png', $upload->get('type'));
+        $this->assertSame('1_ebd536d37aff03f2b570329b20ece832.jpg', $upload->get('name'));
+        $this->assertSame('image/jpeg', $upload->get('type'));
+        $this->assertTrue($upload->get('file')->exists());
+    }
+
+    public function testAddSvg()
+    {
+        $this->loginJwt(1);
+
+        $this->file = new File(TMP . 'tmp_svg.svg');
+        $this->file->write('<?xml version="1.0" encoding="UTF-8" ?>
+            <svg width="9" height="9" style="background:red;"></svg>');
+        $this->upload($this->file);
+
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertResponseCode(200);
+
+        $this->assertWithinRange(
+            time(),
+            strtotime($response['data']['attributes']['created']),
+            3
+        );
+        unset($response['data']['attributes']['created']);
+
+        $expected = [
+            'data' => [
+                'id' => 3,
+                'type' => 'uploads',
+                'attributes' => [
+                    'id' => 3,
+                    'mime' => 'image/svg+xml',
+                    'name' => '1_853fe7aa4ef213b0c11f4b739cf444a8.svg',
+                    'size' => 108,
+                    'thumbnail_url' => '/api/v2/uploads/thumb/3?h=1d57b148ad44d4caf90fa1cd98729678',
+                    'title' => 'tmp_svg.svg',
+                    'url' => '/useruploads/1_853fe7aa4ef213b0c11f4b739cf444a8.svg',
+                ],
+            ],
+        ];
+        $this->assertEquals($expected, $response);
+
+        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $upload = $Uploads->get(3);
+
+        $this->assertSame('1_853fe7aa4ef213b0c11f4b739cf444a8.svg', $upload->get('name'));
+        $this->assertSame('image/svg+xml', $upload->get('type'));
         $this->assertTrue($upload->get('file')->exists());
     }
 
@@ -127,19 +174,7 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->assertContains('EXIF', $exif['SectionsFound']);
         $this->assertContains('IFD0', $exif['SectionsFound']);
 
-        $data = [
-            'upload' => [
-                0 => [
-                    'file' => [
-                        'tmp_name' => $this->file->path,
-                        'name' => $this->file->name() . '.' . $this->file->ext(),
-                        'size' => $this->file->size(),
-                        'type' => $this->file->mime(),
-                    ]
-                ]
-            ]
-        ];
-        $this->post('api/v2/uploads.json', $data);
+        $this->upload($this->file);
 
         $response = json_decode((string)$this->_response->getBody(), true);
 
@@ -155,56 +190,35 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testAddFailureMaxUploadsPerUser()
     {
-        Configure::write('Saito.Settings.upload_max_number_of_uploads', 1);
+        Configure::read('Saito.Settings.uploader')->setMaxNumberOfUploadsPerUser(1);
         $this->loginJwt(1);
 
         $Uploads = TableRegistry::get('ImageUploader.Uploads');
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
-        $this->expectExceptionMessage('Error: No more uploads possible (max: 1)');
+        $this->expectExceptionMessage('Error: Reached the maximal number of 1 uploads.');
 
-        $data = [
-            'upload' => [
-                0 => [
-                    'file' => [
-                        'tmp_name' => $this->file->path,
-                        'name' => $this->file->name(),
-                        'size' => $this->file->size(),
-                        'type' => $this->file->mime(),
-                    ]
-                ]
-            ]
-        ];
-        $this->post('api/v2/uploads.json', $data);
+        $this->upload($this->file);
 
         $this->assertEquals($count, $Uploads->find()->count());
     }
 
     public function testAddFailureMaxDocumentSize()
     {
-        Configure::write('Saito.Settings.upload_max_img_size', 10);
+        Configure::read('Saito.Settings.uploader')
+            ->setMaxNumberOfUploadsPerUser(10)
+            ->addType('image/png', 10);
+
         $this->loginJwt(1);
 
         $Uploads = TableRegistry::get('ImageUploader.Uploads');
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
-        $this->expectExceptionMessage('Error: File size is over allowed limit of 10 kB');
+        $this->expectExceptionMessage('Error: File size exceeds allowed limit of 10 Bytes.');
 
-        $data = [
-            'upload' => [
-                0 => [
-                    'file' => [
-                        'tmp_name' => $this->file->path,
-                        'name' => $this->file->name(),
-                        'size' => $this->file->size(),
-                        'type' => $this->file->mime(),
-                    ]
-                ]
-            ]
-        ];
-        $this->post('api/v2/uploads.json', $data);
+        $this->upload($this->file);
 
         $this->assertEquals($count, $Uploads->find()->count());
     }
@@ -226,6 +240,12 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->assertResponseCode(200);
 
+        $this->assertEquals(
+            1526404380,
+            strtotime($response['data'][0]['attributes']['created'])
+        );
+        unset($response['data'][0]['attributes']['created']);
+
         $expected = [
             'data' => [
                 [
@@ -233,9 +253,12 @@ class UploadsControllerTest extends IntegrationTestCase
                     'type' => 'uploads',
                     'attributes' => [
                         'id' => 2,
+                        'mime' => 'image/jpeg',
                         'name' => '3-another-upload.jpg',
-                        'url' => '/useruploads/3-another-upload.jpg',
+                        'size' => 50000,
                         'thumbnail_url' => '/api/v2/uploads/thumb/2?h=be7ef71551c4245f82223d0c8e652eee',
+                        'title' => '3-another-upload.jpg',
+                        'url' => '/useruploads/3-another-upload.jpg',
                     ],
                 ],
             ],
@@ -274,5 +297,27 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->expectException(SaitoForbiddenException::class);
 
         $this->delete('api/v2/uploads/1');
+    }
+
+    /**
+     * Sends a file to upload api
+     *
+     * @param File $file The file to send
+     */
+    private function upload(File $file)
+    {
+        $data = [
+            'upload' => [
+                0 => [
+                    'file' => [
+                        'tmp_name' => $file->path,
+                        'name' => $file->name() . '.' . $this->file->ext(),
+                        'size' => $file->size(),
+                        'type' => $file->mime(),
+                    ]
+                ]
+            ]
+        ];
+        $this->post('api/v2/uploads.json', $data);
     }
 }

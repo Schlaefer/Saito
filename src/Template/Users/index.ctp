@@ -47,10 +47,10 @@ $this->element('users/menu');
                             if ($user->get('user_online') && $user->get('user_online')['logged_in']) {
                                 $u[] = __('Online');
                             }
-                            if ($user->get('username') === 'Frogurt') {
-                                $a = 1;
+                            if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate')) {
+                                $u[] = h(__('user.actv.ny'));
                             }
-                            if ($user->isForbidden()) {
+                            if ($user->isLocked()) {
                                 $u[] = __(
                                     '{0} banned',
                                     $this->User->banned(true)

@@ -2,7 +2,7 @@ import * as Bb from 'backbone';
 import * as Mn from 'backbone.marionette';
 import App from 'models/app';
 import BookmarksVw from 'modules/bookmarks/bookmarksModule';
-import UploaderVw from 'modules/uploader/uploader.js';
+import UploaderVw from 'modules/uploader/uploader';
 import * as _ from 'underscore';
 import RecentPostsVw from './userRecentPostsVw';
 

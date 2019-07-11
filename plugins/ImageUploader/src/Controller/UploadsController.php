@@ -15,6 +15,7 @@ namespace ImageUploader\Controller;
 use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
 use Cake\Cache\Cache;
+use Cake\Utility\Security;
 use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -53,11 +54,19 @@ class UploadsController extends ApiAppController
     {
         $submitted = $this->request->getData('upload.0.file');
         if (!is_array($submitted)) {
-            throw new GenericApiException('No uploaded image detected.');
+            throw new GenericApiException(__d('image_uploader', 'add.failure'));
         }
+        $parts = explode('.', $submitted['name']);
+        $ext = array_pop($parts);
+        $name = $this->CurrentUser->getId() .
+                '_' .
+                substr(Security::hash($submitted['name'], 'sha256'), 32) .
+                '.' .
+                $ext;
         $data = [
             'document' => $submitted,
-            'name' => $this->CurrentUser->getId() . '_' . $submitted['name'],
+            'name' => $name,
+            'title' => $submitted['name'],
             'size' => $submitted['size'],
             'type' => $submitted['type'],
             'user_id' => $this->CurrentUser->getId(),

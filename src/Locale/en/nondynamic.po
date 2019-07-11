@@ -292,22 +292,6 @@ msgid "category_chooser_user_override_exp"
 msgstr "If the category chooser is off be default this allows users to enable it in their user preferences."
 
 #
-msgid "upload_max_img_size"
-msgstr "Upload Max Image Size "
-
-#
-msgid "upload_max_img_size_exp"
-msgstr "Max image size in kB for uploaded content."
-
-#
-msgid "upload_max_number_of_uploads"
-msgstr "Max Number of Uploads"
-
-#
-msgid "upload_max_number_of_uploads_exp"
-msgstr "Max number of uploaded files for a single user."
-
-#
 msgid "stopwatch_get"
 msgstr "Stopwatch"
 

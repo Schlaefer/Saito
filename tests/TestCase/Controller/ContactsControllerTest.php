@@ -268,9 +268,23 @@ class ContactsControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(2);
         $this->expectException(
-            '\Cake\Http\Exception\BadRequestException'
+            '\Cake\Http\Exception\BadRequestException',
+            1562415010
         );
         $this->get('/contacts/user/5');
+    }
+
+    /**
+     * Admin is allowed to contact a user ignoring the user's personal setting
+     */
+    public function testContactUserContactDisabledPrivileged()
+    {
+        $this->_loginUser(1);
+
+        $this->get('/contacts/user/5');
+
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('sender-contact');
     }
 
     /**

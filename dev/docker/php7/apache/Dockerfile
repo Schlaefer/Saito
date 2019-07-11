@@ -5,6 +5,7 @@ FROM php:7.2-apache
 
  #install all the system dependencies and enable PHP modules
 RUN apt-get update && apt-get install -y \
+      gettext \
       libgd-dev \
       # libpng-dev \
       libicu-dev \
@@ -61,6 +62,7 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 #change the web_root to cakephp /var/www/html/webroot folder
 RUN echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/memory_limit.ini
+RUN echo "upload_max_filesize=20M" >> /usr/local/etc/php/conf.d/memory_limit.ini
 
 # enable apache module rewrite
 RUN a2enmod rewrite

@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import App from 'models/app';
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import Tpl from 'modules/modalDialog/templates/modalDialog.html';
@@ -37,8 +38,11 @@ const dialog = Marionette.View.extend({
     this.setWidth(options.width);
 
     // shows BS dialog
+    this.$el.parent().on('shown.bs.modal', () => {
+      App.eventBus.trigger('app:modal:shown');
+      this.triggerMethod('shown');
+    });
     this.$el.parent().modal('show');
-    this.$el.parent().on('shown.bs.modal', () => { this.triggerMethod('shown'); });
   },
 
   hide: function () {

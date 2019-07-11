@@ -76,8 +76,6 @@ class JsDataHelper extends AppHelper
                     ),
                     'quote_symbol' => $settings['quote_symbol'],
                     'subject_maxlength' => $settings['subject_maxlength'],
-                    'upload_max_img_size' => $settings['upload_max_img_size'] * 1024,
-                    'upload_max_number_of_uploads' => (int)$settings['upload_max_number_of_uploads'],
                     'theme' => $View->getTheme(),
                     'apiroot' => $request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $request->getAttribute('webroot')

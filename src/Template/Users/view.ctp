@@ -29,10 +29,17 @@ $table[] = [
     $this->User->getAvatar($user, ['link' => false])
 ];
 
-if ($user->isForbidden()) {
+if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate')) {
+    $table[] = [
+        h(__('user.actv.t')),
+        h(__('user.actv.ny'))
+    ];
+}
+
+if ($user->isLocked()) {
     $table[] = [
         __('user.set.lock.t'),
-        $this->User->banned($user->get('user_lock')),
+        $this->User->banned(true),
     ];
 }
 
@@ -43,9 +50,14 @@ if ($user->get('user_real_name')) {
     ];
 }
 
-if ($user->get('user_email') && $user->get('personal_messages')) {
-    $concat = $this->User->contact($user);
-    if ($CurrentUser->permission('saito.core.user.view.contact')) {
+$viewContactPermission = $CurrentUser->permission('saito.core.user.contact');
+if ($user->get('user_email') && ($user->get('personal_messages') || $viewContactPermission)) {
+    $concat = $this->Html->link(
+        '<i class="fa fa-envelope-o fa-lg"></i>',
+        ['controller' => 'contacts', 'action' => 'user', $user['id']],
+        ['escape' => false]
+    );
+    if ($viewContactPermission) {
         $text = '(' . $this->Text->autoLinkEmails($user->get('user_email')) . ')';
         $concat .= ' ' . $this->Layout->infoText($text);
     }

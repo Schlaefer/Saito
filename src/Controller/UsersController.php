@@ -90,28 +90,22 @@ class UsersController extends AppController
 
         if (!empty($readUser)) {
             $User = new SaitoUser($readUser);
-            switch ($User->isForbidden()) {
-                case 'locked':
-                    $ends = $this->Users->UserBlocks
-                        ->getBlockEndsForUser($User->getId());
-                    if ($ends) {
-                        $time = new Time($ends);
-                        $data = [
-                            $username,
-                            $time->timeAgoInWords(['accuracy' => 'hour'])
-                        ];
-                        $message = __('user.block.pubExpEnds', $data);
-                    } else {
-                        $message = __('user.block.pubExp', $username);
-                    }
-                    break;
-                case 'unactivated':
-                    $message = __(
-                        'User {0} is not activated yet.',
-                        [$readUser->get('username')]
-                    );
-                    break;
-                default:
+
+            if (!$User->isActivated()) {
+                $message = __('user.actv.ny');
+            } elseif ($User->isLocked()) {
+                $ends = $this->Users->UserBlocks
+                    ->getBlockEndsForUser($User->getId());
+                if ($ends) {
+                    $time = new Time($ends);
+                    $data = [
+                        $username,
+                        $time->timeAgoInWords(['accuracy' => 'hour'])
+                    ];
+                    $message = __('user.block.pubExpEnds', $data);
+                } else {
+                    $message = __('user.block.pubExp', $username);
+                }
             }
         }
 
@@ -657,6 +651,46 @@ class UsersController extends AppController
         foreach ($formFields as $field) {
             $this->request = $this->request->withoutData($field);
         }
+    }
+
+    /**
+     * Directly set password for user
+     *
+     * @param string $id user-ID
+     * @return Response|null
+     */
+    public function setpassword($id)
+    {
+        if (!$this->CurrentUser->permission('saito.core.user.password.set')) {
+            throw new SaitoForbiddenException(
+                "Attempt to set password for user $id.",
+                ['CurrentUser' => $this->CurrentUser]
+            );
+        }
+
+        $user = $this->Users->get($id);
+
+        if ($this->getRequest()->is('post')) {
+            $this->Users->patchEntity($user, $this->getRequest()->getData(), ['fields' => 'password']);
+
+            if ($this->Users->save($user)) {
+                $this->Flash->set(
+                    __('user.pw.set.s'),
+                    ['element' => 'success']
+                );
+
+                return $this->redirect(['controller' => 'users', 'action' => 'edit', $id]);
+            }
+            $errors = $user->getErrors();
+            if (!empty($errors)) {
+                $this->Flash->set(
+                    __d('nondynamic', current(array_pop($errors))),
+                    ['element' => 'error']
+                );
+            }
+        }
+
+        $this->set(compact('user'));
     }
 
     /**

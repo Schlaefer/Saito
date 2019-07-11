@@ -152,18 +152,21 @@ trait SaitoUserTrait
     /**
      * Checks if user is forbidden.
      *
-     * @return bool|string
+     * @return bool
      */
-    public function isForbidden()
+    public function isLocked(): bool
     {
-        if ($this->get('user_lock')) {
-            return 'locked';
-        }
-        if ($this->get('activate_code')) {
-            return 'unactivated';
-        }
+        return (bool)$this->get('user_lock');
+    }
 
-        return false;
+    /**
+     * Checks if user is forbidden.
+     *
+     * @return bool
+     */
+    public function isActivated() : bool
+    {
+        return !$this->get('activate_code');
     }
 
     /**

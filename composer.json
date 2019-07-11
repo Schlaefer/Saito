@@ -31,7 +31,8 @@
     "friendsofcake/search": "^4.4",
     "admad/cakephp-jwt-auth": "^2.3",
     "claviska/simpleimage": "^3.3",
-    "embed/embed": "^3.3"
+    "embed/embed": "^3.3",
+    "layershifter/tld-extract": "^2.0"
   },
   "require-dev": {
     "cakephp/bake": "~1.0",

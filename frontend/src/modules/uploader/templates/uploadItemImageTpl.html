@@ -1,0 +1,18 @@
+<a href="<%= url %>" target="_blank">
+    <div class="card-upload-container image">
+            <div class="spinner-border image-uploader-spinner" role="status">
+                <span class="sr-only">
+                    <%- $.i18n.__('upl.loading') %>
+                </span>
+            </div>
+            <img class="b-lazy card-img-top"
+                <% if (mime === 'image/jpeg' || mime === 'image/png') { %>
+                    data-src="<%= thumbnail_url %>"
+                <% } else { %>
+                    data-src="<%= url %>"
+                <% }  %>
+            >
+    </div>
+</a>
+<div class = 'js-footer'></div>
+<div class = 'js-rgForm'></div>

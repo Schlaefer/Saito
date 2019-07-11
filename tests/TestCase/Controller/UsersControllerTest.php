@@ -4,6 +4,7 @@ namespace App\Test\TestCase\Controller;
 
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
@@ -11,6 +12,7 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
 class UsersControllerTest extends IntegrationTestCase
@@ -573,6 +575,112 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertResponseContains('2013531');
     }
 
+    /**
+     * User doesn't see activation status of unactivated user
+     */
+    public function testViewUserNotActivatedUser()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(3);
+        $this->get('/users/view/10');
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('user.actv.t');
+        $this->assertResponseNotContains('user.actv.ny');
+    }
+
+    /**
+     * User doesn't see activation status of unactivated user
+     */
+    public function testIndexUserNotActivatedUser()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(3);
+        $this->get('/users/index');
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('user.actv.t');
+        $this->assertResponseNotContains('user.actv.ny');
+    }
+
+    /**
+     * Admin sees activation status of unactivated user
+     */
+    public function testViewUserNotActivatedAdmin()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(1);
+        $this->get('/users/view/10');
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('user.actv.t');
+        $this->assertResponseContains('user.actv.ny');
+    }
+
+    /**
+     * Admin doesn't see activation status for activated user
+     */
+    public function testViewUserActivatedAdmin()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(1);
+        $this->get('/users/view/3');
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('user.actv.t');
+        $this->assertResponseNotContains('user.actv.ny');
+    }
+
+    /**
+     * Admin sees activation status of unactivated user
+     */
+    public function testIndexUserNotActivatedAdmin()
+    {
+        Configure::write('Saito.language', 'bzs');
+        $this->_loginUser(1);
+        $this->get('/users/index');
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('user.actv.ny');
+    }
+
+    /**
+     * User has messaging disabled. Normal user can't see it
+     */
+    public function testContactMsgNotAllowed()
+    {
+        $this->_loginUser(3);
+        $userId = 4;
+
+        $this->get('/users/view/' . $userId);
+
+        $this->assertResponseCode(200);
+        $this->assertResponseNotContains('<a href="/contacts/user/' . $userId . '">');
+    }
+
+    /**
+     * User has messaging disabled. Privileged user may see it
+     */
+    public function testContactMsgNotAllowedButPrivileged()
+    {
+        $this->_loginUser(1);
+        $userId = 4;
+
+        $this->get('/users/view/' . $userId);
+
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('<a href="/contacts/user/' . $userId . '">');
+    }
+
+    /**
+     * User has messaging enabled. Normal user can see it
+     */
+    public function testContactMsgAllowed()
+    {
+        $this->_loginUser(3);
+        $userId = 9;
+
+        $this->get('/users/view/' . $userId);
+
+        $this->assertResponseCode(200);
+        $this->assertResponseContains('<a href="/contacts/user/' . $userId . '">');
+    }
+
     public function testViewSanitation()
     {
         $this->_loginUser(3);
@@ -874,6 +982,69 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertTrue($pwH->check('test_new', $result->get('password')));
 
         $this->assertRedirect('users/edit/5');
+    }
+
+    public function testSetPasswordAnon()
+    {
+        $this->get('/users/setpassword/4');
+        $this->assertRedirectLogin('/users/setpassword/4');
+    }
+
+    public function testSetPasswordUser()
+    {
+        $this->_loginUser(3);
+        $this->expectException(SaitoForbiddenException::class);
+        $this->get('/users/setpassword/4');
+    }
+
+    public function testSetPasswordUserNotFound()
+    {
+        $this->_loginUser(1);
+        $this->expectException(RecordNotFoundException::class);
+        $this->get('/users/setpassword/9999');
+    }
+
+    public function testSetPasswordGet()
+    {
+        $this->_loginUser(1);
+        $this->get('/users/setpassword/4');
+        $this->assertResponseCode(200);
+    }
+
+    public function testSetPasswordPostSuccess()
+    {
+        $this->_loginUser(1);
+        $this->mockSecurity();
+        $data = [
+            'password' => 'test_new',
+            'password_confirm' => 'test_new',
+        ];
+        $this->post('/users/setpassword/5', $data);
+
+        $user = TableRegistry::get('Users');
+        $result = $user->get(5, ['fields' => 'password']);
+        $pwH = new DefaultPasswordHasher();
+        $this->assertTrue($pwH->check('test_new', $result->get('password')));
+
+        $this->assertRedirect('users/edit/5');
+    }
+
+    public function testSetPasswordPostFailurePwDontMatch()
+    {
+        $this->_loginUser(1);
+        $this->mockSecurity();
+        $data = [
+            'password' => 'test_new',
+            'password_confirm' => 'test_foo',
+        ];
+        $this->post('/users/setpassword/5', $data);
+
+        $expected = '098f6bcd4621d373cade4e832627b4f6';
+        $user = TableRegistry::get('Users');
+        $result = $user->get(5, ['fields' => 'password']);
+        $this->assertEquals($result->get('password'), $expected);
+
+        $this->assertNoRedirect();
     }
 
     /**

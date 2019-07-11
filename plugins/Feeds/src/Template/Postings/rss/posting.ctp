@@ -13,8 +13,9 @@ foreach ($entries as $entry) {
         ->title(html_entity_decode($entry->get('subject'), ENT_NOQUOTES, 'UTF-8'))
         ->description($body)
         ->url($url)
-        ->creator($this->get('username'))
+        ->creator($entry->get('name'))
         ->pubDate(strtotime($entry->get('time')))
+        ->pubDate($entry->get('time')->getTimestamp())
         ->guid($url, true)
         ->preferCdata(true)
         ->appendTo($channel);

@@ -12,7 +12,7 @@ export default class extends JsonApiCollection {
 
     /** Bb comparator */
     public comparator = (model) => {
-        // sort by latest firest (negate ID for DESC)
+        // sort by latest first (negate ID for DESC)
         return -1 * model.get('id');
     }
 }

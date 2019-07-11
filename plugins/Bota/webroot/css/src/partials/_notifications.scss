@@ -4,7 +4,8 @@
   position: fixed;
   top: 0;
   right: 0;
-  z-index:1000;
+  // Keep above bootstrap modal-dialog which is 1050.
+  z-index: 1100;
 
   .bd-placeholder-img {
     @extend .mr-2;

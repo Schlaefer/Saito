@@ -14,9 +14,9 @@ namespace ImageUploader\Controller;
 
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Http\Response;
 use claviska\SimpleImage;
-use ImageUploader\Plugin;
 use Saito\Exception\SaitoForbiddenException;
 
 /**
@@ -53,7 +53,7 @@ class ThumbnailController extends Controller
             }
 
             return compact('hash', 'raw', 'type');
-        }, Plugin::CACHE_KEY);
+        }, Configure::read('Saito.Settings.uploader')->getCacheKey());
 
         $hash = (string)$this->request->getQuery('h');
         if ($hash !== $fingerprint) {

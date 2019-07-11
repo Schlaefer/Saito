@@ -4,9 +4,9 @@ import Bb from 'backbone';
 import Marionette from 'backbone.marionette';
 import { AnsweringView } from 'modules/answering/answering.ts';
 import App from 'models/app';
-import CategoryChooserView from 'views/categoryChooser';
+import CategoryChooserVw from 'views/categoryChooserVw.ts';
 import { SaitoHelpView } from 'views/helps.ts';
-import LoginView from 'views/loginView';
+import LoginVw from 'views/loginVw.ts';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import NotificationView from 'modules/notification/notification.ts';
 import PostingCollection from 'collections/postings';
@@ -245,7 +245,7 @@ export default Marionette.View.extend({
   },
 
   toggleCategoryChooser: function (event, ui) {
-    const categoryChooser = new CategoryChooserView();
+    const categoryChooser = new CategoryChooserVw();
     categoryChooser.model.set('isOpen', !categoryChooser.model.get('isOpen'));
   },
 
@@ -295,7 +295,7 @@ export default Marionette.View.extend({
     event.preventDefault();
     const title = event.currentTarget.title;
     ModalDialog.once('shown', () => { this.$('#tf-login-username').focus(); });
-    ModalDialog.show(new LoginView(), { title: title });
+    ModalDialog.show(new LoginVw(), { title: title });
   },
 
   scrollToTop: function (event) {

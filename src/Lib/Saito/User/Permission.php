@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -38,10 +41,12 @@ class Permission
         'saito.core.admin.backend' => ['admin' => true],
         'saito.core.posting.edit.restricted' => ['mod' => true],
         'saito.core.posting.edit.unrestricted' => ['admin' => true],
+        'saito.core.user.activate' => ['admin' => true],
         'saito.core.user.block' => ['admin' => true],
+        'saito.core.user.password.set' => ['admin' => true],
         'saito.core.user.delete' => ['admin' => true],
         'saito.core.user.edit' => ['admin' => true],
-        'saito.core.user.view.contact' => ['admin' => true],
+        'saito.core.user.contact' => ['admin' => true],
         'saito.core.view.ip' => ['mod' => true],
         // = controller actions =
         // @td @sm make action specific instead of generic group names
