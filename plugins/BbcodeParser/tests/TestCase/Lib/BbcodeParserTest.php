@@ -919,7 +919,7 @@ EOF;
         $expected = [
             'audio' => [
                 'controls' => 'controls',
-                'preload' => 'metadata',
+                'preload' => 'auto',
                 'src' => '/useruploads/test.mp3',
                 'x-webkit-airplay' => 'allow',
             ]
@@ -934,7 +934,7 @@ EOF;
         $expected = [
             'video' => [
                 'controls' => 'controls',
-                'preload' => 'metadata',
+                'preload' => 'auto',
                 'src' => '/useruploads/test.mp4',
                 'x-webkit-airplay' => 'allow',
             ]
@@ -1073,7 +1073,7 @@ EOF;
         $expected = [
             'video' => [
                 'src' => $url,
-                'preload' => 'metadata',
+                'preload' => 'auto',
                 'controls' => 'controls',
                 'x-webkit-airplay' => 'allow'
             ],
@@ -1167,7 +1167,7 @@ EOF;
             'audio' => [
                 'src' => $url,
                 'controls' => 'controls',
-                'preload' => 'metadata',
+                'preload' => 'auto',
                 'x-webkit-airplay' => 'allow',
             ],
             '/audio',

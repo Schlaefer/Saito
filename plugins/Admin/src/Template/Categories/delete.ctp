@@ -1,75 +1,78 @@
 <?php $this->Breadcrumbs->add(__('Categories'), '/admin/categories'); ?>
-<?php $this->Breadcrumbs->add(__('Delete Category'), '#'); ?>
-<h1>Delete Category <em><?= $category->get('category') ?></em></h1>
+<?php $this->Breadcrumbs->add(__d('admin', 'cat.del.t', $category->get('category')), '#'); ?>
+
+<h1>
+    <?= h(__d('admin', 'cat.del.t', $category->get('category'))) ?>
+</h1>
 
 <p>
-    You're going to delete the category
-    <em><?= $category->get('category') ?></em>.
-    You must decide what shall happen with the threads in this category:
+    <?= h(__d('admin', 'cat.del.exp')) ?>
 </p>
 
-<div class='row'>
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <h3> Move threads to different category </h3>
-
-                <p>
-                    Deletes the category but moves all entries into another
-                    category.
-                </p>
-                <?php
-                echo $this->Form->create(null);
-                echo $this->Form->label('targetCategory', 'Move to Category:');
-                echo $this->Form->control('targetCategory', ['type' => 'select']);
-                echo $this->Form->hidden('mode', ['value' => 'move']);
-                echo $this->Form->submit(
-                    __('Move entries and delete category'),
-                    ['class' => 'btn btn-primary']
-                );
-                echo $this->Form->end();
-                ?>
-            </div>
-        </div>
+<div class="card border-primary mb-3">
+    <div class="card-header bg-primary text-white">
+        <?= h(__d('admin', 'cat.del.mbd.t')) ?>
     </div>
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <h3> Delete threads</h3>
-
-                <p>
-                    Deletes the category and all threads in it.
-                </p>
-                <?php
-                echo $this->Html->link(
-                    __("Delete entries and delete category"),
-                    '#deleteModal',
-                    [
-                        'class' => 'btn btn-danger',
-                        'data-toggle' => 'modal',
-                    ]
-                );
-                ?>
-            </div>
-        </div>
+    <div class="card-body">
+        <p>
+            <?= h(__d('admin', 'cat.del.mbd.exp')) ?>
+        </p>
+        <?php
+        echo $this->Form->create(null);
+        echo $this->Form->control(
+            'targetCategory',
+            [
+                'label' => __d('admin', 'cat.del.mbd.l'),
+                'type' => 'select'
+            ]
+        );
+        echo $this->Form->hidden('mode', ['value' => 'move']);
+        echo $this->Form->submit(
+            __d('admin', 'cat.del.mbd.b'),
+            ['class' => 'btn btn-primary']
+        );
+        echo $this->Form->end();
+        ?>
     </div>
+</div>
+
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <?= h(__d('admin', 'cat.del.d.t')) ?>
+    </div>
+    <div class="card-body">
+        <p>
+            <?= h(__d('admin', 'cat.del.d.exp')) ?>
+        </p>
+        <?php
+        echo $this->Html->link(
+            __d('admin', 'cat.del.d.b'),
+            '#deleteModal',
+            [
+                'class' => 'btn btn-danger',
+                'data-toggle' => 'modal',
+            ]
+        );
+        ?>
+    </div>
+</div>
 </div>
 
 
 <div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-danger text-white">
         <h5 class="modal-title">
-            Delete threads and delete category
+            <?= h(__d('admin', 'cat.del.d.t')) ?>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="alert alert-error"> This action can't be undone! Are you
-            sure?
+        <div class="alert alert-error">
+            <?= h(__d('admin', 'cat.del.d.exp')) ?>
         </div>
       </div>
       <div class="modal-footer">
@@ -77,12 +80,12 @@
         echo $this->Form->create();
         echo $this->Form->hidden('mode', ['value' => 'delete']);
         echo $this->Form->button(
-            __('Abort'),
+            __d('admin', 'cancel'),
             ['class' => 'btn', 'data-dismiss' => 'modal']
         );
         echo ' ';
         echo $this->Form->button(
-            __('Make It So'),
+            __d('admin', 'cat.del.d.b'),
             ['type' => 'submit', 'class' => 'btn btn-danger']
         );
         echo $this->Form->end();

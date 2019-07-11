@@ -1,5 +1,23 @@
+# Header entry was created by Lokalize.
+#
+# Schlaefer <openmail+sourcecode@siezi.com>, 2019.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"PO-Revision-Date: 2019-07-11 13:13+0200\n"
+"Project-Id-Version: \n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 19.04.2\n"
+
 msgid "add.failure"
-msgstr "Fehler: Der Server hat keine Datei erhalten. Die Datei überschreitet womöglich die erlaubte Uploadgröße des Servers."
+msgstr ""
+"Fehler: Der Server hat keine Datei erhalten. Die Datei überschreitet"
+" womöglich die erlaubte Uploadgröße des Servers."
 
 msgid "delete.failure"
 msgstr "Fehler: Löschen fehlgeschlagen."
@@ -11,7 +29,7 @@ msgid "validation.error.fileSize"
 msgstr "Fehler: Datei überschreitet maximale Größe von {0}."
 
 msgid "validation.error.maxNumberOfItems"
-msgstr "Fehler: Maximale Anzahl an Uploads {0} erreicht."
+msgstr "Fehler: Maximale Anzahl an {0} Uploads erreicht."
 
 msgid "validation.error.mimeType"
 msgstr "Fehler: Dieser Dateityp kann nicht hochgeladen werden."

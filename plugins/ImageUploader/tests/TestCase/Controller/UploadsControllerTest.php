@@ -197,7 +197,7 @@ class UploadsControllerTest extends IntegrationTestCase
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
-        $this->expectExceptionMessage('Error: No more uploads possible (max: 1)');
+        $this->expectExceptionMessage('Error: Reached the maximal number of 1 uploads.');
 
         $this->upload($this->file);
 
