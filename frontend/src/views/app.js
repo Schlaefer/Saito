@@ -18,15 +18,13 @@ import ThreadLineCollection from 'collections/threadlines';
 import { ThreadLineView } from 'views/ThreadLineView.ts';
 import ThreadView from 'views/thread';
 import UserVw from 'modules/user/userVw.ts';
-import 'lib/jquery-ui/jquery-ui.custom.min'
+import 'lib/jquery-ui/jquery-ui.custom.min';
 
 export default Marionette.View.extend({
   regions: {
     modalDialog: '#saito-modal-dialog',
     slidetabs: '#slidetabs',
   },
-
-  autoPageReloadTimer: false,
 
   template: _.noop,
 
@@ -63,9 +61,6 @@ export default Marionette.View.extend({
 
     // collection of threadlines not bound to thread (bookmarks, search results …)
     this.threadLines = new ThreadLineCollection();
-
-    this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
-    this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
   },
 
   initFromDom: function (options) {
@@ -78,8 +73,17 @@ export default Marionette.View.extend({
       }
     });
 
-    this.initAutoreload();
     this.initHelp();
+
+    const autoPageReload = App.settings.get('autoPageReload');
+    if (autoPageReload) {
+      App.eventBus.request('app:autoreload:start', autoPageReload);
+      const unread = $('.et-new').length;
+      if (unread) {
+        App.eventBus.request('app:favicon:badge', unread);
+      }
+
+    }
 
     /*** All elements initialized, show page ***/
 
@@ -259,36 +263,6 @@ export default Marionette.View.extend({
 
   scrollToThread: function (tid) {
     $('.threadBox[data-id=' + tid + ']')[0].scrollIntoView('top');
-  },
-
-  /**
-   * initialize page autoreload
-   */
-  initAutoreload: function () {
-    var period, reload, url;
-
-    url = window.location.pathname;
-    reload = (function () {
-      window.location = url;
-    });
-
-    if (!App.settings.get('autoPageReload')) {
-      return;
-    }
-    this.breakAutoreload();
-    period = App.settings.get('autoPageReload') * 1000;
-    this.autoPageReloadTimer = setTimeout(reload, period);
-  },
-
-  /**
-   * break autoreload by clearing timer
-   */
-  breakAutoreload: function () {
-    if (this.autoPageReloadTimer === false) {
-      return;
-    }
-    clearTimeout(this.autoPageReloadTimer);
-    this.autoPageReloadTimer = false;
   },
 
   showLoginForm: function (event) {
