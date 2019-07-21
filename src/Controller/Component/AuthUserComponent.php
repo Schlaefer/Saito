@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -16,39 +19,21 @@ use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
-use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 use Saito\App\Registry;
-use Saito\User\Categories;
 use Saito\User\Cookie\CurrentUserCookie;
 use Saito\User\Cookie\Storage;
+use Saito\User\CurrentUser\CurrentUserFactory;
 use Saito\User\CurrentUser\CurrentUserInterface;
-use Saito\User\CurrentUser\CurrentUserTrait;
-use Saito\User\LastRefresh;
-use Saito\User\ReadPostings;
-use Saito\User\ReadPostings\ReadPostingsCookie;
-use Saito\User\ReadPostings\ReadPostingsDatabase;
-use Saito\User\ReadPostings\ReadPostingsDummy;
-use Saito\User\SaitoUserTrait;
 use Stopwatch\Lib\Stopwatch;
 
 /**
- * Class CurrentUserComponent
+ * Authenticates the current user and bootstraps the CurrentUser information
  *
- * @package App\Controller\Component
  * @property AuthComponent $Auth
  */
-class CurrentUserComponent extends Component implements CurrentUserInterface
+class AuthUserComponent extends Component
 {
-    use CurrentUserTrait;
-    use SaitoUserTrait;
-
-    /**
-     * @var \Saito\User\Categories
-     */
-    public $Categories;
-
     /**
      * Component name
      *
@@ -64,23 +49,18 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     public $components = ['Auth', 'Cron.Cron'];
 
     /**
-     * Manages the last refresh/mark entries as read for the current user
+     * Current user
      *
-     * @var \Saito\User\LastRefresh\LastRefreshAbstract
+     * @var CurrentUserInterface
      */
-    public $LastRefresh = null;
+    protected $CurrentUser;
 
     /**
-     * @var ReadPostingsDatabase
-     */
-    public $ReadEntries;
-
-    /**
-     * Model User instance exclusive to the CurrentUserComponent
+     * UsersTableInstance
      *
      * @var UsersTable
      */
-    protected $_User = null;
+    protected $UsersTable = null;
 
     /**
      * {@inheritDoc}
@@ -88,56 +68,37 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     public function initialize(array $config)
     {
         Stopwatch::start('CurrentUser::initialize()');
-        Registry::set('CU', $this);
 
-        $this->Categories = new Categories($this);
-        $this->_User = TableRegistry::get('Users');
+        $this->UsersTable = TableRegistry::getTableLocator()->get('Users');
 
         $this->initSessionAuth($this->Auth);
 
-        // don't auto-login on login related pages
-        $excluded = ['login', 'register'];
-        if (!in_array($this->request->getParam('action'), $excluded)) {
-            $this->_login();
-        }
-
-        if ($this->isLoggedIn()) {
-            $this->LastRefresh = new LastRefresh\LastRefreshDatabase($this);
-            $storage = TableRegistry::get('UserReads');
-            $this->ReadEntries = new ReadPostingsDatabase($this, $storage);
-        } elseif ($this->isBot()) {
-            $this->LastRefresh = new LastRefresh\LastRefreshDummy($this);
-            $this->ReadEntries = new ReadPostingsDummy();
+        if ($this->isBot()) {
+            $CurrentUser = CurrentUserFactory::createDummy();
         } else {
-            $this->LastRefresh = new LastRefresh\LastRefreshCookie($this);
-            $storage = new Storage($this->getController(), 'Saito-Read');
-            $this->ReadEntries = new ReadPostingsCookie($this, $storage);
-        }
+            $user = $this->_login();
+            $controller = $this->getController();
+            $isLoggedIn = !empty($user);
 
-        $this->_markOnline();
-        Stopwatch::stop('CurrentUser::initialize()');
-    }
+            /// don't auto-login on login related pages
+            $excluded = ['login', 'register'];
+            $useLoggedIn = $isLoggedIn
+                && !in_array($controller->getRequest()->getParam('action'), $excluded);
 
-    /**
-     * Marks users as online
-     *
-     * @return void
-     */
-    protected function _markOnline()
-    {
-        Stopwatch::start('CurrentUser->_markOnline()');
-        $isLoggedIn = $this->isLoggedIn();
-        if ($isLoggedIn) {
-            $userId = $this->getId();
-        } else {
-            // don't count search bots as guests
-            if ($this->isBot()) {
-                return;
+            if ($useLoggedIn) {
+                $CurrentUser = CurrentUserFactory::createLoggedIn($user);
+                $userId = $CurrentUser->getId();
+            } else {
+                $CurrentUser = CurrentUserFactory::createVisitor($controller);
+                $userId = $this->request->getSession()->id();
             }
-            $userId = $this->request->getSession()->id();
+
+            $this->UsersTable->UserOnline->setOnline($userId, $useLoggedIn);
         }
-        $this->_User->UserOnline->setOnline($userId, $isLoggedIn);
-        Stopwatch::stop('CurrentUser->_markOnline()');
+
+        $this->setCurrentUser($CurrentUser);
+
+        Stopwatch::stop('CurrentUser::initialize()');
     }
 
     /**
@@ -151,9 +112,11 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
     }
 
     /**
-     * Tries to authenticate a user provided by credentials in request (usually form-data)
+     * Tries to log-in a user
      *
-     * @return bool Was login successfull
+     * Call this from controllers to authenticate manually (from login-form-data).
+     *
+     * @return bool Was login successfull?
      */
     public function login(): bool
     {
@@ -166,23 +129,30 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $user = $this->_login();
 
         if (empty($user)) {
+            // login failed
             return false;
         }
 
-        $user = $this->_User->get($this->getId());
-        $this->_User->incrementLogins($user);
-        $this->_User->UserOnline->setOffline($originalSessionId);
+        //// Login succesfull
 
-        //= password update
-        $password = $this->request->getData('password');
+        $user = $this->UsersTable->get($user['id']);
+
+        $CurrentUser = CurrentUserFactory::createLoggedIn($user->toArray());
+        $this->setCurrentUser($CurrentUser);
+
+        $this->UsersTable->incrementLogins($user);
+        $this->UsersTable->UserOnline->setOffline($originalSessionId);
+
+        /// password update
+        $password = (string)$this->request->getData('password');
         if ($password) {
-            $this->_User->autoUpdatePassword($this->getId(), $password);
+            $this->UsersTable->autoUpdatePassword($this->CurrentUser->getId(), $password);
         }
 
-        //= set persistent Cookie
+        /// set persistent Cookie
         $setCookie = (bool)$this->request->getData('remember_me');
         if ($setCookie) {
-            (new CurrentUserCookie($this->getController()))->write($this->getId());
+            (new CurrentUserCookie($this->getController()))->write($this->CurrentUser->getId());
         };
 
         return true;
@@ -195,33 +165,14 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     protected function _login(): ?array
     {
-        // check if AuthComponent knows user from session-storage (usually session)
-        // Notice: will hit session storage (usually files)
+        // Check if AuthComponent knows user from session-storage (usually
+        // compare session-cookie)
+        // Notice: Will hit session storage. Usually files.
         $user = $this->Auth->user();
 
-        if ($user) {
-            // Session-data may be outdated. Make sure that user-data is up-to-date:
-            // user not locked/user-type wasn't changend/… since session-storage was written.
-            // Notice: is going to hit DB
-            Stopwatch::start('CurrentUser read user from DB');
-            $user = $this->_User
-                ->findAllowedToLoginById($user['id'])
-                ->first();
-            Stopwatch::stop('CurrentUser read user from DB');
-
-            if (empty($user)) {
-                //// no user allowed to login found
-                // destroy the invalid session storage information
-                $this->logout();
-                // send to logout form for formal logout procedure
-                $this->getController()->redirect(['_name' => 'logout']);
-
-                return null;
-            }
-
-            $user = $user->toArray();
-        } else {
-            // Check if user is authable via one of the Authenticators (cookie, token, …).
+        if (!$user) {
+            // Check if user is authenticated via one of the Authenticators
+            // (cookie, token, …).
             // Notice: Authenticators may hit DB to find user
             $user = $this->Auth->identify();
 
@@ -233,12 +184,30 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         }
 
         if (empty($user)) {
+            // Authentication failed.
             return null;
         }
 
-        $this->setSettings($user);
+        // Session-data may be outdated. Make sure that user-data is up-to-date:
+        // user not locked/user-type wasn't changend/… since session-storage was written.
+        // Notice: is going to hit DB
+        Stopwatch::start('CurrentUser read user from DB');
+        $user = $this->UsersTable
+            ->findAllowedToLoginById($user['id'])
+            ->first();
+        Stopwatch::stop('CurrentUser read user from DB');
 
-        return $user;
+        if (empty($user)) {
+            //// no user allowed to login
+            // destroy any existing (session) storage information
+            $this->logout();
+            // send to logout form for formal logout procedure
+            $this->getController()->redirect(['_name' => 'logout']);
+
+            return null;
+        }
+
+        return $user->toArray();
     }
 
     /**
@@ -248,24 +217,17 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
      */
     public function logout(): void
     {
-        if ($this->isLoggedIn()) {
-            $this->_User->UserOnline->setOffline($this->getId());
+        if (!empty($this->CurrentUser)) {
+            if ($this->CurrentUser->isLoggedIn()) {
+                $this->UsersTable->UserOnline->setOffline($this->CurrentUser->getId());
+            }
+            $this->setCurrentUser(CurrentUserFactory::createVisitor($this->getController()));
         }
-        $this->setSettings(null);
         $this->Auth->logout();
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function beforeRender()
-    {
-        // write out the current user for access in the views
-        $this->getController()->set('CurrentUser', $this);
-    }
-
-    /**
-     * Configures the auth component
+     * Configures CakePHP's authentication-component
      *
      * @param AuthComponent $auth auth-component to configure
      * @return void
@@ -294,11 +256,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $here = urlencode($this->getController()->getRequest()->getRequestTarget());
         $auth->setConfig('unauthorizedRedirect', '/login?redirect=' . $here);
 
-        if ($this->isLoggedIn()) {
-            $auth->allow();
-        } else {
-            $auth->deny();
-        }
+        $auth->deny();
         $auth->setConfig('authError', __('authentication.error'));
     }
 
@@ -324,7 +282,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         $existingToken = $cookie->read();
 
         // user not logged-in: no JWT-cookie for you
-        if (!$this->isLoggedIn()) {
+        if (!$this->CurrentUser->isLoggedIn()) {
             if ($existingToken) {
                 $cookie->delete();
             }
@@ -338,7 +296,7 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
             // [performance] Done every logged-in request. Don't decrypt whole token with signature.
             // We only make sure it exists, the auth happens elsewhere.
             $payload = Jwt::jsonDecode(Jwt::urlsafeB64Decode($parts[1]));
-            if ($payload->sub === $this->getId() && $payload->exp > time()) {
+            if ($payload->sub === $this->CurrentUser->getId() && $payload->exp > time()) {
                 return;
             }
         }
@@ -346,8 +304,34 @@ class CurrentUserComponent extends Component implements CurrentUserInterface
         // use easy to change cookieSalt to allow emergency invalidation of all existing tokens
         $jwtKey = Configure::read('Security.cookieSalt');
         // cookie expires before JWT (7 days < 14 days): JWT exp should always be valid
-        $jwtPayload = ['sub' => $this->getId(), 'exp' => time() + (86400 * 14)];
+        $jwtPayload = ['sub' => $this->CurrentUser->getId(), 'exp' => time() + (86400 * 14)];
         $jwtToken = \Firebase\JWT\JWT::encode($jwtPayload, $jwtKey);
         $cookie->write($jwtToken);
+    }
+
+    /**
+     * Returns the current-user
+     *
+     * @return CurrentUserInterface
+     */
+    public function getUser(): CurrentUserInterface
+    {
+        return $this->CurrentUser;
+    }
+
+    /**
+     * Makes the current user available throughout the application
+     *
+     * @param CurrentUserInterface $CurrentUser current-user to set
+     * @return void
+     */
+    private function setCurrentUser(CurrentUserInterface $CurrentUser): void
+    {
+        $this->CurrentUser = $CurrentUser;
+        // makes CurrentUser available in Controllers
+        $this->getController()->CurrentUser = $this->CurrentUser;
+        // makes CurrentUser available as View var in templates
+        $this->getController()->set('CurrentUser', $this->CurrentUser);
+        Registry::set('CU', $this->CurrentUser);
     }
 }

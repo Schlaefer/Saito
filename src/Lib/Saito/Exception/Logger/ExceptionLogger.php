@@ -2,9 +2,9 @@
 
 namespace Saito\Exception\Logger;
 
-use App\Controller\Component\CurrentUserComponent;
 use Cake\Log\Log;
 use Cake\Routing\Router;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 class ExceptionLogger
 {
@@ -90,7 +90,7 @@ class ExceptionLogger
         if (!isset($data['CurrentUser'])) {
             return;
         }
-        if (!($data['CurrentUser'] instanceof CurrentUserComponent)) {
+        if (!($data['CurrentUser'] instanceof CurrentUserInterface)) {
             throw new \InvalidArgumentException;
         }
         $CurrentUser = $data['CurrentUser'];

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
@@ -25,6 +28,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
+use DateTimeInterface;
 use Saito\User\Upload\AvatarFilenameListener;
 use Stopwatch\Lib\Stopwatch;
 
@@ -374,10 +378,10 @@ class UsersTable extends AppTable
      * set last refresh
      *
      * @param int $userId user-ID
-     * @param null $lastRefresh last refresh
+     * @param DateTimeInterface|null $lastRefresh last refresh
      * @return void
      */
-    public function setLastRefresh($userId, $lastRefresh = null)
+    public function setLastRefresh(int $userId, DateTimeInterface $lastRefresh = null)
     {
         Stopwatch::start('Users->setLastRefresh()');
         $data['last_refresh_tmp'] = bDate();
@@ -464,7 +468,7 @@ class UsersTable extends AppTable
      * @param string $password password
      * @return void
      */
-    public function autoUpdatePassword($userId, $password)
+    public function autoUpdatePassword(int $userId, string $password): void
     {
         $Entity = $this->get($userId, ['fields' => ['id', 'password']]);
         $oldPassword = $Entity->get('password');

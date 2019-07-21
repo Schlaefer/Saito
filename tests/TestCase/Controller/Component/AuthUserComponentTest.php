@@ -9,7 +9,7 @@
 
 namespace App\Test\TestCase\Controller\Component;
 
-use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\AuthUserComponent;
 use Cake\Controller\Component;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
@@ -19,7 +19,7 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Saito\Test\IntegrationTestCase;
 
-class CurrentUserComponentTest extends IntegrationTestCase
+class AuthUserComponentTest extends IntegrationTestCase
 {
     /**
      * {@inheritDoc}
@@ -52,7 +52,7 @@ class CurrentUserComponentTest extends IntegrationTestCase
             ->getMock();
         $this->controller->loadComponent('Auth');
         $registry = new ComponentRegistry($this->controller);
-        $this->component = new CurrentUserComponent($registry);
+        $this->component = new AuthUserComponent($registry);
         // $event = new Event('Controller.startup', $this->controller);
         // $this->component->startup($event);
     }
@@ -86,7 +86,7 @@ class CurrentUserComponentTest extends IntegrationTestCase
     public function testSetJwtCookieLoggedInSetCookieSet()
     {
         $user = $this->_loginUser(1);
-        $this->component->setSettings($user);
+        $this->component->getUser()->setSettings($user);
 
         $event = new Event('Controller.shutdown', $this->controller);
         $this->component->shutdown($event);
@@ -126,7 +126,7 @@ class CurrentUserComponentTest extends IntegrationTestCase
     {
         $newUser = 1;
         $user = $this->_loginUser($newUser);
-        $this->component->setSettings($user);
+        $this->component->getUser()->setSettings($user);
 
         $jwtKey = Configure::read('Security.cookieSalt');
 

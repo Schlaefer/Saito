@@ -1,25 +1,33 @@
 <?php
 
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller;
 
-use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\AuthUserComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\I18n\I18n;
-use Cake\Routing\Router;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
-use Saito\User\CurrentUser\CurrentUser;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class AppController
  *
  * @property ActionAuthorizationComponent $ActionAuthorization
- * @property CurrentUserComponent $CurrentUser
+ * @property AuthUserComponent $AuthUser
+ * @property CurrentUserInterface $CurrentUser Attached by AuthUserComponent
  * @property JsDataComponent $JsData
  * @property SaitoEmailComponent $SaitoEmail
  * @property SlidetabsComponent $Slidetabs
@@ -84,7 +92,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
-        $this->loadComponent('CurrentUser');
+        $this->loadComponent('AuthUser');
         $this->loadComponent('JsData');
         $this->loadComponent('Parser');
         $this->loadComponent('SaitoEmail');
@@ -135,7 +143,6 @@ class AppController extends Controller
         Stopwatch::start('App->beforeRender()');
         $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
-
         $this->set('showStopwatch', $this->getConfig('showStopwatch'));
 
         Stopwatch::stop('App->beforeRender()');
@@ -257,9 +264,8 @@ class AppController extends Controller
      */
     public function isAuthorized(array $user)
     {
-        $user = new CurrentUser($user);
         $action = $this->request->getParam('action');
 
-        return $this->ActionAuthorization->isAuthorized($user, $action);
+        return $this->ActionAuthorization->isAuthorized($this->CurrentUser, $action);
     }
 }

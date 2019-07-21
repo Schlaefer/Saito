@@ -116,6 +116,7 @@ class EntriesTable extends AppTable
         'Entries.views',
         'Entries.user_id',
         'Entries.locked',
+        // @td remove
         'Entries.name',
         'Entries.solves',
         'Users.username',

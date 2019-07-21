@@ -1,49 +1,55 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\User\LastRefresh;
 
-use App\Controller\Component\CurrentUserComponent;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * handles last refresh time for the current user
  */
-abstract class LastRefreshAbstract
+abstract class LastRefreshAbstract implements LastRefreshInterface
 {
 
     /**
-     * @var CurrentUserComponent
+     * @var CurrentUserInterface
      */
     protected $_CurrentUser;
 
     /**
-     * @var int unix timestamp
+     * @var mixed storage object depending on implementation
      */
-    protected $_timestamp = null;
+    protected $_storage;
 
     /**
      * Constructor
      *
-     * @param CurrentUserComponent $CurrentUser current-user
+     * @param CurrentUserInterface $CurrentUser current-user
+     * @param mixed $storage storage a storage handler
      */
-    public function __construct(CurrentuserComponent $CurrentUser)
+    public function __construct(CurrentUserInterface $CurrentUser, $storage = null)
     {
         $this->_CurrentUser = $CurrentUser;
+        $this->_storage = $storage;
     }
 
     /**
-     * Checks if last refresh newer than $timestamp.
-     *
-     * Performance sensitive: every posting on /entries/index may be
-     * tested if new for user.
-     *
-     * @param string|\DateTimeInterface $timestamp int unix-timestamp or date as string
-     * @return mixed bool or null if not determinable
+     * {@inheritDoc}
      */
-    public function isNewerThan($timestamp)
+    public function isNewerThan($timestamp): ?bool
     {
         $lastRefresh = $this->_get();
-        // timestamp is not set (or readable): everything is considered new
-        if ($lastRefresh === false) {
+        if ($lastRefresh === null) {
+            // timestamp is not set (or readable): everything is considered new
             return null;
         }
 
@@ -51,49 +57,32 @@ abstract class LastRefreshAbstract
     }
 
     /**
-     * returns last refresh timestamp
+     * Returns last refresh timestamp
      *
-     * @return mixed int if unix timestamp or bool false if uninitialized
+     * @return int|null Unix-timestamp or null if last refresh isn't set yet.
      */
-    abstract protected function _get();
+    abstract protected function _get(): ?int;
 
     /**
-     * Set timestamp.
-     *
-     * @param mixed $timestamp null|'now'|<`Y-m-d H:i:s` timestamp>
-     * @return void
+     * {@inheritDoc}
      */
-    public function set($timestamp = null)
+    public function set(): void
     {
-        // all postings individually marked as read should be removed because they
-        // are older than the new last-refresh timestamp
-        $this->_CurrentUser->ReadEntries->delete();
+        $timestamp = new \DateTimeImmutable();
 
-        $this->_timestamp = $this->_parseTimestamp($timestamp);
-        $this->_set();
+        $this->_set($timestamp);
+
+        $this->_CurrentUser->set('last_refresh', $timestamp);
+        // All postings indiviually marked as read are now older than the
+        // last-refresh timestamp and can be removed.
+        $this->_CurrentUser->getReadPostings()->delete();
     }
 
     /**
      * Set timestamp implementation
      *
+     * @param \DateTimeImmutable $timestamp timestamp to set
      * @return void
      */
-    // @codingStandardsIgnoreStart
-    protected abstract function _set();
-    // @codingStandardsIgnoreEnd
-
-    /**
-     * Parse timestamp
-     *
-     * @param mixed $timestamp timestamp
-     * @return bool|string
-     */
-    protected function _parseTimestamp($timestamp)
-    {
-        if ($timestamp === 'now' || $timestamp === null) {
-            $timestamp = date('Y-m-d H:i:s');
-        }
-
-        return $timestamp;
-    }
+    abstract protected function _set(\DateTimeImmutable $timestamp): void;
 }

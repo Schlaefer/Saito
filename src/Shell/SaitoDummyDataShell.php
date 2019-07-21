@@ -129,7 +129,7 @@ class SaitoDummyDataShell extends Shell
         for ($i = 0; $i < $nPostings; $i++) {
             $newThread = $i < $seed;
 
-            $CurrentUser->setSettings($this->_randomUser());
+            $CurrentUser->setSettings($this->_randomUser()->toArray());
 
             $posting = [
                 'subject' => "$i",
@@ -242,12 +242,12 @@ class SaitoDummyDataShell extends Shell
 class SaitoUserDummy extends SaitoUser
 {
 
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return true;
     }
 
-    public function getRole()
+    public function getRole(): string
     {
         return 'admin';
     }

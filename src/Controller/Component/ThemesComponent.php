@@ -1,12 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers 2015
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
-use Saito\RememberTrait;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 class ThemesComponent extends Component
 {
@@ -35,8 +43,7 @@ class ThemesComponent extends Component
      */
     public function set($theme = null): void
     {
-        $controller = $this->_registry->getController();
-        $user = $controller->CurrentUser;
+        $user = $this->getController()->CurrentUser;
 
         if ($theme === null) {
             $theme = $this->getThemeForUser($user);
@@ -70,10 +77,10 @@ class ThemesComponent extends Component
     /**
      * Get theme for specific user.
      *
-     * @param ForumsUserInterface $user current user
+     * @param CurrentUserInterface $user current user
      * @return string current theme for user
      */
-    public function getThemeForUser(ForumsUserInterface $user): string
+    public function getThemeForUser(CurrentUserInterface $user): string
     {
         $theme = $user->get('user_theme');
         $available = $this->getAvailable($user);
@@ -84,17 +91,19 @@ class ThemesComponent extends Component
     /**
      * Gets all available themes for user
      *
-     * @param ForumsUserInterface $user current user
+     * @param CurrentUserInterface $user current user
      * @return array
      */
-    public function getAvailable(ForumsUserInterface $user): array
+    public function getAvailable(CurrentUserInterface $user): array
     {
         $global = $this->getConfig('available', []);
 
-        $users = $this->getConfig('users', []);
-        $userId = $user->getId();
-        $users = isset($users[$userId]) ? $users[$userId] : [];
-        $available = array_merge($global, $users);
+        if ($user->isLoggedIn()) {
+            $userThemes = $this->getConfig('users', []);
+            $userId = $user->getId();
+            $userThemes = isset($userThemes[$userId]) ? $userThemes[$userId] : [];
+            $available = array_merge($global, $userThemes);
+        }
 
         $available[] = $this->getDefaultTheme();
         $available = array_unique($available);

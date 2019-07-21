@@ -760,21 +760,21 @@ class EntriesControllerTestCase extends IntegrationTestCase
         /*
          * Mod Button is not visible for anon users
          */
-        $this->get('entries/view/1');
+        $this->get('/entries/view/1');
         $this->assertResponseNotContains('dropdown');
 
         /*
          * Mod Button is not visible for normal users
          */
         $this->_loginUser(3);
-        $this->get('entries/view/1');
+        $this->get('/entries/view/1');
         $this->assertResponseNotContains('dropdown');
 
         /*
          * Mod Button is visible for mods
          */
         $this->_loginUser(2);
-        $this->get('entries/view/1');
+        $this->get('/entries/view/1');
         $this->assertResponseContains('dropdown');
     }
 

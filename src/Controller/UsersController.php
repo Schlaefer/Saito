@@ -10,7 +10,6 @@
 namespace App\Controller;
 
 use App\Controller\Component\RefererComponent;
-use App\Controller\Component\ThemesComponent;
 use App\Form\BlockForm;
 use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
@@ -24,7 +23,7 @@ use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Blocker\ManualBlocker;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\SaitoUser;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 use Stopwatch\Lib\Stopwatch;
@@ -74,7 +73,7 @@ class UsersController extends AppController
         }
 
         //= successful login with request data
-        if ($this->CurrentUser->login()) {
+        if ($this->AuthUser->login()) {
             if ($this->Referer->wasAction('login')) {
                 return $this->redirect($this->Auth->redirectUrl());
             } else {
@@ -89,7 +88,7 @@ class UsersController extends AppController
         $message = __('auth_loginerror');
 
         if (!empty($readUser)) {
-            $User = new SaitoUser($readUser);
+            $User = $readUser->toSaitoUser();
 
             if (!$User->isActivated()) {
                 $message = __('user.actv.ny');
@@ -134,7 +133,7 @@ class UsersController extends AppController
             $this->response = $this->response->withExpiredCookie($cookie);
         }
 
-        $this->CurrentUser->logout();
+        $this->AuthUser->logout();
         $this->redirect('/');
     }
 
@@ -147,7 +146,7 @@ class UsersController extends AppController
     {
         $this->set('status', 'view');
 
-        $this->CurrentUser->logout();
+        $this->AuthUser->logout();
 
         $tosRequired = Configure::read('Saito.Settings.tos_enabled');
         $this->set(compact('tosRequired'));
@@ -402,7 +401,7 @@ class UsersController extends AppController
             ($user->numberOfPostings() - $entriesShownOnPage) > 0
         );
 
-        if ($this->CurrentUser->isUser($id)) {
+        if ($this->CurrentUser->getId() === (int)$id) {
             $ignores = $this->Users->UserIgnores->getAllIgnoredBy($id);
             $user->set('ignores', $ignores);
         }
@@ -784,16 +783,16 @@ class UsersController extends AppController
     /**
      * Checks if the current user is allowed to edit user $userId
      *
-     * @param ForumsUserInterface $CurrentUser user
+     * @param CurrentUserInterface $CurrentUser user
      * @param int $userId user-ID
      * @return bool
      */
-    protected function _isEditingAllowed(ForumsUserInterface $CurrentUser, $userId)
+    protected function _isEditingAllowed(CurrentUserInterface $CurrentUser, $userId)
     {
         if ($CurrentUser->permission('saito.core.user.edit')) {
             return true;
         }
 
-        return $CurrentUser->isUser($userId);
+        return $CurrentUser->getId() === (int)$userId;
     }
 }

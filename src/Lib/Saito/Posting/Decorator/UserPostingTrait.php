@@ -107,7 +107,7 @@ trait UserPostingTrait
         $timeLimit = $editPeriod + ($posting->get('time')->format('U'));
         $isOverTime = time() > $timeLimit;
 
-        $isOwn = $User->isUser($posting->get('user_id'));
+        $isOwn = $User->getId() === $posting->get('user_id');
 
         if ($User->permission('saito.core.posting.edit.restricted')) {
             if ($isOwn && $isOverTime && !$posting->isPinned()) {
@@ -149,7 +149,7 @@ trait UserPostingTrait
             $id = $this->get('id');
             $time = $this->get('time');
             $this->_cache['isUnread'] = !$this->getCurrentUser()
-                ->ReadEntries->isRead($id, $time);
+                ->getReadPostings()->isRead($id, $time);
         }
 
         return $this->_cache['isUnread'];

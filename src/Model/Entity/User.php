@@ -29,7 +29,7 @@ class User extends Entity
      */
     public function toSaitoUser()
     {
-        return new SaitoUser($this);
+        return new SaitoUser($this->toArray());
     }
 
     /**

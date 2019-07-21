@@ -2,8 +2,8 @@
 
 namespace Saito\User\ReadPostings;
 
-use App\Controller\Component\CurrentUserComponent;
 use Saito\Posting\Posting;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\ReadPostings\ReadPostingsInterface;
 
 /**
@@ -13,14 +13,9 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
 {
 
     /**
-     * @var CurrentuserComponent
+     * @var CurrentUserInterface
      */
     protected $CurrentUser;
-
-    /**
-     * @var \Saito\User\LastRefresh\LastRefreshAbstract
-     */
-    protected $LastRefresh;
 
     /**
      * array in which keys are ids of read postings
@@ -33,17 +28,22 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
     protected $storage;
 
     /**
+     * @var \Saito\User\LastRefresh\LastRefreshInterface
+     */
+    protected $LastRefresh;
+
+    /**
      * Constructor.
      *
-     * @param CurrentUserComponent $CurrentUser current-user
+     * @param CurrentUserInterface $CurrentUser current-user
      * @param mixed $storage $storage
      */
     public function __construct(
-        CurrentuserComponent $CurrentUser,
+        CurrentUserInterface $CurrentUser,
         $storage = null
     ) {
         $this->CurrentUser = $CurrentUser;
-        $this->LastRefresh = $this->CurrentUser->LastRefresh;
+        $this->LastRefresh = $this->CurrentUser->getLastRefresh();
         $this->storage = $storage;
     }
 
@@ -57,7 +57,7 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
      */
     public function isRead($id, $timestamp = null)
     {
-        if ($timestamp !== null
+        if (($timestamp !== null)
             && $this->LastRefresh->isNewerThan($timestamp)
         ) {
             return true;

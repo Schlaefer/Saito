@@ -22,23 +22,19 @@ class AutoReloadComponent extends Component
     /**
      * Set auto refresh time
      *
-     * @param CurrentUserComponent|int $period period in minutes
-     *
+     * @param CurrentUserInterface $CurrentUser period in minutes
      * @return void
      */
-    public function after($period)
+    public function after(CurrentUserInterface $CurrentUser)
     {
-        if ($period instanceof CurrentUserInterface) {
-            $CurrentUser = $period;
-            if (!$CurrentUser->isLoggedIn()) {
-                return;
-            }
-            $period = $CurrentUser->get('user_forum_refresh_time');
+        if (!$CurrentUser->isLoggedIn()) {
+            return;
         }
+        $period = $CurrentUser->get('user_forum_refresh_time');
         if (!is_numeric($period) || $period <= 0) {
             return;
         }
         $period = $period * 60;
-        $this->_registry->getController()->set('autoPageReload', $period);
+        $this->getController()->set('autoPageReload', $period);
     }
 }

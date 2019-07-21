@@ -25,17 +25,18 @@ use Cake\I18n\Time;
 use Cake\Routing\RequestActionTrait;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\ForumsUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class EntriesController
  *
+ * @property CurrentUserInterface $CurrentUser
  * @property EntriesTable $Entries
  * @property MarkAsReadComponent $MarkAsRead
  * @property RefererComponent $Referer
  * @property ThreadsComponent $Threads
- * @package App\Controller
  */
 class EntriesController extends AppController
 {
@@ -164,7 +165,7 @@ class EntriesController extends AppController
     public function update()
     {
         $this->autoRender = false;
-        $this->CurrentUser->LastRefresh->set('now');
+        $this->CurrentUser->getLastRefresh()->set();
         $this->redirect('/entries/index');
     }
 
@@ -215,7 +216,7 @@ class EntriesController extends AppController
         $this->_setRootEntry($entry);
         $this->_showAnsweringPanel();
 
-        $this->CurrentUser->ReadEntries->set($entry);
+        $this->CurrentUser->getReadPostings()->set($entry);
 
         // inline open
         if ($this->request->is('ajax')) {
