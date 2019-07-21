@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace App\Middleware;
 
+use App\Model\Table\SettingsTable;
 use Cake\Core\Configure;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;

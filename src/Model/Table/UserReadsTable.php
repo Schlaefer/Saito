@@ -2,16 +2,20 @@
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Model\Table;
 
+use App\Model\Table\UsersTable;
 use Cake\ORM\Table;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * @property UsersTable $Users
+ */
 class UserReadsTable extends Table
 {
 

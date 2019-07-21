@@ -677,7 +677,7 @@ class UsersTable extends AppTable
      * @param string $code activation code
      * @return array|bool false if activation failed; array with status and
      *     user data on success
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function activate($userId, $code)
     {

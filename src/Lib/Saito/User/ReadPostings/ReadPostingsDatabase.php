@@ -3,6 +3,7 @@
 namespace Saito\User\ReadPostings;
 
 use App\Controller\Component\CurrentUserComponent;
+use App\Model\Table\EntriesTable;
 use App\Model\Table\UserReadsTable;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
@@ -104,6 +105,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      */
     public function gcGlobal()
     {
+        /** @var EntriesTable */
         $Entries = $this->_getTable('Entries');
         $lastEntry = $Entries->find(
             'all',

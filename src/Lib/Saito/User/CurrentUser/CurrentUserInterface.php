@@ -21,4 +21,6 @@ interface CurrentUserInterface extends ForumsUserInterface
      * @return bool|array
      */
     public function ignores($userId);
+
+    # public function setLastRefresh($timestamp);
 }

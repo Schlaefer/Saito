@@ -5,7 +5,7 @@ declare(strict_types = 1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -56,7 +56,7 @@ class SettingsTable extends AppSettingTable
      * current config used by the app in Config::read('Saito.Settings'), e.g.
      * when modified with a load-preset.
      *
-     * @throws UnexpectedValueException
+     * @throws \RuntimeException
      * @return array Settings
      */
     public function getSettings()

@@ -2,7 +2,7 @@
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -11,16 +11,14 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
 use App\Lib\Model\Table\FieldFilter;
-use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
+use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
@@ -1130,7 +1128,7 @@ class EntriesTable extends AppTable
      * @param null $tid thread-ID
      * @param null $newCategoryId id for new category
      * @return bool success
-     * @throws \NotFoundException
+     * @throws NotFoundException
      * @throws \InvalidArgumentException
      */
     protected function _threadChangeCategory($tid = null, $newCategoryId = null)

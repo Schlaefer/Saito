@@ -1,24 +1,30 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\View\Helper;
 
-use App\Controller\Component\CurrentUserComponent;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\View\Helper;
+use Cake\Http\ServerRequest;
+use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
 use Saito\JsData\JsData;
 use Saito\User\ForumsUserInterface;
 
 /**
  * Javascript Data Helper
+ *
+ * @property ServerRequest $request
+ * @property UrlHelper $Url
  */
 class JsDataHelper extends AppHelper
 {
@@ -84,8 +90,8 @@ class JsDataHelper extends AppHelper
             'request' => [
                 'action' => $request->getParam('action'),
                 'controller' => $request->getParam('controller'),
-                'isMobile' => $request->isMobile(),
-                'isPreview' => $request->isPreview(),
+                'isMobile' => $request->is('mobile'),
+                'isPreview' => $request->is('preview'),
                 'csrf' => $this->_getCsrf($View)
             ],
             'currentUser' => [
@@ -129,7 +135,9 @@ class JsDataHelper extends AppHelper
     /**
      * Passes method calls on to JsData
      *
-     * {@inheritDoc}
+     * @param string $method
+     * @param array $params
+     * @return mixed values
      */
     public function __call($method, $params)
     {

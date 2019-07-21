@@ -2,17 +2,19 @@
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\View\Helper;
 
-use Cake\Core\Configure;
-use Cake\View\Helper;
+use Cake\View\Helper\HtmlHelper;
 use Cake\View\StringTemplateTrait;
 
+/**
+ * @property HtmlHelper $Html
+ */
 class LayoutHelper extends AppHelper
 {
     use StringTemplateTrait;

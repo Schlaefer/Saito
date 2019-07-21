@@ -143,7 +143,7 @@ class SaitoDummyDataShell extends Shell
             $posting = $this->Entries->createPosting($posting);
             if (empty($posting)) {
                 throw new \RuntimeException(
-                    'Could not create entry: ' . $posting
+                    'Could not create posting.'
                 );
             }
 

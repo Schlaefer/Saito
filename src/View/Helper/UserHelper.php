@@ -2,7 +2,7 @@
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,17 +10,19 @@
 namespace App\View\Helper;
 
 use App\Model\Entity\User;
-use Cake\ORM\Entity;
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\Helper\UrlHelper;
 use Identicon\Identicon;
 use Saito\RememberTrait;
 use Saito\User\ForumsUserInterface;
-use Saito\User\SaitoUser;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class UserHelper
  *
  * @package App\View\Helper
+ * @property HtmlHelper $Html
+ * @property UrlHelper $Url
  */
 class UserHelper extends AppHelper
 {
