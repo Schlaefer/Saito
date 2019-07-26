@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -14,7 +14,6 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
 use App\Lib\Model\Table\FieldFilter;
-use App\Model\Entity\User;
 use App\Model\Table\EntriesTable;
 use App\Model\Table\UserBlocksTable;
 use App\Model\Table\UserIgnoresTable;
@@ -22,6 +21,7 @@ use Cake\Auth\DefaultPasswordHasher;
 use Cake\Auth\PasswordHasherFactory;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
+use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -438,7 +438,7 @@ class UsersTable extends AppTable
      * @param int $userId user-ID
      * @return bool
      */
-    public function deleteAllExceptEntries($userId)
+    public function deleteAllExceptEntries(int $userId)
     {
         if ($userId == 1) {
             return false;
@@ -579,7 +579,7 @@ class UsersTable extends AppTable
      *
      * @param string $value value
      * @param array $context context
-     * @return bool
+     * @return bool|string
      */
     public function validateUsernameEqual($value, array $context)
     {
@@ -606,9 +606,9 @@ class UsersTable extends AppTable
      *
      * @param array $data data
      * @param bool $activate activate
-     * @return null|User
+     * @return EntityInterface
      */
-    public function register($data, $activate = false): ?User
+    public function register($data, $activate = false): EntityInterface
     {
         $defaults = [
             'registered' => bDate(),
@@ -631,7 +631,10 @@ class UsersTable extends AppTable
 
         $fieldFilter = (new FieldFilter())->setConfig('register', $fields);
         if (!$fieldFilter->requireFields($data, 'register')) {
-            return false;
+            throw new \RuntimeException(
+                'Required fields for registration were not provided.',
+                1563789683
+            );
         }
 
         $user = $this->newEntity($data, ['fields' => $fields]);

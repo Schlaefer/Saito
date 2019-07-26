@@ -79,6 +79,13 @@ abstract class LastRefreshAbstract implements LastRefreshInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function setMarker(): void
+    {
+    }
+
+    /**
      * Set timestamp implementation
      *
      * @param \DateTimeImmutable $timestamp timestamp to set

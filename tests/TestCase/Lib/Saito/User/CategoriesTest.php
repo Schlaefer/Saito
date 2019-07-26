@@ -2,7 +2,8 @@
 
 use Saito\Test\SaitoTestCase;
 use Saito\User\Categories;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
  * Class CategoriesTest
@@ -11,12 +12,12 @@ use Saito\User\SaitoUser;
  */
 class CategoriesTest extends SaitoTestCase
 {
-    public $fixtures = ['app.Category'];
+    public $fixtures = ['app.Category', 'app.User'];
 
     public function testGetAllForAnon()
     {
-        $User = new SaitoUser(['id' => 1, 'user_type' => 'anon']);
-        $Lib = new Categories($User);
+        $User = CurrentUserFactory::createDummy(['id' => 1, 'user_type' => 'anon']);
+        $Lib = $User->getCategories();
 
         /**
          * test read
@@ -50,8 +51,8 @@ class CategoriesTest extends SaitoTestCase
 
     public function testGetAllForUser()
     {
-        $User = new SaitoUser(['id' => 1, 'user_type' => 'user']);
-        $Lib = new Categories($User);
+        $User = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'user']);
+        $Lib = $User->getCategories();
 
         $result = $Lib->getAll('read', 'select');
         $expected = [
@@ -88,8 +89,8 @@ class CategoriesTest extends SaitoTestCase
 
     public function testGetAllForMod()
     {
-        $User = new SaitoUser(['id' => 1, 'user_type' => 'mod']);
-        $Lib = new Categories($User);
+        $User = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'mod']);
+        $Lib = $User->getCategories();
 
         $expected = [
             1 => 'Admin',
@@ -116,8 +117,8 @@ class CategoriesTest extends SaitoTestCase
 
     public function testGetCustomNotSet()
     {
-        $User = new SaitoUser(['id' => 3, 'user_type' => 'user']);
-        $Lib = new Categories($User);
+        $User = CurrentUserFactory::createLoggedIn(['id' => 3, 'user_type' => 'user']);
+        $Lib = $User->getCategories();
 
         $expected = [2, 3, 4, 5];
         $expected = array_combine($expected, $expected);

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Installer\Controller;
 
 use Cake\Core\Configure;
+use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
@@ -64,6 +65,7 @@ class InstallController extends AppController
     public function dbconnection()
     {
         try {
+            /** @var Connection */
             $connection = ConnectionManager::get('default');
             if ($connection->connect()) {
                 $this->log('Database connection found.');
@@ -142,7 +144,7 @@ class InstallController extends AppController
 
         $this->log('Installer checking migration status.');
 
-        if ($this->getRequest()->isPost()) {
+        if ($this->getRequest()->is('post')) {
             $this->set('tables', false);
 
             $this->log('Installer starting initial migrate.');
@@ -177,13 +179,13 @@ class InstallController extends AppController
 
         $Users = TableRegistry::getTableLocator()->get('Users');
 
-        if ($this->getRequest()->isGet()) {
+        if ($this->getRequest()->is('get')) {
             $this->set('admin', $Users->newEntity());
 
             return;
         }
 
-        //// setting admin user
+        /// setting admin user
         $this->log('Installer setting admin user.');
         $admin = $Users->get(1);
         $data = $this->getRequest()->getData();
@@ -196,7 +198,7 @@ class InstallController extends AppController
         }
         $this->log('Installer admin-data is saved.');
 
-        //// setting forum-default email
+        /// setting forum-default email
         $this->log('Installer setting forum email.');
         $Settings = TableRegistry::getTableLocator()->get('Settings');
         $forumEmail = $Settings->findByName('forum_email')->first();

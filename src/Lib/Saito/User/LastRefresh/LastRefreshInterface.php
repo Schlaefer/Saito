@@ -34,4 +34,11 @@ interface LastRefreshInterface
      * @return void
      */
     public function set(): void;
+
+    /**
+     * Set temporary marker
+     *
+     * @return void
+     */
+    public function setMarker(): void;
 }

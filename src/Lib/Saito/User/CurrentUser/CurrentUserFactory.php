@@ -14,6 +14,7 @@ namespace Saito\User\CurrentUser;
 
 use Cake\Controller\Controller;
 use Cake\ORM\TableRegistry;
+use Saito\User\Categories;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -39,6 +40,7 @@ class CurrentUserFactory
     {
         $CurrentUser = new CurrentUser($config);
 
+        $CurrentUser->setCategories(new Categories($CurrentUser));
         $CurrentUser->setLastRefresh(
             new LastRefreshDatabase(
                 $CurrentUser,
@@ -68,6 +70,7 @@ class CurrentUserFactory
         $config['user_type'] = 'anon';
         $CurrentUser = new CurrentUser($config);
 
+        $CurrentUser->setCategories(new Categories($CurrentUser));
         $storage = new Storage($controller, 'lastRefresh');
         $CurrentUser->setLastRefresh(new LastRefreshCookie($CurrentUser, $storage));
         $storage = new Storage($controller, 'Saito-Read');
@@ -87,6 +90,7 @@ class CurrentUserFactory
         $config['user_type'] = 'anon';
         $CurrentUser = new CurrentUser($config);
 
+        $CurrentUser->setCategories(new Categories($CurrentUser));
         $CurrentUser->setLastRefresh(new LastRefreshDummy(new CurrentUser([]), $CurrentUser));
         $CurrentUser->setReadPostings(new ReadPostingsDummy());
 

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -39,9 +39,9 @@ class ManualBlocker extends BlockerAbstract
     /**
      * {@inheritDoc}
      */
-    public function getReason()
+    public function getReason(): string
     {
-        return 1;
+        return '1';
     }
 
     /**

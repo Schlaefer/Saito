@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Sitemap\Lib;
 
 use Cake\Cache\Cache;
@@ -65,9 +75,9 @@ class SitemapCollection
      * Generates content for file
      *
      * @param string $file filename
-     * @return string
+     * @return array
      */
-    public function content($file)
+    public function content(string $file): array
     {
         $contents = [];
         foreach ($this->_Generators as $Generator) {

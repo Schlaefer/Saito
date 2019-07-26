@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,6 +13,7 @@
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
+use App\Model\Table\EntriesTable;
 use Cake\I18n\Time;
 use Cake\View\Helper\IdGeneratorTrait;
 use Saito\App\Registry;
@@ -27,12 +31,10 @@ class PreviewController extends ApiAppController
      * Generate posting preview for JSON frontend.
      *
      * @return \Cake\Network\Response|void
-     * @throws BadRequestException
-     * @throws ForbiddenException
      */
     public function preview()
     {
-        $this->Entries = $this->loadModel('Entries');
+        $this->loadModel('Entries');
 
         $newEntry = [
             'id' => 'preview',

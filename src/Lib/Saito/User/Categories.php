@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\User;
 
 use App\Model\Table\CategoriesTable;
@@ -7,8 +17,7 @@ use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Saito\RememberTrait;
-use Saito\User;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -21,16 +30,16 @@ class Categories
     use RememberTrait;
 
     /**
-     * @var ForumsUserInterface
+     * @var CurrentUserInterface
      */
     protected $_User;
 
     /**
      * Constructor.
      *
-     * @param ForumsUserInterface $User Current-User
+     * @param CurrentUserInterface $User Current-User
      */
-    public function __construct(User\ForumsUserInterface $User)
+    public function __construct(CurrentUserInterface $User)
     {
         $this->_User = $User;
     }
@@ -52,11 +61,10 @@ class Categories
         $categories = $this->remember(
             $key,
             function () use ($action, $format) {
-                /* @var CategoriesTable $Categories */
+                /** @var CategoriesTable */
                 $Categories = TableRegistry::get('Categories');
                 $all = $Categories->getAllCategories();
                 $categories = [];
-                /* @var Entity $category */
                 foreach ($all as $category) {
                     $categories[$category->get('id')] = $category->get('category');
                 }
@@ -218,7 +226,7 @@ class Categories
     protected function _filterAllowed($action, array $categories)
     {
         foreach ($categories as $categoryId => $value) {
-            if (!$this->_User->Categories->permission($action, $categoryId)) {
+            if (!$this->_User->getCategories()->permission($action, $categoryId)) {
                 unset($categories[$categoryId]);
             }
         }

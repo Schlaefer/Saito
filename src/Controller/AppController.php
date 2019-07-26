@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
@@ -10,7 +12,15 @@
 
 namespace App\Controller;
 
+use App\Controller\Component\ActionAuthorizationComponent;
 use App\Controller\Component\AuthUserComponent;
+use App\Controller\Component\JsDataComponent;
+use App\Controller\Component\RefererComponent;
+use App\Controller\Component\SaitoEmailComponent;
+use App\Controller\Component\SlidetabsComponent;
+use App\Controller\Component\ThemesComponent;
+use App\Controller\Component\TitleComponent;
+use App\Model\Table\UsersTable;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
@@ -27,13 +37,13 @@ use Stopwatch\Lib\Stopwatch;
  *
  * @property ActionAuthorizationComponent $ActionAuthorization
  * @property AuthUserComponent $AuthUser
- * @property CurrentUserInterface $CurrentUser Attached by AuthUserComponent
  * @property JsDataComponent $JsData
+ * @property RefererComponent $Referer
  * @property SaitoEmailComponent $SaitoEmail
  * @property SlidetabsComponent $Slidetabs
  * @property ThemesComponent $Themes
  * @property TitleComponent $Title
- * @package App\Controller
+ * @property UsersTable $Users
  */
 class AppController extends Controller
 {
@@ -66,6 +76,13 @@ class AppController extends Controller
     protected $_defaultConfig = [
         'showStopwatch' => false
     ];
+
+    /**
+     * The current user, set by the AuthUserComponent
+     *
+     * @var CurrentUserInterface
+     */
+    public $CurrentUser;
 
     /**
      * {@inheritDoc}
@@ -120,7 +137,7 @@ class AppController extends Controller
             $this->render('/Pages/forum_disabled');
             $this->response = $this->response->withStatus(503);
 
-            return;
+            return null;
         }
 
         $this->_setConfigurationFromGetParams();

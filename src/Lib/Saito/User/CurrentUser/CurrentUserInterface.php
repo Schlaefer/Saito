@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Saito\User\CurrentUser;
 
+use Saito\User\Categories;
 use Saito\User\ForumsUserInterface;
 use Saito\User\LastRefresh\LastRefreshInterface;
 use Saito\User\ReadPostings\ReadPostingsInterface;
@@ -47,6 +48,21 @@ interface CurrentUserInterface extends ForumsUserInterface
      * @return ReadPostingsInterface
      */
     public function getReadPostings(): ReadPostingsInterface;
+
+    /**
+     * Setter for categories
+     *
+     * @param Categories $categories categories
+     * @return self
+     */
+    public function setCategories(Categories $categories): CurrentUserInterface;
+
+    /**
+     * Gets Categories
+     *
+     * @return Categories
+     */
+    public function getCategories(): Categories;
 
     /**
      * Has current-user bookmarked posting

@@ -1,18 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Posting;
 
-use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\Basic\BasicPostingTrait;
-use Saito\Posting\Decorator\PostingTrait;
-use Saito\Posting\Decorator\UserPostingTrait;
+use Saito\Posting\PostingInterface;
+use Saito\Posting\UserPosting\UserPostingTrait;
 use Saito\Thread\Thread;
-use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\ForumsUserInterface;
 use Saito\User\RemovedSaitoUser;
 use Saito\User\SaitoUser;
 
-class Posting implements BasicPostingInterface, PostingInterface
+class Posting implements PostingInterface
 {
 
     use BasicPostingTrait;
@@ -20,6 +28,11 @@ class Posting implements BasicPostingInterface, PostingInterface
 
     protected $_children = [];
 
+    /**
+     * Distance to root in tree
+     *
+     * @var int
+     */
     protected $_level;
 
     protected $_rawData;
@@ -82,7 +95,7 @@ class Posting implements BasicPostingInterface, PostingInterface
     /**
      * {@inheritDoc}
      */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->_level;
     }
@@ -138,7 +151,7 @@ class Posting implements BasicPostingInterface, PostingInterface
     /**
      * {@inheritDoc}
      */
-    public function map(callable $callback, $mapSelf = true, $node = null)
+    public function map(callable $callback, bool $mapSelf = true, PostingInterface $node = null): void
     {
         if ($node === null) {
             $node = $this;

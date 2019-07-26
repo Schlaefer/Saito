@@ -1,18 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace Bookmarks\Lib;
 
-use App\Controller\Component\CurrentUserComponent;
+use Bookmarks\Model\Table\BookmarksTable;
 use Cake\ORM\TableRegistry;
 use Saito\User\CurrentUser\CurrentUserInterface;
 
@@ -22,7 +22,7 @@ use Saito\User\CurrentUser\CurrentUserInterface;
 class Bookmarks
 {
     /**
-     * @var bookmarks format: [entry_id => id, …]
+     * @var array format: [entry_id => id, …]
      */
     protected $_bookmarks;
 
@@ -69,7 +69,9 @@ class Bookmarks
 
             return;
         }
-        $this->_bookmarks = TableRegistry::get('Bookmarks.Bookmarks')
+        /** @var BookmarksTable */
+        $BookmarksTable = TableRegistry::get('Bookmarks.Bookmarks');
+        $this->_bookmarks = $BookmarksTable
             ->find('list', ['keyField' => 'entry_id', 'valueField' => 'id'])
             ->where(['user_id' => $this->_CurrentUser->getId()])
             ->toArray();

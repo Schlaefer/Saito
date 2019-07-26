@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -207,7 +207,7 @@ class Parser
     protected $_initializedParsers = [];
 
     /**
-     * @var array cache for app settings
+     * @var MarkupSettings cache for app settings
      */
     protected $_cSettings;
 
@@ -220,7 +220,7 @@ class Parser
      * Constructor
      *
      * @param Helper $Helper helper
-     * @param array $settings settings
+     * @param MarkupSettings $settings settings
      */
     public function __construct(Helper $Helper, MarkupSettings $settings)
     {
@@ -327,7 +327,7 @@ class Parser
      * Add definitin set
      *
      * @param string $set set
-     * @param array $options options
+     * @param MarkupSettings $options options
      *
      * @return void
      * @throws \Exception

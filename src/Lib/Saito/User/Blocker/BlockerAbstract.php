@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -12,11 +12,11 @@ declare(strict_types = 1);
 
 namespace Saito\User\Blocker;
 
-use Cake\ORM\Table;
+use App\Model\Table\UserBlocksTable;
 
 abstract class BlockerAbstract
 {
-    /** @var Table UserBlocks table */
+    /** @var UserBlocksTable UserBlocks table */
     protected $Table;
 
     /**
@@ -39,7 +39,7 @@ abstract class BlockerAbstract
     /**
      * Set user block table
      *
-     * @param Table $Table table
+     * @param UserBlocksTable $Table table
      * @return void
      */
     public function setUserBlockTable($Table)

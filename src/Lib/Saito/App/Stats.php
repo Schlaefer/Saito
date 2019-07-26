@@ -1,9 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\App;
 
 use App\Model\Entity\User;
+use App\Model\Table\UserOnlineTable;
 use Cake\Cache\Cache;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Saito\RememberTrait;
 use Stopwatch\Lib\Stopwatch;
@@ -16,13 +28,14 @@ class Stats
     /**
      * Get registred users online
      *
-     * @return array of UserOnline entities
+     * @return Query of UserOnline entities
      */
-    public function getRegistredUsersOnline()
+    public function getRegistredUsersOnline(): Query
     {
         return $this->remember(
             'UsersOnline',
             function () {
+                /** @var UserOnlineTable */
                 $UserOnline = TableRegistry::get('UserOnline');
 
                 return $UserOnline->getLoggedIn();

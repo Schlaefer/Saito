@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
@@ -14,6 +17,7 @@ use Cake\View\Helper\HtmlHelper;
 use Cake\View\Helper\UrlHelper;
 use Identicon\Identicon;
 use Saito\RememberTrait;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\ForumsUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
@@ -122,11 +126,11 @@ class UserHelper extends AppHelper
      * Link to user-profile
      *
      * @param User|ForumsUserInterface $user user
-     * @param bool $link link
+     * @param bool|CurrentUserInterface $link link
      * @param array $options options
      * @return string
      */
-    public function linkToUserProfile($user, $link = true, array $options = [])
+    public function linkToUserProfile($user, $link = true, array $options = []): string
     {
         $options += [
             'title' => $user->get('username'),
@@ -140,7 +144,8 @@ class UserHelper extends AppHelper
         if (empty($id)) {
             // removed user
             $html = $name;
-        } elseif ($link || ($link instanceof ForumsUserInterface && $link->isLoggedIn())
+        } elseif (($link === true)
+            || ($link instanceof CurrentUserInterface && $link->isLoggedIn())
         ) {
             return $this->Html->link($name, '/users/view/' . $id, $options);
         } else {

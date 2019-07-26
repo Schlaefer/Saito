@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Sitemap\Lib;
 
 use Cake\Cache\Cache;
@@ -63,7 +73,7 @@ class SitemapEntries extends SitemapGenerator
     /**
      * {@inheritDoc}
      */
-    protected function _content($params)
+    protected function _content(array $params): array
     {
         $now = time();
         $filename = $this->_filename([$params['start'], $params['end']]);
@@ -88,11 +98,11 @@ class SitemapEntries extends SitemapGenerator
         if (empty($entries)) {
             return $urls;
         }
-        foreach ($entries as $key => $entry) {
+        foreach ($entries as $entry) {
             if (!empty($entry['edited'])) {
-                $lastmod = strtotime($entry['edited']);
+                $lastmod = $entry['edited']->getTimestamp();
             } else {
-                $lastmod = strtotime($entry['time']);
+                $lastmod = $entry['time']->getTimestamp();
             }
             if ($now > ($lastmod + (3 * DAY))) { // old entries
                 $changefreq = 'monthly';

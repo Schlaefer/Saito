@@ -70,11 +70,9 @@ class LastRefreshDatabase extends LastRefreshAbstract
     }
 
     /**
-     * Set temporary marker
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function setMarker()
+    public function setMarker(): void
     {
         $this->persist();
     }

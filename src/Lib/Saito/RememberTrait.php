@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito;
 
 trait RememberTrait
@@ -12,7 +22,7 @@ trait RememberTrait
     /**
      * Remember static
      *
-     * @param string $key string
+     * @param string|array $key string
      * @param mixed $value value
      * @return mixed
      */

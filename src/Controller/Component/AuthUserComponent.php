@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
+use App\Controller\AppController;
 use App\Model\Table\UsersTable;
 use Cake\Controller\Component;
 use Cake\Controller\Component\AuthComponent;
@@ -69,7 +70,9 @@ class AuthUserComponent extends Component
     {
         Stopwatch::start('CurrentUser::initialize()');
 
-        $this->UsersTable = TableRegistry::getTableLocator()->get('Users');
+        /** @var UsersTable */
+        $UsersTable = TableRegistry::getTableLocator()->get('Users');
+        $this->UsersTable = $UsersTable;
 
         $this->initSessionAuth($this->Auth);
 
@@ -193,12 +196,13 @@ class AuthUserComponent extends Component
         // Notice: is going to hit DB
         Stopwatch::start('CurrentUser read user from DB');
         $user = $this->UsersTable
-            ->findAllowedToLoginById($user['id'])
+            ->find('allowedToLogin')
+            ->where(['id' => $user['id']])
             ->first();
         Stopwatch::stop('CurrentUser read user from DB');
 
         if (empty($user)) {
-            //// no user allowed to login
+            /// no user allowed to login
             // destroy any existing (session) storage information
             $this->logout();
             // send to logout form for formal logout procedure
@@ -328,10 +332,13 @@ class AuthUserComponent extends Component
     private function setCurrentUser(CurrentUserInterface $CurrentUser): void
     {
         $this->CurrentUser = $CurrentUser;
+
+        /** @var AppController */
+        $controller = $this->getController();
         // makes CurrentUser available in Controllers
-        $this->getController()->CurrentUser = $this->CurrentUser;
+        $controller->CurrentUser = $this->CurrentUser;
         // makes CurrentUser available as View var in templates
-        $this->getController()->set('CurrentUser', $this->CurrentUser);
+        $controller->set('CurrentUser', $this->CurrentUser);
         Registry::set('CU', $this->CurrentUser);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -49,7 +49,10 @@ class ThreadsComponent extends Component
      */
     public function paginate($order)
     {
-        $this->Entries = TableRegistry::get('Entries');
+        /** @var EntriesTable */
+        $EntriesTable = TableRegistry::getTableLocator()->get('Entries');
+        $this->Entries = $EntriesTable;
+
         $CurrentUser = $this->_getCurrentUser();
         $initials = $this->_getInitialThreads($CurrentUser, $order);
         $threads = $this->Entries->treesForThreads($initials, $order);
@@ -67,7 +70,7 @@ class ThreadsComponent extends Component
     protected function _getInitialThreads(CurrentUserInterface $User, $order)
     {
         Stopwatch::start('Entries->_getInitialThreads() Paginate');
-        $categories = $User->Categories->getCurrent('read');
+        $categories = $User->getCategories()->getCurrent('read');
         if (empty($categories)) {
             // no readable categories for user (e.g. no public categories
             return [];
@@ -133,7 +136,7 @@ class ThreadsComponent extends Component
             return;
         }
 
-        /** @var $Entries EntriesTable */
+        /** @var EntriesTable */
         $Entries = TableRegistry::getTableLocator()->get('Entries');
         $CurrentUser = $this->_getCurrentUser();
 
@@ -162,6 +165,9 @@ class ThreadsComponent extends Component
      */
     protected function _getCurrentUser(): CurrentUserInterface
     {
-        return Registry::get('CU');
+        /** @var CurrentUserInterface */
+        $CU = Registry::get('CU');
+
+        return $CU;
     }
 }

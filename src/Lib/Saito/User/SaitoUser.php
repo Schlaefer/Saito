@@ -20,8 +20,6 @@ use Saito\App\Registry;
  */
 class SaitoUser implements ForumsUserInterface
 {
-    public $Categories;
-
     /**
      * User ID
      *
@@ -41,11 +39,10 @@ class SaitoUser implements ForumsUserInterface
      *
      * @param array $settings user-settings
      */
-    public function __construct(array $settings = null)
+    public function __construct(?array $settings = null)
     {
         if ($settings !== null) {
             $this->setSettings($settings);
-            $this->Categories = new Categories($this);
         }
     }
 

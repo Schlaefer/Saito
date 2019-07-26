@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
@@ -11,9 +14,11 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
 use App\Lib\Model\Table\FieldFilter;
+use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
 use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Cache\Cache;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
@@ -23,28 +28,16 @@ use Cake\Validation\Validator;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\RememberTrait;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Search\Manager;
 use Stopwatch\Lib\Stopwatch;
 
 /**
+ * Stores postings
  *
- *
- * Model notes
- * ===========
- *
- * Entry.name
- * ----------
- *
- * Came from mlf. Is still used in fulltext index.
- *
- * Entry.edited_by
- * ---------------
- *
- * Came from mlf.
- *
- * @td After mlf is gone `edited_by` should conatin a User.id, not the username
- *     string.
+ * Field notes:
+ * - `edited_by` - Came from mylittleforum. @td Should by migrated to User.id.
+ * - `name` - Came from mylittleforum. Is still used in fulltext index.
  *
  * @property BookmarksTable $Bookmarks
  * @property CategoriesTable $Categories
@@ -66,37 +59,6 @@ class EntriesTable extends AppTable
         'category' => ['type' => 'value'],
     ];
 
-    public $hasMany = [
-        'UserRead' => [
-            'foreignKey' => 'entry_id',
-            'dependent' => true
-        ]
-    ];
-
-    /**
-     * Fields allowed in public output
-     *
-     * @var array
-     */
-    protected $_allowedPublicOutputFields = [
-        'Entries.id',
-        'Entries.pid',
-        'Entries.tid',
-        'Entries.time',
-        'Entries.last_answer',
-        'Entries.edited',
-        'Entries.edited_by',
-        'Entries.user_id',
-        'Entries.name',
-        'Entries.subject',
-        'Entries.category_id',
-        'Entries.text',
-        'Entries.locked',
-        'Entries.fixed',
-        'Entries.views',
-        'Users.username'
-    ];
-
     /**
      * field list necessary for displaying a thread_line
      *
@@ -116,7 +78,6 @@ class EntriesTable extends AppTable
         'Entries.views',
         'Entries.user_id',
         'Entries.locked',
-        // @td remove
         'Entries.name',
         'Entries.solves',
         'Users.username',
@@ -170,7 +131,7 @@ class EntriesTable extends AppTable
                 'Users' => ['entry_count'],
                 // cache how many threads a category has
                 'Categories' => [
-                    'thread_count' => function ($event, Entity $entity, $table, $original) {
+                    'thread_count' => function ($event, Entry $entity, $table, $original) {
                         if (!$entity->isRoot()) {
                             return false;
                         }
@@ -299,13 +260,13 @@ class EntriesTable extends AppTable
      * - `user_id` int|<null> If provided finds only postings of that user.
      * - `limit` int <10> Number of postings to find.
      *
-     * @param ForumsUserInterface $User User who has access to postings
+     * @param CurrentUserInterface $User User who has access to postings
      * @param array $options find options
      *
      * @return array Array of Postings
      */
     public function getRecentEntries(
-        ForumsUserInterface $User,
+        CurrentUserInterface $User,
         array $options = []
     ) {
         Stopwatch::start('Model->User->getRecentEntries()');
@@ -315,7 +276,7 @@ class EntriesTable extends AppTable
             'limit' => 10,
         ];
 
-        $options['category_id'] = $User->Categories->getAll('read');
+        $options['category_id'] = $User->getCategories()->getAll('read');
 
         $read = function () use ($options) {
             $conditions = [];
@@ -395,6 +356,7 @@ class EntriesTable extends AppTable
         $return = $options['return'];
         unset($options['return']);
 
+        /** @var Entry */
         $result = $this->find('entry')
             ->where([$this->getAlias() . '.id' => $primaryKey])
             ->first();
@@ -437,23 +399,23 @@ class EntriesTable extends AppTable
      * fields in $data are filtered
      *
      * @param array $data data
-     * @return Entity on success, false otherwise
+     * @return EntityInterface|null on success, null otherwise
      */
-    public function createPosting($data)
+    public function createPosting(array $data): ?EntityInterface
     {
         if (!isset($data['pid'])) {
             $data['pid'] = 0;
         }
 
         if ($data['pid'] == 0 && isset($data['subject']) === false) {
-            return false;
+            return null;
         }
 
         try {
             $data = $this->fieldFilter->filterFields($data, 'create');
             $data = $this->prepareChildPosting($data);
         } catch (\Exception $e) {
-            return false;
+            return null;
         }
 
         $CurrentUser = Registry::get('CU');
@@ -473,7 +435,7 @@ class EntriesTable extends AppTable
 
         $newPostingEntity = $this->save($posting);
         if (!$newPostingEntity) {
-            return false;
+            return null;
         }
 
         $newPostingId = $newPostingEntity->get('id');
@@ -486,7 +448,7 @@ class EntriesTable extends AppTable
                 ['tid' => $newPostingId]
             );
             if (!$this->save($newPosting)) {
-                return false;
+                return null;
             }
             $this->_dispatchEvent(
                 'Model.Thread.create',
@@ -527,13 +489,13 @@ class EntriesTable extends AppTable
      *
      * fields in $data are filtered except for $id!
      *
-     * @param Entity $posting Entity
+     * @param Entry $posting Entity
      * @param array $data data
      * @return array|mixed
      * @throws \InvalidArgumentException
      * @throws NotFoundException
      */
-    public function update(Entity $posting, $data)
+    public function update(Entry $posting, array $data)
     {
         $data = $this->fieldFilter->filterFields($data, 'update');
         $data['id'] = $posting->get('id');
@@ -585,9 +547,9 @@ class EntriesTable extends AppTable
      *
      * @param int $id id
      * @param array $options options
-     * @return Posting tree
+     * @return Posting|null tree or null if nothing found
      */
-    public function treeForNode(int $id, array $options = [])
+    public function treeForNode(int $id, ?array $options = []): ?Posting
     {
         $options += [
             'root' => false,
@@ -611,7 +573,7 @@ class EntriesTable extends AppTable
         $tree = $this->treesForThreads([$tid], null, $fields);
 
         if (!$tree) {
-            return $tree;
+            return null;
         }
 
         $tree = reset($tree);
@@ -630,9 +592,9 @@ class EntriesTable extends AppTable
      * @param array $ids ids
      * @param array $order order
      * @param array $fieldlist fieldlist
-     * @return array|bool false if no threads or array of Postings
+     * @return array|null array of Postings, null if nothing found
      */
-    public function treesForThreads($ids, $order = null, $fieldlist = null)
+    public function treesForThreads(array $ids, ?array $order = null, array $fieldlist = null): ?array
     {
         if (empty($ids)) {
             return [];
@@ -653,21 +615,22 @@ class EntriesTable extends AppTable
         );
         Stopwatch::stop('EntriesTable::treesForThreads() DB');
 
-        $threads = false;
-        if ($postings->count()) {
-            Stopwatch::start('EntriesTable::treesForThreads() CPU');
-            $threads = [];
-            $postings = $this->treeBuild($postings);
-            foreach ($postings as $thread) {
-                $id = $thread['tid'];
-                $threads[$id] = $thread;
-                $threads[$id] = Registry::newInstance(
-                    '\Saito\Posting\Posting',
-                    ['rawData' => $thread]
-                );
-            }
-            Stopwatch::stop('EntriesTable::treesForThreads() CPU');
+        if (!$postings->count()) {
+            return null;
         }
+
+        Stopwatch::start('EntriesTable::treesForThreads() CPU');
+        $threads = [];
+        $postings = $this->treeBuild($postings);
+        foreach ($postings as $thread) {
+            $id = $thread['tid'];
+            $threads[$id] = $thread;
+            $threads[$id] = Registry::newInstance(
+                '\Saito\Posting\Posting',
+                ['rawData' => $thread]
+            );
+        }
+        Stopwatch::stop('EntriesTable::treesForThreads() CPU');
 
         return $threads;
     }
@@ -733,16 +696,16 @@ class EntriesTable extends AppTable
         }
 
         $this->patchEntity($posting, ['solves' => $value]);
-        $success = $this->save($posting);
-        if (!$success) {
-            return $success;
+        if (!$this->save($posting)) {
+            return false;
         }
+
         $this->_dispatchEvent(
             'Model.Entry.update',
             ['subject' => $id, 'data' => $posting]
         );
 
-        return $success;
+        return true;
     }
 
     /**
@@ -792,7 +755,7 @@ class EntriesTable extends AppTable
      */
     public function treeDeleteNode($id)
     {
-        $root = $this->treeForNode($id);
+        $root = $this->treeForNode((int)$id);
 
         if (empty($root)) {
             throw new \Exception;
@@ -825,13 +788,13 @@ class EntriesTable extends AppTable
     /**
      * Anonymizes the entries for a user
      *
-     * @param string $userId user-ID
-     * @return bool success
+     * @param int $userId user-ID
+     * @return void
      */
-    public function anonymizeEntriesFromUser($userId)
+    public function anonymizeEntriesFromUser(int $userId): void
     {
         // remove username from all entries and reassign to anonyme user
-        $success = $this->updateAll(
+        $success = (bool)$this->updateAll(
             [
                 'edited_by' => null,
                 'ip' => null,
@@ -844,8 +807,6 @@ class EntriesTable extends AppTable
         if ($success) {
             $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
         }
-
-        return $success;
     }
 
     /**
@@ -1049,6 +1010,7 @@ class EntriesTable extends AppTable
 
         //= change category of thread if category of root entry changed
         if ($entity->isDirty('category_id')) {
+            /** @var Entry */
             $oldEntry = $this->find()
                 ->select(['pid', 'tid', 'category_id'])
                 ->where(['id' => $entity->get('id')])
@@ -1088,7 +1050,7 @@ class EntriesTable extends AppTable
         }
         $CurrentUser = Registry::get('CU');
 
-        return $CurrentUser->Categories->permission($action, $categoryId);
+        return $CurrentUser->getCategories()->permission($action, $categoryId);
     }
 
     /**
@@ -1126,26 +1088,22 @@ class EntriesTable extends AppTable
      *
      * Assigns the new category-id to all postings in that thread.
      *
-     * @param null $tid thread-ID
-     * @param null $newCategoryId id for new category
+     * @param int $tid thread-ID
+     * @param int $newCategoryId id for new category
      * @return bool success
      * @throws NotFoundException
-     * @throws \InvalidArgumentException
      */
-    protected function _threadChangeCategory($tid = null, $newCategoryId = null)
+    protected function _threadChangeCategory(int $tid, int $newCategoryId): bool
     {
-        if (empty($tid)) {
-            throw new \InvalidArgumentException;
-        }
         $exists = $this->Categories->exists($newCategoryId);
         if (!$exists) {
             throw new NotFoundException();
         }
-        $success = $this->updateAll(
+        $affected = $this->updateAll(
             ['category_id' => $newCategoryId],
             ['tid' => $tid]
         );
 
-        return $success;
+        return $affected > 0;
     }
 }

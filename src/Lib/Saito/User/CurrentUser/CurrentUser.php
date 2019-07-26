@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Saito\User\CurrentUser;
 
 use Bookmarks\Lib\Bookmarks;
+use Saito\User\Categories;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\LastRefresh\LastRefreshInterface;
 use Saito\User\ReadPostings\ReadPostingsInterface;
@@ -41,6 +42,13 @@ class CurrentUser extends SaitoUser implements CurrentUserInterface
      * @var ReadPostingsInterface
      */
     private $readPostings;
+
+    /**
+     * Categories
+     *
+     * @var Categories
+     */
+    private $categories;
 
     /**
      * Stores if a user is logged in. Stored individually for performance.
@@ -124,6 +132,31 @@ class CurrentUser extends SaitoUser implements CurrentUserInterface
         }
 
         return $this->readPostings;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCategories(Categories $categories): CurrentUserInterface
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCategories(): Categories
+    {
+        if ($this->categories === null) {
+            throw new \RuntimeException(
+                'CurrentUser has no Categories. Set it before you get it.',
+                1563704132
+            );
+        }
+
+        return $this->categories;
     }
 
     /**

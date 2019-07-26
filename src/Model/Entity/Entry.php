@@ -1,10 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 use Saito\App\Registry;
-use Saito\Plugin;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\Basic\BasicPostingTrait;
 use Saito\Posting\PostingInterface;
@@ -38,11 +47,14 @@ class Entry extends Entity implements BasicPostingInterface
      *
      * @return PostingInterface
      */
-    public function toPosting()
+    public function toPosting(): PostingInterface
     {
-        return Registry::newInstance(
+        /** @var PostingInterface */
+        $posting = Registry::newInstance(
             '\Saito\Posting\Posting',
             ['rawData' => $this->toArray()]
         );
+
+        return $posting;
     }
 }

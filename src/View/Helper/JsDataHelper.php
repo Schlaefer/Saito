@@ -97,8 +97,8 @@ class JsDataHelper extends AppHelper
             'currentUser' => [
                 'id' => (int)$CurrentUser->get('id'),
                 'username' => $CurrentUser->get('username'),
-                'user_show_inline' => $CurrentUser->get('inline_view_on_click') || false,
-                'user_show_thread_collapsed' => $CurrentUser->get('user_show_thread_collapsed') || false
+                'user_show_inline' => $CurrentUser->get('inline_view_on_click') ?: false,
+                'user_show_thread_collapsed' => $CurrentUser->get('user_show_thread_collapsed') ?: false
             ],
             'callbacks' => [
                 'beforeAppInit' => [],
@@ -135,8 +135,8 @@ class JsDataHelper extends AppHelper
     /**
      * Passes method calls on to JsData
      *
-     * @param string $method
-     * @param array $params
+     * @param string $method method
+     * @param array $params params
      * @return mixed values
      */
     public function __call($method, $params)

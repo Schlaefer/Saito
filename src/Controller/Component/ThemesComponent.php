@@ -5,13 +5,14 @@ declare(strict_types=1);
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Controller\Component;
 
+use App\Controller\AppController;
 use Cake\Controller\Component;
 use Cake\Core\InstanceConfigTrait;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -43,7 +44,9 @@ class ThemesComponent extends Component
      */
     public function set($theme = null): void
     {
-        $user = $this->getController()->CurrentUser;
+        /** @var AppController */
+        $controller = $this->getController();
+        $user = $controller->CurrentUser;
 
         if ($theme === null) {
             $theme = $this->getThemeForUser($user);
@@ -96,9 +99,10 @@ class ThemesComponent extends Component
      */
     public function getAvailable(CurrentUserInterface $user): array
     {
-        $global = $this->getConfig('available', []);
+        $available = [];
 
         if ($user->isLoggedIn()) {
+            $global = $this->getConfig('available', []);
             $userThemes = $this->getConfig('users', []);
             $userId = $user->getId();
             $userThemes = isset($userThemes[$userId]) ? $userThemes[$userId] : [];

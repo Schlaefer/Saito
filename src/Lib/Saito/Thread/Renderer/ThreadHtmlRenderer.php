@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Thread\Renderer;
 
 use Saito\Cache\ItemCache;
@@ -19,7 +29,7 @@ class ThreadHtmlRenderer extends HtmlRendererAbstract
     /**
      * @var ItemCache
      */
-    protected $_LineCache;
+    protected $_LineCache = null;
 
     protected $_webroot;
 
@@ -97,10 +107,10 @@ EOF;
      * @param int $level level
      * @return string
      */
-    protected function _renderThreadLine(PostingInterface $node, array $posting, $level)
+    protected function _renderThreadLine(PostingInterface $node, array $posting, int $level)
     {
         $id = $posting['id'];
-        $useLineCache = $level > 0 && $this->_LineCache;
+        $useLineCache = ($level > 0) && ($this->_LineCache !== null);
 
         if ($useLineCache && $threadLine = $this->_LineCache->get($id)) {
             return $threadLine;

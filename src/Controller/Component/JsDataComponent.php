@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -30,15 +40,14 @@ class JsDataComponent extends Component
     }
 
     /**
-     * {@inheritDoc}
+     * Add message
+     *
+     * @param string $message message
+     * @param array|null $options options
+     * @return void
      */
-    public function __call($method, $params)
+    public function addMessage(string $message, ?array $options = []): void
     {
-        $proxy = [$this->_JsData, $method];
-        if (is_callable($proxy)) {
-            return call_user_func_array($proxy, $params);
-        }
-
-        throw new \RuntimeException("Method JsData::$method does not exist.");
+        $this->_JsData->addMessage($message, $options);
     }
 }

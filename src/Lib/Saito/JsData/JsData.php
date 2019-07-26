@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\JsData;
 
 class JsData
@@ -34,19 +44,15 @@ class JsData
      * Add message
      *
      * @param string $message message
-     * @param array $options options
+     * @param array|null $options options
      * @return void
      */
-    public function addMessage($message, $options = [])
+    public function addMessage(string $message, ?array $options = []): void
     {
         $defaults = [
             'type' => 'notice',
             'channel' => 'notification'
         ];
-        if (is_string($options)) {
-            $defaults['type'] = $options;
-            $options = [];
-        }
         $options = array_merge($defaults, $options);
 
         if (!is_array($message)) {
