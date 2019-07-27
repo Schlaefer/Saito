@@ -1,2 +1,2 @@
 <?php
-$this->JsData->addMessage($message, 'success');
+$this->JsData->addMessage($message, ['type' => 'success']);

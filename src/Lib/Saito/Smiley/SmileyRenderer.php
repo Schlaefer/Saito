@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Smiley;
 
 use Cake\Cache\Cache as CakeCache;
@@ -28,7 +38,7 @@ class SmileyRenderer
     /**
      * Constructor
      *
-     * @param array $smileyData data
+     * @param SmileyLoader $smileyData data
      */
     public function __construct(SmileyLoader $smileyData)
     {
@@ -61,10 +71,10 @@ class SmileyRenderer
     /**
      * Set Helper
      *
-     * @param Helper $Helper helper
-     * @return self
+     * @param HtmlHelper $Helper helper
+     * @return SmileyRenderer
      */
-    public function setHelper(HtmlHelper $Helper): self
+    public function setHelper(HtmlHelper $Helper): SmileyRenderer
     {
         $this->HtmlHelper = $Helper;
 

@@ -1,17 +1,24 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Model\Table;
 
+use App\Model\Table\UsersTable;
 use Cake\ORM\Table;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * @property UsersTable $Users
+ */
 class UserReadsTable extends Table
 {
 
@@ -22,7 +29,7 @@ class UserReadsTable extends Table
      *
      * @var array
      */
-    protected $_userCache = null;
+    protected $userCache = [];
 
     /**
      * {@inheritDoc}
@@ -41,7 +48,7 @@ class UserReadsTable extends Table
      * @param int $userId user-ID
      * @return void
      */
-    public function setEntriesForUser($entriesId, $userId)
+    public function setEntriesForUser(array $entriesId, int $userId): void
     {
         // filter out duplicates
         $userEntries = $this->getUser($userId);
@@ -53,7 +60,7 @@ class UserReadsTable extends Table
 
         $data = [];
         foreach ($entriesToSave as $entryId) {
-            $this->_userCache[$userId][$entryId] = $entryId;
+            $this->userCache[$userId][$entryId] = $entryId;
             $data[] = [
                 'entry_id' => $entryId,
                 'user_id' => $userId
@@ -77,10 +84,10 @@ class UserReadsTable extends Table
      * @param int $userId user-ID
      * @return array [1 => 1, 3 => 3]
      */
-    public function getUser($userId)
+    public function getUser(int $userId): array
     {
-        if (isset($this->_userCache[$userId])) {
-            return $this->_userCache[$userId];
+        if (isset($this->userCache[$userId])) {
+            return $this->userCache[$userId];
         }
 
         Stopwatch::start('UserRead::getUser()');
@@ -92,10 +99,10 @@ class UserReadsTable extends Table
             $id = $posting->get('entry_id');
             $read[$id] = $id;
         }
-        $this->_userCache[$userId] = $read;
+        $this->userCache[$userId] = $read;
         Stopwatch::stop('UserRead::getUser()');
 
-        return $this->_userCache[$userId];
+        return $this->userCache[$userId];
     }
 
     /**
@@ -105,12 +112,12 @@ class UserReadsTable extends Table
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function deleteEntriesBefore($entryId)
+    public function deleteEntriesBefore(int $entryId): void
     {
         if (empty($entryId)) {
             throw new \InvalidArgumentException;
         }
-        $this->_userCache = null;
+        $this->userCache = [];
         $this->deleteAll(['entry_id <' => $entryId]);
     }
 
@@ -122,12 +129,12 @@ class UserReadsTable extends Table
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function deleteUserEntriesBefore($userId, $entryId)
+    public function deleteUserEntriesBefore(int $userId, int $entryId): void
     {
         if (empty($userId) || empty($entryId)) {
             throw new \InvalidArgumentException;
         }
-        $this->_userCache = null;
+        unset($this->userCache[$userId]);
         $this->deleteAll(['entry_id <' => $entryId, 'user_id' => $userId]);
     }
 
@@ -138,12 +145,12 @@ class UserReadsTable extends Table
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function deleteAllFromUser($userId)
+    public function deleteAllFromUser(int $userId): void
     {
         if (empty($userId)) {
             throw new \InvalidArgumentException;
         }
-        $this->_userCache = null;
+        unset($this->userCache[$userId]);
         $this->deleteAll(['user_id' => $userId]);
     }
 }

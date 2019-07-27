@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Feeds\Model\Behavior;
 
 use Cake\ORM\Behavior;
@@ -21,7 +31,7 @@ class FeedsPostingBehavior extends Behavior
         $CurrentUser = Registry::get('CU');
 
         return $query->contain('Users')
-            ->where(['category_id IN' => $CurrentUser->Categories->getAll('read')])
+            ->where(['category_id IN' => $CurrentUser->getCategories()->getAll('read')])
             ->limit(10);
     }
 }

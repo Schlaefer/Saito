@@ -1,15 +1,21 @@
 <?php
 
+/**
+ * Saito - The Threaded Web Forum
+ * * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\Component\ThemesComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
 use Cake\Http\Response;
 use Cake\Network\Request;
 use Saito\Test\SaitoTestCase;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
  * ThemesComponent Test Case
@@ -50,7 +56,7 @@ class ThemesComponentTest extends SaitoTestCase
         $config = ['default' => 'foo'];
         $this->component->setConfig($config);
 
-        $user = new SaitoUser();
+        $user = CurrentUserFactory::createDummy();
         $this->controller->CurrentUser = $user;
 
         $this->assertNotEquals('foo', $this->controller->viewBuilder()->getTheme());
@@ -63,7 +69,7 @@ class ThemesComponentTest extends SaitoTestCase
         $config = ['default' => 'foo', 'available' => ['bar']];
         $this->component->setConfig($config);
 
-        $user = new SaitoUser(['user_theme' => 'bar']);
+        $user = CurrentUserFactory::createDummy(['id' => 1, 'user_theme' => 'bar']);
         $this->controller->CurrentUser = $user;
 
         // test custom theme applied
@@ -80,7 +86,7 @@ class ThemesComponentTest extends SaitoTestCase
         $config = ['default' => 'foo'];
         $this->component->setConfig($config);
 
-        $user = new SaitoUser(['user_theme' => 'bar']);
+        $user = CurrentUserFactory::createDummy(['id' => '1', 'user_theme' => 'bar']);
         $this->controller->CurrentUser = $user;
 
         $this->component->set();

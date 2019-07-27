@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,8 +13,6 @@
 namespace App\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\I18n\Time;
 use DateTime;
 use DateTimeZone;
 
@@ -38,9 +39,7 @@ class TimeHHelper extends AppHelper
     protected $_now = null;
 
     /** @var int unix timestamp of today */
-    protected $_today = false;
-
-    protected $_start = false;
+    protected $_today;
 
     protected $_timeDiffToUtc = 0;
 

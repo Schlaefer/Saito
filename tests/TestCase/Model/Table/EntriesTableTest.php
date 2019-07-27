@@ -2,13 +2,9 @@
 
 namespace App\Test\TestCase\Model\Table;
 
-use Cake\Cache\Cache;
-use Cake\Core\Configure;
 use Saito\App\Registry;
-use Saito\Test\Model\Table\EntriesTableMock;
 use Saito\Test\Model\Table\SaitoTableTestCase;
-use Saito\User\Categories;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 class EntriesTest extends SaitoTableTestCase
 {
@@ -42,7 +38,7 @@ class EntriesTest extends SaitoTableTestCase
             ->with('Model.Thread.create', $this->anything());
 
         //= Setup CurrentUser
-        $SaitoUser = new SaitoUser(
+        $SaitoUser = CurrentUserFactory::createLoggedIn(
             ['id' => 100, 'username' => 'foo', 'user_type' => 'admin']
         );
         Registry::set('CU', $SaitoUser);
@@ -73,31 +69,22 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testCreateAllowanceAnswer()
     {
-        /*
-         * setup
-         */
+        /// setup
         $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
         $admin = ['id' => 101, 'username' => 'foo', 'user_type' => 'admin'];
 
         $thread = ['subject' => 'foo', 'category_id' => 4];
         $answer = ['pid' => 11] + $thread;
-        $SaitoUser = new SaitoUser();
-        $SaitoUser->Categories = new Categories($SaitoUser);
+
+        /// user
+        $SaitoUser = CurrentUserFactory::createLoggedIn($user);
         Registry::set('CU', $SaitoUser);
 
         /*
          * user thread denied
          */
-        $SaitoUser->setSettings($user);
         $new = $this->Table->createPosting($thread);
         $this->assertNotEmpty($new->getErrors());
-
-        /*
-         * admin thread allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->getErrors());
 
         /*
          * user answer allowed
@@ -105,10 +92,20 @@ class EntriesTest extends SaitoTableTestCase
         $new = $this->Table->createPosting($answer);
         $this->assertEmpty($new->getErrors());
 
+        /// admin
+        $this->initDic();
+        $SaitoUser = CurrentUserFactory::createLoggedIn($admin);
+        Registry::set('CU', $SaitoUser);
+
+        /*
+         * admin thread allowed
+         */
+        $new = $this->Table->createPosting($thread);
+        $this->assertEmpty($new->getErrors());
+
         /*
          * admin answer allowed
          */
-        $SaitoUser->setSettings($admin);
         $new = $this->Table->createPosting($answer);
         $this->assertEmpty($new->getErrors());
     }
@@ -123,8 +120,9 @@ class EntriesTest extends SaitoTableTestCase
 
         $thread = ['subject' => 'foo', 'category_id' => 1];
         $answer = ['pid' => 6] + $thread;
-        $SaitoUser = new SaitoUser();
-        $SaitoUser->Categories = new Categories($SaitoUser);
+
+        /// user
+        $SaitoUser = CurrentUserFactory::createLoggedIn($user);
         Registry::set('CU', $SaitoUser);
 
         /*
@@ -135,18 +133,23 @@ class EntriesTest extends SaitoTableTestCase
         $this->assertNotEmpty($new->getErrors());
 
         /*
-         * admin thread allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->getErrors());
-
-        /*
          * user answer denied
          */
         $SaitoUser->setSettings($user);
         $new = $this->Table->createPosting($answer);
         $this->assertNotEmpty($new->getErrors());
+
+        /// admin
+        $this->initDic();
+        $SaitoUser = CurrentUserFactory::createLoggedIn($admin);
+        Registry::set('CU', $SaitoUser);
+
+        /*
+         * admin thread allowed
+         */
+        $SaitoUser->setSettings($admin);
+        $new = $this->Table->createPosting($thread);
+        $this->assertEmpty($new->getErrors());
 
         /*
          * admin answer allowed
@@ -185,7 +188,7 @@ class EntriesTest extends SaitoTableTestCase
     public function testThreadMerge()
     {
         //= CurrentUser setup
-        $SaitoUser = new SaitoUser();
+        $SaitoUser = CurrentUserFactory::createDummy();
         Registry::set('CU', $SaitoUser);
 
         // entry is not appended yet
@@ -239,7 +242,7 @@ class EntriesTest extends SaitoTableTestCase
     public function testThreadMergePin()
     {
         //= CurrentUser setup
-        $SaitoUser = new SaitoUser();
+        $SaitoUser = CurrentUserFactory::createDummy();
         Registry::set('CU', $SaitoUser);
 
         //= unlock source the fixture thread
@@ -267,7 +270,7 @@ class EntriesTest extends SaitoTableTestCase
     public function testThreadMergeUnpin()
     {
         //= CurrentUser setup
-        $SaitoUser = new SaitoUser();
+        $SaitoUser = CurrentUserFactory::createDummy();
         Registry::set('CU', $SaitoUser);
 
         $posting = $this->Table->get(4);
@@ -304,7 +307,7 @@ class EntriesTest extends SaitoTableTestCase
      */
     public function testChangeThreadCategory()
     {
-        $SaitoUser = new SaitoUser(['id' => 1, 'user_type' => 'admin']);
+        $SaitoUser = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'admin']);
         Registry::set('CU', $SaitoUser);
 
         $tid = 1;
@@ -372,7 +375,7 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testChangeThreadCategoryNotAnExistingCategory()
     {
-        $SaitoUser = new SaitoUser(['id' => 1, 'user_type' => 'admin']);
+        $SaitoUser = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'admin']);
         Registry::set('CU', $SaitoUser);
 
         $newCategory = 9999;

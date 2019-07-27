@@ -8,8 +8,7 @@ use Cake\View\View;
 use Saito\Posting\Posting;
 use Saito\Test\SaitoTestCase;
 use Saito\Thread\Renderer\ThreadHtmlRenderer;
-use Saito\User\CurrentUser\CurrentUser;
-use Saito\User\ReadPostings;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 class ThreadHtmlRendererTest extends SaitoTestCase
 {
@@ -26,7 +25,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'subject' => 'a',
             'text' => 'b',
             'time' => new Time(),
-            'last_answer' => 0,
+            'last_answer' => new Time(),
             'fixed' => false,
             'solves' => '',
             'user_id' => 1,
@@ -71,7 +70,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'subject' => 'a',
             'text' => 'b',
             'time' => new Time(),
-            'last_answer' => 0,
+            'last_answer' => new Time(),
             'fixed' => false,
             'solves' => '',
             'user_id' => 1,
@@ -110,7 +109,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         $SaitoUser = $this->getMockBuilder('SaitoUser')
             ->setMethods(['getId', 'hasBookmarks'])
             ->getMock();
-        $SaitoUser->ReadEntries = $this->createMock(
+        $SaitoUser->Postings = $this->createMock(
             '\Saito\User\ReadPostings\ReadPostingsDummy'
         );
 
@@ -121,7 +120,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             'subject' => 'a',
             'text' => 'b',
             'time' => new Time(),
-            'last_answer' => 0,
+            'last_answer' => new Time(),
             'fixed' => false,
             'solves' => '',
             'user_id' => 1,
@@ -165,8 +164,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         parent::setUp();
         $this->PostingHelper = $this->_setupPostingHelper();
 
-        $this->SaitoUser = new CurrentUser();
-        $this->SaitoUser->ReadEntries = new ReadPostings\ReadPostingsDummy;
+        $this->SaitoUser = CurrentUserFactory::createDummy();
     }
 
     protected function _setupPostingHelper()

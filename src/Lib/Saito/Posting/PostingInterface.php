@@ -1,16 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Posting;
 
 use Saito\Posting\Basic\BasicPostingInterface;
+use Saito\Posting\UserPosting\UserPostingInterface;
 use Saito\Thread\Thread;
 
 /**
- * Interface PostingInterface
- *
- * @package Saito\Posting
+ * Posting properties derived from the other postings building a (sub)thread
  */
-interface PostingInterface extends BasicPostingInterface
+interface PostingInterface extends BasicPostingInterface, UserPostingInterface
 {
     /**
      * Get sub-postings one level below this posting (direct answers)
@@ -29,9 +38,9 @@ interface PostingInterface extends BasicPostingInterface
     /**
      * Get level of posting in thread
      *
-     * @return mixed
+     * @return int
      */
-    public function getLevel();
+    public function getLevel(): int;
 
     /**
      * Get thread for posting.
@@ -55,7 +64,7 @@ interface PostingInterface extends BasicPostingInterface
      * @param PostingInterface $node root posting for callbacks to apply
      * @return void
      */
-    public function map(callable $callback, $mapSelf = true, $node = null);
+    public function map(callable $callback, bool $mapSelf = true, PostingInterface $node = null): void;
 
     /**
      * Get raw posting data

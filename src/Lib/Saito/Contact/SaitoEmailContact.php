@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Contact;
 
 use App\Model\Entity\User;
@@ -33,7 +43,7 @@ class SaitoEmailContact implements ContactInterface
             $this->address = Configure::read(static::$systemContacts[$contact]);
             $this->name = Configure::read('Saito.Settings.forum_name');
 
-            return $this;
+            return;
         }
 
         /* Cake array format */
@@ -41,7 +51,7 @@ class SaitoEmailContact implements ContactInterface
             $this->address = key($contact);
             $this->name = current($contact);
 
-            return $this;
+            return;
         }
 
         /* resolve users */
@@ -59,8 +69,6 @@ class SaitoEmailContact implements ContactInterface
 
         $this->name = $contact->get('username');
         $this->address = $contact->get('user_email');
-
-        return $this;
     }
 
     /**

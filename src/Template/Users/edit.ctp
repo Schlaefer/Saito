@@ -63,7 +63,7 @@ $this->end();
             ];
         }
 
-        if ($CurrentUser->isUser($user)) {
+        if ($user->isUser($CurrentUser)) {
             $cells[] = [
                 __('user_pw'),
                 $this->Html->link(

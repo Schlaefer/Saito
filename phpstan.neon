@@ -1,5 +1,5 @@
 parameters:
-    level: 1
+    level: 3
     paths:
         - plugins/
         - src/
@@ -11,4 +11,10 @@ parameters:
     autoload_files:
         - tests/bootstrap.php
     ignoreErrors:
+        # CakePHP magic find functions
         - '#Call to an undefined method.*Table::findBy.*\(\)#'
+        # 3rd party search plugin
+        -
+            message: '#.*searchManager.*#'
+            path: %currentWorkingDirectory%/src/Model/Table/EntriesTable.php
+

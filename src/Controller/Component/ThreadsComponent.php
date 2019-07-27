@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -15,21 +18,21 @@ use Cake\Controller\Component\PaginatorComponent;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Hash;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class ThreadsComponent
  *
  * @property PaginatorComponent $Paginator
- * @package App\Controller\Component
+ * @property AuthUserComponent $AuthUser
  */
 class ThreadsComponent extends Component
 {
 
-    public $components = ['Paginator'];
+    public $components = ['AuthUser', 'Paginator'];
 
     /**
      * Entries table
@@ -46,7 +49,10 @@ class ThreadsComponent extends Component
      */
     public function paginate($order)
     {
-        $this->Entries = TableRegistry::get('Entries');
+        /** @var EntriesTable */
+        $EntriesTable = TableRegistry::getTableLocator()->get('Entries');
+        $this->Entries = $EntriesTable;
+
         $CurrentUser = $this->_getCurrentUser();
         $initials = $this->_getInitialThreads($CurrentUser, $order);
         $threads = $this->Entries->treesForThreads($initials, $order);
@@ -57,14 +63,14 @@ class ThreadsComponent extends Component
     /**
      * Gets thread ids for paginated entries/index.
      *
-     * @param CurrentUserComponent $User current-user
+     * @param CurrentUserInterface $User current-user
      * @param array $order sort order
      * @return array thread ids
      */
-    protected function _getInitialThreads(CurrentUserComponent $User, $order)
+    protected function _getInitialThreads(CurrentUserInterface $User, $order)
     {
         Stopwatch::start('Entries->_getInitialThreads() Paginate');
-        $categories = $User->Categories->getCurrent('read');
+        $categories = $User->getCategories()->getCurrent('read');
         if (empty($categories)) {
             // no readable categories for user (e.g. no public categories
             return [];
@@ -126,34 +132,42 @@ class ThreadsComponent extends Component
      */
     public function incrementViews(Posting $posting, $type = null)
     {
-        $CurrentUser = $this->_getCurrentUser();
-        if ($CurrentUser->isBot()) {
+        if ($this->AuthUser->isBot()) {
             return;
         }
 
-        // @bogus why not use $this->Entries?
-        /** @var $Entries EntriesTable */
-        $Entries = TableRegistry::get('Entries');
-        $cUserId = $CurrentUser->getId();
+        /** @var EntriesTable */
+        $Entries = TableRegistry::getTableLocator()->get('Entries');
+        $CurrentUser = $this->_getCurrentUser();
 
         if ($type === 'thread') {
             $where = ['tid' => $posting->get('tid')];
-            if ($cUserId) {
-                $where['user_id !='] = $cUserId;
+            if ($CurrentUser->isLoggedIn()) {
+                $where['user_id !='] = $CurrentUser->getId();
             }
             $Entries->increment($where, 'views');
-        } elseif ($posting->get('user_id') !== $cUserId) {
-            $Entries->increment($posting->get('id'), 'views');
+
+            return;
         }
+
+        if ($CurrentUser->isLoggedIn()
+            && ($posting->get('user_id') === $CurrentUser->getId())) {
+            return;
+        }
+
+        $Entries->increment($posting->get('id'), 'views');
     }
 
     /**
      * Get CurrentUser
      *
-     * @return CurrentUserComponent
+     * @return CurrentUserInterface
      */
-    protected function _getCurrentUser()
+    protected function _getCurrentUser(): CurrentUserInterface
     {
-        return Registry::get('CU');
+        /** @var CurrentUserInterface */
+        $CU = Registry::get('CU');
+
+        return $CU;
     }
 }

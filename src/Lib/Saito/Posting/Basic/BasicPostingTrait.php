@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Posting\Basic;
 
 /**
@@ -10,7 +20,7 @@ trait BasicPostingTrait
     /**
      * {@inheritDoc}
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return (bool)$this->get('locked');
     }
@@ -18,7 +28,7 @@ trait BasicPostingTrait
     /**
      * {@inheritDoc}
      */
-    public function isNt()
+    public function isNt(): bool
     {
         $text = $this->get('text');
 
@@ -28,7 +38,7 @@ trait BasicPostingTrait
     /**
      * {@inheritDoc}
      */
-    public function isPinned()
+    public function isPinned(): bool
     {
         return (bool)$this->get('fixed');
     }
@@ -36,7 +46,7 @@ trait BasicPostingTrait
     /**
      * {@inheritDoc}
      */
-    public function isRoot()
+    public function isRoot(): bool
     {
         return $this->get('pid') === 0;
     }

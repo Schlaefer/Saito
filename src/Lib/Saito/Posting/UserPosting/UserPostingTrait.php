@@ -1,12 +1,24 @@
 <?php
 
-namespace Saito\Posting\Decorator;
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
+namespace Saito\Posting\UserPosting;
 
 use Cake\Core\Configure;
 use Saito\Posting\PostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
-use Saito\User\ForumsUserInterface;
 
+/**
+ * Implements UserPostingInterface
+ */
 trait UserPostingTrait
 {
     /**
@@ -41,34 +53,28 @@ trait UserPostingTrait
     }
 
     /**
-     * Checks if answering an entry is allowed
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isAnsweringForbidden()
     {
         if ($this->isLocked()) {
             return 'locked';
         }
-        $permission = $this->_CurrentUser->Categories->permission('answer', $this->get('category'));
+        $permission = $this->_CurrentUser->getCategories()->permission('answer', $this->get('category'));
 
         return !$permission;
     }
 
     /**
-     * checks if entry is bookmarked by current user
-     *
-     * @return bool
+     * {@inheritDoc}
      */
-    public function isBookmarked()
+    public function isBookmarked(): bool
     {
         return $this->_CurrentUser->hasBookmarked($this->get('id'));
     }
 
     /**
-     * Check if editing is forbidden.
-     *
-     * @return bool|string true or string if forbidden, false if allowed
+     * {@inheritDoc}
      */
     public function isEditingAsCurrentUserForbidden()
     {
@@ -76,9 +82,7 @@ trait UserPostingTrait
     }
 
     /**
-     * Check if editing as user is forbidden.
-     *
-     * @return bool|string true or string if forbidden, false if allowed
+     * {@inheritDoc}
      */
     public function isEditingWithRoleUserForbidden()
     {
@@ -92,10 +96,10 @@ trait UserPostingTrait
      * Check if editing on the posting is forbidden.
      *
      * @param PostingInterface $posting The posting.
-     * @param ForumsUserInterface $User The user.
+     * @param CurrentUserInterface $User The user.
      * @return bool|string string if a reason is available.
      */
-    protected function _isEditingForbidden(PostingInterface $posting, ForumsUserInterface $User)
+    protected function _isEditingForbidden(PostingInterface $posting, CurrentUserInterface $User)
     {
         if ($User->isLoggedIn() !== true) {
             return true;
@@ -107,7 +111,7 @@ trait UserPostingTrait
         $timeLimit = $editPeriod + ($posting->get('time')->format('U'));
         $isOverTime = time() > $timeLimit;
 
-        $isOwn = $User->isUser($posting->get('user_id'));
+        $isOwn = $User->getId() === $posting->get('user_id');
 
         if ($User->permission('saito.core.posting.edit.restricted')) {
             if ($isOwn && $isOverTime && !$posting->isPinned()) {
@@ -129,41 +133,32 @@ trait UserPostingTrait
     }
 
     /**
-     * Check if posting is ignored by user.
-     *
-     * @return bool
+     * {@inheritDoc}
      */
-    public function isIgnored()
+    public function isIgnored(): bool
     {
         return $this->_CurrentUser->ignores($this->get('user_id'));
     }
 
     /**
-     * Check if posting is unread to user.
-     *
-     * @return bool
+     * {@inheritDoc}
      */
-    public function isUnread()
+    public function isUnread(): bool
     {
         if (!isset($this->_cache['isUnread'])) {
             $id = $this->get('id');
             $time = $this->get('time');
             $this->_cache['isUnread'] = !$this->getCurrentUser()
-                ->ReadEntries->isRead($id, $time);
+                ->getReadPostings()->isRead($id, $time);
         }
 
         return $this->_cache['isUnread'];
     }
 
     /**
-     * Checks if posting has newer answers
-     *
-     * currently only supported for root postings
-     *
-     * @return bool
-     * @throws \RuntimeException
+     * {@inheritDoc}
      */
-    public function hasNewAnswers()
+    public function hasNewAnswers(): bool
     {
         if (!$this->isRoot()) {
             throw new \RuntimeException(

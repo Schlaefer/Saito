@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -29,7 +29,7 @@ use Search\Controller\Component\PrgComponent;
  */
 class SearchesController extends AppController
 {
-    /** @var $helpers CakePHP helpers */
+    /** @var array CakePHP helpers */
     public $helpers = ['Form', 'Html', 'Posting'];
 
     /**
@@ -66,7 +66,7 @@ class SearchesController extends AppController
     /**
      * Simple search
      *
-     * @return null|Response
+     * @return void|Response
      */
     public function simple()
     {
@@ -96,7 +96,7 @@ class SearchesController extends AppController
         $config = [
             'finder' => [
                 $finder => [
-                    'categories' => $this->CurrentUser->Categories->getAll('read'),
+                    'categories' => $this->CurrentUser->getCategories()->getAll('read'),
                     'searchTerm' => $searchString
                 ]
             ],
@@ -136,8 +136,8 @@ class SearchesController extends AppController
         $year = $queryData['year']['year'] ?? $startYear;
         $this->set(compact('month', 'year', 'startYear'));
 
-        //// Category drop-down data
-        $categories = $this->CurrentUser->Categories->getAll('read', 'select');
+        /// Category drop-down data
+        $categories = $this->CurrentUser->getCategories()->getAll('read', 'select');
         $this->set('categories', $categories);
 
         if (empty($queryData['subject']) && empty($queryData['text']) && empty($queryData['name'])) {
@@ -145,13 +145,13 @@ class SearchesController extends AppController
             return;
         }
 
-        //// setup find
+        /// setup find
         $query = $this->Entries
             ->find('search', ['search' => $queryData])
             ->contain(['Categories', 'Users'])
             ->order(['Entries.id' => 'DESC']);
 
-        //// Time filter
+        /// Time filter
         $time = Chronos::createFromDate($year, $month, 1);
         if ($time->year !== $startDate->year || $time->month !== $startDate->month) {
             $query->where(['time >=' => $time]);

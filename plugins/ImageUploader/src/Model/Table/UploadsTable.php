@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -272,9 +272,9 @@ class UploadsTable extends AppTable
     /**
      * Validate file by size
      *
-     * @param string $check value
+     * @param mixed $check value
      * @param array $context context
-     * @return bool
+     * @return string|bool
      */
     public function validateFileSize($check, array $context)
     {

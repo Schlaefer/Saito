@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -24,10 +24,7 @@ use Cake\Event\Event;
 class ErrorController extends AppController
 {
     /**
-     * beforeRender callback
-     *
-     * @param \Cake\Event\Event $event Event.
-     * @return void
+     * {@inheritDoc}
      */
     public function beforeRender(Event $event)
     {

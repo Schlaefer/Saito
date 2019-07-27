@@ -59,9 +59,9 @@ $schemaMeta = [];
 
             $editedBy = $entry->get('edited_by');
             if (!empty($editedBy)) {
-                $editDelay = (int)$entry->get('time')->toUnixString() +
+                $editDelay = $entry->get('time')->getTimestamp() +
                     ((int)Configure::read('Saito.Settings.edit_delay') * 60);
-                if ((int)$entry->get('edited')->toUnixString() > $editDelay) {
+                if ($entry->get('edited')->getTimestamp() > $editDelay) {
                     echo ' – ';
                     echo __(
                         '{0} edited by {1}',

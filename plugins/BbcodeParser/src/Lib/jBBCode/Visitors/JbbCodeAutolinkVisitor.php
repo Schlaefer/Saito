@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
 
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
@@ -100,8 +110,8 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
                 $matches['element'],
                 $m
             );
-            // keep ['element'] and ['suffix'] and include ['prefix']
-            $matches = $m + $matches;
+            // keep ['element'] and ['suffix'] and include ['prefix']; (array) for phpstan
+            $matches = (array)($m + $matches);
 
             if (strpos($matches['element'], '://') === false) {
                 $matches['element'] = 'http://' . $matches['element'];

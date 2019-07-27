@@ -1,25 +1,33 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Model\Table;
 
-use ArrayObject;
-use Cake\Event\Event;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * Stores which users are online
+ *
+ * Storage can be nopersistent as it is constantly rebuild with live-data.
+ *
+ * Field notes:
+ * - `time` - Timestamp as int unix-epoch instead regular DATETIME. Makes it
+ *   cheap to clear out-timed users by comparing int values.
+ */
 class UserOnlineTable extends Table
 {
-
     /**
      * Time in seconds until a user is considered offline
      *
@@ -35,6 +43,16 @@ class UserOnlineTable extends Table
         $this->setTable('useronline');
 
         $this->addBehavior('Timestamp');
+
+        $this->addBehavior(
+            'Cron.Cron',
+            [
+                'gc' => [
+                    'id' => 'UserOnline.deleteGone',
+                    'due' => '+1 minutes',
+                ],
+            ]
+        );
 
         $this->belongsTo(
             'Users',
@@ -69,26 +87,21 @@ class UserOnlineTable extends Table
     /**
      * Sets user with `$id` online
      *
-     * @param string $id identifier
+     * @param int|string $id user-ID
      * @param bool $loggedIn user is logged-in
      * @return void
      * @throws \InvalidArgumentException
      */
-    public function setOnline($id, $loggedIn)
+    public function setOnline($id, bool $loggedIn): void
     {
         if (empty($id)) {
             throw new \InvalidArgumentException(
                 sprintf('Invalid Argument $id in setOnline(): %s', $id)
             );
         }
-        if (!is_bool($loggedIn)) {
-            throw new \InvalidArgumentException(
-                'Invalid Argument $logged_in in setOnline()'
-            );
-        }
 
         $now = time();
-        $id = $this->_getShortendedId($id);
+        $id = $this->getShortendedId((string)$id);
         $data = [
             'uuid' => $id,
             'logged_in' => $loggedIn,
@@ -113,21 +126,18 @@ class UserOnlineTable extends Table
             $user = $this->newEntity($data);
             $this->save($user);
         }
-
-        $this->_deleteOutdated();
     }
 
     /**
      * Removes user with uuid `$id` from UserOnline
      *
-     * @param string $id id
-     * @return bool
+     * @param int|string $id id
+     * @return void
      */
-    public function setOffline($id)
+    public function setOffline($id): void
     {
-        $id = $this->_getShortendedId($id);
-
-        return $this->deleteAll(['UserOnline.uuid' => $id]);
+        $id = $this->getShortendedId((string)$id);
+        $this->deleteAll(['UserOnline.uuid' => $id]);
     }
 
     /**
@@ -139,7 +149,7 @@ class UserOnlineTable extends Table
      *
      * @return Query
      */
-    public function getLoggedIn()
+    public function getLoggedIn(): Query
     {
         Stopwatch::start('UserOnline->getLoggedIn()');
         $loggedInUsers = $this->find(
@@ -161,19 +171,13 @@ class UserOnlineTable extends Table
     }
 
     /**
-     * deletes gone user
+     * Removes users which weren't online $timeDiff seconds
      *
-     * Gone users are user who are not seen for $time_diff minutes.
-     *
-     * @param string $timeDiff in minutes
      * @return void
      */
-    protected function _deleteOutdated($timeDiff = null)
+    public function gc(): void
     {
-        if ($timeDiff === null) {
-            $timeDiff = $this->timeUntilOffline;
-        }
-        $this->deleteAll(['time <' => time() - ($timeDiff)]);
+        $this->deleteAll(['time <' => time() - ($this->timeUntilOffline)]);
     }
 
     /**
@@ -182,7 +186,7 @@ class UserOnlineTable extends Table
      * @param string $id string
      * @return string
      */
-    protected function _getShortendedId($id)
+    protected function getShortendedId(string $id)
     {
         return substr($id, 0, 32);
     }

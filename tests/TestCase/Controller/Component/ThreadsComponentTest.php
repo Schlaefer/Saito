@@ -5,12 +5,12 @@ namespace App\Test\TestCase\Controller\Component;
 use App\Controller\Component\ThreadsComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
-use Cake\Core\Configure;
 use Cake\Http\Response;
 use Cake\Network\Request;
 use Cake\ORM\TableRegistry;
 use Saito\App\Registry;
 use Saito\Test\SaitoTestCase;
+use Saito\User\CurrentUser\CurrentUser;
 
 /**
  * Class ThemesComponentTest
@@ -56,13 +56,13 @@ class ThreadsComponentTest extends SaitoTestCase
     {
         $tid = 4;
 
-        $CU = $this->getMockBuilder('\Saito\User\SaitoUser')
+        $this->component->AuthUser = $this->getMockBuilder(AuthUserComponent::class)
             ->setMethods(['isBot'])
             ->getMock();
-        $CU->expects($this->once())->method('isBot')->will(
+        $this->component->AuthUser->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
-        Registry::set('CU', $CU);
+        Registry::set('CU', (new CurrentUser([], $this->component->getController())));
 
         $Entries = TableRegistry::get('Entries');
         $posting = $Entries->get(4);
@@ -81,15 +81,13 @@ class ThreadsComponentTest extends SaitoTestCase
     public function testThreadIncrementViewOmitUser()
     {
         $tid = 4;
-        $CU = $this->getMockBuilder('\Saito\User\SaitoUser')
+        $this->component->AuthUser = $this->getMockBuilder(AuthUserComponent::class)
             ->setMethods(['isBot'])
             ->getMock();
-        $CU->setSettings(['id' => 3]);
-
-        $CU->expects($this->once())->method('isBot')->will(
+        $this->component->AuthUser->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
-        Registry::set('CU', $CU);
+        Registry::set('CU', (new CurrentUser(['id' => 3], $this->component->getController())));
 
         $Entries = TableRegistry::get('Entries');
         $posting = $Entries->get(4);

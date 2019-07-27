@@ -1,19 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Controller;
 
-use App\Controller\Component\RefererComponent;
-use App\Controller\Component\ThemesComponent;
 use App\Form\BlockForm;
 use App\Model\Entity\User;
-use App\Model\Table\UsersTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
@@ -24,16 +24,12 @@ use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Blocker\ManualBlocker;
-use Saito\User\ForumsUserInterface;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * User controller
- *
- * @property RefererComponent $Referer
- * @property UsersTable $Users
  */
 class UsersController extends AppController
 {
@@ -74,7 +70,7 @@ class UsersController extends AppController
         }
 
         //= successful login with request data
-        if ($this->CurrentUser->login()) {
+        if ($this->AuthUser->login()) {
             if ($this->Referer->wasAction('login')) {
                 return $this->redirect($this->Auth->redirectUrl());
             } else {
@@ -89,7 +85,7 @@ class UsersController extends AppController
         $message = __('auth_loginerror');
 
         if (!empty($readUser)) {
-            $User = new SaitoUser($readUser);
+            $User = $readUser->toSaitoUser();
 
             if (!$User->isActivated()) {
                 $message = __('user.actv.ny');
@@ -134,7 +130,7 @@ class UsersController extends AppController
             $this->response = $this->response->withExpiredCookie($cookie);
         }
 
-        $this->CurrentUser->logout();
+        $this->AuthUser->logout();
         $this->redirect('/');
     }
 
@@ -147,7 +143,7 @@ class UsersController extends AppController
     {
         $this->set('status', 'view');
 
-        $this->CurrentUser->logout();
+        $this->AuthUser->logout();
 
         $tosRequired = Configure::read('Saito.Settings.tos_enabled');
         $this->set(compact('tosRequired'));
@@ -370,6 +366,7 @@ class UsersController extends AppController
             return;
         }
 
+        /** @var User */
         $user = $this->Users->find()
             ->contain(
                 [
@@ -402,7 +399,7 @@ class UsersController extends AppController
             ($user->numberOfPostings() - $entriesShownOnPage) > 0
         );
 
-        if ($this->CurrentUser->isUser($id)) {
+        if ($this->CurrentUser->getId() === (int)$id) {
             $ignores = $this->Users->UserIgnores->getAllIgnoredBy($id);
             $user->set('ignores', $ignores);
         }
@@ -421,7 +418,7 @@ class UsersController extends AppController
      * @param string $userId user-ID
      * @return void|\Cake\Network\Response
      */
-    public function avatar(int $userId)
+    public function avatar($userId)
     {
         $data = [];
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -502,9 +499,11 @@ class UsersController extends AppController
         if (!$this->Users->exists($userId)) {
             throw new BadRequestException;
         }
+        /** @var User */
         $user = $this->Users->get($userId);
 
         if ($data) {
+            /** @var User */
             $user = $this->Users->patchEntity($user, $data);
             $errors = $user->getErrors();
             if (empty($errors) && $this->Users->save($user)) {
@@ -538,6 +537,7 @@ class UsersController extends AppController
         if (!$this->Users->exists($id)) {
             throw new NotFoundException('User does not exist.', 1524298280);
         }
+        /** @var User */
         $readUser = $this->Users->get($id);
 
         if ($id === $this->CurrentUser->getId()) {
@@ -743,11 +743,10 @@ class UsersController extends AppController
     /**
      * Set category for user.
      *
-     * @param null $id category-ID
+     * @param string|null $id category-ID
      * @return \Cake\Network\Response
-     * @throws ForbiddenException
      */
-    public function setcategory($id = null)
+    public function setcategory(?string $id = null)
     {
         $userId = $this->CurrentUser->getId();
         if ($id === 'all') {
@@ -784,16 +783,16 @@ class UsersController extends AppController
     /**
      * Checks if the current user is allowed to edit user $userId
      *
-     * @param ForumsUserInterface $CurrentUser user
+     * @param CurrentUserInterface $CurrentUser user
      * @param int $userId user-ID
      * @return bool
      */
-    protected function _isEditingAllowed(ForumsUserInterface $CurrentUser, $userId)
+    protected function _isEditingAllowed(CurrentUserInterface $CurrentUser, $userId)
     {
         if ($CurrentUser->permission('saito.core.user.edit')) {
             return true;
         }
 
-        return $CurrentUser->isUser($userId);
+        return $CurrentUser->getId() === (int)$userId;
     }
 }

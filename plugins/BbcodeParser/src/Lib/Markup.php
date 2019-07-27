@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -16,13 +18,13 @@ use Saito\Markup\MarkupSettings;
 
 class Markup implements MarkupInterface
 {
-    /** @var Editor */
+    /** @var Editor|null */
     protected $editor;
-    /** @var Parser */
+    /** @var Parser|null */
     protected $parser;
-    /** @var Preprocessor */
+    /** @var Preprocessor|null */
     protected $preproccesor;
-    /** @var MarkupSettings */
+    /** @var MarkupSettings|null */
     protected $settings;
 
     /**
@@ -87,7 +89,7 @@ class Markup implements MarkupInterface
         $citeLines = preg_split(
             "/(^{$quoteSymbol}.*?$\n)/m",
             $string,
-            null,
+            -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
         foreach ($citeLines as $citeLine) {
@@ -100,7 +102,7 @@ class Markup implements MarkupInterface
             $matches = preg_split(
                 '`(\[(.+?)=?.*?\].+?\[/\2\])`',
                 $citeLine,
-                null,
+                -1,
                 PREG_SPLIT_DELIM_CAPTURE
             );
             $i = 0;

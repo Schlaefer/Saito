@@ -1,41 +1,43 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Controller;
 
-use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\AutoReloadComponent;
 use App\Controller\Component\MarkAsReadComponent;
+use App\Controller\Component\RefererComponent;
 use App\Controller\Component\ThreadsComponent;
 use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Http\Client\Response;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\I18n\Time;
+use Cake\Http\Response;
 use Cake\Routing\RequestActionTrait;
-use Saito\App\Registry;
 use Saito\Posting\Posting;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class EntriesController
  *
+ * @property CurrentUserInterface $CurrentUser
  * @property EntriesTable $Entries
  * @property MarkAsReadComponent $MarkAsRead
  * @property RefererComponent $Referer
  * @property ThreadsComponent $Threads
- * @package App\Controller
  */
 class EntriesController extends AppController
 {
@@ -101,6 +103,7 @@ class EntriesController extends AppController
 
         $this->_setupCategoryChooser($this->CurrentUser);
 
+        /** @var AutoReloadComponent */
         $autoReload = $this->loadComponent('AutoReload');
         $autoReload->after($this->CurrentUser);
 
@@ -126,8 +129,8 @@ class EntriesController extends AppController
             ['root' => true, 'complete' => true]
         );
 
-        //// redirect sub-posting to mix view of thread
-        if (empty($postings)) {
+        /// redirect sub-posting to mix view of thread
+        if (!$postings) {
             $post = $this->Entries->find()
                 ->select(['tid'])
                 ->where(['id' => $tid])
@@ -140,7 +143,7 @@ class EntriesController extends AppController
 
         // check if anonymous tries to access internal categories
         $root = $postings;
-        if (!$this->CurrentUser->Categories->permission('read', $root->get('category'))) {
+        if (!$this->CurrentUser->getCategories()->permission('read', $root->get('category'))) {
             return $this->_requireAuth();
         }
 
@@ -164,7 +167,7 @@ class EntriesController extends AppController
     public function update()
     {
         $this->autoRender = false;
-        $this->CurrentUser->LastRefresh->set('now');
+        $this->CurrentUser->getLastRefresh()->set();
         $this->redirect('/entries/index');
     }
 
@@ -206,7 +209,7 @@ class EntriesController extends AppController
             return $this->redirect('/');
         }
 
-        if (!$this->CurrentUser->Categories->permission('read', $entry->get('category'))) {
+        if (!$this->CurrentUser->getCategories()->permission('read', $entry->get('category'))) {
             return $this->_requireAuth();
         }
 
@@ -215,7 +218,7 @@ class EntriesController extends AppController
         $this->_setRootEntry($entry);
         $this->_showAnsweringPanel();
 
-        $this->CurrentUser->ReadEntries->set($entry);
+        $this->MarkAsRead->posting($entry);
 
         // inline open
         if ($this->request->is('ajax')) {
@@ -248,7 +251,7 @@ class EntriesController extends AppController
             $posting = $this->Entries->createPosting($this->request->getData());
 
             // inserting new posting was successful
-            if ($posting !== false && !count($posting->getErrors())) {
+            if ($posting && !count($posting->getErrors())) {
                 $id = $posting->get('id');
                 $pid = $posting->get('pid');
                 $tid = $posting->get('tid');
@@ -279,6 +282,7 @@ class EntriesController extends AppController
                 }
             } else {
                 //= Error while trying to save a post
+                /** @var Entry */
                 $posting = $this->Entries->newEntity($this->request->getData());
 
                 if (count($posting->getErrors()) === 0) {
@@ -311,6 +315,7 @@ class EntriesController extends AppController
                 $this->set('citeSubject', $parent->get('subject'));
                 $this->set('citeText', $parent->get('text'));
 
+                /** @var Entry */
                 $posting = $this->Entries->patchEntity(
                     $posting,
                     ['pid' => $id]
@@ -325,6 +330,7 @@ class EntriesController extends AppController
                 $titleForPage = __('Write a Reply');
             } else {
                 // new posting which creates new thread
+                /** @var Entry */
                 $posting = $this->Entries->patchEntity(
                     $posting,
                     ['pid' => 0, 'tid' => 0]
@@ -350,7 +356,7 @@ class EntriesController extends AppController
     public function threadLine($id = null)
     {
         $posting = $this->Entries->get($id);
-        if (!$this->CurrentUser->Categories->permission('read', $posting->get('category'))) {
+        if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
             return $this->_requireAuth();
         }
 
@@ -616,10 +622,10 @@ class EntriesController extends AppController
     /**
      * set view vars for category chooser
      *
-     * @param ForumsUserInterface $User CurrentUser
+     * @param CurrentUserInterface $User CurrentUser
      * @return void
      */
-    protected function _setupCategoryChooser(ForumsUserInterface $User)
+    protected function _setupCategoryChooser(CurrentUserInterface $User)
     {
         if (!$User->isLoggedIn()) {
             return;
@@ -641,9 +647,9 @@ class EntriesController extends AppController
 
         $this->set(
             'categoryChooserChecked',
-            $User->Categories->getCustom('read')
+            $User->getCategories()->getCustom('read')
         );
-        switch ($User->Categories->getType()) {
+        switch ($User->getCategories()->getType()) {
             case 'single':
                 $title = $User->get('user_category_active');
                 break;
@@ -656,7 +662,7 @@ class EntriesController extends AppController
         $this->set('categoryChooserTitleId', $title);
         $this->set(
             'categoryChooser',
-            $User->Categories->getAll('read', 'list')
+            $User->getCategories()->getAll('read', 'list')
         );
     }
 
@@ -670,7 +676,7 @@ class EntriesController extends AppController
     {
         //= categories for dropdown
         $action = $isAnswer ? 'answer' : 'thread';
-        $categories = $this->CurrentUser->Categories->getAll($action, 'list');
+        $categories = $this->CurrentUser->getCategories()->getAll($action, 'list');
         $this->set('categories', $categories);
     }
 

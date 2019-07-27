@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
 use Cake\Cache\Cache;
@@ -473,7 +483,7 @@ EOF;
         }
 
         $result = null;
-        $repeat = ceil($strLen - $padStrLen + $padLen);
+        $repeat = (int)ceil($strLen - $padStrLen + $padLen);
         if ($dir == STR_PAD_RIGHT) {
             $result = $str . str_repeat($padStr, $repeat);
             $result = mb_substr($result, 0, $padLen);
@@ -484,10 +494,10 @@ EOF;
             } else {
                 if ($dir == STR_PAD_BOTH) {
                     $length = ($padLen - $strLen) / 2;
-                    $repeat = ceil($length / $padStrLen);
-                    $result = mb_substr(str_repeat($padStr, $repeat), 0, floor($length)) .
+                    $repeat = (int)ceil($length / $padStrLen);
+                    $result = mb_substr(str_repeat($padStr, $repeat), 0, (int)floor($length)) .
                         $str .
-                        mb_substr(str_repeat($padStr, $repeat), 0, ceil($length));
+                        mb_substr(str_repeat($padStr, $repeat), 0, (int)ceil($length));
                 }
             }
         }

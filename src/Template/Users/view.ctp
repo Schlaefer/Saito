@@ -173,7 +173,7 @@ if ($items) {
 
         <?php
         $isLoggedIn = $CurrentUser->isLoggedIn();
-        $isUsersEntry = $CurrentUser->isUser($user);
+        $isUsersEntry = $user->isUser($CurrentUser);
 
         $panel = '';
         if ($isUsersEntry) {

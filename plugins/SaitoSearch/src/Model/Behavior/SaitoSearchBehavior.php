@@ -1,17 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace SaitoSearch\Model\Behavior;
 
+use App\Model\Table\EntriesTable;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 
@@ -52,7 +53,9 @@ class SaitoSearchBehavior extends Behavior
      */
     public function findSimpleSearchByRank(Query $query, array $options): Query
     {
-        $connection = $this->getTable()->getConnection();
+        /** @var EntriesTable */
+        $table = $this->getTable();
+        $connection = $table->getConnection();
         // $q = $connection->quote($options['searchTerm']->replaceOperators());
         $connection->getDriver()->enableAutoQuoting(false);
         $query = $this->prepareFindSimpleSearch($query, $options)
@@ -61,7 +64,7 @@ class SaitoSearchBehavior extends Behavior
                     'relSubject' => 'MATCH (Entries.subject) AGAINST (:q IN BOOLEAN MODE)',
                     'relText' => 'MATCH (Entries.text) AGAINST (:q IN BOOLEAN MODE)',
                     'relName' => 'MATCH (Entries.name) AGAINST (:q IN BOOLEAN MODE)'
-                ] + $this->getTable()->threadLineFieldList
+                ] + $table->threadLineFieldList
             )
             ->where("MATCH (`Entries`.`subject`, `Entries`.`text`, `Entries`.`name`) AGAINST (:q IN BOOLEAN MODE)")
             ->order(['(2*relSubject + relText + 4*relName)' => 'DESC', '`Entries`.`time`' => 'DESC'])

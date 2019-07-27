@@ -121,26 +121,22 @@ class UsersTableTest extends SaitoTableTestCase
     public function testSetLastRefresh()
     {
         //= automatic timestamp
-        $expected = date('Y-m-d H:i:s');
-        $this->Table->setLastRefresh(3);
-        $result = $this->Table->get(3)
-            ->get('last_refresh_tmp')
-            ->toDateTimeString();
-        $this->assertEquals($expected, $result);
+        $expected = new \DateTime();
+        $userId = 3;
+        $this->Table->setLastRefresh($userId);
+        $result = $this->Table->get($userId)->get('last_refresh_tmp');
+        $this->assertTrue($result->wasWithinLast('1 seconds'));
 
         //= with explicit timestamp
-        $previousResult = $result;
-
-        $expected = bDate(1);
+        $expected = (new \DateTime())->setTimestamp(1);
         $userId = 1;
         $this->Table->setLastRefresh($userId, $expected);
         $user = $this->Table->get($userId);
         $result = $user->get('last_refresh');
-        $this->assertEquals(strtotime($expected), $result->toUnixString());
+        $this->assertEquals($expected, $result);
 
         $result = $user->get('last_refresh_tmp');
-        $timeDiff = strtotime($result) - strtotime($previousResult);
-        $this->assertLessThanOrEqual(1, $timeDiff);
+        $this->assertTrue($result->wasWithinLast('1 seconds'));
     }
 
     public function testIncrementLogins()

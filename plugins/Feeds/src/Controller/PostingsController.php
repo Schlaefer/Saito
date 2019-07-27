@@ -1,10 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Feeds\Controller;
 
 use App\Controller\AppController;
 use App\Model\Table\EntriesTable;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Feeds\Model\Behavior\FeedsPostingBehavior;
@@ -25,13 +34,15 @@ class PostingsController extends AppController
     {
         parent::initialize();
 
-        $this->loadModel('Entries')->addBehavior(FeedsPostingBehavior::class);
+        /** @var EntriesTable */
+        $EntriesTable = $this->loadModel('Entries');
+        $EntriesTable->addBehavior(FeedsPostingBehavior::class);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(Event $event): void
+    public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->allow(['new', 'threads']);

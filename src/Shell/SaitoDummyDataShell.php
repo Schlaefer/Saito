@@ -6,12 +6,9 @@ namespace App\Shell;
 use App\Model\Table\EntriesTable;
 use App\Model\Table\UsersTable;
 use Cake\Console\Shell;
-use Cake\Routing\Router;
 use Saito\App\Registry;
-use Saito\Markup\Settings;
-use Saito\User\Auth;
 use Saito\User\Categories;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUser;
 
 /**
  * Creates dummy data for development
@@ -123,13 +120,13 @@ class SaitoDummyDataShell extends Shell
         $seed = $nPostings / $ratio;
 
         $CurrentUser = new SaitoUserDummy();
-        $CurrentUser->Categories = new Categories($CurrentUser);
+        $CurrentUser->setCategories(new Categories($CurrentUser));
         Registry::set('CU', $CurrentUser);
 
         for ($i = 0; $i < $nPostings; $i++) {
             $newThread = $i < $seed;
 
-            $CurrentUser->setSettings($this->_randomUser());
+            $CurrentUser->setSettings($this->_randomUser()->toArray());
 
             $posting = [
                 'subject' => "$i",
@@ -143,7 +140,7 @@ class SaitoDummyDataShell extends Shell
             $posting = $this->Entries->createPosting($posting);
             if (empty($posting)) {
                 throw new \RuntimeException(
-                    'Could not create entry: ' . $posting
+                    'Could not create posting.'
                 );
             }
 
@@ -239,20 +236,19 @@ class SaitoDummyDataShell extends Shell
     }
 }
 
-class SaitoUserDummy extends SaitoUser
+class SaitoUserDummy extends CurrentUser
 {
-
-    public function isLoggedIn()
+    public function isLoggedIn(): bool
     {
         return true;
     }
 
-    public function getRole()
+    public function getRole(): string
     {
         return 'admin';
     }
 
-    public function hasBookmarked()
+    public function hasBookmarked($postingId): bool
     {
         return false;
     }

@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2012-2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -17,6 +17,7 @@ use App\Test\Fixture\UserFixture;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -61,6 +62,7 @@ abstract class IntegrationTestCase extends TestCase
         $this->tearDownSaito();
         $this->_unsetAjax();
         $this->_unsetJson();
+        $this->_unsetUserAgent();
         parent::tearDown();
         $this->_clearCaches();
     }
@@ -122,6 +124,16 @@ abstract class IntegrationTestCase extends TestCase
             $this->_env['HTTP_USER_AGENT'] = $_ENV['HTTP_USER_AGENT'];
         }
         $_ENV['HTTP_USER_AGENT'] = $agent;
+    }
+
+    /**
+     * Resets user agent
+     *
+     * @return void
+     */
+    protected function _unsetUserAgent()
+    {
+        unset($_ENV['HTTP_USER_AGENT']);
     }
 
     /**

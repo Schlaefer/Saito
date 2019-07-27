@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -20,8 +20,6 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
-use Cake\ORM\Query;
-use Saito\App\Registry;
 use Saito\Exception\SaitoForbiddenException;
 
 /**
@@ -38,7 +36,7 @@ class BookmarksController extends ApiAppController
      */
     public function index()
     {
-        $categories = $this->CurrentUser->Categories->getAll('read');
+        $categories = $this->CurrentUser->getCategories()->getAll('read');
         $bookmarks = $this->Bookmarks->find(
             'all',
             [

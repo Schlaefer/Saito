@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Thread;
 
 use Saito\Posting\PostingInterface;
@@ -37,10 +47,12 @@ class Thread
     /**
      * Get posting from thread
      *
-     * @param int $id posting-ID
+     * @param int|string $id posting-ID
+     * - <int> - Posting with that id
+     * - 'root' - Root-posting
      * @return PostingInterface
      */
-    public function get($id)
+    public function get($id): PostingInterface
     {
         if ($id === 'root') {
             $id = $this->_rootId;
@@ -54,9 +66,12 @@ class Thread
      *
      * @return int
      */
-    public function getLastAnswer()
+    public function getLastAnswer(): int
     {
-        return strtotime($this->get('root')->get('last_answer'));
+        /** @var \DateTime */
+        $lastAnswer = $this->get('root')->get('last_answer');
+
+        return $lastAnswer->getTimestamp();
     }
 
     /**
@@ -64,7 +79,7 @@ class Thread
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->_Postings);
     }
@@ -74,7 +89,7 @@ class Thread
      *
      * @return int
      */
-    public function countUnread()
+    public function countUnread(): int
     {
         $unread = 0;
         foreach ($this->_Postings as $posting) {
