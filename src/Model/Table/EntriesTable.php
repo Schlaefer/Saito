@@ -834,9 +834,9 @@ class EntriesTable extends AppTable
         // remove username from all entries and reassign to anonyme user
         $success = $this->updateAll(
             [
-                'name' => "NULL",
-                'edited_by' => "NULL",
-                'ip' => "NULL",
+                'edited_by' => null,
+                'ip' => null,
+                'name' => null,
                 'user_id' => 0,
             ],
             ['user_id' => $userId]
