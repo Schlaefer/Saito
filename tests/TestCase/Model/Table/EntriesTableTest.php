@@ -434,6 +434,9 @@ class EntriesTest extends SaitoTableTestCase
         $result = $this->Table->find()->where(['name' => 'Ulysses'])->count();
         $this->assertEquals($result, $expected);
 
+        $result = $this->Table->get(3);
+        $this->assertNull($result->get('name'));
+
         // edited by is removed
         $expected = 0;
         $result = $this->Table->find()
@@ -441,10 +444,16 @@ class EntriesTest extends SaitoTableTestCase
             ->count();
         $this->assertEquals($result, $expected);
 
+        $result = $this->Table->get(3);
+        $this->assertNull($result->get('edited_by'));
+
         // ip is removed
         $expected = 0;
         $result = $this->Table->find()->where(['ip' => '1.1.1.1'])->count();
         $this->assertEquals($result, $expected);
+
+        $result = $this->Table->get(3);
+        $this->assertNull($result->get('ip'));
 
         // all entries are still there
         $expected = $entriesBeforeActions;
