@@ -117,8 +117,10 @@ class UserOnlineTable extends Table
             ->first();
 
         if ($user) {
-            // only hit database if timestamp is outdated
-            if ($user->get('time') < ($now - $this->timeUntilOffline)) {
+            // perf: Only hit database if timestamp is about to get outdated.
+            // Adjust to sane values taking JS-frontend status ping time
+            // intervall into account.
+            if ($user->get('time') < ($now - (int)($this->timeUntilOffline * 80 / 100))) {
                 $user->set('time', $now);
                 $this->save($user);
             }

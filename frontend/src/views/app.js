@@ -87,7 +87,7 @@ export default Marionette.View.extend({
 
     /*** All elements initialized, show page ***/
 
-    App.status.start();
+    App.status.start(false);
     this._showPage(options.SaitoApp.timeAppStart, options.contentTimer);
     App.eventBus.trigger('notification', options.SaitoApp.msg);
 

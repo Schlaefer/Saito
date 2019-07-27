@@ -22,10 +22,12 @@ class StatusController extends AppController
     public $autoRender = false;
 
     /**
-     * Current app status ping
+     * Sends status data to the frontend
+     *
+     * Even if no data is send for other functionality the ping keeps the
+     * current user online.
      *
      * @return Response
-     * @throws BadRequestException
      */
     public function status()
     {
