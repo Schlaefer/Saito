@@ -34,6 +34,15 @@ module.exports = function (grunt) {
             src: '*',
             dest: './webroot/css/stylesheets/fonts/'
           },
+          /// Assets for plugins/SprectrumColorpicker
+          {
+            src: './node_modules/spectrum-colorpicker/spectrum.js',
+            dest: './plugins/SpectrumColorpicker/webroot/js/spectrum.js',
+          },
+          {
+            src: './node_modules/spectrum-colorpicker/spectrum.css',
+            dest: './plugins/SpectrumColorpicker/webroot/css/spectrum.css',
+          },
         ]
       },
     },

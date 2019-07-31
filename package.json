@@ -24,6 +24,7 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "popper.js": "^1.14.3",
+    "spectrum-colorpicker": "^1.8.0",
     "string-template": "^1.0.0",
     "underscore": "~1.9.0",
     "underscore.string": "^3.3.4",
