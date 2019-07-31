@@ -43,6 +43,26 @@ module.exports = function (grunt) {
             src: './node_modules/spectrum-colorpicker/spectrum.css',
             dest: './plugins/SpectrumColorpicker/webroot/css/spectrum.css',
           },
+          /// Assets Cabin font
+          {
+            expand: true,
+            flatten: true,
+            src: './node_modules/typeface-cabin/files/cabin-latin-[4|7]00.woff*',
+            dest: './plugins/Bota/webroot/fonts/',
+          },
+          {
+            expand: true,
+            flatten: true,
+            src: './node_modules/typeface-cabin/files/cabin-latin-[4|7]00italic.woff*',
+            dest: './plugins/Bota/webroot/fonts/',
+          },
+          /// Assets Fenix font
+          {
+            expand: true,
+            flatten: true,
+            src: './node_modules/typeface-fenix/files/fenix-latin-400.woff*',
+            dest: './plugins/Bota/webroot/fonts/',
+          },
         ]
       },
     },

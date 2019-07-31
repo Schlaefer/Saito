@@ -8380,6 +8380,16 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
+typeface-cabin@^0.0.72:
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/typeface-cabin/-/typeface-cabin-0.0.72.tgz#33667852f30d574b5136f6cd08d162384b19a0d2"
+  integrity sha512-YN3MG1CaqyGygSekamQ8HnuZEv6hvn4XHITPf1N/v9sp0sCQ3VHM+e9xDjiIVPjsTyScC8s/TZ79xZvcOZYJ+g==
+
+typeface-fenix@^0.0.72:
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/typeface-fenix/-/typeface-fenix-0.0.72.tgz#36c7a99603d79d584bc505adbbb099456d88caab"
+  integrity sha512-i0rPTmbr6fWAFfTBhrTpmLg3KxCiskueUJCLjw6As78m91ExD4Jp/ty5e3LsRkG+za83RNtIDZl8sq/jjBchVw==
+
 "typescript@2 - 3":
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.2.tgz#a09e1dc69bc9551cadf17dba10ee42cf55e5d56c"

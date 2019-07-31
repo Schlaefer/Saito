@@ -22,6 +22,8 @@ schema-dump-default.lock
 plugins/Bota/webroot/css/*
 !plugins/Bota/webroot/css/src/
 
+plugins/Bota/webroot/fonts/*.woff*
+
 plugins/SpectrumColorpicker/webroot/*
 
 webroot/css/stylesheets/*
