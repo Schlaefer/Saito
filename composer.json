@@ -13,7 +13,7 @@
   },
   "require": {
     "php": ">=7.2",
-    "cakephp/cakephp": "3.7.*",
+    "cakephp/cakephp": "3.8.*",
     "cakephp/migrations": "@stable",
     "cakephp/plugin-installer": "*",
     "josegonzalez/dotenv": "*",

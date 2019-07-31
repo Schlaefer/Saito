@@ -15,11 +15,11 @@ namespace Bookmarks\Controller;
 use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
 use Bookmarks\Model\Table\BookmarksTable;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\ORM\Entity;
 use Saito\Exception\SaitoForbiddenException;
 
 /**
@@ -135,9 +135,9 @@ class BookmarksController extends ApiAppController
      * @param int $bookmarkId bookmark-ID
      * @throws NotFoundException
      * @throws SaitoForbiddenException
-     * @return Entity
+     * @return EntityInterface
      */
-    private function getBookmark(int $bookmarkId): Entity
+    private function getBookmark(int $bookmarkId): EntityInterface
     {
         $bookmark = $this->Bookmarks->find()
             ->where(['id' => $bookmarkId])
