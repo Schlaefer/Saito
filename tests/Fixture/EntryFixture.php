@@ -2,11 +2,11 @@
 
 namespace App\Test\Fixture;
 
+use Cake\Database\Schema\TableSchema;
 use Cake\TestSuite\Fixture\TestFixture;
 
 class EntryFixture extends TestFixture
 {
-
     protected $_common = [
         'edited' => null,
         'edited_by' => null,
@@ -142,10 +142,16 @@ class EntryFixture extends TestFixture
                 'columns' => ['id']
             ]
         ],
+        '_indexes' => [
+            'fulltext' => [
+                'type' => TableSchema::INDEX_FULLTEXT,
+                'columns' => ['name', 'subject', 'text'],
+            ]
+        ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'MyISAM',
+            'engine' => 'InnoDB',
         ]
     ];
 
