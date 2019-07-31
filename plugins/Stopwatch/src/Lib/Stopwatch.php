@@ -364,32 +364,18 @@ class Stopwatch
     }
 
     /**
-     * get wall time
+     * Gets current accumulated wall time
      *
-     * @param null $divider divider
-     *
-     * @return string
+     * @return float
      */
-    public static function getWallTime($divider = null)
+    public static function getWallTime(): float
     {
-        $thousand = '';
-
-        if ($divider === 'eng') {
-            $divider = '.';
-        }
-
-        if (strlen($divider) < 2) {
-            $decimal = $divider;
-        } else {
-            $decimal = ',';
-        }
-
         self::start('getWallTime()');
         self::end('getWallTime()');
         $time = self::$_events[count(self::$_events) - 1]['wtime'] +
             self::_timeToStopwatch();
 
-        return number_format($time, 3, $decimal, $thousand);
+        return round($time, 3);
     }
 
     /**
