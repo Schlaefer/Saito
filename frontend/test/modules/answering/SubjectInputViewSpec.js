@@ -1,3 +1,4 @@
+import AnswerModel from 'modules/answering/models/AnswerModel';
 import { SubjectInputView as View } from 'modules/answering/SubjectInputView';
 import $ from 'jquery';
 import _ from 'underscore';
@@ -30,7 +31,7 @@ describe('answering form', function () {
     it('initializes from non-empty field value', function () {
       const content = 'existing content';
       $('input').attr('value', content);
-      view = new View({ el: '.postingform-subject-wrapper' });
+      view = new View({ el: '.postingform-subject-wrapper', model: new AnswerModel()});
 
       const expected = (maxlength - content.length) + '';
       const result = view.getUI('counter').html();

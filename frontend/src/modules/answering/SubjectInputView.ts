@@ -1,7 +1,16 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import App from 'models/app';
 import * as _ from 'underscore';
+import AnswerModel from './models/AnswerModel';
 
 class SubjectInputModel extends Model {
     public defaults() {
@@ -13,6 +22,9 @@ class SubjectInputModel extends Model {
         };
     }
 
+    /**
+     * Backbone initializer
+     */
     public initialize() {
         this.listenTo(this, 'change:value', this.updateMeta);
         const max = App.settings.get('subject_maxlength');
@@ -23,6 +35,9 @@ class SubjectInputModel extends Model {
         this.updateMeta();
     }
 
+    /**
+     * Recalculates the metadata if the subject textfield value changes
+     */
     private updateMeta() {
         // Should be _.chars(subject) for counting multibyte chars as one char only, but
         // <input> maxlength attribute also counts all bytes in multibyte char.
@@ -41,6 +56,8 @@ enum ProgressBarState {
 }
 
 class SubjectInputView extends View<Model> {
+    private stateModel: SubjectInputModel;
+
     public constructor(options: any = {}) {
         _.defaults(options, {
             events: {
@@ -62,13 +79,15 @@ class SubjectInputView extends View<Model> {
     }
 
     public initialize() {
-        this.model = new SubjectInputModel();
+        this.stateModel = new SubjectInputModel();
         this.handleInput(); // initialize non-empty input field (edit posting)
         this.update();
     }
 
     private handleInput() {
-        this.model.set('value', this.getUI('input').val());
+        const subject = this.getUI('input').val();
+        this.model.set('subject', subject);
+        this.stateModel.set('value', subject);
     }
 
     private update() {
@@ -77,14 +96,14 @@ class SubjectInputView extends View<Model> {
     }
 
     private updateCounter() {
-        this.getUI('counter').html(this.model.get('remaining'));
+        this.getUI('counter').html(this.stateModel.get('remaining'));
     }
 
     private updateProgressBar() {
         const $progress = this.getUI('progressBar');
-        $progress.css('width', this.model.get('percentage') + '%');
+        $progress.css('width', this.stateModel.get('percentage') + '%');
 
-        const remaining = this.model.get('remaining');
+        const remaining = this.stateModel.get('remaining');
         if (remaining === 0) {
             this.handleMax();
             return;
@@ -94,7 +113,7 @@ class SubjectInputView extends View<Model> {
     }
 
     private handleMax() {
-        if (this.model.get('percentage') !== 100) {
+        if (this.stateModel.get('percentage') !== 100) {
             return;
         }
         this.setProgress(ProgressBarState.full);
@@ -110,4 +129,4 @@ class SubjectInputView extends View<Model> {
     }
 }
 
-export { SubjectInputView };
+export { SubjectInputModel, SubjectInputView };

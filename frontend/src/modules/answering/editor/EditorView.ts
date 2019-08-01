@@ -1,3 +1,11 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import * as autosize from 'autosize';
 import { Collection, Model } from 'backbone';
 import { View } from 'backbone.marionette';
@@ -11,6 +19,10 @@ class EditorView extends View<Model> {
     public constructor(options: any = {}) {
         _.defaults(options, {
             channelName: 'editor',
+            events: {
+                'input @ui.text': 'handleInput',
+                'keypress @ui.input': 'handleInput',
+            },
             regions: {
                 buttons: '.js-editor-buttons',
                 smilies: '.js-rgSmilies',
@@ -66,6 +78,21 @@ class EditorView extends View<Model> {
     }
 
     /**
+     * Called when the editor-text changes through user input
+     */
+    private handleInput() {
+        this.model.set('text', this.getUI('text').val());
+    }
+
+    /**
+     * Called when the editor-text changes through an insert
+     */
+    private postContentChanged() {
+        this.handleInput();
+        autosize.update(this.getUI('text'));
+    }
+
+    /**
      * Inserts text at the current cursor position
      *
      * @param text - Text to insert
@@ -102,10 +129,6 @@ class EditorView extends View<Model> {
             });
         }
         this.getChildView('smilies').$el.collapse('toggle');
-    }
-
-    private postContentChanged() {
-        autosize.update(this.getUI('text'));
     }
 
     private addMenuButtons() {

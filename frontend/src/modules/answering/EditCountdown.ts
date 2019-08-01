@@ -1,11 +1,20 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import * as $ from 'jquery';
 import 'jQuery-tinyTimer/jquery.tinytimer';
+import App from 'models/app';
 import moment from 'moment';
 import * as _ from 'underscore';
 
-class EditCountdownView extends View<Model> {
+export default class EditCountdownView extends View<Model> {
     /**
      * time in seconds how long the timer should count down
      */
@@ -21,10 +30,16 @@ class EditCountdownView extends View<Model> {
         super(options);
     }
 
+    /**
+     * Bb initialize
+     *
+     * @param options
+     * - startTime: Date - start time
+     */
     public initialize(options) {
-        this.editEnd = moment(this.model.get('time')).unix() +
-            (options.editPeriod * 60);
+        this.editEnd = moment(options.startTime).unix() + (App.settings.get('editPeriod') * 60);
         // this.editEnd = moment().unix() + 5 ; // debug
+
         if (moment().unix() > this.editEnd) {
             return;
         }
@@ -80,5 +95,3 @@ class EditCountdownView extends View<Model> {
     }
 
 }
-
-export { EditCountdownView };

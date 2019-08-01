@@ -1,3 +1,11 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Collection, Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import * as Radio from 'backbone.radio';
@@ -10,9 +18,9 @@ import { PreviewView } from 'modules/answering/preview';
 import { SubjectInputView } from 'modules/answering/SubjectInputView';
 import * as _ from 'underscore';
 import { unescapeHTML } from 'underscore.string';
-import { PostingModel } from '../posting/models/PostingModel';
-import { EditCountdownView } from './editCountdown';
+import EditCountdownView from './EditCountdown';
 import { EditorView } from './editor/EditorView';
+import AnswerModel from './models/AnswerModel';
 
 class AnsweringView extends View<Model> {
     /** answering form was loaded via ajax request */
@@ -21,8 +29,6 @@ class AnsweringView extends View<Model> {
     private requestUrl: string;
 
     private rendered: boolean;
-
-    private answeringForm: any;
 
     private sendInProgress: boolean;
 
@@ -36,48 +42,48 @@ class AnsweringView extends View<Model> {
     public constructor(options: any = {}) {
         _.defaults(options, {
             events: {
-                'click .btn-primary': '_send',
                 'click .js-btnCite': '_handleCite',
                 'click .js-btnPreview': '_showPreview',
                 'click .js-btnPreviewClose': '_closePreview',
+                'click @ui.btnPrimary': '_send',
                 'keypress .js-subject': '_onKeyPressSubject',
             },
-            /**
-             * same model as the parent PostingView
-             */
-            model: null,
+            model: new AnswerModel(),
+            modelEvents: {
+                change: 'onAnswerModelChange',
+            },
             regions: {
                 preview: '.preview-wrapper',
             },
             template: _.noop,
+            ui: {
+                btnPrimary: '.js-btn-primary',
+            },
         });
         super(options);
     }
 
     public initialize(options) {
         this.ajax = _.isUndefined(options.ajax) ? true : false;
-        this.answeringForm = false;
         this.parentThreadline = options.parentThreadline || null;
         this.rendered = false;
         this.requestUrl = null;
         this.sendInProgress = false;
 
         this.requestUrl = App.settings.get('webroot') +
-            'entries/add/' + this.model.get('id');
+            'entries/add/' +
+            (this.model.get('pid') || '');
 
         // focus can only be set after element is visible in page
         this.listenTo(App.eventBus, 'isAppVisible', this._focusSubject);
     }
 
     public onRender() {
-        // create new thread on /entries/add
         if (this.ajax === false) {
+            // create new thread on /entries/add
             this._onFormReady();
-        } else if (this.answeringForm === false) {
-            this._requestAnsweringForm();
         } else if (this.rendered === false) {
             this.rendered = true;
-            this.$el.html(this.answeringForm);
             _.defer(() => {
                 this._postRendering();
             });
@@ -184,19 +190,6 @@ class AnsweringView extends View<Model> {
         this.$('.preview-wrapper').slideUp('fast');
     }
 
-    private _requestAnsweringForm() {
-        $.ajax({
-            // don't append timestamp to requestUrl or Cake's
-            // SecurityComponent will blackhole the ajax call in _sendInline()
-            cache: true,
-            success: (data) => {
-                this.answeringForm = data;
-                this.render();
-            },
-            url: this.requestUrl,
-        });
-    }
-
     private _postRendering() {
         this._focusSubject();
         this._onFormReady();
@@ -225,8 +218,7 @@ class AnsweringView extends View<Model> {
         // @todo
         // - change autosize on posting change
         // - attach to answering itself
-        const model = new PostingModel();
-        const editor = new EditorView({ el, model });
+        const editor = new EditorView({ el, model: this.model });
 
         this.showChildView('editor', editor);
         editor.render();
@@ -234,30 +226,26 @@ class AnsweringView extends View<Model> {
 
     private _onFormReady() {
         this.initEditor('.js-editor');
-        this.subjectView = new SubjectInputView({ el: this.$('.postingform-subject-wrapper') });
-
-        const data = this.$('.js-data').data();
-        const action = _.property(['meta', 'action'])(data);
-        if (action === 'edit') {
-            this.model.set('time', data.entry.time);
-            this._addCountdown();
-        }
-        App.eventBus.trigger('change:DOM');
-    }
-
-    /**
-     * Adds countdown to Submit button
-     *
-     * @private
-     */
-    private _addCountdown() {
-        const $submitButton = this.$('.js-btn-primary');
-        const editCountdown = new EditCountdownView({
-            done: 'disable',
-            editPeriod: App.settings.get('editPeriod'),
-            el: $submitButton,
+        this.subjectView = new SubjectInputView({
+            el: this.$('.postingform-subject-wrapper'),
             model: this.model,
         });
+
+        /// read metadata
+        const data = this.$('.js-data').data();
+        const action = _.property(['meta', 'action'])(data);
+
+        /// start edit countdown
+        if (action === 'edit') {
+            this.model.set('time', data.entry.time);
+            const cd = new EditCountdownView({
+                done: 'disable',
+                el: this.getUI('btnPrimary'),
+                startTime: data.entry.time,
+            });
+        }
+
+        App.eventBus.trigger('change:DOM');
     }
 
     private _focusSubject() {
@@ -275,7 +263,10 @@ class AnsweringView extends View<Model> {
             event.preventDefault();
             return;
         }
+
         this.sendInProgress = true;
+        App.eventBus.request('app:navigation:allow');
+
         if (this.parentThreadline) {
             this._sendInline(event);
         } else {
@@ -323,14 +314,14 @@ class AnsweringView extends View<Model> {
         const data = this.$('#EntryAddForm').serialize();
 
         const success = (responseData) => {
-            this.model.set({ isAnsweringFormShown: false });
+            this.trigger('answering:send:success');
             if (this.parentThreadline !== null) {
                 this.parentThreadline.set('isInlineOpened', false);
             }
             App.eventBus.trigger('newEntry', {
                 id: responseData.id,
                 isNewToUser: true,
-                pid: this.model.get('id'),
+                pid: this.model.get('pid'),
                 tid: responseData.tid,
             });
         };
@@ -354,6 +345,17 @@ class AnsweringView extends View<Model> {
             type: 'POST',
             url: this.requestUrl,
         }).done(success).fail(fail);
+    }
+
+    /**
+     * Called when the posting model changes
+     */
+    private onAnswerModelChange() {
+        /// warn user on input when navigating away
+        const fields: string[] = ['subject', 'text'];
+        const found = fields.find((field) => !!this.model.get(field));
+        const state: string = found ? 'disallow' : 'allow';
+        App.eventBus.request('app:navigation:' + state);
     }
 }
 

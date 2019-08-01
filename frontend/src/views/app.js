@@ -19,6 +19,7 @@ import { ThreadLineView } from 'views/ThreadLineView.ts';
 import ThreadView from 'views/thread';
 import UserVw from 'modules/user/userVw.ts';
 import 'lib/jquery-ui/jquery-ui.custom.min';
+import NavigationBreak from 'app/NavigationBreak';
 
 export default Marionette.View.extend({
   regions: {
@@ -52,6 +53,7 @@ export default Marionette.View.extend({
 
   initialize: function () {
     this._initNotifications();
+    const nv = new NavigationBreak();
 
     this.threads = new ThreadCollection();
     if (App.request.controller === 'Entries' && App.request.action === 'index') {
@@ -136,7 +138,6 @@ export default Marionette.View.extend({
   _initAnsweringNotInlined: function (element) {
     this.answeringForm = new AnsweringView({
       el: element,
-      model: new PostingModel({ id: 'foo' }),
       ajax: false
     }).render();
   },
