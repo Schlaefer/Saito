@@ -83,6 +83,9 @@ class UsersControllerTest extends IntegrationTestCase
 
         $this->mockSecurity();
         $this->post('/users/login', $data);
+
+        $this->assertFalse($this->_controller->components()->has('Security'));
+
         $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNotNull(
             $this->_controller->request->getSession()->read('Auth.User')

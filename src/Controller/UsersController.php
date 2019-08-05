@@ -777,6 +777,13 @@ class UsersController extends AppController
             ->permission('saito.core.user.block');
         $this->set('modLocking', $this->modLocking);
 
+        // Login form times-out and degrades user experience.
+        // See https://github.com/Schlaefer/Saito/issues/339
+        if (($this->getRequest()->getParam('action') === 'login')
+            && $this->components()->has('Security')) {
+            $this->components()->unload('Security');
+        }
+
         Stopwatch::stop('Users->beforeFilter()');
     }
 
