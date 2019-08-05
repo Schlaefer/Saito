@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
       libicu-dev \
       libpq-dev \
       libmcrypt-dev \
-      mysql-client \
+      mariadb-client \
       git \
       zlib1g-dev \
       libzip-dev \
