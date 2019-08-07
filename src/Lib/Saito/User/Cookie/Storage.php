@@ -91,7 +91,7 @@ class Storage
      * @param mixed $data data
      * @return void
      */
-    public function write($data)
+    public function write($data): void
     {
         $cookie = $this->createCookie()
             ->withValue($data);
@@ -103,7 +103,7 @@ class Storage
      *
      * @return void
      */
-    public function delete()
+    public function delete(): void
     {
         $cookie = $this->createCookie();
         $this->_Controller->response = $this->_Controller->response->withExpiredCookie($cookie);
