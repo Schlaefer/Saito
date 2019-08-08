@@ -90,7 +90,7 @@ class AuthUserComponent extends Component
 
             if ($useLoggedIn) {
                 $CurrentUser = CurrentUserFactory::createLoggedIn($user);
-                $userId = $CurrentUser->getId();
+                $userId = (string)$CurrentUser->getId();
             } else {
                 $CurrentUser = CurrentUserFactory::createVisitor($controller);
                 $userId = $this->request->getSession()->id();

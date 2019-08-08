@@ -44,7 +44,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'time' => (string)time(),
             'logged_in' => true
         ];
-        $this->Table->setOnline($_userId, true);
+        $this->Table->setOnline((string)$_userId, true);
 
         $result = $this->Table->find()
             ->select($this->_fields)
@@ -67,7 +67,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'time' => (string)time(),
             'logged_in' => 0
         ];
-        $this->Table->setOnline($_userId, false);
+        $this->Table->setOnline((string)$_userId, false);
 
         $result = $this->Table->find()
             ->select($this->_fields)
@@ -85,7 +85,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         /// Update registered user before time.
         $_userId = 5;
-        $this->Table->setOnline($_userId, true);
+        $this->Table->setOnline((string)$_userId, true);
 
         $result = $this->Table->find()
             ->select($this->_fields)
@@ -100,7 +100,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         /// Update anonymous user before time.
         $_userId = 'sessionIdTest';
-        $this->Table->setOnline($_userId, false);
+        $this->Table->setOnline((string)$_userId, false);
 
         $result = $this->Table->find()
             ->select($this->_fields)
@@ -126,7 +126,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'user_id' => null,
             'logged_in' => false
         ];
-        $this->Table->setOnline($_userId, false);
+        $this->Table->setOnline((string)$_userId, false);
 
         $result = $this->Table->find()
             ->select($this->_fields)
@@ -150,7 +150,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'user_id' => 5,
             'logged_in' => 1
         ];
-        $this->Table->setOnline($_userId, true);
+        $this->Table->setOnline((string)$_userId, true);
 
         //* test if user is inserted
         $result = $this->Table->find()
@@ -183,7 +183,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         /// add new user
         $_userId = 5;
-        $this->Table->setOnline($_userId, true);
+        $this->Table->setOnline((string)$_userId, true);
 
         /// wait
         sleep(2);
@@ -197,7 +197,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'time' => time(),
             'logged_in' => true
         ];
-        $this->Table->setOnline($_userId, true);
+        $this->Table->setOnline((string)$_userId, true);
 
         $result = $this->Table->find()
             ->select($this->_fields)
@@ -229,10 +229,10 @@ class UserOnlineTableTest extends SaitoTableTestCase
          */
         // login one user
         $_userId = 3;
-        $this->Table->setOnline($_userId, true);
+        $this->Table->setOnline((string)$_userId, true);
 
         $_userId = 'sessionIdTest';
-        $this->Table->setOnline($_userId, false);
+        $this->Table->setOnline((string)$_userId, false);
 
         $result = $this->Table->getLoggedIn()
             ->enableHydration(false)

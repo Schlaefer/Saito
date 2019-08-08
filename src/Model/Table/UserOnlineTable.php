@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Log\LogTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Psr\Log\LogLevel;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -28,6 +30,8 @@ use Stopwatch\Lib\Stopwatch;
  */
 class UserOnlineTable extends Table
 {
+    use LogTrait;
+
     /**
      * Time in seconds until a user is considered offline
      *
@@ -87,46 +91,62 @@ class UserOnlineTable extends Table
     /**
      * Sets user with `$id` online
      *
-     * @param int|string $id user-ID
+     * @param string $id usually user-ID (logged-in user) or session_id (not logged-in)
      * @param bool $loggedIn user is logged-in
      * @return void
-     * @throws \InvalidArgumentException
      */
-    public function setOnline($id, bool $loggedIn): void
+    public function setOnline(string $id, bool $loggedIn): void
     {
-        if (empty($id)) {
-            throw new \InvalidArgumentException(
-                sprintf('Invalid Argument $id in setOnline(): %s', $id)
-            );
-        }
-
         $now = time();
         $id = $this->getShortendedId((string)$id);
-        $data = [
-            'uuid' => $id,
-            'logged_in' => $loggedIn,
-            'time' => $now
-        ];
 
-        if ($loggedIn) {
-            $data['user_id'] = $id;
-        }
-
-        $user = $this->find()
-            ->where(['uuid' => $id])
-            ->first();
+        $user = $this->find()->where(['uuid' => $id])->first();
 
         if ($user) {
-            // perf: Only hit database if timestamp is about to get outdated.
+            // [Performance] Only hit database if timestamp is about to get outdated.
+            //
             // Adjust to sane values taking JS-frontend status ping time
             // intervall into account.
             if ($user->get('time') < ($now - (int)($this->timeUntilOffline * 80 / 100))) {
                 $user->set('time', $now);
                 $this->save($user);
             }
-        } else {
-            $user = $this->newEntity($data);
+
+            return;
+        }
+
+        $data = ['logged_in' => $loggedIn, 'time' => $now, 'uuid' => $id];
+        if ($loggedIn) {
+            $data['user_id'] = (int)$id;
+        }
+        $user = $this->newEntity($data);
+
+        try {
             $this->save($user);
+        } catch (\PDOException $e) {
+            // We saw that some mobile browsers occasionaly send two requests at
+            // the same time. On of the two requests was always the status-ping.
+            // Working theory: cause is a power-coalesced status-ping now
+            // bundled with a page reload on tab-"resume" esp. with http/2.
+            //
+            // When the second request arrives (ns later) the first request
+            // hasn't persistet its save to the DB yet (which happens in the ms
+            // range). So the second request doesn't see the user online and
+            // tries to save the same "uuid" again. The DB will not have any of
+            // that nonsense after it set the "uuid" from the first request on a
+            // unique column, and raises an error which may be experienced by
+            // the user.
+            //
+            // Since the first request did the necessary work of marking the
+            // user online, we suppress this error, assuming it will only happen
+            // in this particular situation. *knocks on wood*
+            if ($e->getCode() == 23000 && strstr($e->getMessage(), 'uuid')) {
+                $this->log(
+                    'Cought duplicate "uuid" key exception in UserOnline::setOnline.',
+                    LogLevel::INFO,
+                    'saito.info'
+                );
+            }
         }
     }
 
@@ -183,7 +203,7 @@ class UserOnlineTable extends Table
     }
 
     /**
-     * shorten string
+     * Shortens a string to fit in the uuid table-field
      *
      * @param string $id string
      * @return string
