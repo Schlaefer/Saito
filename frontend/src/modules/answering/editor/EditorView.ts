@@ -19,6 +19,7 @@ class EditorView extends View<Model> {
     public constructor(options: any = {}) {
         _.defaults(options, {
             channelName: 'editor',
+            className: 'form-group',
             events: {
                 'input @ui.text': 'handleInput',
                 'keypress @ui.input': 'handleInput',
@@ -27,7 +28,11 @@ class EditorView extends View<Model> {
                 buttons: '.js-editor-buttons',
                 smilies: '.js-rgSmilies',
             },
-            template: _.noop,
+            template: _.template(`
+                <div class="js-editor-buttons"></div>
+                <div class="js-rgSmilies"></div>
+                <textarea name="text" class="form-control" rows="4" tabindex=3></textarea>
+            `),
             ui: {
                 text: 'textarea',
             },
@@ -44,6 +49,8 @@ class EditorView extends View<Model> {
     }
 
     public onRender() {
+        // insert text on edit
+        this.getUI('text').val(this.model.get('text'));
         this.addMenuButtons();
         autosize(this.getUI('text'));
         this.postContentChanged();
@@ -118,8 +125,7 @@ class EditorView extends View<Model> {
         const region = this.getRegion('smilies');
         if (!region.hasView()) {
             const view = new SmiliesCollectionView();
-            const data = this.getUI('text').data('smilies');
-            view.collection.add(data);
+            view.collection.add(this.getOption('smilies'));
             this.showChildView('smilies', view);
             this.listenTo(view, 'click:smiley', (smiley) => {
                 // additional space to prevent smiley concatenation:
@@ -132,8 +138,7 @@ class EditorView extends View<Model> {
     }
 
     private addMenuButtons() {
-        const markupSettings = this.getUI('text').data('buttons');
-        const collection = new Collection(markupSettings);
+        const collection = new Collection(this.getOption('buttons'));
         const view = new MenuButtonBarView({ collection });
         this.showChildView('buttons', view);
     }

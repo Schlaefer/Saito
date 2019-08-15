@@ -239,7 +239,9 @@ class AuthUserComponent extends Component
     public function initSessionAuth(AuthComponent $auth): void
     {
         if ($auth->getConfig('authenticate')) {
-            // different auth configuration already in place (e.g. API)
+            // Different auth configuration already in place (e.g. API). This is
+            // important for the JWT-request, so that we don't authenticate via
+            // Cookie and open up for xsrf issues.
             return;
         };
 

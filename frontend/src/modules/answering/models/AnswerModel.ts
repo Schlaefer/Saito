@@ -6,24 +6,20 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-import { Model } from 'backbone';
-import { defaults as _defaults } from 'underscore';
+import { ModelSaveOptions } from 'backbone';
+import PostingModel from 'models/PostingMdl';
+import { defaults } from 'underscore';
 
 /**
  * Stores all data required to send a new posting to the server
  */
-export default class AnswerModel extends Model {
+export default class AnswerModel extends PostingModel {
     /**
-     * Constructor
+     * Ma initializer
      *
-     * @param options Bb options
+     * @param options options
      */
-    public constructor(defaults: any = {}, options: any = {}) {
-        _defaults(defaults, {
-                pid: undefined,
-                subject: '',
-                text: '',
-        });
-        super(defaults, options);
+    public initialize(options) {
+        this.saitoUrl = 'postings/';
     }
 }

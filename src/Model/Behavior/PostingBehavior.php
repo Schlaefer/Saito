@@ -64,13 +64,6 @@ class PostingBehavior extends Behavior
         } else {
             /// if no pid is provided the new posting is root-posting
             $data['pid'] = 0;
-
-            if (empty($data['category_id'])) {
-                throw new \InvalidArgumentException(
-                    'New root posting requires a category.',
-                    1564756572
-                );
-            }
         }
 
         /// set user who created the posting
@@ -91,9 +84,9 @@ class PostingBehavior extends Behavior
      * @param Entry $posting the posting to update
      * @param array $data data the posting should be updated with
      * @param CurrentUserInterface $CurrentUser the current-user
-     * @return Entry the posting which was asked to update
+     * @return Entry|null the posting which was asked to update
      */
-    public function updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser): Entry
+    public function updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser): ?Entry
     {
         $data = $this->fieldFilter->filterFields($data, 'update');
         $isRoot = $posting->isRoot();
@@ -106,9 +99,10 @@ class PostingBehavior extends Behavior
         $data['edited_by'] = $CurrentUser->get('username');
 
         /// must be set for validation
+        $data['locked'] = $posting->get('locked');
+        $data['pid'] = $posting->get('pid');
         $data['time'] = $posting->get('time');
         $data['user_id'] = $posting->get('user_id');
-        $data['locked'] = $posting->get('locked');
 
         $this->validatorSetup($CurrentUser);
         $this->getTable()->getValidator()->add(
@@ -133,12 +127,12 @@ class PostingBehavior extends Behavior
     public function prepareChildPosting(BasicPostingInterface $parent, array $data): array
     {
         if (empty($data['subject'])) {
-            /// if new subject is empty use the parent's subject
+            // if new subject is empty use the parent's subject
             $data['subject'] = $parent->get('subject');
         }
 
-        $data['tid'] = $parent->get('tid');
         $data['category_id'] = $parent->get('category_id');
+        $data['tid'] = $parent->get('tid');
 
         return $data;
     }

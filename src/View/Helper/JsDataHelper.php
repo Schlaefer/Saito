@@ -60,7 +60,6 @@ class JsDataHelper extends AppHelper
      */
     public function getAppJs(View $View, ForumsUserInterface $CurrentUser)
     {
-        $settings = Configure::read('Saito.Settings');
         $request = $View->getRequest();
 
         $js = $this->_JsData->getJs();
@@ -80,8 +79,6 @@ class JsDataHelper extends AppHelper
                             'fullBase' => true
                         ]
                     ),
-                    'quote_symbol' => $settings['quote_symbol'],
-                    'subject_maxlength' => $settings['subject_maxlength'],
                     'theme' => $View->getTheme(),
                     'apiroot' => $request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $request->getAttribute('webroot')

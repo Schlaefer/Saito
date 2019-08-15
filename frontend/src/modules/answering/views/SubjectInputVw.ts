@@ -8,16 +8,14 @@
 
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import App from 'models/app';
 import * as _ from 'underscore';
-import AnswerModel from './models/AnswerModel';
 
 class SubjectInputModel extends Model {
     public defaults() {
         return {
             length: 0,
-            max: null,
-            remaining: null,
+            max: 70,
+            remaining: undefined,
             value: '',
         };
     }
@@ -26,12 +24,8 @@ class SubjectInputModel extends Model {
      * Backbone initializer
      */
     public initialize() {
+        this.listenTo(this, 'change:max', this.updateMeta);
         this.listenTo(this, 'change:value', this.updateMeta);
-        const max = App.settings.get('subject_maxlength');
-        if (!max) {
-            throw new Error('No subject_maxlength in App settings.');
-        }
-        this.set('max', App.settings.get('subject_maxlength'));
         this.updateMeta();
     }
 
@@ -55,20 +49,41 @@ enum ProgressBarState {
     full = 'bg-danger',
 }
 
-class SubjectInputView extends View<Model> {
+export default class SubjectInputView extends View<Model> {
     private stateModel: SubjectInputModel;
 
     public constructor(options: any = {}) {
         _.defaults(options, {
+            className: 'postingform-subject-wrapper form-group',
             events: {
                 // 'input' doesnt catch a keypress when full and 'keypress'
                 // doesn't catch paste/delete
                 'input @ui.input': 'handleInput',
-                'keypress @ui.input': 'handleMax',
+                'keypress @ui.input': 'handleKeypress',
             },
-            modelEvents: {
-                'change:value': 'update',
-            },
+            template: _.template(`
+                <div class="input text required">
+                    <input
+                        class="js-subject postingform-subject form-control"
+                        id="subject"
+                        maxlength="<%- subjectMaxLength %>"
+                        name="subject"
+                        placeholder="<%- placeholder %>"
+                        <% if (!pid) { %> required="required" <% } %>
+                        value="<%- subject %>"
+                        tabindex="2"
+                        type="text"
+                    >
+                </div>
+                <div class="progress postingform-subject-progress">
+                    <div
+                        role="progressbar"
+                        class="js-progress progress-bar bg-success"
+                        style="width: 0%;">
+                    </div>
+                </div>
+                <div class="postingform-subject-count"></div>
+            `),
             ui: {
                 counter: '.postingform-subject-count',
                 input: 'input',
@@ -78,16 +93,41 @@ class SubjectInputView extends View<Model> {
         super(options);
     }
 
-    public initialize() {
+    public initialize(options) {
         this.stateModel = new SubjectInputModel();
+        if (options.max) {
+            this.stateModel.set('max', options.max);
+        }
+    }
+
+    public focus() {
+        // focus is broken in Mobile Safari iOS 8
+        const iOS = window.navigator.userAgent.match('iPad|iPhone');
+        if (iOS) {
+            return;
+        }
+
+        this.getUI('input').focus();
+    }
+
+    public onRender() {
         this.handleInput(); // initialize non-empty input field (edit posting)
         this.update();
+    }
+
+    public templateContext() {
+        return {
+            placeholder: this.getOption('placeholder'),
+            subjectMaxLength: this.stateModel.get('max'),
+            type: this.getOption('type'),
+        };
     }
 
     private handleInput() {
         const subject = this.getUI('input').val();
         this.model.set('subject', subject);
         this.stateModel.set('value', subject);
+        this.update();
     }
 
     private update() {
@@ -110,6 +150,17 @@ class SubjectInputView extends View<Model> {
         }
         const cssClass = (remaining < 20) ? ProgressBarState.soonFull : ProgressBarState.notFull;
         this.setProgress(cssClass);
+    }
+
+    private handleKeypress(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            this.trigger('answer:send:submit');
+
+            return;
+        }
+
+        this.handleMax();
     }
 
     private handleMax() {

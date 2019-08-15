@@ -10,6 +10,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
 class EntriesMockController extends EntriesController
@@ -105,82 +106,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertRedirectLogin($url);
     }
 
-    /**
-     * successfull add request
-     */
-    public function testAddSuccess()
+    public function testAddShowForumSuccess()
     {
         $this->_loginUser(1);
-        $data = [
-            'subject' => 'subject',
-            'text' => 'text',
-            'category_id' => 1,
-            'Event' => [
-                1 => ['event_type_id' => 0],
-                2 => ['event_type_id' => 1]
-            ]
-        ];
-
-        $EntriesTable = TableRegistry::get('Entries');
-        $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
-        $expectedId = $latestEntry->get('id') + 1;
-
-        //= test
-        $this->mockSecurity();
-        $this->post('/entries/add', $data);
-
-        $this->assertResponseCode(302);
-        $this->assertRedirect('/entries/view/' . $expectedId);
-
-        $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
-        $this->assertEquals($expectedId, $latestEntry->get('id'));
-    }
-
-    public function testAddSubjectToLong()
-    {
-        $this->_loginUser(1);
-
-        //= tests that the subject has a maxlength attribute
-        $this->get('entries/add');
-        $this->assertResponseContains('maxlength="40"');
-
-        //= subject is one char to long
-        $data = [
-            // 41 chars
-            'subject' => 'Vorher wie ich in der mobilen Version ka…',
-            'category_id' => 1,
-            'pid' => 0,
-        ];
-
-        $this->mockSecurity();
-        $this->post('entries/add', $data);
-        $this->assertResponseContains('Subject is to long.');
-
-        $nextId = $this->Table->find()->count() + 1;
-
-        //= subject has max length
-        $data['subject'] = mb_substr($data['subject'], 1);
-        $this->post('entries/add', $data);
-
-        $this->assertRedirect('entries/view/' . $nextId);
-    }
-
-    public function testAddFormCitedTextIsEncoded()
-    {
-        $this->mockSecurity();
-        $this->_loginUser(1);
-        $this->_setAjax();
-
-        $this->get('entries/add/11');
-
-        $this->assertResponseContains('data-text="&gt; &amp;&lt;Text"');
-    }
-
-    public function testNoDirectCallOfAnsweringFormWithId()
-    {
-        $this->_loginUser(1);
-        $this->get('/entries/add/1');
-        $this->assertRedirect('/');
+        $this->get('/entries/add');
+        $this->assertResponseCode(200);
     }
 
     public function testCategoryChooserVisible()
@@ -512,76 +442,21 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->get('entries/edit/');
     }
 
-    /**
-     * Show editing form
-     */
-    public function testEditShowForm()
+    public function testEditShowSuccess()
     {
-        $postingId = 2;
         $this->_loginUser(1);
-        $Table = TableRegistry::get('Entries');
-        $Table->query()
-            ->update()
-            ->set(['time' => bDate()])
-            ->where(['id' => $postingId])
-            ->execute();
+        $this->get('entries/edit/1');
 
-        $this->get("entries/edit/$postingId");
-
-        // test that subject is quoted
-        $this->assertResponseContains('value="Second_Subject"');
-        // test that text is quoted
-        $this->assertResponseContains('Second_Text</textarea>');
+        $this->assertResponseCode(200);
     }
 
-    public function testEditSuccess()
+    public function testEditShowFailureForbidden()
     {
-        $postingId = 1;
         $this->_loginUser(3);
-        $Table = TableRegistry::get('Entries');
-        $Table->query()
-            ->update()
-            ->set(['time' => bDate()])
-            ->where(['id' => $postingId])
-            ->execute();
 
-        $this->mockSecurity();
-        $this->post(
-            'entries/edit/' . $postingId,
-            ['subject' => 'hot', 'text' => 'fuzz']
-        );
-        $this->assertResponseCode(302);
-        $this->assertRedirect('/entries/view/' . $postingId);
+        $this->expectException(SaitoForbiddenException::class);
 
-        $Entries = TableRegistry::get('Entries');
-        $posting = $Entries->get($postingId);
-        $this->assertEquals('hot', $posting->get('subject'));
-        $this->assertEquals('fuzz', $posting->get('text'));
-    }
-
-    /**
-     * tests that the form renders without error if saving fails
-     *
-     * doesn't test for any specific validation error
-     */
-    public function testEditNoInternalErrorOnValidationError()
-    {
-        $Table = TableRegistry::get('Entries');
-        $Table->query()
-            ->update()
-            ->set(['time' => bDate()])
-            ->where(['id' => 2])
-            ->execute();
-
-        $Entries = $this->getMockForTable('Entries', ['updatePosting']);
-        $Entries->expects($this->once())
-            ->method('updatePosting')
-            ->will($this->returnValue(false));
-
-        $this->_loginUser(1);
-        $this->mockSecurity();
-        $this->post('entries/edit/2', ['pid' => 1]);
-        $this->assertNoRedirect();
+        $this->get('entries/edit/1');
     }
 
     /**

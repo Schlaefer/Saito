@@ -1,0 +1,261 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
+namespace App\Test\TestCase\Controller;
+
+use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
+use Saito\Exception\SaitoForbiddenException;
+use Saito\Test\IntegrationTestCase;
+
+class PostingsControllerTest extends IntegrationTestCase
+{
+    public $fixtures = [
+        'plugin.Bookmarks.Bookmark',
+        'app.Category',
+        'app.Entry',
+        'app.Setting',
+        'app.Smiley',
+        'app.SmileyCode',
+        'app.User',
+        'app.UserBlock',
+        'app.UserIgnore',
+        'app.UserOnline',
+        'app.UserRead'
+    ];
+
+    public function testAddFailureNoAuthorization()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $data = ['pid' => 1, 'subject' => 'foo'];
+        $this->post('api/v2/postings/add', $data);
+    }
+
+    public function testAddSuccess()
+    {
+        $this->loginJwt(3);
+
+        $data = ['pid' => 1, 'subject' => 'foo'];
+
+        $EntriesTable = TableRegistry::get('Entries');
+        $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
+        $expectedId = $latestEntry->get('id') + 1;
+
+        $this->post('api/v2/postings/add', $data);
+
+        $this->assertResponseCode(200);
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertArraySubset(['pid' => 1, 'tid' => 1], $response['data']['attributes']);
+
+        $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
+        $this->assertEquals($expectedId, $latestEntry->get('id'));
+    }
+
+    public function testAddFailureUnknownSaveIssue()
+    {
+        $this->loginJwt(3);
+
+        $entries = $this->getMockForTable('Entries', ['createPosting'])
+            ->expects($this->once())
+            ->method('createPosting')
+            ->will($this->returnValue(null));
+
+        $this->expectException(BadRequestException::class);
+
+        $this->post('api/v2/postings/add', []);
+    }
+
+    public function testAddValidationErrorsCategoryAndSubjectMissing()
+    {
+        $this->loginJwt(3);
+
+        $this->post('api/v2/postings/add', []);
+
+        $this->assertResponseCode(200);
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertArrayHasKey('errors', $response);
+
+        $pointers = array_flip(Hash::extract($response, 'errors.{n}.source.pointer'));
+        $this->assertArrayHasKey('/data/attributes/category_id', $pointers);
+        $this->assertArrayHasKey('/data/attributes/subject', $pointers);
+    }
+
+    public function testAddValidationErrorSubjectToLong()
+    {
+        $this->loginJwt(1);
+
+        $data = [
+            'category_id' => 1,
+            // 41 chars (40 allowed)
+            'subject' => 'Vorher wie ich in der mobilen Version ka…',
+        ];
+
+        $this->post('api/v2/postings/add', $data);
+
+        $this->assertResponseCode(200);
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertArrayHasKey('errors', $response);
+        $this->assertEquals('Subject: Subject is to long.', $response['errors'][0]['title']);
+    }
+
+    public function testMetaFailureAuthorization()
+    {
+        $this->expectException(UnauthorizedException::class);
+        $this->get('api/v2/postings/meta');
+    }
+
+    public function testMetaCommon()
+    {
+        $this->loginJwt(3);
+        $this->get('api/v2/postings/meta');
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertResponseCode(200);
+
+        $this->assertArrayHasKey('editor', $response);
+        $this->assertArrayHasKey('buttons', $response['editor']);
+        $this->assertArrayHasKey('categories', $response['editor']);
+        $this->assertArrayHasKey('smilies', $response['editor']);
+
+        $this->assertArrayHasKey('meta', $response);
+        $this->assertArrayHasKey('info', $response['meta']);
+        $this->assertArrayHasKey('quoteSymbol', $response['meta']);
+        $this->assertArrayHasKey('subjectMaxLength', $response['meta']);
+        $this->assertFalse($response['meta']['autoselectCategory']);
+
+        $this->assertArrayHasKey('posting', $response);
+        $this->assertEquals([], $response['posting']);
+    }
+
+    public function testMetaAnswer()
+    {
+        $this->loginJwt(1);
+        $this->get('api/v2/postings/meta/?pid=1');
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertEquals('First_Subject', $response['meta']['subject']);
+        $this->assertEquals('> First_Text', $response['meta']['text']);
+    }
+
+    public function testMetaEdit()
+    {
+        $this->loginJwt(1);
+        $this->get('api/v2/postings/meta/?id=1');
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertEquals(1, $response['posting']['id']);
+        $this->assertEquals(0, $response['posting']['pid']);
+        $this->assertEquals(2, $response['posting']['category_id']);
+        $this->assertEquals('First_Subject', $response['posting']['subject']);
+        $this->assertEquals('First_Text', $response['posting']['text']);
+        $this->assertEquals('2000-01-01T20:00:00+00:00', $response['posting']['time']);
+    }
+
+    public function testMetaAddForbiddenCategory()
+    {
+        $this->loginJwt(3);
+        $this->expectException(SaitoForbiddenException::class);
+        $this->get('api/v2/postings/meta/?pid=6');
+    }
+
+    public function testMetaEditForbiddenCategory()
+    {
+        $this->loginJwt(3);
+        $this->expectException(SaitoForbiddenException::class);
+        $this->get('api/v2/postings/meta/?id=6');
+    }
+
+    public function testEditFailureUnauthorized()
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $this->put('api/v2/postings/edit', []);
+    }
+
+    public function testEditSuccess()
+    {
+        $this->loginJwt(1);
+
+        $newSubject = 'hot';
+        $newText = 'fuzz';
+        $data = ['id' => 2, 'subject' => $newSubject, 'text' => $newText];
+
+        $this->put('api/v2/postings/edit', $data);
+
+        $this->assertResponseCode(200);
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertArraySubset(['pid' => 1, 'tid' => 1], $response['data']['attributes']);
+
+        $EntriesTable = TableRegistry::get('Entries');
+        $posting = $EntriesTable->get(2);
+        $this->assertEquals($newSubject, $posting->get('subject'));
+        $this->assertEquals($newText, $posting->get('text'));
+    }
+
+    public function testEditFailureNoId()
+    {
+        $this->loginJwt(1);
+        $data = ['subject' => 'foo'];
+
+        $this->expectException(BadRequestException::class);
+
+        $this->put('api/v2/postings/edit', $data);
+    }
+
+    public function testEditFailureNoPosting()
+    {
+        $this->loginJwt(1);
+        $data = ['id' => 9999, 'subject' => 'foo'];
+
+        $this->expectException(NotFoundException::class);
+
+        $this->put('api/v2/postings/edit', $data);
+    }
+
+    public function testEditFailureUnknownPersistentError()
+    {
+        $this->loginJwt(1);
+        $data = ['id' => 1, 'subject' => 'foo'];
+
+        $entries = $this->getMockForTable('Entries', ['updatePosting'])
+            ->expects($this->once())
+            ->method('updatePosting')
+            ->will($this->returnValue(null));
+
+        $this->expectException(BadRequestException::class);
+
+        $this->put('api/v2/postings/edit', $data);
+    }
+
+    public function testEditValidationErrorsSubject()
+    {
+        $this->loginJwt(1);
+
+        $data = ['id' => 1, 'subject' => 'Vorher wie ich in der mobilen Version ka…'];
+
+        $this->put('api/v2/postings/edit', $data);
+
+        $this->assertResponseCode(200);
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $this->assertArrayHasKey('errors', $response);
+        $this->assertEquals('Subject: Subject is to long.', $response['errors'][0]['title']);
+    }
+}

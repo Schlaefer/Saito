@@ -22,6 +22,7 @@ use Cake\Event\Event;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
+use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
@@ -233,6 +234,31 @@ class EntriesTable extends AppTable
         );
 
         return $validator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules = parent::buildRules($rules);
+
+        $rules->addUpdate(
+            function ($entity) {
+                if ($entity->isDirty('category_id')) {
+                    return $entity->isRoot();
+                }
+
+                return true;
+            },
+            'checkCategoryChangeOnlyOnRootPostings',
+            [
+                'errorField' => 'category_id',
+                'message' => 'Cannot change category on non-root-postings.',
+            ]
+        );
+
+        return $rules;
     }
 
     /**
@@ -477,12 +503,6 @@ class EntriesTable extends AppTable
      */
     public function updateEntry(Entry $posting, array $data): ?Entry
     {
-        // prevents normal user of changing category of complete thread when answering
-        // @td this should be refactored together with the change category handling in beforeSave()
-        if (!$posting->isRoot()) {
-            unset($data['category_id']);
-        }
-
         $data['id'] = $posting->get('id');
         $data['edited'] = bDate();
 
@@ -695,6 +715,7 @@ class EntriesTable extends AppTable
         Validator $validator
     ) {
         //= in n/t posting delete unnecessary body text
+        // @bogus move to entity?
         if ($entity->isDirty('text')) {
             $entity->set('text', rtrim($entity->get('text')));
         }
@@ -901,25 +922,13 @@ class EntriesTable extends AppTable
     {
         $success = true;
 
-        //= change category of thread if category of root entry changed
-        if ($entity->isDirty('category_id')) {
-            /** @var Entry */
-            $oldEntry = $this->find()
-                ->select(['pid', 'tid', 'category_id'])
-                ->where(['id' => $entity->get('id')])
-                ->first();
-
-            if ($oldEntry && $oldEntry->isRoot()) {
-                $newCateogry = $entity->get('category_id');
-                $oldCategory = $oldEntry->get('category_id');
-                if ($newCateogry !== $oldCategory) {
-                    $success = $success && $this
-                            ->_threadChangeCategory(
-                                $oldEntry->get('tid'),
-                                $entity->get('category_id')
-                            );
-                }
-            }
+        /// change category of thread if category of root entry changed
+        if (!$entity->isNew() && $entity->isDirty('category_id')) {
+            $success &= $this->_threadChangeCategory(
+                // rules checks that only roots are allowed to change category, so tid = id
+                $entity->get('id'),
+                $entity->get('category_id')
+            );
         }
 
         if (!$success) {

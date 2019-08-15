@@ -108,10 +108,10 @@ class PostingBehaviorTest extends SaitoTestCase
         $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
         $user = CurrentUserFactory::createLoggedIn($user);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionCode(1564756572);
+        $result = $this->table->createPosting($answer, $user);
 
-        $this->table->createPosting($answer, $user);
+        $errors = $result->getErrors();
+        $this->assertArrayHasKey('_required', $errors['category_id']);
     }
 
     public function testPrepareChildPosting()

@@ -73,25 +73,8 @@ class PreviewController extends ApiAppController
             );
             $this->set(compact('posting'));
         } else {
-            // validation errors
-            $jsonApiErrors = ['errors' => []];
-            foreach ($errors as $field => $error) {
-                $out = [
-                    'meta' => ['field' => '#' . $this->_domId($field)],
-                    'status' => '400',
-                    'title' => __d('nondynamic', $field) . ": " . __d('nondynamic', current($error)),
-                ];
-
-                $jsonApiErrors['errors'][] = $out;
-            }
-            $this->autoRender = false;
-
-            $this->response = $this->response
-                ->withType('json')
-                ->withStatus(400)
-                ->withStringBody(json_encode($jsonApiErrors));
-
-            return $this->response;
+            $this->set(compact('errors'));
+            $this->viewBuilder()->setTemplate('/Error/json/entityValidation');
         }
     }
 }

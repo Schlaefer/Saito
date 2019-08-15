@@ -8,293 +8,290 @@
 
 import { Collection, Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import * as Radio from 'backbone.radio';
 import * as $ from 'jquery';
 import 'jquery-textrange';
 import { CakeFormErrorView } from 'lib/saito/CakeFormErrorView';
 import 'lib/saito/jquery.scrollIntoView';
 import App from 'models/app';
-import { PreviewView } from 'modules/answering/preview';
-import { SubjectInputView } from 'modules/answering/SubjectInputView';
 import * as _ from 'underscore';
-import { unescapeHTML } from 'underscore.string';
-import EditCountdownView from './EditCountdown';
+import { SpinnerView } from 'views/SpinnerView';
+import { NotificationType } from '../notification/notification';
+import CiteBtnVw from './buttons/CiteBtnVw';
+import SubmitButtonVw from './buttons/SubmitButtonView';
 import { EditorView } from './editor/EditorView';
 import AnswerModel from './models/AnswerModel';
+import CategorySelect from './views/CategorySelectVw';
+import PreviewView from './views/PreviewVw';
+import SubjectInputVw from './views/SubjectInputVw';
 
-class AnsweringView extends View<Model> {
-    /** answering form was loaded via ajax request */
-    private ajax: boolean;
+export default class AnsweringView extends View<AnswerModel> {
+    private errorVw: View<Model>;
 
-    private requestUrl: string;
-
-    private rendered: boolean;
+    private loaded: boolean;
 
     private sendInProgress: boolean;
 
-    private errorVw: View<Model>;
-
-    private subjectView: View<Model>;
-
-    /** answering form is in posting which is inline-opened */
-    private parentThreadline: Model;
-
     public constructor(options: any = {}) {
         _.defaults(options, {
+            childViewEvents: {
+                'answer:send:submit': 'onSubmit',
+                'answer:validation:error': 'onAnswerValidationError',
+            },
             events: {
                 'click .js-btnCite': '_handleCite',
-                'click .js-btnPreview': '_showPreview',
-                'click .js-btnPreviewClose': '_closePreview',
-                'click @ui.btnPrimary': '_send',
-                'keypress .js-subject': '_onKeyPressSubject',
+                'click .js-btnPreview': 'showPreview',
+                'click .js-btnPreviewClose': 'closePreview',
             },
             model: new AnswerModel(),
             modelEvents: {
                 change: 'onAnswerModelChange',
             },
             regions: {
-                preview: '.preview-wrapper',
+                category: '.js-category',
+                cite: '.js-cite',
+                editor: '.js-editor',
+                preview: '.js-preview',
+                spinner: '.js-spinner',
+                subject: '.js-subject',
+                submitBtn: '.js-btn-primary',
             },
-            template: _.noop,
+            template: _.template(`
+<div class="entry add">
+    <div class="js-preview"></div>
+    <div class="postingform card">
+        <% if (pid) { %>
+            <div class="card-header">
+                    <div id="" class="flex-bar-header panel-heading">
+                        <div class="first">
+                            <button class="js-btnAnsweringClose close" type="button">
+                                <i class="saito-icon fa fa-close-widget"></i>
+                            </button>
+                        </div>
+                        <div class="middle"><h2><%- $.i18n.__('answer.reply.t') %></h2></div>
+                        <div class="last"></div>
+                    </div>
+            </div>
+        <% } %>
+        <div class="card-body" style="position: relative;">
+            <div class='js-spinner'></div>
+            <form method="post" accept-charset="utf-8" id="EntryAddForm" autocomplete="off" style="display: none;">
+                <div class="js-category"></div>
+                <div class="js-subject"></div>
+                <div class="js-editor"></div>
+                <div class="postingform-buttons">
+                    <div class="first">
+                        <div class="form-group">
+                            <div style="display: inline-block;" class="js-btn-primary"></div>
+                            <button class="js-btnPreview btn btn-secondary" tabindex="5" type="button">
+                                <%- $.i18n.__('answer.btn.preview') %>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="middle">
+                        <div class='js-cite'></div>
+                    </div>
+                    <div class="last"></div>
+                </div>
+                <div class="postingform-info"></div>
+            </form>
+        </div>
+    </div>
+</div>
+            `),
             ui: {
-                btnPrimary: '.js-btn-primary',
+                form: 'form',
+                info: '.postingform-info',
+                last: '.last',
             },
         });
         super(options);
     }
 
     public initialize(options) {
-        this.ajax = _.isUndefined(options.ajax) ? true : false;
-        this.parentThreadline = options.parentThreadline || null;
-        this.rendered = false;
-        this.requestUrl = null;
+        this.loaded = false;
         this.sendInProgress = false;
 
-        this.requestUrl = App.settings.get('webroot') +
-            'entries/add/' +
-            (this.model.get('pid') || '');
+        /// init Cake Form Error View
+        this.errorVw = new CakeFormErrorView({
+            collection: new Collection(),
+            el: this.$el,
+        });
 
-        // focus can only be set after element is visible in page
-        this.listenTo(App.eventBus, 'isAppVisible', this._focusSubject);
-    }
-
-    public onRender() {
-        if (this.ajax === false) {
-            // create new thread on /entries/add
-            this._onFormReady();
-        } else if (this.rendered === false) {
-            this.rendered = true;
-            _.defer(() => {
-                this._postRendering();
-            });
-        } else {
-            App.eventBus.trigger('change:DOM');
-        }
-        return this;
     }
 
     public onBeforeDestroy() {
-        if (this.errorVw) {
-            this.errorVw.destroy();
-        }
-        this.subjectView.destroy();
+        this.errorVw.destroy();
     }
 
-    private _disable() {
-        this.$('.btn.btn-primary').attr('disabled', 'disabled');
-    }
-
-    private _enable() {
-        this.$('.btn.btn-primary').removeAttr('disabled');
-    }
-
-    /**
-     * Quote parent posting
-     *
-     * @private
-     */
-    private _handleCite() {
-        // Without defering a click on a selection which deselects (and should therefore be empty)
-        // still holds the previously selected text.
-        _.defer(() => {
-            let text = window.getSelection().toString();
-            if (text !== '') {
-                text = App.settings.get('quote_symbol') + ' ' + text;
-            } else {
-                text = unescapeHTML(this.$('.js-btnCite').data('text'));
-            }
-
-            Radio.channel('editor').request('insert:text', text);
-        });
-    }
-
-    private _onKeyPressSubject(event) {
-        // intercepts sending to form's action url when inline answering
-        if (event.keyCode === 13) {
-            this._send(event);
-        }
-    }
-
-    private _showPreview(event) {
-        const form = event.currentTarget.form;
-        if (!(this.checkFormValidity(form))) {
+    public onRender() {
+        if (this.loaded) {
             return;
         }
 
-        this.$('.preview-wrapper').slideDown('fast');
+        this.showChildView('spinner', new SpinnerView());
 
-        if (!this.getChildView('preview')) {
-            this.showChildView('preview', new PreviewView());
-        }
-        const preview = this.getChildView('preview');
-
-        if (!this.errorVw) {
-            this.errorVw = new CakeFormErrorView({
-                collection: new Collection(),
-                el: form,
-            });
-        }
-
-        preview.model.save(
-            {
-                category_id: this.$('#category-id').val(),
-                html: null,
-                pid: this.$('input[name=pid]').val(),
-                subject: this.$('.js-subject').val(),
-                text: this.$('textarea').val(),
-            },
-            {
-                error: (model, response, options) => {
-                    if (!('errors' in response.responseJSON)) {
-                        App.eventBus.trigger('notification', {
-                            message: $.i18n.__('preview.e.generic'),
-                            type: 'error',
-                        });
-
-                        return;
-                    }
-
-                    this.errorVw.collection.reset(response.responseJSON.errors);
-                },
-                success: (mode, response, options) => {
-                    this.errorVw.collection.reset();
-                },
-            },
-        ).always(() => {
-            this.errorVw.render();
+        // @todo @sm more concreate timeout handling
+        $.ajax({
+            data: { id: this.model.get('id'), pid: this.model.get('pid') },
+            dataType: 'json',
+            error: () => this.triggerMethod('answering:load:error'),
+            success: (data) => this.triggerMethod('answering:load:success', data),
+            url: App.settings.get('webroot') + 'api/v2/postings/meta/',
         });
-    }
-
-    private _closePreview(event) {
-        event.preventDefault();
-        this.$('.preview-wrapper').slideUp('fast');
-    }
-
-    private _postRendering() {
-        this._focusSubject();
-        this._onFormReady();
-
-        // On a fast server the answering form might be inserted
-        // before the slide down animation from postingSlider is even
-        // finished. So we just wait for a little time here.
-        // @bogus, Fix/obsolete when implementing a new posting form.
-        _.delay(() => {
-            this.$el.scrollIntoView('bottom');
-        }, 300);
     }
 
     /**
-     * Initialize editor
+     * Handles successful form data load and builds the form in regions
      *
-     * @param selector selector for region with textarea
+     * @param data request data
      */
-    private initEditor(selector: string) {
-        this.addRegion('editor', selector);
+    private onAnsweringLoadSuccess(data) {
+        this.loaded = true;
 
-        const el = this.$(selector);
-        el.prepend('<div class="js-editor-buttons"></div>');
-        el.prepend('<div class="js-rgSmilies"></div>');
+        this.model.set(data.posting);
 
-        // @todo
-        // - change autosize on posting change
-        // - attach to answering itself
-        const editor = new EditorView({ el, model: this.model });
+        /// init submit-button
+        this.showChildView('submitBtn', new SubmitButtonVw({ model: this.model }));
 
-        this.showChildView('editor', editor);
-        editor.render();
-    }
-
-    private _onFormReady() {
-        this.initEditor('.js-editor');
-        this.subjectView = new SubjectInputView({
-            el: this.$('.postingform-subject-wrapper'),
-            model: this.model,
-        });
-
-        /// read metadata
-        const data = this.$('.js-data').data();
-        const action = _.property(['meta', 'action'])(data);
-
-        /// start edit countdown
-        if (action === 'edit') {
-            this.model.set('time', data.entry.time);
-            const cd = new EditCountdownView({
-                done: 'disable',
-                el: this.getUI('btnPrimary'),
-                startTime: data.entry.time,
-            });
+        /// init category select
+        if (this.model.isRoot()) {
+            this.showChildView('category', new CategorySelect({
+                autoselectCategory: data.meta.autoselectCategory,
+                categories: data.editor.categories,
+                model: this.model,
+            }));
         }
 
+        /// init editor textfield
+        this.showChildView(
+            'editor',
+            new EditorView({
+                buttons: data.editor.buttons,
+                model: this.model,
+                smilies: data.editor.smilies,
+            }),
+        );
+
+        /// init preview
+        const previewView = new PreviewView();
+        this.showChildView('preview', previewView);
+        previewView.listenTo(this, 'answer:preview:show', previewView.onShow);
+        previewView.listenTo(this, 'answer:preview:hide', previewView.onHide);
+
+        /// init subject-field
+        const subjectView = new SubjectInputVw({
+            max: data.meta.subjectMaxLength,
+            model: this.model,
+            placeholder: data.meta.subject || $.i18n.__('answer.subject.t'),
+            type: data.meta.type,
+        });
+        this.showChildView('subject', subjectView);
+        subjectView.listenTo(this, 'answering:form:rendered', subjectView.focus);
+
+        /// init cite button
+        if (!this.model.isRoot() && data.meta.text) {
+            const citeModel = new Model({
+                quoteSymbol: data.meta.quoteSymbol,
+                text: data.meta.text,
+            });
+            this.showChildView('cite', new CiteBtnVw({ model: citeModel }));
+        }
+
+        /// set editor-info
+        if (data.meta.info) {
+            this.getUI('info').prepend(data.meta.info);
+        }
+
+        /// add additional elements to "last" column in footer
+        if (data.meta.last) {
+            this.getUI('last').prepend(data.meta.last);
+        }
+
+        this.detachChildView('spinner');
+        this.getUI('form').show();
+
+        this.triggerMethod('answering:form:rendered', data);
         App.eventBus.trigger('change:DOM');
     }
 
-    private _focusSubject() {
-        // focus is broken in Mobile Safari iOS 8
-        const iOS = window.navigator.userAgent.match('iPad|iPhone');
-        if (iOS) {
-            return;
-        }
-
-        this.$('.postingform input[type=text]:first').focus();
+    /**
+     * Handles error if loading of metadata for form failes
+     */
+    private onAnsweringLoadError() {
+        App.eventBus.trigger('notification', {
+            message: $.i18n.__('api.generic.e.exp'),
+            title: $.i18n.__('api.generic.e.t'),
+            type: NotificationType.error,
+        });
     }
 
-    private _send(event) {
+    /**
+     * Submit data to server
+     */
+    private onSubmit() {
         if (this.sendInProgress) {
-            event.preventDefault();
             return;
         }
 
-        this.sendInProgress = true;
-        App.eventBus.request('app:navigation:allow');
+        this.disableAnswering();
 
-        if (this.parentThreadline) {
-            this._sendInline(event);
-        } else {
-            this._sendRedirect(event);
+        if (!this.checkFormValidity()) {
+            this.enableAnswering();
+
+            return;
         }
+
+        // @todo @sm more concreate timeout handling
+        this.model.save(null, {
+            error: () => this.triggerMethod('answering:send:error'),
+            success: (model, response, options) => {
+                ///  handled errors
+                if ('errors' in response) {
+                    this.triggerMethod('answer:validation:error', response.errors);
+
+                    return;
+                }
+
+                /// success
+                App.eventBus.request('app:navigation:allow');
+                this.trigger('answering:send:success', model);
+            },
+        });
     }
 
-    private _sendRedirect(event) {
-        event.preventDefault();
-        const button: HTMLButtonElement & any = this.$('.btn-primary')[0];
-        if (!this.checkFormValidity(button.form)) {
-            this.sendInProgress = false;
-            return;
-        }
-        button.disabled = true;
-        button.form.submit();
+    private onAnsweringSendError() {
+        App.eventBus.trigger('notification', {
+            message: $.i18n.__('api.generic.e.exp'),
+            title: $.i18n.__('answer.submit.e.t'),
+            type: NotificationType.error,
+        });
+
+        this.enableAnswering();
+    }
+
+    /**
+     * Display validation errors
+     *
+     * @param errors errors object with validation errors from server
+     */
+    private onAnswerValidationError(errors?) {
+        this.errorVw.collection.reset(errors);
+        this.errorVw.render();
+
+        this.enableAnswering();
     }
 
     /**
      * Check form validity and trigger error messages in browser
      */
-    private checkFormValidity(form: HTMLFormElement): boolean {
+    private checkFormValidity(): boolean {
+        const form: HTMLFormElement & any = this.getUI('form')[0];
+
         if (form.checkValidity()) {
             return true;
         }
 
-        // we can't trigger JS validation messages via form.submit()
-        // so we create and click this hidden dummy submit button
+        /// trigger browser native validation messages to be displayed to the user
         const handle = 'js-checkValidityDummy';
         let checkValidityDummy = this.$(handle);
         if (!checkValidityDummy.length) {
@@ -308,45 +305,6 @@ class AnsweringView extends View<Model> {
         return false;
     }
 
-    private _sendInline(event) {
-        event.preventDefault();
-
-        const data = this.$('#EntryAddForm').serialize();
-
-        const success = (responseData) => {
-            this.trigger('answering:send:success');
-            if (this.parentThreadline !== null) {
-                this.parentThreadline.set('isInlineOpened', false);
-            }
-            App.eventBus.trigger('newEntry', {
-                id: responseData.id,
-                isNewToUser: true,
-                pid: this.model.get('pid'),
-                tid: responseData.tid,
-            });
-        };
-
-        const fail = _.bind(function(jqXHR, text) {
-            this.sendInProgress = false;
-            this._enable();
-            App.eventBus.trigger('notification', {
-                message: jqXHR.responseText,
-                title: text,
-                type: 'error',
-            });
-        }, this);
-
-        const disable = _.bind(this._disable, this);
-
-        $.ajax({
-            beforeSend: disable,
-            data,
-            dataType: 'json',
-            type: 'POST',
-            url: this.requestUrl,
-        }).done(success).fail(fail);
-    }
-
     /**
      * Called when the posting model changes
      */
@@ -357,6 +315,47 @@ class AnsweringView extends View<Model> {
         const state: string = found ? 'disallow' : 'allow';
         App.eventBus.request('app:navigation:' + state);
     }
-}
 
-export { AnsweringView };
+    /**
+     * Initiates the preview
+     */
+    private showPreview() {
+        if (!(this.checkFormValidity())) {
+            return;
+        }
+
+        this.triggerMethod('answer:preview:show', this.model);
+    }
+
+    /**
+     * Closes the preview
+     */
+    private closePreview() {
+        this.triggerMethod('answer:preview:hide');
+    }
+
+    /**
+     * Enables the answering form for the user
+     *
+     * Usually after a form-submit failed due to validation-/request-error
+     */
+    private enableAnswering() {
+        const submitBtn: SubmitButtonVw & any = this.getChildView('submitBtn');
+        submitBtn.enable();
+
+        this.sendInProgress = false;
+    }
+
+    /**
+     * Disables answering form for the user
+     *
+     * Usually after the form is submitting and the request is in progress
+     */
+    private disableAnswering() {
+        this.sendInProgress = true;
+
+        const submitBtn: SubmitButtonVw & any = this.getChildView('submitBtn');
+        submitBtn.disable();
+    }
+
+}

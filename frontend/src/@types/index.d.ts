@@ -62,3 +62,7 @@ interface Document {
     msHidden: any;
     webkitHidden: any;
 }
+
+interface Window {
+    redirect: any;
+}

@@ -18,6 +18,47 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
+#: frontend/src/modules/answering/answering.ts:91
+msgid "answer.btn.preview"
+msgstr "Vorschau"
+
+#: frontend/src/modules/answering/buttons/SubmitButtonView.ts:14
+msgid "answer.btn.sbmt"
+msgstr "Eintragen"
+
+#: frontend/src/modules/answering/views/CategorySelectVw.ts:21
+msgid "answer.cat.l"
+msgstr "Kategorie"
+
+#: frontend/src/modules/answering/buttons/CiteBtnVw.ts:23
+msgid "answer.cite.t"
+msgstr "Zitieren"
+
+#: frontend/src/modules/answering/answering.ts:76
+msgid "answer.reply.t"
+msgstr "Antwort verfassen"
+
+#: frontend/src/modules/answering/answering.ts:105
+#: frontend/src/modules/answering/answering.ts:217
+msgid "answer.subject.t"
+msgstr "Betreff"
+
+#: frontend/src/modules/answering/answering.ts:105
+#: frontend/src/modules/answering/answering.ts:273
+msgid "answer.submit.e.t"
+msgstr "Fehler: Beitrag wurde nicht gesichert"
+
+#: frontend/src/modules/answering/answering.ts:105
+#: frontend/src/modules/answering/answering.ts:160
+#: frontend/src/modules/answering/answering.ts:272
+msgid "api.generic.e.exp"
+msgstr "Es konnte keine Verbindung zum Internet-Server hergestellt werden."
+
+#: frontend/src/modules/answering/answering.ts:105
+#: frontend/src/modules/answering/answering.ts:159
+msgid "api.generic.e.t"
+msgstr "Fehler: Keine Verbindung zum Server"
+
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
@@ -65,7 +106,7 @@ msgid "bmk.isBookmarked"
 msgstr "Eintrag ist in den Lesezeichen"
 
 #: frontend/src/views/categoryChooserVw.ts:6
-#: frontend/src/views/categoryChooserVw.ts:26
+#: frontend/src/views/categoryChooserVw.ts:24
 msgid "category.title.pl"
 msgstr "Kategorien"
 
@@ -122,12 +163,12 @@ msgstr "Beitrag löschen"
 msgid "posting.helpful"
 msgstr "Beitrag als hilfreich markieren."
 
-#: frontend/src/modules/answering/answering.ts:31
-#: frontend/src/modules/answering/answering.ts:164
+#: frontend/src/modules/answering/views/PreviewVw.ts:45
+#: frontend/src/modules/answering/views/PreviewVw.ts:63
 msgid "preview.e.generic"
 msgstr "Fehler: Vorschau konnte nicht geladen werden."
 
-#: frontend/src/modules/answering/preview.ts:43
+#: frontend/src/modules/answering/views/PreviewVw.ts:39
 msgid "preview.t"
 msgstr "Vorschau"
 
@@ -140,7 +181,7 @@ msgstr "Gestern"
 msgid "tree.delete.confirm"
 msgstr "Sicher?"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:24
 msgid "upl.btn.insert"
 msgstr "Einfügen"
 
@@ -177,9 +218,9 @@ msgstr "Noch nichts hochgeladen."
 msgid "upl.new.title"
 msgstr "Datei hier hineinziehen"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:26
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:65
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:68
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
 msgid "upl.title"
 msgstr "Hochladen"
@@ -192,10 +233,10 @@ msgstr "Uploads"
 msgid "user.recentposts.t"
 msgstr "Letzte Beiträge"
 
-#~ msgid "user.block.hours"
-#~ msgstr "{hours} Stunden"
+#, fuzzy
+#~ msgid "answer.load.e.exp"
+#~ msgstr "Es konnte keine Verbindung zum Internet-Server hergestellt werden."
 
-#~ msgid "prq.storage.warning"
-#~ msgstr ""
-#~ "Diese Web-Anwendung benötigt Cookies und localStorage. Bitte stellen Sie "
-#~ "sicher, dass beides gegeben ist."
+#, fuzzy
+#~ msgid "answer.load.e.t"
+#~ msgstr "Fehler: Keine Verbindung"

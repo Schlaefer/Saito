@@ -17,7 +17,6 @@ describe("App", function () {
         }
       };
 
-      App.settings.set('webroot', '/web/redirect/');
       App.request = SaitoApp.request;
       this.view = new View();
       done();
@@ -30,7 +29,7 @@ describe("App", function () {
       this.view.manuallyMarkAsRead();
 
       expect(window.redirect).toHaveBeenCalledWith(
-        '/web/redirect/entries/update'
+        '/test/root/entries/update'
       );
     });
   });

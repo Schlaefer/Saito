@@ -16,7 +16,7 @@ class CakeFormErrorView extends View<Model> {
         this.reset();
 
         this.collection.each((error) => {
-            const element = error.get('meta').field;
+            const element = error.get('source').field;
             const msg = error.get('title');
 
             this.form(element, msg);

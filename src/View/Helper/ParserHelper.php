@@ -99,33 +99,11 @@ class ParserHelper extends AppHelper
     }
 
     /**
-     * Get HTML for text editor
-     *
-     * @param string $field model-field
-     * @return string HTML
-     */
-    public function editor(string $field): string
-    {
-        ['buttons' => $buttons, 'smilies' => $smilies] = $this->getButtonSet();
-        $editor = $this->Form->textarea(
-            $field,
-            [
-                'class' => 'form-control',
-                'data-buttons' => json_encode($buttons),
-                'data-smilies' => json_encode($smilies),
-                'tabindex' => 3
-            ]
-        );
-
-        return $this->Html->div('js-editor form-group', $editor);
-    }
-
-    /**
      * get button set
      *
      * @return mixed
      */
-    private function getButtonSet()
+    public function getButtonSet()
     {
         $buttons = $this->Markup->getMarkupSet();
         $smilies = $this->_View->get('smiliesData')->get();

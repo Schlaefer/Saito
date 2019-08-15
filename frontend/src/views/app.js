@@ -2,7 +2,8 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Bb from 'backbone';
 import Marionette from 'backbone.marionette';
-import { AnsweringView } from 'modules/answering/answering.ts';
+import AnsweringView from 'modules/answering/answering.ts';
+import AnswerModel from 'modules/answering/models/AnswerModel.ts';
 import App from 'models/app';
 import CategoryChooserVw from 'views/categoryChooserVw.ts';
 import { SaitoHelpView } from 'views/helps.ts';
@@ -30,7 +31,7 @@ export default Marionette.View.extend({
   template: _.noop,
 
   _domInitializers: {
-    '.entry.add-not-inline': '_initAnsweringNotInlined',
+    '.js-answer-wrapper': '_initAnsweringNotInlined',
     '#slidetabs': '_initSlideTabs',
     '.js-entry-view-core': '_initPostings',
     '.threadBox': '_initThreadBoxes',
@@ -136,10 +137,20 @@ export default Marionette.View.extend({
    * @private
    */
   _initAnsweringNotInlined: function (element) {
-    this.answeringForm = new AnsweringView({
+    const data = {};
+    const id = element.data('edit');
+    if (id) {
+      data.id = id;
+    }
+    const answeringForm = new AnsweringView({
       el: element,
-      ajax: false
+      model: new AnswerModel(data),
     }).render();
+
+    this.listenTo(answeringForm, 'answering:send:success', (model) => {
+      const root = App.settings.get('webroot');
+      window.redirect(root + 'entries/view/' + model.get('id'));
+    });
   },
 
   /**

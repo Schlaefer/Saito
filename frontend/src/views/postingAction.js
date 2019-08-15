@@ -5,7 +5,7 @@ import App from 'models/app';
 import BmBtn from 'views/postingActionBookmark';
 import DelModal from 'views/postingActionDelete';
 import SolvesBtn from 'views/postingActionSolves';
-import EditCountdownView from 'modules/answering/EditCountdown';
+import EditCountdownView from 'modules/answering/buttons/EditCountdownBtnView';
 
 export default Marionette.View.extend({
 

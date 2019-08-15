@@ -59,19 +59,19 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
-        /**
-         * /users/login -> /login
-         */
-        $routes->connect(
+    /**
+     * /users/login -> /login
+     */
+    $routes->connect(
             '/login',
             ['controller' => 'Users', 'action' => 'login'],
             ['_name' => 'login']
         );
 
-        /**
-         * /users/login -> /login
-         */
-        $routes->connect(
+    /**
+     * /users/login -> /login
+     */
+    $routes->connect(
             '/logout',
             ['controller' => 'Users', 'action' => 'logout'],
             ['_name' => 'logout']
@@ -101,5 +101,27 @@ Router::scope('/entries', function ($routes) {
     $routes->connect(
         '/threadLine/*',
         ['controller' => 'Entries', 'action' => 'threadLine']
+    );
+});
+
+
+Router::scope('/api/v2/', function ($routes) {
+    $routes->setExtensions(['json']);
+    $routes->resources('Postings');
+});
+
+Router::scope('/api/v2/postings', function ($routes) {
+    $routes->setExtensions(['json']);
+    $routes->connect(
+        '/:action/*',
+        ['controller' => 'Postings']
+    );
+});
+
+Router::scope('/api/v2/preview', function ($routes) {
+    $routes->setExtensions(['json']);
+    $routes->connect(
+        '/preview/*',
+        ['controller' => 'Preview', 'action' => 'preview']
     );
 });

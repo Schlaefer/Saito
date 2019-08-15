@@ -208,6 +208,22 @@ class EntriesTest extends SaitoTableTestCase
     }
 
     /**
+     * Category change is only allowed on root postings
+     *
+     * That will also change all posting in the root postings thread
+     */
+    public function testChangeCategoryOnNonRootFailure()
+    {
+        $posting = $this->Table->get(2, ['return' => 'Entity']);
+        $posting->set('category_id', 3);
+        $success = $this->Table->save($posting);
+
+        $this->assertFalse($success);
+        $errors = $posting->getErrors();
+        $this->assertArrayHasKey('checkCategoryChangeOnlyOnRootPostings', $errors['category_id']);
+    }
+
+    /**
      * Test changing the category of a thread
      *
      * - Should change category-ID of every posting
