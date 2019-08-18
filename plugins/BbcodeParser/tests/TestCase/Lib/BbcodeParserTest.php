@@ -293,6 +293,20 @@ class BbcodeParserTest extends SaitoTestCase
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
+
+        /// in paranthesis
+        $input = "foo (#2234) bar";
+        $expected = [
+            'foo (',
+            'a' => [
+                'href' => '/hash/2234'
+            ],
+            '#2234',
+            '/a',
+            ') bar'
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
     }
 
     public function testHashLinkFailure()

@@ -100,7 +100,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
     }
 
     /**
-     * Autolinks URLs not sourounded by explicit URL-tags for user-convenience.
+     * Autolinks URLs not surrounded by explicit URL-tags for user-convenience.
      *
      * @param string $string The text to be parsed for URLs.
      * @return string The text with URLs linked.
@@ -177,8 +177,8 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
     {
         $baseUrl = $this->_sOptions->get('webroot') . $this->_sOptions->get('hashBaseUrl');
         $string = preg_replace_callback(
-            '/(?<=\s|^|])(?<tag>#)(?<element>\d+)(?!\w)/',
-            function ($m) use ($baseUrl) {
+            '/(?<=\s|^|]|\()(?<tag>#)(?<element>\d+)(?!\w)/',
+            function (array $m) use ($baseUrl): string {
                 $hash = $m['element'];
 
                 return $this->_url($baseUrl . $hash, '#' . $hash);
