@@ -616,6 +616,13 @@ EOF;
         $this->assertHtml($expected, $result);
     }
 
+    public function testLinkAutoIgnoreLocalFiles()
+    {
+        $input = 'a file:///foo.bar b file://foo c file:// d file:///';
+        $result = $this->_Parser->parse($input);
+        $this->assertEquals($input, $result);
+    }
+
     public function testReturnText()
     {
         $in = 'test [b]test[b] test';
