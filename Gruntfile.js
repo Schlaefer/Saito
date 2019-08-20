@@ -115,7 +115,7 @@ module.exports = function (grunt) {
         }
       },
     },
-    sass: {
+    'dart-sass': {
       options: {
         sourceComments: true,
         sourceMap: false,
@@ -186,7 +186,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-dart-sass');
   grunt.loadNpmTasks('grunt-postcss');
 
   // dev-setup
@@ -200,8 +200,8 @@ module.exports = function (grunt) {
     // cleanup
     'clean:release',
     // CSS
-    'sass:static',
-    'sass:theme',
+    'dart-sass:static',
+    'dart-sass:theme',
     'postcss:release',
     // webpack
     'shell:webpack',
