@@ -26,6 +26,7 @@ use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\Routing\RequestActionTrait;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Posting;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
@@ -58,8 +59,8 @@ class EntriesController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Referer');
         $this->loadComponent('MarkAsRead');
+        $this->loadComponent('Referer');
         $this->loadComponent('Threads');
     }
 
@@ -248,7 +249,10 @@ class EntriesController extends AppController
 
         if (!empty($this->request->getData())) {
             //= insert new posting
-            $posting = $this->Entries->createPosting($this->request->getData());
+            $posting = $this->Entries->createPosting(
+                $this->request->getData(),
+                $this->CurrentUser
+            );
 
             // inserting new posting was successful
             if ($posting && !count($posting->getErrors())) {
@@ -329,11 +333,12 @@ class EntriesController extends AppController
                 $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
                 $titleForPage = __('Write a Reply');
             } else {
-                // new posting which creates new thread
+                /// new posting which creates new thread
                 /** @var Entry */
                 $posting = $this->Entries->patchEntity(
                     $posting,
-                    ['pid' => 0, 'tid' => 0]
+                    ['pid' => 0, 'tid' => 0, ],
+                    ['validate' => false, ] // empty subject and category isn't an error yet
                 );
             }
         }
@@ -385,34 +390,10 @@ class EntriesController extends AppController
             throw new NotFoundException;
         }
 
-        switch ($posting->toPosting()->isEditingAsCurrentUserForbidden()) {
-            case 'time':
-                $this->Flash->set(
-                    'Stand by your word bro\', it\'s too late. @lo',
-                    ['element' => 'error']
-                );
-
-                return $this->redirect(['action' => 'view', $id]);
-            case 'user':
-                $this->Flash->set(
-                    'Not your horse, Hoss! @lo',
-                    ['element' => 'error']
-                );
-
-                return $this->redirect(['action' => 'view', $id]);
-            case true:
-                $this->Flash->set(
-                    'Something went terribly wrong. Alert the authorities now! @lo',
-                    ['element' => 'error']
-                );
-
-                return $this->redirect(['action' => 'view', $id]);
-        }
-
         // try to save edit
         $data = $this->request->getData();
         if (!empty($data)) {
-            $newEntry = $this->Entries->update($posting, $data);
+            $newEntry = $this->Entries->updatePosting($posting, $data, $this->CurrentUser);
             if ($newEntry) {
                 return $this->redirect(['action' => 'view', $id]);
             } else {
@@ -426,7 +407,7 @@ class EntriesController extends AppController
         }
 
         // show editing form
-        if ($posting->toPosting()->isEditingWithRoleUserForbidden()) {
+        if (!$posting->toPosting()->isEditingAsUserAllowed()) {
             $this->Flash->set(
                 __('notice_you_are_editing_as_mod'),
                 ['element' => 'warning']
@@ -524,12 +505,32 @@ class EntriesController extends AppController
     {
         $this->autoRender = false;
         try {
-            $success = $this->Entries->toggleSolve($id);
+            $posting = $this->Entries->get($id, ['return' => 'Entity']);
+
+            if (empty($posting)) {
+                throw new \InvalidArgumentException('Posting to mark solved not found.');
+            }
+
+            if ($posting->isRoot()) {
+                throw new \InvalidArgumentException('Root postings cannot mark themself solved.');
+            }
+
+            $rootId = $posting->get('tid');
+            $rootPosting = $this->Entries->get($rootId);
+            if ($rootPosting->get('user_id') !== $this->CurrentUser->getId()) {
+                throw new SaitoForbiddenException(
+                    sprintf('Attempt to mark posting %s as solution.', $posting->get('id')),
+                    ['CurrentUser' => $this->CurrentUser]
+                );
+            }
+
+            $success = $this->Entries->toggleSolve($posting);
+
             if (!$success) {
                 throw new BadRequestException;
             }
         } catch (\Exception $e) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
     }
 

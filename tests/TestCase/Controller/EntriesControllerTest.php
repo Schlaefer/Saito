@@ -573,9 +573,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
             ->where(['id' => 2])
             ->execute();
 
-        $Entries = $this->getMockForTable('Entries', ['update']);
+        $Entries = $this->getMockForTable('Entries', ['updatePosting']);
         $Entries->expects($this->once())
-            ->method('update')
+            ->method('updatePosting')
             ->will($this->returnValue(false));
 
         $this->_loginUser(1);
@@ -806,13 +806,13 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->get('/entries/solve/9999');
     }
 
-    public function testSolveNotRootEntryUser()
+    public function testSolveNotRootEntryDoesntBelongToCurrentUser()
     {
         $this->_loginUser(2);
         $this->expectException(
             'Cake\Http\Exception\BadRequestException'
         );
-        $this->get('/entries/solve/1');
+        $this->get('/entries/solve/2');
     }
 
     public function testSolveIsRootEntry()
@@ -830,23 +830,22 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->_loginUser(3);
         $Entries->expects($this->once())
             ->method('toggleSolve')
-            ->with('1')
             ->will($this->returnValue(false));
         $this->expectException(
             'Cake\Http\Exception\BadRequestException'
         );
-        $this->get('/entries/solve/1');
+        $this->get('/entries/solve/2');
     }
 
-    public function testSolve()
+    public function testSolveSuccess()
     {
         $Entries = $this->getMockForTable('Entries', ['toggleSolve']);
         $this->_loginUser(3);
         $Entries->expects($this->once())
             ->method('toggleSolve')
-            ->with('1')
             ->will($this->returnValue(true));
-        $this->get('/entries/solve/1');
+        $this->get('/entries/solve/2');
+        $this->assertResponseOk();
         $this->assertResponseEquals('');
     }
 

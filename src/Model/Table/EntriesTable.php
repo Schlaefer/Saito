@@ -13,14 +13,12 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
-use App\Lib\Model\Table\FieldFilter;
 use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
 use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Cache\Cache;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
@@ -42,6 +40,9 @@ use Stopwatch\Lib\Stopwatch;
  * @property BookmarksTable $Bookmarks
  * @property CategoriesTable $Categories
  * @method array treeBuild(array $postings)
+ * @method createPosting(array $data, CurrentUserInterface $CurrentUser)
+ * @method updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser)
+ * @method array prepareChildPosting(BasicPostingInterface $parent, array $data)
  */
 class EntriesTable extends AppTable
 {
@@ -103,9 +104,6 @@ class EntriesTable extends AppTable
         'Users.user_place'
     ];
 
-    /** @var FieldFilter */
-    public $fieldFilter;
-
     protected $_defaultConfig = [
         'subject_maxlength' => 100
     ];
@@ -116,10 +114,8 @@ class EntriesTable extends AppTable
     public function initialize(array $config)
     {
         $this->setPrimaryKey('id');
-        $this->fieldFilter = (new FieldFilter())
-            ->setConfig('create', ['category_id', 'pid', 'subject', 'text'])
-            ->setConfig('update', ['category_id', 'subject', 'text']);
 
+        $this->addBehavior('Posting');
         $this->addBehavior('IpLogging');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tree');
@@ -173,15 +169,14 @@ class EntriesTable extends AppTable
             'saito',
             'Saito\Validation\SaitoValidationProvider'
         );
+
+        /// category_id
         $validator
-            //= category_id
             ->notEmpty('category_id')
+            ->requirePresence('category_id', 'create')
             ->add(
                 'category_id',
                 [
-                    'isAllowed' => [
-                        'rule' => [$this, 'validateCategoryIsAllowed']
-                    ],
                     'numeric' => ['rule' => 'numeric'],
                     'assoc' => [
                         'rule' => ['validateAssoc', 'Categories'],
@@ -189,9 +184,25 @@ class EntriesTable extends AppTable
                         'provider' => 'saito'
                     ]
                 ]
-            )
-            //= subject
-            ->notEmpty('subject', __d('validation', 'entries.subject.notEmpty'))
+            );
+
+        /// last_answer
+        $validator
+            ->requirePresence('last_answer', 'create')
+            ->notEmptyDateTime('last_answer', null, 'create');
+
+        /// name
+        $validator
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name', null, 'create');
+
+        /// pid
+        $validator->requirePresence('pid', 'create');
+
+        /// subject
+        $validator
+            ->notEmptyString('subject', __d('validation', 'entries.subject.notEmpty'))
+            ->requirePresence('subject', 'create')
             ->add(
                 'subject',
                 [
@@ -203,14 +214,23 @@ class EntriesTable extends AppTable
                         )
                     ]
                 ]
-            )
-            //= user_id
-            ->add('user_id', ['numeric' => ['rule' => 'numeric']])
-            //= views
-            ->add(
-                'views',
-                ['comparison' => ['rule' => ['comparison', '>=', 0]]]
             );
+
+        /// time
+        $validator
+            ->requirePresence('time', 'create')
+            ->notEmptyDateTime('time', null, 'create');
+
+        /// user_id
+        $validator
+            ->requirePresence('user_id', 'create')
+            ->add('user_id', ['numeric' => ['rule' => 'numeric']]);
+
+        /// views
+        $validator->add(
+            'views',
+            ['comparison' => ['rule' => ['comparison', '>=', 0]]]
+        );
 
         return $validator;
     }
@@ -399,89 +419,51 @@ class EntriesTable extends AppTable
      * fields in $data are filtered
      *
      * @param array $data data
-     * @return EntityInterface|null on success, null otherwise
+     * @return Entry|null on success, null otherwise
      */
-    public function createPosting(array $data): ?EntityInterface
+    public function createEntry(array $data): ?Entry
     {
-        if (!isset($data['pid'])) {
-            $data['pid'] = 0;
-        }
-
-        if ($data['pid'] == 0 && isset($data['subject']) === false) {
-            return null;
-        }
-
-        try {
-            $data = $this->fieldFilter->filterFields($data, 'create');
-            $data = $this->prepareChildPosting($data);
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        $CurrentUser = Registry::get('CU');
-        $data['user_id'] = $CurrentUser->getId();
-        $data['name'] = $CurrentUser->get('username');
-
         $data['time'] = bDate();
         $data['last_answer'] = bDate();
 
-        $this->getValidator()->requirePresence('category_id', 'create');
-
+        /** @var Entry */
         $posting = $this->newEntity($data);
         $errors = $posting->getErrors();
         if (!empty($errors)) {
             return $posting;
         }
 
-        $newPostingEntity = $this->save($posting);
-        if (!$newPostingEntity) {
+        $posting = $this->save($posting);
+        if (!$posting) {
             return null;
         }
 
-        $newPostingId = $newPostingEntity->get('id');
-        $newPosting = $this->get($newPostingId);
+        $id = $posting->get('id');
+        /** @var Entry */
+        $posting = $this->get($id, ['return' => 'Entity']);
 
-        if ($newPosting->isRoot()) {
-            //= posting is start of new thread
-            $newPosting = $this->patchEntity(
-                $newPostingEntity,
-                ['tid' => $newPostingId]
-            );
-            if (!$this->save($newPosting)) {
-                return null;
+        if ($posting->isRoot()) {
+            // posting started a new thread, so set thread-ID to posting's own ID
+            /** @var Entry */
+            $posting = $this->patchEntity($posting, ['tid' => $id]);
+            if (!$this->save($posting)) {
+                return $posting;
             }
-            $this->_dispatchEvent(
-                'Model.Thread.create',
-                [
-                    'subject' => $newPostingId,
-                    'data' => $newPosting
-                ]
-            );
+
+            $this->_dispatchEvent('Model.Thread.create', ['subject' => $id, 'data' => $posting]);
         } else {
             // update last answer time of root entry
-            // @td rise error and/or roll back on failure
             $this->updateAll(
-                ['last_answer' => $newPosting->get('last_answer')],
-                ['id' => $newPosting->get('tid')]
+                ['last_answer' => $posting->get('last_answer')],
+                ['id' => $posting->get('tid')]
             );
 
-            $this->_dispatchEvent(
-                'Model.Entry.replyToEntry',
-                [
-                    'subject' => $newPosting->get('pid'),
-                    'data' => $newPosting
-                ]
-            );
-            $this->_dispatchEvent(
-                'Model.Entry.replyToThread',
-                [
-                    'subject' => $newPosting->get('tid'),
-                    'data' => $newPosting
-                ]
-            );
+            $eventData = ['subject' => $posting->get('pid'), 'data' => $posting];
+            $this->_dispatchEvent('Model.Entry.replyToEntry', $eventData);
+            $this->_dispatchEvent('Model.Entry.replyToThread', $eventData);
         }
 
-        return $newPostingEntity;
+        return $posting;
     }
 
     /**
@@ -491,51 +473,38 @@ class EntriesTable extends AppTable
      *
      * @param Entry $posting Entity
      * @param array $data data
-     * @return array|mixed
-     * @throws \InvalidArgumentException
-     * @throws NotFoundException
+     * @return Entry|null
      */
-    public function update(Entry $posting, array $data)
+    public function updateEntry(Entry $posting, array $data): ?Entry
     {
-        $data = $this->fieldFilter->filterFields($data, 'update');
-        $data['id'] = $posting->get('id');
-        $data = $this->prepareChildPosting($data);
-
         // prevents normal user of changing category of complete thread when answering
         // @td this should be refactored together with the change category handling in beforeSave()
         if (!$posting->isRoot()) {
             unset($data['category_id']);
         }
 
-        $CurrentUser = Registry::get('CU');
-
+        $data['id'] = $posting->get('id');
         $data['edited'] = bDate();
-        $data['edited_by'] = $CurrentUser->get('username');
 
-        // add editing validator
-        $data['time'] = $posting->get('time');
-        $data['user_id'] = $posting->get('user_id');
-        $data['locked'] = $posting->get('locked');
-        $this->getValidator()->add(
-            'edited_by',
-            'isEditingAllowed',
-            ['rule' => [$this, 'validateEditingAllowed']]
-        );
-
-        $this->patchEntity($posting, $data);
-        $result = $this->save($posting);
-
-        if ($result) {
-            $this->_dispatchEvent(
-                'Model.Entry.update',
-                [
-                    'subject' => $posting->get('id'),
-                    'data' => $posting
-                ]
-            );
+        /** @var Entry */
+        $patched = $this->patchEntity($posting, $data);
+        $errors = $patched->getErrors();
+        if (!empty($errors)) {
+            return $patched;
         }
 
-        return $result;
+        /** @var Entry */
+        $new = $this->save($posting);
+        if (!$new) {
+            return null;
+        }
+
+        $this->_dispatchEvent(
+            'Model.Entry.update',
+            ['subject' => $posting->get('id'), 'data' => $posting]
+        );
+
+        return $new;
     }
 
     /**
@@ -670,29 +639,15 @@ class EntriesTable extends AppTable
     /**
      * Marks a sub-entry as solution to a root entry
      *
-     * @param int $id id
-     * @return bool
-     * @throws \InvalidArgumentException
-     * @throws ForbiddenException
+     * @param Entry $posting posting to toggle
+     * @return bool success
      */
-    public function toggleSolve($id)
+    public function toggleSolve(Entry $posting)
     {
-        $posting = $this->get($id, ['return' => 'Entity']);
-        if (empty($posting) || $posting->isRoot()) {
-            throw new \InvalidArgumentException;
-        }
-
-        $rootId = $posting->get('tid');
-        $CurrentUser = Registry::get('CU');
-        $rootPosting = $this->get($rootId);
-        if ($rootPosting->get('user_id') !== $CurrentUser->getId()) {
-            throw new ForbiddenException;
-        }
-
         if ($posting->get('solves')) {
             $value = 0;
         } else {
-            $value = $rootId;
+            $value = $posting->get('tid');
         }
 
         $this->patchEntity($posting, ['solves' => $value]);
@@ -702,7 +657,7 @@ class EntriesTable extends AppTable
 
         $this->_dispatchEvent(
             'Model.Entry.update',
-            ['subject' => $id, 'data' => $posting]
+            ['subject' => $posting->get('id'), 'data' => $posting]
         );
 
         return true;
@@ -891,68 +846,6 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Check if posting is thread-root.
-     *
-     * @param array $id posting-ID or posting data
-     * @return mixed
-     */
-    protected function _isRoot(array $id)
-    {
-        if (isset($id['pid'])) {
-            $pid = $id['pid'];
-        } else {
-            // @bogus (known code-path: entries/preview)
-            if (is_array($id) && isset($id['id'])) {
-                $id = $id['id'];
-            } elseif (empty($id)) {
-                throw new \InvalidArgumentException();
-            }
-            try {
-                $pid = $this->getParentId($id);
-            } catch (\Throwable $t) {
-                $pid = null;
-            }
-        }
-
-        return empty($pid);
-    }
-
-    /**
-     * Populates child posting data from parent
-     *
-     * @param array $data data
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    public function prepareChildPosting(array $data): array
-    {
-        if ($this->_isRoot($data)) {
-            return $data;
-        }
-
-        // adds info from parent entry to an answer
-        if (!isset($data['pid'])) {
-            $pid = $this->getParentId($data['id']);
-        } else {
-            $pid = $data['pid'];
-        }
-        $parent = $this->get($pid);
-        if (!$parent) {
-            throw new \InvalidArgumentException;
-        }
-
-        // if new subject is empty use the parent's subject
-        if (empty($data['subject'])) {
-            $data['subject'] = $parent->get('subject');
-        }
-
-        $data['tid'] = $parent->get('tid');
-        $data['category_id'] = $parent->get('category_id');
-
-        return $data;
-    }
-
-    /**
      * Implements the custom find type 'entry'
      *
      * @param Query $query query
@@ -1032,44 +925,6 @@ class EntriesTable extends AppTable
         if (!$success) {
             $event->stopPropagation();
         }
-    }
-
-    /**
-     * check that entries are only in existing and allowed categories
-     *
-     * @param mixed $categoryId value
-     * @param array $context context
-     * @return bool
-     */
-    public function validateCategoryIsAllowed($categoryId, $context)
-    {
-        if ($this->_isRoot($context['data'])) {
-            $action = 'thread';
-        } else {
-            $action = 'answer';
-        }
-        $CurrentUser = Registry::get('CU');
-
-        return $CurrentUser->getCategories()->permission($action, $categoryId);
-    }
-
-    /**
-     * check editing allowed
-     *
-     * @param mixed $check value
-     * @param array $context context
-     * @return bool|void
-     */
-    public function validateEditingAllowed($check, $context)
-    {
-        /* @var \Saito\Posting\Posting $Posting */
-        $Posting = Registry::newInstance(
-            '\Saito\Posting\Posting',
-            ['rawData' => $context['data']]
-        );
-        $forbidden = $Posting->isEditingAsCurrentUserForbidden();
-
-        return $forbidden === false;
     }
 
     /**

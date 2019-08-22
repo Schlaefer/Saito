@@ -1,14 +1,21 @@
 <?php
 
-//@codingStandardsIgnoreStart
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Shell;
 
 use App\Model\Table\EntriesTable;
 use App\Model\Table\UsersTable;
 use Cake\Console\Shell;
 use Saito\App\Registry;
-use Saito\User\Categories;
-use Saito\User\CurrentUser\CurrentUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * Creates dummy data for development
@@ -18,12 +25,12 @@ use Saito\User\CurrentUser\CurrentUser;
  */
 class SaitoDummyDataShell extends Shell
 {
-
     public $uses = ['Entry', 'User'];
 
     protected $_Categories = null;
 
-    protected $_Users = null;
+    /** @var array */
+    protected $_Users;
 
     protected $_text = null;
 
@@ -92,6 +99,9 @@ class SaitoDummyDataShell extends Shell
         'Walt'
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     public function initialize()
     {
         parent::initialize();
@@ -100,12 +110,20 @@ class SaitoDummyDataShell extends Shell
         $this->loadModel('Users');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function main()
     {
         $this->generateUsers();
         $this->generatePostings();
     }
 
+    /**
+     * Generate postings
+     *
+     * @return void
+     */
     public function generatePostings()
     {
         $nPostings = (int)$this->in(
@@ -119,14 +137,8 @@ class SaitoDummyDataShell extends Shell
         $ratio = (int)$this->in('Average answers per thread?', null, 10);
         $seed = $nPostings / $ratio;
 
-        $CurrentUser = new SaitoUserDummy();
-        $CurrentUser->setCategories(new Categories($CurrentUser));
-        Registry::set('CU', $CurrentUser);
-
         for ($i = 0; $i < $nPostings; $i++) {
             $newThread = $i < $seed;
-
-            $CurrentUser->setSettings($this->_randomUser()->toArray());
 
             $posting = [
                 'subject' => "$i",
@@ -137,7 +149,11 @@ class SaitoDummyDataShell extends Shell
             } else {
                 $posting['pid'] = array_rand($this->_Threads, 1);
             }
-            $posting = $this->Entries->createPosting($posting);
+            $user = $this->_randomUser();
+            Registry::set('CU', $user);
+
+            $posting = $this->Entries->createPosting($posting, $user);
+
             if (empty($posting)) {
                 throw new \RuntimeException(
                     'Could not create posting.'
@@ -154,6 +170,11 @@ class SaitoDummyDataShell extends Shell
         $this->out("Generated $i postings.");
     }
 
+    /**
+     * generate users
+     *
+     * @return void
+     */
     public function generateUsers()
     {
         $max = count($this->_users);
@@ -186,6 +207,13 @@ class SaitoDummyDataShell extends Shell
         $this->out("Generated $i users.");
     }
 
+    /**
+     * Update progress
+     *
+     * @param int $i current
+     * @param int $off 100%
+     * @return void
+     */
     protected function _progress($i, $off)
     {
         if ($i < 1) {
@@ -198,6 +226,11 @@ class SaitoDummyDataShell extends Shell
         }
     }
 
+    /**
+     * Return random category
+     *
+     * @return int category_id
+     */
     protected function _randomCategory()
     {
         if ($this->_Categories === null) {
@@ -211,6 +244,11 @@ class SaitoDummyDataShell extends Shell
         return $this->_Categories[$id]->get('id');
     }
 
+    /**
+     * Return random user
+     *
+     * @return CurrentUserInterface a user
+     */
     protected function _randomUser()
     {
         if ($this->_Users === null) {
@@ -221,9 +259,17 @@ class SaitoDummyDataShell extends Shell
         }
         $id = array_rand($this->_Users, 1);
 
-        return $this->_Users[$id];
+        $user = CurrentUserFactory::createDummy($this->_Users[$id]->toArray());
+        $user->set('user_type', 'admin');
+
+        return $user;
     }
 
+    /**
+     * Return random text
+     *
+     * @return string text
+     */
     protected function _randomText()
     {
         if (empty($this->_text)) {
@@ -235,23 +281,3 @@ class SaitoDummyDataShell extends Shell
         return $this->_text;
     }
 }
-
-class SaitoUserDummy extends CurrentUser
-{
-    public function isLoggedIn(): bool
-    {
-        return true;
-    }
-
-    public function getRole(): string
-    {
-        return 'admin';
-    }
-
-    public function hasBookmarked($postingId): bool
-    {
-        return false;
-    }
-
-}
-//@codingStandardsIgnoreStart

@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Saito\Posting\UserPosting;
 
 use Cake\Core\Configure;
-use Saito\Posting\PostingInterface;
+use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
@@ -76,35 +76,37 @@ trait UserPostingTrait
     /**
      * {@inheritDoc}
      */
-    public function isEditingAsCurrentUserForbidden()
+    public function isEditingAllowed(): bool
     {
-        return $this->_isEditingForbidden($this, $this->_CurrentUser);
+        return $this->_isEditingAllowed($this, $this->_CurrentUser);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isEditingWithRoleUserForbidden()
+    public function isEditingAsUserAllowed(): bool
     {
         $MockedUser = clone $this->_CurrentUser;
         $MockedUser->set('user_type', 'user');
 
-        return $this->_isEditingForbidden($this, $MockedUser);
+        return $this->_isEditingAllowed($this, $MockedUser);
     }
 
     /**
      * Check if editing on the posting is forbidden.
      *
-     * @param PostingInterface $posting The posting.
+     * @param BasicPostingInterface $posting The posting.
      * @param CurrentUserInterface $User The user.
      * @return bool|string string if a reason is available.
      */
-    protected function _isEditingForbidden(PostingInterface $posting, CurrentUserInterface $User)
+    protected function _isEditingAllowed(BasicPostingInterface $posting, CurrentUserInterface $User)
     {
         if ($User->isLoggedIn() !== true) {
-            return true;
-        } elseif ($User->permission('saito.core.posting.edit.unrestricted')) {
             return false;
+        }
+
+        if ($User->permission('saito.core.posting.edit.unrestricted')) {
+            return true;
         }
 
         $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
@@ -113,20 +115,14 @@ trait UserPostingTrait
 
         $isOwn = $User->getId() === $posting->get('user_id');
 
-        if ($User->permission('saito.core.posting.edit.restricted')) {
-            if ($isOwn && $isOverTime && !$posting->isPinned()) {
-                return 'time';
-            } else {
-                return false;
-            }
+        if (!$isOverTime && $isOwn && !$this->isLocked()) {
+            return true;
         }
 
-        if (!$isOwn) {
-            return 'user';
-        } elseif ($isOverTime) {
-            return 'time';
-        } elseif ($this->isLocked()) {
-            return 'locked';
+        if ($User->permission('saito.core.posting.edit.restricted')) {
+            if ($posting->isPinned()) {
+                return true;
+            }
         }
 
         return false;

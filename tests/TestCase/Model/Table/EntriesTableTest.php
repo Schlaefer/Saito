@@ -8,7 +8,6 @@ use Saito\User\CurrentUser\CurrentUserFactory;
 
 class EntriesTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'Entries';
 
     public $fixtures = [
@@ -41,7 +40,6 @@ class EntriesTest extends SaitoTableTestCase
         $SaitoUser = CurrentUserFactory::createLoggedIn(
             ['id' => 100, 'username' => 'foo', 'user_type' => 'admin']
         );
-        Registry::set('CU', $SaitoUser);
 
         // +1 because str_pad calculates non ascii chars to a string length of 2
         $subject = str_pad(
@@ -50,113 +48,23 @@ class EntriesTest extends SaitoTableTestCase
             '.'
         );
         $data = [
+            'category_id' => $category,
+            'name' => 'foo',
             'pid' => 0,
             'subject' => $subject,
             'text' => 'Täxt',
-            'category_id' => $category,
+            'user_id' => 100,
         ];
 
         /*
          * test success
          */
         $expectedThreadId = $this->Table->find()->count() + 1;
-        $result = $this->Table->createPosting($data)->toArray();
+        $result = $this->Table->createPosting($data, $SaitoUser)->toArray();
         $expected = $data;
         $expected['tid'] = $expectedThreadId;
         $result = array_intersect_key($result, $expected);
         $this->assertEquals($result, $expected);
-    }
-
-    public function testCreateAllowanceAnswer()
-    {
-        /// setup
-        $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
-        $admin = ['id' => 101, 'username' => 'foo', 'user_type' => 'admin'];
-
-        $thread = ['subject' => 'foo', 'category_id' => 4];
-        $answer = ['pid' => 11] + $thread;
-
-        /// user
-        $SaitoUser = CurrentUserFactory::createLoggedIn($user);
-        Registry::set('CU', $SaitoUser);
-
-        /*
-         * user thread denied
-         */
-        $new = $this->Table->createPosting($thread);
-        $this->assertNotEmpty($new->getErrors());
-
-        /*
-         * user answer allowed
-         */
-        $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->getErrors());
-
-        /// admin
-        $this->initDic();
-        $SaitoUser = CurrentUserFactory::createLoggedIn($admin);
-        Registry::set('CU', $SaitoUser);
-
-        /*
-         * admin thread allowed
-         */
-        $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->getErrors());
-
-        /*
-         * admin answer allowed
-         */
-        $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->getErrors());
-    }
-
-    public function testCreateAllowanceThread()
-    {
-        /*
-         * setup
-         */
-        $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
-        $admin = ['id' => 101, 'username' => 'foo', 'user_type' => 'admin'];
-
-        $thread = ['subject' => 'foo', 'category_id' => 1];
-        $answer = ['pid' => 6] + $thread;
-
-        /// user
-        $SaitoUser = CurrentUserFactory::createLoggedIn($user);
-        Registry::set('CU', $SaitoUser);
-
-        /*
-         * user thread denied
-         */
-        $SaitoUser->setSettings($user);
-        $new = $this->Table->createPosting($thread);
-        $this->assertNotEmpty($new->getErrors());
-
-        /*
-         * user answer denied
-         */
-        $SaitoUser->setSettings($user);
-        $new = $this->Table->createPosting($answer);
-        $this->assertNotEmpty($new->getErrors());
-
-        /// admin
-        $this->initDic();
-        $SaitoUser = CurrentUserFactory::createLoggedIn($admin);
-        Registry::set('CU', $SaitoUser);
-
-        /*
-         * admin thread allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->getErrors());
-
-        /*
-         * admin answer allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->getErrors());
     }
 
     public function testToggle()
@@ -462,26 +370,6 @@ class EntriesTest extends SaitoTableTestCase
         $expected = $entriesBeforeActions;
         $result = $this->Table->find()->count();
         $this->assertEquals($result, $expected);
-    }
-
-    public function testIsRoot()
-    {
-        $isRoot = new \ReflectionMethod($this->Table, '_isRoot');
-        $isRoot->setAccessible(true);
-
-        $result = $isRoot->invoke($this->Table, ['id' => 8]);
-        $this->assertFalse($result);
-
-        $result = $isRoot->invoke($this->Table, ['id' => 4]);
-        $this->assertTrue($result);
-
-        $posting = ['pid' => 0];
-        $result = $isRoot->invoke($this->Table, $posting);
-        $this->assertTrue($result);
-
-        $posting = ['pid' => 1];
-        $result = $isRoot->invoke($this->Table, $posting);
-        $this->assertFalse($result);
     }
 
     public function testTreeForNode()

@@ -32,18 +32,18 @@ interface UserPostingInterface
     public function isBookmarked(): bool;
 
     /**
-     * Check if editing is forbidden.
+     * Check if editing is allowed.
      *
-     * @return bool|string true or string if forbidden, false if allowed
+     * @return bool
      */
-    public function isEditingAsCurrentUserForbidden();
+    public function isEditingAllowed(): bool;
 
     /**
-     * Check if editing as user is forbidden.
+     * Check if editing as normal user is allowed.
      *
-     * @return bool|string true or string if forbidden, false if allowed
+     * @return bool
      */
-    public function isEditingWithRoleUserForbidden();
+    public function isEditingAsUserAllowed(): bool;
 
     /**
      * Check if posting is ignored by user.

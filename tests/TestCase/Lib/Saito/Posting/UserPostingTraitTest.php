@@ -11,7 +11,6 @@ use Saito\User\CurrentUser\CurrentUserFactory;
 
 class UserPostingTraitClassMock extends \Saito\Posting\Posting
 {
-
     public function __construct()
     {
     }
@@ -29,7 +28,6 @@ class UserPostingTraitClassMock extends \Saito\Posting\Posting
 
 class UserPostingTraitTest extends SaitoTestCase
 {
-
     public $editPeriod = 20;
 
     public $fixtures = ['app.Category'];
@@ -89,8 +87,8 @@ class UserPostingTraitTest extends SaitoTestCase
         $user = ['id' => 1, 'user_type' => 'user'];
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
 
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertFalse($result);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
     }
 
     public function testIsEditingForbiddenEmptyUser()
@@ -102,8 +100,8 @@ class UserPostingTraitTest extends SaitoTestCase
         ];
         $this->Mock->set($entry);
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy());
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertTrue($result);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenAnon()
@@ -118,8 +116,8 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'anon',
         ];
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertTrue($result);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenWrongUser()
@@ -134,8 +132,8 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'user',
         ];
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'user');
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenToLate()
@@ -153,8 +151,8 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'user',
         ];
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'time');
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenLocked()
@@ -171,8 +169,8 @@ class UserPostingTraitTest extends SaitoTestCase
         ];
         $this->Mock->set($entry);
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'locked');
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenModToLateNotFixed()
@@ -188,8 +186,8 @@ class UserPostingTraitTest extends SaitoTestCase
         ];
         $this->Mock->set($entry);
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'time');
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenModToLateFixed()
@@ -208,8 +206,8 @@ class UserPostingTraitTest extends SaitoTestCase
         $SaitoUser = new CurrentUser($user);
         $SaitoUser->setCategories(new Categories($SaitoUser));
         $this->Mock->setCurrentUser($SaitoUser);
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertFalse($result);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
     }
 
     public function testIsEditingForbiddenAdminToLateNotFixed()
@@ -227,7 +225,7 @@ class UserPostingTraitTest extends SaitoTestCase
         $SaitoUser = new CurrentUser($user);
         $SaitoUser->setCategories(new Categories($SaitoUser));
         $this->Mock->setCurrentUser($SaitoUser);
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertFalse($result);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
     }
 }

@@ -36,22 +36,29 @@ class PreviewController extends ApiAppController
     {
         $this->loadModel('Entries');
 
-        $newEntry = [
-            'id' => 'preview',
-            'pid' => $this->request->getData('pid'),
-            'subject' => $this->request->getData('subject'),
-            'text' => $this->request->getData('text'),
+        $data = [
             'category_id' => $this->request->getData('category_id'),
             'edited_by' => null,
             'fixed' => false,
-            'solves' => 0,
-            'views' => 0,
+            'id' => 'preview',
             'ip' => '',
-            'time' => new Time()
+            'last_answer' => bDate(),
+            'name' => $this->CurrentUser->get('username'),
+            'pid' => $this->request->getData('pid') ?: 0,
+            'solves' => 0,
+            'subject' => $this->request->getData('subject'),
+            'text' => $this->request->getData('text'),
+            'user_id' => $this->CurrentUser->getId(),
+            'time' => new Time(),
+            'views' => 0,
         ];
-        $newEntry = $this->Entries->prepareChildPosting($newEntry);
-        $newEntry = $this->Entries->newEntity($newEntry);
 
+        if (!empty($data['pid'])) {
+            $parent = $this->Entries->get($data['pid']);
+            $data = $this->Entries->prepareChildPosting($parent, $data);
+        }
+
+        $newEntry = $this->Entries->newEntity($data);
         $errors = $newEntry->getErrors();
 
         if (empty($errors)) {
