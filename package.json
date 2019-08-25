@@ -85,6 +85,7 @@
     "yarn": ">= 1.0.0"
   },
   "scripts": {
+    "travis": "tslint -c tslint.json \"frontend/src/**/*.ts\"; karma start --single-run --browsers ChromeHeadlessCustom;",
     "pretest": "tslint --fix -c tslint.json \"frontend/src/**/*.ts\"",
     "test": "karma start --single-run --browsers ChromiumHeadlessCustom",
     "karma": "karma start",
