@@ -2,7 +2,7 @@
 use Cake\Core\Configure;
 use Cake\Error\Debugger;
 
-$this->layout = 'error';
+$this->layout = 'default';
 
 if (Configure::read('debug')) :
     $this->layout = 'dev_error';
@@ -36,8 +36,24 @@ if (Configure::read('debug')) :
     $this->end();
 endif;
 ?>
-<h2><?= __d('cake', 'An Internal Error Has Occurred') ?></h2>
-<p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
-    <?= h($message) ?>
-</p>
+<div class="panel">
+    <div class="panel-content richtext">
+        <h2><?= h($message) ?></h2>
+        <p>
+            <strong><?= __d('cake', 'Error') ?>: </strong>
+            <?= h($message) ?>
+        </p>
+    </div>
+</div>
+<?php
+$shpErrorPages = [SaitoBlackholeException::class => 8];
+$errorClass = get_class($error);
+if (isset($shpErrorPages[$errorClass])) :
+    $this->helpers()->load('SaitoHelp.SaitoHelp');
+    $help = $this->SaitoHelp->icon(
+        $shpErrorPages[$errorClass],
+        ['label' => true]
+    );
+    echo $this->Html->para(null, $help);
+endif;
+?>

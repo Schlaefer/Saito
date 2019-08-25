@@ -509,9 +509,9 @@ class UsersController extends AppController
             if (empty($errors) && $this->Users->save($user)) {
                 return true;
             } else {
-                $this->JsData->addMessage(
+                $this->Flash->set(
                     __('The user could not be saved. Please, try again.'),
-                    ['type' => 'error']
+                    ['element' => 'error']
                 );
             }
         }

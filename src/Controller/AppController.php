@@ -110,7 +110,6 @@ class AppController extends Controller
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
         $this->loadComponent('AuthUser');
-        $this->loadComponent('JsData');
         $this->loadComponent('Parser');
         $this->loadComponent('SaitoEmail');
         $this->loadComponent('Slidetabs');

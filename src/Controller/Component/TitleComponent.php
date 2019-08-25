@@ -28,17 +28,17 @@ class TitleComponent extends Component
     public function beforeRender(Event $event)
     {
         $controller = $event->getSubject();
+
+        $forum = $this->getForumName($controller);
+        $controller->set('forumName', $forum);
+
         if ($controller instanceof ErrorController) {
             return;
         }
+
         $page = $this->getPageTitle($controller);
-        $forum = $this->getForumName($controller);
         $title = $this->getTitleForLayout($controller, $page, $forum);
-        $controller->set([
-            'titleForPage' => $page,
-            'forumName' => $forum,
-            'titleForLayout' => $title
-        ]);
+        $controller->set(['titleForLayout' => $title, 'titleForPage' => $page ]);
     }
 
     /**

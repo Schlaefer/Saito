@@ -1,2 +1,2 @@
 <?php
-$this->JsData->addMessage($message, ['type' => 'warning']);
+$this->JsData->notifications()->add($message, ['type' => 'warning']);

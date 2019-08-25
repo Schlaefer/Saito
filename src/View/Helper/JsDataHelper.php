@@ -13,11 +13,11 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\Http\ServerRequest;
 use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
 use Saito\JsData\JsData;
+use Saito\JsData\Notifications;
 use Saito\User\ForumsUserInterface;
 
 /**
@@ -28,28 +28,14 @@ use Saito\User\ForumsUserInterface;
  */
 class JsDataHelper extends AppHelper
 {
-
     public $helpers = ['Url'];
 
     /**
-     * JsData
+     * Notifications
      *
-     * @var JsData
+     * @var Notifications
      */
-    protected $_JsData;
-
-    /**
-     * CakePHP beforeRender event-handler
-     *
-     * @param Event $event event
-     * @param mixed $viewFile view file
-     * @return void
-     */
-    public function beforeRender(Event $event, $viewFile): void
-    {
-        $View = $event->getSubject();
-        $this->_JsData = $View->get('jsData');
-    }
+    protected $Notifications;
 
     /**
      * get app js
@@ -62,8 +48,7 @@ class JsDataHelper extends AppHelper
     {
         $request = $View->getRequest();
 
-        $js = $this->_JsData->getJs();
-        $js += [
+        $js = [
             'app' => [
                 'version' => Configure::read('Saito.v'),
                 'settings' => [
@@ -84,6 +69,7 @@ class JsDataHelper extends AppHelper
                     'webroot' => $request->getAttribute('webroot')
                 ]
             ],
+            'msg' => $this->notifications()->getAll(),
             'request' => [
                 'action' => $request->getParam('action'),
                 'controller' => $request->getParam('controller'),
@@ -130,19 +116,16 @@ class JsDataHelper extends AppHelper
     }
 
     /**
-     * Passes method calls on to JsData
+     * Gets notifications
      *
-     * @param string $method method
-     * @param array $params params
-     * @return mixed values
+     * @return Notifications The notifications.
      */
-    public function __call($method, $params)
+    public function notifications(): Notifications
     {
-        $proxy = [$this->_JsData, $method];
-        if (is_callable($proxy)) {
-            return call_user_func_array($proxy, $params);
+        if (empty($this->Notifications)) {
+            $this->Notifications = new Notifications();
         }
 
-        parent::__call($method, $params);
+        return $this->Notifications;
     }
 }

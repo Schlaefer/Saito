@@ -12,33 +12,9 @@ declare(strict_types=1);
 
 namespace Saito\JsData;
 
-class JsData
+class Notifications
 {
-    protected $_appJs = [
-        'msg' => []
-    ];
-
-    /**
-     * get js
-     *
-     * @return array
-     */
-    public function getJs()
-    {
-        return $this->_appJs;
-    }
-
-    /**
-     * Setter
-     *
-     * @param string $key string
-     * @param mixed $value value
-     * @return void
-     */
-    public function set($key, $value)
-    {
-        $this->_appJs[$key] = $value;
-    }
+    protected $notifications = [];
 
     /**
      * Add message
@@ -47,7 +23,7 @@ class JsData
      * @param array|null $options options
      * @return void
      */
-    public function addMessage(string $message, ?array $options = []): void
+    public function add(string $message, ?array $options = []): void
     {
         $defaults = [
             'type' => 'notice',
@@ -71,17 +47,17 @@ class JsData
             if (isset($options['element'])) {
                 $nm['element'] = $options['element'];
             }
-            $this->_appJs['msg'][] = $nm;
+            $this->notifications[] = $nm;
         }
     }
 
     /**
-     * get messages
+     * Gets all messages
      *
-     * @return array
+     * @return array All messages.
      */
-    public function getMessages()
+    public function getAll(): array
     {
-        return ['msg' => $this->_appJs['msg']];
+        return $this->notifications;
     }
 }
