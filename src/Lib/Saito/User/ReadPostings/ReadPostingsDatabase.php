@@ -168,13 +168,10 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         // assign dummy var to prevent Strict notice on reference passing
         $dummy = array_slice($entries, $entriesToDelete, 1);
         $oldestIdToKeep = array_shift($dummy);
-        $this->storage->deleteUserEntriesBefore(
-            $this->_getId(),
-            $oldestIdToKeep
-        );
 
-        // all entries older than (and including) the deleted entries become
-        // old entries by updating the MAR-timestamp
+        /// Update last refresh
+        // All entries older than (and including) the deleted entries become
+        // old entries by updating the MAR-timestamp.
         $youngestDeletedEntry = $this->entriesTable->find(
             'all',
             [
@@ -190,6 +187,9 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
                 $this->_getId(),
                 $youngestDeletedEntry->get('time')
             );
+
+        /// Now delete the old entries
+        $this->storage->deleteUserEntriesBefore($this->_getId(), $oldestIdToKeep);
     }
 
     /**
