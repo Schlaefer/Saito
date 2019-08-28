@@ -104,7 +104,8 @@ class UploadsTable extends AppTable
         // check that same user can't have two items with the same name
         $rules->add(
             $rules->isUnique(
-                ['name', 'user_id'],
+                // Don't use a identifier like "name" which changes (jpg->png).
+                ['title', 'user_id'],
                 __d('image_uploader', 'validation.error.fileExists')
             )
         );
@@ -166,6 +167,7 @@ class UploadsTable extends AppTable
                 case 'image/png':
                     $file = $this->convertToJpeg($file);
                     // fall through: png is further processed as jpeg
+                    // no break
                 case 'image/jpeg':
                     $this->fixOrientation($file);
                     $this->resize($file, self::MAX_RESIZE);
