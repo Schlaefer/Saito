@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
-#: frontend/src/modules/answering/answering.ts:91
+#: frontend/src/modules/answering/answering.ts:85
 msgid "answer.btn.preview"
 msgstr "Preview"
 
@@ -26,7 +26,7 @@ msgstr "Preview"
 msgid "answer.btn.sbmt"
 msgstr "Submit"
 
-#: frontend/src/modules/answering/views/CategorySelectVw.ts:21
+#: frontend/src/modules/answering/views/CategorySelectVw.ts:22
 msgid "answer.cat.l"
 msgstr "Category"
 
@@ -34,29 +34,29 @@ msgstr "Category"
 msgid "answer.cite.t"
 msgstr "Cite"
 
-#: frontend/src/modules/answering/answering.ts:76
+#: frontend/src/modules/answering/answering.ts:70
 msgid "answer.reply.t"
 msgstr "Write a Reply"
 
-#: frontend/src/modules/answering/answering.ts:105
-#: frontend/src/modules/answering/answering.ts:217
+#: frontend/src/modules/answering/answering.ts:99
+#: frontend/src/modules/answering/answering.ts:185
 msgid "answer.subject.t"
 msgstr "Subject"
 
-#: frontend/src/modules/answering/answering.ts:105
-#: frontend/src/modules/answering/answering.ts:273
+#: frontend/src/modules/answering/answering.ts:99
+#: frontend/src/modules/answering/answering.ts:265
 msgid "answer.submit.e.t"
 msgstr "Error: Posting Could Not Be Saved"
 
-#: frontend/src/modules/answering/answering.ts:105
-#: frontend/src/modules/answering/answering.ts:160
-#: frontend/src/modules/answering/answering.ts:272
+#: frontend/src/modules/answering/answering.ts:99
+#: frontend/src/modules/answering/answering.ts:222
+#: frontend/src/modules/answering/answering.ts:264
 msgid "api.generic.e.exp"
 msgstr ""
 "Couldn't reach the internet server. Check your connection and try again."
 
-#: frontend/src/modules/answering/answering.ts:105
-#: frontend/src/modules/answering/answering.ts:159
+#: frontend/src/modules/answering/answering.ts:99
+#: frontend/src/modules/answering/answering.ts:223
 msgid "api.generic.e.t"
 msgstr "Error: Couldn't Connect to Server"
 
@@ -229,6 +229,10 @@ msgstr "Uploads"
 #: frontend/src/modules/user/userVw.ts:25
 msgid "upl.title.pl"
 msgstr "Uploads"
+
+#: src/Template/Users/view.ctp:325
+msgid "user.block.hours"
+msgstr "{hours} hours"
 
 #: frontend/src/modules/user/userVw.ts:14
 msgid "user.recentposts.t"
