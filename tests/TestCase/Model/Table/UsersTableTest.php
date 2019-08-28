@@ -229,6 +229,11 @@ class UsersTableTest extends SaitoTableTestCase
         // test uploads are deleted
         $this->assertGreaterThan(0, $this->Table->Uploads->findByUserId(3)->count());
 
+        /// UserOnline: Set user online.
+        $this->Table->UserOnline->setOnline(3, true);
+        $this->assertGreaterThan(0, $this->Table->UserOnline->findByUserId(3)->count());
+
+        /// Do the actual delete.
         $this->Table->deleteAllExceptEntries(3);
 
         // user is deleted
@@ -256,6 +261,10 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertEquals(0, $this->Table->Uploads->findByUserId(3)->count());
         // don't delete everything
         $this->assertGreaterThan(0, $this->Table->Uploads->find('all')->count());
+
+        /// UserOnline
+        // Check that user is no longer online
+        $this->assertEquals(0, $this->Table->UserOnline->findByUserId(3)->count());
     }
 
     public function testSetPassword()

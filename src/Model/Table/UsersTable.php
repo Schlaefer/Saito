@@ -94,7 +94,10 @@ class UsersTable extends AppTable
         );
         $this->getEventManager()->on(new AvatarFilenameListener($avatarRootDir));
 
-        $this->hasOne('UserOnline', ['foreignKey' => 'user_id']);
+        $this->hasOne(
+            'UserOnline',
+            ['dependent' => true, 'foreignKey' => 'user_id']
+        );
 
         $this->hasMany(
             'Bookmarks',
@@ -108,7 +111,10 @@ class UsersTable extends AppTable
                 'conditions' => ['Entries.user_id' => 'Users.id'],
             ]
         );
-        $this->hasMany('ImageUploader.Uploads', ['foreignKey' => 'user_id', 'dependend' => true]);
+        $this->hasMany(
+            'ImageUploader.Uploads',
+            ['dependent' => true, 'foreignKey' => 'user_id']
+        );
         $this->hasMany(
             'UserReads',
             ['foreignKey' => 'user_id', 'dependent' => true]
@@ -125,7 +131,6 @@ class UsersTable extends AppTable
                 ]
             ]
         );
-        $this->hasMany('Uploads', ['foreign_key' => 'user_id', 'dependent' => true]);
     }
 
     /**
@@ -451,7 +456,6 @@ class UsersTable extends AppTable
         try {
             $this->Entries->anonymizeEntriesFromUser($userId);
             $this->UserIgnores->deleteUser($userId);
-            $this->UserOnline->deleteAll(['user_id' => $userId]);
             $this->delete($user);
         } catch (\Exception $e) {
             return false;
