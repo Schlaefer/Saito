@@ -15,6 +15,7 @@ class UsersTableTest extends SaitoTableTestCase
 
     public $fixtures = [
         'app.Category',
+        'app.Draft',
         'app.Entry',
         'app.Setting',
         'app.Smiley',
@@ -228,6 +229,8 @@ class UsersTableTest extends SaitoTableTestCase
         );
         // test uploads are deleted
         $this->assertGreaterThan(0, $this->Table->Uploads->findByUserId(3)->count());
+        // Checks that user has drafts before deletion.
+        $this->assertGreaterThan(0, $this->Table->Drafts->findByUserId(3)->count());
 
         /// UserOnline: Set user online.
         $this->Table->UserOnline->setOnline(3, true);
@@ -255,6 +258,12 @@ class UsersTableTest extends SaitoTableTestCase
             $allBookmarksBeforeDelete - $userBookmarksBeforeDelete,
             $allBookmarksAfterDelete
         );
+
+        /// Drafts
+        // Tests that user's draft(s) are deleted through dependency.
+        $this->assertEquals(0, $this->Table->Drafts->findByUserId(3)->count());
+        // Tests that we don't delete every other draft too.
+        $this->assertGreaterThan(0, $this->Table->Drafts->find('all')->count());
 
         //// delete uploads
         // user uploads gone

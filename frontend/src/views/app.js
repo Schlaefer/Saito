@@ -140,7 +140,7 @@ export default Marionette.View.extend({
     const data = {};
     const id = element.data('edit');
     if (id) {
-      data.id = id;
+      data.id = parseInt(id, 10);
     }
     const answeringForm = new AnsweringView({
       el: element,
@@ -151,6 +151,8 @@ export default Marionette.View.extend({
       const root = App.settings.get('webroot');
       window.redirect(root + 'entries/view/' + model.get('id'));
     });
+
+    return answeringForm; // testing
   },
 
   /**

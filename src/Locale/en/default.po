@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-31 11:37+0200\n"
-"PO-Revision-Date: 2019-07-31 11:39+0200\n"
+"POT-Creation-Date: 2019-08-27 08:09+0200\n"
+"PO-Revision-Date: 2019-08-27 08:09+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -224,7 +224,7 @@ msgstr ""
 msgid "Spoiler"
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/Editor.php:87 src/Template/Entries/add.ctp:107
+#: plugins/BbcodeParser/src/Lib/Editor.php:87
 msgid "Cite"
 msgstr ""
 
@@ -267,11 +267,11 @@ msgstr "Help file not found."
 msgid "Help"
 msgstr ""
 
-#: src/Controller/AppController.php:226
+#: src/Controller/AppController.php:225
 msgid "authorization.autherror"
 msgstr "You're not authorized to access this content."
 
-#: src/Controller/Component/AuthUserComponent.php:264
+#: src/Controller/Component/AuthUserComponent.php:266
 msgid "authentication.error"
 msgstr "Access to this function is restricted!"
 
@@ -303,16 +303,16 @@ msgstr ""
 msgid "Message couldn't be send: {0}"
 msgstr ""
 
-#: src/Controller/EntriesController.php:88
+#: src/Controller/EntriesController.php:90
 msgid "page"
 msgstr ""
 
-#: src/Controller/EntriesController.php:151
+#: src/Controller/EntriesController.php:153
 msgid "view.type.mix"
 msgstr "Mix"
 
-#: src/Controller/EntriesController.php:198
-#: src/Controller/EntriesController.php:207
+#: src/Controller/EntriesController.php:200
+#: src/Controller/EntriesController.php:209
 msgid "Invalid post"
 msgstr ""
 
@@ -320,51 +320,41 @@ msgstr ""
 msgid "Write a New Posting"
 msgstr ""
 
-#: src/Controller/EntriesController.php:292
-#: src/Controller/EntriesController.php:421
-msgid "Something clogged the tubes. Could not save entry. Try again."
-msgstr ""
-
-#: src/Controller/EntriesController.php:326
-#: src/Controller/EntriesController.php:455
-msgid "back_to_posting_from_linkname"
-msgstr "Back to the posting from {0}"
-
-#: src/Controller/EntriesController.php:330
-msgid "Write a Reply"
-msgstr ""
-
-#: src/Controller/EntriesController.php:431
+#: src/Controller/EntriesController.php:281
 msgid "notice_you_are_editing_as_mod"
 msgstr "You're now editing as moderator!"
 
-#: src/Controller/EntriesController.php:460
+#: src/Controller/EntriesController.php:291
+msgid "back_to_posting_from_linkname"
+msgstr "Back to the posting from {0}"
+
+#: src/Controller/EntriesController.php:294
 #: src/Template/Element/entry/view_posting.ctp:91
 #: src/Template/Element/entry/view_posting.ctp:99
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: src/Controller/EntriesController.php:490
+#: src/Controller/EntriesController.php:342
 msgid "delete_tree_success"
 msgstr "Thread successfully removed."
 
-#: src/Controller/EntriesController.php:493
+#: src/Controller/EntriesController.php:345
 msgid "delete_subtree_success"
 msgstr "Subthread successfully removed."
 
-#: src/Controller/EntriesController.php:498
+#: src/Controller/EntriesController.php:350
 msgid "delete_tree_error"
 msgstr ""
 
-#: src/Controller/EntriesController.php:565 src/Template/Layout/error.ctp:35
+#: src/Controller/EntriesController.php:437 src/Template/Layout/error.ctp:35
 msgid "Error"
 msgstr ""
 
-#: src/Controller/EntriesController.php:657
+#: src/Controller/EntriesController.php:529
 msgid "Custom"
 msgstr ""
 
-#: src/Controller/EntriesController.php:660
+#: src/Controller/EntriesController.php:532
 #: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:30
 #: src/Template/Element/entry/category-chooser.ctp:29
 msgid "All Categories"
@@ -478,47 +468,59 @@ msgstr "No valid email address."
 msgid "user.removed.placeholder"
 msgstr "<deleted>"
 
-#: src/Model/Table/UsersTable.php:153
+#: src/Model/Table/EntriesTable.php:178
+msgid "vld.entries.categories.notEmpty"
+msgstr "Category is required"
+
+#: src/Model/Table/EntriesTable.php:207
+msgid "vld.entries.subject.notEmpty"
+msgstr "Subject is required"
+
+#: src/Model/Table/EntriesTable.php:214
+msgid "vld.entries.subject.maxlength"
+msgstr "Subject is to long"
+
+#: src/Model/Table/UsersTable.php:154
 msgid "user.avatar.error.extension"
 msgstr "Invalid file extension. Use: {0}."
 
-#: src/Model/Table/UsersTable.php:161
+#: src/Model/Table/UsersTable.php:162
 msgid "user.avatar.error.size"
 msgstr "File is to big. Max file size is: {0}."
 
-#: src/Model/Table/UsersTable.php:169
+#: src/Model/Table/UsersTable.php:170
 msgid "user.avatar.error.mime"
 msgstr "Not the correct mime type."
 
-#: src/Model/Table/UsersTable.php:184
+#: src/Model/Table/UsersTable.php:185
 msgid "user.avatar.error.dimension"
 msgstr "Avatar image is to big or to small. Use an image between {0} and {1}."
 
-#: src/Model/Table/UsersTable.php:199
+#: src/Model/Table/UsersTable.php:200
 msgid "error_password_confirm"
 msgstr "Passwords don't match."
 
-#: src/Model/Table/UsersTable.php:218
+#: src/Model/Table/UsersTable.php:219
 msgid "error_no_name"
 msgstr "Name is empty."
 
-#: src/Model/Table/UsersTable.php:226
+#: src/Model/Table/UsersTable.php:227
 msgid "error_name_reserved"
 msgstr "Name is already used."
 
-#: src/Model/Table/UsersTable.php:236 src/Model/Table/UsersTable.php:242
+#: src/Model/Table/UsersTable.php:237 src/Model/Table/UsersTable.php:243
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "The name contains forbidden characters."
 
-#: src/Model/Table/UsersTable.php:257
+#: src/Model/Table/UsersTable.php:258
 msgid "error_email_reserved"
 msgstr "Email address is already used."
 
-#: src/Model/Table/UsersTable.php:262
+#: src/Model/Table/UsersTable.php:263
 msgid "error_email_wrong"
 msgstr "Email doesn't seem like a valid address."
 
-#: src/Model/Table/UsersTable.php:596
+#: src/Model/Table/UsersTable.php:597
 msgid "error.name.equalExists"
 msgstr "An similar name is already in use: {0}"
 
@@ -531,7 +533,7 @@ msgstr "Go Back to the Forum"
 msgid "Back"
 msgstr ""
 
-#: src/View/Helper/ParserHelper.php:139
+#: src/View/Helper/ParserHelper.php:117
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:45
 #: plugins/Admin/src/Template/SmileyCodes/add.ctp:1
 #: plugins/Admin/src/Template/SmileyCodes/edit.ctp:1
@@ -1126,18 +1128,6 @@ msgstr ""
 "\n"
 "To activate your account please click the following link: {1} within the "
 "next 24 hours."
-
-#: src/Template/Entries/add.ctp:52
-msgid "Subject"
-msgstr ""
-
-#: src/Template/Entries/add.ctp:81
-msgid "submit_button"
-msgstr "Submit"
-
-#: src/Template/Entries/add.ctp:91
-msgid "preview"
-msgstr "Preview"
 
 #: src/Template/Entries/index.ctp:17
 msgid "new_entry_linkname"

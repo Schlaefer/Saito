@@ -6,11 +6,11 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-import { Collection, Model } from 'backbone';
+import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import * as $ from 'jquery';
 import 'jquery-textrange';
-import { CakeFormErrorView } from 'lib/saito/CakeFormErrorView';
+import CakeFormErrorView from 'lib/saito/CakeFormErrorView';
 import 'lib/saito/jquery.scrollIntoView';
 import App from 'models/app';
 import * as _ from 'underscore';
@@ -18,7 +18,9 @@ import { SpinnerView } from 'views/SpinnerView';
 import { NotificationType } from '../notification/notification';
 import CiteBtnVw from './buttons/CiteBtnVw';
 import SubmitButtonVw from './buttons/SubmitButtonView';
+import { DraftModel, DraftView } from './Draft';
 import { EditorView } from './editor/EditorView';
+import { MetaModel } from './Meta';
 import AnswerModel from './models/AnswerModel';
 import CategorySelect from './views/CategorySelectVw';
 import PreviewView from './views/PreviewVw';
@@ -31,6 +33,8 @@ export default class AnsweringView extends View<AnswerModel> {
 
     private sendInProgress: boolean;
 
+    private metaModel: MetaModel;
+
     public constructor(options: any = {}) {
         _.defaults(options, {
             childViewEvents: {
@@ -42,6 +46,7 @@ export default class AnsweringView extends View<AnswerModel> {
                 'click .js-btnPreview': 'showPreview',
                 'click .js-btnPreviewClose': 'closePreview',
             },
+            meta: new MetaModel(),
             model: new AnswerModel(),
             modelEvents: {
                 change: 'onAnswerModelChange',
@@ -49,6 +54,7 @@ export default class AnsweringView extends View<AnswerModel> {
             regions: {
                 category: '.js-category',
                 cite: '.js-cite',
+                drafts: '.js-draft',
                 editor: '.js-editor',
                 preview: '.js-preview',
                 spinner: '.js-spinner',
@@ -92,15 +98,20 @@ export default class AnsweringView extends View<AnswerModel> {
                     </div>
                     <div class="last"></div>
                 </div>
-                <div class="postingform-info"></div>
+                <div class="postingform-info">
+                    <span class="postingform-info-editor"></span>
+                    &nbsp;
+                    <span class='js-draft'></span>
+                </div>
             </form>
         </div>
     </div>
 </div>
             `),
             ui: {
+                draft: 'postingform-info-draft',
                 form: 'form',
-                info: '.postingform-info',
+                info: '.postingform-info-editor',
                 last: '.last',
             },
         });
@@ -110,13 +121,10 @@ export default class AnsweringView extends View<AnswerModel> {
     public initialize(options) {
         this.loaded = false;
         this.sendInProgress = false;
+        this.metaModel = this.getOption('meta');
 
         /// init Cake Form Error View
-        this.errorVw = new CakeFormErrorView({
-            collection: new Collection(),
-            el: this.$el,
-        });
-
+        this.errorVw = new CakeFormErrorView({ el: this.$el });
     }
 
     public onBeforeDestroy() {
@@ -130,14 +138,20 @@ export default class AnsweringView extends View<AnswerModel> {
 
         this.showChildView('spinner', new SpinnerView());
 
-        // @todo @sm more concreate timeout handling
-        $.ajax({
-            data: { id: this.model.get('id'), pid: this.model.get('pid') },
-            dataType: 'json',
-            error: () => this.triggerMethod('answering:load:error'),
-            success: (data) => this.triggerMethod('answering:load:success', data),
-            url: App.settings.get('webroot') + 'api/v2/postings/meta/',
-        });
+        const success = (model: MetaModel) => this.triggerMethod('answering:load:success', model);
+
+        if (this.metaModel.isEmpty()) {
+            /// if this is an edit the id is known and send on meta fetch
+            this.metaModel.set('id', this.model.get('id'));
+            this.metaModel.fetch({
+                error: () => this.triggerMethod('answering:load:error'),
+                success,
+            });
+
+            return;
+        }
+
+        success(this.metaModel);
     }
 
     /**
@@ -145,10 +159,31 @@ export default class AnsweringView extends View<AnswerModel> {
      *
      * @param data request data
      */
-    private onAnsweringLoadSuccess(data) {
+    private onAnsweringLoadSuccess(model: MetaModel) {
         this.loaded = true;
+        const data = model.attributes;
 
         this.model.set(data.posting);
+
+        /// init drafts (no drafts for edits)
+        const isEdit: boolean = !!this.model.get('id');
+        if (!isEdit) {
+            const draftModel = new DraftModel({ pid: this.model.get('pid') });
+
+            // update draft when answering input changes
+            draftModel.listenTo(this.model, 'change', () => {
+                draftModel.set(this.model.pick('subject', 'text'));
+            });
+
+            if (data.draft) {
+                const { id, subject, text} = data.draft;
+                this.model.set({ subject, text });
+                // draft model is going to update an existing draft
+                draftModel.set('id', id);
+            }
+
+            this.showChildView('drafts', new DraftView({ model: draftModel }));
+        }
 
         /// init submit-button
         this.showChildView('submitBtn', new SubmitButtonVw({ model: this.model }));
@@ -183,7 +218,6 @@ export default class AnsweringView extends View<AnswerModel> {
             max: data.meta.subjectMaxLength,
             model: this.model,
             placeholder: data.meta.subject || $.i18n.__('answer.subject.t'),
-            type: data.meta.type,
         });
         this.showChildView('subject', subjectView);
         subjectView.listenTo(this, 'answering:form:rendered', subjectView.focus);
@@ -340,8 +374,13 @@ export default class AnsweringView extends View<AnswerModel> {
      * Usually after a form-submit failed due to validation-/request-error
      */
     private enableAnswering() {
-        const submitBtn: SubmitButtonVw & any = this.getChildView('submitBtn');
+        const submitBtn = this.getChildView('submitBtn') as SubmitButtonVw;
         submitBtn.enable();
+
+        const drafts = this.getChildView('drafts') as DraftView;
+        if (drafts) {
+            drafts.enable();
+        }
 
         this.sendInProgress = false;
     }
@@ -354,8 +393,13 @@ export default class AnsweringView extends View<AnswerModel> {
     private disableAnswering() {
         this.sendInProgress = true;
 
-        const submitBtn: SubmitButtonVw & any = this.getChildView('submitBtn');
+        const submitBtn = this.getChildView('submitBtn') as SubmitButtonVw;
         submitBtn.disable();
+
+        const drafts = this.getChildView('drafts') as DraftView;
+        if (drafts) {
+            drafts.disable();
+        }
     }
 
 }

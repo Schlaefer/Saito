@@ -38,6 +38,7 @@ abstract class IntegrationTestCase extends SaitoIntegrationTestCase
         $tables = [
             'bookmarks',
             'categories',
+            'drafts',
             'entries',
             'esevents',
             'esnotifications',

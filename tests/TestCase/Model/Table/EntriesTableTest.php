@@ -2,6 +2,7 @@
 
 namespace App\Test\TestCase\Model\Table;
 
+use App\Model\Entity\Entry;
 use Saito\App\Registry;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
@@ -26,12 +27,19 @@ class EntriesTest extends SaitoTableTestCase
     {
         $category = 1;
 
+        $Drafts = $this->getMockForModel(
+            'Drafts',
+            ['deleteDraftForPosting']
+        );
+        $Drafts->expects($this->once())
+            ->method('deleteDraftForPosting')
+            ->with($this->isInstanceOf(Entry::class));
+
         $this->Table = $this->getMockForModel(
             'Entries',
             ['_dispatchEvent'],
             ['className' => 'Saito\Test\Model\Table\EntriesTableMock']
         );
-
         $this->Table->expects($this->once())
             ->method('_dispatchEvent')
             ->with('Model.Thread.create', $this->anything());
@@ -65,6 +73,14 @@ class EntriesTest extends SaitoTableTestCase
         $expected['tid'] = $expectedThreadId;
         $result = array_intersect_key($result, $expected);
         $this->assertEquals($result, $expected);
+    }
+
+    public function testValidationSubjectMaxLengthFailure()
+    {
+        $max = 5;
+        $this->Table->setConfig('subject_maxlength', $max);
+        $draft = $this->Table->newEntity(['subject' => str_pad('', $max + 1, '0')]);
+        $this->assertArrayHasKey('maxLength', $draft->getError('subject'));
     }
 
     public function testToggle()
@@ -413,5 +429,14 @@ class EntriesTest extends SaitoTableTestCase
     {
         $this->expectException('\UnexpectedValueException');
         $this->Table->getThreadId(999);
+    }
+
+    public function testTrimSubjectAndText()
+    {
+        $fields = ['subject' => ' foo ', 'text' => ' bar '];
+        $new = $this->Table->newEntity($fields);
+
+        $this->assertEquals('foo', $new->get('subject'));
+        $this->assertEquals('bar', $new->get('text'));
     }
 }

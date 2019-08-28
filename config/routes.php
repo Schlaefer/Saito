@@ -63,18 +63,18 @@ Router::scope('/', function (RouteBuilder $routes) {
      * /users/login -> /login
      */
     $routes->connect(
-            '/login',
-            ['controller' => 'Users', 'action' => 'login'],
-            ['_name' => 'login']
+        '/login',
+        ['controller' => 'Users', 'action' => 'login'],
+        ['_name' => 'login']
         );
 
     /**
      * /users/login -> /login
      */
     $routes->connect(
-            '/logout',
-            ['controller' => 'Users', 'action' => 'logout'],
-            ['_name' => 'logout']
+        '/logout',
+        ['controller' => 'Users', 'action' => 'logout'],
+        ['_name' => 'logout']
         );
 
     /**
@@ -104,18 +104,22 @@ Router::scope('/entries', function ($routes) {
     );
 });
 
-
 Router::scope('/api/v2/', function ($routes) {
     $routes->setExtensions(['json']);
     $routes->resources('Postings');
 });
 
-Router::scope('/api/v2/postings', function ($routes) {
+Router::scope('/api/v2/postingmeta', function ($routes) {
     $routes->setExtensions(['json']);
     $routes->connect(
-        '/:action/*',
-        ['controller' => 'Postings']
+        '/*',
+        ['controller' => 'Postings', 'action' => 'meta']
     );
+});
+
+Router::scope('/api/v2/', function ($routes) {
+    $routes->setExtensions(['json']);
+    $routes->resources('Drafts');
 });
 
 Router::scope('/api/v2/preview', function ($routes) {

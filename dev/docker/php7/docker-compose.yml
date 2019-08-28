@@ -8,6 +8,8 @@ services:
         - ./../../../:/var/www/html
       ports:
         - "8080:80"
+        # Karma test runner
+        - "9876:9876"
 
     mailhog:
       image: mailhog/mailhog:latest

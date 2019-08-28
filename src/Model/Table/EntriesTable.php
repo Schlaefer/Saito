@@ -15,9 +15,9 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
+use App\Model\Table\DraftsTable;
 use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Cache\Cache;
-use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
@@ -28,6 +28,7 @@ use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\RememberTrait;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\Validation\SaitoValidationProvider;
 use Search\Manager;
 use Stopwatch\Lib\Stopwatch;
 
@@ -40,6 +41,7 @@ use Stopwatch\Lib\Stopwatch;
  *
  * @property BookmarksTable $Bookmarks
  * @property CategoriesTable $Categories
+ * @property DraftsTable $Drafts
  * @method array treeBuild(array $postings)
  * @method createPosting(array $data, CurrentUserInterface $CurrentUser)
  * @method updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser)
@@ -159,6 +161,9 @@ class EntriesTable extends AppTable
             'Bookmarks',
             ['foreignKey' => 'entry_id', 'dependent' => true]
         );
+
+        // Releation never queried. Just for quick access to the table.
+        $this->hasOne('Drafts');
     }
 
     /**
@@ -166,15 +171,13 @@ class EntriesTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->setProvider(
-            'saito',
-            'Saito\Validation\SaitoValidationProvider'
-        );
+        $validator->setProvider('saito', SaitoValidationProvider::class);
 
         /// category_id
+        $categoryRequiredL10N = __('vld.entries.categories.notEmpty');
         $validator
-            ->notEmpty('category_id')
-            ->requirePresence('category_id', 'create')
+            ->notEmpty('category_id', $categoryRequiredL10N)
+            ->requirePresence('category_id', 'create', $categoryRequiredL10N)
             ->add(
                 'category_id',
                 [
@@ -201,18 +204,16 @@ class EntriesTable extends AppTable
         $validator->requirePresence('pid', 'create');
 
         /// subject
+        $subjectRequiredL10N = __('vld.entries.subject.notEmpty');
         $validator
-            ->notEmptyString('subject', __d('validation', 'entries.subject.notEmpty'))
-            ->requirePresence('subject', 'create')
+            ->notEmptyString('subject', $subjectRequiredL10N)
+            ->requirePresence('subject', 'create', $subjectRequiredL10N)
             ->add(
                 'subject',
                 [
                     'maxLength' => [
-                        'rule' => [$this, 'validateSubjectMaxLength'],
-                        'message' => __d(
-                            'validation',
-                            'entries.subject.maxlength'
-                        )
+                        'rule' => ['maxLength', $this->getConfig('subject_maxlength')],
+                        'message' => __('vld.entries.subject.maxlength')
                     ]
                 ]
             );
@@ -708,16 +709,14 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function beforeValidate(
-        Event $event,
-        Entity $entity,
-        \ArrayObject $options,
-        Validator $validator
-    ) {
-        //= in n/t posting delete unnecessary body text
-        // @bogus move to entity?
-        if ($entity->isDirty('text')) {
-            $entity->set('text', rtrim($entity->get('text')));
+    public function beforeMarshal(Event $event, \ArrayObject $data, \ArrayObject $options)
+    {
+        /// Trim whitespace on subject and text
+        $toTrim = ['subject', 'text'];
+        foreach ($toTrim as $field) {
+            if (!empty($data[$field])) {
+                $data[$field] = trim($data[$field]);
+            }
         }
     }
 
@@ -937,14 +936,13 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * check subject max length
-     *
-     * @param mixed $subject subject
-     * @return bool
+     * {@inheritDoc}
      */
-    public function validateSubjectMaxLength($subject)
+    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
     {
-        return mb_strlen($subject) <= $this->getConfig('subject_maxlength');
+        if ($entity->isNew()) {
+            $this->Drafts->deleteDraftForPosting($entity);
+        }
     }
 
     /**

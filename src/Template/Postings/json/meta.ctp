@@ -23,11 +23,19 @@ $data = [
         'info' => $this->Parser->editorHelp(),
         'last' => $last,
         'quoteSymbol' => $settings['quote_symbol'],
-        'autoselectCategory' => $settings['answeringAutoSelectCategory'],
+        'autoselectCategory' => (bool)$settings['answeringAutoSelectCategory'],
         'subjectMaxLength' => (int)$settings['subject_maxlength'],
     ],
     'posting' => [],
 ];
+
+if (!empty($draft)) {
+    $data['draft'] = [
+        'id' => $draft->get('id'),
+        'subject' => $draft->get('subject'),
+        'text' => $draft->get('text'),
+    ];
+}
 
 if ($isAnswer) {
     $data['meta']['subject'] = $parent->get('subject');

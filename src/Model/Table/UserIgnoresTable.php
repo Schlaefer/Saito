@@ -15,6 +15,7 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use Cake\ORM\Query;
 use Cake\Validation\Validator;
+use Saito\Validation\SaitoValidationProvider;
 
 class UserIgnoresTable extends AppTable
 {
@@ -49,10 +50,7 @@ class UserIgnoresTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->setProvider(
-            'saito',
-            'Saito\Validation\SaitoValidationProvider'
-        );
+        $validator->setProvider('saito', SaitoValidationProvider::class);
 
         $validator->notEmpty('user_id')
             ->add(

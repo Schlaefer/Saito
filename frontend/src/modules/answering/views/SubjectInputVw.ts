@@ -62,27 +62,30 @@ export default class SubjectInputView extends View<Model> {
                 'keypress @ui.input': 'handleKeypress',
             },
             template: _.template(`
-                <div class="input text required">
-                    <input
-                        class="js-subject postingform-subject form-control"
-                        id="subject"
-                        maxlength="<%- subjectMaxLength %>"
-                        name="subject"
-                        placeholder="<%- placeholder %>"
-                        <% if (!pid) { %> required="required" <% } %>
-                        value="<%- subject %>"
-                        tabindex="2"
-                        type="text"
-                    >
-                </div>
-                <div class="progress postingform-subject-progress">
-                    <div
-                        role="progressbar"
-                        class="js-progress progress-bar bg-success"
-                        style="width: 0%;">
+                <div style="position: relative;">
+                    <div class="input text required">
+                        <input
+                            class="js-subject postingform-subject form-control"
+                            id="subject"
+                            maxlength="<%- subjectMaxLength %>"
+                            name="subject"
+                            placeholder="<%- placeholder %>"
+                            <% if (!pid) { %> required="required" <% } %>
+                            value="<%- subject %>"
+                            tabindex="2"
+                            type="text"
+                        >
                     </div>
+                    <div class="progress postingform-subject-progress">
+                        <div
+                            role="progressbar"
+                            class="js-progress progress-bar bg-success"
+                            style="width: 0%;">
+                        </div>
+                    </div>
+                    <div class="postingform-subject-count"></div>
                 </div>
-                <div class="postingform-subject-count"></div>
+                <div class="vld-msg"></div>
             `),
             ui: {
                 counter: '.postingform-subject-count',
@@ -119,7 +122,6 @@ export default class SubjectInputView extends View<Model> {
         return {
             placeholder: this.getOption('placeholder'),
             subjectMaxLength: this.stateModel.get('max'),
-            type: this.getOption('type'),
         };
     }
 

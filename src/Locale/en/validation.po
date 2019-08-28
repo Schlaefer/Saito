@@ -1,6 +1,0 @@
-msgid "entries.subject.notEmpty"
-msgstr "Subject must not be empty."
-
-msgid "entries.subject.maxlength"
-msgstr "Subject is to long."
-

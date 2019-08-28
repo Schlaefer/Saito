@@ -25,6 +25,7 @@ class PostingsControllerTest extends IntegrationTestCase
     public $fixtures = [
         'plugin.Bookmarks.Bookmark',
         'app.Category',
+        'app.Draft',
         'app.Entry',
         'app.Setting',
         'app.Smiley',
@@ -38,10 +39,14 @@ class PostingsControllerTest extends IntegrationTestCase
 
     public function testAddFailureNoAuthorization()
     {
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
+
         $this->expectException(UnauthorizedException::class);
 
         $data = ['pid' => 1, 'subject' => 'foo'];
-        $this->post('api/v2/postings/add', $data);
+        $this->post('api/v2/postings/', $data);
     }
 
     public function testAddSuccess()
@@ -54,7 +59,7 @@ class PostingsControllerTest extends IntegrationTestCase
         $latestEntry = $EntriesTable->find()->order(['id' => 'desc'])->first();
         $expectedId = $latestEntry->get('id') + 1;
 
-        $this->post('api/v2/postings/add', $data);
+        $this->post('api/v2/postings/', $data);
 
         $this->assertResponseCode(200);
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -76,14 +81,14 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $this->expectException(BadRequestException::class);
 
-        $this->post('api/v2/postings/add', []);
+        $this->post('api/v2/postings/', []);
     }
 
     public function testAddValidationErrorsCategoryAndSubjectMissing()
     {
         $this->loginJwt(3);
 
-        $this->post('api/v2/postings/add', []);
+        $this->post('api/v2/postings/', []);
 
         $this->assertResponseCode(200);
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -105,25 +110,29 @@ class PostingsControllerTest extends IntegrationTestCase
             'subject' => 'Vorher wie ich in der mobilen Version ka…',
         ];
 
-        $this->post('api/v2/postings/add', $data);
+        $this->post('api/v2/postings/', $data);
 
         $this->assertResponseCode(200);
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertArrayHasKey('errors', $response);
-        $this->assertEquals('Subject: Subject is to long.', $response['errors'][0]['title']);
+        $this->assertEquals('Subject: Subject is to long', $response['errors'][0]['title']);
     }
 
     public function testMetaFailureAuthorization()
     {
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
+
         $this->expectException(UnauthorizedException::class);
-        $this->get('api/v2/postings/meta');
+        $this->get('api/v2/postingmeta');
     }
 
     public function testMetaCommon()
     {
         $this->loginJwt(3);
-        $this->get('api/v2/postings/meta');
+        $this->get('api/v2/postingmeta');
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertResponseCode(200);
@@ -141,12 +150,29 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $this->assertArrayHasKey('posting', $response);
         $this->assertEquals([], $response['posting']);
+
+        $this->assertArrayNotHasKey('draft', $response);
+    }
+
+    public function testMetaDraft()
+    {
+        $this->loginJwt(1);
+
+        $this->get('api/v2/postingmeta/');
+        $response = json_decode((string)$this->_response->getBody(), true);
+
+        $expected = [
+                'id' => 2,
+                'subject' => 'Draft Subject 2',
+                'text' => 'Draft Text 2',
+        ];
+        $this->assertEquals($expected, $response['draft']);
     }
 
     public function testMetaAnswer()
     {
         $this->loginJwt(1);
-        $this->get('api/v2/postings/meta/?pid=1');
+        $this->get('api/v2/postingmeta/?pid=1');
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertEquals('First_Subject', $response['meta']['subject']);
@@ -156,7 +182,7 @@ class PostingsControllerTest extends IntegrationTestCase
     public function testMetaEdit()
     {
         $this->loginJwt(1);
-        $this->get('api/v2/postings/meta/?id=1');
+        $this->get('api/v2/postingmeta/1');
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertEquals(1, $response['posting']['id']);
@@ -171,21 +197,25 @@ class PostingsControllerTest extends IntegrationTestCase
     {
         $this->loginJwt(3);
         $this->expectException(SaitoForbiddenException::class);
-        $this->get('api/v2/postings/meta/?pid=6');
+        $this->get('api/v2/postingmeta/?pid=6');
     }
 
     public function testMetaEditForbiddenCategory()
     {
         $this->loginJwt(3);
         $this->expectException(SaitoForbiddenException::class);
-        $this->get('api/v2/postings/meta/?id=6');
+        $this->get('api/v2/postingmeta/6');
     }
 
     public function testEditFailureUnauthorized()
     {
+        $this->configRequest([
+            'headers' => ['Accept' => 'application/json']
+        ]);
+
         $this->expectException(UnauthorizedException::class);
 
-        $this->put('api/v2/postings/edit', []);
+        $this->put('api/v2/postings/9999', []);
     }
 
     public function testEditSuccess()
@@ -196,7 +226,7 @@ class PostingsControllerTest extends IntegrationTestCase
         $newText = 'fuzz';
         $data = ['id' => 2, 'subject' => $newSubject, 'text' => $newText];
 
-        $this->put('api/v2/postings/edit', $data);
+        $this->put('api/v2/postings/2', $data);
 
         $this->assertResponseCode(200);
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -216,7 +246,7 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $this->expectException(BadRequestException::class);
 
-        $this->put('api/v2/postings/edit', $data);
+        $this->put('api/v2/postings/1', $data);
     }
 
     public function testEditFailureNoPosting()
@@ -226,7 +256,7 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $this->expectException(NotFoundException::class);
 
-        $this->put('api/v2/postings/edit', $data);
+        $this->put('api/v2/postings/9999', $data);
     }
 
     public function testEditFailureUnknownPersistentError()
@@ -241,7 +271,7 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $this->expectException(BadRequestException::class);
 
-        $this->put('api/v2/postings/edit', $data);
+        $this->put('api/v2/postings/1', $data);
     }
 
     public function testEditValidationErrorsSubject()
@@ -250,12 +280,12 @@ class PostingsControllerTest extends IntegrationTestCase
 
         $data = ['id' => 1, 'subject' => 'Vorher wie ich in der mobilen Version ka…'];
 
-        $this->put('api/v2/postings/edit', $data);
+        $this->put('api/v2/postings/1', $data);
 
         $this->assertResponseCode(200);
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertArrayHasKey('errors', $response);
-        $this->assertEquals('Subject: Subject is to long.', $response['errors'][0]['title']);
+        $this->assertEquals('Subject: Subject is to long', $response['errors'][0]['title']);
     }
 }

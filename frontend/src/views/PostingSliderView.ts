@@ -63,7 +63,7 @@ export default class Marionette extends View<Model> {
         }
     }
 
-    private onChildviewAnsweringSendSuccess(model) {
+    private onChildviewAnsweringSendSuccess(model: AnswerModel) {
         const id = model.get('id');
 
         /// Inline answer
@@ -83,18 +83,16 @@ export default class Marionette extends View<Model> {
 
         /// redirect
         let action: string = App.request.action;
-        let urlSuffix: string = '';
 
         switch (action) {
             case ('mix'):
-                urlSuffix = '#' + id;
                 break;
             default:
                 action = 'view';
         }
 
         const root: string = App.settings.get('webroot');
-        window.redirect(root + 'entries/' + action + '/' + id + urlSuffix);
+        window.redirect(root + 'entries/' + action + '/' + id);
     }
 
     private onChildviewAnsweringLoadError() {

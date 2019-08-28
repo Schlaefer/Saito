@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
-#: frontend/src/modules/answering/answering.ts:85
+#: frontend/src/modules/answering/answering.ts:111
 msgid "answer.btn.preview"
 msgstr "Preview"
 
@@ -34,29 +34,37 @@ msgstr "Category"
 msgid "answer.cite.t"
 msgstr "Cite"
 
-#: frontend/src/modules/answering/answering.ts:70
+#: frontend/src/modules/answering/editor/DraftsView.ts:108
+msgid "answer.draft.saved.t"
+msgstr "Answer is saved as draft."
+
+#: frontend/src/modules/answering/editor/DraftsView.ts:109
+msgid "answer.draft.unsaved.t"
+msgstr "Not all changes are saved as draft."
+
+#: frontend/src/modules/answering/answering.ts:96
 msgid "answer.reply.t"
 msgstr "Write a Reply"
 
-#: frontend/src/modules/answering/answering.ts:99
-#: frontend/src/modules/answering/answering.ts:185
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:236
 msgid "answer.subject.t"
 msgstr "Subject"
 
-#: frontend/src/modules/answering/answering.ts:99
-#: frontend/src/modules/answering/answering.ts:265
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:315
 msgid "answer.submit.e.t"
 msgstr "Error: Posting Could Not Be Saved"
 
-#: frontend/src/modules/answering/answering.ts:99
-#: frontend/src/modules/answering/answering.ts:222
-#: frontend/src/modules/answering/answering.ts:264
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:272
+#: frontend/src/modules/answering/answering.ts:314
 msgid "api.generic.e.exp"
 msgstr ""
 "Couldn't reach the internet server. Check your connection and try again."
 
-#: frontend/src/modules/answering/answering.ts:99
-#: frontend/src/modules/answering/answering.ts:223
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:273
 msgid "api.generic.e.t"
 msgstr "Error: Couldn't Connect to Server"
 
@@ -243,7 +251,3 @@ msgstr "Recent Postings"
 #~ msgstr ""
 #~ "Couldn't reach to the internet server. Check that you're connected and "
 #~ "try again."
-
-#, fuzzy
-#~ msgid "answer.load.e.t"
-#~ msgstr "Cite"

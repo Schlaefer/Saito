@@ -103,6 +103,7 @@ class UsersTable extends AppTable
             'Bookmarks',
             ['foreignKey' => 'user_id', 'dependent' => true]
         );
+        $this->hasMany('Drafts', ['dependent' => true]);
         $this->hasMany('UserIgnores', ['foreignKey' => 'user_id']);
         $this->hasMany(
             'Entries',

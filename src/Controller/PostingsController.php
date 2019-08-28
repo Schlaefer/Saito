@@ -68,9 +68,10 @@ class PostingsController extends ApiAppController
     /**
      * Edit an existing posting
      *
+     * @param string $id Unused in favor of request-data.
      * @return void
      */
-    public function edit(): void
+    public function edit(string $id): void
     {
         $data = $this->request->getData();
 
@@ -105,11 +106,12 @@ class PostingsController extends ApiAppController
     /**
      * Serves meta information required to add or edit a posting
      *
+     * @param string|null $id ID of the posting (send on edit)
      * @return void
      */
-    public function meta(): void
+    public function meta(?string $id = null): void
     {
-        $id = $this->getRequest()->getQuery('id', null);
+        $id = (int)$id;
         $isEdit = !empty($id);
         $pid = $this->getRequest()->getQuery('pid', null);
         $isAnswer = !empty($pid);
@@ -139,6 +141,15 @@ class PostingsController extends ApiAppController
                 );
             }
             $this->set('posting', $posting);
+        } else {
+            /// We currently don't save drafts for edits
+            $where = ['user_id' => $this->CurrentUser->getId()];
+            ($pid) ? $where['pid'] = $pid : $where[] = 'pid IS NULL';
+            $draft = $this->Entries->Drafts->find()->where($where)->first();
+
+            if ($draft) {
+                $this->set('draft', $draft);
+            }
         }
 
         $settings = Configure::read('Saito.Settings');

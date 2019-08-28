@@ -64,5 +64,10 @@ interface Document {
 }
 
 interface Window {
-    redirect: any;
+    /**
+     * Redirects the browser to a new URL.
+     *
+     * @param url URL to redirect to.
+     */
+    redirect: (url: string) => void;
 }

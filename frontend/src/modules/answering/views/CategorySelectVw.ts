@@ -14,27 +14,30 @@ export default class CategorySelectVw extends View<Model> {
     public constructor(options: any = {}) {
         _.defaults(options, {
             autoselectCategory: false,
-            className: 'form-group d-flex',
+            className: 'form-group',
             events: {
                 'change @ui.select': 'onChangeSelect',
             },
             template: _.template(`
-                <label class="col-form-label mr-3" for="category-id">
-                    <%- $.i18n.__('answer.cat.l') %>
-                </label>
-                <select name="category_id" class="form-control" tabindex="1" required="required" id="category-id">
-                    <% if (!autoselectCategory) { %>
-                        <option value=""></option>
-                    <% } %>
-                    <% for (const [id, title] of Object.entries(categories)) { %>
-                        <option
-                            value="<%= id %>"
-                            <% if (category_id == id) { %>selected="selected"<% } %>
-                        >
-                            <%- title %>
-                        </option>
-                    <% } %>
-                </select>
+                <div class="d-flex" style="width: 100%">
+                    <label class="col-form-label mr-3" for="category-id">
+                        <%- $.i18n.__('answer.cat.l') %>
+                    </label>
+                    <select name="category_id" class="form-control" tabindex="1" required="required" id="category-id">
+                        <% if (!autoselectCategory) { %>
+                            <option value=""></option>
+                        <% } %>
+                        <% for (const [id, title] of Object.entries(categories)) { %>
+                            <option
+                                value="<%= id %>"
+                                <% if (category_id == id) { %>selected="selected"<% } %>
+                            >
+                                <%- title %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="vld-msg"></div>
             `),
             ui: {
                 select: 'select',

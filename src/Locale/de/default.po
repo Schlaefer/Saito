@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-31 11:37+0200\n"
-"PO-Revision-Date: 2019-07-31 11:37+0200\n"
+"POT-Creation-Date: 2019-08-27 08:08+0200\n"
+"PO-Revision-Date: 2019-08-27 08:08+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: plugins/Admin/src/Controller/AdminsController.php:52
 msgid "Caches cleared."
-msgstr ""
+msgstr "vld"
 
 #: plugins/Admin/src/Controller/CategoriesController.php:68
 #: plugins/Admin/src/Controller/CategoriesController.php:112
@@ -232,7 +232,7 @@ msgstr "Liste"
 msgid "Spoiler"
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/Editor.php:87 src/Template/Entries/add.ctp:107
+#: plugins/BbcodeParser/src/Lib/Editor.php:87
 msgid "Cite"
 msgstr "Zitieren"
 
@@ -276,12 +276,12 @@ msgstr "Hilfe-Datei nicht gefunden."
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/Controller/AppController.php:226
+#: src/Controller/AppController.php:225
 msgid "authorization.autherror"
 msgstr ""
 "Sie besitzen nicht die notwendingen Rechte, um auf diesen Inhalt zuzugreifen."
 
-#: src/Controller/Component/AuthUserComponent.php:264
+#: src/Controller/Component/AuthUserComponent.php:266
 msgid "authentication.error"
 msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
 
@@ -313,16 +313,16 @@ msgstr "Nachricht wurde versandt."
 msgid "Message couldn't be send: {0}"
 msgstr ""
 
-#: src/Controller/EntriesController.php:88
+#: src/Controller/EntriesController.php:90
 msgid "page"
 msgstr "Seite"
 
-#: src/Controller/EntriesController.php:151
+#: src/Controller/EntriesController.php:153
 msgid "view.type.mix"
 msgstr "Mix"
 
-#: src/Controller/EntriesController.php:198
-#: src/Controller/EntriesController.php:207
+#: src/Controller/EntriesController.php:200
+#: src/Controller/EntriesController.php:209
 msgid "Invalid post"
 msgstr "Posting konnte nicht gefunden werden."
 
@@ -330,51 +330,41 @@ msgstr "Posting konnte nicht gefunden werden."
 msgid "Write a New Posting"
 msgstr "Neuen Beitrag verfassen"
 
-#: src/Controller/EntriesController.php:292
-#: src/Controller/EntriesController.php:421
-msgid "Something clogged the tubes. Could not save entry. Try again."
-msgstr ""
-
-#: src/Controller/EntriesController.php:326
-#: src/Controller/EntriesController.php:455
-msgid "back_to_posting_from_linkname"
-msgstr "zurück zum Posting von {0}"
-
-#: src/Controller/EntriesController.php:330
-msgid "Write a Reply"
-msgstr "Antwort verfassen"
-
-#: src/Controller/EntriesController.php:431
+#: src/Controller/EntriesController.php:281
 msgid "notice_you_are_editing_as_mod"
 msgstr "Achtung: Die folgende Aktion wird als Moderator vorgenommen!"
 
-#: src/Controller/EntriesController.php:460
+#: src/Controller/EntriesController.php:291
+msgid "back_to_posting_from_linkname"
+msgstr "zurück zum Posting von {0}"
+
+#: src/Controller/EntriesController.php:294
 #: src/Template/Element/entry/view_posting.ctp:91
 #: src/Template/Element/entry/view_posting.ctp:99
 msgid "edit_linkname"
 msgstr "Bearbeiten"
 
-#: src/Controller/EntriesController.php:490
+#: src/Controller/EntriesController.php:342
 msgid "delete_tree_success"
 msgstr "Thread erfolgreich entfernt."
 
-#: src/Controller/EntriesController.php:493
+#: src/Controller/EntriesController.php:345
 msgid "delete_subtree_success"
 msgstr "Subthread erfolgreich entfernt."
 
-#: src/Controller/EntriesController.php:498
+#: src/Controller/EntriesController.php:350
 msgid "delete_tree_error"
 msgstr "Thread konnte nicht gelöscht werden."
 
-#: src/Controller/EntriesController.php:565 src/Template/Layout/error.ctp:35
+#: src/Controller/EntriesController.php:437 src/Template/Layout/error.ctp:35
 msgid "Error"
 msgstr ""
 
-#: src/Controller/EntriesController.php:657
+#: src/Controller/EntriesController.php:529
 msgid "Custom"
 msgstr "Angepasst"
 
-#: src/Controller/EntriesController.php:660
+#: src/Controller/EntriesController.php:532
 #: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:30
 #: src/Template/Element/entry/category-chooser.ctp:29
 msgid "All Categories"
@@ -488,50 +478,62 @@ msgstr "Keine gültige Email-Adresse."
 msgid "user.removed.placeholder"
 msgstr "<gelöscht>"
 
-#: src/Model/Table/UsersTable.php:153
+#: src/Model/Table/EntriesTable.php:178
+msgid "vld.entries.categories.notEmpty"
+msgstr "Kategorie wird benötigt"
+
+#: src/Model/Table/EntriesTable.php:207
+msgid "vld.entries.subject.notEmpty"
+msgstr "Betreff wird benötigt"
+
+#: src/Model/Table/EntriesTable.php:214
+msgid "vld.entries.subject.maxlength"
+msgstr "Betreff ist zu lang"
+
+#: src/Model/Table/UsersTable.php:154
 msgid "user.avatar.error.extension"
 msgstr "Unbekanntes Dateiformat. Erlaubt: {0}."
 
-#: src/Model/Table/UsersTable.php:161
+#: src/Model/Table/UsersTable.php:162
 msgid "user.avatar.error.size"
 msgstr "Datei ist zu groß. Limit: {0}"
 
-#: src/Model/Table/UsersTable.php:169
+#: src/Model/Table/UsersTable.php:170
 msgid "user.avatar.error.mime"
 msgstr "MIME-Typ nicht erlaubt."
 
-#: src/Model/Table/UsersTable.php:184
+#: src/Model/Table/UsersTable.php:185
 msgid "user.avatar.error.dimension"
 msgstr ""
 "Bild ist zu groß oder zu klein. Bitte ein Format zwischen {0} und {1} "
 "verwenden."
 
-#: src/Model/Table/UsersTable.php:199
+#: src/Model/Table/UsersTable.php:200
 msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
-#: src/Model/Table/UsersTable.php:218
+#: src/Model/Table/UsersTable.php:219
 msgid "error_no_name"
 msgstr "Es wurde kein Name eingegeben."
 
-#: src/Model/Table/UsersTable.php:226
+#: src/Model/Table/UsersTable.php:227
 msgid "error_name_reserved"
 msgstr "Der Name ist bereits vergeben."
 
-#: src/Model/Table/UsersTable.php:236 src/Model/Table/UsersTable.php:242
+#: src/Model/Table/UsersTable.php:237 src/Model/Table/UsersTable.php:243
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "Der Name enthält unerlaubte Sonderzeichen."
 
-#: src/Model/Table/UsersTable.php:257
+#: src/Model/Table/UsersTable.php:258
 msgid "error_email_reserved"
 msgstr ""
 "Es ist bereits ein Benutzer mit der angegebenen E-Mail-Adresse vorhanden."
 
-#: src/Model/Table/UsersTable.php:262
+#: src/Model/Table/UsersTable.php:263
 msgid "error_email_wrong"
 msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
 
-#: src/Model/Table/UsersTable.php:596
+#: src/Model/Table/UsersTable.php:597
 msgid "error.name.equalExists"
 msgstr "Ein ähnlicher Name ist bereits vergeben: {0}"
 
@@ -544,7 +546,7 @@ msgstr "Zurück zum Forum"
 msgid "Back"
 msgstr "Zurück"
 
-#: src/View/Helper/ParserHelper.php:139
+#: src/View/Helper/ParserHelper.php:117
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:45
 #: plugins/Admin/src/Template/SmileyCodes/add.ctp:1
 #: plugins/Admin/src/Template/SmileyCodes/edit.ctp:1
@@ -1152,18 +1154,6 @@ msgstr ""
 "\n"
 "Um Ihr Benutzerkonto zu aktivieren, besuchen Sie bitte folgenden Verweis "
 "innerhalb der nächsten 24 Stunden: {1}"
-
-#: src/Template/Entries/add.ctp:52
-msgid "Subject"
-msgstr "Betreff"
-
-#: src/Template/Entries/add.ctp:81
-msgid "submit_button"
-msgstr "Eintragen"
-
-#: src/Template/Entries/add.ctp:91
-msgid "preview"
-msgstr "Vorschau"
 
 #: src/Template/Entries/index.ctp:17
 msgid "new_entry_linkname"
