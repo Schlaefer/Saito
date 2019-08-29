@@ -52,6 +52,13 @@ class EntriesTable extends AppTable
     use RememberTrait;
 
     /**
+     * Max subject length.
+     *
+     * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
+     */
+    public const SUBJECT_MAXLENGTH = 191;
+
+    /**
      * Fields for search plugin
      *
      * @var array

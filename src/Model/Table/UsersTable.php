@@ -43,6 +43,13 @@ use Stopwatch\Lib\Stopwatch;
 class UsersTable extends AppTable
 {
     /**
+     * Max lenght for username.
+     *
+     * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
+     */
+    public const USERNAME_MAXLENGTH = 191;
+
+    /**
      * @var array password hasher
      */
     protected $_passwordHasher = [
@@ -247,7 +254,12 @@ class UsersTable extends AppTable
                         'message' => __(
                             'model.user.validate.username.hasAllowedChars'
                         )
-                    ]
+                    ],
+                    'maxLength' => [
+                        'last' => true,
+                        'message' => __('vld.users.username.maxlength', self::USERNAME_MAXLENGTH),
+                        'rule' => ['maxLength', self::USERNAME_MAXLENGTH],
+                    ],
                 ]
             );
 

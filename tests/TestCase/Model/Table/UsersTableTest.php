@@ -610,4 +610,14 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertEmpty($entity->getErrors());
         $this->assertNotFalse($this->Table->save($entity));
     }
+
+    public function testValidationUsernameMaxLengh()
+    {
+        $max = UsersTable::USERNAME_MAXLENGTH;
+        $user = $this->Table->get(1);
+        $this->Table->patchEntity($user, ['username' => str_pad('', $max + 1, '0')]);
+
+        $this->assertArrayHasKey('maxLength', $user->getError('username'));
+        $this->assertContains('191', $user->getError('username')['maxLength']);
+    }
 }

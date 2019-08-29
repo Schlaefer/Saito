@@ -23,8 +23,22 @@ use Cake\Validation\Validator;
 use claviska\SimpleImage;
 use ImageUploader\Model\Entity\Upload;
 
+/**
+ * Uploads
+ *
+ * Indeces:
+ * - user_id, title - Combined used for uniqueness test. User_id for user's
+ *   upload overview page.
+ */
 class UploadsTable extends AppTable
 {
+    /**
+     * Max filename length.
+     *
+     * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
+     */
+    public const FILENAME_MAXLENGTH = 191;
+
     private const MAX_RESIZE = 800 * 1024;
 
     /**
@@ -70,6 +84,16 @@ class UploadsTable extends AppTable
                 ],
                 'fileSize' => [
                     'rule' => [$this, 'validateFileSize'],
+                ],
+            ]
+        );
+
+        $validator->add(
+            'title',
+            [
+                'maxLength' => [
+                    'rule' => ['maxLength', self::FILENAME_MAXLENGTH],
+                    'message' => __('vld.uploads.title.maxlength', self::FILENAME_MAXLENGTH)
                 ],
             ]
         );

@@ -6,6 +6,22 @@ class Saitox5x3x0 extends AbstractMigration
 
     public function up()
     {
+        $this->table('uploads')
+            ->changeColumn('title', 'string', [
+                'default' => null,
+                // For MySQL 5.6 - limit for indexed varchar columns on InnoDB is 191
+                'length' => 191,
+                'null' => true,
+            ])
+            ->addIndex(
+                [
+                    'user_id',
+                    'title',
+                ],
+                ['name' => 'userId_title', 'unique' => true]
+            )
+            ->update();
+
         $this->table('useronline')
             ->changeColumn('logged_in', 'boolean', [
                 'default' => null,
@@ -47,8 +63,8 @@ class Saitox5x3x0 extends AbstractMigration
             ])
             ->addIndex(
                 [
-                    'pid',
                     'user_id',
+                    'pid',
                 ],
                 ['unique' => true]
             )
@@ -60,6 +76,18 @@ class Saitox5x3x0 extends AbstractMigration
 
     public function down()
     {
+        $this->table('uploads')
+            ->removeIndexByName('userId_title')
+            ->update();
+
+        $this->table('uploads')
+            ->changeColumn('title', 'string', [
+                'default' => null,
+                'length' => 200,
+                'null' => true,
+            ])
+            ->update();
+
         $this->table('useronline')
             ->changeColumn('logged_in', 'boolean', [
                 'default' => 0,

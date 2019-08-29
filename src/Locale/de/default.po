@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-27 08:08+0200\n"
-"PO-Revision-Date: 2019-08-27 08:08+0200\n"
+"POT-Creation-Date: 2019-08-29 10:32+0200\n"
+"PO-Revision-Date: 2019-08-29 10:32+0200\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -267,6 +267,10 @@ msgstr ""
 msgid "Invalid bookmark."
 msgstr "Lesezeichen konnte nicht gefunden werden."
 
+#: plugins/ImageUploader/src/Model/Table/UploadsTable.php:96
+msgid "vld.uploads.title.maxlength"
+msgstr "Dateiname zu lang (Maximal {0} Zeichen)."
+
 #: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:60
 msgid "sh.nf"
 msgstr "Hilfe-Datei nicht gefunden."
@@ -478,62 +482,70 @@ msgstr "Keine gültige Email-Adresse."
 msgid "user.removed.placeholder"
 msgstr "<gelöscht>"
 
-#: src/Model/Table/EntriesTable.php:178
+#: src/Model/Table/EntriesTable.php:184
 msgid "vld.entries.categories.notEmpty"
 msgstr "Kategorie wird benötigt"
 
-#: src/Model/Table/EntriesTable.php:207
+#: src/Model/Table/EntriesTable.php:214
 msgid "vld.entries.subject.notEmpty"
 msgstr "Betreff wird benötigt"
 
-#: src/Model/Table/EntriesTable.php:214
+#: src/Model/Table/EntriesTable.php:223
 msgid "vld.entries.subject.maxlength"
 msgstr "Betreff ist zu lang"
 
-#: src/Model/Table/UsersTable.php:154
+#: src/Model/Table/SettingsTable.php:53
+msgid "vld.settings.subjectMaxLength"
+msgstr "Betreff ist zu lang. Maximal {0} Zeichen."
+
+#: src/Model/Table/UsersTable.php:166
 msgid "user.avatar.error.extension"
 msgstr "Unbekanntes Dateiformat. Erlaubt: {0}."
 
-#: src/Model/Table/UsersTable.php:162
+#: src/Model/Table/UsersTable.php:174
 msgid "user.avatar.error.size"
 msgstr "Datei ist zu groß. Limit: {0}"
 
-#: src/Model/Table/UsersTable.php:170
+#: src/Model/Table/UsersTable.php:182
 msgid "user.avatar.error.mime"
 msgstr "MIME-Typ nicht erlaubt."
 
-#: src/Model/Table/UsersTable.php:185
+#: src/Model/Table/UsersTable.php:197
 msgid "user.avatar.error.dimension"
 msgstr ""
 "Bild ist zu groß oder zu klein. Bitte ein Format zwischen {0} und {1} "
 "verwenden."
 
-#: src/Model/Table/UsersTable.php:200
+#: src/Model/Table/UsersTable.php:212
 msgid "error_password_confirm"
 msgstr "Password stimmt nicht mit Wiederholung überein."
 
-#: src/Model/Table/UsersTable.php:219
+#: src/Model/Table/UsersTable.php:231
 msgid "error_no_name"
 msgstr "Es wurde kein Name eingegeben."
 
-#: src/Model/Table/UsersTable.php:227
+#: src/Model/Table/UsersTable.php:239
 msgid "error_name_reserved"
 msgstr "Der Name ist bereits vergeben."
 
-#: src/Model/Table/UsersTable.php:237 src/Model/Table/UsersTable.php:243
+#: src/Model/Table/UsersTable.php:249 src/Model/Table/UsersTable.php:255
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "Der Name enthält unerlaubte Sonderzeichen."
 
-#: src/Model/Table/UsersTable.php:258
+#: src/Model/Table/UsersTable.php:260
+msgid "vld.users.username.maxlength"
+msgstr "Name ist zu lang (maximal {0} Zeichen)."
+
+#: src/Model/Table/UsersTable.php:275
 msgid "error_email_reserved"
 msgstr ""
 "Es ist bereits ein Benutzer mit der angegebenen E-Mail-Adresse vorhanden."
 
-#: src/Model/Table/UsersTable.php:263
+#: src/Model/Table/UsersTable.php:280
 msgid "error_email_wrong"
 msgstr "Die eingegebene E-Mail-Adresse sieht nicht richtig aus."
 
-#: src/Model/Table/UsersTable.php:597
+#: src/Model/Table/UsersTable.php:613
 msgid "error.name.equalExists"
 msgstr "Ein ähnlicher Name ist bereits vergeben: {0}"
 

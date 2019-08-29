@@ -24,8 +24,8 @@ use Cake\Validation\Validator;
  * Table storing the drafts for unfinished posting submissions.
  *
  * Indices:
- * - user_id + pid - Practically every draft is associated with a user answering
- *   to a parent post.
+ * - user_id, pid - Main lookup index for retrieving and checking for uniqness.
+ * Have user_id first to use it for other purposes (find drafts for user).
  * - modified - Used for garbage collection deleting outdated drafts.
  */
 class DraftsTable extends AppTable

@@ -18,6 +18,7 @@ use Cake\Core\Plugin;
 use Cake\Filesystem\File;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
+use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
@@ -229,14 +230,29 @@ class UploadsControllerTest extends IntegrationTestCase
         // to JEPG).
         $file = new File(TMP . 'my new-upload.png');
         $this->mockMediaFile($file);
-        $this->upload($this->file);
+        $this->upload($file);
 
         $this->expectException(GenericApiException::class);
         $this->expectExceptionCode(400);
         $this->expectExceptionMessage('File with same name already uploaded');
 
         $this->loginJwt(1);
-        $this->upload($this->file);
+        $this->upload($file);
+
+        $file->delete();
+    }
+
+    public function testAddFailureFilenameToLong()
+    {
+        $this->loginJwt(1);
+        $max = UploadsTable::FILENAME_MAXLENGTH;
+        $file = new File(TMP . str_pad('', $max + 1, '0') . '.png');
+        $this->mockMediaFile($file);
+
+        $this->expectException(GenericApiException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage((string)$max);
+        $this->upload($file);
 
         $file->delete();
     }

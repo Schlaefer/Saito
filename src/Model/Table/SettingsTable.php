@@ -13,26 +13,14 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppSettingTable;
+use App\Model\Table\EntriesTable;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\ORM\Query;
-use Saito\App\Registry;
+use Cake\Validation\Validator;
 use \Stopwatch\Lib\Stopwatch;
 
 class SettingsTable extends AppSettingTable
 {
-
-    public $validate = [
-        'name' => [
-            'rule' => ['between', 1, 255],
-            'allowEmpty' => false
-        ],
-        'value' => [
-            'rule' => ['between', 0, 255],
-            'allowEmpty' => true
-        ]
-    ];
-
     protected $_optionalEmailFields = [
         'email_contact',
         'email_register',
@@ -45,6 +33,40 @@ class SettingsTable extends AppSettingTable
     public function initialize(array $config)
     {
         $this->setPrimaryKey('name');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->notEmptyString('name')
+            ->add(
+                'name',
+                [
+                    'maxLength' => [
+                        'rule' => ['maxLength', 255],
+                    ],
+                ]
+            );
+
+        $validator
+            ->allowEmptyString('value')
+            ->add(
+                'value',
+                [
+                    'maxLength' => [
+                        'rule' => ['maxLength', 255],
+                    ],
+                    'subjectMaxLength' => [
+                        'rule' => [$this, 'validateSubjectMaxLength'],
+                        'message' => __('vld.settings.subjectMaxLength', EntriesTable::SUBJECT_MAXLENGTH)
+                    ],
+                ]
+            );
+
+        return $validator;
     }
 
     /* @td getSettings vs Load why to functions? */
@@ -110,6 +132,18 @@ class SettingsTable extends AppSettingTable
     {
         parent::clearCache();
         Cache::delete('Saito.appSettings');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validateSubjectMaxLength($value, array $context)
+    {
+        if ($context['data']['name'] === 'subject_maxlength') {
+            return (int)$context['data']['value'] <= EntriesTable::SUBJECT_MAXLENGTH;
+        }
+
+        return true;
     }
 
     /**

@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace App\Test\TestCase\Model\Table;
 
+use App\Model\Table\EntriesTable;
 use App\Test\Fixture\SettingFixture;
 use Cake\Core\Configure;
 use Saito\Test\Model\Table\SaitoTableTestCase;
@@ -109,6 +110,38 @@ class SettingsTableTest extends SaitoTableTestCase
         $result = Configure::read('Saito.Settings');
         $expected = $fixture;
         $this->assertEquals($result, $expected);
+    }
+
+    public function testValidationNameNotEmpty()
+    {
+        $entity = $this->Table->newEntity(['name' => '', 'value' => 'foo']);
+        $this->assertArrayHasKey('_empty', $entity->getError('name'));
+    }
+
+    public function testValidationNameMaxLength()
+    {
+        $entity = $this->Table->newEntity(
+            ['name' => str_pad('', 256, 'foo'), 'value' => 'foo']
+        );
+        $this->assertArrayHasKey('maxLength', $entity->getError('name'));
+    }
+
+    public function testValidationValueMaxLength()
+    {
+        $entity = $this->Table->newEntity(
+            ['name' => 'foo', 'value' => str_pad('', 256, 'foo')]
+        );
+        $this->assertArrayHasKey('maxLength', $entity->getError('value'));
+    }
+
+    public function testValidationSubjectMaxLength()
+    {
+        $max = EntriesTable::SUBJECT_MAXLENGTH;
+        $entity = $this->Table->newEntity(
+            ['name' => 'subject_maxlength', 'value' => $max + 1]
+        );
+        $this->assertArrayHasKey('subjectMaxLength', $entity->getError('value'));
+        $this->assertContains((string)$max, $entity->getError('value')['subjectMaxLength']);
     }
 
     public function tearDown()
