@@ -2,11 +2,9 @@
 
 ## What is it?
 
-Saito is a web-forum with [conversation threading][ConversationThreading].
+Saito is a web-forum with [conversation threading][ConversationThreading]. It is different from the majority of other forums as it puts the emphasis on performance and presenting conversations in a classic tree-style threaded view.
 
-It is different from the majority of other solutions as it puts the emphasis on performance and presenting conversations in a classic tree style threaded view.
-
-It is optimized to to serve long existing, small- to mid-sized communities with posting numbers reaching into the 1+ million. It displays hundreds of individual postings on a single page request while running on a inexpensive, shared hosting account.
+A lot of optimization went into serving long existing, small- to mid-sized communities with moderate traffic but hundreds of thousands of existing postings. It is able to displays hundreds of individual postings on a single page while running on a inexpensive, shared hosting account.
 
 [Test it here][SaitoSupport] (login: test/test).
 
@@ -28,31 +26,30 @@ It is optimized to to serve long existing, small- to mid-sized communities with 
 
 ## Get Started
 
-A ready-to-use zip if is available on the [release page](https://github.com/Schlaefer/Saito/releases). Unzip it, upload it to your server and follow the instructions on the screen.
+A ready-to-use ZIP containing all necessary files is available on the [release page](https://github.com/Schlaefer/Saito/releases). Unzip it, upload it to your server, open it in a browser, and follow the instructions on the screen.
 
 ## Development
 
 ### Set-Up Environment
 
-You need a more or less generic PHP, node, and DB environment. There's a docker file for *development* in `dev/docker/...`.
+You need a more or less generic environement providing:
+
+-  PHP with `composer` for the server-backend (mainly build on [CakePHP][cake])
+-  node with `yarn` and `grunt-cli` for the browser-frontend (mainly build on [Marionette][marionette])
+-  a database
+
+There's a docker file for *development* in `dev/docker/…`
 
 ### Install Files
 
-Checkout files from git.
-
-Install the PHP packages (the backend is mainly build on [CakePHP][cake]):
+Checkout the files from git-repository and install the dependencies:
 
 ```shell
-composer install
+composer install;
+yarn install;
 ```
 
-Install Javascript packages (the frontend is mainly build on [Marionette][marionette]):
-
-```shell
-yarn
-```
-
-Move files into places:
+Move dependency-assets into the right places:
 
 ```shell
 grunt dev-setup
@@ -64,17 +61,19 @@ Run all test cases:
 composer test-all
 ```
 
-See `Gruntfile`, `packages.json` and `composer.json` for additional scripts to run.
+See the `Gruntfile`, `packages.json` and `composer.json` for additional devleopment-commands.
 
 ### Create Production Files
 
-Create minimized assets with:
+To generate all the minimized assets for production:
 
 ```shell
 grunt release
 ```
 
-Create a release-zip:
+### Create A Release Zip
+
+To generate a zip-package as found on the release page for distribution:
 
 ```shell
 vendor/bin/phing
@@ -82,10 +81,12 @@ vendor/bin/phing
 
 ## FAQ
 
-### How does it compare to mylittleforum
+### How does it compare to [mylittleforum]
 
-Actually this forum was written to replace a mylittleforum installation with a more modern approach. Mylittleforum is a noteworthy starting place if you need threaded web-forum. There aren't many out there. Mylittleforum exists for many years now and offers great features. But there are a shortcommings, mainly: performance and maintainability.
+Actually this forum was written to replace a mylittleforum installation with a more modern approach. Mylittleforum is a noteworthy starting place if you want a threaded web-forum. There aren't that many out there. Mylittleforum exists for many years now and offers great features.
 
-If a mylittleforum installation reaches a few hundred thousand postings it inevitably is going to start to slowdown. It requires a lot of effort to scale mylittleforum beyong that point.
+*Disclaimer: Subjective opinion ahead…*
 
-Mylittleforum was written when PHP was a much worse language (pre 5.x days). For example there are no test cases. Every change requires a thourough insight into its inner workings so you just know a simple change wont break functionality in another place.
+But there are a shortcommings, mainly: performance and maintainability. If a mylittleforum installation reaches a few hundred thousand postings it is going to slow down. Also it was written when PHP was a much worse language: there are no test cases, which makes it more fragile to changes.
+
+[mylittleforum]: https://mylittleforum.net/
