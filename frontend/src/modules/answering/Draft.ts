@@ -109,7 +109,8 @@ export default class DraftView extends View<Model> {
 
     public constructor(options: object = {}) {
         const deflt: { timers: DraftTimers } & any = {
-            className: 'draft-status',
+            attributes: { 'data-shpid': 9 },
+            className: 'draft-status shp',
             model: new DraftModel(),
             modelEvents: {
                 change: 'handleModelChange',
