@@ -141,9 +141,11 @@ export default class AnsweringView extends View<AnswerModel> {
         const success = (model: MetaModel) => this.triggerMethod('answering:load:success', model);
 
         if (this.metaModel.isEmpty()) {
-            /// if this is an edit the id is known and send on meta fetch
+            // Send id to identify an edit of that posting.
             this.metaModel.set('id', this.model.get('id'));
             this.metaModel.fetch({
+                // Send pid to find potential drafts.
+                data: { pid: this.model.get('pid') },
                 error: () => this.triggerMethod('answering:load:error'),
                 success,
             });
