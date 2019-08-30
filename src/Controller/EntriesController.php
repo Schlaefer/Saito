@@ -1,41 +1,45 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Controller;
 
-use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\AutoReloadComponent;
 use App\Controller\Component\MarkAsReadComponent;
+use App\Controller\Component\RefererComponent;
 use App\Controller\Component\ThreadsComponent;
 use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Http\Client\Response;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\I18n\Time;
+use Cake\Http\Response;
 use Cake\Routing\RequestActionTrait;
-use Saito\App\Registry;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Posting;
-use Saito\User\ForumsUserInterface;
+use Saito\Posting\PostingInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class EntriesController
  *
+ * @property CurrentUserInterface $CurrentUser
  * @property EntriesTable $Entries
  * @property MarkAsReadComponent $MarkAsRead
  * @property RefererComponent $Referer
  * @property ThreadsComponent $Threads
- * @package App\Controller
  */
 class EntriesController extends AppController
 {
@@ -56,8 +60,8 @@ class EntriesController extends AppController
     {
         parent::initialize();
 
-        $this->loadComponent('Referer');
         $this->loadComponent('MarkAsRead');
+        $this->loadComponent('Referer');
         $this->loadComponent('Threads');
     }
 
@@ -101,6 +105,7 @@ class EntriesController extends AppController
 
         $this->_setupCategoryChooser($this->CurrentUser);
 
+        /** @var AutoReloadComponent */
         $autoReload = $this->loadComponent('AutoReload');
         $autoReload->after($this->CurrentUser);
 
@@ -126,8 +131,8 @@ class EntriesController extends AppController
             ['root' => true, 'complete' => true]
         );
 
-        //// redirect sub-posting to mix view of thread
-        if (empty($postings)) {
+        /// redirect sub-posting to mix view of thread
+        if (!$postings) {
             $post = $this->Entries->find()
                 ->select(['tid'])
                 ->where(['id' => $tid])
@@ -140,7 +145,7 @@ class EntriesController extends AppController
 
         // check if anonymous tries to access internal categories
         $root = $postings;
-        if (!$this->CurrentUser->Categories->permission('read', $root->get('category'))) {
+        if (!$this->CurrentUser->getCategories()->permission('read', $root->get('category'))) {
             return $this->_requireAuth();
         }
 
@@ -164,7 +169,7 @@ class EntriesController extends AppController
     public function update()
     {
         $this->autoRender = false;
-        $this->CurrentUser->LastRefresh->set('now');
+        $this->CurrentUser->getLastRefresh()->set();
         $this->redirect('/entries/index');
     }
 
@@ -206,7 +211,7 @@ class EntriesController extends AppController
             return $this->redirect('/');
         }
 
-        if (!$this->CurrentUser->Categories->permission('read', $entry->get('category'))) {
+        if (!$this->CurrentUser->getCategories()->permission('read', $entry->get('category'))) {
             return $this->_requireAuth();
         }
 
@@ -215,7 +220,7 @@ class EntriesController extends AppController
         $this->_setRootEntry($entry);
         $this->_showAnsweringPanel();
 
-        $this->CurrentUser->ReadEntries->set($entry);
+        $this->MarkAsRead->posting($entry);
 
         // inline open
         if ($this->request->is('ajax')) {
@@ -235,129 +240,12 @@ class EntriesController extends AppController
     /**
      * Add new posting.
      *
-     * @param null|string $id parent-ID if is answer
      * @return void|\Cake\Network\Response
-     * @throws ForbiddenException
      */
-    public function add($id = null)
+    public function add()
     {
         $titleForPage = __('Write a New Posting');
-
-        if (!empty($this->request->getData())) {
-            //= insert new posting
-            $posting = $this->Entries->createPosting($this->request->getData());
-
-            // inserting new posting was successful
-            if ($posting !== false && !count($posting->getErrors())) {
-                $id = $posting->get('id');
-                $pid = $posting->get('pid');
-                $tid = $posting->get('tid');
-
-                if ($this->request->is('ajax')) {
-                    if ($this->Referer->wasAction('index')) {
-                        //= inline answer
-                        $json = json_encode(
-                            ['id' => $id, 'pid' => $pid, 'tid' => $tid]
-                        );
-                        $this->response = $this->response->withType('json');
-                        $this->response = $this->response->withStringBody($json);
-                    }
-
-                    return $this->response;
-                } else {
-                    //= answering through POST request
-                    $url = ['controller' => 'entries'];
-                    if ($this->Referer->wasAction('mix')) {
-                        //= answer came from mix-view
-                        $url += ['action' => 'mix', $tid, '#' => $id];
-                    } else {
-                        //= normal posting from entries/add or entries/view
-                        $url += ['action' => 'view', $posting->get('id')];
-                    }
-
-                    return $this->redirect($url);
-                }
-            } else {
-                //= Error while trying to save a post
-                $posting = $this->Entries->newEntity($this->request->getData());
-
-                if (count($posting->getErrors()) === 0) {
-                    //= Error isn't displayed as form validation error.
-                    $this->Flash->set(
-                        __(
-                            'Something clogged the tubes. Could not save entry. Try again.'
-                        ),
-                        ['element' => 'error']
-                    );
-                }
-            }
-        } else {
-            //= show form
-            $posting = $this->Entries->newEntity();
-            $isAnswer = $id !== null;
-
-            if ($isAnswer) {
-                //= answer to existing posting
-                if ($this->request->is('ajax') === false) {
-                    return $this->redirect($this->referer());
-                }
-
-                $parent = $this->Entries->get($id);
-
-                if ($parent->isAnsweringForbidden()) {
-                    throw new ForbiddenException;
-                }
-
-                $this->set('citeSubject', $parent->get('subject'));
-                $this->set('citeText', $parent->get('text'));
-
-                $posting = $this->Entries->patchEntity(
-                    $posting,
-                    ['pid' => $id]
-                );
-
-                // set Subnav
-                $headerSubnavLeftTitle = __(
-                    'back_to_posting_from_linkname',
-                    $parent->get('user')->get('username')
-                );
-                $this->set('headerSubnavLeftTitle', $headerSubnavLeftTitle);
-                $titleForPage = __('Write a Reply');
-            } else {
-                // new posting which creates new thread
-                $posting = $this->Entries->patchEntity(
-                    $posting,
-                    ['pid' => 0, 'tid' => 0]
-                );
-            }
-        }
-
-        $isInline = $isAnswer = !$posting->isRoot();
-        $formId = $posting->get('pid');
-
-        $this->set(
-            compact('isAnswer', 'isInline', 'formId', 'posting', 'titleForPage')
-        );
-        $this->_setAddViewVars($isAnswer);
-    }
-
-    /**
-     * Get thread-line to insert after an inline-answer
-     *
-     * @param string $id posting-ID
-     * @return void|\Cake\Network\Response
-     */
-    public function threadLine($id = null)
-    {
-        $posting = $this->Entries->get($id);
-        if (!$this->CurrentUser->Categories->permission('read', $posting->get('category'))) {
-            return $this->_requireAuth();
-        }
-
-        $this->set('entrySub', $posting);
-        // ajax requests so far are always answers
-        $this->response = $this->response->withType('json');
-        $this->set('level', '1');
+        $this->set(compact('titleForPage'));
     }
 
     /**
@@ -374,86 +262,56 @@ class EntriesController extends AppController
             throw new BadRequestException;
         }
 
-        $posting = $this->Entries->get($id, ['return' => 'Entity']);
+        /** @var PostingInterface */
+        $posting = $this->Entries->get($id);
         if (!$posting) {
             throw new NotFoundException;
         }
 
-        switch ($posting->toPosting()->isEditingAsCurrentUserForbidden()) {
-            case 'time':
-                $this->Flash->set(
-                    'Stand by your word bro\', it\'s too late. @lo',
-                    ['element' => 'error']
-                );
-
-                return $this->redirect(['action' => 'view', $id]);
-            case 'user':
-                $this->Flash->set(
-                    'Not your horse, Hoss! @lo',
-                    ['element' => 'error']
-                );
-
-                return $this->redirect(['action' => 'view', $id]);
-            case true:
-                $this->Flash->set(
-                    'Something went terribly wrong. Alert the authorities now! @lo',
-                    ['element' => 'error']
-                );
-
-                return $this->redirect(['action' => 'view', $id]);
-        }
-
-        // try to save edit
-        $data = $this->request->getData();
-        if (!empty($data)) {
-            $newEntry = $this->Entries->update($posting, $data);
-            if ($newEntry) {
-                return $this->redirect(['action' => 'view', $id]);
-            } else {
-                $this->Flash->set(
-                    __(
-                        'Something clogged the tubes. Could not save entry. Try again.'
-                    ),
-                    ['element' => 'warning']
-                );
-            }
+        if (!$posting->isEditingAllowed()) {
+            throw new SaitoForbiddenException(
+                'Access to posting in EntriesController:edit() forbidden.',
+                ['CurrentUser' => $this->CurrentUser]
+            );
         }
 
         // show editing form
-        if ($posting->toPosting()->isEditingWithRoleUserForbidden()) {
+        if (!$posting->isEditingAsUserAllowed()) {
             $this->Flash->set(
                 __('notice_you_are_editing_as_mod'),
                 ['element' => 'warning']
             );
         }
 
-        $this->Entries->patchEntity($posting, $this->request->getData());
-
-        // get text of parent entry for citation
-        $parentEntryId = $posting->get('pid');
-        if ($parentEntryId > 0) {
-            $parentEntry = $this->Entries->get($parentEntryId);
-            $this->set('citeText', $parentEntry->get('text'));
-        }
-
-        $isAnswer = !$posting;
-        $isInline = false;
-        $formId = $posting->get('pid');
-
-        $this->set(compact('isAnswer', 'isInline', 'formId', 'posting'));
+        $this->set(compact('posting'));
 
         // set headers
         $this->set(
             'headerSubnavLeftTitle',
-            __(
-                'back_to_posting_from_linkname',
-                $posting->get('user')->get('username')
-            )
+            __('back_to_posting_from_linkname', $posting->get('name'))
         );
         $this->set('headerSubnavLeftUrl', ['action' => 'view', $id]);
         $this->set('form_title', __('edit_linkname'));
-        $this->_setAddViewVars($isAnswer);
         $this->render('/Entries/add');
+    }
+
+    /**
+     * Get thread-line to insert after an inline-answer
+     *
+     * @param string $id posting-ID
+     * @return void|\Cake\Network\Response
+     */
+    public function threadLine($id = null)
+    {
+        $posting = $this->Entries->get($id);
+        if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
+            return $this->_requireAuth();
+        }
+
+        $this->set('entrySub', $posting);
+        // ajax requests so far are always answers
+        $this->response = $this->response->withType('json');
+        $this->set('level', '1');
     }
 
     /**
@@ -518,12 +376,32 @@ class EntriesController extends AppController
     {
         $this->autoRender = false;
         try {
-            $success = $this->Entries->toggleSolve($id);
+            $posting = $this->Entries->get($id, ['return' => 'Entity']);
+
+            if (empty($posting)) {
+                throw new \InvalidArgumentException('Posting to mark solved not found.');
+            }
+
+            if ($posting->isRoot()) {
+                throw new \InvalidArgumentException('Root postings cannot mark themself solved.');
+            }
+
+            $rootId = $posting->get('tid');
+            $rootPosting = $this->Entries->get($rootId);
+            if ($rootPosting->get('user_id') !== $this->CurrentUser->getId()) {
+                throw new SaitoForbiddenException(
+                    sprintf('Attempt to mark posting %s as solution.', $posting->get('id')),
+                    ['CurrentUser' => $this->CurrentUser]
+                );
+            }
+
+            $success = $this->Entries->toggleSolve($posting);
+
             if (!$success) {
                 throw new BadRequestException;
             }
         } catch (\Exception $e) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
     }
 
@@ -616,10 +494,10 @@ class EntriesController extends AppController
     /**
      * set view vars for category chooser
      *
-     * @param ForumsUserInterface $User CurrentUser
+     * @param CurrentUserInterface $User CurrentUser
      * @return void
      */
-    protected function _setupCategoryChooser(ForumsUserInterface $User)
+    protected function _setupCategoryChooser(CurrentUserInterface $User)
     {
         if (!$User->isLoggedIn()) {
             return;
@@ -641,9 +519,9 @@ class EntriesController extends AppController
 
         $this->set(
             'categoryChooserChecked',
-            $User->Categories->getCustom('read')
+            $User->getCategories()->getCustom('read')
         );
-        switch ($User->Categories->getType()) {
+        switch ($User->getCategories()->getType()) {
             case 'single':
                 $title = $User->get('user_category_active');
                 break;
@@ -656,22 +534,8 @@ class EntriesController extends AppController
         $this->set('categoryChooserTitleId', $title);
         $this->set(
             'categoryChooser',
-            $User->Categories->getAll('read', 'list')
+            $User->getCategories()->getAll('read', 'list')
         );
-    }
-
-    /**
-     * set additional vars for creating a new posting
-     *
-     * @param bool $isAnswer is new posting answer or root
-     * @return void
-     */
-    protected function _setAddViewVars($isAnswer)
-    {
-        //= categories for dropdown
-        $action = $isAnswer ? 'answer' : 'thread';
-        $categories = $this->CurrentUser->Categories->getAll($action, 'list');
-        $this->set('categories', $categories);
     }
 
     /**

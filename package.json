@@ -2,6 +2,7 @@
   "name": "Saito",
   "private": true,
   "dependencies": {
+    "@types/favico.js": "^0.0.28",
     "@types/underscore.string": "^0.0.32",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
@@ -12,6 +13,7 @@
     "bootstrap": "^4.3.0",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.16",
+    "favico.js": "^0.3.10",
     "font-awesome": "^4.7.0",
     "gettext-extractor": "^3.4.3",
     "grunt": "^1.0.4",
@@ -22,7 +24,10 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "popper.js": "^1.14.3",
+    "spectrum-colorpicker": "^1.8.0",
     "string-template": "^1.0.0",
+    "typeface-cabin": "^0.0.72",
+    "typeface-fenix": "^0.0.72",
     "underscore": "~1.9.0",
     "underscore.string": "^3.3.4",
     "yarn": "^1.15.2"
@@ -40,17 +45,17 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
-    "cssnano": "^3.10.0",
+    "cssnano": "^4.0.0",
     "grunt": "*",
     "grunt-concurrent": "*",
     "grunt-contrib-clean": "*",
-    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-concat": "*",
     "grunt-contrib-copy": "*",
-    "grunt-contrib-uglify-es": "^3.3.0",
-    "grunt-contrib-watch": "^1.0.1",
-    "grunt-phpcs": "^0.2.2",
-    "grunt-postcss": "^0.9.0",
-    "grunt-sass": "^2.1.0",
+    "grunt-contrib-uglify-es": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-phpcs": "*",
+    "grunt-postcss": "*",
+    "grunt-dart-sass": "*",
     "grunt-shell": "*",
     "jasmine": "^3.1.0",
     "jasmine-ajax": "^3.4.0",
@@ -71,7 +76,7 @@
     "stylelint-config-standard": "^18.2.0",
     "ts-loader": "^4.3.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3",
+    "typescript": "^3.5.0",
     "underscore-template-loader": "^1.0.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
@@ -80,10 +85,10 @@
     "yarn": ">= 1.0.0"
   },
   "scripts": {
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'bower_components', 'junction') } catch (e) { }\"",
+    "travis": "tslint -c tslint.json \"frontend/src/**/*.ts\"; karma start --single-run --browsers ChromeHeadlessCustom;",
     "pretest": "tslint --fix -c tslint.json \"frontend/src/**/*.ts\"",
     "test": "karma start --single-run --browsers ChromiumHeadlessCustom",
-    "karma": "karma start",
+    "karma": "karma start --browsers ChromiumHeadlessCustom",
     "webpack": "webpack --watch"
   }
 }

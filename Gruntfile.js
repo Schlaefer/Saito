@@ -34,6 +34,35 @@ module.exports = function (grunt) {
             src: '*',
             dest: './webroot/css/stylesheets/fonts/'
           },
+          /// Assets for plugins/SprectrumColorpicker
+          {
+            src: './node_modules/spectrum-colorpicker/spectrum.js',
+            dest: './plugins/SpectrumColorpicker/webroot/js/spectrum.js',
+          },
+          {
+            src: './node_modules/spectrum-colorpicker/spectrum.css',
+            dest: './plugins/SpectrumColorpicker/webroot/css/spectrum.css',
+          },
+          /// Assets Cabin font
+          {
+            expand: true,
+            flatten: true,
+            src: './node_modules/typeface-cabin/files/cabin-latin-[4|7]00.woff*',
+            dest: './plugins/Bota/webroot/fonts/',
+          },
+          {
+            expand: true,
+            flatten: true,
+            src: './node_modules/typeface-cabin/files/cabin-latin-[4|7]00italic.woff*',
+            dest: './plugins/Bota/webroot/fonts/',
+          },
+          /// Assets Fenix font
+          {
+            expand: true,
+            flatten: true,
+            src: './node_modules/typeface-fenix/files/fenix-latin-400.woff*',
+            dest: './plugins/Bota/webroot/fonts/',
+          },
         ]
       },
     },
@@ -86,7 +115,7 @@ module.exports = function (grunt) {
         }
       },
     },
-    sass: {
+    'dart-sass': {
       options: {
         sourceComments: true,
         sourceMap: false,
@@ -157,7 +186,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-dart-sass');
   grunt.loadNpmTasks('grunt-postcss');
 
   // dev-setup
@@ -171,8 +200,8 @@ module.exports = function (grunt) {
     // cleanup
     'clean:release',
     // CSS
-    'sass:static',
-    'sass:theme',
+    'dart-sass:static',
+    'dart-sass:theme',
     'postcss:release',
     // webpack
     'shell:webpack',

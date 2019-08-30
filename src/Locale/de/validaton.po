@@ -1,6 +1,0 @@
-msgid "entries.subject.notEmpty"
-msgstr "Betreff darf nicht leer sein."
-
-msgid "entries.subject.maxlength"
-msgstr "Betreff ist zu lang."
-

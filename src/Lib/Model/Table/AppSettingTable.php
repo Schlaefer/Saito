@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Lib\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
@@ -14,7 +24,7 @@ class AppSettingTable extends AppTable
      *
      * @param Event $event event
      * @param Entity $entity entity
-     * @param array|\ArrayObject $options options
+     * @param \ArrayObject $options options
      *  - 'clearCache' set to 'false' to prevent cache clearing
      * @return void
      */

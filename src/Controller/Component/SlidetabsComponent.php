@@ -1,9 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller\Component;
 
+use App\Controller\AppController;
 use Cake\Controller\Component;
-use Cake\Core\Configure;
 use Saito\User\ForumsUserInterface;
 
 class SlidetabsComponent extends Component
@@ -39,7 +49,8 @@ class SlidetabsComponent extends Component
      */
     public function show($slidetabs = 'all')
     {
-        $Controller = $this->_registry->getController();
+        /** @var AppController */
+        $Controller = $this->getController();
         $user = $Controller->CurrentUser;
         if (!$user->isLoggedIn()) {
             $tabs = [];

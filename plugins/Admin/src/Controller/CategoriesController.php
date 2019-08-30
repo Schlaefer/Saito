@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Admin\Controller;
 
 use App\Model\Table\CategoriesTable;
@@ -173,7 +183,7 @@ class CategoriesController extends AdminAppController
         }
 
         /* get categories for target <select> */
-        $targetCategories = $this->CurrentUser->Categories->getAll(
+        $targetCategories = $this->CurrentUser->getCategories()->getAll(
             'read',
             'list'
         );

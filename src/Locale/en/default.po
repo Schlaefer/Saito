@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Saito\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-06 15:38+0200\n"
-"PO-Revision-Date: 2019-07-06 15:49+0200\n"
+"POT-Creation-Date: 2019-08-29 10:30+0201\n"
+"PO-Revision-Date: 2019-08-29 10:33+0201\n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -17,135 +17,135 @@ msgstr ""
 "X-Poedit-SearchPath-0: src\n"
 "X-Poedit-SearchPath-1: plugins\n"
 
-#: plugins/Admin/src/Controller/AdminsController.php:42
+#: plugins/Admin/src/Controller/AdminsController.php:52
 msgid "Caches cleared."
 msgstr ""
 
-#: plugins/Admin/src/Controller/CategoriesController.php:58
-#: plugins/Admin/src/Controller/CategoriesController.php:102
+#: plugins/Admin/src/Controller/CategoriesController.php:68
+#: plugins/Admin/src/Controller/CategoriesController.php:112
 msgid "cat.save.success"
 msgstr "The category has been saved."
 
-#: plugins/Admin/src/Controller/CategoriesController.php:65
-#: plugins/Admin/src/Controller/CategoriesController.php:108
+#: plugins/Admin/src/Controller/CategoriesController.php:75
+#: plugins/Admin/src/Controller/CategoriesController.php:118
 msgid "The category could not be saved. Please, try again."
 msgstr ""
 
-#: plugins/Admin/src/Controller/CategoriesController.php:91
-#: plugins/Admin/src/Controller/CategoriesController.php:131
+#: plugins/Admin/src/Controller/CategoriesController.php:101
+#: plugins/Admin/src/Controller/CategoriesController.php:141
 msgid "Invalid category"
 msgstr ""
 
-#: plugins/Admin/src/Controller/CategoriesController.php:142
+#: plugins/Admin/src/Controller/CategoriesController.php:152
 msgid "Category moved."
 msgstr ""
 
-#: plugins/Admin/src/Controller/CategoriesController.php:149
+#: plugins/Admin/src/Controller/CategoriesController.php:159
 msgid "Error moving category."
 msgstr ""
 
-#: plugins/Admin/src/Controller/CategoriesController.php:162
+#: plugins/Admin/src/Controller/CategoriesController.php:172
 msgid "Category deleted."
 msgstr ""
 
-#: plugins/Admin/src/Controller/CategoriesController.php:169
+#: plugins/Admin/src/Controller/CategoriesController.php:179
 msgid "Error deleting category."
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmileyCodesController.php:54
+#: plugins/Admin/src/Controller/SmileyCodesController.php:64
 msgid "Invalid smiley code"
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmileyCodesController.php:80
+#: plugins/Admin/src/Controller/SmileyCodesController.php:90
 msgid "The smiley code has been saved"
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmileyCodesController.php:86
+#: plugins/Admin/src/Controller/SmileyCodesController.php:96
 msgid "The smiley code could not be saved. Please, try again."
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmileyCodesController.php:114
+#: plugins/Admin/src/Controller/SmileyCodesController.php:124
 msgid "Invalid id for smiley code"
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmileyCodesController.php:124
+#: plugins/Admin/src/Controller/SmileyCodesController.php:134
 msgid "Smiley code deleted"
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmileyCodesController.php:132
+#: plugins/Admin/src/Controller/SmileyCodesController.php:142
 msgid "Smiley code was not deleted"
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmiliesController.php:49
-#: plugins/Admin/src/Controller/SmiliesController.php:85
+#: plugins/Admin/src/Controller/SmiliesController.php:59
+#: plugins/Admin/src/Controller/SmiliesController.php:95
 msgid "The smily has been saved"
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmiliesController.php:57
-#: plugins/Admin/src/Controller/SmiliesController.php:93
+#: plugins/Admin/src/Controller/SmiliesController.php:67
+#: plugins/Admin/src/Controller/SmiliesController.php:103
 msgid "The smiley could not be saved. Please, try again."
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmiliesController.php:74
-#: plugins/Admin/src/Controller/SmiliesController.php:110
+#: plugins/Admin/src/Controller/SmiliesController.php:84
+#: plugins/Admin/src/Controller/SmiliesController.php:120
 msgid "Invalid smiley."
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmiliesController.php:117
+#: plugins/Admin/src/Controller/SmiliesController.php:127
 msgid "Smiley deleted."
 msgstr ""
 
-#: plugins/Admin/src/Controller/SmiliesController.php:122
+#: plugins/Admin/src/Controller/SmiliesController.php:132
 msgid "Smily was not deleted."
 msgstr ""
 
-#: plugins/Admin/src/Controller/UsersController.php:61
+#: plugins/Admin/src/Controller/UsersController.php:71
 msgid "user.admin.add.success"
 msgstr "User was created successfully."
 
-#: plugins/Admin/src/Controller/UsersController.php:65
+#: plugins/Admin/src/Controller/UsersController.php:75
 msgid "user.admin.add.error"
 msgstr "Error while creating user."
 
-#: plugins/Admin/src/Controller/UsersController.php:82
+#: plugins/Admin/src/Controller/UsersController.php:92
 #, fuzzy
 msgid "User not found."
 msgstr "Nothing found."
 
-#: plugins/Admin/src/Controller/UsersController.php:91
+#: plugins/Admin/src/Controller/UsersController.php:101
 msgid "You can't delete yourself."
 msgstr ""
 
-#: plugins/Admin/src/Controller/UsersController.php:96
+#: plugins/Admin/src/Controller/UsersController.php:106
 msgid "You can't delete the installation account."
 msgstr ""
 
-#: plugins/Admin/src/Controller/UsersController.php:101
+#: plugins/Admin/src/Controller/UsersController.php:111
 msgid "You are not authorized to delete a user."
 msgstr ""
 
-#: plugins/Admin/src/Controller/UsersController.php:106
+#: plugins/Admin/src/Controller/UsersController.php:116
 msgid "User {0} deleted."
 msgstr ""
 
-#: plugins/Admin/src/Controller/UsersController.php:113
+#: plugins/Admin/src/Controller/UsersController.php:123
 msgid "Couldn't delete user."
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:130
+#: plugins/Admin/src/View/Helper/AdminHelper.php:140
 msgid "No log file found."
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:142
+#: plugins/Admin/src/View/Helper/AdminHelper.php:152
 msgid "Details"
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:208
+#: plugins/Admin/src/View/Helper/AdminHelper.php:218
 msgid "user.type.anon"
 msgstr "Anonymous"
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:210
-#: src/View/Helper/UserHelper.php:89
+#: plugins/Admin/src/View/Helper/AdminHelper.php:220
+#: src/View/Helper/UserHelper.php:95
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:10
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:18
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:26
@@ -154,8 +154,8 @@ msgstr "Anonymous"
 msgid "user.type.user"
 msgstr "User"
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:212
-#: src/View/Helper/UserHelper.php:91
+#: plugins/Admin/src/View/Helper/AdminHelper.php:222
+#: src/View/Helper/UserHelper.php:97
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:11
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:19
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:27
@@ -164,8 +164,8 @@ msgstr "User"
 msgid "user.type.mod"
 msgstr "Moderator"
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:214
-#: src/View/Helper/UserHelper.php:93
+#: plugins/Admin/src/View/Helper/AdminHelper.php:224
+#: src/View/Helper/UserHelper.php:99
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:12
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:20
 #: plugins/Admin/src/Template/Element/Categories/edit.ctp:28
@@ -174,23 +174,23 @@ msgstr "Moderator"
 msgid "user.type.admin"
 msgstr "Administrator"
 
-#: plugins/Admin/src/View/Helper/SettingHelper.php:116
+#: plugins/Admin/src/View/Helper/SettingHelper.php:121
 msgid "edit"
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/SettingHelper.php:133
+#: plugins/Admin/src/View/Helper/SettingHelper.php:138
 msgid "Key"
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/SettingHelper.php:134
+#: plugins/Admin/src/View/Helper/SettingHelper.php:139
 msgid "Value"
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/SettingHelper.php:135
+#: plugins/Admin/src/View/Helper/SettingHelper.php:140
 msgid "Explanation"
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/SettingHelper.php:136
+#: plugins/Admin/src/View/Helper/SettingHelper.php:141
 #: plugins/Admin/src/Template/Categories/index.ctp:23
 #: plugins/Admin/src/Template/SmileyCodes/index.ctp:19
 #: plugins/Admin/src/Template/Smilies/index.ctp:38
@@ -219,12 +219,12 @@ msgid "Bullet List"
 msgstr ""
 
 #: plugins/BbcodeParser/src/Lib/Editor.php:79
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:383
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:389
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:427
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:433
 msgid "Spoiler"
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/Editor.php:87 src/Template/Entries/add.ctp:107
+#: plugins/BbcodeParser/src/Lib/Editor.php:87
 msgid "Cite"
 msgstr ""
 
@@ -241,204 +241,190 @@ msgstr ""
 msgid "Upload"
 msgstr "Upload"
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:221
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:231
 #, php-format
 msgid "Domain <strong>%s</strong> not allowed for embedding video."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:255
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:265
 msgid "No Flash detected."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbHtml5MediaCodeDefinition.php:31
-msgid ""
-"Your browser does not support HTML5 audio. Please updgrade to a modern "
-"browser. In order to watch this stream you need an HTML5 capable browser."
+#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbCodeDefinitions.php:310
+msgid "File not allowed."
 msgstr ""
 
-#: plugins/BbcodeParser/src/Lib/jBBCode/Definitions/JbbHtml5MediaCodeDefinition.php:58
-msgid ""
-"Your browser does not support HTML5 video. Please updgrade to a modern "
-"browser. In order to watch this stream you need an HTML5 capable browser."
-msgstr ""
-
-#: plugins/Bookmarks/src/Controller/BookmarksController.php:149
+#: plugins/Bookmarks/src/Controller/BookmarksController.php:147
 msgid "Invalid bookmark."
 msgstr ""
 
-#: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:54
+#: plugins/ImageUploader/src/Model/Table/UploadsTable.php:96
+msgid "vld.uploads.title.maxlength"
+msgstr "Filename is to long ({0} characters maximum)."
+
+#: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:60
 msgid "sh.nf"
 msgstr "Help file not found."
 
-#: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:63
-#: plugins/SaitoHelp/src/View/Helper/SaitoHelpHelper.php:34
+#: plugins/SaitoHelp/src/Controller/SaitoHelpsController.php:69
+#: plugins/SaitoHelp/src/View/Helper/SaitoHelpHelper.php:47
 msgid "Help"
 msgstr ""
 
-#: src/Controller/AppController.php:202
+#: src/Controller/AppController.php:225
 msgid "authorization.autherror"
 msgstr "You're not authorized to access this content."
 
-#: src/Controller/Component/CurrentUserComponent.php:302
+#: src/Controller/Component/AuthUserComponent.php:266
 msgid "authentication.error"
 msgstr "Access to this function is restricted!"
 
-#: src/Controller/Component/SaitoEmailComponent.php:75
+#: src/Controller/Component/SaitoEmailComponent.php:85
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr ""
 
-#: src/Controller/Component/TitleComponent.php:89
+#: src/Controller/Component/TitleComponent.php:97
 msgid "forum-title-template"
 msgstr ":page – :forum"
 
-#: src/Controller/Component/TitleComponent.php:109
+#: src/Controller/Component/TitleComponent.php:117
 msgid ":subject | :category"
 msgstr ""
 
-#: src/Controller/Component/TitleComponent.php:111
+#: src/Controller/Component/TitleComponent.php:119
 msgid ":subject (:type) | :category"
 msgstr ""
 
-#: src/Controller/ContactsController.php:76
+#: src/Controller/ContactsController.php:86
 msgid "user_contact_title"
 msgstr "Contact {0}"
 
-#: src/Controller/ContactsController.php:112
+#: src/Controller/ContactsController.php:122
 msgid "Message was send."
 msgstr ""
 
-#: src/Controller/ContactsController.php:120
+#: src/Controller/ContactsController.php:130
 msgid "Message couldn't be send: {0}"
 msgstr ""
 
-#: src/Controller/EntriesController.php:86
+#: src/Controller/EntriesController.php:90
 msgid "page"
 msgstr ""
 
-#: src/Controller/EntriesController.php:148
+#: src/Controller/EntriesController.php:153
 msgid "view.type.mix"
 msgstr "Mix"
 
-#: src/Controller/EntriesController.php:195
-#: src/Controller/EntriesController.php:204
+#: src/Controller/EntriesController.php:200
+#: src/Controller/EntriesController.php:209
 msgid "Invalid post"
 msgstr ""
 
-#: src/Controller/EntriesController.php:244
+#: src/Controller/EntriesController.php:247
 msgid "Write a New Posting"
 msgstr ""
 
-#: src/Controller/EntriesController.php:288
-#: src/Controller/EntriesController.php:415
-msgid "Something clogged the tubes. Could not save entry. Try again."
-msgstr ""
-
-#: src/Controller/EntriesController.php:321
-#: src/Controller/EntriesController.php:449
-msgid "back_to_posting_from_linkname"
-msgstr "Back to the posting from {0}"
-
-#: src/Controller/EntriesController.php:325
-msgid "Write a Reply"
-msgstr ""
-
-#: src/Controller/EntriesController.php:425
+#: src/Controller/EntriesController.php:281
 msgid "notice_you_are_editing_as_mod"
 msgstr "You're now editing as moderator!"
 
-#: src/Controller/EntriesController.php:454
+#: src/Controller/EntriesController.php:291
+msgid "back_to_posting_from_linkname"
+msgstr "Back to the posting from {0}"
+
+#: src/Controller/EntriesController.php:294
 #: src/Template/Element/entry/view_posting.ctp:91
 #: src/Template/Element/entry/view_posting.ctp:99
 msgid "edit_linkname"
 msgstr "Edit"
 
-#: src/Controller/EntriesController.php:484
+#: src/Controller/EntriesController.php:342
 msgid "delete_tree_success"
 msgstr "Thread successfully removed."
 
-#: src/Controller/EntriesController.php:487
+#: src/Controller/EntriesController.php:345
 msgid "delete_subtree_success"
 msgstr "Subthread successfully removed."
 
-#: src/Controller/EntriesController.php:492
+#: src/Controller/EntriesController.php:350
 msgid "delete_tree_error"
 msgstr ""
 
-#: src/Controller/EntriesController.php:559 src/Template/Layout/error.ctp:35
+#: src/Controller/EntriesController.php:437 src/Template/Layout/error.ctp:35
 msgid "Error"
 msgstr ""
 
-#: src/Controller/EntriesController.php:651
+#: src/Controller/EntriesController.php:529
 msgid "Custom"
 msgstr ""
 
-#: src/Controller/EntriesController.php:654
+#: src/Controller/EntriesController.php:532
 #: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:30
 #: src/Template/Element/entry/category-chooser.ctp:29
 msgid "All Categories"
 msgstr ""
 
-#: src/Controller/UsersController.php:89
+#: src/Controller/UsersController.php:85
 msgid "auth_loginerror"
 msgstr "Username or Password wrong."
 
-#: src/Controller/UsersController.php:95 src/Template/Users/index.ctp:51
+#: src/Controller/UsersController.php:91 src/Template/Users/index.ctp:51
 #: src/Template/Users/view.ctp:35
 msgid "user.actv.ny"
 msgstr "The user account is not activated yet."
 
-#: src/Controller/UsersController.php:105
+#: src/Controller/UsersController.php:101
 msgid "user.block.pubExpEnds"
 msgstr "User {0} is locked. Try again in %s."
 
-#: src/Controller/UsersController.php:107
+#: src/Controller/UsersController.php:103
 msgid "user.block.pubExp"
 msgstr "User {0} is locked."
 
-#: src/Controller/UsersController.php:193
+#: src/Controller/UsersController.php:189
 msgid "register_email_subject"
 msgstr "Welcome to {0}!"
 
-#: src/Controller/UsersController.php:249
+#: src/Controller/UsersController.php:245
 #: plugins/Admin/src/Template/Users/index.ctp:20 src/Template/Users/edit.ctp:21
-#: src/Template/Users/edit.ctp:58 src/Template/Users/view.ctp:19
+#: src/Template/Users/edit.ctp:61 src/Template/Users/view.ctp:19
 msgid "username_marking"
 msgstr "Name"
 
-#: src/Controller/UsersController.php:250
+#: src/Controller/UsersController.php:246
 #: plugins/Admin/src/Template/Users/index.ctp:21 src/Template/Users/edit.ctp:29
 msgid "user_type"
 msgstr "Type"
 
-#: src/Controller/UsersController.php:252
+#: src/Controller/UsersController.php:248
 msgid "userlist_online"
 msgstr "Online"
 
-#: src/Controller/UsersController.php:255
+#: src/Controller/UsersController.php:251
 #: plugins/Admin/src/Template/Users/index.ctp:23
 msgid "registered"
 msgstr "Registered"
 
-#: src/Controller/UsersController.php:260
+#: src/Controller/UsersController.php:256
 #: plugins/Admin/src/Template/Users/index.ctp:26 src/Template/Users/view.ctp:41
 #, fuzzy
 msgid "user.set.lock.t"
 msgstr "Banned"
 
-#: src/Controller/UsersController.php:352
-#: src/Controller/UsersController.php:386
+#: src/Controller/UsersController.php:348
+#: src/Controller/UsersController.php:383
 msgid "Invalid user"
 msgstr ""
 
-#: src/Controller/UsersController.php:446
+#: src/Controller/UsersController.php:443
 msgid "user.avatar.edit.t"
 msgstr "Edit User Avatar {0}"
 
-#: src/Controller/UsersController.php:477
+#: src/Controller/UsersController.php:474
 msgid "user.edit.t"
 msgstr "Edit User {0}"
 
-#: src/Controller/UsersController.php:514
+#: src/Controller/UsersController.php:513
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
@@ -470,76 +456,96 @@ msgstr ""
 msgid "change_password_success"
 msgstr "Password was changed."
 
-#: src/Controller/UsersController.php:675
+#: src/Controller/UsersController.php:678
 msgid "user.pw.set.s"
 msgstr "Password was changed."
 
-#: src/Form/ContactForm.php:34
+#: src/Form/ContactForm.php:44
 msgid "error_subject_empty"
 msgstr "Error: Subject is empty."
 
-#: src/Form/ContactFormOwner.php:39
+#: src/Form/ContactFormOwner.php:49
 msgid "error_email_not-valid"
 msgstr "No valid email address."
 
-#: src/Lib/Saito/User/RemovedSaitoUser.php:14
+#: src/Lib/Saito/User/RemovedSaitoUser.php:24
 msgid "user.removed.placeholder"
 msgstr "<deleted>"
 
-#: src/Model/Table/UsersTable.php:149
+#: src/Model/Table/EntriesTable.php:184
+msgid "vld.entries.categories.notEmpty"
+msgstr "Category is required"
+
+#: src/Model/Table/EntriesTable.php:214
+msgid "vld.entries.subject.notEmpty"
+msgstr "Subject is required"
+
+#: src/Model/Table/EntriesTable.php:223
+msgid "vld.entries.subject.maxlength"
+msgstr "Subject is to long"
+
+#: src/Model/Table/SettingsTable.php:53
+msgid "vld.settings.subjectMaxLength"
+msgstr "Subject is too long. Maximum: {0} characters."
+
+#: src/Model/Table/UsersTable.php:166
 msgid "user.avatar.error.extension"
 msgstr "Invalid file extension. Use: {0}."
 
-#: src/Model/Table/UsersTable.php:157
+#: src/Model/Table/UsersTable.php:174
 msgid "user.avatar.error.size"
 msgstr "File is to big. Max file size is: {0}."
 
-#: src/Model/Table/UsersTable.php:165
+#: src/Model/Table/UsersTable.php:182
 msgid "user.avatar.error.mime"
 msgstr "Not the correct mime type."
 
-#: src/Model/Table/UsersTable.php:180
+#: src/Model/Table/UsersTable.php:197
 msgid "user.avatar.error.dimension"
 msgstr "Avatar image is to big or to small. Use an image between {0} and {1}."
 
-#: src/Model/Table/UsersTable.php:195
+#: src/Model/Table/UsersTable.php:212
 msgid "error_password_confirm"
 msgstr "Passwords don't match."
 
-#: src/Model/Table/UsersTable.php:214
+#: src/Model/Table/UsersTable.php:231
 msgid "error_no_name"
 msgstr "Name is empty."
 
-#: src/Model/Table/UsersTable.php:222
+#: src/Model/Table/UsersTable.php:239
 msgid "error_name_reserved"
 msgstr "Name is already used."
 
-#: src/Model/Table/UsersTable.php:232 src/Model/Table/UsersTable.php:238
+#: src/Model/Table/UsersTable.php:249 src/Model/Table/UsersTable.php:255
 msgid "model.user.validate.username.hasAllowedChars"
 msgstr "The name contains forbidden characters."
 
-#: src/Model/Table/UsersTable.php:253
+#: src/Model/Table/UsersTable.php:260
+msgid "vld.users.username.maxlength"
+msgstr "Name is to long ({0} chars max)."
+
+#: src/Model/Table/UsersTable.php:275
 msgid "error_email_reserved"
 msgstr "Email address is already used."
 
-#: src/Model/Table/UsersTable.php:258
+#: src/Model/Table/UsersTable.php:280
 msgid "error_email_wrong"
 msgstr "Email doesn't seem like a valid address."
 
-#: src/Model/Table/UsersTable.php:592
+#: src/Model/Table/UsersTable.php:613
 msgid "error.name.equalExists"
 msgstr "An similar name is already in use: {0}"
 
-#: src/View/Helper/LayoutHelper.php:225 src/Template/Entries/view.ctp:13
+#: src/View/Helper/LayoutHelper.php:230 src/Template/Entries/view.ctp:13
 msgid "back_to_forum_linkname"
 msgstr "Go Back to the Forum"
 
-#: src/View/Helper/LayoutHelper.php:227 src/Template/Entries/mix.ctp:14
+#: src/View/Helper/LayoutHelper.php:232 src/Template/Entries/mix.ctp:14
 #: src/Template/Layout/error.ctp:43
 msgid "Back"
 msgstr ""
 
-#: src/View/Helper/ParserHelper.php:134
+#: src/View/Helper/ParserHelper.php:117
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:45
 #: plugins/Admin/src/Template/SmileyCodes/add.ctp:1
 #: plugins/Admin/src/Template/SmileyCodes/edit.ctp:1
@@ -551,27 +557,27 @@ msgstr ""
 msgid "Smilies"
 msgstr ""
 
-#: src/View/Helper/PostingHelper.php:109
+#: src/View/Helper/PostingHelper.php:112
 msgid "Category"
 msgstr ""
 
-#: src/View/Helper/PostingHelper.php:112
+#: src/View/Helper/PostingHelper.php:115
 msgid "error_category_empty"
 msgstr "Category must not be empty."
 
-#: src/View/Helper/PostingHelper.php:134
+#: src/View/Helper/PostingHelper.php:137
 msgid "views_headline"
 msgstr "views"
 
-#: src/View/Helper/PostingHelper.php:193
+#: src/View/Helper/PostingHelper.php:196
 msgid "fixed"
 msgstr ""
 
-#: src/View/Helper/PostingHelper.php:221
+#: src/View/Helper/PostingHelper.php:224
 msgid "Helpful entry"
 msgstr ""
 
-#: src/View/Helper/TimeHHelper.php:150
+#: src/View/Helper/TimeHHelper.php:149
 msgid "yesterday"
 msgstr ""
 
@@ -633,28 +639,6 @@ msgstr ""
 #: plugins/Admin/src/Template/Categories/add.ctp:3
 #: plugins/Admin/src/Template/Categories/add.ctp:5
 msgid "Add Category"
-msgstr ""
-
-#: plugins/Admin/src/Template/Categories/delete.ctp:2
-msgid "Delete Category"
-msgstr ""
-
-#: plugins/Admin/src/Template/Categories/delete.ctp:27
-msgid "Move entries and delete category"
-msgstr ""
-
-#: plugins/Admin/src/Template/Categories/delete.ctp:45
-msgid "Delete entries and delete category"
-msgstr ""
-
-#: plugins/Admin/src/Template/Categories/delete.ctp:80
-#: plugins/Admin/src/Template/Users/delete.ctp:61
-msgid "Abort"
-msgstr ""
-
-#: plugins/Admin/src/Template/Categories/delete.ctp:85
-#: plugins/Admin/src/Template/Users/delete.ctp:56
-msgid "Make It So"
 msgstr ""
 
 #: plugins/Admin/src/Template/Categories/edit.ctp:2
@@ -738,9 +722,9 @@ msgstr ""
 #: plugins/Admin/src/Template/Element/layout/navbar.ctp:12
 #: plugins/Admin/src/Template/Settings/edit.ctp:2
 #: plugins/Admin/src/Template/Settings/index.ctp:2
-#: plugins/Admin/src/Template/Settings/index.ctp:100
+#: plugins/Admin/src/Template/Settings/index.ctp:94
 #: plugins/Admin/src/Template/Settings/timezone.ctp:3
-#: src/Template/Users/edit.ctp:135
+#: src/Template/Users/edit.ctp:138
 msgid "Settings"
 msgstr ""
 
@@ -789,11 +773,6 @@ msgid "Category Chooser"
 msgstr ""
 
 #: plugins/Admin/src/Template/Settings/index.ctp:76
-#, fuzzy
-msgid "Uploads"
-msgstr "Upload"
-
-#: plugins/Admin/src/Template/Settings/index.ctp:82
 msgid "Debug"
 msgstr ""
 
@@ -871,6 +850,14 @@ msgstr ""
 msgid "Delete User {0}"
 msgstr ""
 
+#: plugins/Admin/src/Template/Users/delete.ctp:56
+msgid "Make It So"
+msgstr ""
+
+#: plugins/Admin/src/Template/Users/delete.ctp:61
+msgid "Abort"
+msgstr ""
+
 #: plugins/Admin/src/Template/Users/index.ctp:10
 msgid "New User"
 msgstr ""
@@ -879,11 +866,11 @@ msgstr ""
 msgid "user_email"
 msgstr "Email"
 
-#: plugins/Bota/src/Template/Layout/default.ctp:64
+#: plugins/Bota/src/Template/Layout/default.ctp:63
 msgid "Search"
 msgstr ""
 
-#: plugins/Bota/src/Template/Layout/default.ctp:72
+#: plugins/Bota/src/Template/Layout/default.ctp:71
 msgid "ial.aa"
 msgstr "Settings"
 
@@ -1020,32 +1007,33 @@ msgid "delete_tree_link"
 msgstr "Delete"
 
 #: src/Template/Element/layout/disclaimer.ctp:11
-msgid "Ressources"
-msgstr ""
+msgid "saito.dscl.links"
+msgstr "Ressources"
 
-#: src/Template/Element/layout/disclaimer.ctp:15 src/Template/Users/view.ctp:64
-msgid "Contact"
-msgstr ""
+#: src/Template/Element/layout/disclaimer.ctp:15
+msgid "saito.dscl.contact"
+msgstr "Contact"
 
 #: src/Template/Element/layout/disclaimer.ctp:19
-msgid "RSS"
-msgstr ""
+#: src/Template/Pages/rss_feeds.ctp:6
+msgid "s.rss.t"
+msgstr "RSS Feeds"
 
 #: src/Template/Element/layout/disclaimer.ctp:25
-msgid "Status"
-msgstr ""
+msgid "saito.dscl.status"
+msgstr "Status"
 
 #: src/Template/Element/layout/disclaimer.ctp:29
-msgid "About"
-msgstr ""
+msgid "saito.dscl.about"
+msgstr "About"
 
 #: src/Template/Element/layout/disclaimer.ctp:33
-msgid "Powered by Saito v{0}."
-msgstr ""
+msgid "saito.dscl.v"
+msgstr "Powered by Saito {version}."
 
-#: src/Template/Element/layout/disclaimer.ctp:40
-msgid "Generated in {0} s."
-msgstr ""
+#: src/Template/Element/layout/disclaimer.ctp:39
+msgid "saito.dscl.time"
+msgstr "Generated in {time,number} s."
 
 #: src/Template/Element/layout/header_login.ctp:5
 #: src/Template/Element/users/register-form.ctp:49
@@ -1117,7 +1105,7 @@ msgstr "Blocked by moderator {0}."
 
 #: src/Template/Element/users/login_form.ctp:28
 #: src/Template/Element/users/register-form-core.ctp:22
-#: src/Template/Users/edit.ctp:47 src/Template/Users/edit.ctp:65
+#: src/Template/Users/edit.ctp:49 src/Template/Users/edit.ctp:68
 msgid "user_pw"
 msgstr "Password"
 
@@ -1153,18 +1141,6 @@ msgstr ""
 "To activate your account please click the following link: {1} within the "
 "next 24 hours."
 
-#: src/Template/Entries/add.ctp:52
-msgid "Subject"
-msgstr ""
-
-#: src/Template/Entries/add.ctp:81
-msgid "submit_button"
-msgstr "Submit"
-
-#: src/Template/Entries/add.ctp:91
-msgid "preview"
-msgstr "Preview"
-
 #: src/Template/Entries/index.ctp:17
 msgid "new_entry_linkname"
 msgstr "New Entry"
@@ -1177,11 +1153,7 @@ msgstr ""
 msgid "Merge onto posting with ID:"
 msgstr ""
 
-#: src/Template/Pages/rss_feeds.ctp:6
-msgid "RSS Feeds"
-msgstr ""
-
-#: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:398
+#: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:401
 msgid "gn.btn.save.t"
 msgstr "Save"
 
@@ -1189,7 +1161,7 @@ msgstr "Save"
 msgid "gn.btn.delete.t"
 msgstr "Delete"
 
-#: src/Template/Users/changepassword.ctp:12 src/Template/Users/edit.ctp:67
+#: src/Template/Users/changepassword.ctp:12 src/Template/Users/edit.ctp:70
 msgid "change_password_link"
 msgstr "Change password"
 
@@ -1216,163 +1188,163 @@ msgstr "Change Password"
 msgid "Profile"
 msgstr "User Profile"
 
-#: src/Template/Users/edit.ctp:25 src/Template/Users/edit.ctp:59
+#: src/Template/Users/edit.ctp:25 src/Template/Users/edit.ctp:62
 msgid "userlist_email"
 msgstr "Email"
 
-#: src/Template/Users/edit.ctp:49 src/Template/Users/setpassword.ctp:45
+#: src/Template/Users/edit.ctp:51 src/Template/Users/setpassword.ctp:45
 msgid "user.pw.set.btn"
 msgstr "Set Password"
 
-#: src/Template/Users/edit.ctp:78
+#: src/Template/Users/edit.ctp:81
 msgid "user.set.avatar.t"
 msgstr "Set Avatar"
 
-#: src/Template/Users/edit.ctp:83 src/Template/Users/view.ctp:28
+#: src/Template/Users/edit.ctp:86 src/Template/Users/view.ctp:28
 msgid "user.avatar.t"
 msgstr "Avatar"
 
-#: src/Template/Users/edit.ctp:88 src/Template/Users/view.ctp:48
+#: src/Template/Users/edit.ctp:91 src/Template/Users/view.ctp:48
 msgid "user_real_name"
 msgstr "Real Name"
 
-#: src/Template/Users/edit.ctp:90
+#: src/Template/Users/edit.ctp:93
 msgid "user_real_name_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:94 src/Template/Users/view.ctp:69
+#: src/Template/Users/edit.ctp:97 src/Template/Users/view.ctp:69
 msgid "user_hp"
 msgstr "Homepage"
 
-#: src/Template/Users/edit.ctp:96
+#: src/Template/Users/edit.ctp:99
 msgid "user_hp_exp"
 msgstr "URL to homepage (optional)"
 
-#: src/Template/Users/edit.ctp:104
+#: src/Template/Users/edit.ctp:107
 msgid "user_place_exp"
 msgstr "(optional)"
 
-#: src/Template/Users/edit.ctp:106 src/Template/Users/view.ctp:76
+#: src/Template/Users/edit.ctp:109 src/Template/Users/view.ctp:76
 msgid "user_place"
 msgstr "Place"
 
-#: src/Template/Users/edit.ctp:110 src/Template/Users/view.ctp:140
+#: src/Template/Users/edit.ctp:113 src/Template/Users/view.ctp:140
 msgid "user_profile"
 msgstr "Profile"
 
-#: src/Template/Users/edit.ctp:115
+#: src/Template/Users/edit.ctp:118
 msgid "user_profile_exp"
 msgstr "Info shown in user profile"
 
-#: src/Template/Users/edit.ctp:119 src/Template/Users/view.ctp:147
+#: src/Template/Users/edit.ctp:122 src/Template/Users/view.ctp:147
 msgid "user_signature"
 msgstr "Signature"
 
-#: src/Template/Users/edit.ctp:124
+#: src/Template/Users/edit.ctp:127
 msgid "user_signature_exp"
 msgstr "Signature shown at every posting"
 
-#: src/Template/Users/edit.ctp:139
+#: src/Template/Users/edit.ctp:142
 msgid "user_sort_last_answer"
 msgstr "Thread Sort Order"
 
-#: src/Template/Users/edit.ctp:147
+#: src/Template/Users/edit.ctp:150
 msgid "user_sort_last_answer_time"
 msgstr "Time"
 
-#: src/Template/Users/edit.ctp:148
+#: src/Template/Users/edit.ctp:151
 msgid "user_sort_last_answer_last_answer"
 msgstr "Last Answer"
 
-#: src/Template/Users/edit.ctp:153
+#: src/Template/Users/edit.ctp:156
 msgid "user_sort_last_answer_exp"
 msgstr ""
 "Order of thread on homepage. Time: fixed order by thread start time. Last "
 "Answer: threads with new answers are shown first."
 
-#: src/Template/Users/edit.ctp:158
+#: src/Template/Users/edit.ctp:161
 msgid "user_automaticaly_mark_as_read"
 msgstr "Intelligent Mark as Read"
 
-#: src/Template/Users/edit.ctp:168
+#: src/Template/Users/edit.ctp:171
 msgid "user_automaticaly_mark_as_read_exp"
 msgstr "Intelligent Mark as Read (iMAR)"
 
-#: src/Template/Users/edit.ctp:181
+#: src/Template/Users/edit.ctp:184
 msgid "user_signatures_hide"
 msgstr "Hide Signatures"
 
-#: src/Template/Users/edit.ctp:191
+#: src/Template/Users/edit.ctp:194
 msgid "user_signatures_hide_exp"
 msgstr "Hide other user's signatures"
 
-#: src/Template/Users/edit.ctp:205
+#: src/Template/Users/edit.ctp:208
 msgid "user_signatures_images_hide_exp"
 msgstr "Hide images in other user's signatures"
 
-#: src/Template/Users/edit.ctp:215
+#: src/Template/Users/edit.ctp:218
 msgid "user_forum_refresh_time"
 msgstr "Auto Refresh"
 
-#: src/Template/Users/edit.ctp:228
+#: src/Template/Users/edit.ctp:231
 msgid "user_forum_refresh_time_exp"
 msgstr "Reload homepage after this amount of minutes"
 
-#: src/Template/Users/edit.ctp:235
+#: src/Template/Users/edit.ctp:238
 msgid "user_theme"
 msgstr "Theme"
 
-#: src/Template/Users/edit.ctp:245
+#: src/Template/Users/edit.ctp:248
 msgid "user_theme_exp"
 msgstr "Choose a different look. (optional)"
 
-#: src/Template/Users/edit.ctp:251
+#: src/Template/Users/edit.ctp:254
 msgid "user_colors"
 msgstr "Colors"
 
-#: src/Template/Users/edit.ctp:267
+#: src/Template/Users/edit.ctp:270
 msgid "user_color_new_postings_exp"
 msgstr "New postings"
 
-#: src/Template/Users/edit.ctp:278
+#: src/Template/Users/edit.ctp:281
 msgid "user_color_old_postinings_exp"
 msgstr "Old postings"
 
-#: src/Template/Users/edit.ctp:289
+#: src/Template/Users/edit.ctp:292
 msgid "user_color_actual_posting_exp"
 msgstr "Currently viewed posting"
 
-#: src/Template/Users/edit.ctp:294
+#: src/Template/Users/edit.ctp:297
 msgid "inline_view_on_click"
 msgstr "Inline-Open"
 
-#: src/Template/Users/edit.ctp:304
+#: src/Template/Users/edit.ctp:307
 msgid "inline_view_on_click_exp"
 msgstr "Click on a posting opens inline"
 
-#: src/Template/Users/edit.ctp:313
+#: src/Template/Users/edit.ctp:316
 msgid "user_show_thread_collapsed"
 msgstr "Thread Collpase"
 
-#: src/Template/Users/edit.ctp:323
+#: src/Template/Users/edit.ctp:326
 msgid "user_show_thread_collapsed_exp"
 msgstr "Show all thread collapsed by default"
 
-#: src/Template/Users/edit.ctp:332
+#: src/Template/Users/edit.ctp:335
 msgid "user_pers_msg"
 msgstr "Messaging"
 
-#: src/Template/Users/edit.ctp:342
+#: src/Template/Users/edit.ctp:345
 msgid "user_pers_msg_exp"
 msgstr ""
 "Allow other users to contact you via email. You email address is not visible."
 
-#: src/Template/Users/edit.ctp:356
+#: src/Template/Users/edit.ctp:359
 #, fuzzy
 msgid "user_category_override"
 msgstr "Category-Chooser"
 
-#: src/Template/Users/edit.ctp:367
+#: src/Template/Users/edit.ctp:370
 #, fuzzy
 msgid "user_category_override_exp"
 msgstr "Activates the category-chooser on the front-page."
@@ -1402,6 +1374,10 @@ msgstr "Edit User {0}"
 #: src/Template/Users/view.ctp:34
 msgid "user.actv.t"
 msgstr "Account Activation"
+
+#: src/Template/Users/view.ctp:64
+msgid "Contact"
+msgstr ""
 
 #: src/Template/Users/view.ctp:82
 msgid "user_since"
@@ -1446,6 +1422,10 @@ msgstr ""
 #: src/Template/Users/view.ctp:375
 msgid "Show all"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Uploads"
+#~ msgstr "Upload"
 
 #~ msgid "admin.set.map"
 #~ msgstr "Map"

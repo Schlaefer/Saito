@@ -1,17 +1,22 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Controller\Component;
 
+use App\Controller\AppController;
 use Cake\Controller\Component;
 use Saito\App\Registry;
 use Saito\Posting\PostingInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * Class MarkAsReadComponent
@@ -33,11 +38,10 @@ class MarkAsReadComponent extends Component
         if (empty($this->postings)) {
             return;
         }
-        $this->_registry
-            ->getController()
-            ->CurrentUser
-            ->ReadEntries
-            ->set($this->postings);
+
+        /** @var AppController */
+        $controller = $this->getController();
+        $controller->CurrentUser->getReadPostings()->set($this->postings);
     }
 
     /**
@@ -64,6 +68,7 @@ class MarkAsReadComponent extends Component
      */
     public function refresh(array $options = [])
     {
+        /** @var CurrentUserInterface */
         $CU = Registry::get('CU');
         if ($this->request->is('preview') || !$CU->isLoggedIn()) {
             return false;
@@ -88,13 +93,13 @@ class MarkAsReadComponent extends Component
         if ($this->request->getQuery('mar', false) !== false) {
             // a second session A shall not accidentally mark something as read that isn't read on session B
             if ($lastRefreshTemp > $CU->get('last_refresh_unix')) {
-                $CU->LastRefresh->set();
+                $CU->getLastRefresh()->set();
             }
             $session->write('User.last_refresh_tmp', time());
 
             return true;
         } else {
-            $CU->LastRefresh->setMarker();
+            $CU->getLastRefresh()->setMarker();
         }
 
         return false;

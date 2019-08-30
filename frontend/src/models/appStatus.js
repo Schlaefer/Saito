@@ -1,3 +1,11 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import _ from 'underscore';
 import Backbone from 'backbone';
 import cakeRest from 'lib/saito/backbone.cakeRest';
@@ -13,7 +21,7 @@ const AppStatusModel = Backbone.Model.extend({
     this.methodToCakePhpUrl.read = 'status/';
   },
 
-  start: function() {
+  start: function(immediate = true) {
     this._setWebroot(this.settings.get('webroot'));
     // Don't use SSE by default on unknown server-configs
     /*
@@ -22,7 +30,8 @@ const AppStatusModel = Backbone.Model.extend({
       return;
     }
     */
-    this._poll();
+    // slow polling just to keep the user online
+    this._poll(90000, 180000, immediate);
   },
 
   _setWebroot: function(webroot) {
@@ -49,23 +58,31 @@ const AppStatusModel = Backbone.Model.extend({
   },
 
   /**
-   * Requests status by polling with classic http request
+   * Requests status by polling with classic HTTP request.
    *
+   * Adjust to sane values taking UserOnlineTable::setOnline() into account, so
+   * that users wont get set offline.  Default current default values were great
+   * for a shoutbox like feature with immediate and reasonbly fast polling.
+   *
+   * The time between requests increases if the data from the server is
+   * unchanged.
+   *
+   * @param {int} refreshTimeBase - minimum and start time between request in ms
+   * @param {int} refreshTimeMax - maximum time between requests in ms
+   * @param {bool} immediate - first request immediately or after refreshTimeBase
    * @private
    */
-  _poll: function() {
+  _poll: function(refreshTimeBase = 10000, refreshTimeMax = 90000, immediate = true) {
     var resetRefreshTime,
         updateAppStatus,
         setTimer,
         timerId,
         stopTimer,
-        refreshTimeAct,
-        refreshTimeBase = 10000,
-        refreshTimeMax = 90000;
+        refreshTimeAct;
 
     stopTimer = function() {
       if (timerId !== undefined) {
-        clearTimeout(timerId);
+        window.clearTimeout(timerId);
       }
     };
 
@@ -75,7 +92,7 @@ const AppStatusModel = Backbone.Model.extend({
     };
 
     setTimer = function() {
-      timerId = setTimeout(
+      timerId = window.setTimeout(
           updateAppStatus,
           refreshTimeAct
       );
@@ -102,7 +119,10 @@ const AppStatusModel = Backbone.Model.extend({
         }
     );
 
-    updateAppStatus();
+    if (immediate) {
+      updateAppStatus();
+    }
+
     resetRefreshTime();
     setTimer();
   }

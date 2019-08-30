@@ -1,10 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller;
 
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\ORM\TableRegistry;
+use Cake\Http\Response;
 
 class StatusController extends AppController
 {
@@ -12,10 +22,12 @@ class StatusController extends AppController
     public $autoRender = false;
 
     /**
-     * Current app status ping
+     * Sends status data to the frontend
      *
-     * @return string
-     * @throws BadRequestException
+     * Even if no data is send for other functionality the ping keeps the
+     * current user online.
+     *
+     * @return Response
      */
     public function status()
     {

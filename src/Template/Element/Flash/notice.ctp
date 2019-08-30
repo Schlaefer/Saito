@@ -1,2 +1,2 @@
 <?php
-$this->JsData->addMessage($message, 'notice');
+$this->JsData->notifications()->add($message, ['type' => 'notice']);

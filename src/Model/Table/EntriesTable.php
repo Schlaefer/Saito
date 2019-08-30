@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,51 +13,50 @@
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
-use App\Lib\Model\Table\FieldFilter;
 use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
+use App\Model\Table\DraftsTable;
+use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\RememberTrait;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\Validation\SaitoValidationProvider;
 use Search\Manager;
 use Stopwatch\Lib\Stopwatch;
 
 /**
+ * Stores postings
  *
- *
- * Model notes
- * ===========
- *
- * Entry.name
- * ----------
- *
- * Came from mlf. Is still used in fulltext index.
- *
- * Entry.edited_by
- * ---------------
- *
- * Came from mlf.
- *
- * @td After mlf is gone `edited_by` should conatin a User.id, not the username
- *     string.
+ * Field notes:
+ * - `edited_by` - Came from mylittleforum. @td Should by migrated to User.id.
+ * - `name` - Came from mylittleforum. Is still used in fulltext index.
  *
  * @property BookmarksTable $Bookmarks
  * @property CategoriesTable $Categories
+ * @property DraftsTable $Drafts
  * @method array treeBuild(array $postings)
+ * @method createPosting(array $data, CurrentUserInterface $CurrentUser)
+ * @method updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser)
+ * @method array prepareChildPosting(BasicPostingInterface $parent, array $data)
  */
 class EntriesTable extends AppTable
 {
     use RememberTrait;
+
+    /**
+     * Max subject length.
+     *
+     * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
+     */
+    public const SUBJECT_MAXLENGTH = 191;
 
     /**
      * Fields for search plugin
@@ -66,37 +68,6 @@ class EntriesTable extends AppTable
         'text' => ['type' => 'like'],
         'name' => ['type' => 'like'],
         'category' => ['type' => 'value'],
-    ];
-
-    public $hasMany = [
-        'UserRead' => [
-            'foreignKey' => 'entry_id',
-            'dependent' => true
-        ]
-    ];
-
-    /**
-     * Fields allowed in public output
-     *
-     * @var array
-     */
-    protected $_allowedPublicOutputFields = [
-        'Entries.id',
-        'Entries.pid',
-        'Entries.tid',
-        'Entries.time',
-        'Entries.last_answer',
-        'Entries.edited',
-        'Entries.edited_by',
-        'Entries.user_id',
-        'Entries.name',
-        'Entries.subject',
-        'Entries.category_id',
-        'Entries.text',
-        'Entries.locked',
-        'Entries.fixed',
-        'Entries.views',
-        'Users.username'
     ];
 
     /**
@@ -143,9 +114,6 @@ class EntriesTable extends AppTable
         'Users.user_place'
     ];
 
-    /** @var FieldFilter */
-    public $fieldFilter;
-
     protected $_defaultConfig = [
         'subject_maxlength' => 100
     ];
@@ -156,10 +124,8 @@ class EntriesTable extends AppTable
     public function initialize(array $config)
     {
         $this->setPrimaryKey('id');
-        $this->fieldFilter = (new FieldFilter())
-            ->setConfig('create', ['category_id', 'pid', 'subject', 'text'])
-            ->setConfig('update', ['category_id', 'subject', 'text']);
 
+        $this->addBehavior('Posting');
         $this->addBehavior('IpLogging');
         $this->addBehavior('Timestamp');
         $this->addBehavior('Tree');
@@ -171,7 +137,7 @@ class EntriesTable extends AppTable
                 'Users' => ['entry_count'],
                 // cache how many threads a category has
                 'Categories' => [
-                    'thread_count' => function ($event, Entity $entity, $table, $original) {
+                    'thread_count' => function ($event, Entry $entity, $table, $original) {
                         if (!$entity->isRoot()) {
                             return false;
                         }
@@ -202,6 +168,9 @@ class EntriesTable extends AppTable
             'Bookmarks',
             ['foreignKey' => 'entry_id', 'dependent' => true]
         );
+
+        // Releation never queried. Just for quick access to the table.
+        $this->hasOne('Drafts');
     }
 
     /**
@@ -209,19 +178,16 @@ class EntriesTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->setProvider(
-            'saito',
-            'Saito\Validation\SaitoValidationProvider'
-        );
+        $validator->setProvider('saito', SaitoValidationProvider::class);
+
+        /// category_id
+        $categoryRequiredL10N = __('vld.entries.categories.notEmpty');
         $validator
-            //= category_id
-            ->notEmpty('category_id')
+            ->notEmpty('category_id', $categoryRequiredL10N)
+            ->requirePresence('category_id', 'create', $categoryRequiredL10N)
             ->add(
                 'category_id',
                 [
-                    'isAllowed' => [
-                        'rule' => [$this, 'validateCategoryIsAllowed']
-                    ],
                     'numeric' => ['rule' => 'numeric'],
                     'assoc' => [
                         'rule' => ['validateAssoc', 'Categories'],
@@ -229,30 +195,78 @@ class EntriesTable extends AppTable
                         'provider' => 'saito'
                     ]
                 ]
-            )
-            //= subject
-            ->notEmpty('subject', __d('validation', 'entries.subject.notEmpty'))
+            );
+
+        /// last_answer
+        $validator
+            ->requirePresence('last_answer', 'create')
+            ->notEmptyDateTime('last_answer', null, 'create');
+
+        /// name
+        $validator
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name', null, 'create');
+
+        /// pid
+        $validator->requirePresence('pid', 'create');
+
+        /// subject
+        $subjectRequiredL10N = __('vld.entries.subject.notEmpty');
+        $validator
+            ->notEmptyString('subject', $subjectRequiredL10N)
+            ->requirePresence('subject', 'create', $subjectRequiredL10N)
             ->add(
                 'subject',
                 [
                     'maxLength' => [
-                        'rule' => [$this, 'validateSubjectMaxLength'],
-                        'message' => __d(
-                            'validation',
-                            'entries.subject.maxlength'
-                        )
+                        'rule' => ['maxLength', $this->getConfig('subject_maxlength')],
+                        'message' => __('vld.entries.subject.maxlength')
                     ]
                 ]
-            )
-            //= user_id
-            ->add('user_id', ['numeric' => ['rule' => 'numeric']])
-            //= views
-            ->add(
-                'views',
-                ['comparison' => ['rule' => ['comparison', '>=', 0]]]
             );
 
+        /// time
+        $validator
+            ->requirePresence('time', 'create')
+            ->notEmptyDateTime('time', null, 'create');
+
+        /// user_id
+        $validator
+            ->requirePresence('user_id', 'create')
+            ->add('user_id', ['numeric' => ['rule' => 'numeric']]);
+
+        /// views
+        $validator->add(
+            'views',
+            ['comparison' => ['rule' => ['comparison', '>=', 0]]]
+        );
+
         return $validator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules = parent::buildRules($rules);
+
+        $rules->addUpdate(
+            function ($entity) {
+                if ($entity->isDirty('category_id')) {
+                    return $entity->isRoot();
+                }
+
+                return true;
+            },
+            'checkCategoryChangeOnlyOnRootPostings',
+            [
+                'errorField' => 'category_id',
+                'message' => 'Cannot change category on non-root-postings.',
+            ]
+        );
+
+        return $rules;
     }
 
     /**
@@ -300,13 +314,13 @@ class EntriesTable extends AppTable
      * - `user_id` int|<null> If provided finds only postings of that user.
      * - `limit` int <10> Number of postings to find.
      *
-     * @param ForumsUserInterface $User User who has access to postings
+     * @param CurrentUserInterface $User User who has access to postings
      * @param array $options find options
      *
      * @return array Array of Postings
      */
     public function getRecentEntries(
-        ForumsUserInterface $User,
+        CurrentUserInterface $User,
         array $options = []
     ) {
         Stopwatch::start('Model->User->getRecentEntries()');
@@ -316,7 +330,7 @@ class EntriesTable extends AppTable
             'limit' => 10,
         ];
 
-        $options['category_id'] = $User->Categories->getAll('read');
+        $options['category_id'] = $User->getCategories()->getAll('read');
 
         $read = function () use ($options) {
             $conditions = [];
@@ -396,6 +410,7 @@ class EntriesTable extends AppTable
         $return = $options['return'];
         unset($options['return']);
 
+        /** @var Entry */
         $result = $this->find('entry')
             ->where([$this->getAlias() . '.id' => $primaryKey])
             ->first();
@@ -438,89 +453,51 @@ class EntriesTable extends AppTable
      * fields in $data are filtered
      *
      * @param array $data data
-     * @return Entity on success, false otherwise
+     * @return Entry|null on success, null otherwise
      */
-    public function createPosting($data)
+    public function createEntry(array $data): ?Entry
     {
-        if (!isset($data['pid'])) {
-            $data['pid'] = 0;
-        }
-
-        if ($data['pid'] == 0 && isset($data['subject']) === false) {
-            return false;
-        }
-
-        try {
-            $data = $this->fieldFilter->filterFields($data, 'create');
-            $data = $this->prepareChildPosting($data);
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        $CurrentUser = Registry::get('CU');
-        $data['user_id'] = $CurrentUser->getId();
-        $data['name'] = $CurrentUser->get('username');
-
         $data['time'] = bDate();
         $data['last_answer'] = bDate();
 
-        $this->getValidator()->requirePresence('category_id', 'create');
-
+        /** @var Entry */
         $posting = $this->newEntity($data);
         $errors = $posting->getErrors();
         if (!empty($errors)) {
             return $posting;
         }
 
-        $newPostingEntity = $this->save($posting);
-        if (!$newPostingEntity) {
-            return false;
+        $posting = $this->save($posting);
+        if (!$posting) {
+            return null;
         }
 
-        $newPostingId = $newPostingEntity->get('id');
-        $newPosting = $this->get($newPostingId);
+        $id = $posting->get('id');
+        /** @var Entry */
+        $posting = $this->get($id, ['return' => 'Entity']);
 
-        if ($newPosting->isRoot()) {
-            //= posting is start of new thread
-            $newPosting = $this->patchEntity(
-                $newPostingEntity,
-                ['tid' => $newPostingId]
-            );
-            if (!$this->save($newPosting)) {
-                return false;
+        if ($posting->isRoot()) {
+            // posting started a new thread, so set thread-ID to posting's own ID
+            /** @var Entry */
+            $posting = $this->patchEntity($posting, ['tid' => $id]);
+            if (!$this->save($posting)) {
+                return $posting;
             }
-            $this->_dispatchEvent(
-                'Model.Thread.create',
-                [
-                    'subject' => $newPostingId,
-                    'data' => $newPosting
-                ]
-            );
+
+            $this->_dispatchEvent('Model.Thread.create', ['subject' => $id, 'data' => $posting]);
         } else {
             // update last answer time of root entry
-            // @td rise error and/or roll back on failure
             $this->updateAll(
-                ['last_answer' => $newPosting->get('last_answer')],
-                ['id' => $newPosting->get('tid')]
+                ['last_answer' => $posting->get('last_answer')],
+                ['id' => $posting->get('tid')]
             );
 
-            $this->_dispatchEvent(
-                'Model.Entry.replyToEntry',
-                [
-                    'subject' => $newPosting->get('pid'),
-                    'data' => $newPosting
-                ]
-            );
-            $this->_dispatchEvent(
-                'Model.Entry.replyToThread',
-                [
-                    'subject' => $newPosting->get('tid'),
-                    'data' => $newPosting
-                ]
-            );
+            $eventData = ['subject' => $posting->get('pid'), 'data' => $posting];
+            $this->_dispatchEvent('Model.Entry.replyToEntry', $eventData);
+            $this->_dispatchEvent('Model.Entry.replyToThread', $eventData);
         }
 
-        return $newPostingEntity;
+        return $posting;
     }
 
     /**
@@ -528,53 +505,34 @@ class EntriesTable extends AppTable
      *
      * fields in $data are filtered except for $id!
      *
-     * @param Entity $posting Entity
+     * @param Entry $posting Entity
      * @param array $data data
-     * @return array|mixed
-     * @throws \InvalidArgumentException
-     * @throws NotFoundException
+     * @return Entry|null
      */
-    public function update(Entity $posting, $data)
+    public function updateEntry(Entry $posting, array $data): ?Entry
     {
-        $data = $this->fieldFilter->filterFields($data, 'update');
         $data['id'] = $posting->get('id');
-        $data = $this->prepareChildPosting($data);
+        $data['edited'] = bDate();
 
-        // prevents normal user of changing category of complete thread when answering
-        // @td this should be refactored together with the change category handling in beforeSave()
-        if (!$posting->isRoot()) {
-            unset($data['category_id']);
+        /** @var Entry */
+        $patched = $this->patchEntity($posting, $data);
+        $errors = $patched->getErrors();
+        if (!empty($errors)) {
+            return $patched;
         }
 
-        $CurrentUser = Registry::get('CU');
+        /** @var Entry */
+        $new = $this->save($posting);
+        if (!$new) {
+            return null;
+        }
 
-        $data['edited'] = bDate();
-        $data['edited_by'] = $CurrentUser->get('username');
-
-        // add editing validator
-        $data['time'] = $posting->get('time');
-        $data['user_id'] = $posting->get('user_id');
-        $data['locked'] = $posting->get('locked');
-        $this->getValidator()->add(
-            'edited_by',
-            'isEditingAllowed',
-            ['rule' => [$this, 'validateEditingAllowed']]
+        $this->_dispatchEvent(
+            'Model.Entry.update',
+            ['subject' => $posting->get('id'), 'data' => $posting]
         );
 
-        $this->patchEntity($posting, $data);
-        $result = $this->save($posting);
-
-        if ($result) {
-            $this->_dispatchEvent(
-                'Model.Entry.update',
-                [
-                    'subject' => $posting->get('id'),
-                    'data' => $posting
-                ]
-            );
-        }
-
-        return $result;
+        return $new;
     }
 
     /**
@@ -586,9 +544,9 @@ class EntriesTable extends AppTable
      *
      * @param int $id id
      * @param array $options options
-     * @return Posting tree
+     * @return Posting|null tree or null if nothing found
      */
-    public function treeForNode(int $id, array $options = [])
+    public function treeForNode(int $id, ?array $options = []): ?Posting
     {
         $options += [
             'root' => false,
@@ -612,7 +570,7 @@ class EntriesTable extends AppTable
         $tree = $this->treesForThreads([$tid], null, $fields);
 
         if (!$tree) {
-            return $tree;
+            return null;
         }
 
         $tree = reset($tree);
@@ -631,9 +589,9 @@ class EntriesTable extends AppTable
      * @param array $ids ids
      * @param array $order order
      * @param array $fieldlist fieldlist
-     * @return array|bool false if no threads or array of Postings
+     * @return array|null array of Postings, null if nothing found
      */
-    public function treesForThreads($ids, $order = null, $fieldlist = null)
+    public function treesForThreads(array $ids, ?array $order = null, array $fieldlist = null): ?array
     {
         if (empty($ids)) {
             return [];
@@ -654,21 +612,22 @@ class EntriesTable extends AppTable
         );
         Stopwatch::stop('EntriesTable::treesForThreads() DB');
 
-        $threads = false;
-        if ($postings->count()) {
-            Stopwatch::start('EntriesTable::treesForThreads() CPU');
-            $threads = [];
-            $postings = $this->treeBuild($postings);
-            foreach ($postings as $thread) {
-                $id = $thread['tid'];
-                $threads[$id] = $thread;
-                $threads[$id] = Registry::newInstance(
-                    '\Saito\Posting\Posting',
-                    ['rawData' => $thread]
-                );
-            }
-            Stopwatch::stop('EntriesTable::treesForThreads() CPU');
+        if (!$postings->count()) {
+            return null;
         }
+
+        Stopwatch::start('EntriesTable::treesForThreads() CPU');
+        $threads = [];
+        $postings = $this->treeBuild($postings);
+        foreach ($postings as $thread) {
+            $id = $thread['tid'];
+            $threads[$id] = $thread;
+            $threads[$id] = Registry::newInstance(
+                '\Saito\Posting\Posting',
+                ['rawData' => $thread]
+            );
+        }
+        Stopwatch::stop('EntriesTable::treesForThreads() CPU');
 
         return $threads;
     }
@@ -708,42 +667,28 @@ class EntriesTable extends AppTable
     /**
      * Marks a sub-entry as solution to a root entry
      *
-     * @param int $id id
-     * @return bool
-     * @throws \InvalidArgumentException
-     * @throws ForbiddenException
+     * @param Entry $posting posting to toggle
+     * @return bool success
      */
-    public function toggleSolve($id)
+    public function toggleSolve(Entry $posting)
     {
-        $posting = $this->get($id, ['return' => 'Entity']);
-        if (empty($posting) || $posting->isRoot()) {
-            throw new \InvalidArgumentException;
-        }
-
-        $rootId = $posting->get('tid');
-        $CurrentUser = Registry::get('CU');
-        $rootPosting = $this->get($rootId);
-        if ($rootPosting->get('user_id') !== $CurrentUser->getId()) {
-            throw new ForbiddenException;
-        }
-
         if ($posting->get('solves')) {
             $value = 0;
         } else {
-            $value = $rootId;
+            $value = $posting->get('tid');
         }
 
         $this->patchEntity($posting, ['solves' => $value]);
-        $success = $this->save($posting);
-        if (!$success) {
-            return $success;
+        if (!$this->save($posting)) {
+            return false;
         }
+
         $this->_dispatchEvent(
             'Model.Entry.update',
-            ['subject' => $id, 'data' => $posting]
+            ['subject' => $posting->get('id'), 'data' => $posting]
         );
 
-        return $success;
+        return true;
     }
 
     /**
@@ -771,15 +716,14 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function beforeValidate(
-        Event $event,
-        Entity $entity,
-        \ArrayObject $options,
-        Validator $validator
-    ) {
-        //= in n/t posting delete unnecessary body text
-        if ($entity->isDirty('text')) {
-            $entity->set('text', rtrim($entity->get('text')));
+    public function beforeMarshal(Event $event, \ArrayObject $data, \ArrayObject $options)
+    {
+        /// Trim whitespace on subject and text
+        $toTrim = ['subject', 'text'];
+        foreach ($toTrim as $field) {
+            if (!empty($data[$field])) {
+                $data[$field] = trim($data[$field]);
+            }
         }
     }
 
@@ -793,7 +737,7 @@ class EntriesTable extends AppTable
      */
     public function treeDeleteNode($id)
     {
-        $root = $this->treeForNode($id);
+        $root = $this->treeForNode((int)$id);
 
         if (empty($root)) {
             throw new \Exception;
@@ -826,13 +770,13 @@ class EntriesTable extends AppTable
     /**
      * Anonymizes the entries for a user
      *
-     * @param string $userId user-ID
-     * @return bool success
+     * @param int $userId user-ID
+     * @return void
      */
-    public function anonymizeEntriesFromUser($userId)
+    public function anonymizeEntriesFromUser(int $userId): void
     {
         // remove username from all entries and reassign to anonyme user
-        $success = $this->updateAll(
+        $success = (bool)$this->updateAll(
             [
                 'edited_by' => null,
                 'ip' => null,
@@ -845,8 +789,6 @@ class EntriesTable extends AppTable
         if ($success) {
             $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
         }
-
-        return $success;
     }
 
     /**
@@ -931,68 +873,6 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Check if posting is thread-root.
-     *
-     * @param array $id posting-ID or posting data
-     * @return mixed
-     */
-    protected function _isRoot(array $id)
-    {
-        if (isset($id['pid'])) {
-            $pid = $id['pid'];
-        } else {
-            // @bogus (known code-path: entries/preview)
-            if (is_array($id) && isset($id['id'])) {
-                $id = $id['id'];
-            } elseif (empty($id)) {
-                throw new \InvalidArgumentException();
-            }
-            try {
-                $pid = $this->getParentId($id);
-            } catch (\Throwable $t) {
-                $pid = null;
-            }
-        }
-
-        return empty($pid);
-    }
-
-    /**
-     * Populates child posting data from parent
-     *
-     * @param array $data data
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    public function prepareChildPosting(array $data): array
-    {
-        if ($this->_isRoot($data)) {
-            return $data;
-        }
-
-        // adds info from parent entry to an answer
-        if (!isset($data['pid'])) {
-            $pid = $this->getParentId($data['id']);
-        } else {
-            $pid = $data['pid'];
-        }
-        $parent = $this->get($pid);
-        if (!$parent) {
-            throw new \InvalidArgumentException;
-        }
-
-        // if new subject is empty use the parent's subject
-        if (empty($data['subject'])) {
-            $data['subject'] = $parent->get('subject');
-        }
-
-        $data['tid'] = $parent->get('tid');
-        $data['category_id'] = $parent->get('category_id');
-
-        return $data;
-    }
-
-    /**
      * Implements the custom find type 'entry'
      *
      * @param Query $query query
@@ -1048,24 +928,13 @@ class EntriesTable extends AppTable
     {
         $success = true;
 
-        //= change category of thread if category of root entry changed
-        if ($entity->isDirty('category_id')) {
-            $oldEntry = $this->find()
-                ->select(['pid', 'tid', 'category_id'])
-                ->where(['id' => $entity->get('id')])
-                ->first();
-
-            if ($oldEntry && $oldEntry->isRoot()) {
-                $newCateogry = $entity->get('category_id');
-                $oldCategory = $oldEntry->get('category_id');
-                if ($newCateogry !== $oldCategory) {
-                    $success = $success && $this
-                            ->_threadChangeCategory(
-                                $oldEntry->get('tid'),
-                                $entity->get('category_id')
-                            );
-                }
-            }
+        /// change category of thread if category of root entry changed
+        if (!$entity->isNew() && $entity->isDirty('category_id')) {
+            $success &= $this->_threadChangeCategory(
+                // rules checks that only roots are allowed to change category, so tid = id
+                $entity->get('id'),
+                $entity->get('category_id')
+            );
         }
 
         if (!$success) {
@@ -1074,52 +943,13 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * check that entries are only in existing and allowed categories
-     *
-     * @param mixed $categoryId value
-     * @param array $context context
-     * @return bool
+     * {@inheritDoc}
      */
-    public function validateCategoryIsAllowed($categoryId, $context)
+    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
     {
-        if ($this->_isRoot($context['data'])) {
-            $action = 'thread';
-        } else {
-            $action = 'answer';
+        if ($entity->isNew()) {
+            $this->Drafts->deleteDraftForPosting($entity);
         }
-        $CurrentUser = Registry::get('CU');
-
-        return $CurrentUser->Categories->permission($action, $categoryId);
-    }
-
-    /**
-     * check editing allowed
-     *
-     * @param mixed $check value
-     * @param array $context context
-     * @return bool|void
-     */
-    public function validateEditingAllowed($check, $context)
-    {
-        /* @var \Saito\Posting\Posting $Posting */
-        $Posting = Registry::newInstance(
-            '\Saito\Posting\Posting',
-            ['rawData' => $context['data']]
-        );
-        $forbidden = $Posting->isEditingAsCurrentUserForbidden();
-
-        return $forbidden === false;
-    }
-
-    /**
-     * check subject max length
-     *
-     * @param mixed $subject subject
-     * @return bool
-     */
-    public function validateSubjectMaxLength($subject)
-    {
-        return mb_strlen($subject) <= $this->getConfig('subject_maxlength');
     }
 
     /**
@@ -1127,26 +957,22 @@ class EntriesTable extends AppTable
      *
      * Assigns the new category-id to all postings in that thread.
      *
-     * @param null $tid thread-ID
-     * @param null $newCategoryId id for new category
+     * @param int $tid thread-ID
+     * @param int $newCategoryId id for new category
      * @return bool success
-     * @throws \NotFoundException
-     * @throws \InvalidArgumentException
+     * @throws NotFoundException
      */
-    protected function _threadChangeCategory($tid = null, $newCategoryId = null)
+    protected function _threadChangeCategory(int $tid, int $newCategoryId): bool
     {
-        if (empty($tid)) {
-            throw new \InvalidArgumentException;
-        }
         $exists = $this->Categories->exists($newCategoryId);
         if (!$exists) {
             throw new NotFoundException();
         }
-        $success = $this->updateAll(
+        $affected = $this->updateAll(
             ['category_id' => $newCategoryId],
             ['tid' => $tid]
         );
 
-        return $success;
+        return $affected > 0;
     }
 }

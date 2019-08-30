@@ -13,6 +13,16 @@ extractor
    .parseFilesGlob('./frontend/src/**/*.@(ts|js|tsx|jsx|html)');
 
 extractor
+    .createJsParser([
+        JsExtractors.callExpression('$.i18n.__', {
+            arguments: {
+                text: 0,
+            }
+        }),
+    ])
+   .parseFilesGlob('./src/Template/**/*.@(ctp)');
+
+extractor
   .createHtmlParser([
     (node, fileName, addMessage) => {
       const add = (text) => {

@@ -695,7 +695,7 @@ class Initial extends AbstractMigration
             ])
             ->addColumn('username', 'string', [
                 'default' => null,
-                // For MySQL 5.6- limit for indexed varchar columns on InnoDB is 191
+                // For MySQL 5.6 - limit for indexed varchar columns on InnoDB is 191
                 'limit' => 191,
                 'null' => true,
             ])

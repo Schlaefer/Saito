@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -27,8 +37,10 @@ class ActionAuthorizationComponent extends Component
                 ->check($user->getRole(), $requiredRole);
         }
 
-        $isAdminRoute = strtolower($this->request->getParam('prefix')) === 'admin'
-            || strtolower($this->request->getParam('plugin')) === 'admin';
+        $prefix = $this->request->getParam('prefix');
+        $plugin = $this->request->getParam('plugin');
+        $isAdminRoute = ($prefix && strtolower($prefix) === 'admin')
+            || ($plugin && strtolower($plugin) === 'admin');
         if ($isAdminRoute) {
             return $user->permission('saito.core.admin.backend');
         }

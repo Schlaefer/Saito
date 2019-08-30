@@ -5,11 +5,12 @@ namespace Saito\Test\Posting;
 use Cake\Core\Configure;
 use Cake\I18n\Time;
 use Saito\Test\SaitoTestCase;
-use Saito\User\SaitoUser;
+use Saito\User\Categories;
+use Saito\User\CurrentUser\CurrentUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 class UserPostingTraitClassMock extends \Saito\Posting\Posting
 {
-
     public function __construct()
     {
     }
@@ -27,7 +28,6 @@ class UserPostingTraitClassMock extends \Saito\Posting\Posting
 
 class UserPostingTraitTest extends SaitoTestCase
 {
-
     public $editPeriod = 20;
 
     public $fixtures = ['app.Category'];
@@ -55,7 +55,9 @@ class UserPostingTraitTest extends SaitoTestCase
         $this->Mock->set('category', ['id' => 2]);
 
         $user = ['id' => 1, 'user_type' => 'admin'];
-        $this->Mock->setCurrentUser(new SaitoUser($user));
+        $SaitoUser = new CurrentUser($user);
+        $SaitoUser->setCategories(new Categories($SaitoUser));
+        $this->Mock->setCurrentUser($SaitoUser);
 
         $this->Mock->set('locked', 0);
         $result = $this->Mock->isAnsweringForbidden();
@@ -83,10 +85,10 @@ class UserPostingTraitTest extends SaitoTestCase
         $this->Mock->set($entry);
 
         $user = ['id' => 1, 'user_type' => 'user'];
-        $this->Mock->setCurrentUser(new SaitoUser($user));
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
 
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertFalse($result);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
     }
 
     public function testIsEditingForbiddenEmptyUser()
@@ -97,9 +99,9 @@ class UserPostingTraitTest extends SaitoTestCase
             'locked' => 0,
         ];
         $this->Mock->set($entry);
-        $this->Mock->setCurrentUser(new SaitoUser);
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertTrue($result);
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy());
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenAnon()
@@ -113,9 +115,9 @@ class UserPostingTraitTest extends SaitoTestCase
             'id' => null,
             'user_type' => 'anon',
         ];
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertTrue($result);
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenWrongUser()
@@ -129,9 +131,9 @@ class UserPostingTraitTest extends SaitoTestCase
             'id' => 2,
             'user_type' => 'user',
         ];
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'user');
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenToLate()
@@ -148,9 +150,9 @@ class UserPostingTraitTest extends SaitoTestCase
             'id' => 1,
             'user_type' => 'user',
         ];
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'time');
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenLocked()
@@ -166,9 +168,9 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'user',
         ];
         $this->Mock->set($entry);
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'locked');
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenModToLateNotFixed()
@@ -183,9 +185,9 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'mod',
         ];
         $this->Mock->set($entry);
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertEquals($result, 'time');
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
     }
 
     public function testIsEditingForbiddenModToLateFixed()
@@ -201,9 +203,11 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'mod',
         ];
         $this->Mock->set($entry);
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertFalse($result);
+        $SaitoUser = new CurrentUser($user);
+        $SaitoUser->setCategories(new Categories($SaitoUser));
+        $this->Mock->setCurrentUser($SaitoUser);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
     }
 
     public function testIsEditingForbiddenAdminToLateNotFixed()
@@ -218,8 +222,10 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_type' => 'admin',
         ];
         $this->Mock->set($entry);
-        $this->Mock->setCurrentUser(new SaitoUser($user));
-        $result = $this->Mock->isEditingAsCurrentUserForbidden();
-        $this->assertFalse($result);
+        $SaitoUser = new CurrentUser($user);
+        $SaitoUser->setCategories(new Categories($SaitoUser));
+        $this->Mock->setCurrentUser($SaitoUser);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
     }
 }

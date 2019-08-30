@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Sitemap\Lib;
 
 use Cake\Controller\Controller;
@@ -30,8 +40,6 @@ abstract class SitemapGenerator
         if ($this->_type === null) {
             throw new \Exception('SitemapGenerator type not set.', 1559477829);
         }
-
-        return $this;
     }
 
     /**
@@ -59,7 +67,7 @@ abstract class SitemapGenerator
      *
      * @param string $name filename to parse
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _parseFilename($name)
     {
@@ -90,9 +98,9 @@ abstract class SitemapGenerator
      * Generate urls
      *
      * @param array $params additional paramters
-     * @return string urls
+     * @return array urls
      */
-    abstract protected function _content($params);
+    abstract protected function _content(array $params): array;
 
     /**
      * Creates name for sitemap-file

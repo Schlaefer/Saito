@@ -1,31 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller;
 
-use App\Controller\Component\CurrentUserComponent;
+use App\Controller\Component\ActionAuthorizationComponent;
+use App\Controller\Component\AuthUserComponent;
+use App\Controller\Component\JsDataComponent;
+use App\Controller\Component\RefererComponent;
+use App\Controller\Component\SaitoEmailComponent;
+use App\Controller\Component\SlidetabsComponent;
+use App\Controller\Component\ThemesComponent;
+use App\Controller\Component\TitleComponent;
+use App\Model\Table\UsersTable;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\I18n\I18n;
-use Cake\Routing\Router;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
-use Saito\User\CurrentUser\CurrentUser;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class AppController
  *
  * @property ActionAuthorizationComponent $ActionAuthorization
- * @property CurrentUserComponent $CurrentUser
+ * @property AuthUserComponent $AuthUser
  * @property JsDataComponent $JsData
+ * @property RefererComponent $Referer
  * @property SaitoEmailComponent $SaitoEmail
  * @property SlidetabsComponent $Slidetabs
  * @property ThemesComponent $Themes
  * @property TitleComponent $Title
- * @package App\Controller
+ * @property UsersTable $Users
  */
 class AppController extends Controller
 {
@@ -60,6 +78,13 @@ class AppController extends Controller
     ];
 
     /**
+     * The current user, set by the AuthUserComponent
+     *
+     * @var CurrentUserInterface
+     */
+    public $CurrentUser;
+
+    /**
      * {@inheritDoc}
      */
     public function initialize()
@@ -84,8 +109,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
-        $this->loadComponent('CurrentUser');
-        $this->loadComponent('JsData');
+        $this->loadComponent('AuthUser');
         $this->loadComponent('Parser');
         $this->loadComponent('SaitoEmail');
         $this->loadComponent('Slidetabs');
@@ -112,7 +136,7 @@ class AppController extends Controller
             $this->render('/Pages/forum_disabled');
             $this->response = $this->response->withStatus(503);
 
-            return;
+            return null;
         }
 
         $this->_setConfigurationFromGetParams();
@@ -135,7 +159,6 @@ class AppController extends Controller
         Stopwatch::start('App->beforeRender()');
         $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
-
         $this->set('showStopwatch', $this->getConfig('showStopwatch'));
 
         Stopwatch::stop('App->beforeRender()');
@@ -257,9 +280,8 @@ class AppController extends Controller
      */
     public function isAuthorized(array $user)
     {
-        $user = new CurrentUser($user);
         $action = $this->request->getParam('action');
 
-        return $this->ActionAuthorization->isAuthorized($user, $action);
+        return $this->ActionAuthorization->isAuthorized($this->CurrentUser, $action);
     }
 }

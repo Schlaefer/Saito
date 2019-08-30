@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -23,8 +23,22 @@ use Cake\Validation\Validator;
 use claviska\SimpleImage;
 use ImageUploader\Model\Entity\Upload;
 
+/**
+ * Uploads
+ *
+ * Indeces:
+ * - user_id, title - Combined used for uniqueness test. User_id for user's
+ *   upload overview page.
+ */
 class UploadsTable extends AppTable
 {
+    /**
+     * Max filename length.
+     *
+     * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
+     */
+    public const FILENAME_MAXLENGTH = 191;
+
     private const MAX_RESIZE = 800 * 1024;
 
     /**
@@ -74,6 +88,16 @@ class UploadsTable extends AppTable
             ]
         );
 
+        $validator->add(
+            'title',
+            [
+                'maxLength' => [
+                    'rule' => ['maxLength', self::FILENAME_MAXLENGTH],
+                    'message' => __('vld.uploads.title.maxlength', self::FILENAME_MAXLENGTH)
+                ],
+            ]
+        );
+
         return $validator;
     }
 
@@ -104,7 +128,8 @@ class UploadsTable extends AppTable
         // check that same user can't have two items with the same name
         $rules->add(
             $rules->isUnique(
-                ['name', 'user_id'],
+                // Don't use a identifier like "name" which changes (jpg->png).
+                ['title', 'user_id'],
                 __d('image_uploader', 'validation.error.fileExists')
             )
         );
@@ -166,6 +191,7 @@ class UploadsTable extends AppTable
                 case 'image/png':
                     $file = $this->convertToJpeg($file);
                     // fall through: png is further processed as jpeg
+                    // no break
                 case 'image/jpeg':
                     $this->fixOrientation($file);
                     $this->resize($file, self::MAX_RESIZE);
@@ -272,9 +298,9 @@ class UploadsTable extends AppTable
     /**
      * Validate file by size
      *
-     * @param string $check value
+     * @param mixed $check value
      * @param array $context context
-     * @return bool
+     * @return string|bool
      */
     public function validateFileSize($check, array $context)
     {

@@ -1,12 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Test\Model\Table;
 
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Saito\App\Registry;
 use Saito\Test\SaitoTestCase;
-use Saito\User\SaitoUser;
 
 abstract class SaitoTableTestCase extends SaitoTestCase
 {

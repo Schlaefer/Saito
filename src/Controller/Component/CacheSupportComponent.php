@@ -1,10 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Core\App;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Saito\Cache\CacheSupport;
 use Saito\Cache\ItemCache;
@@ -13,7 +21,7 @@ use Saito\Cache\SaitoCacheEngineAppCache;
 
 class CacheSupportComponent extends Component
 {
-
+    /** @var CacheSupport */
     protected $_CacheSupport;
 
     /**
@@ -28,6 +36,16 @@ class CacheSupportComponent extends Component
     {
         $this->_CacheSupport = new CacheSupport();
         $this->_initLineCache();
+    }
+
+    /**
+     * Clears out all caches
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        $this->_CacheSupport->clear();
     }
 
     /**
@@ -54,16 +72,5 @@ class CacheSupportComponent extends Component
     public function beforeRender(Event $event)
     {
         $event->getSubject()->set('LineCache', $this->LineCache);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __call($method, $params)
-    {
-        $proxy = [$this->_CacheSupport, $method];
-        if (is_callable($proxy)) {
-            return call_user_func_array($proxy, $params);
-        }
     }
 }

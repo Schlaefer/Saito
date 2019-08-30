@@ -2,19 +2,18 @@
 
 namespace Saito\Test\User\LastRefresh;
 
-use App\Controller\Component\CurrentUserComponent;
-use Cake\Controller\ComponentRegistry;
-use Cake\Controller\Controller;
-use Cake\Http\Response;
-use Cake\Network\Request;
 use Saito\Test\SaitoTestCase;
-use Saito\User\LastRefresh\LastRefreshDatabase;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 class LastRefreshDatabaseTest extends SaitoTestCase
 {
+    public $fixtures = [
+        'app.User',
+        'app.UserRead'
+    ];
 
     /**
-     * @var CurrentUserComponent;
+     * @var CurrentUserInterface;
      */
     public $CurrentUser;
 
@@ -22,18 +21,8 @@ class LastRefreshDatabaseTest extends SaitoTestCase
     {
         parent::setUp();
 
-        $request = new Request();
-        $request->getSession()->start();
-        $request->getSession()->id('test');
-        $response = new Response();
-        $controller = new Controller($request, $response);
-        $controller->loadComponent('Auth');
-        $registry = new ComponentRegistry($controller);
-        $this->CurrentUser = $this->getMockBuilder('App\Controller\Component\CurrentUserComponent')
-            ->setConstructorArgs([$registry])
-            ->setMethods(['_markOnline'])
-            ->getMock();
-        $this->LastRefresh = new LastRefreshDatabase($this->CurrentUser);
+        $this->CurrentUser = CurrentUserFactory::createLoggedIn(['id' => 1]);
+        $this->LastRefresh = $this->CurrentUser->getLastRefresh();
     }
 
     public function tearDown()

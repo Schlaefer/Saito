@@ -18,7 +18,7 @@
                     <?= $this->Posting->getFastLink($entry); ?>
                     <br/>
                                 <span class='c_info_text'>
-                                    <?= h($entry->get('user')->get('username')) ?>,
+                                    <?= h($entry->get('name')) ?>,
                                     <?=
                                     $this->Time->timeAgoInWords(
                                         $entry->get('time'),

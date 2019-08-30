@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Saito\User;
 
+use App\Model\Table\CategoriesTable;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
@@ -173,6 +174,7 @@ class Permission
             $this->allow('mod', 'saito.core.user.block');
         }
 
+        /** @var CategoriesTable */
         $Categories = TableRegistry::get('Categories');
         $categories = $Categories->getAllCategories();
         $accessions = [0 => 'anon', 1 => 'user', 2 => 'mod', 3 => 'admin'];

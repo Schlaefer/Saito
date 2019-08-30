@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\User\Cookie;
 
 use Cake\Chronos\Chronos;
@@ -81,7 +91,7 @@ class Storage
      * @param mixed $data data
      * @return void
      */
-    public function write($data)
+    public function write($data): void
     {
         $cookie = $this->createCookie()
             ->withValue($data);
@@ -93,7 +103,7 @@ class Storage
      *
      * @return void
      */
-    public function delete()
+    public function delete(): void
     {
         $cookie = $this->createCookie();
         $this->_Controller->response = $this->_Controller->response->withExpiredCookie($cookie);

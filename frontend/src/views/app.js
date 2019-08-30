@@ -2,7 +2,8 @@ import $ from 'jquery';
 import _ from 'underscore';
 import Bb from 'backbone';
 import Marionette from 'backbone.marionette';
-import { AnsweringView } from 'modules/answering/answering.ts';
+import AnsweringView from 'modules/answering/answering.ts';
+import AnswerModel from 'modules/answering/models/AnswerModel.ts';
 import App from 'models/app';
 import CategoryChooserVw from 'views/categoryChooserVw.ts';
 import { SaitoHelpView } from 'views/helps.ts';
@@ -18,7 +19,8 @@ import ThreadLineCollection from 'collections/threadlines';
 import { ThreadLineView } from 'views/ThreadLineView.ts';
 import ThreadView from 'views/thread';
 import UserVw from 'modules/user/userVw.ts';
-import 'lib/jquery-ui/jquery-ui.custom.min'
+import 'lib/jquery-ui/jquery-ui.custom.min';
+import NavigationBreak from 'app/NavigationBreak';
 
 export default Marionette.View.extend({
   regions: {
@@ -26,12 +28,10 @@ export default Marionette.View.extend({
     slidetabs: '#slidetabs',
   },
 
-  autoPageReloadTimer: false,
-
   template: _.noop,
 
   _domInitializers: {
-    '.entry.add-not-inline': '_initAnsweringNotInlined',
+    '.js-answer-wrapper': '_initAnsweringNotInlined',
     '#slidetabs': '_initSlideTabs',
     '.js-entry-view-core': '_initPostings',
     '.threadBox': '_initThreadBoxes',
@@ -54,6 +54,7 @@ export default Marionette.View.extend({
 
   initialize: function () {
     this._initNotifications();
+    const nv = new NavigationBreak();
 
     this.threads = new ThreadCollection();
     if (App.request.controller === 'Entries' && App.request.action === 'index') {
@@ -63,9 +64,6 @@ export default Marionette.View.extend({
 
     // collection of threadlines not bound to thread (bookmarks, search results …)
     this.threadLines = new ThreadLineCollection();
-
-    this.listenTo(App.eventBus, 'initAutoreload', this.initAutoreload);
-    this.listenTo(App.eventBus, 'breakAutoreload', this.breakAutoreload);
   },
 
   initFromDom: function (options) {
@@ -78,12 +76,21 @@ export default Marionette.View.extend({
       }
     });
 
-    this.initAutoreload();
     this.initHelp();
+
+    const autoPageReload = App.settings.get('autoPageReload');
+    if (autoPageReload) {
+      App.eventBus.request('app:autoreload:start', autoPageReload);
+      const unread = $('.et-new').length;
+      if (unread) {
+        App.eventBus.request('app:favicon:badge', unread);
+      }
+
+    }
 
     /*** All elements initialized, show page ***/
 
-    App.status.start();
+    App.status.start(false);
     this._showPage(options.SaitoApp.timeAppStart, options.contentTimer);
     App.eventBus.trigger('notification', options.SaitoApp.msg);
 
@@ -130,11 +137,22 @@ export default Marionette.View.extend({
    * @private
    */
   _initAnsweringNotInlined: function (element) {
-    this.answeringForm = new AnsweringView({
+    const data = {};
+    const id = element.data('edit');
+    if (id) {
+      data.id = parseInt(id, 10);
+    }
+    const answeringForm = new AnsweringView({
       el: element,
-      model: new PostingModel({ id: 'foo' }),
-      ajax: false
+      model: new AnswerModel(data),
     }).render();
+
+    this.listenTo(answeringForm, 'answering:send:success', (model) => {
+      const root = App.settings.get('webroot');
+      window.redirect(root + 'entries/view/' + model.get('id'));
+    });
+
+    return answeringForm; // testing
   },
 
   /**
@@ -259,36 +277,6 @@ export default Marionette.View.extend({
 
   scrollToThread: function (tid) {
     $('.threadBox[data-id=' + tid + ']')[0].scrollIntoView('top');
-  },
-
-  /**
-   * initialize page autoreload
-   */
-  initAutoreload: function () {
-    var period, reload, url;
-
-    url = window.location.pathname;
-    reload = (function () {
-      window.location = url;
-    });
-
-    if (!App.settings.get('autoPageReload')) {
-      return;
-    }
-    this.breakAutoreload();
-    period = App.settings.get('autoPageReload') * 1000;
-    this.autoPageReloadTimer = setTimeout(reload, period);
-  },
-
-  /**
-   * break autoreload by clearing timer
-   */
-  breakAutoreload: function () {
-    if (this.autoPageReloadTimer === false) {
-      return;
-    }
-    clearTimeout(this.autoPageReloadTimer);
-    this.autoPageReloadTimer = false;
   },
 
   showLoginForm: function (event) {

@@ -1,0 +1,7 @@
+<IfModule mod_expires.c>
+  Header set cache-control: public
+  ExpiresActive on
+
+  ExpiresByType font/woff     "access plus 1 month"
+  ExpiresByType font/woff2    "access plus 1 month"
+</IfModule>

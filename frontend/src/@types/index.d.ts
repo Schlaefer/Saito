@@ -55,3 +55,19 @@ declare module 'moment' {
     export default moment;
 }
 
+/**
+ * Browser-vendor specific properties on the global document object
+ */
+interface Document {
+    msHidden: any;
+    webkitHidden: any;
+}
+
+interface Window {
+    /**
+     * Redirects the browser to a new URL.
+     *
+     * @param url URL to redirect to.
+     */
+    redirect: (url: string) => void;
+}

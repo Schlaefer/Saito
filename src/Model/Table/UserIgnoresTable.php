@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -12,6 +15,7 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use Cake\ORM\Query;
 use Cake\Validation\Validator;
+use Saito\Validation\SaitoValidationProvider;
 
 class UserIgnoresTable extends AppTable
 {
@@ -46,10 +50,7 @@ class UserIgnoresTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
-        $validator->setProvider(
-            'saito',
-            'Saito\Validation\SaitoValidationProvider'
-        );
+        $validator->setProvider('saito', SaitoValidationProvider::class);
 
         $validator->notEmpty('user_id')
             ->add(
@@ -87,7 +88,7 @@ class UserIgnoresTable extends AppTable
      * @param int $blockedUserId user-ID
      * @return void
      */
-    public function ignore($userId, $blockedUserId)
+    public function ignore(int $userId, int $blockedUserId): void
     {
         $exists = $this->_get($userId, $blockedUserId);
         if ($exists) {
@@ -117,7 +118,7 @@ class UserIgnoresTable extends AppTable
      * @param int $blockedId user-ID
      * @return void
      */
-    public function unignore($userId, $blockedId)
+    public function unignore(int $userId, int $blockedId): void
     {
         $entity = $this->_get($userId, $blockedId);
         if (empty($entity)) {
@@ -133,7 +134,7 @@ class UserIgnoresTable extends AppTable
      * @param int $blockedId user-ID
      * @return mixed
      */
-    protected function _get($userId, $blockedId)
+    protected function _get(int $userId, int $blockedId)
     {
         return $this->find(
             'all',
@@ -149,10 +150,10 @@ class UserIgnoresTable extends AppTable
     /**
      * get all users ignored by $userId
      *
-     * @param string $userId user-ID
+     * @param int $userId user-ID
      * @return mixed
      */
-    public function getAllIgnoredBy($userId)
+    public function getAllIgnoredBy(int $userId)
     {
         $results = $this->find()
             ->contain(
@@ -175,23 +176,21 @@ class UserIgnoresTable extends AppTable
      * Delete all records affectiong a particular user
      *
      * @param int $userId user-ID
-     * @return bool
+     * @return void
      */
-    public function deleteUser($userId)
+    public function deleteUser(int $userId): void
     {
         $this->deleteAll(['user_id' => $userId]);
         $this->deleteAll(['blocked_user_id' => $userId]);
-
-        return true;
     }
 
     /**
      * counts how many users ignore the user with ID $id
      *
      * @param int $id user-ID
-     * @return array
+     * @return int
      */
-    public function countIgnored($id)
+    public function countIgnored(int $id): int
     {
         return count($this->getIgnored($id));
     }
@@ -202,7 +201,7 @@ class UserIgnoresTable extends AppTable
      * @param int $id user-ID
      * @return array
      */
-    public function getIgnored($id)
+    public function getIgnored(int $id): array
     {
         return $this->find(
             'all',
@@ -217,7 +216,7 @@ class UserIgnoresTable extends AppTable
      *
      * @return void
      */
-    public function removeOld()
+    public function removeOld(): void
     {
         $this->deleteAll(
             ['timestamp <' => bDate(time() - self::DURATION)]

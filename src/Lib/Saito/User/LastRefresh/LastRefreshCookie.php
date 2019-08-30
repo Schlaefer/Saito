@@ -1,9 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\User\LastRefresh;
 
-use App\Controller\Component\CurrentUserComponent;
-use Saito\User\Cookie;
+use Saito\RememberTrait;
+use Saito\User\Cookie\Storage;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * handles last refresh time for current user via cookie
@@ -12,43 +23,40 @@ use Saito\User\Cookie;
  */
 class LastRefreshCookie extends LastRefreshAbstract
 {
+    use RememberTrait;
 
     protected $_Cookie;
 
     /**
+     * @var Storage
+     */
+    protected $_storage;
+
+    /**
      * {@inheritDoc}
      */
-    public function __construct(CurrentuserComponent $CurrentUser)
+    public function __construct(CurrentUserInterface $CurrentUser, Storage $storage)
     {
-        parent::__construct($CurrentUser);
-        $this->_Cookie = new Cookie\Storage(
-            $this->_CurrentUser->getController(),
-            'lastRefresh'
-        );
+        parent::__construct($CurrentUser, $storage);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function _get()
+    protected function _get(): ?int
     {
-        if ($this->_timestamp === null) {
-            $this->_timestamp = $this->_Cookie->read();
-            if (empty($this->_timestamp)) {
-                $this->_timestamp = false;
-            } else {
-                $this->_timestamp = strtotime($this->_timestamp);
-            }
-        }
+        return $this->remember('timestamp', function () {
+            $timestamp = $this->_storage->read();
 
-        return $this->_timestamp;
+            return empty($timestamp) ? null : (int)$timestamp;
+        });
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function _set()
+    protected function _set(\DateTimeImmutable $timestamp): void
     {
-        $this->_Cookie->write($this->_timestamp);
+        $this->_storage->write($timestamp->getTimestamp());
     }
 }

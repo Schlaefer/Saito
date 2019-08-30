@@ -86,13 +86,13 @@ $jsEntry = json_encode(
                 );
             };
 
-            if (!$entry->isEditingWithRoleUserForbidden()) {
+            if ($entry->isEditingAsUserAllowed()) {
                 echo $this->Html->link(
                     __('edit_linkname'),
                     '/entries/edit/' . $entry->get('id'),
                     ['class' => 'btn btn-secondary js-btn-edit']
                 );
-            } elseif (!$entry->isEditingAsCurrentUserForbidden()) {
+            } elseif ($entry->isEditingAllowed()) {
             // edit entry
                 $editLinkIsShown = true;
                 $menuItems[] = $this->Html->link(

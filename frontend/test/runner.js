@@ -3,6 +3,8 @@ import 'lib/jquery.i18n/jquery.i18n.extend.js';
 import Bootstrap from 'bootstrap';
 import 'lib/saito/backbone.modelHelper';
 import 'lib/saito/underscore.extend';
+import App from 'models/app';
+import EventBus from 'app/vent';
 
 $.fx.off = true;
 window.$ = $;
@@ -19,3 +21,9 @@ window.redirect = function (destination) {
 
 const testsContext = require.context(".", true, /Spec$/);
 testsContext.keys().forEach(testsContext);
+
+App.settings.set('webroot', '/test/root/');
+App.settings.set('apiroot', '/test/root/api/v2/');
+EventBus.vent.reply('apiroot', function () {
+  return App.settings.get('apiroot');
+});

@@ -77,7 +77,7 @@ class NotificationsCollectionView extends Mn.CollectionView<Model, Mn.View<Model
     }
 }
 
-class NotificationsView extends Mn.View<Model> {
+export default class NotificationsView extends Mn.View<Model> {
     public constructor(options: any = {}) {
         _.defaults(options, {
             template: _.template(`<div class="notifications";"></div>`),
@@ -165,4 +165,4 @@ class NotificationsView extends Mn.View<Model> {
         }
     }
 
-export default NotificationsView;
+export { NotificationType };

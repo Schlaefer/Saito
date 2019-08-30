@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,6 +13,7 @@
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
+use App\Model\Table\EntriesTable;
 use Cake\I18n\Time;
 use Cake\View\Helper\IdGeneratorTrait;
 use Saito\App\Registry;
@@ -27,29 +31,34 @@ class PreviewController extends ApiAppController
      * Generate posting preview for JSON frontend.
      *
      * @return \Cake\Network\Response|void
-     * @throws BadRequestException
-     * @throws ForbiddenException
      */
     public function preview()
     {
-        $this->Entries = $this->loadModel('Entries');
+        $this->loadModel('Entries');
 
-        $newEntry = [
-            'id' => 'preview',
-            'pid' => $this->request->getData('pid'),
-            'subject' => $this->request->getData('subject'),
-            'text' => $this->request->getData('text'),
+        $data = [
             'category_id' => $this->request->getData('category_id'),
             'edited_by' => null,
             'fixed' => false,
-            'solves' => 0,
-            'views' => 0,
+            'id' => 'preview',
             'ip' => '',
-            'time' => new Time()
+            'last_answer' => bDate(),
+            'name' => $this->CurrentUser->get('username'),
+            'pid' => $this->request->getData('pid') ?: 0,
+            'solves' => 0,
+            'subject' => $this->request->getData('subject'),
+            'text' => $this->request->getData('text'),
+            'user_id' => $this->CurrentUser->getId(),
+            'time' => new Time(),
+            'views' => 0,
         ];
-        $newEntry = $this->Entries->prepareChildPosting($newEntry);
-        $newEntry = $this->Entries->newEntity($newEntry);
 
+        if (!empty($data['pid'])) {
+            $parent = $this->Entries->get($data['pid']);
+            $data = $this->Entries->prepareChildPosting($parent, $data);
+        }
+
+        $newEntry = $this->Entries->newEntity($data);
         $errors = $newEntry->getErrors();
 
         if (empty($errors)) {
@@ -64,25 +73,8 @@ class PreviewController extends ApiAppController
             );
             $this->set(compact('posting'));
         } else {
-            // validation errors
-            $jsonApiErrors = ['errors' => []];
-            foreach ($errors as $field => $error) {
-                $out = [
-                    'meta' => ['field' => '#' . $this->_domId($field)],
-                    'status' => '400',
-                    'title' => __d('nondynamic', $field) . ": " . __d('nondynamic', current($error)),
-                ];
-
-                $jsonApiErrors['errors'][] = $out;
-            }
-            $this->autoRender = false;
-
-            $this->response = $this->response
-                ->withType('json')
-                ->withStatus(400)
-                ->withStringBody(json_encode($jsonApiErrors));
-
-            return $this->response;
+            $this->set(compact('errors'));
+            $this->viewBuilder()->setTemplate('/Error/json/entityValidation');
         }
     }
 }

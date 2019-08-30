@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -99,7 +102,7 @@ class Stopwatch
         }
 
         list($usec, $sec) = explode(' ', microtime());
-        $wtime = ($sec + $usec);
+        $wtime = ((float)$sec + (float)$usec);
         if (!self::$_wallStart) {
             self::$_wallStart = $wtime;
         }
@@ -159,7 +162,7 @@ class Stopwatch
 
         // endtime
         list($eusec, $esec) = explode(' ', microtime());
-        $ewtime = ($esec + $eusec);
+        $ewtime = ((float)$esec + (float)$eusec);
         self::$_stopwatchTime += ($ewtime - $wtime);
         self::$_stopwatchCalls++;
     }
@@ -177,9 +180,9 @@ class Stopwatch
     /**
      * time from cake to stopwatch
      *
-     * @return int
+     * @return float
      */
-    protected static function _timeFromCakeToStopwatch()
+    protected static function _timeFromCakeToStopwatch(): float
     {
         return self::$_startupTime - TIME_START;
     }
@@ -361,32 +364,18 @@ class Stopwatch
     }
 
     /**
-     * get wall time
+     * Gets current accumulated wall time
      *
-     * @param null $divider divider
-     *
-     * @return string
+     * @return float
      */
-    public static function getWallTime($divider = null)
+    public static function getWallTime(): float
     {
-        $thousand = '';
-
-        if ($divider === 'eng') {
-            $divider = '.';
-        }
-
-        if (strlen($divider) < 2) {
-            $decimal = $divider;
-        } else {
-            $decimal = ',';
-        }
-
         self::start('getWallTime()');
         self::end('getWallTime()');
         $time = self::$_events[count(self::$_events) - 1]['wtime'] +
             self::_timeToStopwatch();
 
-        return number_format($time, 3, $decimal, $thousand);
+        return round($time, 3);
     }
 
     /**

@@ -1,24 +1,36 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\Model\Table;
 
-use ArrayObject;
-use Cake\Event\Event;
-use Cake\ORM\Entity;
+use Cake\Log\LogTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Psr\Log\LogLevel;
 use Stopwatch\Lib\Stopwatch;
 
+/**
+ * Stores which users are online
+ *
+ * Storage can be nopersistent as it is constantly rebuild with live-data.
+ *
+ * Field notes:
+ * - `time` - Timestamp as int unix-epoch instead regular DATETIME. Makes it
+ *   cheap to clear out-timed users by comparing int values.
+ */
 class UserOnlineTable extends Table
 {
+    use LogTrait;
 
     /**
      * Time in seconds until a user is considered offline
@@ -35,6 +47,16 @@ class UserOnlineTable extends Table
         $this->setTable('useronline');
 
         $this->addBehavior('Timestamp');
+
+        $this->addBehavior(
+            'Cron.Cron',
+            [
+                'gc' => [
+                    'id' => 'UserOnline.deleteGone',
+                    'due' => '+1 minutes',
+                ],
+            ]
+        );
 
         $this->belongsTo(
             'Users',
@@ -69,65 +91,75 @@ class UserOnlineTable extends Table
     /**
      * Sets user with `$id` online
      *
-     * @param string $id identifier
+     * @param string $id usually user-ID (logged-in user) or session_id (not logged-in)
      * @param bool $loggedIn user is logged-in
      * @return void
-     * @throws \InvalidArgumentException
      */
-    public function setOnline($id, $loggedIn)
+    public function setOnline(string $id, bool $loggedIn): void
     {
-        if (empty($id)) {
-            throw new \InvalidArgumentException(
-                sprintf('Invalid Argument $id in setOnline(): %s', $id)
-            );
-        }
-        if (!is_bool($loggedIn)) {
-            throw new \InvalidArgumentException(
-                'Invalid Argument $logged_in in setOnline()'
-            );
-        }
-
         $now = time();
-        $id = $this->_getShortendedId($id);
-        $data = [
-            'uuid' => $id,
-            'logged_in' => $loggedIn,
-            'time' => $now
-        ];
+        $id = $this->getShortendedId((string)$id);
 
-        if ($loggedIn) {
-            $data['user_id'] = $id;
-        }
-
-        $user = $this->find()
-            ->where(['uuid' => $id])
-            ->first();
+        $user = $this->find()->where(['uuid' => $id])->first();
 
         if ($user) {
-            // only hit database if timestamp is outdated
-            if ($user->get('time') < ($now - $this->timeUntilOffline)) {
+            // [Performance] Only hit database if timestamp is about to get outdated.
+            //
+            // Adjust to sane values taking JS-frontend status ping time
+            // intervall into account.
+            if ($user->get('time') < ($now - (int)($this->timeUntilOffline * 80 / 100))) {
                 $user->set('time', $now);
                 $this->save($user);
             }
-        } else {
-            $user = $this->newEntity($data);
-            $this->save($user);
+
+            return;
         }
 
-        $this->_deleteOutdated();
+        $data = ['logged_in' => $loggedIn, 'time' => $now, 'uuid' => $id];
+        if ($loggedIn) {
+            $data['user_id'] = (int)$id;
+        }
+        $user = $this->newEntity($data);
+
+        try {
+            $this->save($user);
+        } catch (\PDOException $e) {
+            // We saw that some mobile browsers occasionaly send two requests at
+            // the same time. On of the two requests was always the status-ping.
+            // Working theory: cause is a power-coalesced status-ping now
+            // bundled with a page reload on tab-"resume" esp. with http/2.
+            //
+            // When the second request arrives (ns later) the first request
+            // hasn't persistet its save to the DB yet (which happens in the ms
+            // range). So the second request doesn't see the user online and
+            // tries to save the same "uuid" again. The DB will not have any of
+            // that nonsense after it set the "uuid" from the first request on a
+            // unique column, and raises an error which may be experienced by
+            // the user.
+            //
+            // Since the first request did the necessary work of marking the
+            // user online, we suppress this error, assuming it will only happen
+            // in this particular situation. *knocks on wood*
+            if ($e->getCode() == 23000 && strstr($e->getMessage(), 'uuid')) {
+                $this->log(
+                    'Cought duplicate "uuid" key exception in UserOnline::setOnline.',
+                    LogLevel::INFO,
+                    'saito.info'
+                );
+            }
+        }
     }
 
     /**
      * Removes user with uuid `$id` from UserOnline
      *
-     * @param string $id id
-     * @return bool
+     * @param int|string $id id
+     * @return void
      */
-    public function setOffline($id)
+    public function setOffline($id): void
     {
-        $id = $this->_getShortendedId($id);
-
-        return $this->deleteAll(['UserOnline.uuid' => $id]);
+        $id = $this->getShortendedId((string)$id);
+        $this->deleteAll(['UserOnline.uuid' => $id]);
     }
 
     /**
@@ -139,7 +171,7 @@ class UserOnlineTable extends Table
      *
      * @return Query
      */
-    public function getLoggedIn()
+    public function getLoggedIn(): Query
     {
         Stopwatch::start('UserOnline->getLoggedIn()');
         $loggedInUsers = $this->find(
@@ -161,28 +193,22 @@ class UserOnlineTable extends Table
     }
 
     /**
-     * deletes gone user
+     * Removes users which weren't online $timeDiff seconds
      *
-     * Gone users are user who are not seen for $time_diff minutes.
-     *
-     * @param string $timeDiff in minutes
      * @return void
      */
-    protected function _deleteOutdated($timeDiff = null)
+    public function gc(): void
     {
-        if ($timeDiff === null) {
-            $timeDiff = $this->timeUntilOffline;
-        }
-        $this->deleteAll(['time <' => time() - ($timeDiff)]);
+        $this->deleteAll(['time <' => time() - ($this->timeUntilOffline)]);
     }
 
     /**
-     * shorten string
+     * Shortens a string to fit in the uuid table-field
      *
      * @param string $id string
      * @return string
      */
-    protected function _getShortendedId($id)
+    protected function getShortendedId(string $id)
     {
         return substr($id, 0, 32);
     }

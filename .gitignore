@@ -13,14 +13,20 @@ schema-dump-default.lock
 
 ### Saito ###
 /_attic
-/config/.env
-/webroot/useruploads/*
 /build/
+/config/.env
+/docs/local
 /dist/
+/webroot/useruploads/*
 
 ### Assets ###
 plugins/Bota/webroot/css/*
 !plugins/Bota/webroot/css/src/
+
+plugins/Bota/webroot/fonts/*.woff*
+
+plugins/SpectrumColorpicker/webroot/*
+
 webroot/css/stylesheets/*
 !webroot/css/stylesheets/src/
 webroot/js/*

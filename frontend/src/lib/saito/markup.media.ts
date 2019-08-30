@@ -1,3 +1,11 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import * as _ from 'underscore';
 
 interface IPreFilter {
@@ -118,7 +126,6 @@ class MarkupMultimedia {
         const patternImage = new RegExp('\\.(png|gif|jpg|jpeg|webp|svg)' + patternEnd, 'i');
         const patternHtml = new RegExp('\\.(mp4|webm|m4v)' + patternEnd, 'i');
         const patternAudio = new RegExp('\\.(m4a|ogg|mp3|wav|opus)' + patternEnd, 'i');
-        const patternFlash = /<object/i;
         const patternIframe = /<iframe/i;
 
         let out = '';
@@ -135,8 +142,6 @@ class MarkupMultimedia {
             out = this.audioHtml5(textv);
         } else if (patternIframe.test(textv)) {
             out = this.videoIframe(textv);
-        } else if (patternFlash.test(textv)) {
-            out = this.videoFlash(textv);
         }
 
         if (out === '') {
@@ -147,18 +152,6 @@ class MarkupMultimedia {
 
     private image(text: string): string {
         return '[img]' + text + '[/img]';
-    }
-
-    private videoFlash(text: string): string {
-        let html = '[flash_video]URL|WIDTH|HEIGHT[/flash_video]';
-
-        if (text !== null) {
-            html = html.replace('WIDTH', /width="(\d+)"/.exec(text)[1]);
-            html = html.replace('HEIGHT', /height="(\d+)"/.exec(text)[1]);
-            html = html.replace('URL', /src="([^"]+)"/.exec(text)[1]);
-            return html;
-        }
-        return '';
     }
 
     private videoHtml5(text: string): string {

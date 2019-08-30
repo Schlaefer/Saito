@@ -15,7 +15,7 @@ $this->end();
                 echo $this->Form->control(
                     'sender_contact',
                     [
-                        'div' => ['class' => 'input required'],
+                        'class' => 'form-control',
                         'label' => __('user_contact_sender-contact'),
                         'required' => 'required',
                         'type' => 'email'

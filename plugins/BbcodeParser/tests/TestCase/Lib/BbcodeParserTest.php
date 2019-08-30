@@ -1,5 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace BbcodeParser\Test\Lib;
 
 use App\View\Helper\ParserHelper;
@@ -280,6 +290,20 @@ class BbcodeParserTest extends SaitoTestCase
             '/a',
             '/li',
             '/ul'
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+
+        /// in paranthesis
+        $input = "foo (#2234) bar";
+        $expected = [
+            'foo (',
+            'a' => [
+                'href' => '/hash/2234'
+            ],
+            '#2234',
+            '/a',
+            ') bar'
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -604,6 +628,13 @@ EOF;
             ' text'
         ];
         $this->assertHtml($expected, $result);
+    }
+
+    public function testLinkAutoIgnoreLocalFiles()
+    {
+        $input = 'a file:///foo.bar b file://foo c file:// d file:///';
+        $result = $this->_Parser->parse($input);
+        $this->assertEquals($input, $result);
     }
 
     public function testReturnText()

@@ -1,49 +1,41 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\View\Helper;
 
-use App\Controller\Component\CurrentUserComponent;
 use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\View\Helper;
+use Cake\Http\ServerRequest;
+use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
 use Saito\JsData\JsData;
+use Saito\JsData\Notifications;
 use Saito\User\ForumsUserInterface;
 
 /**
  * Javascript Data Helper
+ *
+ * @property ServerRequest $request
+ * @property UrlHelper $Url
  */
 class JsDataHelper extends AppHelper
 {
-
     public $helpers = ['Url'];
 
     /**
-     * JsData
+     * Notifications
      *
-     * @var JsData
+     * @var Notifications
      */
-    protected $_JsData;
-
-    /**
-     * CakePHP beforeRender event-handler
-     *
-     * @param Event $event event
-     * @param mixed $viewFile view file
-     * @return void
-     */
-    public function beforeRender(Event $event, $viewFile): void
-    {
-        $View = $event->getSubject();
-        $this->_JsData = $View->get('jsData');
-    }
+    protected $Notifications;
 
     /**
      * get app js
@@ -54,11 +46,9 @@ class JsDataHelper extends AppHelper
      */
     public function getAppJs(View $View, ForumsUserInterface $CurrentUser)
     {
-        $settings = Configure::read('Saito.Settings');
         $request = $View->getRequest();
 
-        $js = $this->_JsData->getJs();
-        $js += [
+        $js = [
             'app' => [
                 'version' => Configure::read('Saito.v'),
                 'settings' => [
@@ -74,25 +64,24 @@ class JsDataHelper extends AppHelper
                             'fullBase' => true
                         ]
                     ),
-                    'quote_symbol' => $settings['quote_symbol'],
-                    'subject_maxlength' => $settings['subject_maxlength'],
                     'theme' => $View->getTheme(),
                     'apiroot' => $request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $request->getAttribute('webroot')
                 ]
             ],
+            'msg' => $this->notifications()->getAll(),
             'request' => [
                 'action' => $request->getParam('action'),
                 'controller' => $request->getParam('controller'),
-                'isMobile' => $request->isMobile(),
-                'isPreview' => $request->isPreview(),
+                'isMobile' => $request->is('mobile'),
+                'isPreview' => $request->is('preview'),
                 'csrf' => $this->_getCsrf($View)
             ],
             'currentUser' => [
                 'id' => (int)$CurrentUser->get('id'),
                 'username' => $CurrentUser->get('username'),
-                'user_show_inline' => $CurrentUser->get('inline_view_on_click') || false,
-                'user_show_thread_collapsed' => $CurrentUser->get('user_show_thread_collapsed') || false
+                'user_show_inline' => $CurrentUser->get('inline_view_on_click') ?: false,
+                'user_show_thread_collapsed' => $CurrentUser->get('user_show_thread_collapsed') ?: false
             ],
             'callbacks' => [
                 'beforeAppInit' => [],
@@ -127,17 +116,16 @@ class JsDataHelper extends AppHelper
     }
 
     /**
-     * Passes method calls on to JsData
+     * Gets notifications
      *
-     * {@inheritDoc}
+     * @return Notifications The notifications.
      */
-    public function __call($method, $params)
+    public function notifications(): Notifications
     {
-        $proxy = [$this->_JsData, $method];
-        if (is_callable($proxy)) {
-            return call_user_func_array($proxy, $params);
+        if (empty($this->Notifications)) {
+            $this->Notifications = new Notifications();
         }
 
-        parent::__call($method, $params);
+        return $this->Notifications;
     }
 }

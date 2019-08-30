@@ -4,6 +4,7 @@ namespace App\Test\TestCase\Controller;
 
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Saito\Test\IntegrationTestCase;
 
 class PreviewControllerTest extends IntegrationTestCase
@@ -107,11 +108,13 @@ class PreviewControllerTest extends IntegrationTestCase
 
         $this->post('preview/preview', $data);
 
-        $this->assertResponseCode(400);
+        $this->assertResponseCode(200);
         $response = json_decode($this->_response->getBody(), true);
 
-        $this->assertNotEmpty($response['errors'][0]['title']);
-        $this->assertEquals('#category-id', $response['errors'][0]['meta']['field']);
+        $this->assertArrayHasKey('errors', $response);
+
+        $pointers = array_flip(Hash::extract($response, 'errors.{n}.source.pointer'));
+        $this->assertArrayHasKey('/data/attributes/category_id', $pointers);
     }
 
     public function testPreviewFailureNoSubjectOnRoot()
@@ -126,10 +129,12 @@ class PreviewControllerTest extends IntegrationTestCase
 
         $this->post('preview/preview', $data);
 
-        $this->assertResponseCode(400);
+        $this->assertResponseCode(200);
         $response = json_decode($this->_response->getBody(), true);
 
-        $this->assertNotEmpty($response['errors'][0]['title']);
-        $this->assertEquals('#subject', $response['errors'][0]['meta']['field']);
+        $this->assertArrayHasKey('errors', $response);
+
+        $pointers = array_flip(Hash::extract($response, 'errors.{n}.source.pointer'));
+        $this->assertArrayHasKey('/data/attributes/subject', $pointers);
     }
 }

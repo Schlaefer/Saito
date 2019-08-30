@@ -10,7 +10,9 @@ env:
     - DB=mysql DATABASE_TEST_URL='mysql://root:password@127.0.0.1/cakephp_test'
   global:
     - DEFAULT=1
+    - PHP=1
     - PHPCS=0
+    - JS=0
 
 matrix:
   fast_finish: true
@@ -20,6 +22,17 @@ matrix:
     - php: 7.2
       env: PHPCS=1 DEFAULT=0
     - php: 7.3
+    - language: node_js
+      env: JS=1 DEFAULT=0 PHP=0
+      node_js:
+        - node
+      addons:
+        apt:
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
+      script: yarn travis
 
 dist: trusty
 
@@ -34,22 +47,22 @@ cache:
 before_install:
   - phpenv config-rm xdebug.ini
 
-  - if [ $DB = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
-  - if [ $DB = 'mysql' ]; then mysql -u root -e "USE mysql; UPDATE user SET password=PASSWORD('password') WHERE user='root'; FLUSH PRIVILEGES;"; fi
+  - if [ $PHP = 1 ] && [ $DB = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
+  - if [ $PHP = 1 ] && [ $DB = 'mysql' ]; then mysql -u root -e "USE mysql; UPDATE user SET password=PASSWORD('password') WHERE user='root'; FLUSH PRIVILEGES;"; fi
 
-  - pecl channel-update pecl.php.net
+  - if [$PHP = 1 ]; then pecl channel-update pecl.php.net; fi
   - |
-      if [[ ${TRAVIS_PHP_VERSION} != "5.6" ]]; then
+      if [ $PHP = 1 ] && [[ ${TRAVIS_PHP_VERSION} != "5.6" ]]; then
         echo 'extension = memcached.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini;
       fi
-  - echo 'extension = apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo 'apc.enable_cli = 1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - if [$PHP = 1 ]; then echo 'extension = apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
+  - if [$PHP = 1 ]; then echo 'apc.enable_cli = 1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 
   - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]] ; then echo "yes" | pecl install channel://pecl.php.net/apcu-5.1.5 || true; fi
   - sudo locale-gen da_DK
 
 before_script:
-  - composer install --prefer-source --no-interaction;
+  - if [ $PHP = 1 ]; then composer install --prefer-source --no-interaction; fi
   - if [ $PHPCS = 1 ]; then vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer; fi
 
 script:

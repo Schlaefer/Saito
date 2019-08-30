@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -108,14 +108,19 @@ class SettingsController extends AdminAppController
             $this->Settings->patchEntity(
                 $setting,
                 $this->request->getData(),
-                ['fields' => 'value']
+                ['fields' => ['value']]
             );
             if ($this->Settings->save($setting)) {
-                $this->Flash->set('Saved. @lo', ['element' => 'notice']);
+                // @lo
+                $this->Flash->set('Saved.', ['element' => 'notice']);
 
                 return $this->redirect(['action' => 'index', '#' => $id]);
             }
-            $this->Flash->set('Something went wrong @lo', ['element' => 'error']);
+
+            $errors = $setting->getErrors();
+            // @lo
+            $msg = !empty($errors) ? current(current($errors)) : 'Something went wrong';
+            $this->Flash->set($msg, ['element' => 'error']);
         }
 
         $type = $this->settingsShownInAdminIndex[$id]['type'] ?? null;

@@ -1,8 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace SaitoHelp\View\Helper;
 
+use App\View\Helper\LayoutHelper;
 use Cake\View\Helper;
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\Helper\UrlHelper;
 use Commonmark\View\Helper\CommonmarkHelper;
 use Saito\User\CurrentUser\CurrentUserInterface;
 

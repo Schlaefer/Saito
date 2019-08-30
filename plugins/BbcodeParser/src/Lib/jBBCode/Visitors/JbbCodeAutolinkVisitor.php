@@ -1,9 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
 
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
 
+/**
+ * Handles all implicit linking in a text (autolink URLs, tags, ...)
+ */
 class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
 {
     use UrlParserTrait;
@@ -20,16 +33,19 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
         if ($node->getParent()->getTagName() === 'url') {
             return $string;
         }
-        $string = $this->_hashLink($string);
-        $string = $this->_atUserLink($string);
+        $string = $this->hashLink($string);
+        $string = $this->atUserLink($string);
 
-        return $this->_autolink($string);
+        return $this->autolink($string);
     }
 
     /**
-     * {@inheritDoc}
+     * Links @<username> to the user's profile.
+     *
+     * @param string $string The Text to be parsed.
+     * @return string The text with usernames linked.
      */
-    protected function _atUserLink($string)
+    protected function atUserLink(string $string): string
     {
         $tags = [];
 
@@ -84,15 +100,19 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
     }
 
     /**
-     * autolink
+     * Autolinks URLs not surrounded by explicit URL-tags for user-convenience.
      *
-     * @param string $string string
-     *
-     * @return string
+     * @param string $string The text to be parsed for URLs.
+     * @return string The text with URLs linked.
      */
-    protected function _autolink($string)
+    protected function autolink(string $string): string
     {
-        $replace = function ($matches) {
+        $replace = function (array $matches): string {
+            // don't link locally
+            if (strpos($matches['element'], 'file://') !== false) {
+                return $matches['element'];
+            }
+
             // exclude punctuation at end of sentence from URLs
             $ignoredEndChars = implode('|', [',', '\?', ',', '\.', '\)', '!']);
             preg_match(
@@ -100,8 +120,8 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
                 $matches['element'],
                 $m
             );
-            // keep ['element'] and ['suffix'] and include ['prefix']
-            $matches = $m + $matches;
+            // keep ['element'] and ['suffix'] and include ['prefix']; (array) for phpstan
+            $matches = (array)($m + $matches);
 
             if (strpos($matches['element'], '://') === false) {
                 $matches['element'] = 'http://' . $matches['element'];
@@ -148,18 +168,17 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
     }
 
     /**
-     * Hash link
+     * Links #<posting-ID> to that posting.
      *
-     * @param string $string string
-     *
-     * @return string
+     * @param string $string Text to be parsed for #<id>.
+     * @return string Text containing hash-links.
      */
-    protected function _hashLink($string)
+    protected function hashLink(string $string): string
     {
         $baseUrl = $this->_sOptions->get('webroot') . $this->_sOptions->get('hashBaseUrl');
         $string = preg_replace_callback(
-            '/(?<=\s|^|])(?<tag>#)(?<element>\d+)(?!\w)/',
-            function ($m) use ($baseUrl) {
+            '/(?<=\s|^|]|\()(?<tag>#)(?<element>\d+)(?!\w)/',
+            function (array $m) use ($baseUrl): string {
                 $hash = $m['element'];
 
                 return $this->_url($baseUrl . $hash, '#' . $hash);

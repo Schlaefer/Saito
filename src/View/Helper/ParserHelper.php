@@ -1,29 +1,32 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace App\View\Helper;
 
-use Cake\Core\Configure;
+use Cake\View\Helper\FormHelper;
+use Cake\View\Helper\HtmlHelper;
 use Geshi\View\Helper\GeshiHelper;
+use SaitoHelp\View\Helper\SaitoHelpHelper;
 use Saito\App\Registry;
-use Saito\Markup\Markup;
 use Saito\Markup\MarkupInterface;
-use Saito\Smiley\SmileyRenderer;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Parser Helper
  *
  * @property GeshiHelper $Geshi
+ * @property FormHelper $Form
+ * @property HtmlHelper $Html
+ * @property SaitoHelpHelper $SaitoHelp
  */
 class ParserHelper extends AppHelper
 {
@@ -59,7 +62,9 @@ class ParserHelper extends AppHelper
     public function initialize(array $config)
     {
         parent::initialize($config);
-        $this->Markup = Registry::get('Markup');
+        /** @var MarkupInterface */
+        $Markup = Registry::get('Markup');
+        $this->Markup = $Markup;
     }
 
     /**
@@ -94,33 +99,11 @@ class ParserHelper extends AppHelper
     }
 
     /**
-     * Get HTML for text editor
-     *
-     * @param string $field model-field
-     * @return string HTML
-     */
-    public function editor(string $field): string
-    {
-        ['buttons' => $buttons, 'smilies' => $smilies] = $this->getButtonSet();
-        $editor = $this->Form->textarea(
-            $field,
-            [
-                'class' => 'form-control',
-                'data-buttons' => json_encode($buttons),
-                'data-smilies' => json_encode($smilies),
-                'tabindex' => 3
-            ]
-        );
-
-        return $this->Html->div('js-editor form-group', $editor);
-    }
-
-    /**
      * get button set
      *
      * @return mixed
      */
-    private function getButtonSet()
+    public function getButtonSet()
     {
         $buttons = $this->Markup->getMarkupSet();
         $smilies = $this->_View->get('smiliesData')->get();

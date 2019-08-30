@@ -1,8 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Posting\Decorator;
 
-use Saito\Posting;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\PostingInterface;
 
@@ -45,8 +54,6 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     public function __construct(\Saito\Posting\Posting $Posting)
     {
         $this->_Posting = $Posting;
-
-        return $this;
     }
 
     /**
@@ -68,7 +75,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     /**
      * {@inheritDoc}
      */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->_Posting->getLevel();
     }
@@ -100,7 +107,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     /**
      * {@inheritDoc}
      */
-    public function isNt()
+    public function isNt(): bool
     {
         return $this->_Posting->isNt();
     }
@@ -110,7 +117,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
      *
      * @return bool
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return $this->_Posting->isLocked();
     }
@@ -118,7 +125,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     /**
      * {@inheritDoc}
      */
-    public function isPinned()
+    public function isPinned(): bool
     {
         return $this->_Posting->isPinned();
     }
@@ -126,7 +133,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     /**
      * {@inheritDoc}
      */
-    public function isRoot()
+    public function isRoot(): bool
     {
         return $this->_Posting->isRoot();
     }
@@ -142,9 +149,9 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     /**
      * {@inheritDoc}
      */
-    public function map(callable $callback, $mapSelf = true, $node = null)
+    public function map(callable $callback, bool $mapSelf = true, PostingInterface $node = null): void
     {
-        return $this->_Posting->map($callback, $mapSelf, $node);
+        $this->_Posting->map($callback, $mapSelf, $node);
     }
 
     /**

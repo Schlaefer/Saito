@@ -5,8 +5,7 @@ $this->extend('_default');
 
 $this->start('theme_head');
 ?>
-    <link href='//fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
-    <link href="//fonts.googleapis.com/css?family=Cabin:400,400italic,500italic,500,600italic,600,700italic,700" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
 
     <script>
         (function (SaitoApp) {

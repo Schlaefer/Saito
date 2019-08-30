@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -13,13 +13,12 @@ declare(strict_types = 1);
 namespace ImageUploader\Test\TestCase\Controller;
 
 use Api\Error\Exception\GenericApiException;
-use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\File;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
-use claviska\SimpleImage;
+use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
@@ -31,6 +30,7 @@ class UploadsControllerTest extends IntegrationTestCase
         'app.Setting',
         'app.User',
         'app.UserBlock',
+        'app.UserIgnore',
         'app.UserRead',
         'app.UserOnline',
         'plugin.ImageUploader.Uploads',
@@ -221,6 +221,40 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->upload($this->file);
 
         $this->assertEquals($count, $Uploads->find()->count());
+    }
+
+    public function testAddFailureDoubleUpload()
+    {
+        $this->loginJwt(1);
+        // Make sure to test a file that may get transformed on upload (e.g. PNG
+        // to JEPG).
+        $file = new File(TMP . 'my new-upload.png');
+        $this->mockMediaFile($file);
+        $this->upload($file);
+
+        $this->expectException(GenericApiException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage('File with same name already uploaded');
+
+        $this->loginJwt(1);
+        $this->upload($file);
+
+        $file->delete();
+    }
+
+    public function testAddFailureFilenameToLong()
+    {
+        $this->loginJwt(1);
+        $max = UploadsTable::FILENAME_MAXLENGTH;
+        $file = new File(TMP . str_pad('', $max + 1, '0') . '.png');
+        $this->mockMediaFile($file);
+
+        $this->expectException(GenericApiException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessage((string)$max);
+        $this->upload($file);
+
+        $file->delete();
     }
 
     public function testIndexNoAuthorization()

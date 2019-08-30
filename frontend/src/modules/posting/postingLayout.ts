@@ -3,7 +3,7 @@ import { View, ViewOptions } from 'backbone.marionette';
 import { PostingModel } from 'modules/posting/models/PostingModel';
 import * as _ from 'underscore';
 import ActionView from 'views/postingAction';
-import SliderView from 'views/postingSlider';
+import SliderView from 'views/PostingSliderView';
 import { PostingContentView } from './postingContent';
 
 interface IPostingLayoutViewOptions extends ViewOptions<PostingModel> {

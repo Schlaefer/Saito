@@ -3,11 +3,11 @@
 namespace Saito\Test\User\ReadPostings;
 
 use App\Model\Entity\Entry;
-use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
 use Cake\Network\Request;
 use Saito\User\Cookie\Storage;
+use Saito\User\CurrentUser\CurrentUserFactory;
 use Saito\User\ReadPostings\ReadPostingsCookie;
 
 class ReadPostingsCookieMock extends ReadPostingsCookie
@@ -208,19 +208,14 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 
     public function mock($methods = null)
     {
+        $currentUser = CurrentUserFactory::createDummy();
+
         $request = new Request();
         $request->getSession()->start();
         $request->getSession()->id('test');
         $response = new Response();
 
         $controller = new Controller($request, $response);
-        $controller->loadComponent('Auth');
-
-        $registry = new ComponentRegistry($controller);
-        $currentUser = $this->getMockBuilder('App\Controller\Component\CurrentUserComponent')
-            ->setConstructorArgs([$registry])
-            ->setMethods(['_markOnline'])
-            ->getMock();
 
         $cookie = $this->getMockBuilder(Storage::class)
             ->setConstructorArgs([$controller, 'Saito-Read'])

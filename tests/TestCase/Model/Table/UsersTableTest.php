@@ -15,6 +15,7 @@ class UsersTableTest extends SaitoTableTestCase
 
     public $fixtures = [
         'app.Category',
+        'app.Draft',
         'app.Entry',
         'app.Setting',
         'app.Smiley',
@@ -121,26 +122,22 @@ class UsersTableTest extends SaitoTableTestCase
     public function testSetLastRefresh()
     {
         //= automatic timestamp
-        $expected = date('Y-m-d H:i:s');
-        $this->Table->setLastRefresh(3);
-        $result = $this->Table->get(3)
-            ->get('last_refresh_tmp')
-            ->toDateTimeString();
-        $this->assertEquals($expected, $result);
+        $expected = new \DateTime();
+        $userId = 3;
+        $this->Table->setLastRefresh($userId);
+        $result = $this->Table->get($userId)->get('last_refresh_tmp');
+        $this->assertTrue($result->wasWithinLast('1 seconds'));
 
         //= with explicit timestamp
-        $previousResult = $result;
-
-        $expected = bDate(1);
+        $expected = (new \DateTime())->setTimestamp(1);
         $userId = 1;
         $this->Table->setLastRefresh($userId, $expected);
         $user = $this->Table->get($userId);
         $result = $user->get('last_refresh');
-        $this->assertEquals(strtotime($expected), $result->toUnixString());
+        $this->assertEquals($expected, $result);
 
         $result = $user->get('last_refresh_tmp');
-        $timeDiff = strtotime($result) - strtotime($previousResult);
-        $this->assertLessThanOrEqual(1, $timeDiff);
+        $this->assertTrue($result->wasWithinLast('1 seconds'));
     }
 
     public function testIncrementLogins()
@@ -232,7 +229,14 @@ class UsersTableTest extends SaitoTableTestCase
         );
         // test uploads are deleted
         $this->assertGreaterThan(0, $this->Table->Uploads->findByUserId(3)->count());
+        // Checks that user has drafts before deletion.
+        $this->assertGreaterThan(0, $this->Table->Drafts->findByUserId(3)->count());
 
+        /// UserOnline: Set user online.
+        $this->Table->UserOnline->setOnline(3, true);
+        $this->assertGreaterThan(0, $this->Table->UserOnline->findByUserId(3)->count());
+
+        /// Do the actual delete.
         $this->Table->deleteAllExceptEntries(3);
 
         // user is deleted
@@ -255,11 +259,21 @@ class UsersTableTest extends SaitoTableTestCase
             $allBookmarksAfterDelete
         );
 
+        /// Drafts
+        // Tests that user's draft(s) are deleted through dependency.
+        $this->assertEquals(0, $this->Table->Drafts->findByUserId(3)->count());
+        // Tests that we don't delete every other draft too.
+        $this->assertGreaterThan(0, $this->Table->Drafts->find('all')->count());
+
         //// delete uploads
         // user uploads gone
         $this->assertEquals(0, $this->Table->Uploads->findByUserId(3)->count());
         // don't delete everything
         $this->assertGreaterThan(0, $this->Table->Uploads->find('all')->count());
+
+        /// UserOnline
+        // Check that user is no longer online
+        $this->assertEquals(0, $this->Table->UserOnline->findByUserId(3)->count());
     }
 
     public function testSetPassword()
@@ -595,5 +609,15 @@ class UsersTableTest extends SaitoTableTestCase
         $entity = $this->Table->patchEntity($entity, $data);
         $this->assertEmpty($entity->getErrors());
         $this->assertNotFalse($this->Table->save($entity));
+    }
+
+    public function testValidationUsernameMaxLengh()
+    {
+        $max = UsersTable::USERNAME_MAXLENGTH;
+        $user = $this->Table->get(1);
+        $this->Table->patchEntity($user, ['username' => str_pad('', $max + 1, '0')]);
+
+        $this->assertArrayHasKey('maxLength', $user->getError('username'));
+        $this->assertContains('191', $user->getError('username')['maxLength']);
     }
 }

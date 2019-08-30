@@ -18,6 +18,56 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
+#: frontend/src/modules/answering/answering.ts:111
+msgid "answer.btn.preview"
+msgstr "Preview"
+
+#: frontend/src/modules/answering/buttons/SubmitButtonView.ts:14
+msgid "answer.btn.sbmt"
+msgstr "Submit"
+
+#: frontend/src/modules/answering/views/CategorySelectVw.ts:22
+msgid "answer.cat.l"
+msgstr "Category"
+
+#: frontend/src/modules/answering/buttons/CiteBtnVw.ts:23
+msgid "answer.cite.t"
+msgstr "Cite"
+
+#: frontend/src/modules/answering/editor/DraftsView.ts:108
+msgid "answer.draft.saved.t"
+msgstr "Answer is saved as draft."
+
+#: frontend/src/modules/answering/editor/DraftsView.ts:109
+msgid "answer.draft.unsaved.t"
+msgstr "Not all changes are saved as draft."
+
+#: frontend/src/modules/answering/answering.ts:96
+msgid "answer.reply.t"
+msgstr "Write a Reply"
+
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:236
+msgid "answer.subject.t"
+msgstr "Subject"
+
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:315
+msgid "answer.submit.e.t"
+msgstr "Error: Posting Could Not Be Saved"
+
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:272
+#: frontend/src/modules/answering/answering.ts:314
+msgid "api.generic.e.exp"
+msgstr ""
+"Couldn't reach the internet server. Check your connection and try again."
+
+#: frontend/src/modules/answering/answering.ts:129
+#: frontend/src/modules/answering/answering.ts:273
+msgid "api.generic.e.t"
+msgstr "Error: Couldn't Connect to Server"
+
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:88
 msgid "bkm.delete.failure"
@@ -65,7 +115,7 @@ msgid "bmk.isBookmarked"
 msgstr "Entry is bookmarked"
 
 #: frontend/src/views/categoryChooserVw.ts:6
-#: frontend/src/views/categoryChooserVw.ts:26
+#: frontend/src/views/categoryChooserVw.ts:24
 msgid "category.title.pl"
 msgstr "Categories"
 
@@ -122,12 +172,12 @@ msgstr "Delete Posting"
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
 
-#: frontend/src/modules/answering/answering.ts:31
-#: frontend/src/modules/answering/answering.ts:164
+#: frontend/src/modules/answering/views/PreviewVw.ts:45
+#: frontend/src/modules/answering/views/PreviewVw.ts:63
 msgid "preview.e.generic"
 msgstr "Error: Couldn't load preview."
 
-#: frontend/src/modules/answering/preview.ts:43
+#: frontend/src/modules/answering/views/PreviewVw.ts:39
 msgid "preview.t"
 msgstr "Preview"
 
@@ -140,7 +190,7 @@ msgstr "yesterday"
 msgid "tree.delete.confirm"
 msgstr "Are sure?"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:24
 msgid "upl.btn.insert"
 msgstr "Insert"
 
@@ -177,9 +227,9 @@ msgstr "No uploads yet."
 msgid "upl.new.title"
 msgstr "Drop File Here"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:26
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:65
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:68
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
 msgid "upl.title"
 msgstr "Uploads"
@@ -188,14 +238,16 @@ msgstr "Uploads"
 msgid "upl.title.pl"
 msgstr "Uploads"
 
+#: src/Template/Users/view.ctp:325
+msgid "user.block.hours"
+msgstr "{hours} hours"
+
 #: frontend/src/modules/user/userVw.ts:14
 msgid "user.recentposts.t"
 msgstr "Recent Postings"
 
-#~ msgid "user.block.hours"
-#~ msgstr "{hours} hours"
-
-#~ msgid "prq.storage.warning"
+#, fuzzy
+#~ msgid "answer.load.e.exp"
 #~ msgstr ""
-#~ "This web-application depends on Cookies and localStorage. Please make "
-#~ "those available in your browser."
+#~ "Couldn't reach to the internet server. Check that you're connected and "
+#~ "try again."

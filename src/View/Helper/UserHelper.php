@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,17 +13,20 @@
 namespace App\View\Helper;
 
 use App\Model\Entity\User;
-use Cake\ORM\Entity;
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\Helper\UrlHelper;
 use Identicon\Identicon;
 use Saito\RememberTrait;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\ForumsUserInterface;
-use Saito\User\SaitoUser;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class UserHelper
  *
  * @package App\View\Helper
+ * @property HtmlHelper $Html
+ * @property UrlHelper $Url
  */
 class UserHelper extends AppHelper
 {
@@ -120,11 +126,11 @@ class UserHelper extends AppHelper
      * Link to user-profile
      *
      * @param User|ForumsUserInterface $user user
-     * @param bool $link link
+     * @param bool|CurrentUserInterface $link link
      * @param array $options options
      * @return string
      */
-    public function linkToUserProfile($user, $link = true, array $options = [])
+    public function linkToUserProfile($user, $link = true, array $options = []): string
     {
         $options += [
             'title' => $user->get('username'),
@@ -138,7 +144,8 @@ class UserHelper extends AppHelper
         if (empty($id)) {
             // removed user
             $html = $name;
-        } elseif ($link || ($link instanceof ForumsUserInterface && $link->isLoggedIn())
+        } elseif (($link === true)
+            || ($link instanceof CurrentUserInterface && $link->isLoggedIn())
         ) {
             return $this->Html->link($name, '/users/view/' . $id, $options);
         } else {

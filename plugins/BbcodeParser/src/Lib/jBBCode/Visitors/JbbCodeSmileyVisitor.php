@@ -1,19 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2014-2018
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
 
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
 
-use Cake\Core\Configure;
-use Cake\View\Helper;
+use App\View\Helper\ParserHelper;
 use Saito\Markup\MarkupSettings;
 use Saito\Smiley\SmileyRenderer;
 
@@ -28,7 +27,7 @@ class JbbCodeSmileyVisitor extends JbbCodeTextVisitor
     /**
      * {@inheritDoc}
      */
-    public function __construct(Helper $Helper, MarkupSettings $_sOptions)
+    public function __construct(ParserHelper $Helper, MarkupSettings $_sOptions)
     {
         parent::__construct($Helper, $_sOptions);
 

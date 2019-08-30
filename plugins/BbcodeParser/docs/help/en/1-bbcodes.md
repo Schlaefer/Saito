@@ -1,6 +1,6 @@
 # Saito flavored BBCode #
 
-BBCodes available in front-end. The availability of some BBCode-tags depends on forum-configuration (e.g. multimedia-settings) or place.
+The availability of some BBCode-tags depends on forum-configuration (e.g. multimedia-settings) or place (new posting, signature, …).
 
 ## Bold ##
 
@@ -99,23 +99,11 @@ A special citation character (depending on forum-settings) at the beginning of t
 
 ## Multimedia ##
 
-Some multimedia-tags are complicated to setup manually. It is highly recommended to add multimedia-tags via the provided GUI-option(s).
+Some multimedia-tags are complicated to create. It is recommended to add multimedia-content through the media-buttons in the posting-form, which is going to add those automatically.
 
 ### Image ###
 
 	[img]http://example.com/image.png[/img]
-
-50 pixel width:
-
-	[img=50]http://localhost/img/macnemo.png[/img]
-
-Constrained to 50 pixel width or 100 pixel height:
-
-	[img=50x100]http://localhost/img/macnemo.png[/img]
-
-Float image left or right:
-
-	[img=<left|right>]http://localhost/img/macnemo.png[/img]
 
 
 ### HTML5-Audio ###
@@ -136,17 +124,15 @@ Choose an [appropriate file-format][Video] for your audience.
 [Video]: http://en.wikipedia.org/wiki/HTML5_video#Browser_support
 
 
-### Iframe &amp; Flash ###
+### Uploads ###
 
-Please use the provided GUI-features.
+The BBCode-tag for uploads is generated automatically when a file is inserted through the uploader.
 
-### Upload ###
+### Other External Content ###
 
-	[upload]filename.ext[/upload]
+    [embed]http://example.com/content.something[/embed]
 
-### Embed.ly ###
-
-If activated `[embed]<URL>[/embed]` tries to embed the URL via [embed.ly](http://embed.ly/).
+Tries to embed the content, a short extract of the content or a apppropriate link.
 
 ## Layout ##
 

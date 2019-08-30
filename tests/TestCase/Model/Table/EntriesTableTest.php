@@ -2,17 +2,13 @@
 
 namespace App\Test\TestCase\Model\Table;
 
-use Cake\Cache\Cache;
-use Cake\Core\Configure;
+use App\Model\Entity\Entry;
 use Saito\App\Registry;
-use Saito\Test\Model\Table\EntriesTableMock;
 use Saito\Test\Model\Table\SaitoTableTestCase;
-use Saito\User\Categories;
-use Saito\User\SaitoUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 class EntriesTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'Entries';
 
     public $fixtures = [
@@ -31,21 +27,27 @@ class EntriesTest extends SaitoTableTestCase
     {
         $category = 1;
 
+        $Drafts = $this->getMockForModel(
+            'Drafts',
+            ['deleteDraftForPosting']
+        );
+        $Drafts->expects($this->once())
+            ->method('deleteDraftForPosting')
+            ->with($this->isInstanceOf(Entry::class));
+
         $this->Table = $this->getMockForModel(
             'Entries',
             ['_dispatchEvent'],
             ['className' => 'Saito\Test\Model\Table\EntriesTableMock']
         );
-
         $this->Table->expects($this->once())
             ->method('_dispatchEvent')
             ->with('Model.Thread.create', $this->anything());
 
         //= Setup CurrentUser
-        $SaitoUser = new SaitoUser(
+        $SaitoUser = CurrentUserFactory::createLoggedIn(
             ['id' => 100, 'username' => 'foo', 'user_type' => 'admin']
         );
-        Registry::set('CU', $SaitoUser);
 
         // +1 because str_pad calculates non ascii chars to a string length of 2
         $subject = str_pad(
@@ -54,106 +56,31 @@ class EntriesTest extends SaitoTableTestCase
             '.'
         );
         $data = [
+            'category_id' => $category,
+            'name' => 'foo',
             'pid' => 0,
             'subject' => $subject,
             'text' => 'Täxt',
-            'category_id' => $category,
+            'user_id' => 100,
         ];
 
         /*
          * test success
          */
         $expectedThreadId = $this->Table->find()->count() + 1;
-        $result = $this->Table->createPosting($data)->toArray();
+        $result = $this->Table->createPosting($data, $SaitoUser)->toArray();
         $expected = $data;
         $expected['tid'] = $expectedThreadId;
         $result = array_intersect_key($result, $expected);
         $this->assertEquals($result, $expected);
     }
 
-    public function testCreateAllowanceAnswer()
+    public function testValidationSubjectMaxLengthFailure()
     {
-        /*
-         * setup
-         */
-        $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
-        $admin = ['id' => 101, 'username' => 'foo', 'user_type' => 'admin'];
-
-        $thread = ['subject' => 'foo', 'category_id' => 4];
-        $answer = ['pid' => 11] + $thread;
-        $SaitoUser = new SaitoUser();
-        $SaitoUser->Categories = new Categories($SaitoUser);
-        Registry::set('CU', $SaitoUser);
-
-        /*
-         * user thread denied
-         */
-        $SaitoUser->setSettings($user);
-        $new = $this->Table->createPosting($thread);
-        $this->assertNotEmpty($new->getErrors());
-
-        /*
-         * admin thread allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->getErrors());
-
-        /*
-         * user answer allowed
-         */
-        $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->getErrors());
-
-        /*
-         * admin answer allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->getErrors());
-    }
-
-    public function testCreateAllowanceThread()
-    {
-        /*
-         * setup
-         */
-        $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
-        $admin = ['id' => 101, 'username' => 'foo', 'user_type' => 'admin'];
-
-        $thread = ['subject' => 'foo', 'category_id' => 1];
-        $answer = ['pid' => 6] + $thread;
-        $SaitoUser = new SaitoUser();
-        $SaitoUser->Categories = new Categories($SaitoUser);
-        Registry::set('CU', $SaitoUser);
-
-        /*
-         * user thread denied
-         */
-        $SaitoUser->setSettings($user);
-        $new = $this->Table->createPosting($thread);
-        $this->assertNotEmpty($new->getErrors());
-
-        /*
-         * admin thread allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($thread);
-        $this->assertEmpty($new->getErrors());
-
-        /*
-         * user answer denied
-         */
-        $SaitoUser->setSettings($user);
-        $new = $this->Table->createPosting($answer);
-        $this->assertNotEmpty($new->getErrors());
-
-        /*
-         * admin answer allowed
-         */
-        $SaitoUser->setSettings($admin);
-        $new = $this->Table->createPosting($answer);
-        $this->assertEmpty($new->getErrors());
+        $max = 5;
+        $this->Table->setConfig('subject_maxlength', $max);
+        $draft = $this->Table->newEntity(['subject' => str_pad('', $max + 1, '0')]);
+        $this->assertArrayHasKey('maxLength', $draft->getError('subject'));
     }
 
     public function testToggle()
@@ -185,7 +112,7 @@ class EntriesTest extends SaitoTableTestCase
     public function testThreadMerge()
     {
         //= CurrentUser setup
-        $SaitoUser = new SaitoUser();
+        $SaitoUser = CurrentUserFactory::createDummy();
         Registry::set('CU', $SaitoUser);
 
         // entry is not appended yet
@@ -239,7 +166,7 @@ class EntriesTest extends SaitoTableTestCase
     public function testThreadMergePin()
     {
         //= CurrentUser setup
-        $SaitoUser = new SaitoUser();
+        $SaitoUser = CurrentUserFactory::createDummy();
         Registry::set('CU', $SaitoUser);
 
         //= unlock source the fixture thread
@@ -267,7 +194,7 @@ class EntriesTest extends SaitoTableTestCase
     public function testThreadMergeUnpin()
     {
         //= CurrentUser setup
-        $SaitoUser = new SaitoUser();
+        $SaitoUser = CurrentUserFactory::createDummy();
         Registry::set('CU', $SaitoUser);
 
         $posting = $this->Table->get(4);
@@ -297,6 +224,22 @@ class EntriesTest extends SaitoTableTestCase
     }
 
     /**
+     * Category change is only allowed on root postings
+     *
+     * That will also change all posting in the root postings thread
+     */
+    public function testChangeCategoryOnNonRootFailure()
+    {
+        $posting = $this->Table->get(2, ['return' => 'Entity']);
+        $posting->set('category_id', 3);
+        $success = $this->Table->save($posting);
+
+        $this->assertFalse($success);
+        $errors = $posting->getErrors();
+        $this->assertArrayHasKey('checkCategoryChangeOnlyOnRootPostings', $errors['category_id']);
+    }
+
+    /**
      * Test changing the category of a thread
      *
      * - Should change category-ID of every posting
@@ -304,7 +247,7 @@ class EntriesTest extends SaitoTableTestCase
      */
     public function testChangeThreadCategory()
     {
-        $SaitoUser = new SaitoUser(['id' => 1, 'user_type' => 'admin']);
+        $SaitoUser = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'admin']);
         Registry::set('CU', $SaitoUser);
 
         $tid = 1;
@@ -372,7 +315,7 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testChangeThreadCategoryNotAnExistingCategory()
     {
-        $SaitoUser = new SaitoUser(['id' => 1, 'user_type' => 'admin']);
+        $SaitoUser = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'admin']);
         Registry::set('CU', $SaitoUser);
 
         $newCategory = 9999;
@@ -461,26 +404,6 @@ class EntriesTest extends SaitoTableTestCase
         $this->assertEquals($result, $expected);
     }
 
-    public function testIsRoot()
-    {
-        $isRoot = new \ReflectionMethod($this->Table, '_isRoot');
-        $isRoot->setAccessible(true);
-
-        $result = $isRoot->invoke($this->Table, ['id' => 8]);
-        $this->assertFalse($result);
-
-        $result = $isRoot->invoke($this->Table, ['id' => 4]);
-        $this->assertTrue($result);
-
-        $posting = ['pid' => 0];
-        $result = $isRoot->invoke($this->Table, $posting);
-        $this->assertTrue($result);
-
-        $posting = ['pid' => 1];
-        $result = $isRoot->invoke($this->Table, $posting);
-        $this->assertFalse($result);
-    }
-
     public function testTreeForNode()
     {
         $posting = $this->Table->treeForNode(2);
@@ -506,5 +429,14 @@ class EntriesTest extends SaitoTableTestCase
     {
         $this->expectException('\UnexpectedValueException');
         $this->Table->getThreadId(999);
+    }
+
+    public function testTrimSubjectAndText()
+    {
+        $fields = ['subject' => ' foo ', 'text' => ' bar '];
+        $new = $this->Table->newEntity($fields);
+
+        $this->assertEquals('foo', $new->get('subject'));
+        $this->assertEquals('bar', $new->get('text'));
     }
 }

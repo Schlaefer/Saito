@@ -1,10 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Exception\Logger;
 
-use App\Controller\Component\CurrentUserComponent;
 use Cake\Log\Log;
 use Cake\Routing\Router;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 class ExceptionLogger
 {
@@ -90,7 +100,7 @@ class ExceptionLogger
         if (!isset($data['CurrentUser'])) {
             return;
         }
-        if (!($data['CurrentUser'] instanceof CurrentUserComponent)) {
+        if (!($data['CurrentUser'] instanceof CurrentUserInterface)) {
             throw new \InvalidArgumentException;
         }
         $CurrentUser = $data['CurrentUser'];

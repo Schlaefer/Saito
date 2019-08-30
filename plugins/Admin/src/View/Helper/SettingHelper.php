@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
- * @copyright Copyright (c) the Saito Project Developers 2015
+ * @copyright Copyright (c) the Saito Project Developers
  * @link https://github.com/Schlaefer/Saito
  * @license http://opensource.org/licenses/MIT
  */
@@ -10,11 +13,13 @@
 namespace Admin\View\Helper;
 
 use App\View\Helper\AppHelper;
+use Cake\View\Helper\HtmlHelper;
 use SaitoHelp\View\Helper\SaitoHelpHelper;
 
 /**
  * Setting Helper
  *
+ * @property HtmlHelper $Html
  * @property SaitoHelpHelper $SaitoHelp
  */
 class SettingHelper extends AppHelper

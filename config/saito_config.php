@@ -39,7 +39,14 @@ $config = [
             /**
              * Upload directory root with trailing slash
              */
-            'uploadDirectory' => WWW_ROOT . 'useruploads' . DIRECTORY_SEPARATOR
+            'uploadDirectory' => WWW_ROOT . 'useruploads' . DIRECTORY_SEPARATOR,
+            /**
+             * Category-select in posting-form is prepopulated with a category
+             *
+             * - true - The first available category is preselected as default.
+             * - false - The User is forced to select a category.
+             */
+            'answeringAutoSelectCategory' => false,
         ],
 
         /**

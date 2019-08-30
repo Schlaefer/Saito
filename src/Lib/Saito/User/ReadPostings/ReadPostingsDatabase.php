@@ -1,12 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\User\ReadPostings;
 
-use App\Controller\Component\CurrentUserComponent;
+use App\Model\Table\EntriesTable;
 use App\Model\Table\UserReadsTable;
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use Saito\App\Registry;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -14,7 +24,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class ReadPostingsDatabase extends ReadPostingsAbstract
 {
-
     /**
      * @var UserReadsTable
      */
@@ -23,10 +32,20 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
     protected $minPostingsToKeep;
 
     /**
+     * @var EntriesTable
+     */
+    protected $entriesTable;
+
+    /**
      * {@inheritDoc}
      */
-    public function __construct(CurrentUserComponent $CurrentUser, UserReadsTable $storage)
-    {
+    public function __construct(
+        CurrentUserInterface $CurrentUser,
+        UserReadsTable $storage,
+        EntriesTable $entriesTable
+    ) {
+        $this->entriesTable = $entriesTable;
+
         parent::__construct($CurrentUser, $storage);
         $this->_registerGc();
     }
@@ -37,15 +56,10 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
     public function set($entries)
     {
         Stopwatch::start('ReadPostingsDatabase::set()');
-        if (!$this->CurrentUser->isLoggedIn()) {
-            return;
-        }
-
         $entries = $this->_prepareForSave($entries);
         if (empty($entries)) {
             return;
         }
-
         $this->storage->setEntriesForUser($entries, $this->_getId());
         Stopwatch::stop('ReadPostingsDatabase::set()');
     }
@@ -104,8 +118,8 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      */
     public function gcGlobal()
     {
-        $Entries = $this->_getTable('Entries');
-        $lastEntry = $Entries->find(
+        /** @var EntriesTable */
+        $lastEntry = $this->entriesTable->find(
             'all',
             [
                 'fields' => ['Entries.id'],
@@ -115,10 +129,13 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         if (!$lastEntry) {
             return;
         }
-        $Categories = $Entries->Categories;
+        $Categories = $this->entriesTable->Categories;
         $nCategories = $Categories->find()->count();
         $entriesToKeep = $nCategories * $this->_minNPostingsToKeep();
         $lastEntryId = $lastEntry->get('id') - $entriesToKeep;
+        if ($lastEntryId <= 0) {
+            return;
+        }
         $this->storage->deleteEntriesBefore($lastEntryId);
     }
 
@@ -151,15 +168,11 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         // assign dummy var to prevent Strict notice on reference passing
         $dummy = array_slice($entries, $entriesToDelete, 1);
         $oldestIdToKeep = array_shift($dummy);
-        $this->storage->deleteUserEntriesBefore(
-            $this->_getId(),
-            $oldestIdToKeep
-        );
 
-        // all entries older than (and including) the deleted entries become
-        // old entries by updating the MAR-timestamp
-        $Entries = $this->_getTable('Entries');
-        $youngestDeletedEntry = $Entries->find(
+        /// Update last refresh
+        // All entries older than (and including) the deleted entries become
+        // old entries by updating the MAR-timestamp.
+        $youngestDeletedEntry = $this->entriesTable->find(
             'all',
             [
                 'conditions' => ['Entries.id' => $oldestIdToKeep],
@@ -167,13 +180,16 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
             ]
         )
             ->first();
-        // can't use  $this->_CU->LastRefresh->set() because this would also
-        // delete all of this user's UserRead entries
+        // Can't use  $this->_CU->LastRefresh->set(): that would not only delete
+        // old but *all* of the user's individually read postings.
         $this->storage->Users
             ->setLastRefresh(
                 $this->_getId(),
                 $youngestDeletedEntry->get('time')
             );
+
+        /// Now delete the old entries
+        $this->storage->deleteUserEntriesBefore($this->_getId(), $oldestIdToKeep);
     }
 
     /**
@@ -197,16 +213,5 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
     protected function _getId()
     {
         return $this->CurrentUser->getId();
-    }
-
-    /**
-     * Get table
-     *
-     * @param string $key table
-     * @return \Cake\ORM\Table
-     */
-    protected function _getTable($key)
-    {
-        return TableRegistry::get($key);
     }
 }

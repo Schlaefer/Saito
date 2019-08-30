@@ -1,3 +1,11 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import $ from 'jquery';
 import { MarkupMultimedia } from 'lib/saito/markup.media.ts';
 
@@ -57,13 +65,6 @@ describe("markup library", function () {
       result = markup.multimedia(input);
       expected = '[iframe src=http://www.youtube.com/embed/qa-4E8ZDj9s ' +
         'width=560 height=315 frameborder=0 allowfullscreen][/iframe]';
-      expect(result).toEqual(expected);
-    });
-
-    it("outputs an [flash_video] tag for <object> tags", function () {
-      input = '<object … src="http://www.youtube.com/v/qa-4E8ZDj9s?version=3&amp;hl=en_US" … width="560" height="315" …';
-      result = markup.multimedia(input);
-      expected = '[flash_video]http://www.youtube.com/v/qa-4E8ZDj9s?version=3&amp;hl=en_US|560|315[/flash_video]';
       expect(result).toEqual(expected);
     });
 

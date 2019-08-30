@@ -20,6 +20,7 @@
         <include name="index.php"/>
         <include name="README.md"/>
         <exclude name="**/css/src/**"/>
+        <exclude name="plugins/*/tests/**"/>
     </fileset>
 
     <!-- start fresh each time.  Remove the dist and build dirs -->
