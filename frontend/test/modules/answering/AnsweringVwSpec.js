@@ -44,6 +44,17 @@ describe('answering form', () => {
         expect(meta.fetch).toHaveBeenCalled();
     })
 
+    it('sends request with pid', () => {
+        const meta = new MetaModel();
+        const model = new AnswerModel({ pid: 815 });
+        const view = new AnsweringView({meta, model});
+
+        spyOn($, 'ajax');
+        view.render();
+
+        expect($.ajax.calls.mostRecent().args[0]['data']).toEqual({ pid: 815 });
+    })
+
     describe('fails', () => {
       it('and calls error handler', () => {
         const meta = new MetaModel();
