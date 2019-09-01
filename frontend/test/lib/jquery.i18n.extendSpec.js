@@ -4,7 +4,7 @@ import 'lib/jquery.i18n/jquery.i18n.extend';
 describe('jquery.i18n.extend', function () {
   describe('replaces :token tags', function () {
     beforeEach(function (done) {
-      $.i18n.setDict({});
+      $.i18n.setDictionary({});
       done();
     });
 
@@ -25,7 +25,7 @@ describe('jquery.i18n.extend', function () {
       var expected,
         result;
 
-      $.i18n.setDict({
+      $.i18n.setDictionary({
         'token test': '{tokenA}; is {token_b} than fu {tokenNo} c'
       });
 

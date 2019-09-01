@@ -13,7 +13,7 @@ window.$ = $;
 $.ajaxSetup({cache: true});
 
 // make empty dict available for test cases
-$.i18n.setDict({});
+$.i18n.setDictionary({});
 
 window.redirect = function (destination) {
   document.location.replace(destination);

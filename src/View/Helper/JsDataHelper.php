@@ -50,7 +50,6 @@ class JsDataHelper extends AppHelper
 
         $js = [
             'app' => [
-                'version' => Configure::read('Saito.v'),
                 'settings' => [
                     'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0),
                     'editPeriod' => (int)Configure::read(
@@ -68,6 +67,9 @@ class JsDataHelper extends AppHelper
                     'apiroot' => $request->getAttribute('webroot') . 'api/v2/',
                     'webroot' => $request->getAttribute('webroot')
                 ]
+            ],
+            'assets' => [
+                'lang' => $this->Url->assetUrl('js/locale/' . Configure::read('Saito.language') . '.json'),
             ],
             'msg' => $this->notifications()->getAll(),
             'request' => [
