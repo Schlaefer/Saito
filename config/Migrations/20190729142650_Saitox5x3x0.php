@@ -13,13 +13,6 @@ class Saitox5x3x0 extends AbstractMigration
                 'length' => 191,
                 'null' => true,
             ])
-            ->addIndex(
-                [
-                    'user_id',
-                    'title',
-                ],
-                ['name' => 'userId_title', 'unique' => true]
-            )
             ->update();
 
         $this->table('useronline')
@@ -76,10 +69,6 @@ class Saitox5x3x0 extends AbstractMigration
 
     public function down()
     {
-        $this->table('uploads')
-            ->removeIndexByName('userId_title')
-            ->update();
-
         $this->table('uploads')
             ->changeColumn('title', 'string', [
                 'default' => null,
