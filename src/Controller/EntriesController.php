@@ -534,7 +534,7 @@ class EntriesController extends AppController
         $this->set('categoryChooserTitleId', $title);
         $this->set(
             'categoryChooser',
-            $User->getCategories()->getAll('read', 'list')
+            $User->getCategories()->getAll('read', 'select')
         );
     }
 

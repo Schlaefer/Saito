@@ -45,13 +45,13 @@ class Categories
     }
 
     /**
-     * get all available categories to the user
-     *
+     * Get all available categories to the user in order
      *
      * @param string $action action
      * @param string $format format
-     * - 'short': [id1 => 'id1', id2 => 'id2']
-     * - 'select': [id1 => 'title 1'] for html select
+     * - 'list': [['id' => <id>, 'title' => <title>], [...]] suited for JS use
+     * - 'select': [id1 => 'title 1'] for Cake Form Helper select
+     * - 'short': [id1 => 'id1', id2 => 'id2'] suited for use in queries
      * @return mixed
      */
     public function getAll($action, $format = 'short')
@@ -68,14 +68,30 @@ class Categories
                 foreach ($all as $category) {
                     $categories[$category->get('id')] = $category->get('category');
                 }
+                $categories = $this->_filterAllowed($action, $categories);
+
                 switch ($format) {
+                    case 'select':
+                        break;
                     case 'short':
                         $cIds = array_keys($categories);
                         $categories = array_combine($cIds, $cIds);
                         break;
+                    case 'list':
+                        $cats = [];
+                        foreach ($categories as $key => $category) {
+                            $cats[] = ['id' => $key, 'title' => $category];
+                        }
+                        $categories = $cats;
+                        break;
+                    default:
+                        throw new \InvalidArgumentException(
+                            sprintf('Invalid argument %s for $format.', $format),
+                            1567319405
+                        );
                 }
 
-                return $this->_filterAllowed($action, $categories);
+                return $categories;
             }
         );
         Stopwatch::stop('User\Categories::getAll()');

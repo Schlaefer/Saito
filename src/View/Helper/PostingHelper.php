@@ -12,10 +12,8 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\Model\Entity\Entry;
 use App\View\Helper\TimeHHelper;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\View\Helper\FormHelper;
 use Cake\View\Helper\HtmlHelper;
 use Saito\Event\SaitoEventManager;
@@ -82,47 +80,6 @@ class PostingHelper extends AppHelper
         $link = "<a href=\"{$url}\" class=\"{$options['class']}\">" . $this->getSubject($posting) . '</a>';
 
         return $link;
-    }
-
-    /**
-     * category select
-     *
-     * @param Entry $posting posting
-     * @param array $categories categories
-     *
-     * @return string
-     */
-    public function categorySelect(Entry $posting, array $categories)
-    {
-        if (!$posting->isRoot()) {
-            // Send category for easy access in entries/preview when answering
-            // (not used when saved).
-            return $this->Form->hidden('category_id');
-        }
-
-        $html = $this->Form->control(
-            'category_id',
-            [
-                'class' => 'form-control',
-                'div' => false,
-                'options' => $categories,
-                'empty' => true,
-                'label' => [
-                    'class' => 'col-form-label mr-3',
-                    'text' => __('Category'),
-                ],
-                'tabindex' => 1,
-                'error' => ['notEmpty' => __('error_category_empty')],
-                'templates' => [
-                    'inputContainer' => '{{content}}',
-                ],
-                'required' => 'required',
-            ]
-        );
-        $html = $this->Html->div('form-group d-flex', $html);
-        // $html = $this->Html->div('form-inline', $html);
-
-        return $html;
     }
 
     /**

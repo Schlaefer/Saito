@@ -561,10 +561,6 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: src/View/Helper/PostingHelper.php:115
-msgid "error_category_empty"
-msgstr "Category must not be empty."
-
 #: src/View/Helper/PostingHelper.php:137
 msgid "views_headline"
 msgstr "views"

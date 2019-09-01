@@ -3,7 +3,7 @@ import moment from 'moment';
 import TemplateHelpers from 'lib/saito/templateHelpers';
 // import 'lib/jquery.i18n/jquery.i18n.extend.js';
 
-$.i18n.setDict({});
+$.i18n.setDictionary({});
 
 
 describe('Template Helpers', function () {

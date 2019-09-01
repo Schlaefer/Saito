@@ -105,34 +105,36 @@ var app = {
     let appView,
       appReady;
 
-    // do this always first
     App.settings.set(options.SaitoApp.app.settings);
-    // init i18n, do this always second
-    const language = App.settings.get('language');
-    $.i18n.setUrl(App.settings.get('webroot') + 'js/locale/' + language +  '.json');
 
-    App.currentUser.set(options.SaitoApp.currentUser);
-    App.request = options.SaitoApp.request;
+    $.ajax({
+      cache: true,
+      dataType: 'json',
+      mimeType: 'application/json',
+      success: (data) => {
+        $.i18n.setDictionary(data);
+        App.currentUser.set(options.SaitoApp.currentUser);
+        App.request = options.SaitoApp.request;
 
-    app.configureAjax($, App);
+        app.configureAjax($, App);
 
-    Html5NotificationModule.start();
+        Html5NotificationModule.start();
 
-    var callbacks = options.SaitoApp.callbacks.beforeAppInit;
-    _.each(callbacks, function (fct) {
-      fct();
+        var callbacks = options.SaitoApp.callbacks.beforeAppInit;
+        _.each(callbacks, (fct) => { fct(); });
+
+        appReady = function () {
+          app.fireOnPageCallbacks(options.SaitoApp.callbacks);
+          appView = new AppView({ el: 'body' });
+          appView.initFromDom({
+            SaitoApp: options.SaitoApp,
+            contentTimer: contentTimer
+          });
+        };
+        whenReady(appReady);
+      },
+      url: options.SaitoApp.assets.lang,
     });
-
-    appReady = function () {
-      app.fireOnPageCallbacks(options.SaitoApp.callbacks);
-      appView = new AppView({ el: 'body' });
-      appView.initFromDom({
-        SaitoApp: options.SaitoApp,
-        contentTimer: contentTimer
-      });
-    };
-
-    whenReady(appReady);
   }
 };
 

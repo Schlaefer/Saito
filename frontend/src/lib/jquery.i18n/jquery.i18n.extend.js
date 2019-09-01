@@ -7,32 +7,6 @@ import i18n from 'lib/jquery.i18n/jquery.i18n';
 import format from 'string-template';
 
 $.extend($.i18n, {
-
-    currentString: '',
-
-    setDict: function (dict) {
-        this.dict = dict;
-    },
-
-    setUrl: function (dictUrl) {
-        this.dictUrl = dictUrl;
-        this._loadDict();
-    },
-
-    _loadDict: function () {
-        var success = function(data) {
-            this.dict = data;
-        };
-        success = $.proxy(success, this);
-        return $.ajax({
-            url: this.dictUrl,
-            dataType: 'json',
-            mimeType: 'application/json',
-            async: false,
-            cache: true
-        }).done(success);
-    },
-
     /**
      * Localice string with tokens
      *

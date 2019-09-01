@@ -575,10 +575,6 @@ msgstr ""
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/View/Helper/PostingHelper.php:115
-msgid "error_category_empty"
-msgstr "Bitte Kategorie wählen."
-
 # msgstr "Aufrufe"
 #: src/View/Helper/PostingHelper.php:137
 msgid "views_headline"

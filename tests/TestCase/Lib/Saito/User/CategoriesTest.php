@@ -41,12 +41,19 @@ class CategoriesTest extends SaitoTestCase
          */
         $result = $Lib->getAll('thread');
         $this->assertEquals([], $result);
+    }
 
-        /**
-         * test answer
-         */
-        $result = $Lib->getAll('answer');
-        $this->assertEquals([], $result);
+    public function testGetAllFormatList()
+    {
+        $User = CurrentUserFactory::createDummy(['id' => 1, 'user_type' => 'anon']);
+        $Lib = $User->getCategories();
+
+        $result = $Lib->getAll('read', 'list');
+        $expected = [
+            ['id' => 3, 'title' => 'Another Ontopic'],
+            ['id' => 2, 'title' => 'Ontopic'],
+        ];
+        $this->assertEquals($result, $expected);
     }
 
     public function testGetAllForUser()
@@ -109,7 +116,7 @@ class CategoriesTest extends SaitoTestCase
         $this->assertEquals($expected, $result);
 
         /**
-         * test answer
+         * test answer as
          */
         $result = $Lib->getAll('answer', 'select');
         $this->assertEquals($expected, $result);

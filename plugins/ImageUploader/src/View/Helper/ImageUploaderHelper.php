@@ -41,7 +41,7 @@ class ImageUploaderHelper extends AppHelper
                 'created' => $image->get('created'),
                 'mime' => $image->get('type'),
                 'name' => $image->get('name'),
-                'title' => $image->get('title') ?: $image->get('name'),
+                'title' => $image->get('title'),
                 'size' => $image->get('size'),
                 'url' => $this->Url->assetUrl(
                     'useruploads/' . $image->get('name'),
