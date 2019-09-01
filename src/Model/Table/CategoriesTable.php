@@ -14,6 +14,7 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppSettingTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Saito\RememberTrait;
@@ -74,11 +75,11 @@ class CategoriesTable extends AppSettingTable
     }
 
     /**
-     * get all categories
+     * Get all categories in sort order
      *
-     * @return array
+     * @return ResultSetInterface
      */
-    public function getAllCategories()
+    public function getAllCategories(): ResultSetInterface
     {
         $key = 'Saito.Cache.Categories';
 

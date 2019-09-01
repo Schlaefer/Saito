@@ -13,7 +13,7 @@ describe('answering form', () => {
     },
     editor: {
         buttons: [],
-        categories: {1: 'Ontopic'},
+        categories: [{ id: 1, title: 'Ontopic'}],
         smilies: [],
     },
     meta: {

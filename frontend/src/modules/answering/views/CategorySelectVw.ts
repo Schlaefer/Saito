@@ -27,12 +27,12 @@ export default class CategorySelectVw extends View<Model> {
                         <% if (!autoselectCategory) { %>
                             <option value=""></option>
                         <% } %>
-                        <% for (const [id, title] of Object.entries(categories)) { %>
+                        <% for (category of categories) { %>
                             <option
-                                value="<%= id %>"
-                                <% if (category_id == id) { %>selected="selected"<% } %>
+                                value="<%= category.id %>"
+                                <% if (category_id == category.id) { %>selected="selected"<% } %>
                             >
-                                <%- title %>
+                                <%- category.title %>
                             </option>
                         <% } %>
                     </select>

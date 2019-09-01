@@ -4,7 +4,10 @@ import { SubjectInputView as View } from 'modules/answering/views/SubjectInputVw
 import _ from 'underscore';
 
 describe('answering form', function () {
-  const categories = { 1: 'Ontopic', 2: 'Offtopic'};
+  const categories = [
+    { id: 1, title: 'Ontopic'},
+    { id: 2, title: 'Offtopic'}
+  ];
   let model;
 
   beforeEach(() => {
