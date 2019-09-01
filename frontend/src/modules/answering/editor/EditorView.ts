@@ -96,7 +96,7 @@ class EditorView extends View<Model> {
      */
     private postContentChanged() {
         this.handleInput();
-        autosize.update(this.getUI('text'));
+        _.defer(() => autosize.update(this.getUI('text')));
     }
 
     /**
