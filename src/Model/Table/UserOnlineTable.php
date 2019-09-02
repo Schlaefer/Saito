@@ -33,11 +33,13 @@ class UserOnlineTable extends Table
     use LogTrait;
 
     /**
-     * Time in seconds until a user is considered offline
+     * Time in seconds until a user is considered offline.
+     *
+     * Default: 20 Minutes.
      *
      * @var int
      */
-    public $timeUntilOffline = 1200;
+    private $timeUntilOffline = 1200;
 
     /**
      * {@inheritDoc}
@@ -58,12 +60,7 @@ class UserOnlineTable extends Table
             ]
         );
 
-        $this->belongsTo(
-            'Users',
-            [
-                'foreignKey' => 'user_id'
-            ]
-        );
+        $this->belongsTo('Users', ['foreignKey' => 'user_id']);
     }
 
     /**
@@ -71,8 +68,8 @@ class UserOnlineTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        /// uuid
         $validator
-            //= uuid
             ->notEmpty('uuid')
             ->requirePresence('uuid')
             ->add(
@@ -86,6 +83,20 @@ class UserOnlineTable extends Table
             );
 
         return $validator;
+    }
+
+    /**
+     * Sets time in secondes until a user is considered offline.
+     *
+     * Adjust to sane values taking JS-frontend status ping time intervall into
+     * account, which also keeps the user online.
+     *
+     * @param int $period Time in seconds
+     * @return void
+     */
+    public function setOnlinePeriod(int $period): void
+    {
+        $this->timeUntilOffline = $period;
     }
 
     /**
@@ -103,11 +114,9 @@ class UserOnlineTable extends Table
         $user = $this->find()->where(['uuid' => $id])->first();
 
         if ($user) {
-            // [Performance] Only hit database if timestamp is about to get outdated.
-            //
-            // Adjust to sane values taking JS-frontend status ping time
-            // intervall into account.
-            if ($user->get('time') < ($now - (int)($this->timeUntilOffline * 80 / 100))) {
+            /// [Performance] Only hit database if timestamp is about to get outdated.
+            $updateIfOlderThan = $now - (int)$this->timeUntilOffline * 0.75;
+            if ($user->get('time') < $updateIfOlderThan) {
                 $user->set('time', $now);
                 $this->save($user);
             }
@@ -142,7 +151,7 @@ class UserOnlineTable extends Table
             // in this particular situation. *knocks on wood*
             if ($e->getCode() == 23000 && strstr($e->getMessage(), 'uuid')) {
                 $this->log(
-                    'Cought duplicate "uuid" key exception in UserOnline::setOnline.',
+                    sprintf('Cought duplicate uuid-key %s exception in UserOnline::setOnline.', $id),
                     LogLevel::INFO,
                     'saito.info'
                 );
@@ -193,22 +202,22 @@ class UserOnlineTable extends Table
     }
 
     /**
-     * Removes users which weren't online $timeDiff seconds
+     * Removes users which weren't online $timeDiff seconds.
      *
      * @return void
      */
     public function gc(): void
     {
-        $this->deleteAll(['time <' => time() - ($this->timeUntilOffline)]);
+        $this->deleteAll(['time <' => time() - $this->timeUntilOffline]);
     }
 
     /**
-     * Shortens a string to fit in the uuid table-field
+     * Shortens a string to fit in the uuid table-field.
      *
-     * @param string $id string
-     * @return string
+     * @param string $id The string to shorten.
+     * @return string The shoretened string.
      */
-    protected function getShortendedId(string $id)
+    protected function getShortendedId(string $id): string
     {
         return substr($id, 0, 32);
     }

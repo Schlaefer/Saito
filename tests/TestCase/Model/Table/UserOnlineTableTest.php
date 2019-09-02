@@ -17,7 +17,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class UserOnlineTableTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'UserOnline';
 
     public $fixtures = [
@@ -115,7 +114,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
         //// *** Second 2 *** - Forces an table update.
         sleep(1);
-        $this->Table->timeUntilOffline = 1;
+        $this->Table->setOnlinePeriod(1);
         $this->Table->gc();
 
         /// update anonymous user after time
@@ -179,7 +178,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
 
     public function testDeleteOutdated()
     {
-        $this->Table->timeUntilOffline = 1;
+        $this->Table->setOnlinePeriod(1);
 
         /// add new user
         $_userId = 5;
