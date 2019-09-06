@@ -138,11 +138,11 @@ module.exports = function (grunt) {
     watch: {
       sassStatic: {
         files: ['webroot/css/src/**/*.scss'],
-        tasks: ['sass:static'],
+        tasks: ['dart-sass:static'],
       },
       sassTheme: {
         files: ['plugins/Bota/webroot/css/src/**/*.scss'],
-        tasks: ['sass:theme'],
+        tasks: ['dart-sass:theme'],
       },
     },
     postcss: {

@@ -112,7 +112,9 @@
 // ------------------------------------- */
 
 .postingform-smilies {
-  @extend .panel-form;
+  @extend .mb-3;
+
+  border: $input-border-width solid $input-border-color;
 
   display: flex;
   flex-wrap: wrap;
