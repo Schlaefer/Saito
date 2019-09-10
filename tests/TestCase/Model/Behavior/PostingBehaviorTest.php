@@ -114,6 +114,39 @@ class PostingBehaviorTest extends SaitoTestCase
         $this->assertArrayHasKey('_required', $errors['category_id']);
     }
 
+    public function testUpdateSuccesModOnPinnedPosting()
+    {
+        $now = (string)time();
+        $edit = ['subject' => $now];
+
+        $entity = $this->table->findById(11)->first();
+
+        $user = ['id' => 7, 'user_type' => 'mod', 'username' => 'bar'];
+        $user = CurrentUserFactory::createLoggedIn($user);
+
+        $result = $this->table->updatePosting($entity, $edit, $user);
+
+        $this->assertEmpty($result->getErrors());
+        $this->assertEquals($now, $result->get('subject'));
+    }
+
+    public function testUpdateFailureModOnOwnPosting()
+    {
+        $now = (string)time();
+        $edit = ['subject' => $now];
+
+        $entity = $this->table->findById(11)->first();
+        $entity->set('fixed', false);
+
+        $user = ['id' => 7, 'user_type' => 'mod', 'username' => 'bar'];
+        $user = CurrentUserFactory::createLoggedIn($user);
+
+        $result = $this->table->updatePosting($entity, $edit, $user);
+
+        $errors = $result->getErrors();
+        $this->assertArrayHasKey('isEditingAllowed', $errors['edited_by']);
+    }
+
     public function testPrepareChildPosting()
     {
         $parent = [

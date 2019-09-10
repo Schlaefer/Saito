@@ -100,6 +100,8 @@ class PostingBehavior extends Behavior
 
         /// must be set for validation
         $data['locked'] = $posting->get('locked');
+        $data['fixed'] = $posting->get('fixed');
+
         $data['pid'] = $posting->get('pid');
         $data['time'] = $posting->get('time');
         $data['user_id'] = $posting->get('user_id');
