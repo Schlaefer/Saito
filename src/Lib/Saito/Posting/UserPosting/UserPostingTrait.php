@@ -120,7 +120,7 @@ trait UserPostingTrait
         }
 
         if ($User->permission('saito.core.posting.edit.restricted')) {
-            if ($posting->isPinned()) {
+            if (!$isOwn || $posting->isPinned()) {
                 return true;
             }
         }

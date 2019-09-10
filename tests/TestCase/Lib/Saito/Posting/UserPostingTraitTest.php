@@ -190,6 +190,32 @@ class UserPostingTraitTest extends SaitoTestCase
         $this->assertFalse($result);
     }
 
+    /**
+     * Mods don't mod themself.
+     */
+    public function testIsEditingForbiddenModToLateNotFixedOwnPosting()
+    {
+        $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
+        $entry = [
+            'user_id' => 1,
+            'time' => new Time(time() - $editPeriod - 1),
+            'fixed' => false,
+        ];
+        $user = [
+            'id' => 1,
+            'user_type' => 'mod',
+        ];
+        $this->Mock->set($entry);
+        $SaitoUser = new CurrentUser($user);
+        $SaitoUser->setCategories(new Categories($SaitoUser));
+        $this->Mock->setCurrentUser($SaitoUser);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Mods don't mod themself except for pinned postings.
+     */
     public function testIsEditingForbiddenModToLateFixed()
     {
         $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
@@ -197,6 +223,25 @@ class UserPostingTraitTest extends SaitoTestCase
             'user_id' => 1,
             'time' => new Time(time() - $editPeriod - 1),
             'fixed' => true,
+        ];
+        $user = [
+            'id' => 1,
+            'user_type' => 'mod',
+        ];
+        $this->Mock->set($entry);
+        $SaitoUser = new CurrentUser($user);
+        $SaitoUser->setCategories(new Categories($SaitoUser));
+        $this->Mock->setCurrentUser($SaitoUser);
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
+    }
+
+    public function testIsEditingForbiddenModsModOtherUsers()
+    {
+        $entry = [
+            'user_id' => 2,
+            'time' => new Time(0),
+            'fixed' => false,
         ];
         $user = [
             'id' => 1,
