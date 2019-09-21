@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import _ from 'underscore'
-import Vent from 'app/vent';
+import Vent from 'app/vent.ts';
 import moment from 'moment';
 import 'lib/jquery.i18n/jquery.i18n.extend';
 

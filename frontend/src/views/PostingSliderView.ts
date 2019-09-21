@@ -12,7 +12,7 @@ import App from 'models/app';
 import AnsweringView from 'modules/answering/answering';
 import AnswerModel from 'modules/answering/models/AnswerModel';
 import * as _ from 'underscore';
-import { SpinnerView } from 'views/SpinnerView';
+import { PostingModel } from '../modules/posting/models/PostingModel';
 
 /**
  * Slider beneath a posting which holds the answering form
@@ -20,7 +20,7 @@ import { SpinnerView } from 'views/SpinnerView';
 export default class Marionette extends View<Model> {
     public answeringForm: boolean;
 
-    public parentThreadline;
+    public parentThreadline: PostingModel | null;
 
     public constructor(options: any = {}) {
         _.defaults(options, {
@@ -40,13 +40,14 @@ export default class Marionette extends View<Model> {
                 btnClose: '.js-btnAnsweringClose',
             },
         });
-        super(options);
-    }
 
-    public initialize(options) {
+        super(options);
+
         this.answeringForm = false;
         this.parentThreadline = options.parentThreadline || null;
+    }
 
+    public initialize(options: any) {
         this.listenTo(this.model, 'change:isAnsweringFormShown', this.toggleAnsweringForm);
     }
 
@@ -71,18 +72,13 @@ export default class Marionette extends View<Model> {
             this.model.set({ isAnsweringFormShown: false });
 
             this.parentThreadline.set('isInlineOpened', false);
-            App.eventBus.trigger('newEntry', {
-                id,
-                isNewToUser: true,
-                pid: model.get('pid'),
-                tid: model.get('tid'),
-            });
+            App.eventBus.trigger('newEntry', model);
 
             return;
         }
 
         /// redirect
-        let action: string = App.request.action;
+        let action =  App.request.getAction();
 
         switch (action) {
             case ('mix'):
@@ -136,7 +132,7 @@ export default class Marionette extends View<Model> {
 
     private hideAllAnsweringForms() {
         // we have #id problems with more than one markItUp on a page
-        this.collection.forEach(function(posting) {
+        this.collection.forEach((posting) => {
             if (posting.get('id') !== this.model.get('id')) {
                 posting.set('isAnsweringFormShown', false);
             }

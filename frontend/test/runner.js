@@ -1,10 +1,10 @@
 import $ from 'jquery';
+import 'exports';
 import 'lib/jquery.i18n/jquery.i18n.extend.js';
-import Bootstrap from 'bootstrap';
 import 'lib/saito/backbone.modelHelper';
 import 'lib/saito/underscore.extend';
 import App from 'models/app';
-import EventBus from 'app/vent';
+import EventBus from 'app/vent.ts';
 
 $.fx.off = true;
 window.$ = $;

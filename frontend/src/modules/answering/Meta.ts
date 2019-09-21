@@ -33,16 +33,9 @@ interface IAnswerMetaData {
 }
 
 class MetaModel extends JsonApiModel {
-    public attributes: IAnswerMetaData;
+    public attributes!: IAnswerMetaData;
 
-    /**
-     * Ma initializer
-     *
-     * @param options options
-     */
-    public initialize(options: object = {}) {
-        this.saitoUrl = 'postingmeta/';
-    }
+    protected saitoUrl = 'postingmeta/';
 }
 
 export { MetaModel };

@@ -10,7 +10,7 @@ import { CommentInputView } from './bookmarkCommentVw';
  * Comment as text
  */
 class CommentTextView extends Mn.View<any> {
-    constructor(options) {
+    constructor(options: any) {
         options.template = _.template('<%- comment %>');
         options.className = 'm-1';
         super(options);

@@ -1,6 +1,7 @@
 import Bb from 'backbone';
 import Model from 'modules/bookmarks/models/bookmark';
 import View from 'modules/bookmarks/views/bookmarkItemVw';
+import App from 'models/app';
 
 describe('bookmarks', function () {
   describe('single bookmark', function () {

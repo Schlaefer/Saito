@@ -8,8 +8,10 @@ import { NoContentView as EmptyView } from 'views/NoContentView';
 import UploaderItemVw from './uploaderItemVw';
 
 class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
+    private blazy!: BlazyInstance;
 
     private throttledLoader: any;
+
     public constructor(options: any = {}) {
         _.defaults(options, {
             childView: UploaderItemVw,
@@ -39,7 +41,7 @@ class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
      */
     public initLazyLoading() {
         if (!this.throttledLoader) {
-            this.throttledLoader = _.throttle(_.bind(function() {
+            this.throttledLoader = _.throttle(() => {
                 // Uploader is displayed in modal dialog which isn't fully shown yet.
                 // Blazy doesn't see those images and wont load them.
                 const isVisisble = $('.imageUploader:visible').length > 0;
@@ -61,7 +63,7 @@ class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
                         $(el).parent().parent().find('.image-uploader-spinner').remove();
                     },
                 });
-            }, this), 300);
+            }, 300);
         }
 
         this.throttledLoader();

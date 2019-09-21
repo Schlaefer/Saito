@@ -63,14 +63,14 @@ export default class extends Mn.View<Bb.Model> {
         };
     }
 
-    private handleBtnBookmarks(event) {
+    private handleBtnBookmarks() {
         if (!this.getRegion('rgBookmarks').hasView()) {
             this.showChildView('rgBookmarks', new BookmarksVw());
         }
         this.scrollToTop();
     }
 
-    private handleBtnUploads(event) {
+    private handleBtnUploads() {
         if (!this.getRegion('rgUploads').hasView()) {
             this.showChildView('rgUploads', new UploaderVw());
         }

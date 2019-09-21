@@ -1,9 +1,9 @@
-import * as Bb from 'backbone';
 import * as Mn from 'backbone.marionette';
 import * as $ from 'jquery';
 import App from 'models/app';
 import * as _ from 'underscore';
 import { SpinnerView } from 'views/SpinnerView';
+import BookmarksCl from './collections/bookmarksCl';
 import BookmarksView from './views/bookmarksVw';
 
 export default class extends Mn.View<any> {
@@ -40,7 +40,7 @@ export default class extends Mn.View<any> {
                 };
                 App.eventBus.trigger('notification', notification);
             },
-            success: (collection) => {
+            success: (collection: BookmarksCl) => {
                 const clV = new BookmarksView({ collection });
                 this.showChildView('rgBookmarks', clV);
             },

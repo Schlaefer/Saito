@@ -8,7 +8,7 @@ export default class extends JsonApiCollection {
     protected saitoUrl = 'bookmarks/';
 
     /** Bb comparator */
-    public comparator = (model) => {
+    public comparator = (model: BookmarkModel) => {
         return -1 * model.get('id');
     }
 }

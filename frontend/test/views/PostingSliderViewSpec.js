@@ -11,7 +11,7 @@ describe('posting slider', () => {
         const view = new PostingSliderView({model});
         const answerModel = new AnswerModel({id: 20});
 
-        App.request.action = 'non-specific-action-triggering-default-route';
+        App.request.set({action: 'non-specific-action-triggering-default-route'});
         spyOn(window, 'redirect');
 
         view.triggerMethod('childview:answering:send:success', answerModel);
@@ -24,7 +24,7 @@ describe('posting slider', () => {
         const view = new PostingSliderView({model});
         const answerModel = new AnswerModel({id: 20});
 
-        App.request.action = 'mix';
+        App.request.set({action: 'mix'});
         spyOn(window, 'redirect');
 
         view.triggerMethod('childview:answering:send:success', answerModel);

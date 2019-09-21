@@ -26,7 +26,7 @@ class MediaInsertView extends View<Model> {
         this._showDialog();
     }
 
-    private _insert(event) {
+    private _insert(event: Event) {
         event.preventDefault();
 
         const markupMedia = new MarkupMultimedia();

@@ -1,11 +1,56 @@
+declare module TinyTimer {
+    interface TinyTimerCallbackArgs {
+        /** Seconds */
+        s: number,
+        /** Minutes */
+        m: number,
+        /** Hours */
+        h: number,
+        /** Days */
+        d: number,
+        /** Total seconds */
+        S: number,
+        /** Total minutes */
+        M: number,
+        /** Total hours */
+        H: number,
+        /** Total days */
+        D: number,
+        /** Text representation */
+        text: string,
+    }
+
+    interface TinyTimerOptions {
+        format: string,
+        from?: Date | string,
+        onEnd?: (args: TinyTimerCallbackArgs) => {},
+        onTick?: (args: TinyTimerCallbackArgs) => {},
+        to: Date | string,
+    }
+}
+
+declare namespace JQuery {
+    interface jqXHR {
+        // Official but missing in official jQuery definitions
+        crossDomain: boolean;
+    }
+}
+
 interface JQueryStatic {
     i18n: any;
+    isReady: boolean;
 }
 
 interface JQuery {
     scrollIntoView(method: string): any;
-    textrange(method: string|object, arg1?: number|string, arg2?: number|string, arg3?: number|string): any;
-    tinyTimer(options: object): void;
+    textrange(method: string | object, arg1?: number | string, arg2?: number | string, arg3?: number | string): { position: number, start: number, end: number, length: number, text: string }
+    tinyTimer(options: TinyTimer.TinyTimerOptions): void;
+}
+
+declare namespace Marionette {
+    interface Application {
+        onStart(app: any, options: any): void;
+    }
 }
 
 declare module '*.html' {
@@ -54,6 +99,11 @@ declare module 'moment' {
 
     export default moment;
 }
+
+/**
+ * Helper declaration for .js files and TS strict
+ */
+declare module 'views/app';
 
 /**
  * Browser-vendor specific properties on the global document object

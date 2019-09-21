@@ -7,7 +7,7 @@
  */
 
 import Marionette from 'backbone.marionette';
-import App from 'models/app.js';
+import App from 'models/app';
 // tslint:disable-next-line
 const Favico = require('favico.js');
 
@@ -31,27 +31,28 @@ class Favicon extends Marionette.Object {
             type: 'rectangle',
         });
 
-        /// checkup browser support for hidden tab
-        let hidden: string;
-        let visibilityChange: string;
-        if (typeof document.hidden !== 'undefined') {
-            hidden = 'hidden';
-            visibilityChange = 'visibilitychange';
-        } else if (typeof document.msHidden !== 'undefined') {
-            hidden = 'msHidden';
-            visibilityChange = 'msvisibilitychange';
-        } else if (typeof document.webkitHidden !== 'undefined') {
-            hidden = 'webkitHidden';
-            visibilityChange = 'webkitvisibilitychange';
-        }
+        let visibilityChange: string | null = null;
 
-        /// browser can't detect a hidden tab
-        if (hidden === undefined) {
-            return;
-        }
+        const isHiddenFct = (): boolean | undefined => {
+            /// checkup browser support for hidden tab
+            let hidden: boolean | undefined;
+            if (typeof document.hidden !== 'undefined') {
+                hidden = document.hidden;
+                visibilityChange = 'visibilitychange';
+            } else if (typeof document.msHidden !== 'undefined') {
+                hidden = document.msHidden;
+                visibilityChange = 'msvisibilitychange';
+            } else if (typeof document.webkitHidden !== 'undefined') {
+                hidden = document.msHidden;
+                visibilityChange = 'webkitvisibilitychange';
+            }
 
-        /// tab isn't hidden
-        if (!document[hidden]) {
+            return hidden;
+        };
+
+        /// browser can't detect a hidden tab or tab isn't hidden
+        const isHidden = isHiddenFct();
+        if (isHidden === undefined || isHidden === false) {
             return;
         }
 
@@ -60,11 +61,11 @@ class Favicon extends Marionette.Object {
 
         /// remove badge on page activation
         const handleVisibilityChange = () => {
-            if (!document[hidden]) {
+            if (!isHiddenFct()) {
                 favicon.reset();
             }
         };
-        if (typeof document.addEventListener !== 'undefined') {
+        if (typeof document.addEventListener !== 'undefined' && visibilityChange) {
             document.addEventListener(visibilityChange, handleVisibilityChange, false);
         }
     }

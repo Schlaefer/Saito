@@ -4,7 +4,7 @@ import App from 'models/app';
 import * as _ from 'underscore';
 
 class SmiliesCollection extends Collection<Model> {
-    public modelId(attributes) {
+    public modelId(attributes: any) {
         // Collection is filled with all codes for all smilies.
         // "icon" is unique for smilies on all codes so only one smiley
         // per code is put into the collection.

@@ -80,7 +80,7 @@ export default class CakeFormErrorView extends View<Model> {
      * @param element HTML input element the error message belongs to.
      */
     private findDedicatedElement(element: JQuery<HTMLElement>): JQuery<HTMLElement> | false {
-        let dedicatedElement: JQuery<HTMLElement>;
+        let dedicatedElement: JQuery<HTMLElement> | null = null;
         let level: number = 0;
         let parent = element;
         // We assume that the dedicated element isn't miles up in the DOM tree.

@@ -11,7 +11,7 @@ class InitFromDom {
     public static initCollectionFromDom(
         element: string,
         clt: Collection<Model>,
-        view: { new(options: any) } ) {
+        view: new(options: any) => void ) {
         const createElement = (collection: Collection<Model>, id: string, el: JQuery) => {
             collection.add({ id });
             const a = new view({

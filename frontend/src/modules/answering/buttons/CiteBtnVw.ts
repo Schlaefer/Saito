@@ -37,7 +37,9 @@ export default class CiteBtn extends View<Model> {
         // Without defering a click on a selection which deselects (and should therefore be empty)
         // still holds the previously selected text.
         _.defer(() => {
-            let text = window.getSelection().toString();
+            const selection = window.getSelection();
+            let text = selection ? selection.toString() : '';
+
             if (text !== '') {
                 text = this.model.get('quoteSymbol') + ' ' + text;
             } else {

@@ -8,9 +8,9 @@ import 'lib/saito/localStorageHelper';
 import App from 'models/app';
 
 class ThreadModel extends Model {
-    protected threadlines;
+    public threadlines!: ThreadLinesCollection;
 
-    public constructor(attributes, options) {
+    public constructor(attributes?: any, options?: any) {
         _.defaults(options, {
             defaults: {
                 isThreadCollapsed: false,
@@ -42,4 +42,4 @@ class ThreadCollection extends Collection<ThreadModel> {
 
 }
 
-export { ThreadCollection };
+export { ThreadCollection, ThreadModel };

@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import EventBus from 'app/vent';
+import EventBus from 'app/vent.ts';
 
 var LocalStorageHelper = function () { };
 

@@ -23,13 +23,13 @@ class PostingRichtextEmbedView extends View<Model> {
     public onRender() {
         const html = this.model.get('html');
         if (html) {
-            //// append included script tags so that they are executed
+            /// append included script tags so that they are executed
             const scriptTags = html.match(/<script[\s\S]*?>([\s\S]*?)<\/script>/g);
             this.$el.html(html);
             _.each(scriptTags, (scriptTag: string) => {
                 // find src-attribute in script-tag
                 const src = scriptTag.match(/<script.*?src=['"](.*?)['"].*?>/);
-                if (!(1 in src)) {
+                if (!src) {
                     return;
                 }
                 const executedScriptTag = document.createElement('script');

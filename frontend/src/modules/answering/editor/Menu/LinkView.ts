@@ -26,7 +26,7 @@ class LinkView extends View<Model> {
         this.showDialog();
     }
 
-    public onKeypress(event) {
+    public onKeypress(event: KeyboardEvent) {
         if (event.keyCode === 13) {
             this.insert();
         }

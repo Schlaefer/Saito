@@ -24,7 +24,7 @@ abstract class PreFilter implements IPreFilter {
      * @param {object} attr - iframe-tag attributes
      * @returns {string}
      */
-    protected createIframe(attr: object): string {
+    protected createIframe(attr: _.Dictionary<string>): string {
         const defaults = {
             allowfullscreen: 'allowfullscreen',
             frameborder: 0,
@@ -33,7 +33,7 @@ abstract class PreFilter implements IPreFilter {
         };
         _.defaults(attr, defaults);
 
-        const reducer = (memo, value, key) => {
+        const reducer = (memo: string, value: string, key: string) => {
             return memo + key + '="' + value + '" ';
         };
         let attributes = _.reduce(attr, reducer, '');
@@ -49,50 +49,45 @@ class DropboxPreFilter extends PreFilter {
      *
      * @see https://www.dropbox.com/help/201/en
      */
-    public cleanUp(text) {
+    public cleanUp(text: string): string {
         return text.replace(/https:\/\/www\.dropbox\.com\//, 'https://dl.dropbox.com/');
     }
 }
 
 class YoutubePreFilter extends PreFilter {
-    /**
-     * Convert dropbox HTML-page URL to actual file URL
-     *
-     * @see https://www.dropbox.com/help/201/en
-     */
-    public cleanUp(text) {
+    public cleanUp(text: string): string {
         let url: string = text;
-        let videoId: string;
 
         if (/http/.test(text) === false) {
             url = 'http://' + text;
         }
 
-        let regex = /(http|https):\/\/(\w+:?\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i;
+        const regex = /(http|https):\/\/(\w+:?\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i;
         if (!regex.test(url)) {
             return text;
         }
 
-        const domain: string = url.match(/(https?:\/\/)?(www\.)?(.[^\/:]+)/i).pop();
+        let domainRegex: RegExp | undefined;
+        const matches = url.match(/(https?:\/\/)?(www\.)?(.[^\/:]+)/i);
+        const domain = matches ? matches.pop() : null;
         switch (domain) {
             case 'youtu.be':
-                regex = /youtu.be\/(.*?)(&.*)?$/;
-                if (regex.test(url)) {
-                    videoId = url.match(regex)[1];
-                }
+                domainRegex = /youtu.be\/(.*?)(&.*)?$/;
                 break;
             case 'youtube.com':
-                regex = /v=(.*?)(&.*)?$/;
-                if (regex.test(url)) {
-                    videoId = url.match(regex)[1];
-                }
+                domainRegex = /v=(.*?)(&.*)?$/;
                 break;
         }
 
-        if (videoId !== undefined) {
-            text = this.createIframe({
-                src: '//www.youtube-nocookie.com/embed/' + videoId,
-            });
+        if (domainRegex !== undefined) {
+            if (domainRegex.test(url)) {
+                const mt = url.match(domainRegex);
+                if (mt) {
+                    text = this.createIframe({
+                        src: '//www.youtube-nocookie.com/embed/' + mt[1],
+                    });
+                }
+            }
         }
 
         return text;
@@ -163,9 +158,12 @@ class MarkupMultimedia {
     }
 
     private videoIframe(text: string): string {
-        let inner = /<iframe(.*?)>.*?<\/iframe>/i.exec(text)[1];
-        inner = inner.replace(/["']/g, '');
-        return '[iframe' + inner + '][/iframe]';
+        const inner = /<iframe(.*?)>.*?<\/iframe>/i.exec(text);
+        if (!inner) {
+            return text;
+        }
+        const innerText = inner[1].replace(/["']/g, '');
+        return '[iframe' + innerText + '][/iframe]';
     }
 
     private embed(text: string): string {

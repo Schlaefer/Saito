@@ -34,11 +34,11 @@ class UploaderItemFooterVw extends View<Model> {
     /**
      * deletes upload
      */
-    private handleDelete(event) {
+    private handleDelete(event: Event) {
         event.preventDefault();
 
         this.model.destroy({
-            error: (model, response) => {
+            error: (model, response: any) => {
                 const msg = response.responseJSON.errors[0];
                 App.eventBus.trigger('notification', { message: msg, type: 'error' });
             },

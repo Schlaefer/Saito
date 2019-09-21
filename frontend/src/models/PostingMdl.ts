@@ -9,7 +9,7 @@
 import { JsonApiModel } from 'lib/backbone/jsonApi';
 import * as _ from 'underscore';
 
-export default class PostingModel extends JsonApiModel {
+export default abstract class PostingModel extends JsonApiModel {
     /**
      * Constructor
      *

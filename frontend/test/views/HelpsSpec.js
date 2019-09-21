@@ -22,7 +22,7 @@ describe('Saito help popup', function () {
 
   describe('if help is not required', function () {
     it('shows no help button', function () {
-      spyOn(view, 'isVisible').and.returnValue(false);
+      $('.shp').hide();
       view.render();
       expect(view.$el).not.toHaveClass('is-active');
     });
@@ -30,13 +30,11 @@ describe('Saito help popup', function () {
 
   describe('if help is required', function () {
     it('shows help button on page', function () {
-      spyOn(view, 'isVisible').and.returnValue(true);
       view.render();
       expect(view.$el).toHaveClass('is-active');
     });
 
     it('shows popup on click', function () {
-      spyOn(view, 'isVisible').and.returnValue(true);
       view.render();
       expect($('i.fa-question-circle')).not.toExist();
       view.$el.click();

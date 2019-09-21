@@ -19,11 +19,11 @@ interface ILongTimers { early: number; long: number; }
 class LongTimer {
     protected fct: () => void;
 
-    protected lastRun: number;
+    protected lastRun: number | null = null;
 
-    protected running: boolean;
+    protected running: boolean = false;
 
-    protected timerId: number;
+    protected timerId: number | undefined;
 
     protected timers: ILongTimers;
 
@@ -80,14 +80,7 @@ class LongTimer {
  * Model for drafts
  */
 class DraftModel extends AnswerModel {
-    /**
-     * Ma initializer
-     *
-     * @param options options
-     */
-    public initialize(options) {
-        this.saitoUrl = 'drafts/';
-    }
+    protected saitoUrl: string = 'drafts/';
 }
 
 type DraftTimers = { debounce: number } & ILongTimers;
@@ -97,9 +90,9 @@ type DraftTimers = { debounce: number } & ILongTimers;
  */
 export default class DraftView extends View<Model> {
     /** Holds the main timer */
-    public longTimer: LongTimer;
+    public longTimer!: LongTimer;
     /** Short timer to debounce the main timer */
-    public shortTimer: () => void;
+    public shortTimer!: () => void;
     /**
      * Enables or disables the the sending of drafts.
      *
