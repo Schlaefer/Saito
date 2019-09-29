@@ -12,28 +12,19 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
-use Cake\Auth\AbstractPasswordHasher;
+use Authentication\PasswordHasher\LegacyPasswordHasher;
 use Cake\Utility\Security;
 
 /**
- * mylittleforum 1.x unsalted md5 passwords.
+ * Check legacy passwords but without using Cake's salt
  */
-class MlfPasswordHasher extends AbstractPasswordHasher
+class LegacyPasswordHasherSaltless extends LegacyPasswordHasher
 {
-
     /**
      * {@inheritDoc}
      */
     public function hash($password)
     {
-        return Security::hash($password, 'md5', false);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function check($password, $hash)
-    {
-        return $hash === self::hash($password);
+        return Security::hash($password, $this->_config['hashType'], false);
     }
 }

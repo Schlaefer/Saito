@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
-use Cake\Auth\AbstractPasswordHasher;
+use Authentication\PasswordHasher\AbstractPasswordHasher;
 use Cake\Utility\Security;
 use Cake\Utility\Text;
 

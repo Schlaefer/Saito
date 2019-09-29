@@ -17,6 +17,7 @@ use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
 use Authentication\Authenticator\CookieAuthenticator;
 use Authentication\Controller\Component\AuthenticationComponent;
+use Authentication\Identifier\PasswordIdentifier;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -145,9 +146,13 @@ class AuthUserComponent extends Component
         $this->UsersTable->UserOnline->setOffline($originalSessionId);
 
         /// password update
-        $password = (string)$this->request->getData('password');
-        if ($password) {
-            $this->UsersTable->autoUpdatePassword($this->CurrentUser->getId(), $password);
+        $authenticationService = $this->Authentication->getAuthenticationService();
+        /** @var PasswordIdentifier */
+        $identifier = $authenticationService->identifiers()->get('Password');
+        if ($identifier->needsPasswordRehash()) {
+            $user = $this->UsersTable->get($user->get('id'));
+            $user->set('password', $this->request->getData('password'));
+            $this->UsersTable->save($user);
         }
 
         return true;

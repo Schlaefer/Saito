@@ -17,6 +17,8 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Auth\LegacyPasswordHasherSaltless;
+use App\Auth\Mlf2PasswordHasher;
 use App\Middleware\SaitoBootstrapMiddleware;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -164,7 +166,20 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'unauthenticatedRedirect' => '/login',
         ]);
 
-        $service->loadIdentifier('Authentication.Password');
+        $service->loadIdentifier('Authentication.Password', [
+            'passwordHasher' => [
+                'className' => 'Authentication.Fallback',
+                'hashers' => [
+                    // Saito passwords (Cake default)
+                    ['className' => 'Authentication.Default'],
+                    // Mylittleforum 2 legacy passwords
+                    ['className' => Mlf2PasswordHasher::class],
+                    // Mylittleforum 1 legacy passwords
+                    ['className' => LegacyPasswordHasherSaltless::class, 'hashType' => 'md5'],
+                ]
+            ]
+
+        ]);
 
         // Authenticators are checked in order of registration.
         // Leave Session first.
