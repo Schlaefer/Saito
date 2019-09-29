@@ -18,6 +18,9 @@ declare(strict_types=1);
 namespace App;
 
 use App\Middleware\SaitoBootstrapMiddleware;
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Core\Plugin;
@@ -28,6 +31,9 @@ use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Routing\Router;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Saito\App\Registry;
 use Stopwatch\Lib\Stopwatch;
 
@@ -37,7 +43,7 @@ use Stopwatch\Lib\Stopwatch;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -74,6 +80,7 @@ class Application extends BaseApplication
 
         Registry::initialize();
 
+        $this->addPlugin('Authentication');
         $this->addPlugin(\Admin\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Api\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\Bookmarks\Plugin::class, ['routes' => true]);
@@ -120,22 +127,69 @@ class Application extends BaseApplication
             // Routes collection cache enabled by default, to disable route caching
             // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
             // you might want to disable this cache in case your routing is extremely simple
-            ->add(new RoutingMiddleware($this, '_cake_routes_'));
+            ->add(new RoutingMiddleware($this, '_cake_routes_'))
 
-        $cookies = new EncryptedCookieMiddleware(
-            // Names of cookies to protect
-            [Configure::read('Security.cookieAuthName')],
-            Configure::read('Security.cookieSalt')
-        );
-        $middlewareQueue->add($cookies);
+            ->insertAfter(RoutingMiddleware::class, new SaitoBootstrapMiddleware())
 
-        $middlewareQueue->insertAfter(RoutingMiddleware::class, new SaitoBootstrapMiddleware());
+            ->add(new EncryptedCookieMiddleware(
+                // Names of cookies to protect
+                [Configure::read('Security.cookieAuthName')],
+                Configure::read('Security.cookieSalt')
+            ))
+
+            // CakePHP authentication provider
+            ->insertAfter(
+                EncryptedCookieMiddleware::class,
+                new AuthenticationMiddleware($this)
+            );
 
         $security = (new SecurityHeadersMiddleware())
             ->setXFrameOptions(strtolower(Configure::read('Saito.X-Frame-Options')));
         $middlewareQueue->add($security);
 
         return $middlewareQueue;
+    }
+
+    /**
+     * Get authentication service.
+     *
+     * Part of AuthenticationServiceProviderInterface.
+     *
+     * {@inheritDoc}
+     */
+    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response): AuthenticationService
+    {
+        $service = new AuthenticationService([
+            'queryParam' => 'redirect',
+            'unauthenticatedRedirect' => '/login',
+        ]);
+
+        $service->loadIdentifier('Authentication.Password');
+
+        // Authenticators are checked in order of registration.
+        // Leave Session first.
+        $service->loadAuthenticator(
+            'Authentication.Session',
+            [
+                // Always check against DB. User-state (type, locked) might have
+                // changed and must be reflected immediately.
+                'identify' => true,
+            ]
+        );
+        $service->loadAuthenticator(
+            'Authentication.Cookie',
+            [
+                'cookie' => [
+                    'expire' => new \DateTimeImmutable('+10 days'),
+                    'httpOnly' => true,
+                    'name' => Configure::read('Security.cookieAuthName'),
+                    'path' => Router::url('/', false),
+                ]
+            ]
+        );
+        $service->loadAuthenticator('Authentication.Form');
+
+        return $service;
     }
 
     /**

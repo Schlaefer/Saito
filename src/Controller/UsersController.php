@@ -64,15 +64,24 @@ class UsersController extends AppController
     public function login()
     {
         $data = $this->request->getData();
-        //= just show form
         if (empty($data['username'])) {
+            /// Show form to user.
+            if ($this->getRequest()->getQuery('redirect', null)) {
+                $this->Flash->set(
+                    __('user.authe.required.exp'),
+                    ['element' => 'warning', 'params' => ['title' => __('user.authe.required.t')]]
+                );
+            };
+
             return;
         }
 
-        //= successful login with request data
         if ($this->AuthUser->login()) {
+            /// Successful login with request data.
             if ($this->Referer->wasAction('login')) {
-                return $this->redirect($this->Auth->redirectUrl());
+                // TODO
+                // return $this->redirect($this->Auth->redirectUrl());
+                return $this->redirect('/');
             } else {
                 return $this->redirect($this->referer());
             }
@@ -82,7 +91,7 @@ class UsersController extends AppController
         $username = $this->request->getData('username');
         $readUser = $this->Users->findByUsername($username)->first();
 
-        $message = __('auth_loginerror');
+        $message = __('user.authe.e.generic');
 
         if (!empty($readUser)) {
             $User = $readUser->toSaitoUser();
@@ -114,7 +123,9 @@ class UsersController extends AppController
             ['msgs' => [$message]]
         );
 
-        $this->Flash->set($message, ['key' => 'auth']);
+        $this->Flash->set($message, [
+            'element' => 'error', 'params' => ['title' => __('user.authe.e.t')]
+        ]);
     }
 
     /**
@@ -772,7 +783,7 @@ class UsersController extends AppController
         $unlocked = ['slidetabToggle', 'slidetabOrder'];
         $this->Security->setConfig('unlockedActions', $unlocked);
 
-        $this->Auth->allow(['login', 'register', 'rs']);
+        $this->Authentication->allowUnauthenticated(['login', 'register', 'rs']);
         $this->modLocking = $this->CurrentUser
             ->permission('saito.core.user.block');
         $this->set('modLocking', $this->modLocking);

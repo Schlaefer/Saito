@@ -32,7 +32,8 @@
     "admad/cakephp-jwt-auth": "^2.3",
     "claviska/simpleimage": "^3.3",
     "embed/embed": "^3.3",
-    "layershifter/tld-extract": "^2.0"
+    "layershifter/tld-extract": "^2.0",
+    "cakephp/authentication": "^1.2"
   },
   "require-dev": {
     "cakephp/bake": "~1.0",

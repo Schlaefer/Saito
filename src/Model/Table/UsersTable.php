@@ -887,22 +887,6 @@ class UsersTable extends AppTable
     }
 
     /**
-     * Find all users allowed to login
-     *
-     * @param Query $query query
-     * @param array $options options
-     * @return Query
-     */
-    public function findAllowedToLogin(Query $query, array $options): Query
-    {
-        $query
-            ->find('profile')
-            ->where(['activate_code' => 0, 'user_lock' => false]);
-
-        return $query;
-    }
-
-    /**
      * Find all sorted by username
      *
      * @param Query $query query

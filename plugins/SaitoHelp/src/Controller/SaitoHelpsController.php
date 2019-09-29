@@ -75,7 +75,7 @@ class SaitoHelpsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow();
+        $this->Authentication->allowUnauthenticated(['languageRedirect', 'view']);
     }
 
     /**

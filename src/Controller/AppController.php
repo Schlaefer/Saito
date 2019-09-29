@@ -21,6 +21,7 @@ use App\Controller\Component\SlidetabsComponent;
 use App\Controller\Component\ThemesComponent;
 use App\Controller\Component\TitleComponent;
 use App\Model\Table\UsersTable;
+use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
@@ -37,6 +38,7 @@ use Stopwatch\Lib\Stopwatch;
  *
  * @property ActionAuthorizationComponent $ActionAuthorization
  * @property AuthUserComponent $AuthUser
+ * @property AuthenticationComponent $Authentication
  * @property JsDataComponent $JsData
  * @property RefererComponent $Referer
  * @property SaitoEmailComponent $SaitoEmail
@@ -102,7 +104,7 @@ class AppController extends Controller
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');
         $this->loadComponent('Cookie');
-        $this->loadComponent('Auth');
+        $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('ActionAuthorization');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
         $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
@@ -143,7 +145,7 @@ class AppController extends Controller
 
         // allow sql explain for DebugKit toolbar
         if ($this->request->getParam('plugin') === 'debug_kit') {
-            $this->Auth->allow('sql_explain');
+            $this->Authentication->allowUnauthenticated(['sql_explain']);
         }
 
         $this->_l10nRenderFile();

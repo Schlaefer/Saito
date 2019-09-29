@@ -31,7 +31,7 @@ class ContactsController extends AppController
     {
         parent::beforeFilter($event);
         $this->set('showDisclaimer', true);
-        $this->Auth->allow('owner');
+        $this->Authentication->allowUnauthenticated(['owner']);
     }
 
     /**

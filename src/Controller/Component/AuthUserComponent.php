@@ -13,16 +13,17 @@ declare(strict_types=1);
 namespace App\Controller\Component;
 
 use App\Controller\AppController;
+use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
+use Authentication\Authenticator\CookieAuthenticator;
+use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Component;
-use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Firebase\JWT\JWT;
 use Saito\App\Registry;
-use Saito\User\Cookie\CurrentUserCookie;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUserFactory;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -31,7 +32,7 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Authenticates the current user and bootstraps the CurrentUser information
  *
- * @property AuthComponent $Auth
+ * @property AuthenticationComponent $Authentication
  */
 class AuthUserComponent extends Component
 {
@@ -47,7 +48,8 @@ class AuthUserComponent extends Component
      *
      * @var array
      */
-    public $components = ['Auth', 'Cron.Cron'];
+    // TODO Check why Cron is used here
+    public $components = ['Authentication', 'Cron.Cron'];
 
     /**
      * Current user
@@ -74,26 +76,25 @@ class AuthUserComponent extends Component
         $UsersTable = TableRegistry::getTableLocator()->get('Users');
         $this->UsersTable = $UsersTable;
 
-        $this->initSessionAuth($this->Auth);
-
         if ($this->isBot()) {
             $CurrentUser = CurrentUserFactory::createDummy();
         } else {
-            $user = $this->_login();
-            $controller = $this->getController();
+            $user = $this->authenticate();
             $isLoggedIn = !empty($user);
 
+            $controller = $this->getController();
+            $request = $controller->getRequest();
             /// don't auto-login on login related pages
             $excluded = ['login', 'register'];
             $useLoggedIn = $isLoggedIn
-                && !in_array($controller->getRequest()->getParam('action'), $excluded);
+                && !in_array($request->getParam('action'), $excluded);
 
             if ($useLoggedIn) {
-                $CurrentUser = CurrentUserFactory::createLoggedIn($user);
+                $CurrentUser = CurrentUserFactory::createLoggedIn($user->toArray());
                 $userId = (string)$CurrentUser->getId();
             } else {
                 $CurrentUser = CurrentUserFactory::createVisitor($controller);
-                $userId = $this->request->getSession()->id();
+                $userId = $request->getSession()->id();
             }
 
             $this->UsersTable->UserOnline->setOnline($userId, $useLoggedIn);
@@ -123,23 +124,20 @@ class AuthUserComponent extends Component
      */
     public function login(): bool
     {
-        // destroy any existing session or auth-data
+        // destroy any existing session or Authentication-data
         $this->logout();
 
-        // non-logged in session-id is lost after Auth::setUser()
+        // non-logged in session-id is lost after Authentication
         $originalSessionId = session_id();
 
-        $user = $this->_login();
+        $user = $this->authenticate();
 
-        if (empty($user)) {
+        if (!$user) {
             // login failed
             return false;
         }
 
-        //// Login succesfull
-
-        $user = $this->UsersTable->get($user['id']);
-
+        $this->Authentication->setIdentity($user);
         $CurrentUser = CurrentUserFactory::createLoggedIn($user->toArray());
         $this->setCurrentUser($CurrentUser);
 
@@ -152,66 +150,40 @@ class AuthUserComponent extends Component
             $this->UsersTable->autoUpdatePassword($this->CurrentUser->getId(), $password);
         }
 
-        /// set persistent Cookie
-        $setCookie = (bool)$this->request->getData('remember_me');
-        if ($setCookie) {
-            (new CurrentUserCookie($this->getController()))->write($this->CurrentUser->getId());
-        };
-
         return true;
     }
 
     /**
-     * Tries to login the user.
+     * Tries to authenticate and login the user.
      *
-     * @return null|array if user is logged-in null otherwise
+     * @return null|User User if is logged-in, null otherwise.
      */
-    protected function _login(): ?array
+    protected function authenticate(): ?User
     {
-        // Check if AuthComponent knows user from session-storage (usually
-        // compare session-cookie)
-        // Notice: Will hit session storage. Usually files.
-        $user = $this->Auth->user();
+        $result = $this->Authentication->getResult();
 
-        if (!$user) {
-            // Check if user is authenticated via one of the Authenticators
-            // (cookie, token, …).
-            // Notice: Authenticators may hit DB to find user
-            $user = $this->Auth->identify();
-
-            if (!empty($user)) {
-                // set user in session-storage to be available in subsequent requests
-                // Notice: on write Cake 3 will start a new session (new session-id)
-                $this->Auth->setUser($user);
-            }
-        }
-
-        if (empty($user)) {
-            // Authentication failed.
+        $loginFailed = !$result->isValid();
+        if ($loginFailed) {
             return null;
         }
 
-        // Session-data may be outdated. Make sure that user-data is up-to-date:
-        // user not locked/user-type wasn't changend/… since session-storage was written.
-        // Notice: is going to hit DB
-        Stopwatch::start('CurrentUser read user from DB');
-        $user = $this->UsersTable
-            ->find('allowedToLogin')
-            ->where(['id' => $user['id']])
-            ->first();
-        Stopwatch::stop('CurrentUser read user from DB');
+        $user = $result->getData();
 
-        if (empty($user)) {
-            /// no user allowed to login
-            // destroy any existing (session) storage information
+        $allowed = $user['activate_code'] === 0 && $user['user_lock'] === false;
+
+        if (!$allowed) {
+            /// User isn't allowed to be logged-in
+            // Destroy any existing (session) storage information.
             $this->logout();
-            // send to logout form for formal logout procedure
+            // Send to logout-form for formal logout procedure.
             $this->getController()->redirect(['_name' => 'logout']);
 
             return null;
         }
 
-        return $user->toArray();
+        $this->refreshAuthenticationProvider($user);
+
+        return $user;
     }
 
     /**
@@ -227,7 +199,7 @@ class AuthUserComponent extends Component
             }
             $this->setCurrentUser(CurrentUserFactory::createVisitor($this->getController()));
         }
-        $this->Auth->logout();
+        $this->Authentication->logout();
     }
 
     /**
@@ -272,6 +244,43 @@ class AuthUserComponent extends Component
     public function shutdown(Event $event)
     {
         $this->setJwtCookie($event->getSubject());
+    }
+
+    /**
+     * Update persistent authentication providers for regular visitors.
+     *
+     * Users who visit somewhat regularly shall not be logged-out.
+     *
+     * @param User $user User identity to refresh
+     * @return void
+     */
+    private function refreshAuthenticationProvider(User $user)
+    {
+        // Get current authentication provider
+        $authenticationProvider = $this->Authentication
+            ->getAuthenticationService()
+            ->getAuthenticationProvider();
+
+        // Persistent login provider is cookie based. Every time that cookie is
+        // used for a login its expiry is pushed forward.
+        if ($authenticationProvider instanceof CookieAuthenticator) {
+            $controller = $this->getController();
+
+            $cookieKey = $authenticationProvider->getConfig('cookie.name');
+            $cookie = $controller->getRequest()->getCookieCollection()->get($cookieKey);
+            if (empty($cookieKey) || empty($cookie)) {
+                throw new \RuntimeException(
+                    sprintf('Auth-cookie "%s" not found for refresh.', $cookieKey),
+                    1569739698
+                );
+            }
+
+            $expire = $authenticationProvider->getConfig('cookie.expire');
+            $refreshedCookie = $cookie->withExpiry($expire);
+
+            $response = $controller->getResponse()->withCookie($refreshedCookie);
+            $controller->setResponse($response);
+        }
     }
 
     /**
