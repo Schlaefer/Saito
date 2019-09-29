@@ -266,7 +266,6 @@ class AuthUserComponent extends Component
      *
      * Users who visit somewhat regularly shall not be logged-out.
      *
-     * @param User $user User identity to refresh
      * @return void
      */
     private function refreshAuthenticationProvider()

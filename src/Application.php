@@ -101,7 +101,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin(\SpectrumColorpicker\Plugin::class);
         $this->addPlugin(\Stopwatch\Plugin::class);
 
-        $this->addPlugin('ADmad/JwtAuth');
         $this->addPlugin('Proffer');
 
         $this->loadDefaultThemePlugin();
@@ -166,43 +165,63 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             'unauthenticatedRedirect' => '/login',
         ]);
 
-        $service->loadIdentifier('Authentication.Password', [
-            'passwordHasher' => [
-                'className' => 'Authentication.Fallback',
-                'hashers' => [
-                    // Saito passwords (Cake default)
-                    ['className' => 'Authentication.Default'],
-                    // Mylittleforum 2 legacy passwords
-                    ['className' => Mlf2PasswordHasher::class],
-                    // Mylittleforum 1 legacy passwords
-                    ['className' => LegacyPasswordHasherSaltless::class, 'hashType' => 'md5'],
-                ]
-            ]
+        /// Check if request goes to stateless JWT API.
+        $uri = $request->getUri();
+        if (property_exists($uri, 'base')) {
+            $uri = $uri->withPath($uri->base . $uri->getPath());
+        }
+        $uri= $uri->getPath();
+        // TODO Is this save on non root installation?
+        $apiUri = Router::url('/api/', false);
+        $isApi = stristr($uri, $apiUri) !== false;
 
-        ]);
-
-        // Authenticators are checked in order of registration.
-        // Leave Session first.
-        $service->loadAuthenticator(
-            'Authentication.Session',
-            [
-                // Always check against DB. User-state (type, locked) might have
-                // changed and must be reflected immediately.
-                'identify' => true,
-            ]
-        );
-        $service->loadAuthenticator(
-            'Authentication.Cookie',
-            [
-                'cookie' => [
-                    'expire' => new \DateTimeImmutable('+10 days'),
-                    'httpOnly' => true,
-                    'name' => Configure::read('Security.cookieAuthName'),
-                    'path' => Router::url('/', false),
+        if ($isApi) {
+            /// Configure stateless JWT API
+            $service->loadIdentifier('Authentication.JwtSubject');
+            $service->loadAuthenticator('Authentication.Jwt', [
+                'returnPayload' => false,
+                'secretKey' => Configure::read('Security.cookieSalt'),
+            ]);
+        } else {
+            /// Configure statefull webapp
+            $service->loadIdentifier('Authentication.Password', [
+                'passwordHasher' => [
+                    'className' => 'Authentication.Fallback',
+                    'hashers' => [
+                        // Saito passwords (Cake default)
+                        ['className' => 'Authentication.Default'],
+                        // Mylittleforum 2 legacy passwords
+                        ['className' => Mlf2PasswordHasher::class],
+                        // Mylittleforum 1 legacy passwords
+                        ['className' => LegacyPasswordHasherSaltless::class, 'hashType' => 'md5'],
+                    ]
                 ]
-            ]
-        );
-        $service->loadAuthenticator('Authentication.Form');
+
+            ]);
+
+            // Authenticators are checked in order of registration.
+            // Leave Session first.
+            $service->loadAuthenticator(
+                'Authentication.Session',
+                [
+                    // Always check against DB. User-state (type, locked) might have
+                    // changed and must be reflected immediately.
+                    'identify' => true,
+                ]
+            );
+            $service->loadAuthenticator(
+                'Authentication.Cookie',
+                [
+                    'cookie' => [
+                        'expire' => new \DateTimeImmutable('+10 days'),
+                        'httpOnly' => true,
+                        'name' => Configure::read('Security.cookieAuthName'),
+                        'path' => Router::url('/', false),
+                    ]
+                ]
+            );
+            $service->loadAuthenticator('Authentication.Form');
+        }
 
         return $service;
     }

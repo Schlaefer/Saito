@@ -4,57 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ec963bf32ec11efe0e22ceb5f9f79e4",
+    "content-hash": "4fe3322e84051ba16558d0c8bd7d5df2",
     "packages": [
-        {
-            "name": "admad/cakephp-jwt-auth",
-            "version": "2.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ADmad/cakephp-jwt-auth.git",
-                "reference": "d8d39a94783e1bc96a5a7155106072f304bb6ea2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ADmad/cakephp-jwt-auth/zipball/d8d39a94783e1bc96a5a7155106072f304bb6ea2",
-                "reference": "d8d39a94783e1bc96a5a7155106072f304bb6ea2",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/cakephp": "^3.5",
-                "firebase/php-jwt": "^5.0"
-            },
-            "require-dev": {
-                "cakephp/chronos": "^1.1",
-                "phpunit/phpunit": "^5.7.14|^6.0"
-            },
-            "type": "cakephp-plugin",
-            "autoload": {
-                "psr-4": {
-                    "ADmad\\JwtAuth\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ADmad",
-                    "homepage": "https://github.com/ADmad",
-                    "role": "Author"
-                }
-            ],
-            "description": "CakePHP plugin for authenticating using JSON Web Tokens",
-            "homepage": "http://github.com/ADmad/cakephp-jwt-auth",
-            "keywords": [
-                "Authentication",
-                "authenticate",
-                "cakephp",
-                "jwt"
-            ],
-            "time": "2018-04-20T07:58:59+00:00"
-        },
         {
             "name": "aura/di",
             "version": "2.2.5",
@@ -632,9 +583,9 @@
             "authors": [
                 {
                     "name": "Oscar Otero",
-                    "role": "Developer",
                     "email": "oom@oscarotero.com",
-                    "homepage": "http://oscarotero.com"
+                    "homepage": "http://oscarotero.com",
+                    "role": "Developer"
                 }
             ],
             "description": "PHP library to retrieve page info using oembed, opengraph, etc",
@@ -2929,8 +2880,8 @@
             "authors": [
                 {
                     "name": "Mark Story",
-                    "role": "Author",
-                    "homepage": "http://mark-story.com"
+                    "homepage": "http://mark-story.com",
+                    "role": "Author"
                 },
                 {
                     "name": "CakePHP Community",
