@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Component\ActionAuthorizationComponent;
 use App\Controller\Component\AuthUserComponent;
 use App\Controller\Component\JsDataComponent;
 use App\Controller\Component\RefererComponent;
@@ -36,7 +35,6 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Class AppController
  *
- * @property ActionAuthorizationComponent $ActionAuthorization
  * @property AuthUserComponent $AuthUser
  * @property AuthenticationComponent $Authentication
  * @property JsDataComponent $JsData
@@ -105,7 +103,6 @@ class AppController extends Controller
         $this->loadComponent('Detectors.Detectors');
         $this->loadComponent('Cookie');
         $this->loadComponent('Authentication.Authentication');
-        $this->loadComponent('ActionAuthorization');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
         $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
@@ -272,18 +269,5 @@ class AppController extends Controller
                 $this->viewBuilder()->templatePath($path);
             }
         }
-    }
-
-    /**
-     * Check if user is authorized.
-     *
-     * @param array $user Session.Auth
-     * @return bool
-     */
-    public function isAuthorized(array $user)
-    {
-        $action = $this->request->getParam('action');
-
-        return $this->ActionAuthorization->isAuthorized($this->CurrentUser, $action);
     }
 }

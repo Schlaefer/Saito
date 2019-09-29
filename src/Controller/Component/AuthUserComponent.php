@@ -22,10 +22,12 @@ use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use Firebase\JWT\JWT;
 use Saito\App\Registry;
 use Saito\User\Cookie\Storage;
+use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\CurrentUser\CurrentUserFactory;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
@@ -49,8 +51,12 @@ class AuthUserComponent extends Component
      *
      * @var array
      */
-    // TODO Check why Cron is used here
-    public $components = ['Authentication', 'Cron.Cron'];
+    public $components = [
+        'ActionAuthorization',
+        'Authentication',
+        // TODO Check why Cron is used here
+        'Cron.Cron'
+    ];
 
     /**
      * Current user
@@ -102,6 +108,10 @@ class AuthUserComponent extends Component
         }
 
         $this->setCurrentUser($CurrentUser);
+
+        if(!$this->isAuthorized($this->CurrentUser)) {
+            throw new ForbiddenException();
+        }
 
         Stopwatch::stop('CurrentUser::initialize()');
     }
@@ -186,7 +196,7 @@ class AuthUserComponent extends Component
             return null;
         }
 
-        $this->refreshAuthenticationProvider($user);
+        $this->refreshAuthenticationProvider();
 
         return $user;
     }
@@ -259,7 +269,7 @@ class AuthUserComponent extends Component
      * @param User $user User identity to refresh
      * @return void
      */
-    private function refreshAuthenticationProvider(User $user)
+    private function refreshAuthenticationProvider()
     {
         // Get current authentication provider
         $authenticationProvider = $this->Authentication
@@ -356,5 +366,35 @@ class AuthUserComponent extends Component
         // makes CurrentUser available as View var in templates
         $controller->set('CurrentUser', $this->CurrentUser);
         Registry::set('CU', $this->CurrentUser);
+    }
+
+    /**
+     * Check if user is authorized to access the current action.
+     *
+     * @param CurrentUser $user The current user.
+     * @return bool True if authorized False otherwise.
+     */
+    private function isAuthorized(CurrentUser $user)
+    {
+        $controller = $this->getController();
+        $action = $controller->getRequest()->getParam('action');
+
+        if (isset($controller->actionAuthConfig)
+            && isset($controller->actionAuthConfig[$action])) {
+            $requiredRole = $controller->actionAuthConfig[$action];
+
+            return Registry::get('Permission')
+                ->check($user->getRole(), $requiredRole);
+        }
+
+        $prefix = $this->request->getParam('prefix');
+        $plugin = $this->request->getParam('plugin');
+        $isAdminRoute = ($prefix && strtolower($prefix) === 'admin')
+            || ($plugin && strtolower($plugin) === 'admin');
+        if ($isAdminRoute) {
+            return $user->permission('saito.core.admin.backend');
+        }
+
+        return true;
     }
 }
