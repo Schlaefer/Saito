@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Saito - The Threaded Web Forum
  *
@@ -9,14 +12,18 @@
 
 namespace App\Test\TestCase\Controller\Component;
 
+use App\Auth\AuthenticationServiceFactory;
 use App\Controller\Component\AuthUserComponent;
-use Cake\Controller\Component;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authentication\PasswordHasher\PasswordHasherFactory;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
+use Cake\ORM\TableRegistry;
+use Psr\Http\Message\ServerRequestInterface;
 use Saito\Test\IntegrationTestCase;
 
 class AuthUserComponentTest extends IntegrationTestCase
@@ -25,13 +32,15 @@ class AuthUserComponentTest extends IntegrationTestCase
      * {@inheritDoc}
      */
     public $fixtures = [
+        'app.Category',
+        'app.Entry',
         'app.Setting',
         'app.User',
         'app.UserOnline',
     ];
 
     /**
-     * @var Component
+     * @var AuthUserComponent
      */
     public $component = null;
 
@@ -43,18 +52,8 @@ class AuthUserComponentTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        // Setup our component and fake test controller
-        $request = new ServerRequest();
-        $response = new Response();
-        $this->controller = $this->getMockBuilder(Controller::class)
-            ->setConstructorArgs([$request, $response])
-            ->setMethods(null)
-            ->getMock();
-        $this->controller->loadComponent('Auth');
-        $registry = new ComponentRegistry($this->controller);
-        $this->component = new AuthUserComponent($registry);
-        // $event = new Event('Controller.startup', $this->controller);
-        // $this->component->startup($event);
+
+        $this->_setup();
     }
 
     public function tearDown()
@@ -91,9 +90,9 @@ class AuthUserComponentTest extends IntegrationTestCase
         $event = new Event('Controller.shutdown', $this->controller);
         $this->component->shutdown($event);
 
-        $cookie = $this->controller->getResponse()->getCookie('Saito-jwt');
+        $cookie = $this->controller->getResponse()->getCookie('Saito-JWT');
         $this->assertNotEmpty($cookie);
-        $this->assertSame('Saito-jwt', $cookie['name']);
+        $this->assertSame('Saito-JWT', $cookie['name']);
         $this->assertFalse($cookie['httpOnly']);
     }
 
@@ -105,15 +104,15 @@ class AuthUserComponentTest extends IntegrationTestCase
     public function testSetJwtCookieDeleteCookieIfNotLoggedIn()
     {
         $request = $this->controller->getRequest();
-        $request = $request->withCookieParams(['Saito-jwt' => 'foo']);
+        $request = $request->withCookieParams(['Saito-JWT' => 'foo']);
         $this->controller->setRequest($request);
 
         $event = new Event('Controller.shutdown', $this->controller);
         $this->component->shutdown($event);
 
-        $cookie = $this->controller->getResponse()->getCookie('Saito-jwt');
+        $cookie = $this->controller->getResponse()->getCookie('Saito-JWT');
         $this->assertNotEmpty($cookie);
-        $this->assertSame('Saito-jwt', $cookie['name']);
+        $this->assertSame('Saito-JWT', $cookie['name']);
         $this->assertSame('1', $cookie['expire']);
     }
 
@@ -131,20 +130,74 @@ class AuthUserComponentTest extends IntegrationTestCase
         $jwtKey = Configure::read('Security.cookieSalt');
 
         $oldUser = 2;
-        $jwtPayload = ['sub' => $oldUser];
+        $jwtPayload = ['sub' => $oldUser, 'exp' => time() + 10];
         $jwtToken = \Firebase\JWT\JWT::encode($jwtPayload, $jwtKey);
         $request = $this->controller->getRequest();
-        $request = $request->withCookieParams(['Saito-jwt' => $jwtToken]);
+        $request = $request->withCookieParams(['Saito-JWT' => $jwtToken]);
         $this->controller->setRequest($request);
 
         $event = new Event('Controller.shutdown', $this->controller);
         $this->component->shutdown($event);
 
-        $cookie = $this->controller->getResponse()->getCookie('Saito-jwt');
+        $cookie = $this->controller->getResponse()->getCookie('Saito-JWT');
         $this->assertNotEmpty($cookie);
-        $this->assertSame('Saito-jwt', $cookie['name']);
+        $this->assertSame('Saito-JWT', $cookie['name']);
 
         $payload = \Firebase\JWT\JWT::decode($cookie['value'], $jwtKey, ['HS256']);
         $this->assertEquals(1, $payload->sub);
+    }
+
+    /**
+     * Test that the authentication cookie is refreshed.
+     *
+     * @return void
+     */
+    public function testAuthenticationRefresh()
+    {
+        /// Setup the request for the authenticator
+        $Users = TableRegistry::getTableLocator()->get('Users');
+        $user = $Users->get(1);
+        $hasher = PasswordHasherFactory::build(DefaultPasswordHasher::class);
+        $username = $user->get('username');
+        $hash = $hasher->hash($username . $user->get('password'));
+        $cookieName = Configure::read('Security.cookieAuthName');
+        $request = (new ServerRequest())
+            ->withCookieParams([$cookieName => json_encode([$username, $hash])]);
+        $this->_setup($request);
+
+        /// Trigger refresh on cookie-login
+        $this->component->login();
+
+        /// Test that cookie is set
+        $cookie = $this->controller->getResponse()->getCookie($cookieName);
+        $this->assertNotEmpty($cookie);
+
+        /// Test that cookie expiry is set
+        $authProvider = $this->component->Authentication
+            ->getAuthenticationService()
+            ->authenticators()
+            ->get('Cookie');
+        $expire = $authProvider->getConfig('cookie.expire');
+        $this->assertWithinRange($expire->getTimestamp(), (int)$cookie['expire'], 2);
+    }
+
+    private function _setup(ServerRequestInterface $request = null)
+    {
+        $request = $request ?: new ServerRequest();
+        $response = new Response();
+
+        $service = AuthenticationServiceFactory::buildApp();
+        $result = $service->authenticate($request, $response);
+
+        $request = $request->withAttribute('authentication', $service);
+        $request = $request->withAttribute('authenticationResult', $result['result']);
+
+        $controller = new Controller($request, $response);
+
+        $registry = new ComponentRegistry($controller);
+        $component = new AuthUserComponent($registry);
+
+        $this->component = $component;
+        $this->controller = $controller;
     }
 }

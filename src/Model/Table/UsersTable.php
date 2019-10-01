@@ -17,8 +17,9 @@ use App\Lib\Model\Table\FieldFilter;
 use App\Model\Table\EntriesTable;
 use App\Model\Table\UserBlocksTable;
 use App\Model\Table\UserIgnoresTable;
-use Cake\Auth\DefaultPasswordHasher;
-use Cake\Auth\PasswordHasherFactory;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authentication\PasswordHasher\PasswordHasherFactory;
+use Authentication\PasswordHasher\PasswordHasherInterface;
 use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchema;
 use Cake\Datasource\EntityInterface;
@@ -48,15 +49,6 @@ class UsersTable extends AppTable
      * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
      */
     public const USERNAME_MAXLENGTH = 191;
-
-    /**
-     * @var array password hasher
-     */
-    protected $_passwordHasher = [
-        'default' => 'Cake\Auth\DefaultPasswordHasher',
-        'App\Auth\Mlf2PasswordHasher',
-        'App\Auth\MlfPasswordHasher'
-    ];
 
     /**
      * {@inheritDoc}
@@ -479,7 +471,7 @@ class UsersTable extends AppTable
     }
 
     /**
-     * updates non-blowfish-hash to current hashing method
+     * Updates the hashed password if hash-algo is out-of-date
      *
      * @param int $userId user-ID
      * @param string $password password
@@ -487,14 +479,13 @@ class UsersTable extends AppTable
      */
     public function autoUpdatePassword(int $userId, string $password): void
     {
-        $Entity = $this->get($userId, ['fields' => ['id', 'password']]);
-        $oldPassword = $Entity->get('password');
-        $hasher = new $this->_passwordHasher['default'];
-        if (!$hasher->needsRehash($oldPassword)) {
-            return;
+        $user = $this->get($userId, ['fields' => ['id', 'password']]);
+        $oldPassword = $user->get('password');
+        $needsRehash = $this->getPasswordHasher()->needsRehash($oldPassword);
+        if ($needsRehash) {
+            $user->set('password', $password);
+            $this->save($user);
         }
-        $Entity->set('password', $password);
-        $this->save($Entity);
     }
 
     /**
@@ -519,7 +510,7 @@ class UsersTable extends AppTable
         \ArrayObject $options
     ) {
         if ($entity->isDirty('password')) {
-            $hashedPassword = $this->_hashPassword($entity->get('password'));
+            $hashedPassword = $this->getPasswordHasher()->hash($entity->get('password'));
             $entity->set('password', $hashedPassword);
         }
     }
@@ -551,10 +542,10 @@ class UsersTable extends AppTable
     public function validateCheckOldPassword($value, array $context)
     {
         $userId = $context['data']['id'];
-        $oldPassword = $this->get($userId, ['fields' => ['password']])
+        $oldPasswordHash = $this->get($userId, ['fields' => ['password']])
             ->get('password');
 
-        return $this->checkPassword($value, $oldPassword);
+        return $this->getPasswordHasher()->check($value, $oldPasswordHash);
     }
 
     /**
@@ -831,35 +822,13 @@ class UsersTable extends AppTable
     }
 
     /**
-     * Checks if password is valid against all supported auth methods
+     * Get default password hasher for hashing user passwords.
      *
-     * @param string $password password
-     * @param string $hash hash
-     * @return bool TRUE if password match FALSE otherwise
+     * @return PasswordHasherInterface
      */
-    public function checkPassword($password, $hash)
+    public function getPasswordHasher(): PasswordHasherInterface
     {
-        foreach ($this->_passwordHasher as $passwordHasher) {
-            $hasher = PasswordHasherFactory::build($passwordHasher);
-            if ($hasher->check($password, $hash)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Custom hash function used for authentication with Auth component
-     *
-     * @param string $password passwrod
-     * @return string hashed password
-     */
-    protected function _hashPassword($password)
-    {
-        $auth = new DefaultPasswordHasher();
-
-        return $auth->hash($password);
+        return PasswordHasherFactory::build(DefaultPasswordHasher::class);
     }
 
     /**

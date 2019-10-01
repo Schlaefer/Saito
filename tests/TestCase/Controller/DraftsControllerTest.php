@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
+use Authentication\Authenticator\UnauthenticatedException;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
@@ -38,7 +38,7 @@ class DraftsControllerTest extends IntegrationTestCase
 
     public function testAddFailureNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->configRequest([
             'headers' => ['Accept' => 'application/json']
@@ -88,7 +88,7 @@ class DraftsControllerTest extends IntegrationTestCase
 
     public function testEditFailureNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->configRequest([
             'headers' => ['Accept' => 'application/json']

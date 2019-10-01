@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
+use Authentication\Authenticator\UnauthenticatedException;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Saito\Exception\SaitoForbiddenException;
@@ -43,7 +43,7 @@ class PostingsControllerTest extends IntegrationTestCase
             'headers' => ['Accept' => 'application/json']
         ]);
 
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $data = ['pid' => 1, 'subject' => 'foo'];
         $this->post('api/v2/postings/', $data);
@@ -125,7 +125,7 @@ class PostingsControllerTest extends IntegrationTestCase
             'headers' => ['Accept' => 'application/json']
         ]);
 
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
         $this->get('api/v2/postingmeta');
     }
 
@@ -213,7 +213,7 @@ class PostingsControllerTest extends IntegrationTestCase
             'headers' => ['Accept' => 'application/json']
         ]);
 
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->put('api/v2/postings/9999', []);
     }

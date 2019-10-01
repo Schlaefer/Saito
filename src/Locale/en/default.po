@@ -385,7 +385,7 @@ msgstr "The user account is not activated yet."
 
 #: src/Controller/UsersController.php:101
 msgid "user.block.pubExpEnds"
-msgstr "User {0} is locked. Try again in %s."
+msgstr "User {name} is locked. Try again in {end}."
 
 #: src/Controller/UsersController.php:103
 msgid "user.block.pubExp"

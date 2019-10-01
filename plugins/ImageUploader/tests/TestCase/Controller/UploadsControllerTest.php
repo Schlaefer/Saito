@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace ImageUploader\Test\TestCase\Controller;
 
 use Api\Error\Exception\GenericApiException;
+use Authentication\Authenticator\UnauthenticatedException;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\File;
-use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
 use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
@@ -59,7 +59,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testAddNotAuthorized()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->post('api/v2/uploads', []);
     }
@@ -259,7 +259,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testIndexNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->get('api/v2/uploads');
     }
@@ -302,7 +302,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testDeleteNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->delete('api/v2/uploads/1');
     }

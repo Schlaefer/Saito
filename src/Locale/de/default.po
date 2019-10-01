@@ -391,7 +391,7 @@ msgstr "Das Nutzerkonto wurde noch nicht aktiviert"
 
 #: src/Controller/UsersController.php:101
 msgid "user.block.pubExpEnds"
-msgstr "Mitglied %s wurde gesperrt. Versuchen Sie es in %s erneut."
+msgstr "Mitglied {name} wurde gesperrt. Versuchen Sie es in {end} erneut."
 
 #: src/Controller/UsersController.php:103
 msgid "user.block.pubExp"

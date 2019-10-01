@@ -1,8 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace App\Test\TestCase\Controller;
 
-use Cake\Http\Exception\UnauthorizedException;
+use Authentication\Authenticator\UnauthenticatedException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Saito\Test\IntegrationTestCase;
@@ -43,9 +53,9 @@ class PreviewControllerTest extends IntegrationTestCase
 
     public function testPreviewFailureNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
-        $this->get('preview/preview');
+        $this->get('/api/v2/preview/preview');
     }
 
     public function testPreviewSuccessNewThread()
@@ -59,10 +69,10 @@ class PreviewControllerTest extends IntegrationTestCase
             'text' => 'bar',
         ];
 
-        $this->post('preview/preview', $data);
+        $this->post('/api/v2/preview/preview', $data);
 
         $this->assertResponseCode(200);
-        $response = json_decode($this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertEquals(999999999999, $response['id']);
         $this->assertEquals(999999999999, $response['attributes']['id']);
@@ -83,10 +93,10 @@ class PreviewControllerTest extends IntegrationTestCase
             'text' => 'bar',
         ];
 
-        $this->post('preview/preview', $data);
+        $this->post('/api/v2/preview/preview', $data);
 
         $this->assertResponseCode(200);
-        $response = json_decode($this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertEquals(999999999999, $response['id']);
         $this->assertEquals(999999999999, $response['attributes']['id']);
@@ -106,10 +116,10 @@ class PreviewControllerTest extends IntegrationTestCase
             'text' => 'bar',
         ];
 
-        $this->post('preview/preview', $data);
+        $this->post('/api/v2/preview/preview', $data);
 
         $this->assertResponseCode(200);
-        $response = json_decode($this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertArrayHasKey('errors', $response);
 
@@ -127,10 +137,10 @@ class PreviewControllerTest extends IntegrationTestCase
             'text' => 'bar',
         ];
 
-        $this->post('preview/preview', $data);
+        $this->post('/api/v2/preview/preview', $data);
 
         $this->assertResponseCode(200);
-        $response = json_decode($this->_response->getBody(), true);
+        $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertArrayHasKey('errors', $response);
 

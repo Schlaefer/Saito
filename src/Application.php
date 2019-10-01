@@ -17,12 +17,12 @@ declare(strict_types=1);
  */
 namespace App;
 
-use App\Auth\LegacyPasswordHasherSaltless;
-use App\Auth\Mlf2PasswordHasher;
+use App\Auth\AuthenticationServiceFactory;
 use App\Middleware\SaitoBootstrapMiddleware;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Authentication\UrlChecker\DefaultUrlChecker;
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Core\Plugin;
@@ -33,7 +33,6 @@ use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Cake\Routing\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Saito\App\Registry;
@@ -160,70 +159,13 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response): AuthenticationService
     {
-        $service = new AuthenticationService([
-            'queryParam' => 'redirect',
-            'unauthenticatedRedirect' => '/login',
-        ]);
-
-        /// Check if request goes to stateless JWT API.
-        $uri = $request->getUri();
-        if (property_exists($uri, 'base')) {
-            $uri = $uri->withPath($uri->base . $uri->getPath());
-        }
-        $uri= $uri->getPath();
-        // TODO Is this save on non root installation?
-        $apiUri = Router::url('/api/', false);
-        $isApi = stristr($uri, $apiUri) !== false;
-
+        $isApi = (new DefaultUrlChecker())
+            ->check($request, ['#api/v2#'], ['useRegex' => true]);
         if ($isApi) {
-            /// Configure stateless JWT API
-            $service->loadIdentifier('Authentication.JwtSubject');
-            $service->loadAuthenticator('Authentication.Jwt', [
-                'returnPayload' => false,
-                'secretKey' => Configure::read('Security.cookieSalt'),
-            ]);
-        } else {
-            /// Configure statefull webapp
-            $service->loadIdentifier('Authentication.Password', [
-                'passwordHasher' => [
-                    'className' => 'Authentication.Fallback',
-                    'hashers' => [
-                        // Saito passwords (Cake default)
-                        ['className' => 'Authentication.Default'],
-                        // Mylittleforum 2 legacy passwords
-                        ['className' => Mlf2PasswordHasher::class],
-                        // Mylittleforum 1 legacy passwords
-                        ['className' => LegacyPasswordHasherSaltless::class, 'hashType' => 'md5'],
-                    ]
-                ]
-
-            ]);
-
-            // Authenticators are checked in order of registration.
-            // Leave Session first.
-            $service->loadAuthenticator(
-                'Authentication.Session',
-                [
-                    // Always check against DB. User-state (type, locked) might have
-                    // changed and must be reflected immediately.
-                    'identify' => true,
-                ]
-            );
-            $service->loadAuthenticator(
-                'Authentication.Cookie',
-                [
-                    'cookie' => [
-                        'expire' => new \DateTimeImmutable('+10 days'),
-                        'httpOnly' => true,
-                        'name' => Configure::read('Security.cookieAuthName'),
-                        'path' => Router::url('/', false),
-                    ]
-                ]
-            );
-            $service->loadAuthenticator('Authentication.Form');
+            return AuthenticationServiceFactory::buildJwt();
         }
 
-        return $service;
+        return AuthenticationServiceFactory::buildApp();
     }
 
     /**

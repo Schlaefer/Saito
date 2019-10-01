@@ -13,6 +13,11 @@ class UsersTableTest extends SaitoTableTestCase
 
     public $tableClass = 'Users';
 
+    /**
+     * @var UsersTable
+     */
+    public $Table;
+
     public $fixtures = [
         'app.Category',
         'app.Draft',
@@ -233,7 +238,7 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertGreaterThan(0, $this->Table->Drafts->findByUserId(3)->count());
 
         /// UserOnline: Set user online.
-        $this->Table->UserOnline->setOnline(3, true);
+        $this->Table->UserOnline->setOnline((string)3, true);
         $this->assertGreaterThan(0, $this->Table->UserOnline->findByUserId(3)->count());
 
         /// Do the actual delete.
@@ -285,7 +290,7 @@ class UsersTableTest extends SaitoTableTestCase
         $this->Table->save($Entity);
 
         $Entity = $this->Table->get(3);
-        $result = $this->Table->checkPassword($newPw, $Entity->get('password'));
+        $result = $this->Table->getPasswordHasher()->check($newPw, $Entity->get('password'));
         $this->assertTrue($result);
     }
 
@@ -375,34 +380,44 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertEmpty($Entity->getErrors());
     }
 
-    public function testValidateCheckOldPassword()
+    public function testValidateCheckOldPasswordNotValid()
     {
         $Entity = $this->Table->get(3);
         $data = [
-            'password_old' => 'something',
+            'password_old' => 'something_not_wrong',
             'password' => 'new_pw_2',
             'password_confirm' => 'new_pw_2',
         ];
-        $this->Table->patchEntity($Entity, $data);
-        $this->assertTrue(array_key_exists('password_old', $Entity->getErrors()));
+        $result = $this->Table->patchEntity($Entity, $data);
+        $this->assertArrayHasKey('pwCheckOld', $result->getError('password_old'));
+    }
+
+    public function testValidateCheckOldPasswordValid()
+    {
+        $Entity = $this->Table->get(3);
+
+        $password = time();
+        $Entity->set('password', $password);
+        $this->Table->save($Entity);
 
         $data = [
-            'password_old' => 'test',
+            'password_old' => $password,
             'password' => 'new_pw_2',
             'password_confirm' => 'new_pw_2'
         ];
-        $this->Table->patchEntity($Entity, $data);
-        $this->assertFalse(array_key_exists('password_old', $Entity->getErrors()));
+
+        $result = $this->Table->patchEntity($Entity, $data);
+        $this->assertEmpty($result->getErrors());
     }
 
     public function testAutoUpdatePassword()
     {
         // test exchanging
-        $userId = 3;
+        $userId = 9;
         $newPassword = 'testtest';
         $this->Table->autoUpdatePassword($userId, $newPassword);
         $Entity = $this->Table->get($userId);
-        $result = $this->Table->checkPassword(
+        $result = $this->Table->getPasswordHasher()->check(
             $newPassword,
             $Entity->get('password')
         );
@@ -479,7 +494,7 @@ class UsersTableTest extends SaitoTableTestCase
 
         $this->assertEmpty($user->getErrors());
 
-        $result = $this->Table->checkPassword($pw, $user->get('password'));
+        $result = $this->Table->getPasswordHasher()->check($pw, $user->get('password'));
         $this->assertTrue($result);
 
         $expected = $data + [

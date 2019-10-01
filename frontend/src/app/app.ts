@@ -98,7 +98,7 @@ class Bootstrap {
         });
 
         /// set JWT-token
-        const jwtCookie = document.cookie.match(/Saito-jwt=([^\s;]*)/);
+        const jwtCookie = document.cookie.match(/Saito-JWT=([^\s;]*)/);
         if (!jwtCookie) {
             return;
         }

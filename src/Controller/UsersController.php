@@ -59,12 +59,18 @@ class UsersController extends AppController
     /**
      * Login user.
      *
-     * @return void|\Cake\Network\Response
+     * @return void|Response
      */
     public function login()
     {
         $data = $this->request->getData();
         if (empty($data['username'])) {
+            if ($this->CurrentUser->isLoggedIn()) {
+                $this->AuthUser->logout();
+
+                return $this->redirect($this->getRequest()->getRequestTarget());
+            }
+
             /// Show form to user.
             if ($this->getRequest()->getQuery('redirect', null)) {
                 $this->Flash->set(
@@ -79,9 +85,9 @@ class UsersController extends AppController
         if ($this->AuthUser->login()) {
             /// Successful login with request data.
             if ($this->Referer->wasAction('login')) {
-                // TODO
-                // return $this->redirect($this->Auth->redirectUrl());
-                return $this->redirect('/');
+                $target = $this->getRequest()->getQuery('redirect', '/');
+
+                return $this->redirect($target);
             } else {
                 return $this->redirect($this->referer());
             }
@@ -89,7 +95,10 @@ class UsersController extends AppController
 
         //= error on login
         $username = $this->request->getData('username');
-        $readUser = $this->Users->findByUsername($username)->first();
+        /** @var User */
+        $readUser = $this->Users->find()
+            ->where(['username' => $username])
+            ->first();
 
         $message = __('user.authe.e.generic');
 
@@ -104,8 +113,8 @@ class UsersController extends AppController
                 if ($ends) {
                     $time = new Time($ends);
                     $data = [
-                        $username,
-                        $time->timeAgoInWords(['accuracy' => 'hour'])
+                        'name' => $username,
+                        'end' => $time->timeAgoInWords(['accuracy' => 'hour'])
                     ];
                     $message = __('user.block.pubExpEnds', $data);
                 } else {
@@ -131,14 +140,15 @@ class UsersController extends AppController
     /**
      * Logout user.
      *
-     * @return void
+     * @return void|Response
      */
     public function logout()
     {
-        $cookies = $this->request->getCookieCollection();
+        $request = $this->getRequest();
+        $cookies = $request->getCookieCollection();
         foreach ($cookies as $cookie) {
-            $cookie = $cookie->withPath($this->request->getAttribute('webroot'));
-            $this->response = $this->response->withExpiredCookie($cookie);
+            $cookie = $cookie->withPath($request->getAttribute('webroot'));
+            $this->setResponse($this->getResponse()->withExpiredCookie($cookie));
         }
 
         $this->AuthUser->logout();
@@ -148,7 +158,7 @@ class UsersController extends AppController
     /**
      * Register new user.
      *
-     * @return void
+     * @return void|Response
      */
     public function register()
     {
@@ -163,6 +173,12 @@ class UsersController extends AppController
         $this->set('user', $user);
 
         if (!$this->request->is('post')) {
+            if ($this->CurrentUser->isLoggedIn()) {
+                $this->AuthUser->logout();
+
+                return $this->redirect($this->getRequest()->getRequestTarget());
+            }
+
             return;
         }
 
@@ -783,7 +799,7 @@ class UsersController extends AppController
         $unlocked = ['slidetabToggle', 'slidetabOrder'];
         $this->Security->setConfig('unlockedActions', $unlocked);
 
-        $this->Authentication->allowUnauthenticated(['login', 'register', 'rs']);
+        $this->Authentication->allowUnauthenticated(['login', 'logout', 'register', 'rs']);
         $this->modLocking = $this->CurrentUser
             ->permission('saito.core.user.block');
         $this->set('modLocking', $this->modLocking);

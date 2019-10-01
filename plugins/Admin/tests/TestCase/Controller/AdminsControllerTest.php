@@ -15,6 +15,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\ToolsController;
 use Cake\Cache\Cache;
 use Cake\Event\EventManager;
+use Cake\Http\Exception\ForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
 /**
@@ -45,17 +46,17 @@ class AdminControllerTest extends IntegrationTestCase
      */
     public function testAdminEmptyCachesNonAdmin()
     {
+        $this->expectException(ForbiddenException::class);
         $url = '/admin/admins/emptyCaches';
         $this->get($url);
-        $this->assertRedirectLogin($url);
     }
 
     public function testAdminEmptyCachesUser()
     {
         $this->_loginUser(2);
         $url = '/admin/admins/emptyCaches';
+        $this->expectException(ForbiddenException::class);
         $this->get($url);
-        $this->assertRedirectLogin($url);
     }
 
     public function testAdminEmptyCaches()

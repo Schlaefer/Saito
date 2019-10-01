@@ -2,6 +2,7 @@
 
 namespace App\Test\TestCase\Controller;
 
+use Authentication\PasswordHasher\PasswordHasherFactory;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
@@ -9,6 +10,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
@@ -67,8 +69,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testAdminAddNoAccess()
     {
+        $this->expectException(ForbiddenException::class);
+
         $this->post('/admin/users/add');
-        $this->assertRedirect('/login');
     }
 
     public function testLogin()
@@ -78,17 +81,17 @@ class UsersControllerTest extends IntegrationTestCase
         $this->get('/');
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNull(
-            $this->_controller->request->getSession()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth')
         );
 
         $this->mockSecurity();
-        $this->post('/users/login', $data);
+        $this->post('/login', $data);
 
         $this->assertFalse($this->_controller->components()->has('Security'));
 
         $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNotNull(
-            $this->_controller->request->getSession()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth')
         );
 
         //# successful login redirects
@@ -97,13 +100,13 @@ class UsersControllerTest extends IntegrationTestCase
         //# last login time should be set
         $Users = TableRegistry::get('Users');
         $user = $Users->get(3, ['fields' => 'last_login']);
-        $this->assertWithinRange($user->get('last_login')->toUnixString(), time(), 1);
+        $this->assertWithinRange($user->get('last_login')->toUnixString(), time(), 2);
     }
 
     public function testLoginShowForm()
     {
         //# show login form
-        $this->get('/users/login');
+        $this->get('/login');
         $this->assertResponseSuccess();
         $this->assertNoRedirect();
 
@@ -136,7 +139,8 @@ class UsersControllerTest extends IntegrationTestCase
         $this->_controller->CurrentUser->setSettings($user);
         $this->assertTrue($this->_controller->CurrentUser->isLoggedIn());
 
-        $this->get('/users/login');
+        $this->get('/login');
+
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
     }
 
@@ -144,7 +148,7 @@ class UsersControllerTest extends IntegrationTestCase
     {
         $this->mockSecurity();
         $data = ['username' => 'Diane', 'password' => 'test'];
-        $result = $this->post('/users/login', $data);
+        $result = $this->post('/login', $data);
         $this->assertResponseContains('is not activated yet.', $result);
     }
 
@@ -163,7 +167,7 @@ class UsersControllerTest extends IntegrationTestCase
             ->will($this->returnValue(false));
         $Users->UserBlocks = $UserBlocks;
         $data = ['username' => 'Walt', 'password' => 'test'];
-        $this->post('/users/login', $data);
+        $this->post('/login', $data);
         $this->assertResponseContains('is locked.');
     }
 
@@ -867,30 +871,30 @@ class UsersControllerTest extends IntegrationTestCase
         $this->mockSecurity();
         $this->_loginUser(2);
         $Users = TableRegistry::get('Users');
+        $userToLock = 5;
 
-        // locked user are thrown out
+        /// Mod locks user 5
         $this->post('/users/lock', ['lockUserId' => 5]);
-        $user = $Users->findById(5)->first();
+        $user = $Users->findById($userToLock)->first();
         $this->assertTrue($user->get('user_lock') == true);
         $this->_logoutUser();
 
-        $this->_loginUser(5);
-        $this->get('/entries/index');
-        $this->assertRedirect('/logout');
-
-        // locked user can't relogin
+        /// Locked user are thrown out
+        $this->_loginUser($userToLock);
+        $result = $this->get('/entries/index');
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
-        $this->assertNull($this->_controller->request->getSession()->read('Auth.User'));
+        $this->assertNull($this->_controller->request->getSession()->read('Auth'));
 
+        /// Locked user can't relogin
         $this->_logoutUser();
         $this->post(
-            '/users/login',
+            '/login',
             ['username' => 'Uma', 'password' => 'test']
         );
 
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
         $this->assertNull(
-            $this->_controller->request->getSession()->read('Auth.User')
+            $this->_controller->request->getSession()->read('Auth')
         );
     }
 
@@ -928,30 +932,13 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertNoRedirect();
     }
 
-    public function testChangePasswordConfirmationFailed()
-    {
-        $this->_loginUser(4);
-        $this->mockSecurity();
-
-        $data = [
-            'password_old' => 'test',
-            'password' => 'test_new_foo',
-            'password_confirm' => 'test_new_bar'
-        ];
-        $this->post('/users/changepassword/4', $data);
-
-        $expected = '098f6bcd4621d373cade4e832627b4f6';
-        $user = TableRegistry::get('Users');
-        $result = $user->get(5, ['fields' => 'password']);
-        $this->assertEquals($result->get('password'), $expected);
-
-        $this->assertNoRedirect();
-    }
-
     public function testChangePasswordOldPasswordNotCorrect()
     {
         $this->mockSecurity();
         $this->_loginUser(4);
+
+        $Users = TableRegistry::get('Users');
+        $password = $Users->get(5)->get('password');
 
         $data = [
             'password_old' => 'test_something',
@@ -960,7 +947,33 @@ class UsersControllerTest extends IntegrationTestCase
         ];
         $this->post('/users/changepassword/4', $data);
 
-        $expected = '098f6bcd4621d373cade4e832627b4f6';
+        $user = TableRegistry::get('Users');
+        $result = $user->get(5, ['fields' => 'password']);
+        $this->assertEquals($result->get('password'), $password);
+
+        $this->assertNoRedirect();
+    }
+
+    public function testChangePasswordConfirmationFailed()
+    {
+        $this->_loginUser(5);
+        $this->mockSecurity();
+        $Users = TableRegistry::get('Users');
+
+        /// Set user password to "test" with current password-hasher
+        $user = $Users->get(5);
+        $oldPassword = 'test';
+        $user->set('password', $oldPassword);
+        $user = $Users->save($user);
+
+        $data = [
+            'password_old' => $oldPassword,
+            'password' => 'test_new_foo',
+            'password_confirm' => 'test_new_bar',
+        ];
+        $this->post('/users/changepassword/5', $data);
+
+        $expected = $user['password'];
         $user = TableRegistry::get('Users');
         $result = $user->get(5, ['fields' => 'password']);
         $this->assertEquals($result->get('password'), $expected);
@@ -972,17 +985,25 @@ class UsersControllerTest extends IntegrationTestCase
     {
         $this->_loginUser(5);
         $this->mockSecurity();
+        $Users = TableRegistry::get('Users');
+
+        /// Set user password to "test" with current password-hasher
+        $user = $Users->get(5);
+        $oldPassword = 'test';
+        $user->set('password', $oldPassword);
+        $user = $Users->save($user);
+
         $data = [
-            'password_old' => 'test',
+            'password_old' => $oldPassword,
             'password' => 'test_new',
             'password_confirm' => 'test_new',
         ];
         $this->post('/users/changepassword/5', $data);
 
-        $user = TableRegistry::get('Users');
-        $result = $user->get(5, ['fields' => 'password']);
+        $result = $Users->get(5, ['fields' => 'password']);
         $pwH = new DefaultPasswordHasher();
-        $this->assertTrue($pwH->check('test_new', $result->get('password')));
+        $newHash = $result->get('password');
+        $this->assertTrue($pwH->check('test_new', $newHash));
 
         $this->assertRedirect('users/edit/5');
     }
@@ -1034,18 +1055,21 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testSetPasswordPostFailurePwDontMatch()
     {
-        $this->_loginUser(1);
+        $userId = 1;
+        $this->_loginUser($userId);
         $this->mockSecurity();
+        $Users = TableRegistry::get('Users');
+        $password = $Users->get($userId)->get('password');
+
         $data = [
             'password' => 'test_new',
             'password_confirm' => 'test_foo',
         ];
         $this->post('/users/setpassword/5', $data);
 
-        $expected = '098f6bcd4621d373cade4e832627b4f6';
         $user = TableRegistry::get('Users');
         $result = $user->get(5, ['fields' => 'password']);
-        $this->assertEquals($result->get('password'), $expected);
+        $this->assertEquals($result->get('password'), $password);
 
         $this->assertNoRedirect();
     }
@@ -1127,8 +1151,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testAvatarPostNotLoggedInFailure()
     {
-        $this->post('/users/avatar/3');
-        $this->assertRedirectLogin();
+        $url = '/users/avatar/3';
+        $this->post($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testAvatarPostNotOwnUserFailure()

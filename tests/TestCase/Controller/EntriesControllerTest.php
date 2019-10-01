@@ -8,6 +8,7 @@ use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\Exception\SaitoForbiddenException;
@@ -257,9 +258,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testDeleteNotLoggedIn()
     {
-        $url = '/entries/delete/1';
-        $this->get($url);
-        $this->assertRedirectLogin($url);
+        $this->expectException(ForbiddenException::class);
+
+        $this->get('/entries/delete/1');
     }
 
     /*
@@ -298,8 +299,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeleteNoAuthorization()
     {
         $this->_loginUser(3);
+        $this->expectException(ForbiddenException::class);
+
         $this->post('/entries/delete/1');
-        $this->assertRedirectContains('/login');
     }
 
     public function testDeletePostingDoesntExist()
@@ -398,10 +400,10 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
+        $this->expectException(ForbiddenException::class);
+
         $this->_loginUser(3);
         $this->post('/entries/merge/4', ['targetId' => 2]);
-
-        $this->assertRedirectContains('/login');
     }
 
     public function testMergeSuccess()

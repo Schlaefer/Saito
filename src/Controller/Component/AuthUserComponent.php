@@ -17,13 +17,13 @@ use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
 use Authentication\Authenticator\CookieAuthenticator;
 use Authentication\Controller\Component\AuthenticationComponent;
-use Authentication\Identifier\PasswordIdentifier;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
+use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Saito\App\Registry;
 use Saito\User\Cookie\Storage;
@@ -52,10 +52,7 @@ class AuthUserComponent extends Component
      * @var array
      */
     public $components = [
-        'ActionAuthorization',
-        'Authentication',
-        // TODO Check why Cron is used here
-        'Cron.Cron'
+        'Authentication.Authentication',
     ];
 
     /**
@@ -86,30 +83,26 @@ class AuthUserComponent extends Component
         if ($this->isBot()) {
             $CurrentUser = CurrentUserFactory::createDummy();
         } else {
-            $user = $this->authenticate();
-            $isLoggedIn = !empty($user);
-
             $controller = $this->getController();
             $request = $controller->getRequest();
-            /// don't auto-login on login related pages
-            $excluded = ['login', 'register'];
-            $useLoggedIn = $isLoggedIn
-                && !in_array($request->getParam('action'), $excluded);
 
-            if ($useLoggedIn) {
+            $user = $this->authenticate();
+            if (!empty($user)) {
                 $CurrentUser = CurrentUserFactory::createLoggedIn($user->toArray());
                 $userId = (string)$CurrentUser->getId();
+                $isLoggedIn = true;
             } else {
                 $CurrentUser = CurrentUserFactory::createVisitor($controller);
                 $userId = $request->getSession()->id();
+                $isLoggedIn = false;
             }
 
-            $this->UsersTable->UserOnline->setOnline($userId, $useLoggedIn);
+            $this->UsersTable->UserOnline->setOnline($userId, $isLoggedIn);
         }
 
         $this->setCurrentUser($CurrentUser);
 
-        if(!$this->isAuthorized($this->CurrentUser)) {
+        if (!$this->isAuthorized($this->CurrentUser)) {
             throw new ForbiddenException();
         }
 
@@ -156,13 +149,9 @@ class AuthUserComponent extends Component
         $this->UsersTable->UserOnline->setOffline($originalSessionId);
 
         /// password update
-        $authenticationService = $this->Authentication->getAuthenticationService();
-        /** @var PasswordIdentifier */
-        $identifier = $authenticationService->identifiers()->get('Password');
-        if ($identifier->needsPasswordRehash()) {
-            $user = $this->UsersTable->get($user->get('id'));
-            $user->set('password', $this->request->getData('password'));
-            $this->UsersTable->save($user);
+        $password = (string)$this->request->getData('password');
+        if ($password) {
+            $this->UsersTable->autoUpdatePassword($this->CurrentUser->getId(), $password);
         }
 
         return true;
@@ -182,16 +171,16 @@ class AuthUserComponent extends Component
             return null;
         }
 
+        /** @var User User is always retrieved from ORM */
         $user = $result->getData();
 
-        $allowed = $user['activate_code'] === 0 && $user['user_lock'] === false;
+        $isUnactivated = $user['activate_code'] !== 0;
+        $isLocked = $user['user_lock'] == true;
 
-        if (!$allowed) {
+        if ($isUnactivated || $isLocked) {
             /// User isn't allowed to be logged-in
             // Destroy any existing (session) storage information.
             $this->logout();
-            // Send to logout-form for formal logout procedure.
-            $this->getController()->redirect(['_name' => 'logout']);
 
             return null;
         }
@@ -215,42 +204,6 @@ class AuthUserComponent extends Component
             $this->setCurrentUser(CurrentUserFactory::createVisitor($this->getController()));
         }
         $this->Authentication->logout();
-    }
-
-    /**
-     * Configures CakePHP's authentication-component
-     *
-     * @param AuthComponent $auth auth-component to configure
-     * @return void
-     */
-    public function initSessionAuth(AuthComponent $auth): void
-    {
-        if ($auth->getConfig('authenticate')) {
-            // Different auth configuration already in place (e.g. API). This is
-            // important for the JWT-request, so that we don't authenticate via
-            // Cookie and open up for xsrf issues.
-            return;
-        };
-
-        $auth->setConfig(
-            'authenticate',
-            [
-                AuthComponent::ALL => ['finder' => 'allowedToLogin'],
-                'Cookie',
-                'Mlf',
-                'Mlf2',
-                'Form'
-            ]
-        );
-
-        $auth->setConfig('authorize', ['Controller']);
-        $auth->setConfig('loginAction', '/login');
-
-        $here = urlencode($this->getController()->getRequest()->getRequestTarget());
-        $auth->setConfig('unauthorizedRedirect', '/login?redirect=' . $here);
-
-        $auth->deny();
-        $auth->setConfig('authError', __('authentication.error'));
     }
 
     /**
@@ -298,19 +251,24 @@ class AuthUserComponent extends Component
     }
 
     /**
-     * Sets (or deletes) the JS-Web-Token in Cookie for access in front-end
+     * Stores (or deletes) the JS-Web-Token as Cookie for access in front-end
      *
      * @param Controller $controller The controller
      * @return void
      */
     private function setJwtCookie(Controller $controller): void
     {
-        $cookieKey = Configure::read('Session.cookie') . '-jwt';
-        $cookie = (new Storage($controller, $cookieKey, ['http' => false, 'expire' => '+1 week']));
+        $expire = '+1 day';
+        $cookieKey = Configure::read('Session.cookie') . '-JWT';
+        $cookie = new Storage(
+            $controller,
+            $cookieKey,
+            ['http' => false, 'expire' => $expire]
+        );
 
         $existingToken = $cookie->read();
 
-        // user not logged-in: no JWT-cookie for you
+        // User not logged-in: No JWT-cookie for you!
         if (!$this->CurrentUser->isLoggedIn()) {
             if ($existingToken) {
                 $cookie->delete();
@@ -320,20 +278,32 @@ class AuthUserComponent extends Component
         }
 
         if ($existingToken) {
-            //// check that token belongs to current-user
+            // Encoded JWT token format: <header>.<payload>.<signature>
             $parts = explode('.', $existingToken);
-            // [performance] Done every logged-in request. Don't decrypt whole token with signature.
-            // We only make sure it exists, the auth happens elsewhere.
-            $payload = Jwt::jsonDecode(Jwt::urlsafeB64Decode($parts[1]));
-            if ($payload->sub === $this->CurrentUser->getId() && $payload->exp > time()) {
+            $payloadEncoded = $parts[1];
+            // [performance] Done every logged-in request. Don't decrypt whole
+            // token with signature. We only make sure it exists, the auth
+            // happens elsewhere.
+            $payload = Jwt::jsonDecode(Jwt::urlsafeB64Decode($payloadEncoded));
+            $isCurrentUser = $payload->sub === $this->CurrentUser->getId();
+            // Assume expired if within the next two hours.
+            $aboutToExpire = $payload->exp > (time() - 7200);
+            // Token doesn't require an update if it belongs to current user and
+            // isn't about to expire.
+            if ($isCurrentUser && !$aboutToExpire) {
                 return;
             }
         }
 
-        // use easy to change cookieSalt to allow emergency invalidation of all existing tokens
+        /// Set new token
+        // Use easy to change cookieSalt to allow emergency invalidation of all
+        // existing tokens.
         $jwtKey = Configure::read('Security.cookieSalt');
-        // cookie expires before JWT (7 days < 14 days): JWT exp should always be valid
-        $jwtPayload = ['sub' => $this->CurrentUser->getId(), 'exp' => time() + (86400 * 14)];
+        $jwtPayload = [
+            'sub' => $this->CurrentUser->getId(),
+            // Token is valid for one day.
+            'exp' => (new DateTimeImmutable($expire))->getTimestamp(),
+        ];
         $jwtToken = \Firebase\JWT\JWT::encode($jwtPayload, $jwtKey);
         $cookie->write($jwtToken);
     }

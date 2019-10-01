@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
+use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use Saito\Test\IntegrationTestCase;
 
@@ -26,6 +27,7 @@ class UsersControllerTest extends IntegrationTestCase
 
     public $fixtures = [
         'app.Category',
+        'app.Draft',
         'app.Entry',
         'app.Setting',
         'app.User',
@@ -45,35 +47,33 @@ class UsersControllerTest extends IntegrationTestCase
         }
     }
 
-    public function testUsersBlockIndex()
+    public function testUsersIndexAccess()
     {
-        $this->_loginUser(1);
+        $this->assertRouteForRole('/admin/users/block', 'admin');
+    }
 
-        $this->get('/admin/users/block');
+    public function testNotAuthenticatedCantDelete()
+    {
+        $this->mockSecurity();
 
-        $this->assertResponseOk();
+        $this->expectException(ForbiddenException::class);
+        $url = '/admin/users/delete/3';
+        $this->get($url);
+    }
+
+    public function testAuthorizationUsersCantDelete()
+    {
+        $this->mockSecurity();
+
+        $this->expectException(ForbiddenException::class);
+        $this->_loginUser(3);
+        $url = '/admin/users/delete/4';
+        $this->get($url);
     }
 
     public function testDelete()
     {
         $this->mockSecurity();
-
-        /*
-         *  not logged in can't delete
-         */
-        $url = '/admin/users/delete/3';
-        $this->get($url);
-        $this->assertRedirectLogin($url);
-        $this->assertTrue($this->_controller->Users->exists(3));
-
-        /*
-         * user can't delete admin/users
-         */
-        $url = '/admin/users/delete/4';
-        $this->_loginUser(3);
-        $this->get($url);
-        $this->assertTrue($this->_controller->Users->exists(4));
-        $this->assertRedirectLogin($url);
 
         /*
          *  mod can access delete ui

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Bookmarks\Test\TestCase\Controller;
 
-use Cake\Http\Exception\UnauthorizedException;
+use Authentication\Authenticator\UnauthenticatedException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Saito\Test\IntegrationTestCase;
@@ -47,7 +47,7 @@ class BookmarksControllerTest extends IntegrationTestCase
 
     public function testIndexNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->get('api/v2/bookmarks');
     }
@@ -99,7 +99,7 @@ class BookmarksControllerTest extends IntegrationTestCase
 
     public function testEditFailureNotLoggedIn()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->put('api/v2/bookmarks/1');
     }
@@ -146,7 +146,7 @@ class BookmarksControllerTest extends IntegrationTestCase
 
     public function testDeleteFailureNotLoggedIn()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->delete('api/v2/bookmarks/1');
     }
@@ -175,7 +175,7 @@ class BookmarksControllerTest extends IntegrationTestCase
 
     public function testAddFailureNotLoggedIn()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->post('api/v2/bookmarks/');
     }
