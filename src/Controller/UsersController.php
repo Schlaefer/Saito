@@ -20,6 +20,7 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
+use Cake\Routing\Router;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
@@ -65,10 +66,9 @@ class UsersController extends AppController
     {
         $data = $this->request->getData();
         if (empty($data['username'])) {
-            if ($this->CurrentUser->isLoggedIn()) {
-                $this->AuthUser->logout();
-
-                return $this->redirect($this->getRequest()->getRequestTarget());
+            $logout = $this->_logoutAndComeHereAgain();
+            if ($logout) {
+                return $logout;
             }
 
             /// Show form to user.
@@ -83,17 +83,19 @@ class UsersController extends AppController
         }
 
         if ($this->AuthUser->login()) {
-            /// Successful login with request data.
-            if ($this->Referer->wasAction('login')) {
-                $target = $this->getRequest()->getQuery('redirect', '/');
+            // Redirect query-param in URL.
+            $target = $this->getRequest()->getQuery('redirect');
+            // Referer from Request
+            $target = $target ?: $this->referer(null, true);
 
-                return $this->redirect($target);
-            } else {
-                return $this->redirect($this->referer());
+            if (!$target || $this->Referer->wasAction('login')) {
+                $target = '/';
             }
+
+            return $this->redirect($target);
         }
 
-        //= error on login
+        /// error on login
         $username = $this->request->getData('username');
         /** @var User */
         $readUser = $this->Users->find()
@@ -173,10 +175,9 @@ class UsersController extends AppController
         $this->set('user', $user);
 
         if (!$this->request->is('post')) {
-            if ($this->CurrentUser->isLoggedIn()) {
-                $this->AuthUser->logout();
-
-                return $this->redirect($this->getRequest()->getRequestTarget());
+            $logout = $this->_logoutAndComeHereAgain();
+            if ($logout) {
+                return $logout;
             }
 
             return;
@@ -393,6 +394,8 @@ class UsersController extends AppController
             return;
         }
 
+        $id = (int)$id;
+
         /** @var User */
         $user = $this->Users->find()
             ->contain(
@@ -403,10 +406,10 @@ class UsersController extends AppController
                     'UserOnline'
                 ]
             )
-            ->where(['Users.id' => $id])
+            ->where(['Users.id' => (int)$id])
             ->first();
 
-        if ($id === null || empty($user)) {
+        if (empty($user)) {
             $this->Flash->set(__('Invalid user'), ['element' => 'error']);
 
             return $this->redirect('/');
@@ -426,7 +429,7 @@ class UsersController extends AppController
             ($user->numberOfPostings() - $entriesShownOnPage) > 0
         );
 
-        if ($this->CurrentUser->getId() === (int)$id) {
+        if ($this->CurrentUser->getId() === $id) {
             $ignores = $this->Users->UserIgnores->getAllIgnoredBy($id);
             $user->set('ignores', $ignores);
         }
@@ -828,5 +831,20 @@ class UsersController extends AppController
         }
 
         return $CurrentUser->getId() === (int)$userId;
+    }
+
+    /**
+     * Logout user if logged in and create response to revisit logged out
+     *
+     * @return Response|null
+     */
+    protected function _logoutAndComeHereAgain(): ?Response
+    {
+        if (!$this->CurrentUser->isLoggedIn()) {
+            return null;
+        }
+        $this->AuthUser->logout();
+
+        return $this->redirect($this->getRequest()->getRequestTarget());
     }
 }
