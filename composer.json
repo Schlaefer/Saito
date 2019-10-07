@@ -98,8 +98,9 @@
 
     "cs-check": "phpcs --runtime-set ignore_warnings_on_exit true",
     "cs-fix": "phpcbf > /dev/null || true",
-    "phpstan": "vendor/bin/phpstan analyse --ansi",
     "check": ["@cs-fix", "@cs-check"],
+    "phpstan": "vendor/bin/phpstan analyse --ansi",
+    "coverage": "unset XDEBUG_CONFIG; export COMPOSER_PROCESS_TIMEOUT=900; composer phpunit -- --coverage-html docs/local/",
 
     "phpunit-stop": "phpunit --colors=always --stderr --stop-on-error --stop-on-failure",
     "phpunit": "phpunit --colors=always",
