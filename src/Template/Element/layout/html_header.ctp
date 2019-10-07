@@ -4,7 +4,7 @@ echo $this->Html->charset();
 echo $this->fetch('meta');
 echo $this->fetch('css');
 
-if (isset($CurrentUser) && $CurrentUser->isLoggedIn()) :
+if ($CurrentUser->isLoggedIn()) :
     echo $this->User->generateCss($CurrentUser->getSettings());
 endif;
 

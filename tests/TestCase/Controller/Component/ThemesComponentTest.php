@@ -57,10 +57,9 @@ class ThemesComponentTest extends SaitoTestCase
         $this->component->setConfig($config);
 
         $user = CurrentUserFactory::createDummy();
-        $this->controller->CurrentUser = $user;
 
         $this->assertNotEquals('foo', $this->controller->viewBuilder()->getTheme());
-        $this->component->set();
+        $this->component->set($user);
         $this->assertEquals('foo', $this->controller->viewBuilder()->getTheme());
     }
 
@@ -70,10 +69,9 @@ class ThemesComponentTest extends SaitoTestCase
         $this->component->setConfig($config);
 
         $user = CurrentUserFactory::createDummy(['id' => 1, 'user_theme' => 'bar']);
-        $this->controller->CurrentUser = $user;
 
         // test custom theme applied
-        $this->component->set();
+        $this->component->set($user);
         $this->assertEquals('bar', $this->controller->viewBuilder()->getTheme());
 
         // test default set
@@ -87,9 +85,8 @@ class ThemesComponentTest extends SaitoTestCase
         $this->component->setConfig($config);
 
         $user = CurrentUserFactory::createDummy(['id' => '1', 'user_theme' => 'bar']);
-        $this->controller->CurrentUser = $user;
 
-        $this->component->set();
+        $this->component->set($user);
         $this->assertEquals('foo', $this->controller->viewBuilder()->getTheme());
     }
 }

@@ -12,23 +12,50 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\AppController;
+use App\Controller\Component\ThemesComponent;
+use App\Controller\Component\TitleComponent;
+use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Event\Event;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
- * Custom Error Controller
+ * Custom Error Controller to render errors in default theme for production.
  *
- * ErrorController extends AppController so the variables for the default-theme
- * are populated and the default theme can be used to show errors.
+ * @property ThemesComponent $Themes
+ * @property TitleComponent $Title
  */
-class ErrorController extends AppController
+class ErrorController extends Controller
 {
+    /**
+     * {@inheritDoc}
+     */
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->loadComponent('Themes', Configure::read('Saito.themes'));
+        // Populate forum title for display in layout
+        $this->loadComponent('Title');
+    }
+
     /**
      * {@inheritDoc}
      */
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
-        $this->viewBuilder()->setTemplatePath('Error');
+
+        if (!Configure::read('debug')) {
+            // Pickup custom errorX00.ctp layout files.
+            $this->viewBuilder()->setTemplatePath('Error');
+
+            // Set stripped down CurrentUser so calls to it in (default) layout
+            // .ctp(s) don't fail.
+            $CurrentUser = CurrentUserFactory::createDummy();
+            $this->set('CurrentUser', $CurrentUser);
+
+            $this->Themes->setDefault();
+        }
     }
 }

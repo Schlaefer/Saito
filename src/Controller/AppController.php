@@ -125,7 +125,7 @@ class AppController extends Controller
     {
         Stopwatch::start('App->beforeFilter()');
 
-        $this->Themes->set();
+        $this->Themes->set($this->CurrentUser);
         // disable forum with admin pref
         if (Configure::read('Saito.Settings.forum_disabled') &&
             $this->request->getParam('action') !== 'login' &&
@@ -183,7 +183,7 @@ class AppController extends Controller
         //= change theme on the fly with ?theme=<name>
         $theme = $this->request->getQuery('theme');
         if ($theme) {
-            $this->Themes->set($theme);
+            $this->Themes->set($this->CurrentUser, $theme);
         }
 
         //= activate stopwatch

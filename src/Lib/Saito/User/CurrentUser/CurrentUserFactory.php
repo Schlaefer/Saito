@@ -80,7 +80,7 @@ class CurrentUserFactory
     }
 
     /**
-     * Creates user without persistence (bots, testing)
+     * Creates user without persistence (bots, internal error-pages, testing)
      *
      * @param array|null $config user configuration (usually empty)
      * @return CurrentUserInterface
