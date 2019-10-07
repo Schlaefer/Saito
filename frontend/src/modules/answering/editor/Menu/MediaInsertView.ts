@@ -1,7 +1,15 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import $ from 'jquery';
-import { MarkupMultimedia } from 'lib/saito/markup.media';
+import MarkupMultimedia from 'lib/saito/Editor/Bbcode/MediaInsert/markup.media';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import * as _ from 'underscore';
 import mediaInsertTpl from './template/mediaInsert.html';

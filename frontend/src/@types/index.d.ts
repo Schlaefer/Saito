@@ -100,6 +100,10 @@ declare module 'moment' {
     export default moment;
 }
 
+interface IStringable {
+    toString(): string;
+}
+
 /**
  * Helper declaration for .js files and TS strict
  */
