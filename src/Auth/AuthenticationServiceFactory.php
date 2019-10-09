@@ -88,7 +88,10 @@ class AuthenticationServiceFactory
                 ]
             ]
         );
-        $service->loadAuthenticator('Authentication.Form', ['loginUrl' => '/login']);
+        $service->loadAuthenticator(
+            'Authentication.Form',
+            ['loginUrl' => Router::url(['_name' => 'login'])]
+        );
 
         return $service;
     }
