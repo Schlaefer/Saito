@@ -101,11 +101,25 @@
     "cs-fix": "phpcbf > /dev/null || true",
     "check": ["@cs-fix", "@cs-check"],
     "phpstan": "vendor/bin/phpstan analyse --ansi",
-    "coverage": "unset XDEBUG_CONFIG; export COMPOSER_PROCESS_TIMEOUT=900; composer phpunit -- --coverage-html docs/local/",
-
-    "phpunit-stop": "phpunit --colors=always --stderr --stop-on-error --stop-on-failure",
-    "phpunit": "phpunit --colors=always",
-    "test": ["@phpunit", "@phpstan", "@check"],
+    "coverage": [
+      "unset XDEBUG_CONFIG",
+      "Composer\\Config::disableProcessTimeout",
+      "composer phpunit -- --coverage-html docs/local/"
+    ],
+    "phpunit-stop": [
+      "Composer\\Config::disableProcessTimeout",
+      "phpunit --colors=always --stderr --stop-on-error --stop-on-failure"
+    ],
+    "phpunit": [
+      "Composer\\Config::disableProcessTimeout",
+      "phpunit --colors=always"
+    ],
+    "test": [
+      "unset XDEBUG_CONFIG",
+      "@phpunit",
+      "@phpstan",
+      "@check"
+    ],
 
     "js-all": "yarn run test",
 
