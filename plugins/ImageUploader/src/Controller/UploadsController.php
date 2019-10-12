@@ -68,7 +68,6 @@ class UploadsController extends ApiAppController
             'name' => $name,
             'title' => $submitted['name'],
             'size' => $submitted['size'],
-            'type' => $submitted['type'],
             'user_id' => $this->CurrentUser->getId(),
         ];
         $document = $this->Uploads->newEntity($data);

@@ -155,6 +155,25 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->assertTrue($upload->get('file')->exists());
     }
 
+    public function testAddMimeTypeConversion()
+    {
+        $this->loginJwt(1);
+
+        $this->file = new File(TMP . 'test.mp4');
+        $fixture = new File(Plugin::path('ImageUploader') . 'tests/Fixture/test-application-octo.mp4');
+        $fixture->copy($this->file->path);
+        $this->assertEquals('application/octet-stream', $this->file->mime());
+
+        $this->upload($this->file);
+
+        $this->assertResponseOk();
+
+        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $upload = $Uploads->get(3);
+        $this->assertSame('test.mp4', $upload->get('title'));
+        $this->assertSame('video/mp4', $upload->get('type'));
+    }
+
     public function testRemoveExifData()
     {
         $this->loginJwt(1);
@@ -345,7 +364,7 @@ class UploadsControllerTest extends IntegrationTestCase
                 0 => [
                     'file' => [
                         'tmp_name' => $file->path,
-                        'name' => $file->name() . '.' . $this->file->ext(),
+                        'name' => $file->name() . '.' . $file->ext(),
                         'size' => $file->size(),
                         'type' => $file->mime(),
                     ]

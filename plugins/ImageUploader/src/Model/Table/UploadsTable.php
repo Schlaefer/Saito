@@ -21,6 +21,7 @@ use Cake\ORM\RulesChecker;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use claviska\SimpleImage;
+use ImageUploader\Lib\MimeType;
 use ImageUploader\Model\Entity\Upload;
 
 /**
@@ -72,18 +73,8 @@ class UploadsTable extends AppTable
         $validator->add(
             'document',
             [
-                'mimeType' => [
-                    'rule' => [
-                        'mimeType',
-                        $UploaderConfig->getAllTypes(),
-                    ],
-                    'message' => __d(
-                        'image_uploader',
-                        'validation.error.mimeType'
-                    )
-                ],
-                'fileSize' => [
-                    'rule' => [$this, 'validateFileSize'],
+                'file' => [
+                    'rule' => [$this, 'validateFile'],
                 ],
             ]
         );
@@ -140,6 +131,18 @@ class UploadsTable extends AppTable
     /**
      * {@inheritDoc}
      */
+    public function beforeMarshal(Event $event, \ArrayObject $data)
+    {
+        if (!empty($data['document'])) {
+            /// Set mime/type by what is determined on the server about the file.
+            $data['type'] = MimeType::get($data['document']['tmp_name'], $data['name']);
+            $data['document']['type'] = $data['type'];
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function beforeSave(Event $event, Upload $entity, \ArrayObject $options)
     {
         if (!$entity->isDirty('name') && !$entity->isDirty('document')) {
@@ -190,6 +193,7 @@ class UploadsTable extends AppTable
             switch ($mime) {
                 case 'image/png':
                     $file = $this->convertToJpeg($file);
+                    $entity->set('type', $file->mime());
                     // fall through: png is further processed as jpeg
                     // no break
                 case 'image/jpeg':
@@ -201,7 +205,6 @@ class UploadsTable extends AppTable
             }
 
             $entity->set('name', $file->name);
-            $entity->set('type', $file->mime());
         } catch (\Throwable $e) {
             if ($file->exists()) {
                 $file->delete();
@@ -302,24 +305,19 @@ class UploadsTable extends AppTable
      * @param array $context context
      * @return string|bool
      */
-    public function validateFileSize($check, array $context)
+    public function validateFile($check, array $context)
     {
         /** @var \ImageUploader\Lib\UploaderConfig */
         $UploaderConfig = Configure::read('Saito.Settings.uploader');
-        $type = $check['type'];
 
-        if (!$UploaderConfig->hasType($type)) {
-            return __d(
-                'image_uploader',
-                'validation.error.mimeType',
-                $type
-            );
+        /// Check file type
+        if (!$UploaderConfig->hasType($check['type'])) {
+            return __d('image_uploader', 'validation.error.mimeType', $check['type']);
         }
 
+        /// Check file size
         $size = $UploaderConfig->getSize($check['type']);
-        $result = Validation::fileSize($check, '<', $size);
-
-        if ($result !== true) {
+        if (!Validation::fileSize($check, '<', $size)) {
             return __d(
                 'image_uploader',
                 'validation.error.fileSize',
