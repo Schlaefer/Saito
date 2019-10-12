@@ -102,7 +102,7 @@ class UploadsControllerTest extends IntegrationTestCase
         ];
         $this->assertEquals($expected, $response);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
 
         $this->assertSame('1_ebd536d37aff03f2b570329b20ece832.jpg', $upload->get('name'));
@@ -147,7 +147,7 @@ class UploadsControllerTest extends IntegrationTestCase
         ];
         $this->assertEquals($expected, $response);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
 
         $this->assertSame('1_853fe7aa4ef213b0c11f4b739cf444a8.svg', $upload->get('name'));
@@ -168,7 +168,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->assertResponseOk();
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
         $this->assertSame('test.mp4', $upload->get('title'));
         $this->assertSame('video/mp4', $upload->get('type'));
@@ -199,7 +199,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->assertResponseCode(200);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->find('all')->last();
 
         $exif = $readExif($upload->get('file'));
@@ -212,7 +212,7 @@ class UploadsControllerTest extends IntegrationTestCase
         Configure::read('Saito.Settings.uploader')->setMaxNumberOfUploadsPerUser(1);
         $this->loginJwt(1);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
@@ -231,7 +231,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->loginJwt(1);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
@@ -329,7 +329,7 @@ class UploadsControllerTest extends IntegrationTestCase
     public function testDeleteSuccess()
     {
         $this->loginJwt(1);
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(1);
         $this->assertNotEmpty($Uploads->get(1));
         $this->mockMediaFile($upload->get('file'));

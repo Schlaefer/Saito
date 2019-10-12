@@ -37,7 +37,20 @@ class MimeType
     public static function get(string $filepath, ?string $name): string
     {
         $file = new File($filepath);
+        if (!$file->exists()) {
+            throw new \RuntimeException(
+                sprintf('File "%s" does not exists.', $filepath),
+                1570856931
+            );
+        }
+
         $type = $file->mime();
+        if (!$type) {
+            throw new \RuntimeException(
+                sprintf('Cannot determine mime-type for file "%s".', $filepath),
+                1570856932
+            );
+        }
 
         $name = $name ?: $file->pwd();
         $type = self::fixByFileExtension($type, $name);

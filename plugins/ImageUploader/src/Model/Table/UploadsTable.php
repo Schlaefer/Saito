@@ -67,9 +67,6 @@ class UploadsTable extends AppTable
             ->notBlank('user_id')
             ->requirePresence(['name', 'size', 'type', 'user_id'], 'create');
 
-        /** @var \ImageUploader\Lib\UploaderConfig */
-        $UploaderConfig = Configure::read('Saito.Settings.uploader');
-
         $validator->add(
             'document',
             [

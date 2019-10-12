@@ -510,7 +510,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->_viewOk(1);
     }
 
-    /*
+    /**
      * anon users view posting not available to him
      */
     public function testViewNotLoggedInAuthFailure()
