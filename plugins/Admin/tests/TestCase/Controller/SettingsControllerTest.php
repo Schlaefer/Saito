@@ -31,26 +31,8 @@ class SettingsControllerTest extends IntegrationTestCase
         'app.UserOnline'
     ];
 
-    public function testIndexFailureUserNotLoggedIn()
+    public function testIndexAccess()
     {
-        $this->get('/admin/settings/index');
-
-        $this->assertRedirectLogin('/admin/settings/index');
-    }
-
-    public function testIndexFailureUserNoAdmin()
-    {
-        $this->_loginUser(2);
-        $this->get('/admin/settings/index');
-
-        $this->assertRedirectLogin('/admin/settings/index');
-    }
-
-    public function testIndexSuccess()
-    {
-        $this->_loginUser(1);
-        $this->get('/admin/settings/index');
-
-        $this->assertResponseOk();
+        $this->assertRouteForRole('/admin/settings/index', 'admin');
     }
 }

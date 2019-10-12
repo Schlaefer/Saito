@@ -20,6 +20,7 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
+use Cake\Routing\Router;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
@@ -59,30 +60,49 @@ class UsersController extends AppController
     /**
      * Login user.
      *
-     * @return void|\Cake\Network\Response
+     * @return void|Response
      */
     public function login()
     {
         $data = $this->request->getData();
-        //= just show form
         if (empty($data['username'])) {
+            $logout = $this->_logoutAndComeHereAgain();
+            if ($logout) {
+                return $logout;
+            }
+
+            /// Show form to user.
+            if ($this->getRequest()->getQuery('redirect', null)) {
+                $this->Flash->set(
+                    __('user.authe.required.exp'),
+                    ['element' => 'warning', 'params' => ['title' => __('user.authe.required.t')]]
+                );
+            };
+
             return;
         }
 
-        //= successful login with request data
         if ($this->AuthUser->login()) {
-            if ($this->Referer->wasAction('login')) {
-                return $this->redirect($this->Auth->redirectUrl());
-            } else {
-                return $this->redirect($this->referer());
+            // Redirect query-param in URL.
+            $target = $this->getRequest()->getQuery('redirect');
+            // Referer from Request
+            $target = $target ?: $this->referer(null, true);
+
+            if (!$target || $this->Referer->wasAction('login')) {
+                $target = '/';
             }
+
+            return $this->redirect($target);
         }
 
-        //= error on login
+        /// error on login
         $username = $this->request->getData('username');
-        $readUser = $this->Users->findByUsername($username)->first();
+        /** @var User */
+        $readUser = $this->Users->find()
+            ->where(['username' => $username])
+            ->first();
 
-        $message = __('auth_loginerror');
+        $message = __('user.authe.e.generic');
 
         if (!empty($readUser)) {
             $User = $readUser->toSaitoUser();
@@ -95,8 +115,8 @@ class UsersController extends AppController
                 if ($ends) {
                     $time = new Time($ends);
                     $data = [
-                        $username,
-                        $time->timeAgoInWords(['accuracy' => 'hour'])
+                        'name' => $username,
+                        'end' => $time->timeAgoInWords(['accuracy' => 'hour'])
                     ];
                     $message = __('user.block.pubExpEnds', $data);
                 } else {
@@ -114,20 +134,23 @@ class UsersController extends AppController
             ['msgs' => [$message]]
         );
 
-        $this->Flash->set($message, ['key' => 'auth']);
+        $this->Flash->set($message, [
+            'element' => 'error', 'params' => ['title' => __('user.authe.e.t')]
+        ]);
     }
 
     /**
      * Logout user.
      *
-     * @return void
+     * @return void|Response
      */
     public function logout()
     {
-        $cookies = $this->request->getCookieCollection();
+        $request = $this->getRequest();
+        $cookies = $request->getCookieCollection();
         foreach ($cookies as $cookie) {
-            $cookie = $cookie->withPath($this->request->getAttribute('webroot'));
-            $this->response = $this->response->withExpiredCookie($cookie);
+            $cookie = $cookie->withPath($request->getAttribute('webroot'));
+            $this->setResponse($this->getResponse()->withExpiredCookie($cookie));
         }
 
         $this->AuthUser->logout();
@@ -137,7 +160,7 @@ class UsersController extends AppController
     /**
      * Register new user.
      *
-     * @return void
+     * @return void|Response
      */
     public function register()
     {
@@ -152,6 +175,11 @@ class UsersController extends AppController
         $this->set('user', $user);
 
         if (!$this->request->is('post')) {
+            $logout = $this->_logoutAndComeHereAgain();
+            if ($logout) {
+                return $logout;
+            }
+
             return;
         }
 
@@ -366,6 +394,8 @@ class UsersController extends AppController
             return;
         }
 
+        $id = (int)$id;
+
         /** @var User */
         $user = $this->Users->find()
             ->contain(
@@ -376,10 +406,10 @@ class UsersController extends AppController
                     'UserOnline'
                 ]
             )
-            ->where(['Users.id' => $id])
+            ->where(['Users.id' => (int)$id])
             ->first();
 
-        if ($id === null || empty($user)) {
+        if (empty($user)) {
             $this->Flash->set(__('Invalid user'), ['element' => 'error']);
 
             return $this->redirect('/');
@@ -399,7 +429,7 @@ class UsersController extends AppController
             ($user->numberOfPostings() - $entriesShownOnPage) > 0
         );
 
-        if ($this->CurrentUser->getId() === (int)$id) {
+        if ($this->CurrentUser->getId() === $id) {
             $ignores = $this->Users->UserIgnores->getAllIgnoredBy($id);
             $user->set('ignores', $ignores);
         }
@@ -772,7 +802,7 @@ class UsersController extends AppController
         $unlocked = ['slidetabToggle', 'slidetabOrder'];
         $this->Security->setConfig('unlockedActions', $unlocked);
 
-        $this->Auth->allow(['login', 'register', 'rs']);
+        $this->Authentication->allowUnauthenticated(['login', 'logout', 'register', 'rs']);
         $this->modLocking = $this->CurrentUser
             ->permission('saito.core.user.block');
         $this->set('modLocking', $this->modLocking);
@@ -801,5 +831,20 @@ class UsersController extends AppController
         }
 
         return $CurrentUser->getId() === (int)$userId;
+    }
+
+    /**
+     * Logout user if logged in and create response to revisit logged out
+     *
+     * @return Response|null
+     */
+    protected function _logoutAndComeHereAgain(): ?Response
+    {
+        if (!$this->CurrentUser->isLoggedIn()) {
+            return null;
+        }
+        $this->AuthUser->logout();
+
+        return $this->redirect($this->getRequest()->getRequestTarget());
     }
 }

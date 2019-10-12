@@ -33,7 +33,7 @@ class UploaderAddVw extends View<Model> {
         this.initDropUploader();
     }
 
-    private uploadManual(event) {
+    private uploadManual(event: Event) {
         event.preventDefault();
 
         const formData = new FormData();
@@ -49,7 +49,7 @@ class UploaderAddVw extends View<Model> {
     /**
      * Sends form-data via ajax
      */
-    private send(formData) {
+    private send(formData: FormData) {
         this.showChildView('spinner', new SpinnerView());
 
         const xhr = new XMLHttpRequest();
@@ -70,7 +70,7 @@ class UploaderAddVw extends View<Model> {
             this.render();
 
             if (('' + xhr.status)[0] !== '2') {
-                let msg = null;
+                let msg;
                 try {
                     msg = JSON.parse(xhr.responseText).errors[0].title;
                 } catch (e) {
@@ -101,24 +101,26 @@ class UploaderAddVw extends View<Model> {
         this.getUI('heading').html($.i18n.__('upl.new.title'));
     }
 
-    private handleDrop(event) {
+    private handleDrop(event: JQueryEventObject) {
         this.handleDragLeave(event);
-        const files = event.originalEvent.dataTransfer.files;
+        const orgEvent = event.originalEvent as DragEvent;
+        if (!orgEvent.dataTransfer) {
+            return;
+        }
+
+        const files = orgEvent.dataTransfer.files;
         const formData = new FormData();
-        formData.append(
-            'upload[0][file]',
-            files[0],
-        );
+        formData.append('upload[0][file]', files[0]);
 
         this.send(formData);
     }
 
-    private handleDragOver(event) {
+    private handleDragOver(event: Event) {
         event.preventDefault();
         this.getUI('indicator').removeClass('fadeOut').addClass('fadeIn');
     }
 
-    private handleDragLeave(event) {
+    private handleDragLeave(event: Event) {
         event.preventDefault();
         this.getUI('indicator').removeClass('fadeIn').addClass('fadeOut');
     }

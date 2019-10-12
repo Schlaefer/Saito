@@ -12,15 +12,16 @@ class GeshiModel extends Model {
 }
 
 class GeshiView extends View<GeshiModel> {
-    public block: JQuery;
-    public htmlText;
-    public plainText;
+    public block!: JQuery;
+    public htmlText!: string | undefined;
+    public plainText!: string | undefined;
 
     public constructor(options: any = {}) {
         _.defaults(options, {
             events: {
                 'click .geshi-plain-text': 'togglePlaintext',
             },
+            model: new GeshiModel(),
             template: _.noop,
         });
         super(options);
@@ -29,8 +30,6 @@ class GeshiView extends View<GeshiModel> {
     public initialize() {
         this.model = new GeshiModel();
         this.block = this.$('.geshi-plain-text').next();
-        this.plainText = false;
-        this.htmlText = false;
 
         this.setPlaintextButton();
 
@@ -49,13 +48,13 @@ class GeshiView extends View<GeshiModel> {
         this.$('.geshi-plain-text').html('<i class="fa ' + icon + '"></i>');
     }
 
-    private togglePlaintext(event) {
+    private togglePlaintext(event: Event) {
         event.preventDefault();
         this.model.set('isPlaintext', !this.model.get('isPlaintext'));
     }
 
     private extractPlaintext() {
-        if (this.plainText !== false) {
+        if (this.plainText !== undefined) {
             return;
         }
         this.htmlText = this.block.html();
@@ -68,9 +67,9 @@ class GeshiView extends View<GeshiModel> {
     }
 
     private renderText() {
-        if (this.model.get('isPlaintext')) {
+        if (this.model.get('isPlaintext') && this.plainText) {
             this.block.text(this.plainText).wrapInner('<pre class="code"></pre>');
-        } else {
+        } else if (this.htmlText) {
             this.block.html(this.htmlText);
         }
     }

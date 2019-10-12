@@ -279,6 +279,13 @@ msgstr "You're not authorized to access this content."
 msgid "authentication.error"
 msgstr "Access to this function is restricted!"
 
+msgid "user.authe.required.t"
+msgstr "Login required"
+
+#: src/Controller/Component/AuthUserComponent.php:266
+msgid "user.authe.required.exp"
+msgstr "Access to this function is restricted. Please log-in."
+
 #: src/Controller/Component/SaitoEmailComponent.php:85
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
 msgstr ""
@@ -365,8 +372,11 @@ msgid "All Categories"
 msgstr ""
 
 #: src/Controller/UsersController.php:85
-msgid "auth_loginerror"
-msgstr "Username or Password wrong."
+msgid "user.authe.e.generic"
+msgstr "Name or password are wrong."
+
+msgid "user.authe.e.t"
+msgstr "Login error"
 
 #: src/Controller/UsersController.php:91 src/Template/Users/index.ctp:51
 #: src/Template/Users/view.ctp:35
@@ -375,7 +385,7 @@ msgstr "The user account is not activated yet."
 
 #: src/Controller/UsersController.php:101
 msgid "user.block.pubExpEnds"
-msgstr "User {0} is locked. Try again in %s."
+msgstr "User {name} is locked. Try again in {end}."
 
 #: src/Controller/UsersController.php:103
 msgid "user.block.pubExp"

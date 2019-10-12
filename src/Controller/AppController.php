@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Component\ActionAuthorizationComponent;
 use App\Controller\Component\AuthUserComponent;
 use App\Controller\Component\JsDataComponent;
 use App\Controller\Component\RefererComponent;
@@ -21,6 +20,7 @@ use App\Controller\Component\SlidetabsComponent;
 use App\Controller\Component\ThemesComponent;
 use App\Controller\Component\TitleComponent;
 use App\Model\Table\UsersTable;
+use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
@@ -35,8 +35,8 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Class AppController
  *
- * @property ActionAuthorizationComponent $ActionAuthorization
  * @property AuthUserComponent $AuthUser
+ * @property AuthenticationComponent $Authentication
  * @property JsDataComponent $JsData
  * @property RefererComponent $Referer
  * @property SaitoEmailComponent $SaitoEmail
@@ -102,8 +102,7 @@ class AppController extends Controller
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');
         $this->loadComponent('Cookie');
-        $this->loadComponent('Auth');
-        $this->loadComponent('ActionAuthorization');
+        $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
         $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
@@ -125,7 +124,7 @@ class AppController extends Controller
     {
         Stopwatch::start('App->beforeFilter()');
 
-        $this->Themes->set();
+        $this->Themes->set($this->CurrentUser);
         // disable forum with admin pref
         if (Configure::read('Saito.Settings.forum_disabled') &&
             $this->request->getParam('action') !== 'login' &&
@@ -143,7 +142,7 @@ class AppController extends Controller
 
         // allow sql explain for DebugKit toolbar
         if ($this->request->getParam('plugin') === 'debug_kit') {
-            $this->Auth->allow('sql_explain');
+            $this->Authentication->allowUnauthenticated(['sql_explain']);
         }
 
         $this->_l10nRenderFile();
@@ -183,7 +182,7 @@ class AppController extends Controller
         //= change theme on the fly with ?theme=<name>
         $theme = $this->request->getQuery('theme');
         if ($theme) {
-            $this->Themes->set($theme);
+            $this->Themes->set($this->CurrentUser, $theme);
         }
 
         //= activate stopwatch
@@ -270,18 +269,5 @@ class AppController extends Controller
                 $this->viewBuilder()->templatePath($path);
             }
         }
-    }
-
-    /**
-     * Check if user is authorized.
-     *
-     * @param array $user Session.Auth
-     * @return bool
-     */
-    public function isAuthorized(array $user)
-    {
-        $action = $this->request->getParam('action');
-
-        return $this->ActionAuthorization->isAuthorized($this->CurrentUser, $action);
     }
 }

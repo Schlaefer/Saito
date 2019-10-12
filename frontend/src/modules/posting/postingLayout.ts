@@ -1,5 +1,6 @@
 import EventBus from 'app/vent';
 import { View, ViewOptions } from 'backbone.marionette';
+import ThreadLineModel from 'models/threadline';
 import { PostingModel } from 'modules/posting/models/PostingModel';
 import * as _ from 'underscore';
 import ActionView from 'views/postingAction';
@@ -7,22 +8,22 @@ import SliderView from 'views/PostingSliderView';
 import { PostingContentView } from './postingContent';
 
 interface IPostingLayoutViewOptions extends ViewOptions<PostingModel> {
-    parentThreadline: PostingModel;
+    model: PostingModel;
+    parentThreadline?: ThreadLineModel | null;
 }
 
 class PostingLayoutView extends View<PostingModel> {
-    private parentThreadline: PostingModel;
+    private parentThreadline: ThreadLineModel | null;
 
     public constructor(options: IPostingLayoutViewOptions) {
         _.defaults(options, {
-            parentThreadline: false,
+            parentThreadline: null,
             template: _.noop,
         });
-        super(options);
-    }
 
-    public initialize(options) {
-        this.parentThreadline = options.parentThreadline;
+        super(options);
+
+        this.parentThreadline = options.parentThreadline || null;
     }
 
     public onRender() {

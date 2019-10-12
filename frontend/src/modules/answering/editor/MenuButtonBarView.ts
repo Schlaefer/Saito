@@ -21,7 +21,7 @@ enum MenuButtonType {
 class MenuButtonBarView extends CollectionView<Model, AbstractMenuButtonView, Collection<Model>> {
     public constructor(options: any = {}) {
         _.defaults(options, {
-            childView: (model) => {
+            childView: (model: Model) => {
                 const type = model.get('type');
                 switch (type) {
                     case MenuButtonType.enclose:

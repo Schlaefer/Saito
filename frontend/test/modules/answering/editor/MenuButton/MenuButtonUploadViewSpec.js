@@ -11,10 +11,11 @@ describe('answering form', function () {
 
       view.getUI('button').trigger('click');
 
-      expect(channel.request).toHaveBeenCalledWith(
-        'insert:text',
-        '[file src=upload]foo.txt[/file]',
-      );
+      const args = channel.request.calls.mostRecent().args;
+      expect(args[0]).toEqual('insert:text');
+      expect(args[1].getTag()).toEqual('file');
+      expect(args[1].getAttributes()).toEqual('src=upload');
+      expect(args[1].getContent()).toEqual('foo.txt');
     });
 
     it('unknown file', function () {
@@ -24,10 +25,11 @@ describe('answering form', function () {
 
       view.getUI('button').trigger('click');
 
-      expect(channel.request).toHaveBeenCalledWith(
-        'insert:text',
-        '[file src=upload]foo.txt[/file]',
-      );
+      const args = channel.request.calls.mostRecent().args;
+      expect(args[0]).toEqual('insert:text');
+      expect(args[1].getTag()).toEqual('file');
+      expect(args[1].getAttributes()).toEqual('src=upload');
+      expect(args[1].getContent()).toEqual('foo.txt');
     });
 
     it('image', function () {
@@ -37,10 +39,11 @@ describe('answering form', function () {
 
       view.getUI('button').trigger('click');
 
-      expect(channel.request).toHaveBeenCalledWith(
-        'insert:text',
-        '[img src=upload]foo.jpg[/img]',
-      );
+      const args = channel.request.calls.mostRecent().args;
+      expect(args[0]).toEqual('insert:text');
+      expect(args[1].getTag()).toEqual('img');
+      expect(args[1].getAttributes()).toEqual('src=upload');
+      expect(args[1].getContent()).toEqual('foo.jpg');
     });
 
     it('audio', function () {
@@ -50,10 +53,11 @@ describe('answering form', function () {
 
       view.getUI('button').trigger('click');
 
-      expect(channel.request).toHaveBeenCalledWith(
-        'insert:text',
-        '[audio src=upload]foo.mp3[/audio]',
-      );
+      const args = channel.request.calls.mostRecent().args;
+      expect(args[0]).toEqual('insert:text');
+      expect(args[1].getTag()).toEqual('audio');
+      expect(args[1].getAttributes()).toEqual('src=upload');
+      expect(args[1].getContent()).toEqual('foo.mp3');
     });
 
     it('video', function () {
@@ -63,10 +67,11 @@ describe('answering form', function () {
 
       view.getUI('button').trigger('click');
 
-      expect(channel.request).toHaveBeenCalledWith(
-        'insert:text',
-        '[video src=upload]foo.mp4[/video]',
-      );
+      const args = channel.request.calls.mostRecent().args;
+      expect(args[0]).toEqual('insert:text');
+      expect(args[1].getTag()).toEqual('video');
+      expect(args[1].getAttributes()).toEqual('src=upload');
+      expect(args[1].getContent()).toEqual('foo.mp4');
     });
   });
 });

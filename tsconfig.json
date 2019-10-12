@@ -4,6 +4,7 @@
     // "baseUrl": "frontend/src",
     "baseUrl": ".",
     "allowSyntheticDefaultImports": true, // for moment.js
+    "strict": true,
   },
   "include": [
     "frontend/src/**/*",

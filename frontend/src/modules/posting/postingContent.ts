@@ -1,9 +1,9 @@
-import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import * as _ from 'underscore';
+import { PostingModel } from './models/PostingModel';
 import { PostingRichtextView } from './postingRichtext';
 
-class PostingContentView extends View<Model> {
+class PostingContentView extends View<PostingModel> {
     public constructor(options: any = {}) {
         _.defaults(options, {
             regions: {

@@ -7,7 +7,7 @@
  */
 
 import Marionette from 'backbone.marionette';
-import App from 'models/app.js';
+import App from 'models/app';
 
 /**
  * Sets up and manages autoreloading the current page.

@@ -102,11 +102,12 @@ class EditorView extends View<Model> {
     /**
      * Inserts text at the current cursor position
      *
-     * @param text - Text to insert
+     * @param textToInsert - Text to insert
      * @param cursor - New cursor position; default: after inserted text
      */
-    private insertText(text: string, cursor?: number) {
+    private insertText(textToInsert: IStringable, cursor?: number) {
         const textarea = this.getUI('text');
+        const text = textToInsert.toString();
         if (!cursor) {
             const current = textarea.textrange('get');
             const isTextSelected: boolean = current.length > 0;

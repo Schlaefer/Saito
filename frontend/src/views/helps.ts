@@ -11,12 +11,7 @@ class SaitoHelpView extends View<Model> {
     private popups: any[];
 
     // cache for DOM-elements
-    private elements;
-
-    /** handler string for a element with popup (.shp) */
-    private elementName: string;
-
-    private webroot: string;
+    private elements: JQuery | null;
 
     public constructor(options: any = {}) {
         _.defaults(options, {
@@ -32,13 +27,13 @@ class SaitoHelpView extends View<Model> {
                 </a>`),
         });
         super(options);
-    }
 
-    public initialize(options) {
         this.isHelpShown = false;
         this.popups = [];
         this.elements = null;
+    }
 
+    public initialize() {
         this.listenTo(App.eventBus, 'change:DOM', this.onDomChange);
     }
 
@@ -71,19 +66,15 @@ class SaitoHelpView extends View<Model> {
         if (this.elements === null) {
             this.elements = $(this.getOption('scope'))
                 .find(this.getOption('elementName'))
-                .filter(this.isVisible);
+                .filter((index: number, element: Element) => $(element).filter(':visible').length > 0);
         }
         return this.elements;
-    }
-
-    private isVisible(index, element): boolean {
-        return $(element).filter(':visible').length > 0;
     }
 
     private show(): this {
         this.isHelpShown = true;
         if (!this.isHelpOnPage()) {
-            return;
+            return this;
         }
 
         if (this.popups.length === 0) {

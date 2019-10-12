@@ -39,7 +39,7 @@ class PagesController extends AppController
     {
         parent::beforeFilter($event);
         $this->set('showDisclaimer', true);
-        $this->Auth->allow(['display']);
+        $this->Authentication->allowUnauthenticated(['display']);
     }
 
     /**

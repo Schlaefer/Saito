@@ -6,7 +6,7 @@ import * as Tpl from '../templates/bookmarkCommentTpl.html';
  * Comment as input
  */
 export class CommentInputView extends View<any> {
-    constructor(options) {
+    constructor(options: any) {
         options.template = Tpl;
         options.className = 'm-1';
         options.ui = {
@@ -20,7 +20,7 @@ export class CommentInputView extends View<any> {
     public onRender() {
         this.getUI('text').focus();
     }
-    protected handleKeypress(event) {
+    protected handleKeypress(event: Event) {
         event.preventDefault();
         this.model.set('comment', this.getUI('text').val());
     }

@@ -33,7 +33,7 @@ class PostingRichtextView extends View<Model> {
             return;
         }
         elements.each((key, element) => {
-            const id = element.getAttribute('id');
+            const id = element.getAttribute('id') as string;
             const data = $(element).data('embed');
 
             this.addRegion(id, { el: '#' + id, replaceElement: true });

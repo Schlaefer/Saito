@@ -18,6 +18,7 @@ use Cake\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
+use Cake\Http\Response;
 use Cake\ORM\Entity;
 use SaitoHelp\Model\Table\SaitoHelpTable;
 
@@ -44,7 +45,7 @@ class SaitoHelpsController extends AppController
      *
      * @param string $lang language
      * @param string $id help page ID
-     * @return void
+     * @return Response|Null
      */
     public function view($lang, $id)
     {
@@ -52,15 +53,14 @@ class SaitoHelpsController extends AppController
 
         // try fallback to english default language
         if (!$help && $lang !== 'en') {
-            $this->redirect("/help/en/$id");
+            return $this->redirect("/help/en/$id");
         }
         if ($help) {
             $this->set('help', $help);
         } else {
             $this->Flash->set(__('sh.nf'), ['element' => 'error']);
-            $this->redirect('/');
 
-            return;
+            return $this->redirect('/');
         }
 
         $isCore = !strpos($id, '.');
@@ -75,7 +75,7 @@ class SaitoHelpsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow();
+        $this->Authentication->allowUnauthenticated(['languageRedirect', 'view']);
     }
 
     /**

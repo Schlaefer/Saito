@@ -1,2 +1,8 @@
 <?php
-$this->JsData->notifications()->add($message, ['type' => 'error']);
+$this->JsData->notifications()->add(
+    $message,
+    [
+        'title' => $params['title'] ?? null,
+        'type' => 'error',
+    ]
+);

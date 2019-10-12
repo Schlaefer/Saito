@@ -22,7 +22,7 @@ class PostingModel extends Model {
         this.listenTo(this, 'change:isSolves', this.syncSolved);
     }
 
-    public fetchHtml(options) {
+    public fetchHtml(options: any) {
         $.ajax({
             dataType: 'html',
             success: (data) => {

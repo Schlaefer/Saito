@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Api\Error;
 
 use Api\Error\Exception\GenericApiException;
+use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Exception\Exception;
 use Cake\Error\ExceptionRenderer;
@@ -43,6 +44,10 @@ class JsonApiExceptionRenderer extends ExceptionRenderer
 
         $this->controller->set('data', $data);
         $this->controller->set('_serialize', 'data');
+
+        // Render output as JSON instead of HTML.
+        $viewClass = App::className('Json', 'View', 'View');
+        $this->controller->viewBuilder()->setClassName($viewClass);
 
         return parent::_outputMessage($template);
     }

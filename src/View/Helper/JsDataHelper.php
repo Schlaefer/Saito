@@ -16,7 +16,6 @@ use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
 use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
-use Saito\JsData\JsData;
 use Saito\JsData\Notifications;
 use Saito\User\ForumsUserInterface;
 
@@ -76,7 +75,6 @@ class JsDataHelper extends AppHelper
                 'action' => $request->getParam('action'),
                 'controller' => $request->getParam('controller'),
                 'isMobile' => $request->is('mobile'),
-                'isPreview' => $request->is('preview'),
                 'csrf' => $this->_getCsrf($View)
             ],
             'currentUser' => [

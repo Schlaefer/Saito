@@ -16,12 +16,10 @@ use App\Controller\Component\AutoReloadComponent;
 use App\Controller\Component\MarkAsReadComponent;
 use App\Controller\Component\RefererComponent;
 use App\Controller\Component\ThreadsComponent;
-use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -486,7 +484,7 @@ class EntriesController extends AppController
             'unlockedActions',
             ['solve', 'view']
         );
-        $this->Auth->allow(['index', 'view', 'mix', 'update']);
+        $this->Authentication->allowUnauthenticated(['index', 'view', 'mix', 'update']);
 
         Stopwatch::stop('Entries->beforeFilter()');
     }

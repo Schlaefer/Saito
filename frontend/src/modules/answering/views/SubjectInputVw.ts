@@ -7,7 +7,7 @@
  */
 
 import { Model } from 'backbone';
-import { View } from 'backbone.marionette';
+import { View, ViewOptions } from 'backbone.marionette';
 import * as _ from 'underscore';
 
 class SubjectInputModel extends Model {
@@ -49,10 +49,17 @@ enum ProgressBarState {
     full = 'bg-danger',
 }
 
-export default class SubjectInputView extends View<Model> {
-    private stateModel: SubjectInputModel;
+interface ISubjectOptions extends ViewOptions<Model> {
+    /** Subject max length */
+    max?: number;
+    /** Placeholder for the subject */
+    placeholder: string;
+}
 
-    public constructor(options: any = {}) {
+export default class SubjectInputView extends View<Model> {
+    private stateModel!: SubjectInputModel;
+
+    public constructor(options: ISubjectOptions) {
         _.defaults(options, {
             className: 'postingform-subject-wrapper form-group',
             events: {
@@ -93,10 +100,11 @@ export default class SubjectInputView extends View<Model> {
                 progressBar: '.js-progress',
             },
         });
+
         super(options);
     }
 
-    public initialize(options) {
+    public initialize(options: ISubjectOptions) {
         this.stateModel = new SubjectInputModel();
         if (options.max) {
             this.stateModel.set('max', options.max);
@@ -154,7 +162,7 @@ export default class SubjectInputView extends View<Model> {
         this.setProgress(cssClass);
     }
 
-    private handleKeypress(event) {
+    private handleKeypress(event: KeyboardEvent) {
         if (event.keyCode === 13) {
             event.preventDefault();
             this.trigger('answer:send:submit');
@@ -176,7 +184,9 @@ export default class SubjectInputView extends View<Model> {
     private setProgress(cssClass: ProgressBarState) {
         const $progress = this.getUI('progressBar');
         Object.keys(ProgressBarState).forEach((key) => {
-            $progress.removeClass(ProgressBarState[key]);
+            // @td bogus
+            const k = key as unknown as number;
+            $progress.removeClass(ProgressBarState[k]);
         });
         $progress.addClass(cssClass);
     }

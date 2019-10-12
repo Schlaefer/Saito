@@ -39,15 +39,12 @@ class ThemesComponent extends Component
     /**
      * Sets theme
      *
+     * @param CurrentUserInterface $user current user
      * @param string $theme theme to set
      * @return void
      */
-    public function set($theme = null): void
+    public function set(CurrentUserInterface $user, $theme = null): void
     {
-        /** @var AppController */
-        $controller = $this->getController();
-        $user = $controller->CurrentUser;
-
         if ($theme === null) {
             $theme = $this->getThemeForUser($user);
         } else {
@@ -57,7 +54,7 @@ class ThemesComponent extends Component
     }
 
     /**
-     * Set used theme to default theme.
+     * Applies the global default theme as activate theme.
      *
      * @return void
      */
@@ -92,7 +89,7 @@ class ThemesComponent extends Component
     }
 
     /**
-     * Gets all available themes for user
+     * Gets all available themes for user.
      *
      * @param CurrentUserInterface $user current user
      * @return array

@@ -1,9 +1,9 @@
 import EventBus from 'app/vent';
 import * as Bb from 'backbone';
 
-class JsonApiModel extends Bb.Model {
+abstract class JsonApiModel extends Bb.Model {
     /** Saito URL resource identifier */
-    protected saitoUrl: string;
+    protected abstract saitoUrl: string;
 
     /** Bb URL property */
     public urlRoot = () => {
@@ -35,9 +35,9 @@ class JsonApiModel extends Bb.Model {
     }
 }
 
-class JsonApiCollection extends Bb.Collection<JsonApiModel> {
+abstract class JsonApiCollection extends Bb.Collection<JsonApiModel> {
     /** Saito URL resource identifier */
-    protected saitoUrl: string;
+    protected abstract saitoUrl: string;
 
     /** Bb URL property */
     public url = () => EventBus.vent.request('apiroot') + this.saitoUrl;

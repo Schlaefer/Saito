@@ -30,7 +30,7 @@ abstract class AbstractMenuButtonView extends View<Model> {
         `);
     }
 
-    protected abstract handleButton();
+    protected abstract handleButton(): void;
 }
 
 export { AbstractMenuButtonView };

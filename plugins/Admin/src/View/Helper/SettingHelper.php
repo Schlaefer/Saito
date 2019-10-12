@@ -120,7 +120,7 @@ class SettingHelper extends AppHelper
                 $this->Html->link(
                     __('edit'),
                     ['controller' => 'settings', 'action' => 'edit', $name],
-                    ['class' => 'btn']
+                    ['class' => 'btn btn-primary']
                 )
             ]
         );

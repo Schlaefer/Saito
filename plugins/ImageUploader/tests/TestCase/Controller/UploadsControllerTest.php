@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace ImageUploader\Test\TestCase\Controller;
 
 use Api\Error\Exception\GenericApiException;
+use Authentication\Authenticator\UnauthenticatedException;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Filesystem\File;
-use Cake\Http\Exception\UnauthorizedException;
 use Cake\ORM\TableRegistry;
 use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
@@ -59,7 +59,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testAddNotAuthorized()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->post('api/v2/uploads', []);
     }
@@ -102,7 +102,7 @@ class UploadsControllerTest extends IntegrationTestCase
         ];
         $this->assertEquals($expected, $response);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
 
         $this->assertSame('1_ebd536d37aff03f2b570329b20ece832.jpg', $upload->get('name'));
@@ -147,12 +147,31 @@ class UploadsControllerTest extends IntegrationTestCase
         ];
         $this->assertEquals($expected, $response);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(3);
 
         $this->assertSame('1_853fe7aa4ef213b0c11f4b739cf444a8.svg', $upload->get('name'));
         $this->assertSame('image/svg+xml', $upload->get('type'));
         $this->assertTrue($upload->get('file')->exists());
+    }
+
+    public function testAddMimeTypeConversion()
+    {
+        $this->loginJwt(1);
+
+        $this->file = new File(TMP . 'test.mp4');
+        $fixture = new File(Plugin::path('ImageUploader') . 'tests/Fixture/test-application-octo.mp4');
+        $fixture->copy($this->file->path);
+        $this->assertEquals('application/octet-stream', $this->file->mime());
+
+        $this->upload($this->file);
+
+        $this->assertResponseOk();
+
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
+        $upload = $Uploads->get(3);
+        $this->assertSame('test.mp4', $upload->get('title'));
+        $this->assertSame('video/mp4', $upload->get('type'));
     }
 
     public function testRemoveExifData()
@@ -180,7 +199,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->assertResponseCode(200);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->find('all')->last();
 
         $exif = $readExif($upload->get('file'));
@@ -193,7 +212,7 @@ class UploadsControllerTest extends IntegrationTestCase
         Configure::read('Saito.Settings.uploader')->setMaxNumberOfUploadsPerUser(1);
         $this->loginJwt(1);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
@@ -212,7 +231,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->loginJwt(1);
 
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
@@ -259,7 +278,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testIndexNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->get('api/v2/uploads');
     }
@@ -302,7 +321,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
     public function testDeleteNoAuthorization()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(UnauthenticatedException::class);
 
         $this->delete('api/v2/uploads/1');
     }
@@ -310,7 +329,7 @@ class UploadsControllerTest extends IntegrationTestCase
     public function testDeleteSuccess()
     {
         $this->loginJwt(1);
-        $Uploads = TableRegistry::get('ImageUploader.Uploads');
+        $Uploads = TableRegistry::getTableLocator()->get('ImageUploader.Uploads');
         $upload = $Uploads->get(1);
         $this->assertNotEmpty($Uploads->get(1));
         $this->mockMediaFile($upload->get('file'));
@@ -345,7 +364,7 @@ class UploadsControllerTest extends IntegrationTestCase
                 0 => [
                     'file' => [
                         'tmp_name' => $file->path,
-                        'name' => $file->name() . '.' . $this->file->ext(),
+                        'name' => $file->name() . '.' . $file->ext(),
                         'size' => $file->size(),
                         'type' => $file->mime(),
                     ]

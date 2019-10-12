@@ -27,7 +27,7 @@ import PreviewView from './views/PreviewVw';
 import SubjectInputVw from './views/SubjectInputVw';
 
 export default class AnsweringView extends View<AnswerModel> {
-    private errorVw: View<Model>;
+    private errorVw!: View<Model>;
 
     private loaded: boolean;
 
@@ -115,14 +115,15 @@ export default class AnsweringView extends View<AnswerModel> {
                 last: '.last',
             },
         });
-        super(options);
-    }
 
-    public initialize(options) {
+        super(options);
+
         this.loaded = false;
         this.sendInProgress = false;
-        this.metaModel = this.getOption('meta');
+        this.metaModel = options.meta;
+    }
 
+    public initialize(options: any) {
         /// init Cake Form Error View
         this.errorVw = new CakeFormErrorView({ el: this.$el });
     }
@@ -310,7 +311,7 @@ export default class AnsweringView extends View<AnswerModel> {
      *
      * @param errors errors object with validation errors from server
      */
-    private onAnswerValidationError(errors?) {
+    private onAnswerValidationError(errors?: any) {
         this.errorVw.collection.reset(errors);
         this.errorVw.render();
 

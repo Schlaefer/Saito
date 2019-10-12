@@ -17,6 +17,7 @@ use App\Test\Fixture\UserFixture;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
@@ -190,7 +191,7 @@ abstract class IntegrationTestCase extends TestCase
         $userFixture = new UserFixture();
         $users = $userFixture->records;
         $user = $users[$id - 1];
-        $this->session(['Auth.User' => $user]);
+        $this->session(['Auth' => $user]);
 
         return $user;
     }
@@ -209,7 +210,7 @@ abstract class IntegrationTestCase extends TestCase
         if (isset($_COOKIE['Saito'])) :
             unset($_COOKIE['Saito']);
         endif;
-        unset($this->_session['Auth.User']);
+        unset($this->_session['Auth']);
     }
 
     /**
@@ -285,9 +286,19 @@ abstract class IntegrationTestCase extends TestCase
             }
 
             if ($type < $types[$role]) {
-                $this->{$method}($route);
+                $cought = false;
+                try {
+                    $this->{$method}($route);
+                } catch (ForbiddenException $e) {
+                    $cought = true;
+                }
+
                 $method = strtoupper($method);
-                $this->assertRedirectLogin($referer, "No login redirect for $role on $method $route");
+
+                $this->assertTrue(
+                    $cought,
+                    sprintf('Route "%s %s" should not be accessible to role "%s"', $method, $title, $route)
+                );
             } else {
                 $this->{$method}($route);
                 $method = strtoupper($method);
@@ -306,7 +317,7 @@ abstract class IntegrationTestCase extends TestCase
     public function assertRedirectLogin($redirectUrl = null, string $msg = '')
     {
         /** @var Response $response */
-        $response = $this->_controller->response;
+        $response = $this->_response;
         $expected = Router::url([
             '_name' => 'login',
             'plugin' => false,

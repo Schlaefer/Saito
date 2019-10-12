@@ -1,6 +1,7 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import { Channel } from 'backbone.radio';
+import BbcodeTag from 'lib/saito/Editor/Bbcode/BbcodeTag';
 import App from 'models/app';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderVw from 'modules/uploader/uploader';
@@ -48,10 +49,13 @@ class InsertVw extends View<Model> {
                 tag = 'file';
         }
 
-        this.getOption('channel').request(
-            'insert:text',
-             '[' + tag + ' src=upload]' + this.model.get('name') + '[/' + tag + ']',
-        );
+        const Tag = new BbcodeTag({
+            attributes: 'src=upload',
+            content: this.model.get('name'),
+            tag,
+        });
+        this.getOption('channel').request('insert:text', Tag);
+
         ModalDialog.hide();
     }
 }

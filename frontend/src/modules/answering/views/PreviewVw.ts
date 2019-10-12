@@ -14,8 +14,6 @@ import AnswerModel from '../models/AnswerModel';
 import PreviewModel from '../models/PreviewModel';
 
 export default class PreviewView extends View<PreviewModel> {
-    protected template;
-
     constructor(options: any = {}) {
         options = _.extend(options, {
             className: 'preview-wrapper',

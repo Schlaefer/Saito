@@ -13,6 +13,7 @@ import AnswerModel from './AnswerModel';
  * Stores all data required to send a new posting to the server
  */
 export default class PreviewModel extends AnswerModel {
+    protected saitoUrl: string;
     /**
      * Constructor
      *
@@ -22,10 +23,9 @@ export default class PreviewModel extends AnswerModel {
         _defaults(defaults, {
             html: undefined,
         });
-        super(defaults, options);
-    }
 
-    public initialize(options) {
+        super(defaults, options);
+
         this.saitoUrl = 'preview/preview';
     }
 }

@@ -1,5 +1,5 @@
 import { View } from 'backbone.marionette';
-import * as PostingCollection from 'collections/postings';
+import PostingCollection from 'collections/postings';
 import $ from 'jquery';
 import 'lib/saito/jquery.scrollIntoView';
 import App from 'models/app';
@@ -10,12 +10,12 @@ import threadlineSpinnerTpl from 'templates/threadline-spinner.html';
 import _ from 'underscore';
 import { SpinnerView } from 'views/SpinnerView';
 
-class ThreadLineView extends View<PostingModel> {
+class ThreadLineView extends View<ThreadLineModel> {
     private postings: PostingCollection;
 
-    private postingModel: PostingModel;
+    private postingModel!: PostingModel;
 
-    private spinnerTpl;
+    private spinnerTpl: string;
 
     public constructor(options: any = {}) {
         _.defaults(options, {
@@ -37,13 +37,12 @@ class ThreadLineView extends View<PostingModel> {
             },
         });
         super(options);
-    }
-
-    public initialize(options) {
-        this.postings = options.postings;
 
         this.spinnerTpl = options.spinnerTpl;
+        this.postings = options.postings;
+    }
 
+    public initialize(options: any) {
         this.model = new ThreadLineModel({
             id: options.leafData.id,
             isNewToUser: options.leafData.isNewToUser,
@@ -70,7 +69,7 @@ class ThreadLineView extends View<PostingModel> {
         }
     }
 
-    private toggleInlineOpenFromLink(event) {
+    private toggleInlineOpenFromLink(event: Event) {
         if (this.model.get('isAlwaysShownInline')) {
             this.toggleInlineOpen(event);
         }
@@ -79,12 +78,12 @@ class ThreadLineView extends View<PostingModel> {
     /**
      * shows and hides the element that contains an inline posting
      */
-    private toggleInlineOpen(event) {
+    private toggleInlineOpen(event: Event) {
         event.preventDefault();
         this.model.toggle('isInlineOpened');
     }
 
-    private _toggleInlineOpened(model, isInlineOpened) {
+    private _toggleInlineOpened(model: PostingModel, isInlineOpened: boolean) {
         if (!isInlineOpened) {
             this._closeInlineView();
             return;

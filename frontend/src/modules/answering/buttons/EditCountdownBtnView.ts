@@ -18,11 +18,11 @@ export default class EditCountdownView extends View<Model> {
     /**
      * time in seconds how long the timer should count down
      */
-    private editEnd: number;
+    private editEnd!: number;
 
-    private buttonText: string;
+    private buttonText!: string;
 
-    private $countdownDummy: JQuery;
+    private $countdownDummy!: JQuery;
 
     private doneAction: string = 'remove';
 
@@ -36,7 +36,7 @@ export default class EditCountdownView extends View<Model> {
      * @param options
      * - startTime: Date - start time
      */
-    public initialize(options) {
+    public initialize(options: any) {
         this.editEnd = moment(options.startTime).unix() + (App.settings.get('editPeriod') * 60);
         // this.editEnd = moment().unix() + 5 ; // debug
 
@@ -52,11 +52,11 @@ export default class EditCountdownView extends View<Model> {
         this._start();
     }
 
-    private _setButtonText(timeText) {
+    private _setButtonText(timeText: string) {
         this.$el.text(this.buttonText + ' ' + timeText);
     }
 
-    private _onTick(remaining) {
+    private _onTick(remaining: TinyTimer.TinyTimerCallbackArgs) {
         if (remaining.m > 1 || (remaining.m === 1 && remaining.s > 30)) {
             remaining.m = remaining.m + 1;
             this._setButtonText('(' + remaining.m + ' min)');

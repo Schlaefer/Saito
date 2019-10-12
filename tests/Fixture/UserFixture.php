@@ -2,6 +2,8 @@
 
 namespace App\Test\Fixture;
 
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authentication\PasswordHasher\PasswordHasherFactory;
 use Cake\TestSuite\Fixture\TestFixture;
 
 class UserFixture extends TestFixture
@@ -215,19 +217,6 @@ class UserFixture extends TestFixture
         ]
     ];
 
-    protected $_common = [
-        'activate_code' => 0,
-        // `test`
-        'password' => '098f6bcd4621d373cade4e832627b4f6',
-        'personal_messages' => 0,
-        'registered' => '2009-01-01 00:00',
-        'slidetab_order' => null,
-        'user_automaticaly_mark_as_read' => 0,
-        'user_category_custom' => '',
-        'user_lock' => 0,
-        'user_type' => 'user'
-    ];
-
     public $records = [
         [
             'id' => 1,
@@ -293,6 +282,7 @@ class UserFixture extends TestFixture
             'username' => 'Liane',
             'user_type' => 'user',
             'user_email' => 'liane@example.com',
+            'password' => '098f6bcd4621d373cade4e832627b4f6', // outdated password
             'personal_messages' => 1,
         ],
         [
@@ -305,8 +295,21 @@ class UserFixture extends TestFixture
 
     public function init()
     {
+        $hasher = PasswordHasherFactory::build(DefaultPasswordHasher::class);
+        $common = [
+            'activate_code' => 0,
+            'password' => $hasher->hash('test'),
+            'personal_messages' => 0,
+            'registered' => '2009-01-01 00:00',
+            'slidetab_order' => null,
+            'user_automaticaly_mark_as_read' => 0,
+            'user_category_custom' => '',
+            'user_lock' => 0,
+            'user_type' => 'user'
+        ];
+
         foreach ($this->records as $k => $record) {
-            $this->records[$k] += $this->_common;
+            $this->records[$k] += $common;
         }
 
         return parent::init();

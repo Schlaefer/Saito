@@ -285,9 +285,12 @@ msgid "authorization.autherror"
 msgstr ""
 "Sie besitzen nicht die notwendingen Rechte, um auf diesen Inhalt zuzugreifen."
 
+msgid "user.authe.required.t"
+msgstr "Authentifizierung nötig"
+
 #: src/Controller/Component/AuthUserComponent.php:266
-msgid "authentication.error"
-msgstr "Der Zugriff auf diese Funktion ist eingeschränkt!"
+msgid "user.authe.required.exp"
+msgstr "Der Zugriff auf diese Funktion ist eingeschränkt. Bitte melden Sie sich mit den entsprechenden Rechten an."
 
 #: src/Controller/Component/SaitoEmailComponent.php:85
 msgid "Copy of your message: \":subject\" to \":recipient-name\""
@@ -375,8 +378,11 @@ msgid "All Categories"
 msgstr "Alle Kategorien"
 
 #: src/Controller/UsersController.php:85
-msgid "auth_loginerror"
-msgstr "Fehler beim Login!"
+msgid "user.authe.e.generic"
+msgstr "Der Name oder das Passwort sind nicht korrekt."
+
+msgid "user.authe.e.t"
+msgstr "Fehler beim Login"
 
 #: src/Controller/UsersController.php:91 src/Template/Users/index.ctp:51
 #: src/Template/Users/view.ctp:35
@@ -385,7 +391,7 @@ msgstr "Das Nutzerkonto wurde noch nicht aktiviert"
 
 #: src/Controller/UsersController.php:101
 msgid "user.block.pubExpEnds"
-msgstr "Mitglied %s wurde gesperrt. Versuchen Sie es in %s erneut."
+msgstr "Mitglied {name} wurde gesperrt. Versuchen Sie es in {end} erneut."
 
 #: src/Controller/UsersController.php:103
 msgid "user.block.pubExp"

@@ -45,7 +45,7 @@ class PostingsController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['new', 'threads']);
+        $this->Authentication->allowUnauthenticated(['new', 'threads']);
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setTemplate('posting');
     }

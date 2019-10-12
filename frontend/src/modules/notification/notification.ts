@@ -121,7 +121,7 @@ export default class NotificationsView extends Mn.View<Model> {
      */
     private showMessages(message: INotification | INotification[]) {
         if (Array.isArray(message)) {
-            _.each(message, function(msg) {
+            _.each(message, (msg) => {
                 this.showMessages(msg);
             }, this);
 
@@ -144,7 +144,7 @@ export default class NotificationsView extends Mn.View<Model> {
                 text: $.i18n.__(message.message.trim()),
                 title: message.title || '',
             };
-             const type: string = message.type;
+             const type = message.type;
 
              switch (type) {
                 case 'success':

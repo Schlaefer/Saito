@@ -11,7 +11,7 @@ export default class extends JsonApiCollection {
     protected saitoUrl = 'uploads/';
 
     /** Bb comparator */
-    public comparator = (model) => {
+    public comparator = (model: UploadsModel) => {
         // sort by latest first (negate ID for DESC)
         return -1 * model.get('id');
     }
