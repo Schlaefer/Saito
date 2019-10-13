@@ -325,6 +325,8 @@ abstract class IntegrationTestCase extends TestCase
         ], true);
         $redirectHeader = $response->getHeader('Location')[0];
         $this->assertEquals($expected, $redirectHeader, $msg);
+        $this->assertResponseEmpty();
+        $this->assertResponseCode(302);
     }
 
     /**

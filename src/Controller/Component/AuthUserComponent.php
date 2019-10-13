@@ -102,11 +102,17 @@ class AuthUserComponent extends Component
 
         $this->setCurrentUser($CurrentUser);
 
+        Stopwatch::stop('CurrentUser::initialize()');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function startup()
+    {
         if (!$this->isAuthorized($this->CurrentUser)) {
             throw new ForbiddenException();
         }
-
-        Stopwatch::stop('CurrentUser::initialize()');
     }
 
     /**

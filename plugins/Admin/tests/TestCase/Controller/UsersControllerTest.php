@@ -55,10 +55,9 @@ class UsersControllerTest extends IntegrationTestCase
     public function testNotAuthenticatedCantDelete()
     {
         $this->mockSecurity();
-
-        $this->expectException(ForbiddenException::class);
         $url = '/admin/users/delete/3';
         $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testAuthorizationUsersCantDelete()

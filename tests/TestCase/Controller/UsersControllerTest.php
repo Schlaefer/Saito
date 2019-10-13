@@ -69,9 +69,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testAdminAddNoAccess()
     {
-        $this->expectException(ForbiddenException::class);
-
-        $this->post('/admin/users/add');
+        $url = '/admin/users/add';
+        $this->post($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testLogin()

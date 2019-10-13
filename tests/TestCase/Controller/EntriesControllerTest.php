@@ -258,9 +258,9 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testDeleteNotLoggedIn()
     {
-        $this->expectException(ForbiddenException::class);
-
-        $this->get('/entries/delete/1');
+        $url = '/entries/delete/1';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     /*
@@ -299,6 +299,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeleteNoAuthorization()
     {
         $this->_loginUser(3);
+        $this->mockSecurity();
         $this->expectException(ForbiddenException::class);
 
         $this->post('/entries/delete/1');
@@ -403,6 +404,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->expectException(ForbiddenException::class);
 
         $this->_loginUser(3);
+        $this->mockSecurity();
         $this->post('/entries/merge/4', ['targetId' => 2]);
     }
 
