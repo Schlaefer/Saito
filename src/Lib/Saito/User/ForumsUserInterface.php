@@ -83,12 +83,4 @@ interface ForumsUserInterface
      * @return bool
      */
     public function isUser(ForumsUserInterface $user): bool;
-
-    /**
-     * Check if user has permission to access a resource.
-     *
-     * @param string $resource resource
-     * @return bool
-     */
-    public function permission(string $resource): bool;
 }

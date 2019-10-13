@@ -358,8 +358,7 @@ class AuthUserComponent extends Component
             && isset($controller->actionAuthConfig[$action])) {
             $requiredRole = $controller->actionAuthConfig[$action];
 
-            return Registry::get('Permission')
-                ->check($user->getRole(), $requiredRole);
+            return $user->permission($requiredRole);
         }
 
         $prefix = $this->request->getParam('prefix');

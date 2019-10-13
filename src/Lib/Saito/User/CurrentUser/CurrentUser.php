@@ -16,6 +16,7 @@ use Bookmarks\Lib\Bookmarks;
 use Saito\User\Categories;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\LastRefresh\LastRefreshInterface;
+use Saito\User\Permission;
 use Saito\User\ReadPostings\ReadPostingsInterface;
 use Saito\User\SaitoUser;
 
@@ -51,6 +52,13 @@ class CurrentUser extends SaitoUser implements CurrentUserInterface
     private $categories;
 
     /**
+     * Permissions
+     *
+     * @var Permission
+     */
+    private $permissions;
+
+    /**
      * Stores if a user is logged in. Stored individually for performance.
      *
      * @var bool
@@ -65,6 +73,7 @@ class CurrentUser extends SaitoUser implements CurrentUserInterface
         parent::setSettings($settings);
 
         $this->isLoggedIn = !empty($settings['id']);
+        $this->permissions = new Permission();
     }
 
     /**
@@ -191,5 +200,21 @@ class CurrentUser extends SaitoUser implements CurrentUserInterface
     public function isLoggedIn(): bool
     {
         return $this->isLoggedIn;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function permission(string $resource): bool
+    {
+        return $this->permissions->check($this->getRole(), $resource);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPermissions(): Permission
+    {
+        return $this->permissions;
     }
 }

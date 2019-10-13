@@ -15,6 +15,7 @@ namespace Saito\User\CurrentUser;
 use Saito\User\Categories;
 use Saito\User\ForumsUserInterface;
 use Saito\User\LastRefresh\LastRefreshInterface;
+use Saito\User\Permission;
 use Saito\User\ReadPostings\ReadPostingsInterface;
 
 interface CurrentUserInterface extends ForumsUserInterface
@@ -86,4 +87,19 @@ interface CurrentUserInterface extends ForumsUserInterface
      * @return bool
      */
     public function isLoggedIn(): bool;
+
+    /**
+     * Check if user has permission to access a resource.
+     *
+     * @param string $resource resource
+     * @return bool
+     */
+    public function permission(string $resource): bool;
+
+    /**
+     * Get permissions
+     *
+     * @return Permission
+     */
+    public function getPermissions(): Permission;
 }

@@ -153,17 +153,4 @@ class SaitoUser implements ForumsUserInterface
     {
         return $this->get('user_type');
     }
-
-    /**
-     * Check if user has permission to access a resource.
-     *
-     * @param string $resource resource
-     * @return bool
-     */
-    public function permission(string $resource): bool
-    {
-        $permission = Registry::get('Permission');
-
-        return $permission->check($this->getRole(), $resource);
-    }
 }
