@@ -26,7 +26,9 @@ use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\Query;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use DateTimeInterface;
@@ -489,15 +491,36 @@ class UsersTable extends AppTable
     }
 
     /**
+     * Post processing when updating a username.
+     *
+     * @param Entity $entity The updated entity.
+     * @return void
+     */
+    protected function updateUsername(Entity $entity)
+    {
+        // Using associating with $this->Entries->updateAll() not working in
+        // Cake 3.8.
+        $Entries = TableRegistry::getTableLocator()->get('Entries');
+        $Entries->updateAll(
+            ['name' => $entity->get('username')],
+            ['user_id' => $entity->get('id')]
+        );
+
+        $Entries->updateAll(
+            ['edited_by' => $entity->get('username')],
+            ['edited_by' => $entity->getOriginal('username')]
+        );
+
+        $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
+    }
+
+    /**
      * {@inheritDoc}
      */
-    public function afterSave(
-        Event $event,
-        Entity $entity,
-        \ArrayObject $options
-    ) {
-        if ($entity->getOriginal('username')) {
-            $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
+    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
+    {
+        if ($entity->isDirty('username')) {
+            $this->updateUsername($entity);
         }
     }
 
