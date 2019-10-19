@@ -151,7 +151,7 @@ class Cron
      */
     protected function _log($msg)
     {
-        if (Configure::read('Saito.Globals.logInfo')) {
+        if (Configure::read('Saito.debug.logInfo')) {
             return Log::write('info', $msg, ['scope' => ['saito.info']]);
         }
     }

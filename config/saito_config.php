@@ -86,10 +86,14 @@ $config = [
         ],
         'debug' => [
             /**
-             * logs emails in debug.log instead of sending them
+             * Log emails in debug.log instead of sending them.
              */
-            'email' => false
-        ]
+            'email' => false,
+            /**
+             * Log additional non-error information in info.log
+             */
+            'logInfo' => false,
+        ],
     ]
 ];
 

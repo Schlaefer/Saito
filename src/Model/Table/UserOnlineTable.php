@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use Cake\Core\Configure;
 use Cake\Log\LogTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -150,11 +151,13 @@ class UserOnlineTable extends Table
             // user online, we suppress this error, assuming it will only happen
             // in this particular situation. *knocks on wood*
             if ($e->getCode() == 23000 && strstr($e->getMessage(), 'uuid')) {
-                $this->log(
-                    sprintf('Cought duplicate uuid-key %s exception in UserOnline::setOnline.', $id),
-                    LogLevel::INFO,
-                    'saito.info'
-                );
+                if (Configure::read('Saito.debug.logInfo')) {
+                    $this->log(
+                        sprintf('Cought duplicate uuid-key %s exception in UserOnline::setOnline.', $id),
+                        LogLevel::INFO,
+                        'saito.info'
+                    );
+                }
             }
         }
     }
