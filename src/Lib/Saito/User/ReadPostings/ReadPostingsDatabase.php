@@ -29,8 +29,6 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      */
     protected $storage;
 
-    protected $minPostingsToKeep;
-
     /**
      * @var EntriesTable
      */
@@ -47,7 +45,10 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         $this->entriesTable = $entriesTable;
 
         parent::__construct($CurrentUser, $storage);
-        $this->_registerGc();
+
+        $Cron = Registry::get('Cron');
+        $userId = $this->getUserId();
+        $Cron->addCronJob("ReadUserDb.$userId", '+12 hours', [$this, 'garbageCollection']);
     }
 
     /**
@@ -60,7 +61,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         if (empty($entries)) {
             return;
         }
-        $this->storage->setEntriesForUser($entries, $this->_getId());
+        $this->storage->setEntriesForUser($entries, $this->getUserId());
         Stopwatch::stop('ReadPostingsDatabase::set()');
     }
 
@@ -69,127 +70,77 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      */
     public function delete()
     {
-        $this->storage->deleteAllFromUser($this->_getId());
+        $this->storage->deleteAllFromUser($this->getUserId());
     }
 
     /**
-     * calculates user quota of allowed entries in DB
+     * Calculates the max number of postings to remember (limits DB storage).
      *
      * @return int
      * @throws \UnexpectedValueException
      */
-    protected function _minNPostingsToKeep()
+    protected function postingsPerUser() :int
     {
-        if ($this->minPostingsToKeep) {
-            return $this->minPostingsToKeep;
-        }
         $threadsOnPage = Configure::read('Saito.Settings.topics_per_page');
         $postingsPerThread = Configure::read('Saito.Globals.postingsPerThread');
         $pagesToCache = 1.5;
-        $this->minPostingsToKeep = intval(
-            $postingsPerThread * $threadsOnPage * $pagesToCache
-        );
-        if (empty($this->minPostingsToKeep)) {
+        $minPostingsToKeep = intval($postingsPerThread * $threadsOnPage * $pagesToCache);
+        if (empty($minPostingsToKeep)) {
             throw new \UnexpectedValueException();
         }
 
-        return $this->minPostingsToKeep;
+        return $minPostingsToKeep;
     }
 
     /**
-     * Garbage collection
+     * Removes old read-posting data from a single user.
+     *
+     * Prevent growing of DB if user never clicks the MAR-button.
      *
      * @return void
      */
-    protected function _registerGc()
+    public function garbageCollection()
     {
-        $Cron = Registry::get('Cron');
-        $userId = $this->_getId();
-        $Cron->addCronJob("ReadUser.$userId", 'hourly', [$this, 'gcUser']);
-        $Cron->addCronJob('ReadUser.global', 'hourly', [$this, 'gcGlobal']);
-    }
-
-    /**
-     * removes old data from non-active users
-     *
-     * should prevent entries of non returning users to stay forever in DB
-     *
-     * @return void
-     */
-    public function gcGlobal()
-    {
-        /** @var EntriesTable */
-        $lastEntry = $this->entriesTable->find(
-            'all',
-            [
-                'fields' => ['Entries.id'],
-                'order' => ['Entries.id' => 'DESC']
-            ]
-        )->first();
-        if (!$lastEntry) {
-            return;
-        }
-        $Categories = $this->entriesTable->Categories;
-        $nCategories = $Categories->find()->count();
-        $entriesToKeep = $nCategories * $this->_minNPostingsToKeep();
-        $lastEntryId = $lastEntry->get('id') - $entriesToKeep;
-        if ($lastEntryId <= 0) {
-            return;
-        }
-        $this->storage->deleteEntriesBefore($lastEntryId);
-    }
-
-    /**
-     * removes old data from current users
-     *
-     * should prevent endless growing of DB if user never clicks the
-     * MAR-button
-     *
-     * @return void
-     */
-    public function gcUser()
-    {
-        if (!$this->CurrentUser->isLoggedIn()) {
+        $readPostings = $this->_get();
+        $numberOfRp = count($readPostings);
+        if ($numberOfRp === 0) {
             return;
         }
 
-        $entries = $this->_get();
-        $numberOfEntries = count($entries);
-        if ($numberOfEntries === 0) {
+        $maxRpToKeep = $this->postingsPerUser();
+        $numberOfRpToDelete = $numberOfRp - $maxRpToKeep;
+        if ($numberOfRpToDelete <= 0) {
+            // Number under GC threshold or user has no data at all.
             return;
         }
 
-        $maxEntriesToKeep = $this->_minNPostingsToKeep();
-        if ($numberOfEntries <= $maxEntriesToKeep) {
-            return;
-        }
-
-        $entriesToDelete = $numberOfEntries - $maxEntriesToKeep;
         // assign dummy var to prevent Strict notice on reference passing
-        $dummy = array_slice($entries, $entriesToDelete, 1);
-        $oldestIdToKeep = array_shift($dummy);
+        $dummy = array_slice($readPostings, $numberOfRpToDelete, 1);
+        $idOfOldestPostingToKeepInRp = array_shift($dummy);
 
         /// Update last refresh
         // All entries older than (and including) the deleted entries become
         // old entries by updating the MAR-timestamp.
-        $youngestDeletedEntry = $this->entriesTable->find(
-            'all',
-            [
-                'conditions' => ['Entries.id' => $oldestIdToKeep],
-                'fields' => ['Entries.time']
-            ]
-        )
+        $oldestPostingToKeepInRp = $this->entriesTable->find()
+            ->where(['id' => $idOfOldestPostingToKeepInRp])
             ->first();
+
+        if (empty($oldestPostingToKeepInRp)) {
+            // Posting was deleted for whatever reason: Skip this gc run. Next
+            // time a later posting will be the oldest one to keep.
+            return;
+        }
+
         // Can't use  $this->_CU->LastRefresh->set(): that would not only delete
         // old but *all* of the user's individually read postings.
         $this->storage->Users
             ->setLastRefresh(
-                $this->_getId(),
-                $youngestDeletedEntry->get('time')
+                $this->getUserId(),
+                $oldestPostingToKeepInRp->get('time')
             );
 
         /// Now delete the old entries
-        $this->storage->deleteUserEntriesBefore($this->_getId(), $oldestIdToKeep);
+        $this->storage->deleteUserEntriesBefore($this->getUserId(), $idOfOldestPostingToKeepInRp);
     }
 
     /**
@@ -200,7 +151,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
         if ($this->readPostings !== null) {
             return $this->readPostings;
         }
-        $this->readPostings = $this->storage->getUser($this->_getId());
+        $this->readPostings = $this->storage->getUser($this->getUserId());
 
         return $this->readPostings;
     }
@@ -210,7 +161,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      *
      * @return int
      */
-    protected function _getId()
+    protected function getUserId()
     {
         return $this->CurrentUser->getId();
     }

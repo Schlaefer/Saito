@@ -21,6 +21,10 @@ use Stopwatch\Lib\Stopwatch;
  */
 class UserReadsTable extends Table
 {
+    /**
+     * Period after garbage collection deletes old data
+     */
+    public const GC = '-31 days';
 
     /**
      * Caches user entries over multiple validations
@@ -36,8 +40,15 @@ class UserReadsTable extends Table
      */
     public function initialize(array $config)
     {
+        $this->addBehavior('Cron.Cron', [
+            'garbageCollection' => [
+                'id' => 'UserReadsTable.gc',
+                'due' => '+12 hours',
+            ]
+        ]);
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Entries', ['foreignKey' => 'entry_id']);
         $this->belongsTo('Users', ['foreignKey' => 'user_id']);
     }
 
@@ -106,22 +117,6 @@ class UserReadsTable extends Table
     }
 
     /**
-     * deletes entries with lower entry-ID than $entryId
-     *
-     * @param int $entryId entry-ID
-     * @return void
-     * @throws \InvalidArgumentException
-     */
-    public function deleteEntriesBefore(int $entryId): void
-    {
-        if (empty($entryId)) {
-            throw new \InvalidArgumentException;
-        }
-        $this->userCache = [];
-        $this->deleteAll(['entry_id <' => $entryId]);
-    }
-
-    /**
      * deletes entries with lower entry-ID than $entryId from user $userId
      *
      * @param int $userId user-ID
@@ -152,5 +147,29 @@ class UserReadsTable extends Table
         }
         unset($this->userCache[$userId]);
         $this->deleteAll(['user_id' => $userId]);
+    }
+
+    /**
+     * Removes old read-posting data for all users.
+     *
+     * Prevent data of non-returning users to stay forever in the DB.
+     *
+     * @return void
+     */
+    public function garbageCollection(): void
+    {
+        $oldest = $this->find()->order(['id' => 'ASC'])->first();
+        if (empty($oldest)) {
+            // Usually a newly setup forum.
+            return;
+        }
+
+        $cutoff = new \DateTimeImmutable(self::GC);
+        if ($oldest->get('created') > $cutoff) {
+            return;
+        }
+
+        $this->deleteAll(['created <' => $cutoff->sub(new \DateInterval('P1D'))]);
+        $this->userCache = [];
     }
 }
