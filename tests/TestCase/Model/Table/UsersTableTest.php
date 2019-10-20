@@ -635,4 +635,23 @@ class UsersTableTest extends SaitoTableTestCase
         $this->assertArrayHasKey('maxLength', $user->getError('username'));
         $this->assertContains('191', $user->getError('username')['maxLength']);
     }
+
+    public function testRenameUser()
+    {
+        $user = $this->Table->get(3);
+        $newUsername = (string)rand(10000, 99999);
+        $user->set('username', $newUsername);
+        $this->Table->save($user);
+
+        $user = $this->Table->get(3);
+        $this->assertEquals($newUsername, $user->get('username'));
+
+        $posting = $this->Table->Entries->get(3);
+        $this->assertEquals($newUsername, $posting->get('name'));
+        $this->assertEquals($newUsername, $posting->get('edited_by'));
+
+        $posting = $this->Table->Entries->get(1);
+        $this->assertEquals($newUsername, $posting->get('name'));
+        $this->assertNull($posting->get('edited_by'));
+    }
 }

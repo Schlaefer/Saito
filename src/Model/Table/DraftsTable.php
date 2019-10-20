@@ -42,7 +42,7 @@ class DraftsTable extends AppTable
 
         $this->addBehavior(
             'Cron.Cron',
-            ['outdatedGc' => ['id' => 'Drafts.outdatedGc', 'due' => 'daily']]
+            ['outdatedGc' => ['id' => 'Drafts.outdatedGc', 'due' => '+1 day']]
         );
         $this->addBehavior('Timestamp');
     }

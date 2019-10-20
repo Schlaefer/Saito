@@ -56,5 +56,15 @@ class UserReadFixture extends TestFixture
             'user_id' => 9999,
             'entry_id' => 9999
         ],
+        [
+            'id' => 2,
+            'user_id' => 1,
+            'entry_id' => 1,
+        ],
+        [
+            'id' => 3,
+            'user_id' => 1,
+            'entry_id' => 2,
+        ],
     ];
 }

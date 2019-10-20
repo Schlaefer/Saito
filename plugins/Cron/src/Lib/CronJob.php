@@ -12,36 +12,66 @@ declare(strict_types=1);
 
 namespace Cron\Lib;
 
+use Cake\Core\Configure;
+use Cake\Log\Log;
+use Stopwatch\Lib\Stopwatch;
+
 class CronJob
 {
 
     /**
      * @var string
      */
-    public $uid;
+    private $uid;
 
     /**
-     * @var mixed
+     * @var int
      */
-    public $due;
+    private $due;
 
     /**
      * @var callable
      */
-    protected $_garbage;
+    private $func;
 
     /**
      * Constructor
      *
      * @param string $uid unique ID for cron job
-     * @param mixed $due due intervall
+     * @param string $due due intervall
      * @param callable $func cron job
      */
-    public function __construct($uid, $due, callable $func)
+    public function __construct(string $uid, string $due, callable $func)
     {
         $this->uid = $uid;
-        $this->due = $due;
-        $this->_garbage = $func;
+        $this->due = strtotime($due);
+        if (!$this->due) {
+            throw new \InvalidArgumentException(
+                sprintf('Cannot convert "%s" into a timestamp.', $due),
+                1571567221
+            );
+        }
+        $this->func = $func;
+    }
+
+    /**
+     * Get the value of uid
+     *
+     * @return  string
+     */
+    public function getUid(): string
+    {
+        return $this->uid;
+    }
+
+    /**
+     * When should the job be next executed
+     *
+     * @return int UNIX-timestamp
+     */
+    public function getDue(): int
+    {
+        return $this->due;
     }
 
     /**
@@ -49,8 +79,15 @@ class CronJob
      *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
-        call_user_func($this->_garbage);
+        $msg = 'Cron.CronJob::execute ' . $this->getUid();
+        if (Configure::read('Saito.debug.logInfo')) {
+            Log::write('info', $msg, ['scope' => ['saito.info']]);
+        }
+
+        Stopwatch::start($msg);
+        call_user_func($this->func);
+        Stopwatch::stop($msg);
     }
 }
