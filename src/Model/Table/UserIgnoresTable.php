@@ -34,7 +34,7 @@ class UserIgnoresTable extends AppTable
             [
                 'removeOld' => [
                     'id' => 'UserIgnore.removeOld',
-                    'due' => 'daily',
+                    'due' => '+1 day',
                 ]
             ]
         );

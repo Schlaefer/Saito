@@ -163,7 +163,17 @@ return [
             'path' => CACHE,
             'groups' => ['short'],
             'duration' => 180
-        ]
+        ],
+        /**
+         * Long term forever cache
+         */
+        'long' => [
+            'className' => $cache['engine'],
+            'prefix' => $cache['prefix'],
+            'path' => CACHE,
+            'groups' => ['long'],
+            'duration' => 31536000
+        ],
     ],
 
     /**
