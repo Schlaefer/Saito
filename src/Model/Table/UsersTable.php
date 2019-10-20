@@ -69,7 +69,7 @@ class UsersTable extends AppTable
             [
                 'registerGc' => [
                     'id' => 'User.registerGc',
-                    'due' => 'daily',
+                    'due' => '+1 day',
                 ],
                 'userBlockGc' => [
                     'id' => 'User.userBlockGc',

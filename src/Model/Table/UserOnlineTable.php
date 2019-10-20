@@ -56,7 +56,7 @@ class UserOnlineTable extends Table
             [
                 'gc' => [
                     'id' => 'UserOnline.deleteGone',
-                    'due' => '+1 minutes',
+                    'due' => '+1 minute',
                 ],
             ]
         );
