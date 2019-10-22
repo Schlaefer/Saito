@@ -18,6 +18,7 @@
         <include name="webroot/**"/>
         <include name=".htaccess"/>
         <include name="index.php"/>
+        <include name="CHANGELOG.md"/>
         <include name="README.md"/>
         <exclude name="**/css/src/**"/>
         <exclude name="plugins/*/tests/**"/>
