@@ -20,7 +20,6 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
-use Cake\Routing\Router;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
@@ -629,7 +628,7 @@ class UsersController extends AppController
      */
     public function changepassword($id = null)
     {
-        if (!$id) {
+        if (empty($id)) {
             throw new BadRequestException();
         }
 

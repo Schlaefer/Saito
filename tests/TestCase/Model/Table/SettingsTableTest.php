@@ -34,23 +34,18 @@ class SettingsTableTest extends SaitoTableTestCase
 
     public function testFillOptionalMailAddresses()
     {
-        $Settings = $this->getMockForModel('Settings', ['_compactKeyValue']);
+        $address = rand(0, 100) . '@example.com';
+        $this->Table->updateAll(['value' => $address], ['name' => 'forum_email']);
+        foreach (['email_contact', 'email_register', 'email_system'] as $c) {
+            $this->Table->deleteAll(['name' => $c]);
+        }
 
-        $returnValue = [
-            'edit_delay' => 0,
-            'forum_email' => 'foo@bar.com',
-        ];
+        $result = $this->Table->getSettings();
 
-        $Settings->expects($this->once())
-            ->method('_compactKeyValue')
-            ->will($this->returnValue($returnValue));
-        $result = $Settings->getSettings();
-
-        $expected = 'foo@bar.com';
-        $this->assertEquals($expected, $result['forum_email']);
-        $this->assertEquals($expected, $result['email_contact']);
-        $this->assertEquals($expected, $result['email_register']);
-        $this->assertEquals($expected, $result['email_system']);
+        $this->assertEquals($address, $result['forum_email']);
+        $this->assertEquals($address, $result['email_contact']);
+        $this->assertEquals($address, $result['email_register']);
+        $this->assertEquals($address, $result['email_system']);
     }
 
     /**

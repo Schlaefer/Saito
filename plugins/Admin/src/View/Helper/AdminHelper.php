@@ -15,6 +15,7 @@ namespace Admin\View\Helper;
 use Admin\Lib\CakeLogEntry;
 use App\View\Helper\AppHelper;
 use App\View\Helper\TimeHHelper;
+use Cake\Cache\Cache;
 use Cake\View\Helper\BreadcrumbsHelper;
 use Cake\View\Helper\HtmlHelper;
 use SaitoHelp\View\Helper\SaitoHelpHelper;
@@ -46,77 +47,49 @@ class AdminHelper extends AppHelper
     }
 
     /**
-     * cache badge
+     * Get badge type for an engine
      *
-     * @param string $engine engine
+     * @param string $engine engine-Id
      * @return string
      */
-    protected function _cacheBadge($engine)
+    public function badgeForCache(string $engine): string
     {
-        switch ($engine) {
+        $class = get_class(Cache::engine($engine));
+        $class = explode('\\', $class);
+        $class = str_replace('Engine', '', end($class));
+
+        switch ($class) {
             case 'File':
-                $badge = 'warning';
+                $type = 'warning';
                 break;
             case 'Apc':
             case 'Apcu':
-                $badge = 'success';
+                $type = 'success';
                 break;
             case 'Debug':
-                $badge = 'important';
+                $type = 'important';
                 break;
             default:
-                $badge = 'info';
+                $type = 'info';
         }
 
-        return $badge;
+        return $this->badge($class, $type);
     }
 
     /**
      * badge
      *
      * @param string $text text
-     * @param null $type type
-     * @return mixed
+     * @param string $badge type
+     * @return string
      */
-    public function badge($text, $type = null)
+    public function badge(string $text, string $badge = 'info'): string
     {
-        if (is_callable([$this, $type])) {
-            $badge = $this->$type($text);
-        } elseif (is_string(($type))) {
-            $badge = $type;
-        } else {
-            $badge = 'info';
-        }
-
         return $this->Html->tag(
             'span',
             $text,
             ['class' => "badge badge-$badge"]
         );
-    }
-
-    /**
-     * Adds Breadcrumb item
-     *
-     * @see BreadcrumbsHelper::add()
-     *
-     * @param string $title Title
-     * @param string $url URL
-     * @param array $options Options
-     * @return BreadcrumbsHelper
-     */
-    public function addBreadcrumb($title, $url = null, array $options = [])
-    {
-        $options += ['class' => ''];
-        // set breadcrumb item class for Bootstrap
-        $options['class'] = $options['class'] . ' breadcrumb-item';
-        // last item in breadcrump is current (active) page and not linked
-        if ($url === false) {
-            // set breadcrumb active item class for Bootstrap
-            $options['class'] .= ' active';
-        }
-
-        return $this->Breadcrumbs->add($title, $url, $options);
     }
 
     /**

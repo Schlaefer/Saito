@@ -305,18 +305,6 @@ class UsersTableTest extends SaitoTableTestCase
         $Users->save($Entity);
     }
 
-    public function testActivateIdNotInt()
-    {
-        $this->expectException('InvalidArgumentException');
-        $this->Table->activate('stro', '123');
-    }
-
-    public function testActivateCodeNotString()
-    {
-        $this->expectException('InvalidArgumentException');
-        $this->Table->activate(123, 123);
-    }
-
     public function testActivateUserNotFound()
     {
         $this->expectException('InvalidArgumentException');

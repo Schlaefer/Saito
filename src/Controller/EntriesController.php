@@ -262,7 +262,7 @@ class EntriesController extends AppController
 
         /** @var PostingInterface */
         $posting = $this->Entries->get($id);
-        if (!$posting) {
+        if (empty($posting)) {
             throw new NotFoundException;
         }
 

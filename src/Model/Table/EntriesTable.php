@@ -415,7 +415,7 @@ class EntriesTable extends AppTable
             ->where([$this->getAlias() . '.id' => $primaryKey])
             ->first();
 
-        if (!$result) {
+        if (empty($result)) {
             return false;
         }
 
@@ -523,7 +523,7 @@ class EntriesTable extends AppTable
 
         /** @var Entry */
         $new = $this->save($posting);
-        if (!$new) {
+        if (empty($new)) {
             return null;
         }
 

@@ -1,11 +1,18 @@
 # Change-Log
 
+- ＋ Added
+- ✓ Fixed
+- Δ Changed
+- − Removed
+
 ## [Unreleased]
 
 ### Changes
 
 - ＋ Adds `CHANGELOG.md` to keep track of changes
 - Δ Improves performance of background task runner
+- Code improvements:
+  - Δ Increases phpstan static code analysis from level 3 to 4
 
 [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.4.1...5.5.0)
 

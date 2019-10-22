@@ -129,12 +129,12 @@ class SaitoDummyDataShell extends Shell
         $nPostings = (int)$this->in(
             'Number of postings to generate?',
             null,
-            100
+            '100'
         );
         if ($nPostings === 0) {
             return;
         }
-        $ratio = (int)$this->in('Average answers per thread?', null, 10);
+        $ratio = (int)$this->in('Average answers per thread?', null, '10');
         $seed = $nPostings / $ratio;
 
         for ($i = 0; $i < $nPostings; $i++) {
@@ -181,7 +181,7 @@ class SaitoDummyDataShell extends Shell
         $n = (int)$this->in(
             "Number of users to generate (max: $max)?",
             null,
-            0
+            '0'
         );
         if ($n === 0) {
             return;

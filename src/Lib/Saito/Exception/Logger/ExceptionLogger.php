@@ -79,7 +79,7 @@ class ExceptionLogger
 
         if ($request) {
             $data = $request->getData();
-            if ($request && !empty($data)) {
+            if (!empty($data)) {
                 $this->_add($this->_filterData($data), 'Data');
             }
         }

@@ -456,7 +456,7 @@ class UsersTable extends AppTable
             return false;
         }
         $user = $this->get($userId);
-        if (!$user) {
+        if (empty($user)) {
             return false;
         }
 
@@ -717,12 +717,8 @@ class UsersTable extends AppTable
      *     user data on success
      * @throws \InvalidArgumentException
      */
-    public function activate($userId, $code)
+    public function activate(int $userId, string $code)
     {
-        if (!is_int($userId) || !is_string($code)) {
-            throw new \InvalidArgumentException();
-        }
-
         try {
             $user = $this->get($userId);
         } catch (RecordNotFoundException $e) {

@@ -83,17 +83,20 @@ class SettingsTable extends AppSettingTable
      */
     public function getSettings()
     {
-        $settings = $this->find();
+        $settings = $this->find()->all();
         if (empty($settings)) {
             throw new \RuntimeException(
                 'No settings found in settings table.'
             );
         }
-        $settings = $this->_compactKeyValue($settings);
+        $compact = [];
+        foreach ($settings as $result) {
+            $compact[$result->get('name')] = $result->get('value');
+        }
 
-        $this->_fillOptionalEmailAddresses($settings);
+        $this->_fillOptionalEmailAddresses($compact);
 
-        return $settings;
+        return $compact;
     }
 
     /**
@@ -144,25 +147,6 @@ class SettingsTable extends AppSettingTable
         }
 
         return true;
-    }
-
-    /**
-     * Returns a key-value array
-     *
-     * Fast version of Set::combine($results, '{n}.Setting.name',
-     * '{n}.Setting.value');
-     *
-     * @param array $results results
-     * @return array
-     */
-    protected function _compactKeyValue($results)
-    {
-        $settings = [];
-        foreach ($results as $result) {
-            $settings[$result->get('name')] = $result->get('value');
-        }
-
-        return $settings;
     }
 
     /**

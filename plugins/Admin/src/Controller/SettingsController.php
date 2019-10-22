@@ -89,13 +89,13 @@ class SettingsController extends AdminAppController
     /**
      * edit setting
      *
-     * @param null $id settings-ID
+     * @param string|null $id settings-ID
      *
      * @return \Cake\Network\Response|void
      */
-    public function edit($id = null)
+    public function edit(string $id = null)
     {
-        if (!$id) {
+        if (empty($id)) {
             throw new NotFoundException;
         }
 

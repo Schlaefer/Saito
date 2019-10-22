@@ -67,7 +67,7 @@ class UsersController extends AdminAppController
             $user = $this->Users->newEntity();
         } else {
             $user = $this->Users->register($this->request->getData(), true);
-            if ($user && !$user->hasErrors()) {
+            if (!empty($user) && !$user->hasErrors()) {
                 $this->Flash->set(__('user.admin.add.success'), ['element' => 'success']);
 
                 return $this->redirect(['plugin' => false, 'action' => 'view', $user->get('id')]);

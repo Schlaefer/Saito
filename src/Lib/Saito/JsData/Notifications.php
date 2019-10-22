@@ -31,24 +31,18 @@ class Notifications
         ];
         $options = array_merge($defaults, $options);
 
-        if (!is_array($message)) {
-            $message = [$message];
+        $nm = [
+            'message' => $message,
+            'type' => $options['type'],
+            'channel' => $options['channel']
+        ];
+        if (isset($options['title'])) {
+            $nm['title'] = $options['title'];
         }
-
-        foreach ($message as $m) {
-            $nm = [
-                'message' => $m,
-                'type' => $options['type'],
-                'channel' => $options['channel']
-            ];
-            if (isset($options['title'])) {
-                $nm['title'] = $options['title'];
-            }
-            if (isset($options['element'])) {
-                $nm['element'] = $options['element'];
-            }
-            $this->notifications[] = $nm;
+        if (isset($options['element'])) {
+            $nm['element'] = $options['element'];
         }
+        $this->notifications[] = $nm;
     }
 
     /**
