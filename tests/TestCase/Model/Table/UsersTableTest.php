@@ -434,8 +434,6 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testRegisterGc()
     {
-        // Configure::write('Saito.Settings.topics_per_page', 20);
-
         $_userCountBeforeAction = $this->Table->find()->count();
 
         $user1 = [
@@ -462,7 +460,6 @@ class UsersTableTest extends SaitoTableTestCase
         $this->Table->save($user);
 
         $cron = Registry::get('Cron');
-        $cron->clearHistory();
         $cron->execute();
 
         $result = $this->Table->exists(['username' => 'Reginald']);

@@ -19,11 +19,14 @@ class Cron
     /** @var array */
     protected $jobs = [];
 
-    /** @var int */
+    /** @var bool Should garbage collection be run before persisting */
+    protected $runGc = false;
+
+    /** @var int Now */
     protected $now;
 
     /** @var array|null Null if not intialized */
-    private $lastRuns = null;
+    protected $lastRuns = null;
 
     /**
      * Constructor
@@ -31,6 +34,7 @@ class Cron
     public function __construct()
     {
         $this->now = time();
+        $this->addCronJob('Cron.Cron.enableGc', '+1 day', [$this, 'enableGc']);
     }
 
     /**
@@ -55,7 +59,7 @@ class Cron
      */
     public function execute()
     {
-        $this->lastRuns = $this->getLastRuns();
+        $this->loadLastRuns();
         $jobsExecuted = false;
         foreach ($this->jobs as $job) {
             $uid = $job->getUid();
@@ -69,35 +73,48 @@ class Cron
             $jobsExecuted = true;
             $this->lastRuns[$uid] = $due;
         }
-        if ($jobsExecuted) {
-            $this->saveLastRuns();
+        if (!$jobsExecuted) {
+            return;
         }
+        $this->saveLastRuns();
     }
 
     /**
-     * Clear history
+     * Enables Gc for outdated cron jobs.
      *
      * @return void
      */
-    public function clearHistory()
+    public function enableGc(): void
     {
-        $this->now = time();
-        $this->lastRuns = [];
-        $this->saveLastRuns();
+        $this->runGc = true;
+    }
+
+    /**
+     * Garbage collection on last-runs data
+     *
+     * Jobs that were due but not executed are removed. If the job doesn't exist
+     * anymore it was GCed. If the job just wasn't registered it will be
+     * executed without last run date nontheless next time it is registered.
+     *
+     * @return void
+     */
+    protected function garbageCollection(): void
+    {
+        foreach ($this->lastRuns as $key => $lastRun) {
+            if ($this->now >= $lastRun) {
+                unset($this->lastRuns[$key]);
+            }
+        }
     }
 
     /**
      * Get last cron runs
      *
-     * @return array
+     * @return void
      */
-    protected function getLastRuns(): array
+    protected function loadLastRuns(): void
     {
-        if ($this->lastRuns === null) {
-            $this->lastRuns = Cache::read('Plugin.Cron.lastRuns', 'long') ?: [];
-        }
-
-        return $this->lastRuns;
+        $this->lastRuns = Cache::read('Plugin.Cron.lastRuns', 'long') ?: [];
     }
 
     /**
@@ -107,6 +124,9 @@ class Cron
      */
     protected function saveLastRuns(): void
     {
+        if ($this->runGc) {
+            $this->garbageCollection();
+        }
         Cache::write('Plugin.Cron.lastRuns', $this->lastRuns, 'long');
     }
 }

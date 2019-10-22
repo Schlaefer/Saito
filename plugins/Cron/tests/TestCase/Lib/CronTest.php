@@ -18,28 +18,19 @@ use Saito\Test\SaitoTestCase;
 
 class CronTest extends SaitoTestCase
 {
-    public function testSimpleCronJobRun()
+    public function testSimpleCronJobRunEmptyPersistance()
     {
         $cron = new Cron();
         $mock = $this->getMockBuilder('stdClass')
             ->setMethods(['callback'])
             ->getMock();
-        $mock->expects($this->exactly(2))->method('callback');
+        $mock->expects($this->once())->method('callback');
         $cron->addCronJob('foo', '+1 day', [$mock, 'callback']);
 
-        $mock = $this->getMockBuilder('stdClass')
-            ->setMethods(['callback'])
-            ->getMock();
-        $mock->expects($this->exactly(3))->method('callback');
-        $cron->addCronJob('bar', '-1 day', [$mock, 'callback']);
-
-        $cron->execute();
-        $cron->execute();
-        $cron->clearHistory();
         $cron->execute();
     }
 
-    public function testDueIsUpdatedAndPersisted()
+    public function testDueIsReadUpdatedAndWritten()
     {
         $cron = new Cron();
 
@@ -64,5 +55,18 @@ class CronTest extends SaitoTestCase
         $result = Cache::read('Plugin.Cron.lastRuns', 'long');
         $this->assertEquals($lastRuns['notRun'], $result['notRun']);
         $this->assertWithinRange(strtotime($newDue), $result['run'], 2);
+    }
+
+    public function testGc()
+    {
+        $lastRuns = ['pastNotRun' => time() - 3, 'futureNotRun' => time() + 3];
+        Cache::write('Plugin.Cron.lastRuns', $lastRuns, 'long');
+
+        $cron = new Cron();
+        $cron->execute();
+
+        $result = Cache::read('Plugin.Cron.lastRuns', 'long');
+        $this->assertArrayNotHasKey('pastNotRun', $result);
+        $this->assertArrayHasKey('futureNotRun', $result);
     }
 }
