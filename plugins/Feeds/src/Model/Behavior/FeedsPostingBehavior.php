@@ -14,7 +14,6 @@ namespace Feeds\Model\Behavior;
 
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
-use Saito\App\Registry;
 
 class FeedsPostingBehavior extends Behavior
 {
@@ -28,10 +27,8 @@ class FeedsPostingBehavior extends Behavior
      */
     public function findFeed(Query $query)
     {
-        $CurrentUser = Registry::get('CU');
-
         return $query->contain('Users')
-            ->where(['category_id IN' => $CurrentUser->getCategories()->getAll('read')])
+            ->order(['last_answer' => 'DESC'])
             ->limit(10);
     }
 }

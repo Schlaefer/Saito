@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Saito\View\Cell;
 
 use Cake\View\Cell;
-use Saito\App\Registry;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 abstract class SlidetabCell extends Cell
 {
@@ -31,7 +31,7 @@ abstract class SlidetabCell extends Cell
     /**
      * {@inheritDoc}
      */
-    abstract public function display();
+    abstract public function display(CurrentUserInterface $CurrentUser);
 
     /**
      * {@inheritDoc}
@@ -45,8 +45,7 @@ abstract class SlidetabCell extends Cell
      */
     protected function _prepareRendering()
     {
-        $CurrentUser = Registry::get('CU');
         $slidetabId = $this->_getSlidetabId();
-        $this->set(compact('CurrentUser', 'slidetabId'));
+        $this->set(compact('slidetabId'));
     }
 }

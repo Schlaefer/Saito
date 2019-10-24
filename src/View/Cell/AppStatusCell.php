@@ -14,6 +14,7 @@ namespace App\View\Cell;
 
 use Cake\View\Cell;
 use Saito\App\Registry;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * AppStatus cell
@@ -32,9 +33,9 @@ class AppStatusCell extends Cell
     /**
      * {@inheritDoc}
      */
-    public function display()
+    public function display(CurrentUserInterface $CurrentUser)
     {
-        $this->set('CurrentUser', Registry::get('CU'));
+        $this->set('CurrentUser', $CurrentUser);
         $this->set('Stats', Registry::get('AppStats'));
     }
 }

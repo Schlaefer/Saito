@@ -14,7 +14,6 @@ namespace App\View\Cell;
 
 use App\Model\Table\EntriesTable;
 use Cake\ORM\TableRegistry;
-use Saito\App\Registry;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\View\Cell\SlidetabCell;
 
@@ -29,14 +28,12 @@ class SlidetabRecentpostsCell extends SlidetabCell
     /**
      * {@inheritDoc}
      */
-    public function display()
+    public function display(CurrentUserInterface $CurrentUser)
     {
-        /** @var CurrentUserInterface */
-        $CurrentUser = Registry::get('CU');
         /** @var EntriesTable */
         $Entries = TableRegistry::get('Entries');
         $recentEntries = $Entries->getRecentEntries($CurrentUser);
-        $this->set(compact('recentEntries'));
+        $this->set(compact('recentEntries', 'CurrentUser'));
     }
 
     /**

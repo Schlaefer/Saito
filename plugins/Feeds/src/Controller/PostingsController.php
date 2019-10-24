@@ -61,7 +61,7 @@ class PostingsController extends AppController
 
         $entries = $this->Entries
             ->find('feed')
-            ->order(['last_answer' => 'DESC']);
+            ->where(['category_id IN' => $this->CurrentUser->getCategories()->getAll('read')]);
         $this->set('entries', $entries);
 
         $this->set('titleForPage', __d('feeds', 'postings.new.t'));
@@ -78,8 +78,10 @@ class PostingsController extends AppController
 
         $entries = $this->Entries
             ->find('feed')
-            ->where(['pid' => 0])
-            ->order(['last_answer' => 'DESC']);
+            ->where([
+                'category_id IN' => $this->CurrentUser->getCategories()->getAll('read'),
+                'pid' => 0
+            ]);
         $this->set('entries', $entries);
 
         $this->set('titleForPage', __d('feeds', 'threads.new.t'));

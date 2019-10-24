@@ -11,6 +11,7 @@ use Cake\ORM\TableRegistry;
 use Saito\App\Registry;
 use Saito\Test\SaitoTestCase;
 use Saito\User\CurrentUser\CurrentUser;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
  * Class ThemesComponentTest
@@ -62,7 +63,7 @@ class ThreadsComponentTest extends SaitoTestCase
         $this->component->AuthUser->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
-        Registry::set('CU', (new CurrentUser([], $this->component->getController())));
+        $this->controller->CurrentUser = CurrentUserFactory::createDummy();
 
         $Entries = TableRegistry::get('Entries');
         $posting = $Entries->get(4);
@@ -87,7 +88,7 @@ class ThreadsComponentTest extends SaitoTestCase
         $this->component->AuthUser->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
-        Registry::set('CU', (new CurrentUser(['id' => 3], $this->component->getController())));
+        $this->controller->CurrentUser = CurrentUserFactory::createDummy(['id' => 3]);
 
         $Entries = TableRegistry::get('Entries');
         $posting = $Entries->get(4);

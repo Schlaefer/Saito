@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
+use App\Controller\AppController;
 use App\Model\Table\EntriesTable;
 use Cake\Controller\Component;
 use Cake\Controller\Component\PaginatorComponent;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Saito\App\Registry;
 use Saito\Posting\Posting;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
@@ -53,7 +53,9 @@ class ThreadsComponent extends Component
         $EntriesTable = TableRegistry::getTableLocator()->get('Entries');
         $this->Entries = $EntriesTable;
 
-        $CurrentUser = $this->_getCurrentUser();
+        /** @var AppController */
+        $controller = $this->getController();
+        $CurrentUser = $controller->CurrentUser;
         $initials = $this->_getInitialThreads($CurrentUser, $order);
         $threads = $this->Entries->treesForThreads($initials, $order);
 
@@ -138,7 +140,9 @@ class ThreadsComponent extends Component
 
         /** @var EntriesTable */
         $Entries = TableRegistry::getTableLocator()->get('Entries');
-        $CurrentUser = $this->_getCurrentUser();
+        /** @var AppController */
+        $controller = $this->getController();
+        $CurrentUser = $controller->CurrentUser;
 
         if ($type === 'thread') {
             $where = ['tid' => $posting->get('tid')];
@@ -156,18 +160,5 @@ class ThreadsComponent extends Component
         }
 
         $Entries->increment($posting->get('id'), 'views');
-    }
-
-    /**
-     * Get CurrentUser
-     *
-     * @return CurrentUserInterface
-     */
-    protected function _getCurrentUser(): CurrentUserInterface
-    {
-        /** @var CurrentUserInterface */
-        $CU = Registry::get('CU');
-
-        return $CU;
     }
 }

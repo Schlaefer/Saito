@@ -23,7 +23,7 @@ Stopwatch::start('layout/disclaimer.ctp');
             </div>
             <div class="disclaimer-card">
                 <h3><?= h(__('saito.dscl.status')) ?></h3>
-                <?= $this->cell('AppStatus') ?>
+                <?= $this->cell('AppStatus', ['CurrentUser' => $CurrentUser]) ?>
             </div>
             <div class="disclaimer-card">
                 <h3><?= h(__('saito.dscl.about')) ?></h3>

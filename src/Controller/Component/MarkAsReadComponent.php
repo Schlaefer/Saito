@@ -14,9 +14,7 @@ namespace App\Controller\Component;
 
 use App\Controller\AppController;
 use Cake\Controller\Component;
-use Saito\App\Registry;
 use Saito\Posting\PostingInterface;
-use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * Class MarkAsReadComponent
@@ -51,7 +49,9 @@ class MarkAsReadComponent extends Component
      */
     public function next()
     {
-        $CU = Registry::get('CU');
+        /** @var AppController */
+        $controller = $this->getController();
+        $CU = $controller->CurrentUser;
         if (!$CU->isLoggedIn() || !$CU->get('user_automaticaly_mark_as_read')) {
             return;
         }
@@ -68,8 +68,9 @@ class MarkAsReadComponent extends Component
      */
     public function refresh(array $options = [])
     {
-        /** @var CurrentUserInterface */
-        $CU = Registry::get('CU');
+        /** @var AppController */
+        $controller = $this->getController();
+        $CU = $controller->CurrentUser;
         if ($this->request->is('preview') || !$CU->isLoggedIn()) {
             return false;
         }
