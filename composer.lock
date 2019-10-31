@@ -4,31 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fe3322e84051ba16558d0c8bd7d5df2",
+    "content-hash": "99f1b718749b0447db98a4a4a2414566",
     "packages": [
         {
             "name": "aura/di",
-            "version": "2.2.5",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/auraphp/Aura.Di.git",
-                "reference": "e485b235d4c3841a7e8959158ac7e69f425a52c5"
+                "reference": "ea4b166e9006babca411732c4d45ee14efa32259"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.Di/zipball/e485b235d4c3841a7e8959158ac7e69f425a52c5",
-                "reference": "e485b235d4c3841a7e8959158ac7e69f425a52c5",
+                "url": "https://api.github.com/repos/auraphp/Aura.Di/zipball/ea4b166e9006babca411732c4d45ee14efa32259",
+                "reference": "ea4b166e9006babca411732c4d45ee14efa32259",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=7.2.0",
+                "psr/container": "^1.0"
+            },
+            "provide": {
+                "psr/container-implementation": "^1.0"
+            },
+            "require-dev": {
+                "acclimate/container": "^2",
+                "phpunit/phpunit": "^7",
+                "producer/producer": "^2.3"
             },
             "type": "library",
-            "extra": {
-                "aura": {
-                    "type": "library"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Aura\\Di\\": "src/"
@@ -36,7 +40,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-2-Clause"
+                "MIT"
             ],
             "authors": [
                 {
@@ -44,7 +48,7 @@
                     "homepage": "https://github.com/auraphp/Aura.Di/contributors"
                 }
             ],
-            "description": "Provides a dependency injection container system with native support for constructor- and setter-based injection, lazy-loading of services, and inheritable configuration of setters and constructor params.",
+            "description": "A serializable dependency injection container with constructor and setter injection, interface and trait awareness, configuration inheritance, and much more.",
             "homepage": "https://github.com/auraphp/Aura.Di",
             "keywords": [
                 "container",
@@ -53,7 +57,7 @@
                 "di",
                 "di container"
             ],
-            "time": "2018-12-24T14:20:59+00:00"
+            "time": "2019-04-26T12:07:02+00:00"
         },
         {
             "name": "aura/intl",

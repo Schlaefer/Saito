@@ -14,6 +14,7 @@
 - Internal code changes:
   - Δ Increases phpstan static code analysis from level 3 to 4
   - Δ Changes passing of current-user throughout the app
+  - Δ Updates aura/di from 2.x to 4.x
 
 [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.4.1...5.5.0)
 

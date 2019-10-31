@@ -19,7 +19,7 @@
     "josegonzalez/dotenv": "*",
     "mobiledetect/mobiledetectlib": "2.*",
 
-    "aura/di": "^2.2.5",
+    "aura/di": "^4.0",
     "davidyell/proffer": "^1.0",
     "jbbcode/jbbcode": "~1.4",
     "markstory/geshi": "^3",

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Saito\App;
 
 use Aura\Di\Container;
+use Aura\Di\ContainerBuilder;
 use Cake\Core\Configure;
 use Cron\Lib\Cron;
 use Saito\Markup\MarkupSettings;
@@ -24,20 +25,19 @@ use Saito\Markup\MarkupSettings;
  */
 class Registry
 {
-
     /**
      * @var Container;
      */
-    protected static $_DIC;
+    protected static $dic;
 
     /**
-     * Initialize
+     * Resets and initializes registry.
      *
      * @return Container
      */
     public static function initialize()
     {
-        $dic = new Container(new \Aura\Di\Factory);
+        $dic = (new ContainerBuilder())->newInstance();
         $dic->set('Cron', new Cron());
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
 
@@ -47,7 +47,7 @@ class Registry
         $dic->set('Markup', $dic->lazyNew($markupClass));
         $dic->params[$markupClass]['settings'] = $dic->lazyGet('MarkupSettings');
 
-        self::$_DIC = $dic;
+        self::$dic = $dic;
 
         return $dic;
     }
@@ -59,9 +59,9 @@ class Registry
      * @param object $object object
      * @return void
      */
-    public static function set($key, $object)
+    public static function set(string $key, object $object)
     {
-        self::$_DIC->set($key, $object);
+        self::$dic->set($key, $object);
     }
 
     /**
@@ -70,9 +70,9 @@ class Registry
      * @param string $key key
      * @return object
      */
-    public static function get($key)
+    public static function get(string $key): object
     {
-        return self::$_DIC->get($key);
+        return self::$dic->get($key);
     }
 
     /**
@@ -83,11 +83,8 @@ class Registry
      * @param array $setter setter
      * @return object
      */
-    public static function newInstance(
-        $key,
-        array $params = [],
-        array $setter = []
-    ) {
-        return self::$_DIC->newInstance($key, $params, $setter);
+    public static function newInstance($key, array $params = [], array $setter = []): object
+    {
+        return self::$dic->newInstance($key, $params, $setter);
     }
 }
