@@ -19,7 +19,6 @@ class SettingFixture extends TestFixture
 
     public $records = [
         ['id' => '1', 'name' => 'autolink', 'value' => '1'],
-        ['id' => '2', 'name' => 'block_user_ui', 'value' => '1'],
         ['id' => '3', 'name' => 'db_version', 'value' => null],
         ['id' => '4', 'name' => 'edit_delay', 'value' => '3'],
         ['id' => '5', 'name' => 'edit_period', 'value' => '20'],

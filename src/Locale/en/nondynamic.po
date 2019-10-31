@@ -148,14 +148,6 @@ msgid "email_system_exp"
 msgstr "Used as sender address for system generated messages (e.g. notifications). (optional, if empty main address is used)"
 
 #
-msgid "block_user_ui"
-msgstr "Lock Users"
-
-#
-msgid "block_user_ui_exp"
-msgstr "Moderators are allowed to block users."
-
-#
 msgid "store_ip"
 msgstr "Store IP"
 
@@ -381,4 +373,21 @@ msgstr "Unhappy"
 msgid "smilies.t.wink"
 msgstr "Wink"
 
+#*******************************************************************************
+#* Permission roles
+#******************************************************************************/
 
+msgid "permission.role.0"
+msgstr "Anonymous"
+
+msgid "permission.role.1"
+msgstr "User"
+
+msgid "permission.role.2"
+msgstr "Moderator"
+
+msgid "permission.role.3"
+msgstr "Administrator"
+
+msgid "permission.role.4"
+msgstr "Owner"

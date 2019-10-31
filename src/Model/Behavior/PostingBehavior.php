@@ -97,9 +97,9 @@ class PostingBehavior extends Behavior
     {
         $data = $this->fieldFilter->filterFields($data, 'update');
         $isRoot = $posting->isRoot();
-        $parent = $this->getTable()->get($posting->get('pid'));
 
         if (!$isRoot) {
+            $parent = $this->getTable()->get($posting->get('pid'));
             $data = $this->prepareChildPosting($parent, $data);
         }
 
@@ -108,6 +108,7 @@ class PostingBehavior extends Behavior
         /// must be set for validation
         $data['locked'] = $posting->get('locked');
         $data['fixed'] = $posting->get('fixed');
+        $data['category_id'] = $data['category_id'] ?? $posting->get('category_id');
 
         $data['pid'] = $posting->get('pid');
         $data['time'] = $posting->get('time');
@@ -140,7 +141,7 @@ class PostingBehavior extends Behavior
             $data['subject'] = $parent->get('subject');
         }
 
-        $data['category_id'] = $parent->get('category_id');
+        $data['category_id'] = $data['category_id'] ?? $parent->get('category_id');
         $data['tid'] = $parent->get('tid');
 
         return $data;

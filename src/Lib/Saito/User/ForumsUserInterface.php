@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Saito\User;
 
-use App\Model\Entity\User;
+use Saito\User\Permission\Identifier\IdentifierInterface;
 
 interface ForumsUserInterface
 {
@@ -32,21 +32,6 @@ interface ForumsUserInterface
      * @return void
      */
     public function set(string $setting, $value);
-
-    /**
-     * Sets all (and replaces existing) settings for a user
-     *
-     * @param array $settings Settings
-     * @return void
-     */
-    public function setSettings(array $settings): void;
-
-    /**
-     * Get all settings
-     *
-     * @return array
-     */
-    public function getSettings(): array;
 
     /**
      * Get user's id.
@@ -83,4 +68,20 @@ interface ForumsUserInterface
      * @return bool
      */
     public function isUser(ForumsUserInterface $user): bool;
+
+    /**
+     * Get number of postings
+     *
+     * @return int
+     */
+    public function numberOfPostings(): int;
+
+    /**
+     * Check if user has permission to access a resource.
+     *
+     * @param string $resource resource
+     * @param IdentifierInterface ...$identifiers Identifier
+     * @return bool
+     */
+    public function permission(string $resource, IdentifierInterface ...$identifiers): bool;
 }

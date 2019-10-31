@@ -1,6 +1,7 @@
 <?php
 
-use Cake\Utility\Text;
+use Saito\User\Permission\Identifier\Owner;
+use Saito\User\Permission\Identifier\Role;
 
 $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack();
@@ -14,13 +15,11 @@ $urlToHistory = [
     '?' => ['name' => $user->get('username')]
 ];
 
+$role = $this->Permissions->roleAsString($user->getRole());
 $table = [
     [
         __('username_marking'),
-        h(
-            $user->get('username')
-        ) . " <span class='infoText'>({$this->User->type($user->get('user_type'))})</span>",
-        # @td user_type for mod and admin
+        h($user->get('username')) . " <span class='infoText'>({$role})</span>",
     ]
 ];
 
@@ -29,7 +28,7 @@ $table[] = [
     $this->User->getAvatar($user, ['link' => false])
 ];
 
-if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate')) {
+if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate.view')) {
     $table[] = [
         h(__('user.actv.t')),
         h(__('user.actv.ny'))
@@ -172,11 +171,9 @@ if ($items) {
         </div>
 
         <?php
-        $isLoggedIn = $CurrentUser->isLoggedIn();
-        $isUsersEntry = $user->isUser($CurrentUser);
-
         $panel = '';
-        if ($isUsersEntry) {
+
+        if ($CurrentUser->permission('saito.core.user.edit', new Role($user->getRole()), new Owner($user))) {
             $panel .= $this->Html->link(
                 __('edit_userdata'),
                 ['action' => 'edit', $user->get('id')],
@@ -186,7 +183,8 @@ if ($items) {
                 ]
             );
         }
-        if ($isLoggedIn && !$isUsersEntry) {
+        if (!$CurrentUser->isUser($user)) {
+            // START User ignore
             if ($CurrentUser->ignores($user->get('id'))) {
                 $panel .= $this->Form->postLink(
                     $this->Layout->textWithIcon(
@@ -216,39 +214,39 @@ if ($items) {
                     ]
                 );
             }
-
-            $menuItems = [];
-
-            if ($CurrentUser->permission('saito.core.user.edit')) {
-                // edit user
-                $menuItems[] = $this->Html->link(
-                    '<i class="fa fa-pencil"></i> ' . __('Edit'),
-                    ['action' => 'edit', $user->get('id')],
-                    ['class' => 'dropdown-item', 'escape' => false]
-                );
-                $menuItems[] = 'divider';
-
-                // delete user
-                $menuItems[] = $this->Html->link(
-                    '<i class="fa fa-trash-o"></i> ' . h(__('Delete')),
-                    [
-                        'plugin' => 'admin',
-                        'controller' => 'Users',
-                        'action' => 'delete',
-                        $user->get('id'),
-                    ],
-                    ['class' => 'dropdown-item', 'escape' => false]
-                );
-            }
-            if ($menuItems) {
-                $panel .= $this->Layout->dropdownMenuButton(
-                    $menuItems,
-                    [
-                        'class' => 'btn btn-link',
-                    ]
-                );
-            }
+            // END User ignore
         }
+
+        // START Admin menu
+        $menuItems = [];
+
+        $deleteAllowed = !$CurrentUser->isUser($user) && $CurrentUser->permission('saito.core.user.delete', new Role($user->getRole()));
+        if ($deleteAllowed) {
+            if (!empty($menuItems)) {
+                $menuItems[] = 'divider';
+            }
+            ?>
+
+            <?php
+            // delete user
+            $menuItems[] = $this->Html->link(
+                '<i class="fa fa-fw fa-trash-o"></i> ' . h(__('Delete')),
+                '#',
+                [
+                    'class' => 'dropdown-item',
+                    'escape' => false,
+                    'onclick' => "event.preventDefault(); $('#deleteUserModal').modal('show');",
+                ]
+            );
+        }
+
+        if ($menuItems) {
+            $panel .= $this->Layout->dropdownMenuButton(
+                $menuItems,
+                ['class' => 'btn btn-link']
+            );
+        }
+        // END Admin menu
         if ($panel) { ?>
             <div class="card-footer"><?= $panel ?></div>
             <?php
@@ -256,7 +254,7 @@ if ($items) {
         ?>
     </div>
     <?php
-    if ($modLocking) { ?>
+    if ($CurrentUser->permission('saito.core.user.lock.set', new Role($user->getRole()))) { ?>
         <div class="card mb-3">
             <div class="card-header">
                 <?= $this->Layout->panelHeading(__('user.block.history')) ?>
@@ -344,6 +342,65 @@ if ($items) {
     }
     ?>
 </div>
+
+<?php if ($deleteAllowed) : ?>
+<div id="deleteUserModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <?= $this->Form->create(null, ['method' => 'POST', 'url' => ['action' => 'delete', $user->getId()]]) ?>
+        <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">
+                <?= __('user.del.exp.1', h($user->get('username'))) ?>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-error">
+                <ul>
+                    <li>
+                        <?= __('user.del.exp.2') ?>
+                    </li>
+                    <li>
+                        <?= __('user.del.exp.3') ?>
+                    </li>
+                    <li>
+                        <?= __('user.del.exp.4') ?>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group form-check">
+                <?= $this->Form->control(
+                    'userdeleteconfirm',
+                    [
+                        'class' => 'form-input mr-1',
+                        'label' => __('user.del.confirm'),
+                        'required' => true,
+                        'type' => 'checkbox',
+                    ]
+                )?>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <?php
+            $this->Form->setTemplates(['submitContainer' => '{{content}}']);
+            echo $this->Form->submit(
+                __('user.del.btn.t'),
+                ['class' => 'btn btn-danger']
+            );
+            echo ' ';
+            echo $this->Form->button(
+                __('Cancel'),
+                ['class' => 'btn', 'data-dismiss' => 'modal']
+            );
+            ?>
+        </div>
+        <?= $this->Form->end() ?>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
 
 <script type="text/template" id="tpl-recentposts">
     <div class="panel">

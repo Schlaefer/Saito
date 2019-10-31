@@ -15,6 +15,7 @@ namespace Saito\Test;
 use Cake\Core\Configure;
 use Cake\Event\EventManager;
 use Cake\Filesystem\File;
+use Cake\I18n\I18n;
 use Cake\Mailer\TransportFactory;
 use Cake\Utility\Inflector;
 use Saito\App\Registry;
@@ -22,7 +23,9 @@ use Saito\Cache\CacheSupport;
 
 trait TestCaseTrait
 {
-    protected $saitoSettings;
+    private $saitoSettings;
+
+    protected $saitoPermissions;
 
     /**
      * set-up saito
@@ -70,7 +73,8 @@ trait TestCaseTrait
     protected function _storeSettings()
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
-        Configure::write('Saito.language', 'en');
+        $this->saitoPermissions = clone(Configure::read('Saito.Permissions'));
+        $this->setI18n('en');
         Configure::write('Saito.Settings.ParserPlugin', \Plugin\BbcodeParser\src\Lib\Markup::class);
         Configure::write('Saito.Settings.uploader', clone($this->saitoSettings['uploader']));
     }
@@ -82,9 +86,20 @@ trait TestCaseTrait
      */
     protected function _restoreSettings()
     {
-        if ($this->saitoSettings !== null) {
-            Configure::write('Saito.Settings', $this->saitoSettings);
-        }
+        Configure::write('Saito.Settings', $this->saitoSettings);
+        Configure::write('Saito.Permissions', $this->saitoPermissions);
+    }
+
+    /**
+     * Set the current translation language
+     *
+     * @param string $lang language code
+     * @return void
+     */
+    public function setI18n(string $lang): void
+    {
+        Configure::write('Saito.language', $lang);
+        I18n::setLocale($lang);
     }
 
     /**

@@ -35,7 +35,7 @@ $this->element('users/menu');
                         <td>
                             <?php
                             $u = [
-                                $this->User->type($user->get('user_type')),
+                                $this->Permissions->roleAsString($user->getRole()),
                                 __(
                                     'user_since {0}',
                                     $this->TimeH->formatTime(
@@ -47,7 +47,7 @@ $this->element('users/menu');
                             if ($user->get('user_online') && $user->get('user_online')['logged_in']) {
                                 $u[] = __('Online');
                             }
-                            if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate')) {
+                            if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate.view')) {
                                 $u[] = h(__('user.actv.ny'));
                             }
                             if ($user->isLocked()) {

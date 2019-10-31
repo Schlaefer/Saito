@@ -1,5 +1,5 @@
 <?php $this->Breadcrumbs->add(__('Categories'), '/admin/categories'); ?>
-<?php $this->Breadcrumbs->add(__d('admin', 'cat.del.t', $category->get('category')), '#'); ?>
+<?php $this->Breadcrumbs->add(__d('admin', 'cat.del.t', $category->get('category'))); ?>
 
 <h1>
     <?= h(__d('admin', 'cat.del.t', $category->get('category'))) ?>

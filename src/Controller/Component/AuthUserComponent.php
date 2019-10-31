@@ -72,6 +72,13 @@ class AuthUserComponent extends Component
     protected $UsersTable = null;
 
     /**
+     * Array of authorized actions 'action' => 'resource'
+     *
+     * @var array
+     */
+    private $actionAuthorizationResources = [];
+
+    /**
      * {@inheritDoc}
      */
     public function initialize(array $config)
@@ -113,7 +120,7 @@ class AuthUserComponent extends Component
     public function startup()
     {
         if (!$this->isAuthorized($this->CurrentUser)) {
-            throw new ForbiddenException();
+            throw new ForbiddenException(null, 1571852880);
         }
     }
 
@@ -345,6 +352,18 @@ class AuthUserComponent extends Component
     }
 
     /**
+     * The controller action will be authorized with a permission resource.
+     *
+     * @param string $action The controller action to authorize.
+     * @param string $resource The permission resource token.
+     * @return void
+     */
+    public function authorizeAction(string $action, string $resource)
+    {
+        $this->actionAuthorizationResources[$action] = $resource;
+    }
+
+    /**
      * Check if user is authorized to access the current action.
      *
      * @param CurrentUser $user The current user.
@@ -352,16 +371,13 @@ class AuthUserComponent extends Component
      */
     private function isAuthorized(CurrentUser $user)
     {
-        $controller = $this->getController();
-        $action = $controller->getRequest()->getParam('action');
-
-        if (isset($controller->actionAuthConfig)
-            && isset($controller->actionAuthConfig[$action])) {
-            $requiredRole = $controller->actionAuthConfig[$action];
-
-            return $user->permission($requiredRole);
+        /// Authorize action through resource
+        $action = $this->getController()->getRequest()->getParam('action');
+        if (isset($this->actionAuthorizationResources[$action])) {
+            return $user->permission($this->actionAuthorizationResources[$action]);
         }
 
+        /// Authorize admin area
         $prefix = $this->request->getParam('prefix');
         $plugin = $this->request->getParam('plugin');
         $isAdminRoute = ($prefix && strtolower($prefix) === 'admin')

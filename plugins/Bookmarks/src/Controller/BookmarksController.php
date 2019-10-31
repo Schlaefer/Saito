@@ -21,6 +21,8 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Saito\Exception\SaitoForbiddenException;
+use Saito\User\Permission\Identifier\Owner;
+use Saito\User\SaitoUser;
 
 /**
  * Bookmarks Controller
@@ -147,7 +149,7 @@ class BookmarksController extends ApiAppController
             throw new NotFoundException(__('Invalid bookmark.'));
         }
 
-        if ($bookmark->get('user_id') !== $this->CurrentUser->getId()) {
+        if (!$this->CurrentUser->permission('saito.plugin.bookmarks.delete', new Owner($bookmark->get('user_id')))) {
             throw new SaitoForbiddenException(
                 "Attempt to access bookmark $bookmarkId."
             );

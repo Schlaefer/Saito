@@ -157,14 +157,6 @@ msgid "email_system_exp"
 msgstr "Adresse für vom System erzeugten Emails (bspw. Thread-Abonnements). (optional, falls leer wird Hauptadresse verwendet)"
 
 #
-msgid "block_user_ui"
-msgstr "Nutzer sperren"
-
-#
-msgid "block_user_ui_exp"
-msgstr "Moderatoren dürfen Benutzer sperren."
-
-#
 msgid "store_ip"
 msgstr "IP speichern"
 
@@ -414,3 +406,22 @@ msgstr "Traurig"
 
 msgid "smilies.t.wink"
 msgstr "Zwinker"
+
+#*******************************************************************************
+#* Permission roles
+#******************************************************************************/
+
+msgid "permission.role.0"
+msgstr "Anonym"
+
+msgid "permission.role.1"
+msgstr "Benutzer"
+
+msgid "permission.role.2"
+msgstr "Moderator"
+
+msgid "permission.role.3"
+msgstr "Administrator"
+
+msgid "permission.role.4"
+msgstr "Eigentümer"

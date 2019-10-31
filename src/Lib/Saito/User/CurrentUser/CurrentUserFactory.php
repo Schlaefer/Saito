@@ -87,7 +87,7 @@ class CurrentUserFactory
      */
     public static function createDummy(?array $config = []): CurrentUserInterface
     {
-        $config['user_type'] = 'anon';
+        $config['user_type'] = $config['user_type'] ?? 'anon';
         $CurrentUser = new CurrentUser($config);
 
         $CurrentUser->setCategories(new Categories($CurrentUser));

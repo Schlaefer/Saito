@@ -21,6 +21,10 @@ use Zend\Diactoros\ServerRequest;
 
 class ApplicationTest extends SaitoTestCase
 {
+    public $fixtures = [
+        'app.Category',
+    ];
+
     private const API_ROOT = 'api/v2';
 
     /** @var Application */

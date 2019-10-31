@@ -89,4 +89,19 @@ class AppControllerTest extends IntegrationTestCase
         $this->assertResponseNotContains($text);
         $this->assertResponseCode(200);
     }
+
+    public function testRegisterLinkIsShown()
+    {
+        $this->setI18n('bzg');
+        $this->get('/');
+        $this->assertResponseContains('register_linkname');
+    }
+
+    public function testRegisterLinkNotShown()
+    {
+        $this->setI18n('bzg');
+        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        $this->get('/');
+        $this->assertResponseNotContains('register_linkname');
+    }
 }

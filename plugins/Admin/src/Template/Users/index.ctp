@@ -20,21 +20,18 @@ $this->Breadcrumbs->add(__('Users'), false);
             __('username_marking'),
             __('user_type'),
             __('user_email'),
-            __("registered"),
+            __('registered'),
+            __('user.set.lock.t'),
         ];
-        if (Configure::read('Saito.Settings.block_user_ui')) :
-            $tableHeaders[] = __('user.set.lock.t');
-        endif;
         echo $this->Html->tableHeaders($tableHeaders);
         ?>
         </thead>
         <tbody>
         <?php
-        $blockUi = Configure::read('Saito.Settings.block_user_ui');
         foreach ($users as $user) {
             $tableCells = [
                 '<strong>' . $this->Html->link($user->get('username'), "/users/view/{$user->get('id')}") . '</strong>',
-                $this->User->type($user->get('user_type')),
+                $this->Permissions->roleAsString($user->getRole()),
                 $this->Html->link(
                     $user->get('user_email'),
                     'mailto:' . $user->get('user_email')
@@ -44,12 +41,10 @@ $this->Breadcrumbs->add(__('Users'), false);
                     $user->get('registered'),
                     '%Y-%m-%d %H:%M',
                     ['wrap' => false]
-                )
-            ];
-            if ($blockUi) {
+                ),
                 // without the &nbsp; the JS-sorting with the datatables plugin doesn't work
-                $tableCells[] = $this->User->banned($user->get('user_lock')) . '&nbsp;';
-            }
+                $this->User->banned($user->get('user_lock')) . '&nbsp;',
+            ];
             echo $this->Html->tableCells(
                 [$tableCells],
                 ['class' => 'a'],

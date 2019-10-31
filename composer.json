@@ -99,12 +99,11 @@
 
     "cs-check": "phpcs --runtime-set ignore_warnings_on_exit true",
     "cs-fix": "phpcbf > /dev/null || true",
-    "check": ["@cs-fix", "@cs-check"],
+    "php-check": ["@phpstan", "@cs-fix", "@cs-check"],
     "phpstan": "vendor/bin/phpstan analyse --ansi",
     "coverage": [
-      "unset XDEBUG_CONFIG",
       "Composer\\Config::disableProcessTimeout",
-      "composer phpunit -- --coverage-html docs/local/"
+      "unset XDEBUG_CONFIG; composer phpunit -- --coverage-html docs/local/"
     ],
     "phpunit-stop": [
       "Composer\\Config::disableProcessTimeout",
@@ -117,8 +116,7 @@
     "test": [
       "unset XDEBUG_CONFIG",
       "@phpunit",
-      "@phpstan",
-      "@check"
+      "@php-check"
     ],
 
     "js-all": "yarn run test",

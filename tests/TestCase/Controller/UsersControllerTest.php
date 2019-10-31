@@ -2,16 +2,13 @@
 
 namespace App\Test\TestCase\Controller;
 
-use Authentication\PasswordHasher\PasswordHasherFactory;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
-use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\ForbiddenException;
-use Cake\Http\Exception\NotFoundException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Exception\SaitoForbiddenException;
@@ -19,9 +16,9 @@ use Saito\Test\IntegrationTestCase;
 
 class UsersControllerTest extends IntegrationTestCase
 {
-
     public $fixtures = [
         'app.Category',
+        'app.Draft',
         'app.Entry',
         'app.Setting',
         'app.Smiley',
@@ -31,7 +28,8 @@ class UsersControllerTest extends IntegrationTestCase
         'app.UserIgnore',
         'app.UserOnline',
         'app.UserRead',
-        'plugin.Bookmarks.Bookmark'
+        'plugin.Bookmarks.Bookmark',
+        'plugin.ImageUploader.Uploads',
     ];
 
     public function testAdminAddSuccess()
@@ -211,7 +209,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertTrue($exists);
     }
 
-    public function testRegisterViewForm()
+    public function testRegisterViewFormSuccess()
     {
         $this->get('/users/register');
 
@@ -254,6 +252,14 @@ class UsersControllerTest extends IntegrationTestCase
             ]
         ];
         $this->assertContainsTag($expected, (string)$this->_response->getBody());
+    }
+
+    public function testRegisterViewFormFailureNoPermission()
+    {
+        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        $this->expectException(ForbiddenException::class);
+        $this->expectExceptionCode(1571852880);
+        $this->get('/users/register');
     }
 
     public function testRegisterCheckboxNotOnPage()
@@ -422,6 +428,14 @@ class UsersControllerTest extends IntegrationTestCase
 
         $user = $Users->get(10);
         $this->assertEquals(0, $user->get('activate_code'));
+    }
+
+    public function testRsFailureNoPermission()
+    {
+        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        $this->expectException(ForbiddenException::class);
+        $this->expectExceptionCode(1571852880);
+        $this->get('/users/rs/10/?c=1549');
     }
 
     public function testRsFailureWrongCode()
@@ -709,6 +723,13 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertRedirect('/users/view/2');
     }
 
+    public function testEditViewUserDoesNotExist()
+    {
+        $this->_loginUser(1);
+        $this->expectException(RecordNotFoundException::class);
+        $this->get('/users/edit/9999');
+    }
+
     public function testEditNotLoggedIn()
     {
         $url = '/users/edit/3';
@@ -790,38 +811,48 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertEquals(0, $Ignores->find()->count());
     }
 
+    public function testLockFailureNotLoggedIn()
+    {
+        $this->mockSecurity();
+
+        /* not logged in should'nt be allowed */
+        $this->post('/users/lock', ['lockUserId' => 3]);
+        $this->assertRedirectContains('/login');
+    }
+
+    public function testLockFailureUserDontLockUsers()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(3);
+
+        $this->expectException(ForbiddenException::class);
+
+        $this->post('/users/lock', ['lockUserId' => 4]);
+    }
+
     public function testLockFailure()
     {
         /* setup */
         $this->mockSecurity();
         $Users = TableRegistry::get('Users');
 
-        /* not logged in should'nt be allowed */
-        $this->post('/users/lock', ['lockUserId' => 3]);
-        $this->assertRedirectContains('/login');
-
-        // user can't lock other users
-        $this->_loginUser(3);
-        try {
-            $this->post('/users/lock', ['lockUserId' => 4]);
-        } catch (BadRequestException $e) {
-        }
-        $user = $Users->findById(4)->first();
-        $this->assertFalse($user->get('user_lock'));
-
-        $this->_loginUser(2);
+        $this->_loginUser(11);
 
         // you can't lock yourself out
-        $this->post('/users/lock', ['lockUserId' => 2]);
-        $user = $Users->findById(2)->first();
-        $this->assertTrue($user->get('user_lock') == false);
+        $this->post('/users/lock', ['lockUserId' => 11]);
+        $user = $Users->findById(11)->first();
+        $this->assertFalse($user->get('user_lock'));
+    }
 
-        // mod can't lock admin
-        $this->post('/users/lock', ['lockUserId' => 1]);
-        $user = $Users->findById(1)->first();
-        $this->assertTrue($user->get('user_lock') == false);
+    public function testLockFailureNoPermission()
+    {
+        Configure::read('Saito.Permissions')->allowAll('saito.core.user.lock.set', false);
+        $this->mockSecurity();
+        $this->_loginUser(11);
 
-        // user does not exit
+        $this->expectException(ForbiddenException::class, 1571316877);
+
+        $this->post('/users/lock', ['lockUserId' => 11]);
     }
 
     public function testLockAndUnlockSuccess()
@@ -837,11 +868,11 @@ class UsersControllerTest extends IntegrationTestCase
 
         $this->post('/users/lock', ['lockUserId' => 3]);
         $user = $Users->findById(3)->first();
-        $this->assertTrue($user->get('user_lock') == true);
+        $this->assertTrue($user->get('user_lock'));
 
         $this->post('/users/lock', ['lockUserId' => 4]);
         $user = $Users->findById(4)->first();
-        $this->assertTrue($user->get('user_lock') == true);
+        $this->assertTrue($user->get('user_lock'));
 
         // mod unlocks user in reverse order
         $this->get('/users/unlock/' . ($count + 2));
@@ -861,7 +892,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->mockSecurity();
         $this->_loginUser(2);
 
-        $this->expectException(NotFoundException::class, 1524298280);
+        $this->expectException(RecordNotFoundException::class);
 
         $this->post('/users/lock', ['lockUserId' => 9999]);
     }
@@ -1110,29 +1141,19 @@ class UsersControllerTest extends IntegrationTestCase
     /**
      * Mod menu is currently empty for mod
      */
-    public function testViewModButtonEmpty()
+    public function testViewBlockButtonEmpty()
     {
-        Configure::write('Saito.Settings.block_user_ui', false);
-        $this->_loginUser(2);
+        $this->_loginUser(3);
         $this->get('users/view/5');
         $this->assertResponseNotContains('dropdown');
     }
 
-    public function testViewModButtonBlockUiTrue()
+    public function testViewBlockButtonBlockUiTrue()
     {
-        Configure::write('Saito.Settings.block_user_ui', true);
         $this->_loginUser(2);
         $this->get('users/view/5');
         $result = (string)$this->_response->getBody();
         $this->assertXPath($result, '//input[@value=5][@name="lockUserId"]');
-    }
-
-    public function testViewModButtonBlockUiFalse()
-    {
-        Configure::write('Saito.Settings.block_user_ui', false);
-        $this->_loginUser(2);
-        $this->get('users/view/5');
-        $this->assertResponseNotContains('users/lock/5');
     }
 
     public function testAvatarGetNotLoggedInFailure()
@@ -1140,6 +1161,13 @@ class UsersControllerTest extends IntegrationTestCase
         $url = '/users/avatar/3';
         $this->get($url);
         $this->assertRedirectLogin($url);
+    }
+
+    public function testAvatarUserNotFound()
+    {
+        $this->_loginUser(1);
+        $this->expectException(RecordNotFoundException::class);
+        $this->get('/users/avatar/9999');
     }
 
     public function testAvatarGetSuccess()
@@ -1356,6 +1384,151 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertTrue($cookie->isExpired());
         $this->assertSame($this->_controller->request->getAttribute('webroot'), $cookie->getPath());
 
+        $this->assertRedirect('/');
+    }
+
+    public function testRoleViewUserUnauthenticated()
+    {
+        $url = '/users/role/3';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
+    }
+
+    public function testRoleUserViewDoesntExist()
+    {
+        $this->_loginUser(1);
+        $this->expectException(RecordNotFoundException::class);
+        $this->get('/users/role/9999');
+    }
+
+    public function testRoleViewUnauthorized()
+    {
+        $this->_loginUser(3);
+        $this->expectException(ForbiddenException::class);
+        $this->get('/users/role/3');
+    }
+
+    public function testRoleViewSuccessAdmin()
+    {
+        $this->_loginUser(1);
+        $this->get('/users/role/3');
+        $this->assertResponseCode(200);
+
+        // Don't show anon
+        $this->assertResponseNotContains('user-type-anon');
+        $this->assertResponseContains('user-type-user');
+        $this->assertResponseContains('user-type-mod');
+        $this->assertResponseContains('user-type-admin');
+    }
+
+    public function testRolePostTypeNotAllowed()
+    {
+        $this->setI18n('bsz');
+        $this->_loginUser(1);
+        $this->mockSecurity();
+
+        $data = ['user_type' => 'foo'];
+        $this->post('/users/role/3', $data);
+
+        $this->assertResponseContains('vld.user.user_type.allowedType');
+        $this->assertEquals('user', $this->_controller->Users->get(3)->get('user_type'));
+    }
+
+    public function testRolePostSuccess()
+    {
+        $this->_loginUser(1);
+        $this->mockSecurity();
+        $userId = 3;
+        $newType = 'admin';
+
+        $data = ['user_type' => $newType];
+        $this->post("/users/role/$userId", $data);
+
+        $this->assertRedirect('/users/edit/3');
+
+        $Users = TableRegistry::getTableLocator()->get('Users');
+        $this->assertTrue($Users->get($userId)->getRole() === $newType);
+    }
+
+    public function testRolePostUnauthorized()
+    {
+        $this->_loginUser(2);
+        $this->mockSecurity();
+        $userId = 3;
+        $newType = 'admin';
+
+        $this->expectException(ForbiddenException::class);
+
+        $data = ['user_type' => $newType];
+        $this->post("/users/role/$userId", $data);
+    }
+
+    public function testDeleteNotAuthenticatedCantDelete()
+    {
+        $this->mockSecurity();
+        $url = '/users/delete/3';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
+    }
+
+    public function testDeleteNoPermission()
+    {
+        Configure::read('Saito.Permissions')->allowAll('saito.core.user.delete', false);
+        $this->mockSecurity();
+        $this->_loginUser(11);
+
+        $this->expectException(ForbiddenException::class);
+        $this->expectExceptionCode(1571811593);
+
+        $url = '/users/delete/4';
+        $this->get($url);
+    }
+
+    public function testUserDoesNotExist()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(1);
+
+        $this->expectException(RecordNotFoundException::class);
+        $this->post('/users/delete/9999');
+    }
+
+    public function testDeleteFailureNoConfirmation()
+    {
+        $this->setI18n('bzs');
+        $this->mockSecurity();
+        $this->_loginUser(1);
+        $userToDelete = 3;
+
+        $this->post('/users/delete/' . $userToDelete);
+
+        $this->assertTrue($this->_controller->Users->exists($userToDelete));
+        $this->assertFlash('user.del.fail.3', 'error');
+    }
+
+    public function testDeleteYourselfFailure()
+    {
+        $this->setI18n('bzs');
+        $this->mockSecurity();
+        $userToDelete = 11;
+        $this->_loginUser($userToDelete);
+
+        $data = ['userdeleteconfirm' => 1];
+        $this->post('/users/delete/' . $userToDelete, $data);
+
+        $this->assertTrue($this->_controller->Users->exists($userToDelete));
+        $this->assertFlash('user.del.fail.1', 'error');
+    }
+
+    public function testDeleteSuccess()
+    {
+        $this->mockSecurity();
+        $this->_loginUser(6);
+        $data = ['userdeleteconfirm' => 1];
+
+        $this->post('/users/delete/5', $data);
+
+        $this->assertFalse($this->_controller->Users->exists(5));
         $this->assertRedirect('/');
     }
 }

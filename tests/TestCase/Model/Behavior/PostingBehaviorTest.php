@@ -73,7 +73,8 @@ class PostingBehaviorTest extends SaitoTestCase
 
         $posting = $this->table->createPosting($answer, $user);
 
-        $this->assertEmpty($posting->getErrors());
+        $errors = $posting->getErrors();
+        $this->assertEmpty($errors);
     }
 
     public function testCreateAdminAllowed()

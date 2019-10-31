@@ -34,11 +34,10 @@
             <td><?= $category->get('category_order'); ?>
                 &nbsp;</td>
             <td><?= $category->get('category'); ?>&nbsp;</td>
-            <td><?= $category->get('description'); ?>
-                &nbsp;</td>
-            <td><?= $this->Admin->accessionToRoles($category->get('accession')); ?>&nbsp;</td>
-            <td><?= $this->Admin->accessionToRoles($category->get('accession_new_thread')) ?>&nbsp;</td>
-            <td><?= $this->Admin->accessionToRoles($category->get('accession_new_posting')); ?>&nbsp;</td>
+            <td><?= $category->get('description'); ?> &nbsp;</td>
+            <td><?= __d('nondynamic', 'permission.role.' . $category->get('accession')) ?>&nbsp;</td>
+            <td><?= __d('nondynamic', 'permission.role.' . $category->get('accession_new_thread')) ?>&nbsp;</td>
+            <td><?= __d('nondynamic', 'permission.role.' . $category->get('accession_new_posting')) ?>&nbsp;</td>
             <td class="actions">
                 <?php
                 echo $this->Html->link(

@@ -80,7 +80,7 @@ class CategoryFixture extends TestFixture
             'category_order' => 1,
             'category' => 'Admin',
             'description' => '',
-            'accession' => 2,
+            'accession' => 2, // !important
             'accession_new_thread' => 2,
             'accession_new_posting' => 2,
             'thread_count' => 1,
@@ -120,9 +120,9 @@ class CategoryFixture extends TestFixture
             'category_order' => 4,
             'category' => 'Trash',
             'description' => '',
-            'accession' => 1,
-            'accession_new_thread' => 1,
-            'accession_new_posting' => 1,
+            'accession' => 2,
+            'accession_new_thread' => 3,
+            'accession_new_posting' => 2,
             'thread_count' => 0,
         ],
     ];

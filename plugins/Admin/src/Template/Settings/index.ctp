@@ -24,7 +24,7 @@ echo $this->Setting->table(
 
 echo $this->Setting->table(
     __('Moderation'),
-    ['block_user_ui', 'store_ip', 'store_ip_anonymized'],
+    ['store_ip', 'store_ip_anonymized'],
     $Settings
 );
 

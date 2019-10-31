@@ -15,6 +15,7 @@ namespace Saito\Posting\UserPosting;
 use Cake\Core\Configure;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\Permission\Identifier\Owner;
 
 /**
  * Implements UserPostingInterface
@@ -104,13 +105,22 @@ trait UserPostingTrait
             return true;
         }
 
+        /// Check category
+        $action = $posting->isRoot() ? 'thread' : 'answer';
+        $categoryAllowed = $User->getCategories()
+            ->permission($action, $posting->get('category_id'));
+        if (!$categoryAllowed) {
+            return false;
+        }
+
         $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
         $timeLimit = $editPeriod + ($posting->get('time')->format('U'));
         $isOverTime = time() > $timeLimit;
 
-        $isOwn = $User->getId() === $posting->get('user_id');
+        $isOwn = $User->permission('saito.core.posting.edit', new Owner($posting->get('user_id')));
 
         if (!$isOverTime && $isOwn && !$this->isLocked()) {
+            // Normal posting without special conditions.
             return true;
         }
 

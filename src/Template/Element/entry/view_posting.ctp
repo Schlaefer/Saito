@@ -96,21 +96,22 @@ $jsEntry = json_encode(
             // edit entry
                 $editLinkIsShown = true;
                 $menuItems[] = $this->Html->link(
-                    '<i class="fa fa-pencil"></i> ' . __('edit_linkname'),
+                    '<i class="fa fa-fw fa-pencil"></i> ' . __('edit_linkname'),
                     '/entries/edit/' . $entry->get('id'),
                     ['class' => 'dropdown-item', 'escape' => false]
                 );
             }
 
-            if ($CurrentUser->permission('saito.core.posting.edit.restricted')) {
-                // pin and lock thread
-                if ($entry->isRoot()) {
-                    if ($editLinkIsShown) {
-                        $menuItems[] = 'divider';
-                    }
+            /// pin and lock thread
+            if ($entry->isRoot()) {
+                if (!empty($menuItems)) {
+                    $menuItems[] = 'divider';
+                }
+
+                if ($CurrentUser->permission('saito.core.posting.pinAndLock')) {
                     $ajaxToggleOptions = [
-                        'fixed' => 'fa fa-thumb-tack',
-                        'locked' => 'fa fa-lock'
+                        'fixed' => 'fa fa-fw fa-thumb-tack',
+                        'locked' => 'fa fa-fw fa-lock'
                     ];
                     foreach ($ajaxToggleOptions as $key => $icon) {
                         if (($entry->get($key) == 0)) {
@@ -131,23 +132,28 @@ $jsEntry = json_encode(
                             $options
                         );
                     }
+                }
 
-                    $menuItems[] = 'divider';
-
+                if ($CurrentUser->permission('saito.core.posting.merge')) {
+                    if (!empty($menuItems)) {
+                        $menuItems[] = 'divider';
+                    }
                     // merge thread
                     $menuItems[] = $this->Html->link(
-                        '<i class="fa fa-compress"></i>&nbsp;' . __(
-                            'merge_tree_link'
-                        ),
+                        '<i class="fa fa-fw fa-compress"></i>&nbsp;' . h(__('merge_tree_link')),
                         '/entries/merge/' . $entry->get('id'),
                         ['class' => 'dropdown-item', 'escape' => false]
                     );
                 }
+            }
 
+            if ($CurrentUser->permission('saito.core.posting.delete')) {
                 // delete
-                $menuItems[] = 'divider';
+                if (!empty($menuItems)) {
+                    $menuItems[] = 'divider';
+                }
                 $menuItems[] = $this->Html->link(
-                    '<i class="fa fa-trash-o"></i>&nbsp;' . __('delete_tree_link'),
+                    '<i class="fa fa-fw fa-trash-o"></i>&nbsp;' . h(__('delete_tree_link')),
                     '#',
                     ['class' => 'dropdown-item js-delete', 'escape' => false]
                 );

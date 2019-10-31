@@ -232,7 +232,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
             [
                 '2' => '2',
                 '3' => '3',
-                '5' => '5',
             ],
             $this->viewVariable('categoryChooserChecked')
         );
@@ -242,7 +241,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
                 3 => 'Another Ontopic',
                 2 => 'Ontopic',
                 4 => 'Offtopic',
-                5 => 'Trash'
             ]
         );
         $entries = $this->viewVariable('entries');
@@ -261,17 +259,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->get($url);
         $this->assertRedirectLogin($url);
     }
-
-    /*
-    public function testDeleteWrongMethod()
-    {
-        $this->_loginUser(1);
-        $this->expectException(
-            'Cake\Network\Exception\MethodNotAllowedException'
-        );
-        $this->get('/entries/delete/1');
-    }
-    */
 
     public function testDeleteSuccess()
     {
@@ -301,6 +288,21 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->mockSecurity();
         $this->post('/entries/delete/9999');
+    }
+
+    public function testDeletePostingFailureCategoryAccess()
+    {
+        $this->_loginUser(2);
+        $this->mockSecurity();
+
+        ///
+        $this->post('/entries/delete/15');
+        $this->assertRedirect('/entries/view/14');
+
+        // Category 4 new threads are not allowed for mods
+        $this->expectException(ForbiddenException::class);
+        $this->expectExceptionCode(1571309481);
+        $this->post('/entries/delete/14');
     }
 
     public function testIndexSuccessAnonoymous()

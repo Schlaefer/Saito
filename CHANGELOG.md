@@ -10,6 +10,10 @@
 ### Changes
 
 - ＋ Adds `CHANGELOG.md` to keep track of changes
+- ＋ Expanded permission system
+  - ＋ New more fine grained permissions
+  - ＋ Permissions are configurable
+  - ＋ New role "Owner"
 - Δ Improves performance of background task runner
 - Internal code changes:
   - Δ Increases phpstan static code analysis from level 3 to 4
@@ -20,8 +24,38 @@
 
 ### Update Notes
 
-[Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.5.0/saito-release-master-5.5.0.zip)
+#### Extended Permission System
 
+Saito 5.0.0 introduced a new permission system which is considerably extended in this release.
+
+##### Configuration
+
+The configuration is exposed at `config/permissions.php` now.
+
+Want to allow moderators to contact a user no matter their contact-settings? You can do that. Want to disable new registrations? You can do that. Want to allow users to change their email-address? You can do that. And a lot more.
+
+It offers a lot of flexibility to tweak the forum behavior, but I would not recommend to reconfigure everything by starting from scratch.
+
+##### The Owner Account
+
+This update introduces a new user-role *Owner*. The following changes apply to the default configuration:
+
+- On new installations the first account created is an Owner instead of an Administrator
+- The Owner lives "above" the Administrator inheriting all their rights
+- The "lower" roles are not allowed to change the role, block or delete an Owner
+- Only an Owner can promote (or demote) a user to Administrator or Owner
+
+The update is not going to change accounts on existing installations and because this is the whole point it isn't possible to promote an account to Owner from an existing Administrator accounts. To promote an user execute manually in the batabase:
+
+```SQL
+UPDATE users SET user_type='owner' WHERE username='TheUserName';
+```
+
+##### "Lock User" Setting
+
+The setting for enabling user-locking is removed from the admin-backend and controlled by permissions now. The default behavior is unchanged: moderators may lock, locking status is visible to every user.
+
+[Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.5.0/saito-release-master-5.5.0.zip)
 
 ## [5.4.1] - 2019-10-20
 

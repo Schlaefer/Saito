@@ -291,6 +291,12 @@ class UserFixture extends TestFixture
             'user_email' => 'diane@example.com',
             'activate_code' => 1548
         ],
+        [
+            'id' => 11,
+            'username' => 'Oliver',
+            'user_type' => 'owner',
+            'user_email' => 'oliver@example.com',
+        ],
     ];
 
     public function init()

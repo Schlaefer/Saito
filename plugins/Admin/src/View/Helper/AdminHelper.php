@@ -177,24 +177,4 @@ EOF;
 
         $this->Html->scriptBlock($script, ['block' => 'script']);
     }
-
-    /**
-     * accession to roles
-     *
-     * @param int $accession accession
-     * @return string
-     */
-    public function accessionToRoles($accession)
-    {
-        switch ($accession) {
-            case (0):
-                return __('user.type.anon');
-            case (1):
-                return __('user.type.user');
-            case (2):
-                return __('user.type.mod');
-            case (3):
-                return __('user.type.admin');
-        }
-    }
 }

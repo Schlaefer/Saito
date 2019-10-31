@@ -21,6 +21,7 @@ use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -44,12 +45,6 @@ class EntriesController extends AppController
     use RequestActionTrait;
 
     public $helpers = ['Posting', 'Text'];
-
-    public $actionAuthConfig = [
-        'ajaxToggle' => 'mod',
-        'merge' => 'mod',
-        'delete' => 'mod'
-    ];
 
     /**
      * {@inheritDoc}
@@ -321,9 +316,17 @@ class EntriesController extends AppController
         if (!$id) {
             throw new NotFoundException;
         }
+        /* @var Entry $posting */
         $posting = $this->Entries->get($id);
         if (!$posting) {
             throw new NotFoundException;
+        }
+
+        $action = $posting->isRoot() ? 'thread' : 'answer';
+        $allowed = $this->CurrentUser->getCategories()
+            ->permission($action, $posting->get('category_id'));
+        if (!$allowed) {
+            throw new ForbiddenException(null, 1571309481);
         }
 
         $success = $this->Entries->deletePosting($id);
@@ -479,6 +482,10 @@ class EntriesController extends AppController
             ['solve', 'view']
         );
         $this->Authentication->allowUnauthenticated(['index', 'view', 'mix', 'update']);
+
+        $this->AuthUser->authorizeAction('ajaxToggle', 'saito.core.posting.pinAndLock');
+        $this->AuthUser->authorizeAction('merge', 'saito.core.posting.merge');
+        $this->AuthUser->authorizeAction('delete', 'saito.core.posting.delete');
 
         Stopwatch::stop('Entries->beforeFilter()');
     }

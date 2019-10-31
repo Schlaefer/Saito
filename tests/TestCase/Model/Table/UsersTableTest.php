@@ -45,7 +45,7 @@ class UsersTableTest extends SaitoTableTestCase
     public function testFindLatest()
     {
         $result = $this->Table->find('latest')->firstOrFail();
-        $this->assertEquals($result->get('id'), 9);
+        $this->assertEquals($result->get('id'), 11);
     }
 
     public function testSetCategoryAll()

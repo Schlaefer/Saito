@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Saito\Test;
 
+use AssertionError;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -94,5 +95,36 @@ trait AssertTrait
         libxml_clear_errors();
 
         return $xpath;
+    }
+
+    /**
+     * Assert Flash message was set
+     *
+     * @param string $message message
+     * @param string $element element
+     * @param bool $debug debugging
+     * @return void
+     */
+    protected function assertFlash(string $message, string $element = null, $debug = false): void
+    {
+        if ($debug) {
+            debug($_SESSION['Flash']['flash']);
+        }
+        if (!empty($_SESSION['Flash']['flash'])) {
+            foreach ($_SESSION['Flash']['flash'] as $flash) {
+                if ($flash['message'] !== $message) {
+                    continue;
+                }
+                if ($element !== null && $flash['element'] !== 'Flash/' . $element) {
+                    continue;
+                }
+
+                return;
+            }
+        }
+
+        throw new AssertionError(
+            sprintf('Flash message "%s" was not set.', $message)
+        );
     }
 }

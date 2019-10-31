@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use App\Controller\AppController;
 use App\Model\Table\UsersTable;
 
 /**
@@ -20,10 +19,6 @@ use App\Model\Table\UsersTable;
  */
 class UsersController extends AdminAppController
 {
-    public $actionAuthConfig = [
-        'delete' => 'mod'
-    ];
-
     /**
      * {@inheritDoc}
      */
@@ -76,65 +71,6 @@ class UsersController extends AdminAppController
             }
         }
         $this->set('user', $user);
-    }
-
-    /**
-     * delete user
-     *
-     * @param string $id user-ID
-     * @return \Cake\Network\Response|void
-     */
-    public function delete($id)
-    {
-        $id = (int)$id;
-        $exists = $this->Users->exists($id);
-        if (!$exists) {
-            $this->Flash->set(__('User not found.'), ['element' => 'error']);
-
-            return $this->redirect('/');
-        }
-        $readUser = $this->Users->get($id);
-
-        if ($this->request->is('post') && $this->request->getData('modeDelete')) {
-            if ($id === $this->CurrentUser->getId()) {
-                $this->Flash->set(
-                    __("You can't delete yourself."),
-                    ['element' => 'error']
-                );
-            } elseif ($id === 1) {
-                $this->Flash->set(
-                    __("You can't delete the installation account."),
-                    ['element' => 'error']
-                );
-            } elseif (!$this->CurrentUser->permission('saito.core.user.delete')) {
-                $this->Flash->set(
-                    __("You are not authorized to delete a user."),
-                    ['element' => 'error']
-                );
-            } elseif ($this->Users->deleteAllExceptEntries($id)) {
-                $this->Flash->set(
-                    __('User {0} deleted.', $readUser->get('username')),
-                    ['element' => 'success']
-                );
-
-                return $this->redirect('/');
-            } else {
-                $this->Flash->set(
-                    __("Couldn't delete user."),
-                    ['element' => 'error']
-                );
-            }
-
-            return $this->redirect(
-                [
-                    'prefix' => false,
-                    'controller' => 'users',
-                    'action' => 'view',
-                    $id
-                ]
-            );
-        }
-        $this->set('user', $readUser);
     }
 
     /**

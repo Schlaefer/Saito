@@ -169,6 +169,8 @@ class EntryFixture extends TestFixture
      * - 10
      * - 11
      * - 13
+     * - 14
+     *   - 15
      *
      * @var type array
      */
@@ -351,7 +353,31 @@ class EntryFixture extends TestFixture
             'last_answer' => '2000-01-01 12:00:00',
             'category_id' => 2, // !important accession = 0
             'user_id' => 1
-        ]
+        ],
+        // thread 7
+        // -------------------------------------
+        [
+            'id' => 14,
+            'subject' => 'Subject 14',
+            'text' => "Text 14",
+            'pid' => 0,
+            'tid' => 14,
+            'time' => '2000-01-01 12:01:00',
+            'last_answer' => '2000-01-01 12:01:00',
+            'category_id' => 5, // !important
+            'user_id' => 1
+        ],
+        [
+            'id' => 15,
+            'subject' => 'Subject 15',
+            'text' => "Text 15",
+            'pid' => 14,
+            'tid' => 14,
+            'time' => '2000-01-01 12:02:00',
+            'last_answer' => '2000-01-01 12:02:00',
+            'category_id' => 5, // !important
+            'user_id' => 1
+        ],
     ];
 
     public function init()

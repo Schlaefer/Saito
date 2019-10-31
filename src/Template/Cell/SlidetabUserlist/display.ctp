@@ -34,15 +34,19 @@
                    class="<?= ($user->get('id') == $CurrentUser->getId()) ? 'slidetab-actUser' : '' ?>">
                     <?php
                     $role = $user->getRole();
-                    if ($role === 'admin') {
-                        $title = __('user.type.admin');
-                        $icon = 'fa-admin';
-                    } elseif ($role === 'mod') {
-                        $title = __('user.type.mod');
-                        $icon = 'fa-mod';
-                    } else {
-                        $title = __('user.type.user');
-                        $icon = 'fa-user';
+                    $title = $this->Permissions->roleAsString($role);
+                    switch ($role) {
+                        case ('owner'):
+                            $icon = 'fa-star-o';
+                            break;
+                        case ('admin'):
+                            $icon = 'fa-admin';
+                            break;
+                        case ('mod'):
+                            $icon = 'fa-mod';
+                            break;
+                        default:
+                            $icon = 'fa-user';
                     }
                     ?>
                     <span class="slidetab-userlist-icon" title="<?= $title ?>">

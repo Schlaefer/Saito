@@ -15,8 +15,10 @@ namespace Saito\App;
 use Aura\Di\Container;
 use Aura\Di\ContainerBuilder;
 use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 use Cron\Lib\Cron;
 use Saito\Markup\MarkupSettings;
+use Saito\User\Permission\Permissions;
 
 /**
  * Global registry for Saito app.
@@ -39,11 +41,17 @@ class Registry
     {
         $dic = (new ContainerBuilder())->newInstance();
         $dic->set('Cron', new Cron());
+
+        $dic->set('Permissions', $dic->lazyNew(Permissions::class));
+        $dic->params[Permissions::class]['roles'] = Configure::read('Saito.Roles');
+        $dic->params[Permissions::class]['permissionConfig'] = Configure::read('Saito.Permissions');
+        $dic->params[Permissions::class]['categories'] = TableRegistry::getTableLocator()->get('Categories');
+
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
 
         $dic->set('MarkupSettings', $dic->lazyNew(MarkupSettings::class));
         $markupClass = Configure::read('Saito.Settings.ParserPlugin');
-        ;
+
         $dic->set('Markup', $dic->lazyNew($markupClass));
         $dic->params[$markupClass]['settings'] = $dic->lazyGet('MarkupSettings');
 

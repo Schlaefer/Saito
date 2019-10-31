@@ -29,7 +29,6 @@ class SettingsController extends AdminAppController
     protected $settingsShownInAdminIndex = [
         'autolink' => ['type' => 'bool'],
         'bbcode_img' => ['type' => 'bool'],
-        'block_user_ui' => ['type' => 'bool'],
         // Activates and deactivates the category-chooser on entries/index
         'category_chooser_global' => ['type' => 'bool'],
         // Allows users to show the category-chooser even if the default

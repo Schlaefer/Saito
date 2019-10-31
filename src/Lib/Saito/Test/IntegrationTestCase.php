@@ -48,11 +48,10 @@ abstract class IntegrationTestCase extends TestCase
      */
     public function setUp()
     {
-        parent::setUp();
         $this->disableErrorHandlerMiddleware();
         $this->setUpSaito();
-        $this->_clearCaches();
         $this->markUpdated();
+        parent::setUp();
     }
 
     /**
@@ -60,11 +59,13 @@ abstract class IntegrationTestCase extends TestCase
      */
     public function tearDown()
     {
+        parent::tearDown();
+        // This will restore the Config. Leave it after parent::tearDown() or
+        // Cake's Configure restore will overwrite it and mess things up.
         $this->tearDownSaito();
         $this->_unsetAjax();
         $this->_unsetJson();
         $this->_unsetUserAgent();
-        parent::tearDown();
         $this->_clearCaches();
     }
 

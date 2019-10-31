@@ -140,40 +140,6 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: plugins/Admin/src/View/Helper/AdminHelper.php:218
-msgid "user.type.anon"
-msgstr "Anonymous"
-
-#: plugins/Admin/src/View/Helper/AdminHelper.php:220
-#: src/View/Helper/UserHelper.php:95
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:10
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:18
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:26
-#: src/Template/Cell/SlidetabUserlist/display.ctp:44
-#: src/Template/Users/edit.ctp:36
-msgid "user.type.user"
-msgstr "User"
-
-#: plugins/Admin/src/View/Helper/AdminHelper.php:222
-#: src/View/Helper/UserHelper.php:97
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:11
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:19
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:27
-#: src/Template/Cell/SlidetabUserlist/display.ctp:41
-#: src/Template/Users/edit.ctp:37
-msgid "user.type.mod"
-msgstr "Moderator"
-
-#: plugins/Admin/src/View/Helper/AdminHelper.php:224
-#: src/View/Helper/UserHelper.php:99
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:12
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:20
-#: plugins/Admin/src/Template/Element/Categories/edit.ctp:28
-#: src/Template/Cell/SlidetabUserlist/display.ctp:38
-#: src/Template/Users/edit.ctp:38
-msgid "user.type.admin"
-msgstr "Administrator"
-
 #: plugins/Admin/src/View/Helper/SettingHelper.php:121
 msgid "edit"
 msgstr ""
@@ -533,6 +499,9 @@ msgstr "The name contains forbidden characters."
 #: src/Model/Table/UsersTable.php:260
 msgid "vld.users.username.maxlength"
 msgstr "Name is to long ({0} chars max)."
+
+msgid "vld.user.user_type.allowedType"
+msgstr "Role \"{0}\" is not allowed."
 
 #: src/Model/Table/UsersTable.php:275
 msgid "error_email_reserved"
@@ -1216,7 +1185,7 @@ msgstr "Real Name"
 
 #: src/Template/Users/edit.ctp:93
 msgid "user_real_name_exp"
-msgstr "(optional)"
+msgstr "Real name"
 
 #: src/Template/Users/edit.ctp:97 src/Template/Users/view.ctp:69
 msgid "user_hp"
@@ -1224,11 +1193,11 @@ msgstr "Homepage"
 
 #: src/Template/Users/edit.ctp:99
 msgid "user_hp_exp"
-msgstr "URL to homepage (optional)"
+msgstr "URL to homepage"
 
 #: src/Template/Users/edit.ctp:107
 msgid "user_place_exp"
-msgstr "(optional)"
+msgstr "Residence"
 
 #: src/Template/Users/edit.ctp:109 src/Template/Users/view.ctp:76
 msgid "user_place"
@@ -1372,10 +1341,8 @@ msgid "login_linkname"
 msgstr "Login"
 
 #: src/Template/Users/setpassword.ctp:12
-#, fuzzy
-#| msgid "user.edit.t"
 msgid "user.pw.set.t"
-msgstr "Edit User {0}"
+msgstr "Set Password for {0}"
 
 #: src/Template/Users/view.ctp:34
 msgid "user.actv.t"
@@ -1428,6 +1395,45 @@ msgstr ""
 #: src/Template/Users/view.ctp:375
 msgid "Show all"
 msgstr ""
+
+msgid "user.role.set.btn"
+msgstr "Set User Role"
+
+msgid "user.role.set.t"
+msgstr "Set User Role for {0}"
+
+msgid "user.baseid.set.btn"
+msgstr "Set Base-ID"
+
+msgid "user.del.fail.1"
+msgstr "You can't delete yourself."
+
+msgid "user.del.fail.2"
+msgstr "Deleting the user failed."
+
+msgid "user.del.fail.2"
+msgstr "Please confirm that you want to delete the user."
+
+msgid "user.del.exp.1"
+msgstr "Delete user \"{0}\""
+
+msgid "user.del.exp.2"
+msgstr "The profile data will be deleted."
+
+msgid "user.del.exp.3"
+msgstr "All uploads will be deleted."
+
+msgid "user.del.exp.4"
+msgstr "Existing postings will remain but shown with an unknown user."
+
+msgid "user.del.confirm"
+msgstr "Delete the user. This can't be undone."
+
+msgid "user.del.btn.t"
+msgstr "Delete user"
+
+msgid "user.del.ok.m"
+msgstr "User \"{0}\" was deleted."
 
 #, fuzzy
 #~ msgid "Uploads"
@@ -1669,6 +1675,3 @@ msgstr ""
 #~ "config/email.php.default</code> as template. <a href=\"http://book."
 #~ "cakephp.org/2.0/en/core-utility-libraries/email.html#configuration\">See "
 #~ "also.</a>"
-
-#~ msgid "block_user_ui"
-#~ msgstr "Lock Users"

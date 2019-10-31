@@ -80,7 +80,7 @@ $schemaMeta = [];
             }
             $schemaMeta['interactionCount'] = "UserPageVisits:{$entry->get('views')}";
 
-            if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->permission('saito.core.view.ip')) {
+            if (Configure::read('Saito.Settings.store_ip') && $CurrentUser->permission('saito.core.posting.ip.view')) {
                 echo ', IP: ' . $entry->get('ip');
             }
 
