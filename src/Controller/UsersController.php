@@ -417,7 +417,7 @@ class UsersController extends AppController
         $entriesShownOnPage = 20;
         $this->set(
             'lastEntries',
-            $this->Users->Entries->getRecentEntries(
+            $this->Users->Entries->getRecentPostings(
                 $this->CurrentUser,
                 ['user_id' => $id, 'limit' => $entriesShownOnPage]
             )

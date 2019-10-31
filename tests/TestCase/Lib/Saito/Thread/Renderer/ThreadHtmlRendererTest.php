@@ -39,9 +39,10 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         ];
 
         $entries = $this->getMockBuilder('\Saito\Posting\Posting')
-            ->setConstructorArgs([$this->SaitoUser, $entry])
+            ->setConstructorArgs([$entry])
             ->setMethods(['isIgnored'])
             ->getMock();
+        $entries->withCurrentUser($this->SaitoUser);
         $entries->expects($this->once())
             ->method('isIgnored')
             ->will($this->returnValue(true));
@@ -91,7 +92,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         $entries = $entry;
         $entries['_children'] = [$entry1 + ['_children' => [$entry2]], $entry3];
 
-        $entries = new Posting($this->SaitoUser, $entries);
+        $entries = (new Posting($entries))->withCurrentUser($this->SaitoUser);
 
         $renderer = new ThreadHtmlRenderer(
             $this->PostingHelper,
@@ -143,7 +144,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             ]
         ];
 
-        $entries = new Posting($this->SaitoUser, $entries);
+        $entries = (new Posting($entries))->withCurrentUser($this->SaitoUser);
 
         // max depth should not apply
         $renderer = new ThreadHtmlRenderer(

@@ -3,7 +3,7 @@
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Entity\Entry;
-use Saito\App\Registry;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
@@ -20,7 +20,6 @@ class EntriesTest extends SaitoTableTestCase
         'app.Smiley',
         'app.SmileyCode',
         'app.Setting',
-        'plugin.Bookmarks.Bookmark'
     ];
 
     public function testCreateSuccessNewThread()
@@ -111,10 +110,6 @@ class EntriesTest extends SaitoTableTestCase
      */
     public function testThreadMerge()
     {
-        //= CurrentUser setup
-        $SaitoUser = CurrentUserFactory::createDummy();
-        Registry::set('CU', $SaitoUser);
-
         // entry is not appended yet
         $appendedEntry = $this->Table->find()
             ->where(['id' => 4, 'pid' => 2])
@@ -165,10 +160,6 @@ class EntriesTest extends SaitoTableTestCase
      */
     public function testThreadMergePin()
     {
-        //= CurrentUser setup
-        $SaitoUser = CurrentUserFactory::createDummy();
-        Registry::set('CU', $SaitoUser);
-
         //= unlock source the fixture thread
         $this->Table->id = 4;
         $this->Table->toggle(4, 'locked');
@@ -193,10 +184,6 @@ class EntriesTest extends SaitoTableTestCase
      */
     public function testThreadMergeUnpin()
     {
-        //= CurrentUser setup
-        $SaitoUser = CurrentUserFactory::createDummy();
-        Registry::set('CU', $SaitoUser);
-
         $posting = $this->Table->get(4);
         $this->assertTrue($posting->isLocked());
 
@@ -247,9 +234,6 @@ class EntriesTest extends SaitoTableTestCase
      */
     public function testChangeThreadCategory()
     {
-        $SaitoUser = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'admin']);
-        Registry::set('CU', $SaitoUser);
-
         $tid = 1;
         $oldCategory = 2;
         $newCategory = 1;
@@ -315,45 +299,12 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testChangeThreadCategoryNotAnExistingCategory()
     {
-        $SaitoUser = CurrentUserFactory::createLoggedIn(['id' => 1, 'user_type' => 'admin']);
-        Registry::set('CU', $SaitoUser);
-
         $newCategory = 9999;
 
         $posting = $this->Table->get(1, ['return' => 'Entity']);
         $this->Table->patchEntity($posting, ['category_id' => $newCategory]);
         $result = $this->Table->save($posting);
         $this->assertFalse($result);
-    }
-
-    public function testDeleteNodeCompleteThread()
-    {
-        $tid = 1;
-
-        //= test thread exists before we delete it
-        $countBeforeDelete = $this->Table->find()
-            ->where(['tid' => $tid])
-            ->count();
-        $expected = 6;
-        $this->assertEquals($countBeforeDelete, $expected);
-
-        $allBookmarksBeforeDelete = $this->Table->Bookmarks->find()->count();
-
-        $result = $this->Table->treeDeleteNode($tid);
-        $this->assertTrue($result);
-
-        //= all postings in thread should be deleted
-        $result = $this->Table->find()->where(['tid' => $tid])->count();
-        $expected = 0;
-        $this->assertEquals($result, $expected);
-
-        // delete associated bookmarks
-        $allBookmarksAfterDelete = $this->Table->Bookmarks->find()->count();
-        $numberOfBookmarksForTheDeletedThread = 2;
-        $this->assertEquals(
-            $allBookmarksBeforeDelete - $numberOfBookmarksForTheDeletedThread,
-            $allBookmarksAfterDelete
-        );
     }
 
     public function testAnonymizeEntriesFromUser()
@@ -404,16 +355,6 @@ class EntriesTest extends SaitoTableTestCase
         $this->assertEquals($result, $expected);
     }
 
-    public function testTreeForNode()
-    {
-        $posting = $this->Table->treeForNode(2);
-        $this->assertEquals(2, $posting->get('id'));
-
-        $children = $posting->getAllChildren();
-        $this->assertEquals(3, count($children));
-        $this->assertEquals(3, array_shift($children)->get('id'));
-    }
-
     public function testGetThreadId()
     {
         $result = $this->Table->getThreadId(1);
@@ -427,7 +368,7 @@ class EntriesTest extends SaitoTableTestCase
 
     public function testGetThreadIdNotFound()
     {
-        $this->expectException('\UnexpectedValueException');
+        $this->expectException(RecordNotFoundException::class);
         $this->Table->getThreadId(999);
     }
 

@@ -17,20 +17,17 @@ use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
 use App\Model\Table\DraftsTable;
 use Bookmarks\Model\Table\BookmarksTable;
-use Cake\Cache\Cache;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
-use Saito\App\Registry;
-use Saito\Posting\Posting;
-use Saito\RememberTrait;
+use Saito\Posting\PostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\Validation\SaitoValidationProvider;
 use Search\Manager;
-use Stopwatch\Lib\Stopwatch;
 
 /**
  * Stores postings
@@ -46,11 +43,13 @@ use Stopwatch\Lib\Stopwatch;
  * @method createPosting(array $data, CurrentUserInterface $CurrentUser)
  * @method updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser)
  * @method array prepareChildPosting(BasicPostingInterface $parent, array $data)
+ * @method array getRecentPostings(CurrentUserInterface $CU, ?array $options = [])
+ * @method bool deletePosting(int $id)
+ * @method array postingsForThreads(array $tids, ?array $order = null, ?CurrentUserInterface $CU)
+ * @method PostingInterface postingsForThread(int $tid, ?bool $complete = false, ?CurrentUserInterface $CU)
  */
 class EntriesTable extends AppTable
 {
-    use RememberTrait;
-
     /**
      * Max subject length.
      *
@@ -70,50 +69,6 @@ class EntriesTable extends AppTable
         'category' => ['type' => 'value'],
     ];
 
-    /**
-     * field list necessary for displaying a thread_line
-     *
-     * Entry.text determine if Entry is n/t
-     *
-     * @var array
-     */
-    public $threadLineFieldList = [
-        'Entries.id',
-        'Entries.pid',
-        'Entries.tid',
-        'Entries.subject',
-        'Entries.text',
-        'Entries.time',
-        'Entries.fixed',
-        'Entries.last_answer',
-        'Entries.views',
-        'Entries.user_id',
-        'Entries.locked',
-        'Entries.name',
-        'Entries.solves',
-        'Users.username',
-        'Categories.id',
-        'Categories.accession',
-        'Categories.category',
-        'Categories.description'
-    ];
-
-    /**
-     * fields additional to $threadLineFieldList to show complete entry
-     *
-     * @var array
-     */
-    public $showEntryFieldListAdditional = [
-        'Entries.edited',
-        'Entries.edited_by',
-        'Entries.ip',
-        'Entries.category_id',
-        'Users.id',
-        'Users.avatar',
-        'Users.signature',
-        'Users.user_place'
-    ];
-
     protected $_defaultConfig = [
         'subject_maxlength' => 100
     ];
@@ -128,7 +83,6 @@ class EntriesTable extends AppTable
         $this->addBehavior('Posting');
         $this->addBehavior('IpLogging');
         $this->addBehavior('Timestamp');
-        $this->addBehavior('Tree');
 
         $this->addBehavior(
             'CounterCache',
@@ -307,80 +261,100 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Get recent postings
+     * Shorthand for reading an entry with full da516ta
      *
-     * ### Options:
-     *
-     * - `user_id` int|<null> If provided finds only postings of that user.
-     * - `limit` int <10> Number of postings to find.
-     *
-     * @param CurrentUserInterface $User User who has access to postings
-     * @param array $options find options
-     *
-     * @return array Array of Postings
+     * @param int $primaryKey key
+     * @param array $options options
+     * @return mixed Posting if found false otherwise
      */
-    public function getRecentEntries(
-        CurrentUserInterface $User,
-        array $options = []
-    ) {
-        Stopwatch::start('Model->User->getRecentEntries()');
+    public function get($primaryKey, $options = [])
+    {
+        /** @var Entry */
+        $result = $this->find('entry', ['complete' => true])
+            ->where([$this->getAlias() . '.id' => $primaryKey])
+            ->first();
 
-        $options += [
-            'user_id' => null,
-            'limit' => 10,
-        ];
-
-        $options['category_id'] = $User->getCategories()->getAll('read');
-
-        $read = function () use ($options) {
-            $conditions = [];
-            if ($options['user_id'] !== null) {
-                $conditions[]['Entries.user_id'] = $options['user_id'];
-            }
-            if ($options['category_id'] !== null) {
-                $conditions[]['Entries.category_id IN'] = $options['category_id'];
-            };
-
-            $result = $this
-                ->find(
-                    'all',
-                    [
-                        'contain' => ['Users', 'Categories'],
-                        'fields' => $this->threadLineFieldList,
-                        'conditions' => $conditions,
-                        'limit' => $options['limit'],
-                        'order' => ['time' => 'DESC']
-                    ]
-                )
-                // hydrating kills performance
-                ->enableHydration(false)
-                ->all();
-
-            return $result;
-        };
-
-        $key = 'Entry.recentEntries-' . md5(serialize($options));
-        $results = Cache::remember($key, $read, 'entries');
-
-        $threads = [];
-        foreach ($results as $result) {
-            $threads[$result['id']] = Registry::newInstance(
-                '\Saito\Posting\Posting',
-                ['rawData' => $result]
-            );
-        }
-
-        Stopwatch::stop('Model->User->getRecentEntries()');
-
-        return $threads;
+        // @td throw exception here
+        return empty($result) ? false : $result;
     }
 
     /**
-     * Finds the thread-id for a posting
+     * Implements the custom find type 'entry'
+     *
+     * @param Query $query query
+     * @param array $options options
+     * - 'complete' bool controls fieldset selected as in getFieldset($complete)
+     * @return Query
+     */
+    public function findEntry(Query $query, array $options = [])
+    {
+        $options += ['complete' => false];
+        $query
+            ->select($this->getFieldset($options['complete']))
+            ->contain(['Users', 'Categories']);
+
+        return $query;
+    }
+
+    /**
+     * Get list of fields required to display posting.:w
+     *
+     * You don't want to fetch every field for performance reasons.
+     *
+     * @param bool $complete Threadline if false; Full posting if true
+     * @return array The fieldset
+     */
+    public function getFieldset(bool $complete = false): array
+    {
+        // field list necessary for displaying a thread_line
+        $threadLineFieldList = [
+            'Categories.accession',
+            'Categories.category',
+            'Categories.description',
+            'Categories.id',
+            'Entries.fixed',
+            'Entries.id',
+            'Entries.last_answer',
+            'Entries.locked',
+            'Entries.name',
+            'Entries.pid',
+            'Entries.solves',
+            'Entries.subject',
+            // Entry.text determines if Entry is n/t
+            'Entries.text',
+            'Entries.tid',
+            'Entries.time',
+            'Entries.user_id',
+            'Entries.views',
+            'Users.username',
+        ];
+
+        // fields additional to $threadLineFieldList to show complete entry
+        $showEntryFieldListAdditional = [
+            'Entries.category_id',
+            'Entries.edited',
+            'Entries.edited_by',
+            'Entries.ip',
+            'Users.avatar',
+            'Users.id',
+            'Users.signature',
+            'Users.user_place'
+        ];
+
+        $fields = $threadLineFieldList;
+        if ($complete) {
+            $fields = array_merge($fields, $showEntryFieldListAdditional);
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Finds the thread-IT for a posting.
      *
      * @param int $id Posting-Id
      * @return int Thread-Id
-     * @throws \UnexpectedValueException
+     * @throws RecordNotFoundException If posting isn't found
      */
     public function getThreadId($id)
     {
@@ -389,62 +363,12 @@ class EntriesTable extends AppTable
             ['conditions' => ['id' => $id], 'fields' => 'tid']
         )->first();
         if (empty($entry)) {
-            throw new \UnexpectedValueException(
+            throw new RecordNotFoundException(
                 'Posting not found. Posting-Id: ' . $id
             );
         }
 
         return $entry->get('tid');
-    }
-
-    /**
-     * Shorthand for reading an entry with full data
-     *
-     * @param int $primaryKey key
-     * @param array $options options
-     * @return mixed Posting if found false otherwise
-     */
-    public function get($primaryKey, $options = [])
-    {
-        $options += ['return' => 'Posting'];
-        $return = $options['return'];
-        unset($options['return']);
-
-        /** @var Entry */
-        $result = $this->find('entry')
-            ->where([$this->getAlias() . '.id' => $primaryKey])
-            ->first();
-
-        if (empty($result)) {
-            return false;
-        }
-
-        switch ($return) {
-            case 'Posting':
-                return $result->toPosting();
-            case 'Entity':
-            default:
-                return $result;
-        }
-    }
-
-    /**
-     * get parent id
-     *
-     * @param int $id id
-     * @return mixed
-     * @throws \UnexpectedValueException
-     */
-    public function getParentId($id)
-    {
-        $entry = $this->find()->select('pid')->where(['id' => $id])->first();
-        if (!$entry) {
-            throw new \UnexpectedValueException(
-                'Posting not found. Posting-Id: ' . $id
-            );
-        }
-
-        return $entry->get('pid');
     }
 
     /**
@@ -536,135 +460,6 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * tree of a single node and its subentries
-     *
-     * $options = array(
-     *    'root' => true // performance improvements if it's a known thread-root
-     * );
-     *
-     * @param int $id id
-     * @param array $options options
-     * @return Posting|null tree or null if nothing found
-     */
-    public function treeForNode(int $id, ?array $options = []): ?Posting
-    {
-        $options += [
-            'root' => false,
-            'complete' => false
-        ];
-
-        if ($options['root']) {
-            $tid = $id;
-        } else {
-            $tid = $this->getThreadId($id);
-        }
-
-        $fields = null;
-        if ($options['complete']) {
-            $fields = array_merge(
-                $this->threadLineFieldList,
-                $this->showEntryFieldListAdditional
-            );
-        }
-
-        $tree = $this->treesForThreads([$tid], null, $fields);
-
-        if (!$tree) {
-            return null;
-        }
-
-        $tree = reset($tree);
-
-        //= extract subtree
-        if ((int)$tid !== (int)$id) {
-            $tree = $tree->getThread()->get($id);
-        }
-
-        return $tree;
-    }
-
-    /**
-     * trees for multiple tids
-     *
-     * @param array $ids ids
-     * @param array $order order
-     * @param array $fieldlist fieldlist
-     * @return array|null array of Postings, null if nothing found
-     */
-    public function treesForThreads(array $ids, ?array $order = null, array $fieldlist = null): ?array
-    {
-        if (empty($ids)) {
-            return [];
-        }
-
-        if (empty($order)) {
-            $order = ['last_answer' => 'ASC'];
-        }
-
-        if ($fieldlist === null) {
-            $fieldlist = $this->threadLineFieldList;
-        }
-
-        Stopwatch::start('EntriesTable::treesForThreads() DB');
-        $postings = $this->_getThreadEntries(
-            $ids,
-            ['order' => $order, 'fields' => $fieldlist]
-        );
-        Stopwatch::stop('EntriesTable::treesForThreads() DB');
-
-        if (!$postings->count()) {
-            return null;
-        }
-
-        Stopwatch::start('EntriesTable::treesForThreads() CPU');
-        $threads = [];
-        $postings = $this->treeBuild($postings);
-        foreach ($postings as $thread) {
-            $id = $thread['tid'];
-            $threads[$id] = $thread;
-            $threads[$id] = Registry::newInstance(
-                '\Saito\Posting\Posting',
-                ['rawData' => $thread]
-            );
-        }
-        Stopwatch::stop('EntriesTable::treesForThreads() CPU');
-
-        return $threads;
-    }
-
-    /**
-     * Returns all entries of threads $tid
-     *
-     * @param array $tid ids
-     * @param array $params params
-     * - 'fields' array of thread-ids: [1, 2, 5]
-     * - 'order' sort order for threads ['time' => 'ASC'],
-     * @return mixed unhydrated result set
-     */
-    protected function _getThreadEntries(array $tid, array $params = [])
-    {
-        $params += [
-            'fields' => $this->threadLineFieldList,
-            'order' => ['last_answer' => 'ASC']
-        ];
-
-        $threads = $this
-            ->find(
-                'all',
-                [
-                    'conditions' => ['tid IN' => $tid],
-                    'contain' => ['Users', 'Categories'],
-                    'fields' => $params['fields'],
-                    'order' => $params['order']
-                ]
-            )
-            // hydrating kills performance
-            ->enableHydration(false);
-
-        return $threads;
-    }
-
-    /**
      * Marks a sub-entry as solution to a root entry
      *
      * @param Entry $posting posting to toggle
@@ -730,38 +525,23 @@ class EntriesTable extends AppTable
     /**
      * Deletes posting incl. all its subposting and associated data
      *
-     * @param int $id id
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @param array $idsToDelete Entry ids which should be deleted
      * @return bool
      */
-    public function treeDeleteNode($id)
+    public function deleteWithIds(array $idsToDelete): bool
     {
-        $root = $this->treeForNode((int)$id);
-
-        if (empty($root)) {
-            throw new \Exception;
-        }
-
-        $nodesToDelete[] = $root;
-        $nodesToDelete = array_merge($nodesToDelete, $root->getAllChildren());
-
-        $idsToDelete = [];
-        foreach ($nodesToDelete as $node) {
-            $idsToDelete[] = $node->get('id');
-        };
-
         $success = $this->deleteAll(['id IN' => $idsToDelete]);
 
         if (!$success) {
             return false;
         }
 
+        // @td Should be covered by dependent assoc. Add tests.
         $this->Bookmarks->deleteAll(['entry_id IN' => $idsToDelete]);
 
         $this->dispatchSaitoEvent(
-            'Model.Saito.Posting.delete',
-            ['subject' => $root, 'table' => $this]
+            'Model.Saito.Postings.delete',
+            ['subject' => $idsToDelete, 'table' => $this]
         );
 
         return true;
@@ -870,23 +650,6 @@ class EntriesTable extends AppTable
         }
 
         return false;
-    }
-
-    /**
-     * Implements the custom find type 'entry'
-     *
-     * @param Query $query query
-     * @return Query
-     */
-    public function findEntry(Query $query)
-    {
-        $fields = array_merge(
-            $this->threadLineFieldList,
-            $this->showEntryFieldListAdditional
-        );
-        $query->select($fields)->contain(['Users', 'Categories']);
-
-        return $query;
     }
 
     /**

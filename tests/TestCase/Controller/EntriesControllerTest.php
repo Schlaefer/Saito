@@ -6,8 +6,7 @@ use App\Controller\EntriesController;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
-use Cake\Event\Event;
-use Cake\Event\EventManager;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
@@ -87,7 +86,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testMixNotFound()
     {
-        $this->expectException('Cake\Http\Exception\NotFoundException');
+        $this->expectException(RecordNotFoundException::class);
         $this->get('/entries/mix/9999');
     }
 
@@ -274,26 +273,17 @@ class EntriesControllerTestCase extends IntegrationTestCase
     }
     */
 
-    public function testDeleteNoId()
-    {
-        $this->_loginUser(1);
-        $this->expectException('Cake\Http\Exception\NotFoundException');
-        $this->mockSecurity();
-        $this->post('/entries/delete');
-    }
-
     public function testDeleteSuccess()
     {
         $this->_loginUser(1);
-        $Postings = TableRegistry::get('Entries');
-        $count = count($Postings->treeForNode(1)->getAllChildren());
-        $this->assertEquals(5, $count);
+        $count = $this->Table->postingsForThread(1)->getThread()->count();
+        $this->assertEquals(6, $count);
 
         $this->mockSecurity();
         $this->post('/entries/delete/9');
 
-        $count = count($Postings->treeForNode(1)->getAllChildren());
-        $this->assertEquals(3, $count);
+        $count = $this->Table->postingsForThread(1)->getThread()->count();
+        $this->assertEquals(4, $count);
     }
 
     public function testDeleteNoAuthorization()

@@ -24,30 +24,25 @@ trait UserPostingTrait
     /**
      * @var array
      */
-    protected $_cache = [];
+    private $_userPostingTraitUnreadCache = [];
 
     /**
      * @var CurrentUserInterface
      */
-    protected $_CurrentUser;
+    private $_CurrentUser;
 
     /**
-     * Get current-user.
-     *
-     * @return CurrentUserInterface
+     * {@inheritDoc}
      */
-    public function getCurrentUser()
+    public function getCurrentUser(): CurrentUserInterface
     {
         return $this->_CurrentUser;
     }
 
     /**
-     * Set current user.
-     *
-     * @param CurrentUserInterface $CurrentUser  current user
-     * @return void
+     * {@inheritDoc}
      */
-    public function setCurrentUser($CurrentUser)
+    public function setCurrentUser(CurrentUserInterface $CurrentUser): void
     {
         $this->_CurrentUser = $CurrentUser;
     }
@@ -141,14 +136,14 @@ trait UserPostingTrait
      */
     public function isUnread(): bool
     {
-        if (!isset($this->_cache['isUnread'])) {
+        if (!isset($this->_userPostingTraitUnreadCache['isUnread'])) {
             $id = $this->get('id');
             $time = $this->get('time');
-            $this->_cache['isUnread'] = !$this->getCurrentUser()
+            $this->_userPostingTraitUnreadCache['isUnread'] = !$this->getCurrentUser()
                 ->getReadPostings()->isRead($id, $time);
         }
 
-        return $this->_cache['isUnread'];
+        return $this->_userPostingTraitUnreadCache['isUnread'];
     }
 
     /**

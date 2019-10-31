@@ -17,20 +17,11 @@ use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\Mailer\TransportFactory;
 use Cake\Utility\Inflector;
-use Cron\Lib\Cron;
 use Saito\App\Registry;
 use Saito\Cache\CacheSupport;
-use Saito\User\ForumsUserInterface;
-use Saito\User\SaitoUser;
 
 trait TestCaseTrait
 {
-
-    /**
-     * @var \Aura\Di\Container
-     */
-    protected $dic;
-
     protected $saitoSettings;
 
     /**
@@ -40,7 +31,8 @@ trait TestCaseTrait
      */
     protected function setUpSaito()
     {
-        $this->initDic();
+        Registry::initialize();
+
         $this->_storeSettings();
         $this->mockMailTransporter();
         $this->_clearCaches();
@@ -68,23 +60,6 @@ trait TestCaseTrait
         $CacheSupport->clear();
         EventManager::instance()->off($CacheSupport);
         unset($CacheSupport);
-    }
-
-    /**
-     * Setup for dependency injection container
-     *
-     * @param ForumsUserInterface $User user
-     * @return void
-     */
-    public function initDic(ForumsUserInterface $User = null)
-    {
-        $this->dic = Registry::initialize();
-        if ($User === null) {
-            $User = new SaitoUser();
-        }
-        $this->dic->set('CU', $User);
-
-        $this->dic->set('Cron', new Cron());
     }
 
     /**

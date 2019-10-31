@@ -64,7 +64,7 @@ class SaitoSearchBehavior extends Behavior
                     'relSubject' => 'MATCH (Entries.subject) AGAINST (:q IN BOOLEAN MODE)',
                     'relText' => 'MATCH (Entries.text) AGAINST (:q IN BOOLEAN MODE)',
                     'relName' => 'MATCH (Entries.name) AGAINST (:q IN BOOLEAN MODE)'
-                ] + $table->threadLineFieldList
+                ] + $table->getFieldset()
             )
             ->where("MATCH (`Entries`.`subject`, `Entries`.`text`, `Entries`.`name`) AGAINST (:q IN BOOLEAN MODE)")
             ->order(['(2*relSubject + relText + 4*relName)' => 'DESC', '`Entries`.`time`' => 'DESC'])

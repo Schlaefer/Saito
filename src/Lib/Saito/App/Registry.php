@@ -40,7 +40,6 @@ class Registry
         $dic = new Container(new \Aura\Di\Factory);
         $dic->set('Cron', new Cron());
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
-        $dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet('CU');
 
         $dic->set('MarkupSettings', $dic->lazyNew(MarkupSettings::class));
         $markupClass = Configure::read('Saito.Settings.ParserPlugin');

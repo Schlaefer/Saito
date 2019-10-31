@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use App\Controller\AppController;
 use App\Model\Table\EntriesTable;
 use Cake\Controller\Component;
 use Cake\Controller\Component\PaginatorComponent;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
-use Saito\Posting\Posting;
+use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
@@ -31,7 +29,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class ThreadsComponent extends Component
 {
-
     public $components = ['AuthUser', 'Paginator'];
 
     /**
@@ -39,37 +36,42 @@ class ThreadsComponent extends Component
      *
      * @var EntriesTable
      */
-    private $Entries;
+    protected $Table;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function initialize(array $config)
+    {
+        parent::initialize($config);
+        $this->Table = $config['table'];
+    }
 
     /**
      * Load paginated threads
      *
      * @param mixed $order order to apply
+     * @param CurrentUserInterface $CurrentUser CurrentUser
      * @return array
      */
-    public function paginate($order)
+    public function paginate($order, CurrentUserInterface $CurrentUser): array
     {
-        /** @var EntriesTable */
-        $EntriesTable = TableRegistry::getTableLocator()->get('Entries');
-        $this->Entries = $EntriesTable;
+        $initials = $this->paginateThreads($order, $CurrentUser);
+        if (empty($initials)) {
+            return [];
+        }
 
-        /** @var AppController */
-        $controller = $this->getController();
-        $CurrentUser = $controller->CurrentUser;
-        $initials = $this->_getInitialThreads($CurrentUser, $order);
-        $threads = $this->Entries->treesForThreads($initials, $order);
-
-        return $threads;
+        return $this->Table->postingsForThreads($initials, $order, $CurrentUser);
     }
 
     /**
      * Gets thread ids for paginated entries/index.
      *
-     * @param CurrentUserInterface $User current-user
      * @param array $order sort order
+     * @param CurrentUserInterface $User current-user
      * @return array thread ids
      */
-    protected function _getInitialThreads(CurrentUserInterface $User, $order)
+    protected function paginateThreads($order, CurrentUserInterface $User): array
     {
         Stopwatch::start('Entries->_getInitialThreads() Paginate');
         $categories = $User->getCategories()->getCurrent('read');
@@ -89,7 +91,7 @@ class ThreadsComponent extends Component
             // Performance: Custom counter from categories counter-cache;
             // avoids a costly COUNT(*) DB call counting all pages for pagination.
             'counter' => function ($query) use ($categories) {
-                $results = $this->Entries->Categories->find('all')
+                $results = $this->Table->Categories->find('all')
                 ->select(['thread_count'])
                 ->where(['id IN' => $categories])
                 ->all();
@@ -111,7 +113,7 @@ class ThreadsComponent extends Component
 
         // use setConfig on Component to not merge but overwrite/set the config
         $this->Paginator->setConfig('whitelist', ['page'], false);
-        $initialThreads = $this->Paginator->paginate($this->Entries, $settings);
+        $initialThreads = $this->Paginator->paginate($this->Table, $settings);
 
         $initialThreadsNew = [];
         foreach ($initialThreads as $k => $v) {
@@ -123,34 +125,36 @@ class ThreadsComponent extends Component
     }
 
     /**
-     * Increment views for posting if posting doesn't belong to current user.
+     * Increment views for all postings in thread
      *
-     * @param Posting $posting posting
-     * @param string $type type
-     * - 'null' increment single posting
-     * - 'thread' increment all postings in thread
-     *
+     * @param BasicPostingInterface $posting posting
+     * @param CurrentUserInterface $CurrentUser current user
      * @return void
      */
-    public function incrementViews(Posting $posting, $type = null)
+    public function incrementViewsForThread(BasicPostingInterface $posting, CurrentUserInterface $CurrentUser)
     {
         if ($this->AuthUser->isBot()) {
             return;
         }
 
-        /** @var EntriesTable */
-        $Entries = TableRegistry::getTableLocator()->get('Entries');
-        /** @var AppController */
-        $controller = $this->getController();
-        $CurrentUser = $controller->CurrentUser;
+        $where = ['tid' => $posting->get('tid')];
+        if ($CurrentUser->isLoggedIn()) {
+            $where['user_id !='] = $CurrentUser->getId();
+        }
 
-        if ($type === 'thread') {
-            $where = ['tid' => $posting->get('tid')];
-            if ($CurrentUser->isLoggedIn()) {
-                $where['user_id !='] = $CurrentUser->getId();
-            }
-            $Entries->increment($where, 'views');
+        $this->Table->increment($where, 'views');
+    }
 
+    /**
+     * Increment views for posting if posting
+     *
+     * @param BasicPostingInterface $posting posting
+     * @param CurrentUserInterface $CurrentUser current user
+     * @return void
+     */
+    public function incrementViewsForPosting(BasicPostingInterface $posting, CurrentUserInterface $CurrentUser)
+    {
+        if ($this->AuthUser->isBot()) {
             return;
         }
 
@@ -159,6 +163,6 @@ class ThreadsComponent extends Component
             return;
         }
 
-        $Entries->increment($posting->get('id'), 'views');
+        $this->Table->increment($posting->get('id'), 'views');
     }
 }

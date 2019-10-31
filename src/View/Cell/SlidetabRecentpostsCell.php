@@ -31,8 +31,8 @@ class SlidetabRecentpostsCell extends SlidetabCell
     public function display(CurrentUserInterface $CurrentUser)
     {
         /** @var EntriesTable */
-        $Entries = TableRegistry::get('Entries');
-        $recentEntries = $Entries->getRecentEntries($CurrentUser);
+        $Entries = TableRegistry::getTableLocator()->get('Entries');
+        $recentEntries = $Entries->getRecentPostings($CurrentUser);
         $this->set(compact('recentEntries', 'CurrentUser'));
     }
 

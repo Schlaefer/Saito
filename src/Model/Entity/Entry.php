@@ -16,6 +16,7 @@ use Cake\ORM\Entity;
 use Saito\App\Registry;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\Basic\BasicPostingTrait;
+use Saito\Posting\Posting;
 use Saito\Posting\PostingInterface;
 
 class Entry extends Entity implements BasicPostingInterface
@@ -49,12 +50,6 @@ class Entry extends Entity implements BasicPostingInterface
      */
     public function toPosting(): PostingInterface
     {
-        /** @var PostingInterface */
-        $posting = Registry::newInstance(
-            '\Saito\Posting\Posting',
-            ['rawData' => $this->toArray()]
-        );
-
-        return $posting;
+        return new Posting($this->toArray());
     }
 }

@@ -21,6 +21,7 @@ class PostingBehaviorTest extends SaitoTestCase
         'app.Category',
         'app.Entry',
         'app.User',
+        'plugin.Bookmarks.Bookmark',
     ];
 
     /** @var PostingMarshaller */
@@ -155,13 +156,65 @@ class PostingBehaviorTest extends SaitoTestCase
             'subject' => 'parent subject',
             'tid' => 789,
         ];
-        $user = CurrentUserFactory::createDummy();
-        $parent = new Posting($user, $parent);
+        $parent = new Posting($parent);
 
         $data = $this->table->prepareChildPosting($parent, []);
 
         $this->assertEquals(456, $data['category_id']);
         $this->assertEquals('parent subject', $data['subject']);
         $this->assertEquals(789, $data['tid']);
+    }
+
+    public function testDeletePostingCompleteThread()
+    {
+        $tid = 1;
+
+        //= test thread exists before we delete it
+        $countBeforeDelete = $this->table->find()
+            ->where(['tid' => $tid])
+            ->count();
+        $expected = 6;
+        $this->assertEquals($countBeforeDelete, $expected);
+
+        $allBookmarksBeforeDelete = $this->table->Bookmarks->find()->count();
+
+        $result = $this->table->deletePosting($tid);
+        $this->assertTrue($result);
+
+        //= all postings in thread should be deleted
+        $result = $this->table->find()->where(['tid' => $tid])->count();
+        $expected = 0;
+        $this->assertEquals($result, $expected);
+
+        // delete associated bookmarks
+        $allBookmarksAfterDelete = $this->table->Bookmarks->find()->count();
+        $numberOfBookmarksForTheDeletedThread = 2;
+        $this->assertEquals(
+            $allBookmarksBeforeDelete - $numberOfBookmarksForTheDeletedThread,
+            $allBookmarksAfterDelete
+        );
+    }
+
+    public function testDeletePostingSubthread()
+    {
+        $tid = 1;
+
+        /// test thread exists before we delete it
+        $countBeforeDelete = $this->table->find()
+            ->where(['tid' => $tid])
+            ->count();
+        $expected = 6;
+        $this->assertEquals($countBeforeDelete, $expected);
+
+        $this->table->deletePosting(2);
+
+        $after = $this->table->find('list', [
+            'where' => ['tid' => $tid],
+            'keyField' => 'id',
+            'valueField' => 'id',
+        ])->toArray();
+
+        $this->assertArrayHasKey(1, $after);
+        $this->assertArrayHasKey(8, $after);
     }
 }

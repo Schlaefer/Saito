@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Saito\User;
 
 use Cake\Utility\Hash;
-use Saito\App\Registry;
 
 /**
  * Represents a registered user with all knowledge stored offline

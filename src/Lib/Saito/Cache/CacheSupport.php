@@ -249,7 +249,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
     public function implementedSaitoEvents()
     {
         return [
-            'Model.Saito.Posting.delete' => 'onDelete'
+            'Model.Saito.Postings.delete' => 'onDelete'
         ];
     }
 

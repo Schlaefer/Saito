@@ -149,7 +149,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
     /**
      * {@inheritDoc}
      */
-    public function map(callable $callback, bool $mapSelf = true, PostingInterface $node = null): void
+    public function map(callable $callback, bool $mapSelf = true, $node = null): void
     {
         $this->_Posting->map($callback, $mapSelf, $node);
     }

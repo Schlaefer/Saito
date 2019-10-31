@@ -34,7 +34,7 @@ Data:
 
 - subject: View object
 
-## Model.Saito.Posting.delete ##
+## Model.Saito.Postings.delete ##
 
 Trigger: after a posting was deleted
 

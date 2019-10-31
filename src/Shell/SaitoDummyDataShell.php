@@ -150,7 +150,6 @@ class SaitoDummyDataShell extends Shell
                 $posting['pid'] = array_rand($this->_Threads, 1);
             }
             $user = $this->_randomUser();
-            Registry::set('CU', $user);
 
             $posting = $this->Entries->createPosting($posting, $user);
 

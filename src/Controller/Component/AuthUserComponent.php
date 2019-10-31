@@ -25,7 +25,7 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
-use Saito\App\Registry;
+use Saito\RememberTrait;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\CurrentUser\CurrentUserFactory;
@@ -39,6 +39,8 @@ use Stopwatch\Lib\Stopwatch;
  */
 class AuthUserComponent extends Component
 {
+    use RememberTrait;
+
     /**
      * Component name
      *
@@ -122,7 +124,7 @@ class AuthUserComponent extends Component
      */
     public function isBot()
     {
-        return $this->request->is('bot');
+        return $this->remember('isBot', $this->getController()->getRequest()->is('bot'));
     }
 
     /**
@@ -340,7 +342,6 @@ class AuthUserComponent extends Component
         $controller->CurrentUser = $this->CurrentUser;
         // makes CurrentUser available as View var in templates
         $controller->set('CurrentUser', $this->CurrentUser);
-        Registry::set('CU', $this->CurrentUser);
     }
 
     /**

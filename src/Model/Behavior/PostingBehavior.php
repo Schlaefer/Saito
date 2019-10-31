@@ -15,10 +15,17 @@ namespace App\Model\Behavior;
 use App\Lib\Model\Table\FieldFilter;
 use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
+use Cake\Cache\Cache;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\Behavior;
+use Cake\ORM\Query;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\Posting;
+use Saito\Posting\PostingInterface;
+use Saito\Posting\TreeBuilder;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Stopwatch\Lib\Stopwatch;
+use Traversable;
 
 class PostingBehavior extends Behavior
 {
@@ -181,8 +188,223 @@ class PostingBehavior extends Behavior
      */
     public function validateEditingAllowed($check, $context): bool
     {
-        $posting = new Posting($this->CurrentUser, $context['data']);
+        $posting = (new Posting($context['data']))->withCurrentUser($this->CurrentUser);
 
         return $posting->isEditingAllowed();
+    }
+
+    /**
+     * Get an array of postings for threads
+     *
+     * @param array $tids Thread-IDs
+     * @param array|null $order Thread sort order
+     * @param CurrentUserInterface $CU Current User
+     * @return array<PostingInterface> Array of postings found
+     * @throws RecordNotFoundException If no thread is found
+     */
+    public function postingsForThreads(array $tids, ?array $order = null, CurrentUserInterface $CU = null): array
+    {
+        $entries = $this->getTable()
+            ->find('entriesForThreads', ['threadOrder' => $order, 'tids' => $tids])
+            ->all();
+
+        if (!count($entries)) {
+            throw new RecordNotFoundException(
+                sprintf('No postings for thread-IDs "%s".', implode(', ', $tids))
+            );
+        }
+
+        return $this->entriesToPostings($entries, $CU);
+    }
+
+    /**
+     * Get a posting for a thread
+     *
+     * @param int $tid Thread-ID
+     * @param bool $complete complete fieldset
+     * @param CurrentUserInterface|null $CurrentUser CurrentUser
+     * @return PostingInterface
+     * @throws RecordNotFoundException If thread isn't found
+     */
+    public function postingsForThread(int $tid, bool $complete = false, ?CurrentUserInterface $CurrentUser = null): PostingInterface
+    {
+        $entries = $this->getTable()
+            ->find('entriesForThreads', ['complete' => $complete, 'tids' => [$tid]])
+            ->all();
+
+        if (!count($entries)) {
+            throw new RecordNotFoundException(
+                sprintf('No postings for thread-ID "%s".', $tid)
+            );
+        }
+
+        $postings = $this->entriesToPostings($entries, $CurrentUser);
+
+        return reset($postings);
+    }
+
+    /**
+     * Delete a node
+     *
+     * @param int $id the node id
+     * @return bool
+     */
+    public function deletePosting(int $id): bool
+    {
+        $root = $this->postingsForNode($id);
+        if (empty($root)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $nodesToDelete[] = $root;
+        $nodesToDelete = array_merge($nodesToDelete, $root->getAllChildren());
+
+        $idsToDelete = [];
+        foreach ($nodesToDelete as $node) {
+            $idsToDelete[] = $node->get('id');
+        };
+
+        /** @var EntriesTable */
+        $table = $this->getTable();
+
+        return $table->deleteWithIds($idsToDelete);
+    }
+
+    /**
+     * Get recent postings
+     *
+     * ### Options:
+     *
+     * - `user_id` int|<null> If provided finds only postings of that user.
+     * - `limit` int <10> Number of postings to find.
+     *
+     * @param CurrentUserInterface $User User who has access to postings
+     * @param array $options find options
+     *
+     * @return array<PostingInterface> Array of Postings
+     */
+    public function getRecentPostings(CurrentUserInterface $User, array $options = []): array
+    {
+        Stopwatch::start('PostingBehavior::getRecentPostings');
+
+        $options += [
+            'user_id' => null,
+            'limit' => 10,
+        ];
+
+        $options['category_id'] = $User->getCategories()->getAll('read');
+
+        $read = function () use ($options) {
+            $conditions = [];
+            if ($options['user_id'] !== null) {
+                $conditions[]['Entries.user_id'] = $options['user_id'];
+            }
+            if ($options['category_id'] !== null) {
+                $conditions[]['Entries.category_id IN'] = $options['category_id'];
+            };
+
+            $result = $this
+                ->getTable()
+                ->find(
+                    'entry',
+                    [
+                        'conditions' => $conditions,
+                        'limit' => $options['limit'],
+                        'order' => ['time' => 'DESC']
+                    ]
+                )
+                // hydrating kills performance
+                ->enableHydration(false)
+                ->all();
+
+            return $result;
+        };
+
+        $key = 'Entry.recentEntries-' . md5(serialize($options));
+        $results = Cache::remember($key, $read, 'entries');
+
+        $threads = [];
+        foreach ($results as $result) {
+            $threads[$result['id']] = (new Posting($result))->withCurrentUser($User);
+        }
+
+        Stopwatch::stop('PostingBehavior::getRecentPostings');
+
+        return $threads;
+    }
+
+    /**
+     * Convert array with Entry entities to array with Postings
+     *
+     * @param Traversable $entries Entry array
+     * @param CurrentUserInterface|null $CurrentUser The current user
+     * @return array<PostingInterface>
+     */
+    protected function entriesToPostings(Traversable $entries, ?CurrentUserInterface $CurrentUser = null): array
+    {
+        Stopwatch::start('PostingBehavior::entriesToPostings');
+        $threads = [];
+        $postings = (new TreeBuilder())->build($entries);
+        foreach ($postings as $thread) {
+            $posting = new Posting($thread);
+            if ($CurrentUser) {
+                $posting->withCurrentUser($CurrentUser);
+            }
+            $threads[$thread['tid']] = $posting;
+        }
+        Stopwatch::stop('PostingBehavior::entriesToPostings');
+
+        return $threads;
+    }
+
+    /**
+     * tree of a single node and its subentries
+     *
+     * @param int $id id
+     * @return PostingInterface|null tree or null if nothing found
+     */
+    protected function postingsForNode(int $id) : ?PostingInterface
+    {
+        /** @var EntriesTable */
+        $table = $this->getTable();
+        $tid = $table->getThreadId($id);
+        $postings = $this->postingsForThreads([$tid]);
+        $postings = array_shift($postings);
+
+        return $postings->getThread()->get($id);
+    }
+
+    /**
+     * Finder to get all entries for threads
+     *
+     * @param Query $query Query
+     * @param array $options Options
+     * - 'tids' array required thread-IDs
+     * - 'complete' fieldset
+     * - 'threadOrder' order
+     * @return Query
+     */
+    public function findEntriesForThreads(Query $query, array $options): Query
+    {
+        Stopwatch::start('PostingBehavior::findEntriesForThreads');
+        $options += [
+            'complete' => false,
+            'threadOrder' => ['last_answer' => 'ASC'],
+        ];
+        if (empty($options['tids'])) {
+            throw new \InvalidArgumentException('Not threads to find.');
+        }
+        $tids = $options['tids'];
+        $order = $options['threadOrder'];
+        unset($options['threadOrder'], $options['tids']);
+
+        $query = $query->find('entry', $options)
+            ->where(['tid IN' => $tids])
+            ->order($order)
+            // hydrating kills performance
+            ->enableHydration(false);
+        Stopwatch::stop('PostingBehavior::findEntriesForThreads');
+
+        return $query;
     }
 }
