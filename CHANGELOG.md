@@ -14,6 +14,10 @@
   - ＋ New more fine grained permissions
   - ＋ Permissions are configurable
   - ＋ New role "Owner"
+- Uploader:
+  - ＋ Show progress-bar when uploading a file
+  - ＋ Show rough file transfer speed estimate when uploading
+  - ＋ Adds button for canceling the current file-upload
 - Δ Improves performance of background task runner
 - Internal code changes:
   - Δ Increases phpstan static code analysis from level 3 to 4

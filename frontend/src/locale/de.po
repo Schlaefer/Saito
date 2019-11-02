@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
-#: frontend/src/modules/answering/answering.ts:111
+#: frontend/src/modules/answering/answering.ts:91
 msgid "answer.btn.preview"
 msgstr "Vorschau"
 
@@ -26,7 +26,7 @@ msgstr "Vorschau"
 msgid "answer.btn.sbmt"
 msgstr "Eintragen"
 
-#: frontend/src/modules/answering/views/CategorySelectVw.ts:22
+#: frontend/src/modules/answering/views/CategorySelectVw.ts:23
 msgid "answer.cat.l"
 msgstr "Kategorie"
 
@@ -34,36 +34,36 @@ msgstr "Kategorie"
 msgid "answer.cite.t"
 msgstr "Zitieren"
 
-#: frontend/src/modules/answering/editor/DraftsView.ts:108
+#: frontend/src/modules/answering/Draft.ts:113
 msgid "answer.draft.saved.t"
 msgstr "Antwort ist als Entwurf gespeichert."
 
-#: frontend/src/modules/answering/editor/DraftsView.ts:109
+#: frontend/src/modules/answering/Draft.ts:117
 msgid "answer.draft.unsaved.t"
 msgstr "Nicht alle Änderungen sind als Entwurf gespeichert."
 
-#: frontend/src/modules/answering/answering.ts:96
+#: frontend/src/modules/answering/answering.ts:76
 msgid "answer.reply.t"
 msgstr "Antwort verfassen"
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:236
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:223
 msgid "answer.subject.t"
 msgstr "Betreff"
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:315
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:304
 msgid "answer.submit.e.t"
 msgstr "Fehler: Beitrag wurde nicht gesichert"
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:272
-#: frontend/src/modules/answering/answering.ts:314
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:261
+#: frontend/src/modules/answering/answering.ts:303
 msgid "api.generic.e.exp"
 msgstr "Es konnte keine Verbindung zum Internet-Server hergestellt werden."
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:273
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:262
 msgid "api.generic.e.t"
 msgstr "Fehler: Keine Verbindung zum Server"
 
@@ -103,13 +103,13 @@ msgstr "Fehler: Lesezeichen konnte nicht gespeichert werden."
 msgid "bkm.title.pl"
 msgstr "Lesezeichen"
 
-#: frontend/src/views/postingActionBookmark.js:13
-#: frontend/src/views/postingActionBookmark.js:65
+#: frontend/src/views/postingActionBookmark.ts:19
+#: frontend/src/views/postingActionBookmark.ts:70
 msgid "bmk.doBookmark"
 msgstr "Eintrag zu den Lesezeichen hinzufügen"
 
-#: frontend/src/views/postingActionBookmark.js:13
-#: frontend/src/views/postingActionBookmark.js:61
+#: frontend/src/views/postingActionBookmark.ts:19
+#: frontend/src/views/postingActionBookmark.ts:66
 msgid "bmk.isBookmarked"
 msgstr "Eintrag ist in den Lesezeichen"
 
@@ -151,32 +151,32 @@ msgstr "Einbinden"
 msgid "medins.notRecognized"
 msgstr "Nicht erkannt."
 
-#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:9
-#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:57
+#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:17
+#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:65
 msgid "medins.title"
 msgstr "Inhalte einbinden"
 
-#: frontend/src/views/postingActionDelete.js:29
+#: frontend/src/views/postingActionDelete.ts:26
 msgid "posting.delete.abort.btn"
 msgstr "Abbrechen"
 
-#: frontend/src/views/postingActionDelete.js:31
-#: frontend/src/views/postingActionDelete.js:33
-#: frontend/src/views/postingActionDelete.js:54
+#: frontend/src/views/postingActionDelete.ts:28
+#: frontend/src/views/postingActionDelete.ts:30
+#: frontend/src/views/postingActionDelete.ts:42
 msgid "posting.delete.title"
 msgstr "Beitrag löschen"
 
-#: frontend/src/views/postingActionSolves.js:12
-#: frontend/src/views/postingActionSolves.js:28
+#: frontend/src/views/postingActionSolves.ts:22
+#: frontend/src/views/postingActionSolves.ts:33
 msgid "posting.helpful"
 msgstr "Beitrag als hilfreich markieren."
 
-#: frontend/src/modules/answering/views/PreviewVw.ts:45
-#: frontend/src/modules/answering/views/PreviewVw.ts:63
+#: frontend/src/modules/answering/views/PreviewVw.ts:43
+#: frontend/src/modules/answering/views/PreviewVw.ts:61
 msgid "preview.e.generic"
 msgstr "Fehler: Vorschau konnte nicht geladen werden."
 
-#: frontend/src/modules/answering/views/PreviewVw.ts:39
+#: frontend/src/modules/answering/views/PreviewVw.ts:37
 msgid "preview.t"
 msgstr "Vorschau"
 
@@ -185,16 +185,21 @@ msgstr "Vorschau"
 msgid "time.relative.yesterday"
 msgstr "Gestern"
 
-#: frontend/src/views/postingActionDelete.js:24
+#: frontend/src/views/postingActionDelete.ts:21
 msgid "tree.delete.confirm"
 msgstr "Sicher?"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:24
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:13
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:14
+msgid "upl.btn.abort.title"
+msgstr "Hochladen abbrechen"
+
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
 msgid "upl.btn.insert"
 msgstr "Einfügen"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:20
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:21
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:23
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:24
 msgid "upl.btn.title"
 msgstr "Datei auswählen…"
 
@@ -203,7 +208,8 @@ msgid "upl.del.btn"
 msgstr "Datei löschen"
 
 #: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:62
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:113
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:73
 msgid "upl.failure"
 msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
@@ -217,18 +223,18 @@ msgid "upl.loading"
 msgstr "Lade"
 
 #: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:10
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:24
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:26
 msgid "upl.ncy"
 msgstr "Noch nichts hochgeladen."
 
 #: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:101
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:139
 msgid "upl.new.title"
 msgstr "Datei hier hineinziehen"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:26
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:27
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:68
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:72
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
 msgid "upl.title"
 msgstr "Hochladen"
@@ -237,7 +243,7 @@ msgstr "Hochladen"
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: src/Template/Users/view.ctp:325
+#: src/Template/Users/view.ctp:323
 msgid "user.block.hours"
 msgstr "{hours} Stunden"
 
