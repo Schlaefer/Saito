@@ -189,8 +189,8 @@ msgstr "Gestern"
 msgid "tree.delete.confirm"
 msgstr "Sicher?"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:13
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:14
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
 msgid "upl.btn.abort.title"
 msgstr "Hochladen abbrechen"
 
@@ -198,8 +198,8 @@ msgstr "Hochladen abbrechen"
 msgid "upl.btn.insert"
 msgstr "Einfügen"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:23
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:24
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:17
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:18
 msgid "upl.btn.title"
 msgstr "Datei auswählen…"
 
@@ -207,9 +207,8 @@ msgstr "Datei auswählen…"
 msgid "upl.del.btn"
 msgstr "Datei löschen"
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:113
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:73
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:157
 msgid "upl.failure"
 msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
@@ -227,21 +226,25 @@ msgstr "Lade"
 msgid "upl.ncy"
 msgstr "Noch nichts hochgeladen."
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:139
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:39
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:62
 msgid "upl.new.title"
 msgstr "Datei hier hineinziehen"
 
 #: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:27
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:37
 #: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:72
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
 msgid "upl.title"
 msgstr "Hochladen"
 
 #: frontend/src/modules/user/userVw.ts:25
 msgid "upl.title.pl"
 msgstr "Uploads"
+
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:97
+msgid "upl.vald.e.fileExists"
+msgstr "Fehler: Datei mit gleichen Namen wurde bereits hochgeladen."
 
 #: src/Template/Users/view.ctp:323
 msgid "user.block.hours"

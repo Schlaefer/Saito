@@ -12,6 +12,7 @@ import App from 'models/app';
 import * as _ from 'underscore';
 import Template from '../templates/uploaderAddTpl.html';
 import DragAreaVw from './uploaderAdd/uploaderAddDragAreaVw';
+import UploaderAddMdl from './uploaderAdd/uploaderAddMdl';
 import ProgressBarVw from './uploaderAdd/uploaderAddProgressVw';
 import StatsVw from './uploaderAdd/uploaderAddStatsVw';
 
@@ -30,20 +31,9 @@ class UploaderAddVw extends View<Model> {
                 'change @ui.inputFile': 'onUploadBtn',
                 'click @ui.abortBtn': 'onAbortBtn',
             },
-            model: new Model({
-                // Form data with file.
-                formData: null,
-                // The amount of data currently transfered.
-                loaded: undefined,
-                // Progress in percent.
-                progress: 0,
-                // Start time of an upload as UNIX-timestamp
-                start: undefined,
-                // Upload is in progress.
-                uploadInProgress: false,
-            }),
+            model: new UploaderAddMdl(null, {collection: options.collection}),
             modelEvents: {
-                'change:formData': 'send',
+                'change:fileToUpload': 'send',
             },
             regions: {
                 dragAreaRg: '.js-dragAreaRg',
@@ -77,22 +67,25 @@ class UploaderAddVw extends View<Model> {
      */
     protected onUploadBtn(event: Event) {
         event.preventDefault();
-        const formData = new FormData();
         const input: any = this.getUI('inputFile')[0];
-        formData.append(input.name, input.files[0]);
-        this.model.set('formData', formData);
+        this.model.set('fileToUpload', input.files[0], {validate: true});
+        const error = this.model.validationError;
+        if (error) {
+            App.eventBus.trigger('notification', {message: error, type: 'error'});
+        }
     }
 
     /**
-     * Called when the formData in this view's model is updated to send the file
+     * Called when the file in this view's model is updated to send the file
      *
      * @param model This view's model
-     * @param formData The form data containing the file to upload
+     * @param file The file to upload
      */
-    protected send(model: Model, formData: FormData) {
-        if (formData === null) {
+    protected send(model: Model, file: File) {
+        if (file === null) {
             return;
         }
+
         this.xhr = new XMLHttpRequest();
         const xhr = this.xhr;
         xhr.open('POST', App.settings.get('apiroot') + 'uploads');
@@ -108,7 +101,7 @@ class UploaderAddVw extends View<Model> {
             this.xhr = undefined;
             this.model.set('progress', 0);
             this.model.set('uploadInProgress', false);
-            this.model.set('formData', null);
+            this.model.set('fileToUpload', null);
             // clears out form field
             this.render();
 
@@ -135,6 +128,9 @@ class UploaderAddVw extends View<Model> {
                 this.onUploadError(msg);
             }
         };
+
+        const formData = new FormData();
+        formData.append('upload[0][file]', file);
 
         xhr.send(formData);
     }

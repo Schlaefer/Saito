@@ -8,6 +8,7 @@
 
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
+import App from 'models/app';
 import * as _ from 'underscore';
 
 /**
@@ -77,10 +78,11 @@ class DragAreaVw extends View<Model> {
             return;
         }
 
-        const files = orgEvent.dataTransfer.files;
-        const formData = new FormData();
-        formData.append('upload[0][file]', files[0]);
-        this.model.set('formData', formData);
+        this.model.set('fileToUpload', orgEvent.dataTransfer.files[0], {validate: true});
+        const error = this.model.validationError;
+        if (error) {
+            App.eventBus.trigger('notification', {message: error, type: 'error'});
+        }
     }
 
     /**
