@@ -61,6 +61,16 @@ class UploaderAddVw extends View<Model> {
     }
 
     /**
+     * Ma onBeforeDestroy callback
+     */
+    public onBeforeDestroy()
+    {
+        if (this.model.get('uploadInProgress')) {
+            this.onAbortBtn();
+        }
+    }
+
+    /**
      * Called after the user picked a file to upload.
      *
      * @param event

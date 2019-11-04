@@ -26,7 +26,6 @@ class StatsVw extends View<Model> {
                 <i class="fa fa-tachometer" aria-hidden="true"></i>
                 <span class="js-speed">0 MB/s</span>
             </div>
-            </div>
             `),
             ui: {
                 speed: '.js-speed',
