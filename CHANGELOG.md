@@ -20,6 +20,7 @@
   - ＋ Adds button for canceling the current file-upload
   - ＋ Checks that file with same name isn't uploaded before upload starts
   - ＋ Cancel a running upload if the upload-dialog is closed
+- ✓ Fixes user's can't log-out if forum is installed in a subdirectory
 - Δ Improves performance of background task runner
 - Internal code changes:
   - Δ Increases phpstan static code analysis from level 3 to 4

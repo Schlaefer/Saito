@@ -258,7 +258,10 @@ class AuthUserComponent extends Component
             }
 
             $expire = $authenticationProvider->getConfig('cookie.expire');
-            $refreshedCookie = $cookie->withExpiry($expire);
+            $refreshedCookie = $cookie
+                ->withExpiry($expire)
+                // Can't read path from cookies, so the default would be root '/'.
+                ->withPath($this->getController()->getRequest()->getAttribute('webroot'));
 
             $response = $controller->getResponse()->withCookie($refreshedCookie);
             $controller->setResponse($response);
