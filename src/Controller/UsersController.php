@@ -20,6 +20,7 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
+use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
@@ -80,10 +81,13 @@ class UsersController extends AppController
         if ($this->AuthUser->login()) {
             // Redirect query-param in URL.
             $target = $this->getRequest()->getQuery('redirect');
+            // AuthenticationService puts the full local path into the redirect
+            // parameter, so we have to strip the base-path off again.
+            $target = Router::normalize($target);
             // Referer from Request
             $target = $target ?: $this->referer(null, true);
 
-            if (!$target || $this->Referer->wasAction('login')) {
+            if (empty($target)) {
                 $target = '/';
             }
 
