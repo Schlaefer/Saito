@@ -39,7 +39,9 @@ $this->end();
             $cells[] = [__('userlist_email'), h($user->get('user_email'))];
         }
 
-        if ($CurrentUser->permission('saito.core.user.role.set')) {
+        if ($CurrentUser->permission('saito.core.user.role.set.restricted', new Role($user->getRole()))
+        || $CurrentUser->permission('saito.core.user.role.set.unrestricted', new Role($user->getRole()))
+        ) {
             $cells[] = [
                 __('user_type'),
                 $this->Html->para(null, $this->Permissions->roleAsString($user->getRole())) .

@@ -813,16 +813,26 @@ class UsersController extends AppController
     {
         /** @var User */
         $user = $this->Users->get($id);
-        if (!$this->CurrentUser->permission('saito.core.user.role.set', new Role($user->getRole()))) {
+        $identifier = new Role($user->getRole());
+        $unrestricted = $this->CurrentUser->permission('saito.core.user.role.set.unrestricted', $identifier);
+        $restricted = $this->CurrentUser->permission('saito.core.user.role.set.restricted', $identifier);
+        if (!$restricted && !$unrestricted) {
             throw new ForbiddenException();
         }
 
         /** @var Permissions */
         $Permissions = Registry::get('Permissions');
-        $roles = $Permissions->getRoles()->get($this->CurrentUser->getRole(), false);
 
-        if ($this->getRequest()->is('post') || $this->getRequest()->is('put')) {
+        $roles = $Permissions->getRoles()->get($this->CurrentUser->getRole(), false, $unrestricted);
+
+        if ($this->getRequest()->is('put')) {
             $type = $this->getRequest()->getData('user_type');
+            if (!in_array($type, $roles)) {
+                throw new \InvalidArgumentException(
+                    sprintf('User type "%s" is not available.', $type),
+                    1573376871
+                );
+            }
             $patched = $this->Users->patchEntity($user, ['user_type' => $type]);
 
             $errors = $patched->getErrors();

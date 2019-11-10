@@ -1408,17 +1408,30 @@ class UsersControllerTest extends IntegrationTestCase
         $this->get('/users/role/3');
     }
 
-    public function testRoleViewSuccessAdmin()
+    public function testRoleViewSuccessRestricted()
     {
         $this->_loginUser(1);
         $this->get('/users/role/3');
         $this->assertResponseCode(200);
 
-        // Don't show anon
         $this->assertResponseNotContains('user-type-anon');
+        $this->assertResponseNotContains('user-type-owner');
+        $this->assertResponseNotContains('user-type-admin');
         $this->assertResponseContains('user-type-user');
         $this->assertResponseContains('user-type-mod');
+    }
+
+    public function testRoleViewSuccessUnRestricted()
+    {
+        $this->_loginUser(11);
+        $this->get('/users/role/3');
+        $this->assertResponseCode(200);
+
+        $this->assertResponseNotContains('user-type-anon');
+        $this->assertResponseContains('user-type-owner');
         $this->assertResponseContains('user-type-admin');
+        $this->assertResponseContains('user-type-user');
+        $this->assertResponseContains('user-type-mod');
     }
 
     public function testRolePostTypeNotAllowed()
@@ -1427,22 +1440,26 @@ class UsersControllerTest extends IntegrationTestCase
         $this->_loginUser(1);
         $this->mockSecurity();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(1573376871);
         $data = ['user_type' => 'foo'];
-        $this->post('/users/role/3', $data);
+        $this->put('/users/role/3', $data);
 
+        /*
         $this->assertResponseContains('vld.user.user_type.allowedType');
         $this->assertEquals('user', $this->_controller->Users->get(3)->get('user_type'));
+        */
     }
 
     public function testRolePostSuccess()
     {
-        $this->_loginUser(1);
+        $this->_loginUser(11);
         $this->mockSecurity();
         $userId = 3;
         $newType = 'admin';
 
         $data = ['user_type' => $newType];
-        $this->post("/users/role/$userId", $data);
+        $this->put("/users/role/$userId", $data);
 
         $this->assertRedirect('/users/edit/3');
 
@@ -1460,7 +1477,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->expectException(ForbiddenException::class);
 
         $data = ['user_type' => $newType];
-        $this->post("/users/role/$userId", $data);
+        $this->put("/users/role/$userId", $data);
     }
 
     public function testDeleteNotAuthenticatedCantDelete()

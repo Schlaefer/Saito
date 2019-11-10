@@ -72,10 +72,14 @@ $config['Saito']['Permissions'] = (new PermissionConfig)
     // Change a user's name
     ->allowRole('saito.core.user.name.set', 'admin')
     // Change a user's password
-    ->allowRole('saito.core.user.password.set', 'admin')
-    // Change a user's role
-    ->allowRole('saito.core.user.role.set', 'admin', ['mod', 'user'])
-    ->allowRole('saito.core.user.role.set', 'owner')
+    ->allowRole('saito.core.user.password.set', 'admin', ['mod', 'user'])
+    ->allowRole('saito.core.user.password.set', 'owner')
+    // Change a user's role. Allowed ranks: all the current user has but not
+    // their own rank.
+    ->allowRole('saito.core.user.role.set.restricted', 'admin', ['mod', 'user'])
+    // Change a user's role. Allowed ranks: all the current user has including
+    // their own rank.
+    ->allowRole('saito.core.user.role.set.unrestricted', 'owner')
 
     /**
      * Allow access if the resource "belongs" to a user

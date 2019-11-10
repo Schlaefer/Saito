@@ -51,16 +51,22 @@ class Roles
      * Get all roles for role
      *
      * @param string $role Role
-     * @param bool $includeAnon Include anon user
+     * @param bool $includeAnon Include 'anon' user in roles-list
+     * @param bool $includeOwn If false a list all other roles a user has
      * @return array All roles a role has
      */
-    public function get(string $role, bool $includeAnon = true): array
+    public function get(string $role, bool $includeAnon = true, bool $includeOwn = true): array
     {
         if (!isset($this->roles[$role])) {
             return [];
         }
 
-        $roles = [$role];
+        $roles = [];
+
+        if ($includeOwn) {
+            $roles[] = $role;
+        }
+
         foreach ($this->roles[$role]['subroles'] as $role) {
             if ($role === 'anon' && !$includeAnon) {
                 continue;
