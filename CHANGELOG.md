@@ -15,11 +15,12 @@
   - ＋ Permissions are configurable
   - ＋ New role "Owner"
 - Uploader:
-  - ＋ Show progress-bar when uploading a file
-  - ＋ Show rough file transfer speed estimate when uploading
+  - ＋ Shows progress-bar when uploading a file
+  - ＋ Shows speed, time remaining and file size when uploading a file
   - ＋ Adds button for canceling the current file-upload
-  - ＋ Checks that file with same name isn't uploaded before upload starts
   - ＋ Cancel a running upload if the upload-dialog is closed
+  - ＋ Checks that file with same name isn't uploaded before upload starts
+  - ＋ Improved responsive layout
 - ✓ Fixes user's can't log-out if forum is installed in a subdirectory
 - ✓ Fixes login redirect issues if forum is installed in a subdirecotry
 - Δ Improves performance of background task runner

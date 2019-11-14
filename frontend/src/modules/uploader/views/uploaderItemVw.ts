@@ -11,7 +11,7 @@ import UploaderItemFooterVw from './uploaderItemFooterVw';
 class UploaderItemVw extends View<Model> {
     public constructor(options: any = {}) {
         _.defaults(options, {
-            className: 'card',
+            className: 'card imageUploader-card',
             regions: {
                 footer: '.js-footer',
                 rgForm: '.js-rgForm',

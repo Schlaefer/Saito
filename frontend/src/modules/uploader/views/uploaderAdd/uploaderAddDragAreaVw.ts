@@ -21,7 +21,7 @@ class DragAreaVw extends View<Model> {
      */
     public constructor(options: any = {}) {
         _.defaults(options, {
-            className: 'card-body',
+            className: 'card-upload-container card-body',
             events: {
                 'dragleave @ui.dropLayer': 'handleDragLeave',
                 'dragover @ui.dropLayer': 'handleDragOver',
@@ -81,7 +81,7 @@ class DragAreaVw extends View<Model> {
         this.model.set('fileToUpload', orgEvent.dataTransfer.files[0], {validate: true});
         const error = this.model.validationError;
         if (error) {
-            App.eventBus.trigger('notification', {message: error, type: 'error'});
+            App.eventBus.trigger('notification', {message: error, type: 'warning'});
         }
     }
 

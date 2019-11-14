@@ -21,7 +21,7 @@ class ProgressBarVw extends View<Model> {
                 'change:progress': 'onChangeProgress',
             },
             template: _.template(`
-                <div class="progress border-top" style="height: 10px;">
+                <div class="progress">
                     <div class="progress-bar"
                         role="progressbar"
                         style="width: <%- progress %>%;">

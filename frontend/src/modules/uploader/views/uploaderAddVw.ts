@@ -26,7 +26,7 @@ class UploaderAddVw extends View<Model> {
      */
     public constructor(options: any = {}) {
         _.defaults(options, {
-            className: 'imageUploader-add',
+            className: 'imageUploader-card imageUploader-add card',
             events: {
                 'change @ui.inputFile': 'onUploadBtn',
                 'click @ui.abortBtn': 'onAbortBtn',
@@ -167,6 +167,7 @@ class UploaderAddVw extends View<Model> {
         if (event.lengthComputable) {
             /// Progress-bar length reflects actual upload
             this.model.set('loaded', event.loaded);
+            this.model.set('total', event.total);
 
             complete = Math.floor(event.loaded / event.total * 100);
         } else {

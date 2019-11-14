@@ -1,7 +1,12 @@
 <form enctype="multipart/form-data">
-    <div class="js-dragAreaRg"></div>
-    <div class="js-progressBarRg"></div>
-    <div class="card-footer flex-bar flex-wrap align-items-center">
+    <div style="position: relative;">
+        <div class="js-dragAreaRg"></div>
+        <div class="js-progressBarRg" style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 100;"></div>
+    </div>
+    <div class="imageUploader-card-details">
+        <div class='js-statsRg' style="text-align: left;"></div>
+    </div>
+    <div class="card-footer">
         <div></div>
         <div>
             <button class="btn btn-secondary js-abortBtn" type="button" style="display: none;">
@@ -25,6 +30,5 @@
                 </div>
             </div>
         </div>
-        <div class='js-statsRg'></div>
     </div>
 </form>

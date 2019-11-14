@@ -1,8 +1,9 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import humanize from 'humanize';
+import numeral from 'numeral';
 import App from 'models/app';
 import { defaults, template } from 'underscore';
+import TextElipsisVw from 'views/TextElipsisVw';
 
 class UploaderItemFooterVw extends View<Model> {
     public constructor(options: any = {}) {
@@ -11,24 +12,32 @@ class UploaderItemFooterVw extends View<Model> {
             events: {
                 'click button': 'handleDelete',
             },
+            regions: {
+                nameRg: '.js-nameRg',
+            },
             template: template(`
-                <h6 title="<%- title %>"><%- titleTrunc %></h6>
                 <ul>
+                    <li class="js-nameRg"></li>
                     <li>
-                        <i class="fa fa-calendar-o" ariad-hidden="true"></i>
+                        <i class="fa fa-fw fa-calendar-o" ariad-hidden="true"></i>
                         <%- created %>
                     </li>
                     <li>
-                        <i class="fa fa-floppy-o" ariad-hidden="true"></i>
+                        <i class="fa fa-fw fa-floppy-o" ariad-hidden="true"></i>
                         <%- filesize %>
                     </li>
                 </ul>
                 <button class="btn btn-link btnUploadDelete" title="<%- $.i18n.__('upl.del.btn') %>">
                     <i class="fa fa-trash-o"></i>
                 </button>
-                `),
+            `),
         });
         super(...arguments);
+    }
+
+    public onRender() {
+        const nameVw = new TextElipsisVw({model: this.model});
+        this.showChildView('nameRg', nameVw);
     }
 
     /**
@@ -46,24 +55,10 @@ class UploaderItemFooterVw extends View<Model> {
     }
 
     private templateContext() {
-
-        const trunc = (str: string, length: number, truncateStr?: string): string => {
-            if (str.length <= length) {
-                return str;
-            }
-
-            truncateStr = truncateStr || '…';
-
-            return str.slice(0, length * 3 / 5)
-                + truncateStr
-                + str.slice(str.length - (length * 2 / 5), str.length);
-        };
-
         return {
             created: new Date(this.model.get('created'))
                 .toLocaleDateString(App.settings.get('language')),
-            filesize: humanize.filesize(this.model.get('size')),
-            titleTrunc: trunc(this.model.get('title'), 20),
+            filesize: numeral(this.model.get('size')).format('0.0 b'),
         };
     }
 }
