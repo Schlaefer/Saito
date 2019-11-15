@@ -73,7 +73,7 @@ trait TestCaseTrait
     protected function _storeSettings()
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
-        $this->saitoPermissions = clone(Configure::read('Saito.Permissions'));
+        $this->saitoPermissions = clone(Configure::read('Saito.Permission.Resources'));
         $this->setI18n('en');
         Configure::write('Saito.Settings.ParserPlugin', \Plugin\BbcodeParser\src\Lib\Markup::class);
         Configure::write('Saito.Settings.uploader', clone($this->saitoSettings['uploader']));
@@ -87,7 +87,7 @@ trait TestCaseTrait
     protected function _restoreSettings()
     {
         Configure::write('Saito.Settings', $this->saitoSettings);
-        Configure::write('Saito.Permissions', $this->saitoPermissions);
+        Configure::write('Saito.Permission.Resources', $this->saitoPermissions);
     }
 
     /**

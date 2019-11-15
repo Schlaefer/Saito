@@ -26,9 +26,8 @@ use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Blocker\ManualBlocker;
-use Saito\User\Permission\Identifier\Owner;
-use Saito\User\Permission\Identifier\Role;
 use Saito\User\Permission\Permissions;
+use Saito\User\Permission\ResourceAI;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 use Stopwatch\Lib\Stopwatch;
 
@@ -454,8 +453,7 @@ class UsersController extends AppController
 
         $permissionEditing = $this->CurrentUser->permission(
             'saito.core.user.edit',
-            new Role($user->getRole()),
-            new Owner($user)
+            (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId())
         );
         if (!$permissionEditing) {
             throw new \Saito\Exception\SaitoForbiddenException(
@@ -509,8 +507,7 @@ class UsersController extends AppController
 
         $permissionEditing = $this->CurrentUser->permission(
             'saito.core.user.edit',
-            new Role($user->getRole()),
-            new Owner($user)
+            (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId())
         );
         if (!$permissionEditing) {
             throw new \Saito\Exception\SaitoForbiddenException(
@@ -560,7 +557,7 @@ class UsersController extends AppController
         /// Check permission
         $permission = $this->CurrentUser->permission(
             'saito.core.user.delete',
-            new Role($readUser->getRole())
+            (new ResourceAI())->onRole($readUser->getRole())
         );
         if (!$permission) {
             throw new ForbiddenException(
@@ -631,7 +628,7 @@ class UsersController extends AppController
 
         $permission = $this->CurrentUser->permission(
             'saito.core.user.lock.set',
-            new Role($readUser->getRole())
+            (new ResourceAI())->onRole($readUser->getRole())
         );
         if (!$permission) {
             throw new ForbiddenException(null, 1571316877);
@@ -679,7 +676,7 @@ class UsersController extends AppController
 
         $permission = $this->CurrentUser->permission(
             'saito.core.user.lock.set',
-            new Role($user->getRole())
+            (new ResourceAI())->onRole($user->getRole())
         );
         if (!$permission) {
             throw new ForbiddenException(null, 1571316877);
@@ -773,7 +770,7 @@ class UsersController extends AppController
         /** @var User */
         $user = $this->Users->get($id);
 
-        if (!$this->CurrentUser->permission('saito.core.user.password.set', new Role($user->getRole()))) {
+        if (!$this->CurrentUser->permission('saito.core.user.password.set', (new ResourceAI())->onRole($user->getRole()))) {
             throw new SaitoForbiddenException(
                 "Attempt to set password for user $id.",
                 ['CurrentUser' => $this->CurrentUser]
@@ -813,7 +810,7 @@ class UsersController extends AppController
     {
         /** @var User */
         $user = $this->Users->get($id);
-        $identifier = new Role($user->getRole());
+        $identifier = (new ResourceAI())->onRole($user->getRole());
         $unrestricted = $this->CurrentUser->permission('saito.core.user.role.set.unrestricted', $identifier);
         $restricted = $this->CurrentUser->permission('saito.core.user.role.set.restricted', $identifier);
         if (!$restricted && !$unrestricted) {

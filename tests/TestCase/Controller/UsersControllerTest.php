@@ -13,6 +13,7 @@ use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
+use Saito\User\Permission\ResourceAC;
 
 class UsersControllerTest extends IntegrationTestCase
 {
@@ -256,7 +257,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testRegisterViewFormFailureNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.register')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->expectException(ForbiddenException::class);
         $this->expectExceptionCode(1571852880);
         $this->get('/users/register');
@@ -432,7 +435,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testRsFailureNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.register')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->expectException(ForbiddenException::class);
         $this->expectExceptionCode(1571852880);
         $this->get('/users/rs/10/?c=1549');
@@ -846,7 +851,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testLockFailureNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.lock.set', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.lock.set')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->mockSecurity();
         $this->_loginUser(11);
 
@@ -1490,7 +1497,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testDeleteNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.delete', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.delete')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->mockSecurity();
         $this->_loginUser(11);
 

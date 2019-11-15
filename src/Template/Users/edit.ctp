@@ -1,7 +1,6 @@
 <?php
 
-use Saito\User\Permission\Identifier\Owner;
-use Saito\User\Permission\Identifier\Role;
+use Saito\User\Permission\ResourceAI;
 
 $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack(
@@ -21,7 +20,7 @@ $this->end();
         <?php
         $cells = [];
 
-        if ($CurrentUser->permission('saito.core.user.name.set', new Role($user->getRole()), new Owner($user))) {
+        if ($CurrentUser->permission('saito.core.user.name.set', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
             $cells[] = [
                 __('username_marking'),
                 $this->Form->control('username', ['class' => 'form-control', 'label' => false])
@@ -30,7 +29,7 @@ $this->end();
             $cells[] = [__('username_marking'), h($user->get('username'))];
         }
 
-        if ($CurrentUser->permission('saito.core.user.email.set', new Role($user->getRole()), new Owner($user))) {
+        if ($CurrentUser->permission('saito.core.user.email.set', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
             $cells[] = [
                 __('userlist_email'),
                 $this->Form->control('user_email', ['class' => 'form-control', 'label' => false])
@@ -39,8 +38,9 @@ $this->end();
             $cells[] = [__('userlist_email'), h($user->get('user_email'))];
         }
 
-        if ($CurrentUser->permission('saito.core.user.role.set.restricted', new Role($user->getRole()))
-        || $CurrentUser->permission('saito.core.user.role.set.unrestricted', new Role($user->getRole()))
+        $idP = (new ResourceAI())->onRole($user->getRole());
+        if ($CurrentUser->permission('saito.core.user.role.set.restricted', $idP)
+        || $CurrentUser->permission('saito.core.user.role.set.unrestricted', $idP)
         ) {
             $cells[] = [
                 __('user_type'),

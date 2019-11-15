@@ -8,7 +8,9 @@
  * @license http://opensource.org/licenses/MIT
  */
 
-use Saito\User\Permission\PermissionConfig;
+use Saito\User\Permission\ResourceAC;
+use Saito\User\Permission\Resource;
+use Saito\User\Permission\Resources;
 use Saito\User\Permission\Roles;
 
 /**
@@ -16,7 +18,7 @@ use Saito\User\Permission\Roles;
  *
  * Add translations in nondynamic.po as 'permission.role.<ID-number>'
  */
-$config['Saito']['Roles'] = (new Roles)
+$config['Saito']['Permission']['Roles'] = (new Roles)
     // Non logged-in visitors
     ->add('anon', 0)
     // Registered and logged-in users
@@ -31,70 +33,83 @@ $config['Saito']['Roles'] = (new Roles)
 /**
  * Permissions
  *
- * allowAll > allowUser > allowRole
+ * everbody > owner > role
  */
-$config['Saito']['Permissions'] = (new PermissionConfig)
+$config['Saito']['Permission']['Resources'] = (new Resources())
     /**
      * Allow roles access to resource based on roles
      */
     // Access to the administration backend
-    ->allowRole('saito.core.admin.backend', 'admin')
+    ->add((new Resource('saito.core.admin.backend'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Pin or lock a posting
-    ->allowRole('saito.core.posting.pinAndLock', 'mod')
+    ->add((new Resource('saito.core.posting.pinAndLock'))
+        ->allow((new ResourceAC())->asRole('mod')))
     // Delete a posting
-    ->allowRole('saito.core.posting.delete', 'mod')
+    ->add((new Resource('saito.core.posting.delete'))
+        ->allow((new ResourceAC())->asRole('mod')))
+    // Allow user to edit their own postings
+    ->add((new Resource('saito.core.posting.edit'))
+        ->allow((new ResourceAC())->onOwn()))
     // "Moderator" mode. Restricted to other user and accessible categories
-    ->allowRole('saito.core.posting.edit.restricted', 'mod')
+    ->add((new Resource('saito.core.posting.edit.restricted'))
+        ->allow((new ResourceAC())->asRole('mod')))
     // Allows unrestricted editing of postings
-    ->allowRole('saito.core.posting.edit.unrestricted', 'admin')
+    ->add((new Resource('saito.core.posting.edit.unrestricted'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Show user's IP address if available
-    ->allowRole('saito.core.posting.ip.view', 'mod')
+    ->add((new Resource('saito.core.posting.ip.view'))
+        ->allow((new ResourceAC())->asRole('mod')))
     // Merge postings
-    ->allowRole('saito.core.posting.merge', 'mod')
+    ->add((new Resource('saito.core.posting.merge'))
+        ->allow((new ResourceAC())->asRole('mod')))
     // Show a user's activation status
-    ->allowRole('saito.core.user.activate.view', 'admin')
+    ->add((new Resource('saito.core.user.activate.view'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Contact a user no matter their contact settings
-    ->allowRole('saito.core.user.contact', 'admin')
+    ->add((new Resource('saito.core.user.contact'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Delete user
-    ->allowRole('saito.core.user.delete', 'mod', 'user')
-    ->allowRole('saito.core.user.delete', 'admin', ['mod', 'user'])
-    ->allowRole('saito.core.user.delete', 'owner')
+    ->add((new Resource('saito.core.user.delete'))
+        ->allow((new ResourceAC())->asRole('mod')->onRole('user'))
+        ->allow((new ResourceAC())->asRole('admin')->onRoles('mod', 'user'))
+        ->allow((new ResourceAC())->asRole('owner')))
     // Edit a user's profile page
-    ->allowRole('saito.core.user.edit', 'admin')
+    ->add((new Resource('saito.core.user.edit'))
+        ->allow((new ResourceAC())->onOwn())
+        ->allow((new ResourceAC())->asRole('admin')))
     // Change a user's email address
-    ->allowRole('saito.core.user.email.set', 'admin')
+    ->add((new Resource('saito.core.user.email.set'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Allows locking-out of users
-    ->allowRole('saito.core.user.lock.set', 'mod', 'user')
-    ->allowRole('saito.core.user.lock.set', 'admin', ['mod', 'user'])
-    ->allowRole('saito.core.user.lock.set', 'owner')
+    ->add((new Resource('saito.core.user.lock.set'))
+        ->allow((new ResourceAC())->asRole('mod')->onRole('user'))
+        ->allow((new ResourceAC())->asRole('admin')->onRoles('mod', 'user'))
+        ->allow((new ResourceAC())->asRole('owner')))
     // Show a user's blocking status
-    ->allowRole('saito.core.user.lock.view', 'user')
+    ->add((new Resource('saito.core.user.lock.view'))
+        ->allow((new ResourceAC())->asRole('user')))
     // Change a user's name
-    ->allowRole('saito.core.user.name.set', 'admin')
+    ->add((new Resource('saito.core.user.name.set'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Change a user's password
-    ->allowRole('saito.core.user.password.set', 'admin', ['mod', 'user'])
-    ->allowRole('saito.core.user.password.set', 'owner')
+    ->add((new Resource('saito.core.user.password.set'))
+        ->allow((new ResourceAC())->asRole('admin')->onRoles('mod', 'user'))
+        ->allow((new ResourceAC())->asRole('owner')))
     // Change a user's role. Allowed ranks: all the current user has but not
     // their own rank.
-    ->allowRole('saito.core.user.role.set.restricted', 'admin', ['mod', 'user'])
+    ->add((new Resource('saito.core.user.role.set.restricted'))
+        ->allow((new ResourceAC())->asRole('admin')->onRoles('mod', 'user')))
     // Change a user's role. Allowed ranks: all the current user has including
     // their own rank.
-    ->allowRole('saito.core.user.role.set.unrestricted', 'owner')
-
-    /**
-     * Allow access if the resource "belongs" to a user
-     */
-    // Allow user to edit their own postings
-    ->allowOwner('saito.core.posting.edit')
-    // Allow user to edit their own profile
-    ->allowOwner('saito.core.user.edit')
-    // Allow user to delete their own bookmarks
-    ->allowOwner('saito.plugin.bookmarks.delete')
-
-    /**
-     * Allow access without limitations
-     */
-    // Register new users
-    ->allowAll('saito.core.user.register');
+    ->add((new Resource('saito.core.user.role.set.unrestricted'))
+        ->allow((new ResourceAC())->asRole('owner')))
+    // Deleting bookmarks
+    ->add((new Resource('saito.plugin.bookmarks.delete'))
+        ->allow((new ResourceAC())->onOwn()))
+    // Use the register form
+    ->add((new Resource('saito.core.user.register'))
+        ->allow((new ResourceAC())->asEverybody()))
+    ;
 
 return $config;

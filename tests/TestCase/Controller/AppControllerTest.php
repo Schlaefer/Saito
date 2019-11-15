@@ -3,8 +3,8 @@
 namespace App\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
-use Cake\Network\Request;
 use Saito\Test\IntegrationTestCase;
+use Saito\User\Permission\ResourceAC;
 
 class AppControllerTest extends IntegrationTestCase
 {
@@ -100,7 +100,9 @@ class AppControllerTest extends IntegrationTestCase
     public function testRegisterLinkNotShown()
     {
         $this->setI18n('bzg');
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.register')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->get('/');
         $this->assertResponseNotContains('register_linkname');
     }
