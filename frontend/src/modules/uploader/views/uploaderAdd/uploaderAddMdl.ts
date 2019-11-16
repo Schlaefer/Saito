@@ -19,6 +19,8 @@ class UploaderAddMdl extends Model {
             progress: 0,
             // Start time of an upload as UNIX-timestamp
             start: undefined,
+            // Total amount of data to transfer
+            total: undefined,
             // Upload is in progress.
             uploadInProgress: false,
         };
@@ -30,6 +32,9 @@ class UploaderAddMdl extends Model {
      * @param options Options
      */
     public validate(attrs: any, options?: any): string|undefined {
+        if (attrs.fileToUpload === undefined) {
+            return $.i18n.__('upl.vald.e.dad');
+        }
         const exists = this.collection.findWhere({ title: attrs.fileToUpload.name });
         if (exists !== undefined) {
             return $.i18n.__('upl.vald.e.fileExists');

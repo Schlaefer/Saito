@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Saito\User;
 
-use Saito\User\Permission\Identifier\IdentifierInterface;
+use Saito\User\Permission\ResourceAI;
 
 interface ForumsUserInterface
 {
@@ -80,8 +80,8 @@ interface ForumsUserInterface
      * Check if user has permission to access a resource.
      *
      * @param string $resource resource
-     * @param IdentifierInterface ...$identifiers Identifier
+     * @param ResourceAI $identity Identity
      * @return bool
      */
-    public function permission(string $resource, IdentifierInterface ...$identifiers): bool;
+    public function permission(string $resource, ResourceAI $identity = null): bool;
 }

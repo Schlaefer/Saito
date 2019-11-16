@@ -43,8 +43,8 @@ class Registry
         $dic->set('Cron', new Cron());
 
         $dic->set('Permissions', $dic->lazyNew(Permissions::class));
-        $dic->params[Permissions::class]['roles'] = Configure::read('Saito.Roles');
-        $dic->params[Permissions::class]['permissionConfig'] = Configure::read('Saito.Permissions');
+        $dic->params[Permissions::class]['roles'] = Configure::read('Saito.Permission.Roles');
+        $dic->params[Permissions::class]['resources'] = Configure::read('Saito.Permission.Resources');
         $dic->params[Permissions::class]['categories'] = TableRegistry::getTableLocator()->get('Categories');
 
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));

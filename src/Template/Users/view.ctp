@@ -1,7 +1,6 @@
 <?php
 
-use Saito\User\Permission\Identifier\Owner;
-use Saito\User\Permission\Identifier\Role;
+use Saito\User\Permission\ResourceAI;
 
 $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack();
@@ -173,7 +172,7 @@ if ($items) {
         <?php
         $panel = '';
 
-        if ($CurrentUser->permission('saito.core.user.edit', new Role($user->getRole()), new Owner($user))) {
+        if ($CurrentUser->permission('saito.core.user.edit', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
             $panel .= $this->Html->link(
                 __('edit_userdata'),
                 ['action' => 'edit', $user->get('id')],
@@ -220,7 +219,7 @@ if ($items) {
         // START Admin menu
         $menuItems = [];
 
-        $deleteAllowed = !$CurrentUser->isUser($user) && $CurrentUser->permission('saito.core.user.delete', new Role($user->getRole()));
+        $deleteAllowed = !$CurrentUser->isUser($user) && $CurrentUser->permission('saito.core.user.delete', (new ResourceAI())->onRole($user->getRole()));
         if ($deleteAllowed) {
             if (!empty($menuItems)) {
                 $menuItems[] = 'divider';
@@ -254,7 +253,7 @@ if ($items) {
         ?>
     </div>
     <?php
-    if ($CurrentUser->permission('saito.core.user.lock.set', new Role($user->getRole()))) { ?>
+    if ($CurrentUser->permission('saito.core.user.lock.set', (new ResourceAI())->onRole($user->getRole()))) { ?>
         <div class="card mb-3">
             <div class="card-header">
                 <?= $this->Layout->panelHeading(__('user.block.history')) ?>

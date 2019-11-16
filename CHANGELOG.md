@@ -1,25 +1,30 @@
 # Change-Log
 
-- ＋ Added
+- ＋ New
 - ✓ Fixed
 - Δ Changed
 - − Removed
 
-## [Unreleased]
+## [5.5.0] - 2019-11-16
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.4.1...5.5.0)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.5.0/saito-release-master-5.5.0.zip)
+
 
 ### Changes
 
 - ＋ Adds `CHANGELOG.md` to keep track of changes
-- ＋ Expanded permission system
-  - ＋ New more fine grained permissions
+- ＋ Rewritten and expanded permission system:
+  - ＋ New, more fine grained permissions
   - ＋ Permissions are configurable
   - ＋ New role "Owner"
 - Uploader:
-  - ＋ Show progress-bar when uploading a file
-  - ＋ Show rough file transfer speed estimate when uploading
+  - ＋ Shows progress-bar when uploading a file
+  - ＋ Shows speed, time remaining and file size when uploading a file
   - ＋ Adds button for canceling the current file-upload
-  - ＋ Checks that file with same name isn't uploaded before upload starts
   - ＋ Cancel a running upload if the upload-dialog is closed
+  - ＋ Checks that file with same name isn't uploaded before upload starts
+  - ＋ Improved responsive layout
 - ✓ Fixes user's can't log-out if forum is installed in a subdirectory
 - ✓ Fixes login redirect issues if forum is installed in a subdirecotry
 - Δ Improves performance of background task runner
@@ -28,21 +33,21 @@
   - Δ Changes passing of current-user throughout the app
   - Δ Updates aura/di from 2.x to 4.x
 
-[Full commit-log](https://github.com/Schlaefer/Saito/compare/5.4.1...5.5.0)
-
 ### Update Notes
 
 #### Extended Permission System
 
-Saito 5.0.0 introduced a new permission system which is considerably extended in this release.
+Saito 5.0.0 introduced a new permission system which was rewritten and considerably extended in this release.
 
 ##### Configuration
 
 The configuration is exposed at `config/permissions.php` now.
 
-Want to allow moderators to contact a user no matter their contact-settings? You can do that. Want to disable new registrations? You can do that. Want to allow users to change their email-address? You can do that. And a lot more.
+Want to allow moderators to contact a user no matter the user's contact-settings? You can do that. Want to disable new registrations? You can do that. Want to allow users to change their email-address? You can do that. And a lot more.
 
-It offers a lot of flexibility to tweak the forum behavior, but I would not recommend to reconfigure everything by starting from scratch.
+Permissions are intended to offer flexibility by tweaking the exiting forum behavior to your needs. While possible it is not recommended to start a brand new permission-configuration from scratch.
+
+If you make changes in `config/permissions.php` don't forget to carry them over if you update to new releases in the future.
 
 ##### The Owner Account
 
@@ -53,7 +58,7 @@ This update introduces a new user-role *Owner*. The following changes apply to t
 - The "lower" roles are not allowed to change the role, block or delete an Owner
 - Only an Owner can promote (or demote) a user to Administrator or Owner
 
-The update is not going to change accounts on existing installations and because this is the whole point it isn't possible to promote an account to Owner from an existing Administrator accounts. To promote an user execute manually in the batabase:
+The update is not going to change accounts on existing installations and, because this is the whole point, it isn't possible to promote an account to Owner from an Administrator account. To promote an user on an existing installation execute manually in the database:
 
 ```SQL
 UPDATE users SET user_type='owner' WHERE username='TheUserName';
@@ -62,8 +67,6 @@ UPDATE users SET user_type='owner' WHERE username='TheUserName';
 ##### "Lock User" Setting
 
 The setting for enabling user-locking is removed from the admin-backend and controlled by permissions now. The default behavior is unchanged: moderators may lock, locking status is visible to every user.
-
-[Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.5.0/saito-release-master-5.5.0.zip)
 
 ## [5.4.1] - 2019-10-20
 

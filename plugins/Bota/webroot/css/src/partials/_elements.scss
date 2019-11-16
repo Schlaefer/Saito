@@ -84,6 +84,28 @@
   padding: 0 0.5em;
 }
 
+/* Text dynamic width elipsis
+ * ------------------------------------- */
+
+.textElipsis-wrap {
+  display: flex;
+  flex-direction:row;
+  flex-wrap: nowrap;
+  justify-content:flex-start;
+}
+.textElipsis-start {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  flex-shrink: 1;
+}
+.textElipsis-end {
+  white-space:nowrap;
+  flex-basis:content;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
 /* Legacy - Don't Use Anymore/Remove
 // ------------------------------------- */
 .infoText,

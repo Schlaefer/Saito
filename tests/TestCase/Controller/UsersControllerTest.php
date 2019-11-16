@@ -13,6 +13,7 @@ use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
+use Saito\User\Permission\ResourceAC;
 
 class UsersControllerTest extends IntegrationTestCase
 {
@@ -256,7 +257,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testRegisterViewFormFailureNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.register')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->expectException(ForbiddenException::class);
         $this->expectExceptionCode(1571852880);
         $this->get('/users/register');
@@ -432,7 +435,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testRsFailureNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.register', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.register')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->expectException(ForbiddenException::class);
         $this->expectExceptionCode(1571852880);
         $this->get('/users/rs/10/?c=1549');
@@ -846,7 +851,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testLockFailureNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.lock.set', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.lock.set')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->mockSecurity();
         $this->_loginUser(11);
 
@@ -1408,17 +1415,30 @@ class UsersControllerTest extends IntegrationTestCase
         $this->get('/users/role/3');
     }
 
-    public function testRoleViewSuccessAdmin()
+    public function testRoleViewSuccessRestricted()
     {
         $this->_loginUser(1);
         $this->get('/users/role/3');
         $this->assertResponseCode(200);
 
-        // Don't show anon
         $this->assertResponseNotContains('user-type-anon');
+        $this->assertResponseNotContains('user-type-owner');
+        $this->assertResponseNotContains('user-type-admin');
         $this->assertResponseContains('user-type-user');
         $this->assertResponseContains('user-type-mod');
+    }
+
+    public function testRoleViewSuccessUnRestricted()
+    {
+        $this->_loginUser(11);
+        $this->get('/users/role/3');
+        $this->assertResponseCode(200);
+
+        $this->assertResponseNotContains('user-type-anon');
+        $this->assertResponseContains('user-type-owner');
         $this->assertResponseContains('user-type-admin');
+        $this->assertResponseContains('user-type-user');
+        $this->assertResponseContains('user-type-mod');
     }
 
     public function testRolePostTypeNotAllowed()
@@ -1427,22 +1447,26 @@ class UsersControllerTest extends IntegrationTestCase
         $this->_loginUser(1);
         $this->mockSecurity();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(1573376871);
         $data = ['user_type' => 'foo'];
-        $this->post('/users/role/3', $data);
+        $this->put('/users/role/3', $data);
 
+        /*
         $this->assertResponseContains('vld.user.user_type.allowedType');
         $this->assertEquals('user', $this->_controller->Users->get(3)->get('user_type'));
+        */
     }
 
     public function testRolePostSuccess()
     {
-        $this->_loginUser(1);
+        $this->_loginUser(11);
         $this->mockSecurity();
         $userId = 3;
         $newType = 'admin';
 
         $data = ['user_type' => $newType];
-        $this->post("/users/role/$userId", $data);
+        $this->put("/users/role/$userId", $data);
 
         $this->assertRedirect('/users/edit/3');
 
@@ -1460,7 +1484,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->expectException(ForbiddenException::class);
 
         $data = ['user_type' => $newType];
-        $this->post("/users/role/$userId", $data);
+        $this->put("/users/role/$userId", $data);
     }
 
     public function testDeleteNotAuthenticatedCantDelete()
@@ -1473,7 +1497,9 @@ class UsersControllerTest extends IntegrationTestCase
 
     public function testDeleteNoPermission()
     {
-        Configure::read('Saito.Permissions')->allowAll('saito.core.user.delete', false);
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.delete')
+            ->disallow((new ResourceAC())->asEverybody());
         $this->mockSecurity();
         $this->_loginUser(11);
 

@@ -190,8 +190,25 @@ msgstr "yesterday"
 msgid "tree.delete.confirm"
 msgstr "Are sure?"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:41
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:53
+msgid "upl.add.calc"
+msgstr "Calculating…"
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:35
+msgid "upl.add.remaining.t"
+msgstr "Remaining"
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:39
+msgid "upl.add.size.t"
+msgstr "Size"
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:31
+msgid "upl.add.speed.t"
+msgstr "Speed"
+
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:12
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:13
 msgid "upl.btn.abort.title"
 msgstr "Abort upload"
 
@@ -199,17 +216,17 @@ msgstr "Abort upload"
 msgid "upl.btn.insert"
 msgstr "Insert"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:17
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:18
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:22
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:23
 msgid "upl.btn.title"
 msgstr "Chose file…"
 
-#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:26
+#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:30
 msgid "upl.del.btn"
 msgstr "Delete file"
 
 #: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:157
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:155
 msgid "upl.failure"
 msgstr "Error occurred on upload."
 
@@ -222,18 +239,18 @@ msgstr "Error occurred on upload."
 msgid "upl.loading"
 msgstr "Loading"
 
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:10
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:26
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:11
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:27
 msgid "upl.ncy"
 msgstr "No uploads yet."
 
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:39
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:62
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:42
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:65
 msgid "upl.new.title"
 msgstr "Drop File Here"
 
 #: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:27
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:37
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:39
 #: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:72
 msgid "upl.title"
 msgstr "Uploads"
@@ -242,10 +259,15 @@ msgstr "Uploads"
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:97
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:1
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:36
+msgid "upl.vald.e.dad"
+msgstr "Didn't find a file."
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:1
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:40
 msgid "upl.vald.e.fileExists"
-msgstr "Error: File with same name already uploaded."
+msgstr "File with same name already uploaded."
 
 #: src/Template/Users/view.ctp:323
 msgid "user.block.hours"

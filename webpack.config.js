@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -63,5 +64,7 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
     }),
+    // Set the locales to include for moment.js
+    new MomentLocalesPlugin({localesToKeep: ['de', 'en']}),
   ],
 };

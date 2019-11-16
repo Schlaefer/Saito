@@ -15,7 +15,7 @@ namespace Saito\Posting\UserPosting;
 use Cake\Core\Configure;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
-use Saito\User\Permission\Identifier\Owner;
+use Saito\User\Permission\ResourceAI;
 
 /**
  * Implements UserPostingInterface
@@ -117,7 +117,10 @@ trait UserPostingTrait
         $timeLimit = $editPeriod + ($posting->get('time')->format('U'));
         $isOverTime = time() > $timeLimit;
 
-        $isOwn = $User->permission('saito.core.posting.edit', new Owner($posting->get('user_id')));
+        $isOwn = $User->permission(
+            'saito.core.posting.edit',
+            (new ResourceAI())->onOwner($posting->get('user_id'))
+        );
 
         if (!$isOverTime && $isOwn && !$this->isLocked()) {
             // Normal posting without special conditions.

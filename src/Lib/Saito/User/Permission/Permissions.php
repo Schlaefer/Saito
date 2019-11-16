@@ -14,10 +14,10 @@ namespace Saito\User\Permission;
 
 use App\Model\Table\CategoriesTable;
 use Cake\Cache\Cache;
-use InvalidArgumentException;
 use Saito\RememberTrait;
-use Saito\User\ForumsUserInterface;
-use Saito\User\Permission\Identifier\IdentifierInterface;
+use Saito\User\Permission\Resource;
+use Saito\User\Permission\ResourceAC;
+use Saito\User\Permission\Resources;
 use Saito\User\Permission\Roles;
 use Stopwatch\Lib\Stopwatch;
 
@@ -35,8 +35,8 @@ class Permissions
     /** @var Roles */
     protected $roles;
 
-    /** @var PermissionConfig */
-    protected $PermissionConfig;
+    /** @var Resources */
+    protected $resources;
 
     /** @var CategoriesTable */
     protected $categories;
@@ -45,14 +45,14 @@ class Permissions
      * Constructor
      *
      * @param Roles $roles The roles
-     * @param PermissionConfig $permissionConfig The config
+     * @param Resources $resources The resources collection
      * @param CategoriesTable $categories Categories for accession permissions
      */
-    public function __construct(Roles $roles, PermissionConfig $permissionConfig, CategoriesTable $categories)
+    public function __construct(Roles $roles, Resources $resources, CategoriesTable $categories)
     {
         Stopwatch::start('Permission::__construct()');
         $this->roles = $roles;
-        $this->PermissionConfig = $permissionConfig;
+        $this->resources = $resources;
         $this->categories = $categories;
 
         $categories = Cache::remember(
@@ -61,8 +61,12 @@ class Permissions
                 return $this->bootstrapCategories();
             }
         );
-        foreach ($categories as $resource) {
-            $this->PermissionConfig->allowRole($resource['resource'], $resource['role']);
+        foreach ($categories as $category) {
+            $this->resources->add(
+                (new Resource($category['resource']))
+                ->allow((new ResourceAC())
+                    ->asRole($category['role']))
+            );
         }
 
         Stopwatch::stop('Permission::__construct()');
@@ -71,58 +75,15 @@ class Permissions
     /**
      * Check if access to resource is allowed.
      *
-     * @param ForumsUserInterface $user CurrentUser
-     * @param string $resource Resource
-     * @param IdentifierInterface ...$identifiers Identifiers
+     * @param string $resource Resource to check
+     * @param ResourceAI $identifier Identifier to provide
      * @return bool
      */
-    public function check(ForumsUserInterface $user, string $resource, IdentifierInterface ...$identifiers): bool
+    public function check(string $resource, ResourceAI $identifier): bool
     {
-        /// Force allow all check
-        $force = $this->PermissionConfig->getForce($resource);
-        if ($force) {
-            return $force->check($resource);
-        }
+        $resource = $this->resources->get($resource);
 
-        $roleObject = null;
-
-        if (!empty($identifiers)) {
-            foreach ($identifiers as $identifier) {
-                $type = $identifier->type();
-                switch ($type) {
-                    case ('owner'):
-                        /// Owner check
-                        foreach ($this->PermissionConfig->getOwner($resource) as $allowance) {
-                            if ($allowance->check($resource, $user, $identifier->get())) {
-                                return true;
-                            }
-                        }
-                        break;
-                    case ('role'):
-                        // Just remember if there's a role object. Performed below.
-                        $roleObject = $identifier->get();
-                        break;
-                    default:
-                        new InvalidArgumentException(
-                            sprintf('Unknown identifier type "%s" in permissin check.', $type)
-                        );
-                }
-            }
-        }
-
-        /// Role check
-        $roleAllowances = $this->PermissionConfig->getRole($resource);
-        if (!empty($roleAllowances)) {
-            foreach ($roleAllowances as $allowance) {
-                $role = $user->getRole();
-                $roles = $this->roles->get($role);
-                if ($allowance->check($resource, $roles, $roleObject)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return $resource === null ? false : $resource->check($identifier);
     }
 
     /**

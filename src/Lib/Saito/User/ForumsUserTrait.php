@@ -14,7 +14,7 @@ namespace Saito\User;
 
 use Saito\App\Registry;
 use Saito\User\ForumsUserInterface;
-use Saito\User\Permission\Identifier\IdentifierInterface;
+use Saito\User\Permission\ResourceAI;
 
 /**
  * Implements ForumsUserInterface
@@ -78,10 +78,14 @@ trait ForumsUserTrait
     /**
      * {@inheritDoc}
      */
-    public function permission(string $resource, IdentifierInterface ...$identifiers): bool
+    public function permission(string $resource, ResourceAI $identity = null): bool
     {
-        $permission = Registry::get('Permissions');
+        if ($identity === null) {
+            $identity = new ResourceAI();
+        }
 
-        return $permission->check($this, $resource, ...$identifiers);
+        $permissions = Registry::get('Permissions');
+
+        return $permissions->check($resource, $identity->asUser($this));
     }
 }

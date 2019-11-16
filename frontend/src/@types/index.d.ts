@@ -62,17 +62,6 @@ interface PNotify {
 
 }
 
-declare module 'humanize' {
-    class humanize {
-        public date(size: string): string
-        public filesize(size: string): string
-    }
-
-    const h: humanize;
-
-    export default h;
-}
-
 declare module 'backbone.localstorage' {
     class LocalStorage {
         public constructor(key: string);
@@ -92,7 +81,9 @@ declare module 'moment' {
         (date: string, formats: string[]): any
         (date: number[]): any
 
+        locale(locale: string): any
         unix(timestamp: number): any
+
     }
 
     var moment: MomentStatic;
