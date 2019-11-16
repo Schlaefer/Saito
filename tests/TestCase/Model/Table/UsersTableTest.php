@@ -45,7 +45,7 @@ class UsersTableTest extends SaitoTableTestCase
     public function testFindLatest()
     {
         $result = $this->Table->find('latest')->firstOrFail();
-        $this->assertEquals($result->get('id'), 9);
+        $this->assertEquals($result->get('id'), 11);
     }
 
     public function testSetCategoryAll()
@@ -305,18 +305,6 @@ class UsersTableTest extends SaitoTableTestCase
         $Users->save($Entity);
     }
 
-    public function testActivateIdNotInt()
-    {
-        $this->expectException('InvalidArgumentException');
-        $this->Table->activate('stro', '123');
-    }
-
-    public function testActivateCodeNotString()
-    {
-        $this->expectException('InvalidArgumentException');
-        $this->Table->activate(123, 123);
-    }
-
     public function testActivateUserNotFound()
     {
         $this->expectException('InvalidArgumentException');
@@ -434,8 +422,6 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testRegisterGc()
     {
-        // Configure::write('Saito.Settings.topics_per_page', 20);
-
         $_userCountBeforeAction = $this->Table->find()->count();
 
         $user1 = [
@@ -462,7 +448,6 @@ class UsersTableTest extends SaitoTableTestCase
         $this->Table->save($user);
 
         $cron = Registry::get('Cron');
-        $cron->clearHistory();
         $cron->execute();
 
         $result = $this->Table->exists(['username' => 'Reginald']);

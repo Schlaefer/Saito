@@ -17,15 +17,17 @@ use App\Model\Entity\User;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
 use Cake\Routing\Router;
+use Saito\App\Registry;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Blocker\ManualBlocker;
-use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\Permission\Permissions;
+use Saito\User\Permission\ResourceAI;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 use Stopwatch\Lib\Stopwatch;
 
@@ -40,13 +42,6 @@ class UsersController extends AppController
         'Siezi/SimpleCaptcha.SimpleCaptcha',
         'Text'
     ];
-
-    /**
-     * Are moderators allowed to bloack users
-     *
-     * @var bool
-     */
-    protected $modLocking = false;
 
     /**
      * {@inheritDoc}
@@ -85,10 +80,13 @@ class UsersController extends AppController
         if ($this->AuthUser->login()) {
             // Redirect query-param in URL.
             $target = $this->getRequest()->getQuery('redirect');
+            // AuthenticationService puts the full local path into the redirect
+            // parameter, so we have to strip the base-path off again.
+            $target = Router::normalize($target);
             // Referer from Request
             $target = $target ?: $this->referer(null, true);
 
-            if (!$target || $this->Referer->wasAction('login')) {
+            if (empty($target)) {
                 $target = '/';
             }
 
@@ -98,15 +96,13 @@ class UsersController extends AppController
         /// error on login
         $username = $this->request->getData('username');
         /** @var User */
-        $readUser = $this->Users->find()
+        $User = $this->Users->find()
             ->where(['username' => $username])
             ->first();
 
         $message = __('user.authe.e.generic');
 
-        if (!empty($readUser)) {
-            $User = $readUser->toSaitoUser();
-
+        if (!empty($User)) {
             if (!$User->isActivated()) {
                 $message = __('user.actv.ny');
             } elseif ($User->isLocked()) {
@@ -278,7 +274,7 @@ class UsersController extends AppController
             ],
             'registered' => [__('registered'), ['direction' => 'desc']]
         ];
-        $showBlocked = Configure::read('Saito.Settings.block_user_ui');
+        $showBlocked = $this->CurrentUser->permission('saito.core.user.lock.view');
         if ($showBlocked) {
             $menuItems['user_lock'] = [
                 __('user.set.lock.t'),
@@ -418,7 +414,7 @@ class UsersController extends AppController
         $entriesShownOnPage = 20;
         $this->set(
             'lastEntries',
-            $this->Users->Entries->getRecentEntries(
+            $this->Users->Entries->getRecentPostings(
                 $this->CurrentUser,
                 ['user_id' => $id, 'limit' => $entriesShownOnPage]
             )
@@ -434,8 +430,6 @@ class UsersController extends AppController
             $user->set('ignores', $ignores);
         }
 
-        $isEditingAllowed = $this->_isEditingAllowed($this->CurrentUser, $id);
-
         $blockForm = new BlockForm();
         $solved = $this->Users->countSolved($id);
         $this->set(compact('blockForm', 'isEditingAllowed', 'solved', 'user'));
@@ -450,7 +444,24 @@ class UsersController extends AppController
      */
     public function avatar($userId)
     {
-        $data = [];
+        if (!$this->Users->exists($userId)) {
+            throw new BadRequestException;
+        }
+
+        /** @var User */
+        $user = $this->Users->get($userId);
+
+        $permissionEditing = $this->CurrentUser->permission(
+            'saito.core.user.edit',
+            (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId())
+        );
+        if (!$permissionEditing) {
+            throw new \Saito\Exception\SaitoForbiddenException(
+                "Attempt to edit user $userId.",
+                ['CurrentUser' => $this->CurrentUser]
+            );
+        }
+
         if ($this->request->is('post') || $this->request->is('put')) {
             $data = [
                 'avatar' => $this->request->getData('avatar'),
@@ -462,11 +473,19 @@ class UsersController extends AppController
                     'avatar_dir' => null
                 ];
             }
+            $patched = $this->Users->patchEntity($user, $data);
+            $errors = $patched->getErrors();
+            if (empty($errors) && $this->Users->save($patched)) {
+                return $this->redirect(['action' => 'edit', $userId]);
+            } else {
+                $this->Flash->set(
+                    __('The user could not be saved. Please, try again.'),
+                    ['element' => 'error']
+                );
+            }
         }
-        $user = $this->_edit($userId, $data);
-        if ($user === true) {
-            return $this->redirect(['action' => 'edit', $userId]);
-        }
+
+        $this->set('user', $user);
 
         $this->set(
             'titleForPage',
@@ -483,22 +502,35 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $data = [];
-        if ($this->request->is('post') || $this->request->is('put')) {
-            $data = $this->request->getData();
-            unset($data['id']);
-            //= make sure only admin can edit these fields
-            if (!$this->CurrentUser->permission('saito.core.user.edit')) {
-                // @td DRY: refactor this admin fields together with view
-                unset($data['username'], $data['user_email'], $data['user_type']);
-            }
-        }
-        $user = $this->_edit($id, $data);
-        if ($user === true) {
-            return $this->redirect(['action' => 'view', $id]);
+        /** @var User */
+        $user = $this->Users->get($id);
+
+        $permissionEditing = $this->CurrentUser->permission(
+            'saito.core.user.edit',
+            (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId())
+        );
+        if (!$permissionEditing) {
+            throw new \Saito\Exception\SaitoForbiddenException(
+                sprintf('Attempt to edit user "%s".', $user->get('id')),
+                ['CurrentUser' => $this->CurrentUser]
+            );
         }
 
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $data = $this->request->getData();
+            $patched = $this->Users->patchEntity($user, $data);
+            $errors = $patched->getErrors();
+            if (empty($errors) && $this->Users->save($patched)) {
+                return $this->redirect(['action' => 'view', $id]);
+            }
+
+            $this->Flash->set(
+                __('The user could not be saved. Please, try again.'),
+                ['element' => 'error']
+            );
+        }
         $this->set('user', $user);
+
         $this->set(
             'titleForPage',
             __('user.edit.t', [$user->get('username')])
@@ -511,43 +543,69 @@ class UsersController extends AppController
     }
 
     /**
-     * Handle user edit core. Retrieve user or patch if data is passed.
+     * delete user
      *
-     * @param string $userId user-ID
-     * @param array|null $data datat to update the user
-     *
-     * @return true|User true on successful save, patched user otherwise
+     * @param string $id user-ID
+     * @return \Cake\Network\Response|void
      */
-    protected function _edit($userId, array $data = null)
+    public function delete($id)
     {
-        if (!$this->_isEditingAllowed($this->CurrentUser, $userId)) {
-            throw new \Saito\Exception\SaitoForbiddenException(
-                "Attempt to edit user $userId.",
-                ['CurrentUser' => $this->CurrentUser]
+        $id = (int)$id;
+        /** @var User */
+        $readUser = $this->Users->get($id);
+
+        /// Check permission
+        $permission = $this->CurrentUser->permission(
+            'saito.core.user.delete',
+            (new ResourceAI())->onRole($readUser->getRole())
+        );
+        if (!$permission) {
+            throw new ForbiddenException(
+                sprintf(
+                    'User "%s" is not allowed to delete user "%s".',
+                    $this->CurrentUser->get('username'),
+                    $readUser->get('username')
+                ),
+                1571811593
             );
         }
-        if (!$this->Users->exists($userId)) {
-            throw new BadRequestException;
-        }
-        /** @var User */
-        $user = $this->Users->get($userId);
 
-        if ($data) {
-            /** @var User */
-            $user = $this->Users->patchEntity($user, $data);
-            $errors = $user->getErrors();
-            if (empty($errors) && $this->Users->save($user)) {
-                return true;
-            } else {
-                $this->Flash->set(
-                    __('The user could not be saved. Please, try again.'),
-                    ['element' => 'error']
-                );
+        $this->set('user', $readUser);
+
+        $failure = false;
+        if (!$this->request->getData('userdeleteconfirm')) {
+            $failure = true;
+            $this->Flash->set(__('user.del.fail.3'), ['element' => 'error']);
+        } elseif ($this->CurrentUser->isUser($readUser)) {
+            $failure = true;
+            $this->Flash->set(__('user.del.fail.1'), ['element' => 'error']);
+        }
+
+        if (!$failure) {
+            $result = $this->Users->deleteAllExceptEntries($id);
+            if (empty($result)) {
+                $failure = true;
+                $this->Flash->set(__('user.del.fail.2'), ['element' => 'error']);
             }
         }
-        $this->set('user', $user);
 
-        return $user;
+        if ($failure) {
+            return $this->redirect(
+                [
+                    'prefix' => false,
+                    'controller' => 'users',
+                    'action' => 'view',
+                    $id
+                ]
+            );
+        }
+
+        $this->Flash->set(
+            __('user.del.ok.m', $readUser->get('username')),
+            ['element' => 'success']
+        );
+
+        return $this->redirect('/');
     }
 
     /**
@@ -559,22 +617,25 @@ class UsersController extends AppController
     public function lock()
     {
         $form = new BlockForm();
-        if (!$this->modLocking || !$form->validate($this->request->getData())) {
+        if (!$form->validate($this->request->getData())) {
             throw new BadRequestException;
         }
 
         $id = (int)$this->request->getData('lockUserId');
-        if (!$this->Users->exists($id)) {
-            throw new NotFoundException('User does not exist.', 1524298280);
-        }
+
         /** @var User */
         $readUser = $this->Users->get($id);
 
-        if ($id === $this->CurrentUser->getId()) {
+        $permission = $this->CurrentUser->permission(
+            'saito.core.user.lock.set',
+            (new ResourceAI())->onRole($readUser->getRole())
+        );
+        if (!$permission) {
+            throw new ForbiddenException(null, 1571316877);
+        }
+
+        if ($this->CurrentUser->isUser($readUser)) {
             $message = __('You can\'t lock yourself.');
-            $this->Flash->set($message, ['element' => 'error']);
-        } elseif ($readUser->getRole() === 'admin') {
-            $message = __('You can\'t lock administrators.');
             $this->Flash->set($message, ['element' => 'error']);
         } else {
             try {
@@ -591,7 +652,8 @@ class UsersController extends AppController
                 $this->Flash->set($message, ['element' => 'error']);
             }
         }
-        $this->redirect($this->referer());
+
+        return $this->redirect($this->referer());
     }
 
     /**
@@ -600,13 +662,26 @@ class UsersController extends AppController
      * @param string $id user-ID
      * @return void
      */
-    public function unlock($id)
+    public function unlock(string $id)
     {
-        $user = $this->Users->UserBlocks->findById($id)->contain(['Users'])->first();
+        $id = (int)$id;
 
-        if (!$id || !$this->modLocking) {
-            throw new BadRequestException;
+        /** @var User */
+        $user = $this->Users
+            ->find()
+            ->matching('UserBlocks', function ($q) use ($id) {
+                return $q->where(['UserBlocks.id' => $id]);
+            })
+            ->first();
+
+        $permission = $this->CurrentUser->permission(
+            'saito.core.user.lock.set',
+            (new ResourceAI())->onRole($user->getRole())
+        );
+        if (!$permission) {
+            throw new ForbiddenException(null, 1571316877);
         }
+
         if (!$this->Users->UserBlocks->unblock($id)) {
             $this->Flash->set(
                 __('Error while unlocking.'),
@@ -614,7 +689,7 @@ class UsersController extends AppController
             );
         }
 
-        $message = __('User {0} is unlocked.', $user->user->get('username'));
+        $message = __('User {0} is unlocked.', $user->get('username'));
         $this->Flash->set($message, ['element' => 'success']);
         $this->redirect($this->referer());
     }
@@ -629,12 +704,13 @@ class UsersController extends AppController
      */
     public function changepassword($id = null)
     {
-        if (!$id) {
+        if (empty($id)) {
             throw new BadRequestException();
         }
 
+        /** @var User */
         $user = $this->Users->get($id);
-        $allowed = $this->_isEditingAllowed($this->CurrentUser, $id);
+        $allowed = $this->CurrentUser->isUser($user);
         if (empty($user) || !$allowed) {
             throw new SaitoForbiddenException(
                 "Attempt to change password for user $id.",
@@ -691,14 +767,15 @@ class UsersController extends AppController
      */
     public function setpassword($id)
     {
-        if (!$this->CurrentUser->permission('saito.core.user.password.set')) {
+        /** @var User */
+        $user = $this->Users->get($id);
+
+        if (!$this->CurrentUser->permission('saito.core.user.password.set', (new ResourceAI())->onRole($user->getRole()))) {
             throw new SaitoForbiddenException(
                 "Attempt to set password for user $id.",
                 ['CurrentUser' => $this->CurrentUser]
             );
         }
-
-        $user = $this->Users->get($id);
 
         if ($this->getRequest()->is('post')) {
             $this->Users->patchEntity($user, $this->getRequest()->getData(), ['fields' => 'password']);
@@ -721,6 +798,52 @@ class UsersController extends AppController
         }
 
         $this->set(compact('user'));
+    }
+
+    /**
+     * View and set user role
+     *
+     * @param string $id User-ID
+     * @return void|Response
+     */
+    public function role($id)
+    {
+        /** @var User */
+        $user = $this->Users->get($id);
+        $identifier = (new ResourceAI())->onRole($user->getRole());
+        $unrestricted = $this->CurrentUser->permission('saito.core.user.role.set.unrestricted', $identifier);
+        $restricted = $this->CurrentUser->permission('saito.core.user.role.set.restricted', $identifier);
+        if (!$restricted && !$unrestricted) {
+            throw new ForbiddenException();
+        }
+
+        /** @var Permissions */
+        $Permissions = Registry::get('Permissions');
+
+        $roles = $Permissions->getRoles()->get($this->CurrentUser->getRole(), false, $unrestricted);
+
+        if ($this->getRequest()->is('put')) {
+            $type = $this->getRequest()->getData('user_type');
+            if (!in_array($type, $roles)) {
+                throw new \InvalidArgumentException(
+                    sprintf('User type "%s" is not available.', $type),
+                    1573376871
+                );
+            }
+            $patched = $this->Users->patchEntity($user, ['user_type' => $type]);
+
+            $errors = $patched->getErrors();
+            if (empty($errors)) {
+                $this->Users->save($patched);
+
+                return $this->redirect(['action' => 'edit', $user->get('id')]);
+            }
+
+            $msg = current(current($errors));
+            $this->Flash->set($msg, ['element' => 'error']);
+        }
+
+        $this->set(compact('roles', 'user'));
     }
 
     /**
@@ -803,9 +926,8 @@ class UsersController extends AppController
         $this->Security->setConfig('unlockedActions', $unlocked);
 
         $this->Authentication->allowUnauthenticated(['login', 'logout', 'register', 'rs']);
-        $this->modLocking = $this->CurrentUser
-            ->permission('saito.core.user.block');
-        $this->set('modLocking', $this->modLocking);
+        $this->AuthUser->authorizeAction('register', 'saito.core.user.register');
+        $this->AuthUser->authorizeAction('rs', 'saito.core.user.register');
 
         // Login form times-out and degrades user experience.
         // See https://github.com/Schlaefer/Saito/issues/339
@@ -815,22 +937,6 @@ class UsersController extends AppController
         }
 
         Stopwatch::stop('Users->beforeFilter()');
-    }
-
-    /**
-     * Checks if the current user is allowed to edit user $userId
-     *
-     * @param CurrentUserInterface $CurrentUser user
-     * @param int $userId user-ID
-     * @return bool
-     */
-    protected function _isEditingAllowed(CurrentUserInterface $CurrentUser, $userId)
-    {
-        if ($CurrentUser->permission('saito.core.user.edit')) {
-            return true;
-        }
-
-        return $CurrentUser->getId() === (int)$userId;
     }
 
     /**

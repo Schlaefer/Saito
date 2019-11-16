@@ -26,12 +26,13 @@ use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
-use Cake\ORM\Locator\TableLocator;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use DateTimeInterface;
+use Saito\App\Registry;
+use Saito\User\Permission\Permissions;
 use Saito\User\Upload\AvatarFilenameListener;
 use Stopwatch\Lib\Stopwatch;
 
@@ -289,7 +290,7 @@ class UsersTable extends AppTable
             'user_type',
             [
                 'allowedType' => [
-                    'rule' => ['inList', ['user', 'mod', 'admin']]
+                    'rule' => [$this, 'validateUserRoleExists'],
                 ]
             ]
         );
@@ -452,11 +453,8 @@ class UsersTable extends AppTable
      */
     public function deleteAllExceptEntries(int $userId)
     {
-        if ($userId == 1) {
-            return false;
-        }
         $user = $this->get($userId);
-        if (!$user) {
+        if (empty($user)) {
             return false;
         }
 
@@ -606,6 +604,25 @@ class UsersTable extends AppTable
     }
 
     /**
+     * Check if the role exists
+     *
+     * @param string $value value
+     * @param array $context context
+     * @return bool|string
+     */
+    public function validateUserRoleExists($value, array $context)
+    {
+        /** @var Permissions */
+        $Permissions = Registry::get('Permissions');
+        $roles = array_column($Permissions->getRoles()->getAvailable(), 'type');
+        if (in_array($value, $roles)) {
+            return true;
+        }
+
+        return __('vld.user.user_type.allowedType', h($value));
+    }
+
+    /**
      * checks if equal username exists
      *
      * @param string $value value
@@ -717,12 +734,8 @@ class UsersTable extends AppTable
      *     user data on success
      * @throws \InvalidArgumentException
      */
-    public function activate($userId, $code)
+    public function activate(int $userId, string $code)
     {
-        if (!is_int($userId) || !is_string($code)) {
-            throw new \InvalidArgumentException();
-        }
-
         try {
             $user = $this->get($userId);
         } catch (RecordNotFoundException $e) {

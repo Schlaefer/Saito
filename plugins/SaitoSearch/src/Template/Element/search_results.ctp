@@ -10,7 +10,7 @@
             );
         } else {
             foreach ($results as $result) {
-                echo $this->Posting->renderThread($result->toPosting(), ['rootWrap' => true]);
+                echo $this->Posting->renderThread($result->toPosting()->withCurrentUser($CurrentUser), ['rootWrap' => true]);
             }
         }
         ?>

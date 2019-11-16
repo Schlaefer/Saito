@@ -15,6 +15,7 @@ namespace Saito\Posting\UserPosting;
 use Cake\Core\Configure;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\Permission\ResourceAI;
 
 /**
  * Implements UserPostingInterface
@@ -24,30 +25,25 @@ trait UserPostingTrait
     /**
      * @var array
      */
-    protected $_cache = [];
+    private $_userPostingTraitUnreadCache = [];
 
     /**
      * @var CurrentUserInterface
      */
-    protected $_CurrentUser;
+    private $_CurrentUser;
 
     /**
-     * Get current-user.
-     *
-     * @return CurrentUserInterface
+     * {@inheritDoc}
      */
-    public function getCurrentUser()
+    public function getCurrentUser(): CurrentUserInterface
     {
         return $this->_CurrentUser;
     }
 
     /**
-     * Set current user.
-     *
-     * @param CurrentUserInterface $CurrentUser  current user
-     * @return void
+     * {@inheritDoc}
      */
-    public function setCurrentUser($CurrentUser)
+    public function setCurrentUser(CurrentUserInterface $CurrentUser): void
     {
         $this->_CurrentUser = $CurrentUser;
     }
@@ -109,13 +105,25 @@ trait UserPostingTrait
             return true;
         }
 
+        /// Check category
+        $action = $posting->isRoot() ? 'thread' : 'answer';
+        $categoryAllowed = $User->getCategories()
+            ->permission($action, $posting->get('category_id'));
+        if (!$categoryAllowed) {
+            return false;
+        }
+
         $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
         $timeLimit = $editPeriod + ($posting->get('time')->format('U'));
         $isOverTime = time() > $timeLimit;
 
-        $isOwn = $User->getId() === $posting->get('user_id');
+        $isOwn = $User->permission(
+            'saito.core.posting.edit',
+            (new ResourceAI())->onOwner($posting->get('user_id'))
+        );
 
         if (!$isOverTime && $isOwn && !$this->isLocked()) {
+            // Normal posting without special conditions.
             return true;
         }
 
@@ -141,14 +149,14 @@ trait UserPostingTrait
      */
     public function isUnread(): bool
     {
-        if (!isset($this->_cache['isUnread'])) {
+        if (!isset($this->_userPostingTraitUnreadCache['isUnread'])) {
             $id = $this->get('id');
             $time = $this->get('time');
-            $this->_cache['isUnread'] = !$this->getCurrentUser()
+            $this->_userPostingTraitUnreadCache['isUnread'] = !$this->getCurrentUser()
                 ->getReadPostings()->isRead($id, $time);
         }
 
-        return $this->_cache['isUnread'];
+        return $this->_userPostingTraitUnreadCache['isUnread'];
     }
 
     /**

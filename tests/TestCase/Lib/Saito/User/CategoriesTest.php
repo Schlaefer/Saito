@@ -66,7 +66,6 @@ class CategoriesTest extends SaitoTestCase
             3 => 'Another Ontopic',
             2 => 'Ontopic',
             4 => 'Offtopic',
-            5 => 'Trash'
         ];
         $this->assertEquals($result, $expected);
 
@@ -77,7 +76,6 @@ class CategoriesTest extends SaitoTestCase
         $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic',
-            5 => 'Trash'
         ];
         $this->assertEquals($expected, $result);
 
@@ -88,7 +86,6 @@ class CategoriesTest extends SaitoTestCase
         $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic',
-            5 => 'Trash',
             4 => 'Offtopic'
         ];
         $this->assertEquals($expected, $result);
@@ -104,21 +101,22 @@ class CategoriesTest extends SaitoTestCase
             3 => 'Another Ontopic',
             2 => 'Ontopic',
             4 => 'Offtopic',
-            5 => 'Trash'
+            5 => 'Trash',
         ];
         $result = $Lib->getAll('read', 'select');
         $this->assertEquals($result, $expected);
 
         /**
-         * test new
-         */
-        $result = $Lib->getAll('thread', 'select');
-        $this->assertEquals($expected, $result);
-
-        /**
          * test answer as
          */
         $result = $Lib->getAll('answer', 'select');
+        $this->assertEquals($expected, $result);
+
+        /**
+         * test new
+         */
+        unset($expected[5]);
+        $result = $Lib->getAll('thread', 'select');
         $this->assertEquals($expected, $result);
     }
 
@@ -127,7 +125,7 @@ class CategoriesTest extends SaitoTestCase
         $User = CurrentUserFactory::createLoggedIn(['id' => 3, 'user_type' => 'user']);
         $Lib = $User->getCategories();
 
-        $expected = [2, 3, 4, 5];
+        $expected = [2, 3, 4];
         $expected = array_combine($expected, $expected);
         $this->assertEquals($expected, $Lib->getCustom('read'));
     }

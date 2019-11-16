@@ -89,7 +89,7 @@ class PreviewControllerTest extends IntegrationTestCase
 
         $data = [
             'pid' => 4,
-            'category_id' => 99999,
+            'category_id' => 2,
             'text' => 'bar',
         ];
 
@@ -100,7 +100,7 @@ class PreviewControllerTest extends IntegrationTestCase
 
         $this->assertEquals(999999999999, $response['id']);
         $this->assertEquals(999999999999, $response['attributes']['id']);
-        $this->assertEquals(4, $response['attributes']['category_id']);
+        $this->assertEquals(2, $response['attributes']['category_id']);
         $this->assertEquals('Second Thread First_Subject', $response['attributes']['subject']);
         $this->assertEquals('bar', $response['attributes']['text']);
         $this->assertNotEmpty($response['attributes']['html']);

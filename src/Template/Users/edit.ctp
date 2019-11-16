@@ -1,4 +1,7 @@
 <?php
+
+use Saito\User\Permission\ResourceAI;
+
 $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack(
     [
@@ -15,52 +18,43 @@ $this->end();
     <div class='panel-content panel-form card-body'>
         <h2 class="text-center"><?= __('Profile') ?></h2>
         <?php
-        if ($CurrentUser->permission('saito.core.user.edit')) {
-            $cells = [
-                [
-                    __('username_marking'),
-                    $this->Form->control('username', ['class' => 'form-control', 'label' => false])
-                ],
-                [
-                    __('userlist_email'),
-                    $this->Form->control('user_email', ['class' => 'form-control', 'label' => false])
-                ],
-                [
-                    __('user_type'),
-                    $this->Form->control(
-                        'user_type',
-                        [
-                            'class' => 'ml-3 mr-1',
-                            'label' => false,
-                            'options' => [
-                                'user' => __('user.type.user'),
-                                'mod' => __('user.type.mod'),
-                                'admin' => __('user.type.admin'),
-                            ],
-                            'type' => 'radio',
-                        ]
-                    )
-                ]
-            ];
+        $cells = [];
 
-            /// Change password option already exists if same user
-            if ($CurrentUser->getId() !== $user->get('id')) {
-                $cells[] = [
-                    __('user_pw'),
-                    $this->Html->link(
-                        __('user.pw.set.btn'),
-                        [
-                            'action' => 'setpassword',
-                            $user->get('id')
-                        ]
-                    )
-                ];
-            }
-        } else {
-            $cells = [
-                [__('username_marking'), h($user->get('username'))],
-                [__('userlist_email'), h($user->get('user_email'))]
+        if ($CurrentUser->permission('saito.core.user.name.set', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
+            $cells[] = [
+                __('username_marking'),
+                $this->Form->control('username', ['class' => 'form-control', 'label' => false])
             ];
+        } else {
+            $cells[] = [__('username_marking'), h($user->get('username'))];
+        }
+
+        if ($CurrentUser->permission('saito.core.user.email.set', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
+            $cells[] = [
+                __('userlist_email'),
+                $this->Form->control('user_email', ['class' => 'form-control', 'label' => false])
+            ];
+        } else {
+            $cells[] = [__('userlist_email'), h($user->get('user_email'))];
+        }
+
+        $idP = (new ResourceAI())->onRole($user->getRole());
+        if ($CurrentUser->permission('saito.core.user.role.set.restricted', $idP)
+        || $CurrentUser->permission('saito.core.user.role.set.unrestricted', $idP)
+        ) {
+            $cells[] = [
+                __('user_type'),
+                $this->Html->para(null, $this->Permissions->roleAsString($user->getRole())) .
+                $this->Html->para(
+                    null,
+                    $this->Html->link(
+                        __('user.role.set.btn'),
+                        ['action' => 'role', $user->get('id')]
+                    )
+                )
+            ];
+        } else {
+            $cells[] = [__('user_type'), $this->Permissions->roleAsString($user->getRole())];
         }
 
         if ($user->isUser($CurrentUser)) {
@@ -73,6 +67,14 @@ $this->end();
                         $user->get('id')
                     ]
                 )
+            ];
+        } elseif ($CurrentUser->permission('saito.core.user.password.set')) {
+            $cells[] = [
+                __('user_pw'),
+                $this->Html->link(
+                    __('user.pw.set.btn'),
+                    ['action' => 'setpassword', $user->get('id')]
+                ),
             ];
         }
 

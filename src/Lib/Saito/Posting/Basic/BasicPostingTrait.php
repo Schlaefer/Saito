@@ -20,6 +20,11 @@ trait BasicPostingTrait
     /**
      * {@inheritDoc}
      */
+    abstract public function get(string $var);
+
+    /**
+     * {@inheritDoc}
+     */
     public function isLocked(): bool
     {
         return (bool)$this->get('locked');

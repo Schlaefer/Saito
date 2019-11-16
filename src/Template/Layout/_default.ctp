@@ -42,7 +42,7 @@
             // made visible by frontend if ready
             echo '<aside id="slidetabs" style="visibility: hidden;">';
             foreach ($slidetabs as $slidetab) {
-                echo $this->cell($slidetab);
+                echo $this->cell($slidetab, ['CurrentUser' => $CurrentUser]);
             }
             echo '</aside>';
             \Stopwatch\Lib\Stopwatch::end('Slidetabs');

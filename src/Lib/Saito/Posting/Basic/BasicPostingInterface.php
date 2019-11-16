@@ -20,10 +20,10 @@ interface BasicPostingInterface
     /**
      * Get posting property
      *
-     * @param string $var kehy
+     * @param string $var key
      * @return mixed
      */
-    public function get($var);
+    public function get(string $var);
 
     /**
      * Check if posting is locked.

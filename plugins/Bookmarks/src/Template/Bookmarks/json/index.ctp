@@ -3,10 +3,7 @@
 $out = [];
 
 foreach ($bookmarks as $bookmark) {
-    $posting = \Saito\App\Registry::newInstance(
-        '\Saito\Posting\Posting',
-        ['rawData' => $bookmark->get('entry')->toArray()]
-    );
+    $posting = $bookmark->get('entry')->toPosting()->withCurrentUser($CurrentUser);
     $threadLineHtml = $this->Posting->renderThread(
         $posting,
         ['rootWrap' => true]

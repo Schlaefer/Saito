@@ -47,11 +47,18 @@ class ModalDialogView extends View<Model> {
             App.eventBus.trigger('app:modal:shown');
             this.triggerMethod('shown');
         });
+        this.$el.parent().on('hidden.bs.modal', () => {
+            this.triggerMethod('hidden');
+        });
         this.$el.parent().modal('show');
     }
 
     public hide() {
         this.$el.parent().modal('hide');
+    }
+
+    public onHidden() {
+        this.getRegion('content').empty();
     }
 
     public invalidInput() {

@@ -125,5 +125,4 @@ $config['Saito']['Settings']['uploader'] = (new UploaderConfig())
     ->addType('video/mp4')
     ->addType('video/webm');
 
-
 return $config;

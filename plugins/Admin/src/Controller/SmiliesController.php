@@ -80,7 +80,7 @@ class SmiliesController extends AdminAppController
      */
     public function edit($id = null)
     {
-        if (!$id && empty($this->request->getData())) {
+        if (empty($id) && empty($this->request->getData())) {
             $this->Flash->set(__('Invalid smiley.'), ['element' => 'error']);
             $this->redirect(['action' => 'index']);
 
@@ -116,7 +116,7 @@ class SmiliesController extends AdminAppController
      */
     public function delete($id = null)
     {
-        if (!$id || !$this->Smilies->exists(['id' => $id])) {
+        if (empty($id) || !$this->Smilies->exists(['id' => $id])) {
             $this->Flash->set(__('Invalid smiley.'), ['element' => 'error']);
             $this->redirect(['action' => 'index']);
 

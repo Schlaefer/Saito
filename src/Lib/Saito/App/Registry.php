@@ -13,9 +13,12 @@ declare(strict_types=1);
 namespace Saito\App;
 
 use Aura\Di\Container;
+use Aura\Di\ContainerBuilder;
 use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 use Cron\Lib\Cron;
 use Saito\Markup\MarkupSettings;
+use Saito\User\Permission\Permissions;
 
 /**
  * Global registry for Saito app.
@@ -24,32 +27,35 @@ use Saito\Markup\MarkupSettings;
  */
 class Registry
 {
-
     /**
      * @var Container;
      */
-    protected static $_DIC;
+    protected static $dic;
 
     /**
-     * Initialize
+     * Resets and initializes registry.
      *
      * @return Container
      */
     public static function initialize()
     {
-        $dic = new Container(new \Aura\Di\Factory);
+        $dic = (new ContainerBuilder())->newInstance();
         $dic->set('Cron', new Cron());
-        $dic->set('Permission', $dic->lazyNew('Saito\User\Permission'));
+
+        $dic->set('Permissions', $dic->lazyNew(Permissions::class));
+        $dic->params[Permissions::class]['roles'] = Configure::read('Saito.Permission.Roles');
+        $dic->params[Permissions::class]['resources'] = Configure::read('Saito.Permission.Resources');
+        $dic->params[Permissions::class]['categories'] = TableRegistry::getTableLocator()->get('Categories');
+
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
-        $dic->params['\Saito\Posting\Posting']['CurrentUser'] = $dic->lazyGet('CU');
 
         $dic->set('MarkupSettings', $dic->lazyNew(MarkupSettings::class));
         $markupClass = Configure::read('Saito.Settings.ParserPlugin');
-        ;
+
         $dic->set('Markup', $dic->lazyNew($markupClass));
         $dic->params[$markupClass]['settings'] = $dic->lazyGet('MarkupSettings');
 
-        self::$_DIC = $dic;
+        self::$dic = $dic;
 
         return $dic;
     }
@@ -61,9 +67,9 @@ class Registry
      * @param object $object object
      * @return void
      */
-    public static function set($key, $object)
+    public static function set(string $key, object $object)
     {
-        self::$_DIC->set($key, $object);
+        self::$dic->set($key, $object);
     }
 
     /**
@@ -72,9 +78,9 @@ class Registry
      * @param string $key key
      * @return object
      */
-    public static function get($key)
+    public static function get(string $key): object
     {
-        return self::$_DIC->get($key);
+        return self::$dic->get($key);
     }
 
     /**
@@ -85,11 +91,8 @@ class Registry
      * @param array $setter setter
      * @return object
      */
-    public static function newInstance(
-        $key,
-        array $params = [],
-        array $setter = []
-    ) {
-        return self::$_DIC->newInstance($key, $params, $setter);
+    public static function newInstance($key, array $params = [], array $setter = []): object
+    {
+        return self::$dic->newInstance($key, $params, $setter);
     }
 }

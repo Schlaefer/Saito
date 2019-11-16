@@ -13,19 +13,13 @@ declare(strict_types=1);
 namespace Saito\User;
 
 use Cake\Utility\Hash;
-use Saito\App\Registry;
 
 /**
  * Represents a registered user with all knowledge stored offline
  */
 class SaitoUser implements ForumsUserInterface
 {
-    /**
-     * User ID
-     *
-     * @var int
-     */
-    protected $_id = null;
+    use ForumsUserTrait;
 
     /**
      * User settings
@@ -47,14 +41,13 @@ class SaitoUser implements ForumsUserInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Sets all (and replaces existing) settings for a user
+     *
+     * @param array $settings Settings
+     * @return void
      */
     public function setSettings(array $settings): void
     {
-        if (!empty($settings['id'])) {
-            $this->_id = (int)$settings['id'];
-        }
-
         $this->_settings = $settings;
 
         /// performance cheat
@@ -101,69 +94,12 @@ class SaitoUser implements ForumsUserInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Get all settings
+     *
+     * @return array
      */
     public function getSettings(): array
     {
         return $this->_settings;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getId(): int
-    {
-        return $this->_id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isUser(ForumsUserInterface $user): bool
-    {
-        return $user->getId() === $this->getId();
-    }
-
-    /**
-     * Checks if user is forbidden.
-     *
-     * @return bool
-     */
-    public function isLocked(): bool
-    {
-        return (bool)$this->get('user_lock');
-    }
-
-    /**
-     * Checks if user is forbidden.
-     *
-     * @return bool
-     */
-    public function isActivated(): bool
-    {
-        return !$this->get('activate_code');
-    }
-
-    /**
-     * Get role.
-     *
-     * @return string
-     */
-    public function getRole(): string
-    {
-        return $this->get('user_type');
-    }
-
-    /**
-     * Check if user has permission to access a resource.
-     *
-     * @param string $resource resource
-     * @return bool
-     */
-    public function permission(string $resource): bool
-    {
-        $permission = Registry::get('Permission');
-
-        return $permission->check($this->getRole(), $resource);
     }
 }

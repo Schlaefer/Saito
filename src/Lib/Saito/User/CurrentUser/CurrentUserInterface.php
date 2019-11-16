@@ -86,4 +86,11 @@ interface CurrentUserInterface extends ForumsUserInterface
      * @return bool
      */
     public function isLoggedIn(): bool;
+
+    /**
+     * Get all settings
+     *
+     * @return array
+     */
+    public function getSettings(): array;
 }

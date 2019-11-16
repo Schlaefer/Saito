@@ -46,9 +46,9 @@ class AdminControllerTest extends IntegrationTestCase
      */
     public function testAdminEmptyCachesNonAdmin()
     {
-        $this->expectException(ForbiddenException::class);
         $url = '/admin/admins/emptyCaches';
         $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testAdminEmptyCachesUser()

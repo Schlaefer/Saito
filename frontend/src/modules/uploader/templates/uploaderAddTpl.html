@@ -1,30 +1,33 @@
 <form enctype="multipart/form-data">
-    <div class="card-body">
-        <div class="js-drop imageUploader-add-dropLayer"></div>
-        <div class="js-indicator imageUploader-add-dropIndicator">
-            <i class="fa fa-upload"></i>
-        </div>
-        <h2 class="card-title">
-            <%- $.i18n.__('upl.title') %>
-        </h2>
-        <div class="js-imageUploadSpinner"></div>
+    <div style="position: relative;">
+        <div class="js-dragAreaRg"></div>
+        <div class="js-progressBarRg" style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 100;"></div>
+    </div>
+    <div class="imageUploader-card-details">
+        <div class='js-statsRg' style="text-align: left;"></div>
     </div>
     <div class="card-footer">
-        <div style="position: relative;">
-            <%
-            // To present a nice upload button we generate a stayled fake button.
-            // Beneath the styled dummy button is the actual input file upload,
-            // but it's hidden behind the opacity: 0 curtain div.
-            // z-index: 2000 to have the button above the jQuery UI modal.
-            %>
-            <button class="btn btn-primary" type="button">
-                <%- $.i18n.__('upl.btn.title') %>
+        <div></div>
+        <div>
+            <button class="btn btn-secondary js-abortBtn" type="button" style="display: none;">
+                <%- $.i18n.__('upl.btn.abort.title') %>
             </button>
-            <div class="imageUploader-add-veil">
-                <input id="Upload0File"
-                       class="btn btn-primary"
-                       type="file" name="upload[0][file]"
-                       style="width: 150px; height: 100%;">
+            <div style="position: relative;">
+                <%
+                // To present a nice upload button we generate a stayled fake button.
+                // Beneath the styled dummy button is the actual input file upload,
+                // but it's hidden behind the opacity: 0 curtain div.
+                // z-index: 2000 to have the button above the jQuery UI modal.
+                %>
+                <button class="btn btn-primary js-sendBtn" type="button">
+                    <%- $.i18n.__('upl.btn.title') %>
+                </button>
+                <div class="imageUploader-add-veil">
+                    <input id="Upload0File"
+                        class="btn btn-primary"
+                        type="file" name="upload[0][file]"
+                        style="width: 150px; height: 100%;">
+                </div>
             </div>
         </div>
     </div>

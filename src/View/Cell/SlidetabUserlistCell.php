@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\View\Cell;
 
 use Saito\App\Registry;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\View\Cell\SlidetabCell;
 
 class SlidetabUserlistCell extends SlidetabCell
@@ -23,10 +24,11 @@ class SlidetabUserlistCell extends SlidetabCell
     /**
      * {@inheritDoc}
      */
-    public function display()
+    public function display(CurrentUserInterface $CurrentUser)
     {
         /* @var \Saito\App\Stats $stats */
         $stats = Registry::get('AppStats');
+        $this->set('CurrentUser', $CurrentUser);
         $this->set('online', $stats->getRegistredUsersOnline());
         $this->set('registered', $stats->getNumberOfRegisteredUsersOnline());
     }

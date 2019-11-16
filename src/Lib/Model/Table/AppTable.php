@@ -17,7 +17,6 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Database\Expression\QueryExpression;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Saito\Event\SaitoEventManager;
 
@@ -127,7 +126,7 @@ class AppTable extends Table
      */
     public function dispatchSaitoEvent($event, $data)
     {
-        if (!$this->_SEM) {
+        if (empty($this->_SEM)) {
             $this->_SEM = SaitoEventManager::getInstance();
         }
         $this->_SEM->dispatch($event, $data + ['Model' => $this]);

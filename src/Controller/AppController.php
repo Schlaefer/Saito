@@ -61,6 +61,7 @@ class AppController extends Controller
         'Html',
         'JsData',
         'Layout',
+        'Permissions',
         'SaitoHelp.SaitoHelp',
         'Stopwatch.Stopwatch',
         'TimeH',
@@ -124,7 +125,6 @@ class AppController extends Controller
     {
         Stopwatch::start('App->beforeFilter()');
 
-        $this->Themes->set($this->CurrentUser);
         // disable forum with admin pref
         if (Configure::read('Saito.Settings.forum_disabled') &&
             $this->request->getParam('action') !== 'login' &&
@@ -138,14 +138,10 @@ class AppController extends Controller
             return null;
         }
 
-        $this->_setConfigurationFromGetParams();
-
         // allow sql explain for DebugKit toolbar
         if ($this->request->getParam('plugin') === 'debug_kit') {
             $this->Authentication->allowUnauthenticated(['sql_explain']);
         }
-
-        $this->_l10nRenderFile();
 
         Stopwatch::stop('App->beforeFilter()');
     }
@@ -156,6 +152,10 @@ class AppController extends Controller
     public function beforeRender(Event $event)
     {
         Stopwatch::start('App->beforeRender()');
+        $this->Themes->set($this->CurrentUser);
+        $this->_setConfigurationFromGetParams();
+        $this->_l10nRenderFile();
+
         $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
         $this->set('showStopwatch', $this->getConfig('showStopwatch'));

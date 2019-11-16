@@ -49,10 +49,11 @@ class SaitoHelpsController extends AppController
      */
     public function view($lang, $id)
     {
-        $help = $this->find($id, $lang);
+        $help = $this->find($lang, $id);
 
-        // try fallback to english default language
         if (!$help && $lang !== 'en') {
+            // Help file at least for localization not found. Try to fallback to
+            // english default language.
             return $this->redirect("/help/en/$id");
         }
         if ($help) {
@@ -81,11 +82,11 @@ class SaitoHelpsController extends AppController
     /**
      * Loads help file
      *
-     * @param string $id [<plugin>.]<id>
-     * @param string $lang folder docs/help/<langugage>
-     * @return Entity|null
+     * @param string $lang Language. Folder docs/help/<langugage>
+     * @param string $id Plugin file id. [<plugin>.]<id>
+     * @return Entity|null Null if help file wan't found
      */
-    private function find(string $id, string $lang = 'en'): ?Entity
+    private function find(string $lang, string $id): ?Entity
     {
         $findFiles = function ($id, $lang) {
             list($plugin, $id) = pluginSplit($id);

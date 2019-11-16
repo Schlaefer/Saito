@@ -51,7 +51,7 @@ class AuthenticationServiceFactory
         $service = new AuthenticationService();
 
         $service->setConfig('queryParam', 'redirect');
-        $service->setConfig('unauthenticatedRedirect', '/login');
+        $service->setConfig('unauthenticatedRedirect', Router::url(['_name' => 'login'], false));
 
         $service->loadIdentifier('Authentication.Password', [
             'passwordHasher' => [

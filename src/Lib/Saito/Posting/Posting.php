@@ -16,7 +16,7 @@ use Saito\Posting\Basic\BasicPostingTrait;
 use Saito\Posting\PostingInterface;
 use Saito\Posting\UserPosting\UserPostingTrait;
 use Saito\Thread\Thread;
-use Saito\User\ForumsUserInterface;
+use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\RemovedSaitoUser;
 use Saito\User\SaitoUser;
 
@@ -42,13 +42,11 @@ class Posting implements PostingInterface
     /**
      * Constructor.
      *
-     * @param ForumsUserInterface $CurrentUser current-user
      * @param array $rawData raw posting data
      * @param array $options options
      * @param null|Thread $tree thread
      */
     public function __construct(
-        ForumsUserInterface $CurrentUser,
         $rawData,
         array $options = [],
         Thread $tree = null
@@ -60,8 +58,6 @@ class Posting implements PostingInterface
         } else {
             $this->_rawData['user'] = new SaitoUser($this->_rawData['user']);
         }
-
-        $this->setCurrentUser($CurrentUser);
 
         $options += ['level' => 0];
         $this->_level = $options['level'];
@@ -90,6 +86,19 @@ class Posting implements PostingInterface
                 $message = "Attribute '$var' not found in class Posting.";
                 throw new \InvalidArgumentException($message);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withCurrentUser(CurrentUserInterface $CU): self
+    {
+        $this->setCurrentUser($CU);
+        $this->map(function ($node) use ($CU) {
+            $node->setCurrentUser($CU);
+        });
+
+        return $this;
     }
 
     /**
@@ -151,7 +160,7 @@ class Posting implements PostingInterface
     /**
      * {@inheritDoc}
      */
-    public function map(callable $callback, bool $mapSelf = true, PostingInterface $node = null): void
+    public function map(callable $callback, bool $mapSelf = true, $node = null): void
     {
         if ($node === null) {
             $node = $this;
@@ -191,7 +200,6 @@ class Posting implements PostingInterface
         if (isset($this->_rawData['_children'])) {
             foreach ($this->_rawData['_children'] as $child) {
                 $this->_children[] = new Posting(
-                    $this->getCurrentUser(),
                     $child,
                     ['level' => $this->_level + 1],
                     $this->_Thread

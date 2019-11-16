@@ -125,7 +125,6 @@ class DraftsTableTest extends SaitoTableTestCase
         $this->assertEquals(2, $count);
 
         $cron = Registry::get('Cron');
-        $cron->clearHistory();
         $cron->execute();
 
         $count = $this->Drafts->find()->all()->count();

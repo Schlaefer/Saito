@@ -74,6 +74,7 @@ try {
     /**
      * Load additional config files
      */
+    Configure::load('permissions', 'default');
     Configure::load('saito_config', 'default');
     Configure::config('saitoCore', new PhpConfig(APP . '/Lib/'));
     Configure::load('version', 'saitoCore');

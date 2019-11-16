@@ -10,11 +10,9 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace App\Model\Behavior;
+namespace Saito\Posting;
 
-use Cake\ORM\Behavior;
-
-class TreeBehavior extends Behavior
+class TreeBuilder
 {
     /**
      * build tree
@@ -22,7 +20,7 @@ class TreeBehavior extends Behavior
      * @param array $postings postings
      * @return array
      */
-    public function treeBuild($postings)
+    public function build($postings)
     {
         $tree = [];
         foreach ($postings as $posting) {

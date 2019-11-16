@@ -1,128 +1,215 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import App from 'models/app';
 import * as _ from 'underscore';
-import { SpinnerView } from 'views/SpinnerView';
 import Template from '../templates/uploaderAddTpl.html';
+import DragAreaVw from './uploaderAdd/uploaderAddDragAreaVw';
+import UploaderAddMdl from './uploaderAdd/uploaderAddMdl';
+import ProgressBarVw from './uploaderAdd/uploaderAddProgressVw';
+import StatsVw from './uploaderAdd/uploaderAddStatsVw';
 
 class UploaderAddVw extends View<Model> {
+    private xhr: XMLHttpRequest|undefined;
+
+    /**
+     * Constructor
+     *
+     * @param options Ma view options
+     */
     public constructor(options: any = {}) {
         _.defaults(options, {
-            className: 'imageUploader-add',
+            className: 'imageUploader-card imageUploader-add card',
             events: {
-                'change @ui.inputFile': 'uploadManual',
-                'dragleave @ui.dropLayer': 'handleDragLeave',
-                'dragover @ui.dropLayer': 'handleDragOver',
-                'drop @ui.dropLayer': 'handleDrop',
+                'change @ui.inputFile': 'onUploadBtn',
+                'click @ui.abortBtn': 'onAbortBtn',
+            },
+            model: new UploaderAddMdl(null, {collection: options.collection}),
+            modelEvents: {
+                'change:fileToUpload': 'send',
             },
             regions: {
-                spinner: '.js-imageUploadSpinner',
+                dragAreaRg: '.js-dragAreaRg',
+                progressBarRg: '.js-progressBarRg',
+                statsRg: '.js-statsRg',
             },
             template: Template,
             ui: {
-                dropLayer: '.js-drop',
-                heading: 'h2',
-                indicator: '.js-indicator',
+                abortBtn: '.js-abortBtn',
+                bar: '.progress-bar',
                 inputFile: '#Upload0File',
+                sendBtn: '.js-sendBtn',
             },
         });
         super(...arguments);
     }
 
+    /**
+     * Ma onRender callback
+     */
     public onRender() {
-        this.initDropUploader();
-    }
-
-    private uploadManual(event: Event) {
-        event.preventDefault();
-
-        const formData = new FormData();
-        const input: any = this.getUI('inputFile')[0];
-        formData.append(
-            input.name,
-            input.files[0],
-        );
-
-        this.send(formData);
+        this.showChildView('progressBarRg', new ProgressBarVw({model: this.model}));
+        this.showChildView('statsRg', new StatsVw({model: this.model}));
+        this.showChildView('dragAreaRg', new DragAreaVw({model: this.model}));
     }
 
     /**
-     * Sends form-data via ajax
+     * Ma onBeforeDestroy callback
      */
-    private send(formData: FormData) {
-        this.showChildView('spinner', new SpinnerView());
+    public onBeforeDestroy()
+    {
+        if (this.model.get('uploadInProgress')) {
+            this.onAbortBtn();
+        }
+    }
 
-        const xhr = new XMLHttpRequest();
+    /**
+     * Called after the user picked a file to upload.
+     *
+     * @param event
+     */
+    protected onUploadBtn(event: Event) {
+        event.preventDefault();
+        const input: any = this.getUI('inputFile')[0];
+        this.model.set('fileToUpload', input.files[0], {validate: true});
+        const error = this.model.validationError;
+        if (error) {
+            App.eventBus.trigger('notification', {message: error, type: 'error'});
+        }
+    }
+
+    /**
+     * Called when the file in this view's model is updated to send the file
+     *
+     * @param model This view's model
+     * @param file The file to upload
+     */
+    protected send(model: Model, file: File) {
+        if (file === null) {
+            return;
+        }
+
+        this.xhr = new XMLHttpRequest();
+        const xhr = this.xhr;
         xhr.open('POST', App.settings.get('apiroot') + 'uploads');
         xhr.setRequestHeader('Accept', 'application/json, text/javascript');
         xhr.setRequestHeader('Authorization', 'bearer ' + App.settings.get('jwt'));
 
-        const onError = (msg?: string) => {
-            App.eventBus.trigger('notification', {
-                message: msg || $.i18n.__('upl.failure'),
-                type: 'error',
-            });
-        };
+        xhr.onloadstart = () => this.onUploadStart();
+        xhr.onabort = () => this.onUploadAbort();
+        xhr.upload.onprogress = (event) => this.onUploadProgress(event);
+        xhr.onerror = () => this.onUploadError();
 
-        xhr.onloadend = (request) => {
-            this.detachChildView('spinner');
+        xhr.onloadend = () => {
+            this.xhr = undefined;
+            this.model.set('progress', 0);
+            this.model.set('uploadInProgress', false);
+            this.model.set('fileToUpload', null);
             // clears out form field
             this.render();
 
-            if (('' + xhr.status)[0] !== '2') {
-                let msg;
-                try {
-                    msg = JSON.parse(xhr.responseText).errors[0].title;
-                } catch (e) {
-                    onError();
-                }
-                onError(msg);
+            if (this.model.get('uploadWasAbortedByUser') === true) {
+                /// User aborted upload.
+                this.model.set('uploadWasAbortedByUser', false);
                 return;
             }
 
-            this.collection.add(JSON.parse(xhr.responseText).data.attributes);
+            if (('' + xhr.status)[0] === '2') {
+                /// Upload was successful.
+                this.collection.add(JSON.parse(xhr.responseText).data.attributes);
+                return;
+            }
+
+            /// Upload failed
+            let msg;
+            try {
+                const errors = JSON.parse(xhr.responseText).errors;
+                if (errors) {
+                    msg = errors[0].title;
+                }
+            } finally {
+                this.onUploadError(msg);
+            }
         };
-        xhr.onerror = () => {
-            onError();
-        };
+
+        const formData = new FormData();
+        formData.append('upload[0][file]', file);
 
         xhr.send(formData);
     }
 
-    private initDropUploader() {
-        const layer = this.getUI('dropLayer')[0];
-        const supported = ('draggable' in layer) || ('ondragstart' in layer && 'ondrop' in layer);
+    /**
+     * Called on upload error to handle error presentation.
+     *
+     * @param msg Error message
+     */
+    protected onUploadError(msg?: string) {
+        App.eventBus.trigger('notification', {
+            message: msg || $.i18n.__('upl.failure'),
+            type: 'error',
+        });
+    }
 
-        if (!supported) {
-            this.getUI('dropLayer').remove();
+    /**
+     * Called on upload progress to update upload stats.
+     *
+     * @param event progress event
+     */
+    protected onUploadProgress(event: ProgressEvent) {
+        let complete;
+        if (event.lengthComputable) {
+            /// Progress-bar length reflects actual upload
+            this.model.set('loaded', event.loaded);
+            this.model.set('total', event.total);
+
+            complete = Math.floor(event.loaded / event.total * 100);
+        } else {
+            /// Progress/bar length is faked
+            complete = this.model.get('progress');
+            if (complete < 95) {
+                complete += 2;
+            }
+        }
+        this.model.set('progress', complete);
+    }
+
+    /**
+     * Called when the upload starts
+     */
+    protected onUploadStart() {
+        this.model.set('start', (new Date()).getTime() / 1000);
+        this.model.set('uploadInProgress', true);
+
+        this.getUI('inputFile').attr('disabled', 'disabled');
+        this.getUI('sendBtn').hide();
+        this.getUI('abortBtn').show();
+    }
+
+    /**
+     * Called when upload is aborted
+     */
+    protected onUploadAbort() {
+        this.getUI('inputFile').removeAttr('disabled');
+        this.getUI('abortBtn').hide();
+        this.getUI('sendBtn').show();
+    }
+
+    /**
+     * Called when the upload cancel button is pressed. Aborts the upload.
+     */
+    protected onAbortBtn() {
+        if (this.xhr === undefined) {
             return;
         }
-
-        this.getUI('heading').html($.i18n.__('upl.new.title'));
-    }
-
-    private handleDrop(event: JQueryEventObject) {
-        this.handleDragLeave(event);
-        const orgEvent = event.originalEvent as DragEvent;
-        if (!orgEvent.dataTransfer) {
-            return;
-        }
-
-        const files = orgEvent.dataTransfer.files;
-        const formData = new FormData();
-        formData.append('upload[0][file]', files[0]);
-
-        this.send(formData);
-    }
-
-    private handleDragOver(event: Event) {
-        event.preventDefault();
-        this.getUI('indicator').removeClass('fadeOut').addClass('fadeIn');
-    }
-
-    private handleDragLeave(event: Event) {
-        event.preventDefault();
-        this.getUI('indicator').removeClass('fadeIn').addClass('fadeOut');
+        this.model.set('uploadWasAbortedByUser', true);
+        this.xhr.abort();
     }
 }
 

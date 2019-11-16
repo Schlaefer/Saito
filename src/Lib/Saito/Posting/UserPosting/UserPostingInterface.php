@@ -12,11 +12,28 @@ declare(strict_types=1);
 
 namespace Saito\Posting\UserPosting;
 
+use Saito\User\CurrentUser\CurrentUserInterface;
+
 /**
  * Posting properties derived from the current user
  */
 interface UserPostingInterface
 {
+    /**
+     * Get current-user.
+     *
+     * @return CurrentUserInterface
+     */
+    public function getCurrentUser(): CurrentUserInterface;
+
+    /**
+     * Set current user.
+     *
+     * @param CurrentUserInterface $CurrentUser  current user
+     * @return void
+     */
+    public function setCurrentUser(CurrentUserInterface $CurrentUser);
+
     /**
      * Checks if answering an entry is allowed
      *

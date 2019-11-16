@@ -1,14 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 namespace Saito\Test\Posting;
 
-use Cake\ORM\TableRegistry;
-use Saito\App\Registry;
-use Saito\Test\SaitoTestCase;
+use App\Model\Table\EntriesTable;
+use Saito\Posting\Posting;
+use Saito\Posting\TreeBuilder;
+use Saito\Test\Model\Table\SaitoTableTestCase;
 
-class PostingTest extends SaitoTestCase
+class PostingTest extends SaitoTableTestCase
 {
+    public $tableClass = 'Entries';
 
+    /** @var EntriesTable */
     public $Table;
 
     public $fixtures = [
@@ -17,21 +30,9 @@ class PostingTest extends SaitoTestCase
         'app.User',
     ];
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->Table = TableRegistry::get('Entries');
-    }
-
-    public function tearDown()
-    {
-        unset($this->Table);
-        parent::tearDown();
-    }
-
     public function testGetAllChildren()
     {
-        $posting = $this->Table->treesForThreads([1])[1];
+        $posting = $this->Table->postingsForThread(1);
 
         $expected = [2, 3, 7, 8, 9];
         $result = $posting->getAllChildren();

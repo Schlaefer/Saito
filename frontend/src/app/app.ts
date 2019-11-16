@@ -12,6 +12,11 @@ import ContentTimer from './ContentTimer';
 import { Application } from 'backbone.marionette';
 import 'lib/jquery.i18n/jquery.i18n.extend';
 import 'lib/saito/backbone.initHelper';
+import moment from 'moment';
+/// Load numeral.js
+import numeral from 'numeral';
+// load locales for numeral.js
+require('numeral/locales')
 
 interface ISaitoCallbacks {
     beforeAppInit: CallableFunction[];
@@ -39,6 +44,9 @@ class Bootstrap {
         EventBus.vent.reply('apiroot', () => App.settings.get('apiroot'));
 
         App.settings.set(SaitoApp.app.settings);
+
+        moment.locale(App.settings.get('language'));
+        numeral.locale(App.settings.get('language'));
 
         $.ajax({
             cache: true,

@@ -15,23 +15,17 @@ namespace Saito\Test;
 use Cake\Core\Configure;
 use Cake\Event\EventManager;
 use Cake\Filesystem\File;
+use Cake\I18n\I18n;
 use Cake\Mailer\TransportFactory;
 use Cake\Utility\Inflector;
-use Cron\Lib\Cron;
 use Saito\App\Registry;
 use Saito\Cache\CacheSupport;
-use Saito\User\ForumsUserInterface;
-use Saito\User\SaitoUser;
 
 trait TestCaseTrait
 {
+    private $saitoSettings;
 
-    /**
-     * @var \Aura\Di\Container
-     */
-    protected $dic;
-
-    protected $saitoSettings;
+    protected $saitoPermissions;
 
     /**
      * set-up saito
@@ -40,7 +34,8 @@ trait TestCaseTrait
      */
     protected function setUpSaito()
     {
-        $this->initDic();
+        Registry::initialize();
+
         $this->_storeSettings();
         $this->mockMailTransporter();
         $this->_clearCaches();
@@ -71,23 +66,6 @@ trait TestCaseTrait
     }
 
     /**
-     * Setup for dependency injection container
-     *
-     * @param ForumsUserInterface $User user
-     * @return void
-     */
-    public function initDic(ForumsUserInterface $User = null)
-    {
-        $this->dic = Registry::initialize();
-        if ($User === null) {
-            $User = new SaitoUser();
-        }
-        $this->dic->set('CU', $User);
-
-        $this->dic->set('Cron', new Cron());
-    }
-
-    /**
      * store global settings
      *
      * @return void
@@ -95,7 +73,8 @@ trait TestCaseTrait
     protected function _storeSettings()
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
-        Configure::write('Saito.language', 'en');
+        $this->saitoPermissions = clone(Configure::read('Saito.Permission.Resources'));
+        $this->setI18n('en');
         Configure::write('Saito.Settings.ParserPlugin', \Plugin\BbcodeParser\src\Lib\Markup::class);
         Configure::write('Saito.Settings.uploader', clone($this->saitoSettings['uploader']));
     }
@@ -107,9 +86,20 @@ trait TestCaseTrait
      */
     protected function _restoreSettings()
     {
-        if ($this->saitoSettings !== null) {
-            Configure::write('Saito.Settings', $this->saitoSettings);
-        }
+        Configure::write('Saito.Settings', $this->saitoSettings);
+        Configure::write('Saito.Permission.Resources', $this->saitoPermissions);
+    }
+
+    /**
+     * Set the current translation language
+     *
+     * @param string $lang language code
+     * @return void
+     */
+    public function setI18n(string $lang): void
+    {
+        Configure::write('Saito.language', $lang);
+        I18n::setLocale($lang);
     }
 
     /**

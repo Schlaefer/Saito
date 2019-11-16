@@ -80,7 +80,7 @@ class PostingsController extends ApiAppController
         }
 
         $id = $data['id'];
-        $posting = $this->Entries->get($id, ['return' => 'Entity']);
+        $posting = $this->Entries->get($id);
         if (!$posting) {
             throw new NotFoundException('Posting not found.');
         }
@@ -118,7 +118,7 @@ class PostingsController extends ApiAppController
 
         if ($isAnswer) {
             /** @var PostingInterface */
-            $parent = $this->Entries->get($pid);
+            $parent = $this->Entries->get($pid)->toPosting()->withCurrentUser($this->CurrentUser);
 
             // Don't leak content of forbidden categories
             if ($parent->isAnsweringForbidden()) {
@@ -133,7 +133,7 @@ class PostingsController extends ApiAppController
 
         if ($isEdit) {
             /** @var PostingInterface */
-            $posting = $this->Entries->get($id);
+            $posting = $this->Entries->get($id)->toPosting()->withCurrentUser($this->CurrentUser);
             if (!$posting->isEditingAllowed()) {
                 throw new SaitoForbiddenException(
                     'Access to posting in PostingsController:meta() forbidden.',

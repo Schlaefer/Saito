@@ -3,8 +3,6 @@ import { View } from 'backbone.marionette';
 import _ from 'underscore';
 import { SpinnerView } from 'views/SpinnerView';
 import UploadsCollection from './collections/uploads';
-import Tpl from './templates/uploaderTpl.html';
-import UploaderAddVw from './views/uploaderAddVw';
 import UploaderClVw from './views/uploaderCollectionVw';
 
 class UploaderVw extends View<Model> {
@@ -15,7 +13,7 @@ class UploaderVw extends View<Model> {
                 addRegion: '.js-imageUploader-add',
                 collectionRegion: '.js-imageUploader-list',
             },
-            template: Tpl,
+            template: _.template('<div class="js-imageUploader-list"></div>'),
         });
         super(options);
     }
@@ -25,7 +23,6 @@ class UploaderVw extends View<Model> {
     }
 
     public onRender() {
-        this.showChildView('addRegion', new UploaderAddVw({ collection: this.collection }));
         this.showChildView('collectionRegion', new SpinnerView());
 
         this.collection.fetch({

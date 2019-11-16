@@ -159,7 +159,7 @@ class ItemCache
             $this->_read();
         }
 
-        if (!$timestamp) {
+        if ($timestamp === null) {
             $timestamp = $this->_now;
         }
 

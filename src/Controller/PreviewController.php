@@ -16,7 +16,6 @@ use Api\Controller\ApiAppController;
 use App\Model\Table\EntriesTable;
 use Cake\I18n\Time;
 use Cake\View\Helper\IdGeneratorTrait;
-use Saito\App\Registry;
 
 /**
  * Class EntriesController
@@ -58,6 +57,7 @@ class PreviewController extends ApiAppController
             $data = $this->Entries->prepareChildPosting($parent, $data);
         }
 
+        /** @var \App\Model\Entity\Entry */
         $newEntry = $this->Entries->newEntity($data);
         $errors = $newEntry->getErrors();
 
@@ -67,10 +67,7 @@ class PreviewController extends ApiAppController
             $newEntry['category'] = $this->Entries->Categories->find()
                 ->where(['id' => $newEntry['category_id']])
                 ->first();
-            $posting = Registry::newInstance(
-                '\Saito\Posting\Posting',
-                ['rawData' => $newEntry->toArray()]
-            );
+            $posting = $newEntry->toPosting()->withCurrentUser($this->CurrentUser);
             $this->set(compact('posting'));
         } else {
             $this->set(compact('errors'));

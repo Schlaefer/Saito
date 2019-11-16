@@ -3,8 +3,8 @@
 namespace App\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
-use Cake\Network\Request;
 use Saito\Test\IntegrationTestCase;
+use Saito\User\Permission\ResourceAC;
 
 class AppControllerTest extends IntegrationTestCase
 {
@@ -88,5 +88,22 @@ class AppControllerTest extends IntegrationTestCase
         $text = Configure::read('Saito.Settings.forum_disabled_text');
         $this->assertResponseNotContains($text);
         $this->assertResponseCode(200);
+    }
+
+    public function testRegisterLinkIsShown()
+    {
+        $this->setI18n('bzg');
+        $this->get('/');
+        $this->assertResponseContains('register_linkname');
+    }
+
+    public function testRegisterLinkNotShown()
+    {
+        $this->setI18n('bzg');
+        Configure::read('Saito.Permission.Resources')
+            ->get('saito.core.user.register')
+            ->disallow((new ResourceAC())->asEverybody());
+        $this->get('/');
+        $this->assertResponseNotContains('register_linkname');
     }
 }

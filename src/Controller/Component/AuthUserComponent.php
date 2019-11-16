@@ -25,7 +25,7 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
-use Saito\App\Registry;
+use Saito\RememberTrait;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\CurrentUser\CurrentUserFactory;
@@ -39,6 +39,8 @@ use Stopwatch\Lib\Stopwatch;
  */
 class AuthUserComponent extends Component
 {
+    use RememberTrait;
+
     /**
      * Component name
      *
@@ -68,6 +70,13 @@ class AuthUserComponent extends Component
      * @var UsersTable
      */
     protected $UsersTable = null;
+
+    /**
+     * Array of authorized actions 'action' => 'resource'
+     *
+     * @var array
+     */
+    private $actionAuthorizationResources = [];
 
     /**
      * {@inheritDoc}
@@ -102,11 +111,17 @@ class AuthUserComponent extends Component
 
         $this->setCurrentUser($CurrentUser);
 
-        if (!$this->isAuthorized($this->CurrentUser)) {
-            throw new ForbiddenException();
-        }
-
         Stopwatch::stop('CurrentUser::initialize()');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function startup()
+    {
+        if (!$this->isAuthorized($this->CurrentUser)) {
+            throw new ForbiddenException(null, 1571852880);
+        }
     }
 
     /**
@@ -116,7 +131,7 @@ class AuthUserComponent extends Component
      */
     public function isBot()
     {
-        return $this->request->is('bot');
+        return $this->remember('isBot', $this->getController()->getRequest()->is('bot'));
     }
 
     /**
@@ -243,7 +258,10 @@ class AuthUserComponent extends Component
             }
 
             $expire = $authenticationProvider->getConfig('cookie.expire');
-            $refreshedCookie = $cookie->withExpiry($expire);
+            $refreshedCookie = $cookie
+                ->withExpiry($expire)
+                // Can't read path from cookies, so the default would be root '/'.
+                ->withPath($this->getController()->getRequest()->getAttribute('webroot'));
 
             $response = $controller->getResponse()->withCookie($refreshedCookie);
             $controller->setResponse($response);
@@ -334,7 +352,18 @@ class AuthUserComponent extends Component
         $controller->CurrentUser = $this->CurrentUser;
         // makes CurrentUser available as View var in templates
         $controller->set('CurrentUser', $this->CurrentUser);
-        Registry::set('CU', $this->CurrentUser);
+    }
+
+    /**
+     * The controller action will be authorized with a permission resource.
+     *
+     * @param string $action The controller action to authorize.
+     * @param string $resource The permission resource token.
+     * @return void
+     */
+    public function authorizeAction(string $action, string $resource)
+    {
+        $this->actionAuthorizationResources[$action] = $resource;
     }
 
     /**
@@ -345,17 +374,13 @@ class AuthUserComponent extends Component
      */
     private function isAuthorized(CurrentUser $user)
     {
-        $controller = $this->getController();
-        $action = $controller->getRequest()->getParam('action');
-
-        if (isset($controller->actionAuthConfig)
-            && isset($controller->actionAuthConfig[$action])) {
-            $requiredRole = $controller->actionAuthConfig[$action];
-
-            return Registry::get('Permission')
-                ->check($user->getRole(), $requiredRole);
+        /// Authorize action through resource
+        $action = $this->getController()->getRequest()->getParam('action');
+        if (isset($this->actionAuthorizationResources[$action])) {
+            return $user->permission($this->actionAuthorizationResources[$action]);
         }
 
+        /// Authorize admin area
         $prefix = $this->request->getParam('prefix');
         $plugin = $this->request->getParam('plugin');
         $isAdminRoute = ($prefix && strtolower($prefix) === 'admin')

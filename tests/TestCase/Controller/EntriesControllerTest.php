@@ -6,8 +6,7 @@ use App\Controller\EntriesController;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
-use Cake\Event\Event;
-use Cake\Event\EventManager;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
@@ -87,7 +86,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testMixNotFound()
     {
-        $this->expectException('Cake\Http\Exception\NotFoundException');
+        $this->expectException(RecordNotFoundException::class);
         $this->get('/entries/mix/9999');
     }
 
@@ -233,7 +232,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
             [
                 '2' => '2',
                 '3' => '3',
-                '5' => '5',
             ],
             $this->viewVariable('categoryChooserChecked')
         );
@@ -243,7 +241,6 @@ class EntriesControllerTestCase extends IntegrationTestCase
                 3 => 'Another Ontopic',
                 2 => 'Ontopic',
                 4 => 'Offtopic',
-                5 => 'Trash'
             ]
         );
         $entries = $this->viewVariable('entries');
@@ -258,47 +255,28 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testDeleteNotLoggedIn()
     {
-        $this->expectException(ForbiddenException::class);
-
-        $this->get('/entries/delete/1');
-    }
-
-    /*
-    public function testDeleteWrongMethod()
-    {
-        $this->_loginUser(1);
-        $this->expectException(
-            'Cake\Network\Exception\MethodNotAllowedException'
-        );
-        $this->get('/entries/delete/1');
-    }
-    */
-
-    public function testDeleteNoId()
-    {
-        $this->_loginUser(1);
-        $this->expectException('Cake\Http\Exception\NotFoundException');
-        $this->mockSecurity();
-        $this->post('/entries/delete');
+        $url = '/entries/delete/1';
+        $this->get($url);
+        $this->assertRedirectLogin($url);
     }
 
     public function testDeleteSuccess()
     {
         $this->_loginUser(1);
-        $Postings = TableRegistry::get('Entries');
-        $count = count($Postings->treeForNode(1)->getAllChildren());
-        $this->assertEquals(5, $count);
+        $count = $this->Table->postingsForThread(1)->getThread()->count();
+        $this->assertEquals(6, $count);
 
         $this->mockSecurity();
         $this->post('/entries/delete/9');
 
-        $count = count($Postings->treeForNode(1)->getAllChildren());
-        $this->assertEquals(3, $count);
+        $count = $this->Table->postingsForThread(1)->getThread()->count();
+        $this->assertEquals(4, $count);
     }
 
     public function testDeleteNoAuthorization()
     {
         $this->_loginUser(3);
+        $this->mockSecurity();
         $this->expectException(ForbiddenException::class);
 
         $this->post('/entries/delete/1');
@@ -310,6 +288,21 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->mockSecurity();
         $this->post('/entries/delete/9999');
+    }
+
+    public function testDeletePostingFailureCategoryAccess()
+    {
+        $this->_loginUser(2);
+        $this->mockSecurity();
+
+        ///
+        $this->post('/entries/delete/15');
+        $this->assertRedirect('/entries/view/14');
+
+        // Category 4 new threads are not allowed for mods
+        $this->expectException(ForbiddenException::class);
+        $this->expectExceptionCode(1571309481);
+        $this->post('/entries/delete/14');
     }
 
     public function testIndexSuccessAnonoymous()
@@ -403,6 +396,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->expectException(ForbiddenException::class);
 
         $this->_loginUser(3);
+        $this->mockSecurity();
         $this->post('/entries/merge/4', ['targetId' => 2]);
     }
 

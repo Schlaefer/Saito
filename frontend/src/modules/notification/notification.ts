@@ -152,7 +152,6 @@ export default class NotificationsView extends Mn.View<Model> {
                     break;
                 case 'warning':
                     logOptions.addclass = 'bg-warning';
-                    logOptions.autohide = false;
                     break;
                 case 'error':
                     logOptions.addclass = 'bg-danger';

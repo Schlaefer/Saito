@@ -161,8 +161,11 @@ class AuthUserComponentTest extends IntegrationTestCase
         $username = $user->get('username');
         $hash = $hasher->hash($username . $user->get('password'));
         $cookieName = Configure::read('Security.cookieAuthName');
-        $request = (new ServerRequest())
-            ->withCookieParams([$cookieName => json_encode([$username, $hash])]);
+        $webroot = '/sub/';
+        $request = (new ServerRequest([
+            'cookies' => [$cookieName => json_encode([$username, $hash])],
+            'webroot' => $webroot,
+        ]));
         $this->_setup($request);
 
         /// Trigger refresh on cookie-login
@@ -179,6 +182,7 @@ class AuthUserComponentTest extends IntegrationTestCase
             ->get('Cookie');
         $expire = $authProvider->getConfig('cookie.expire');
         $this->assertWithinRange($expire->getTimestamp(), (int)$cookie['expire'], 2);
+        $this->assertEquals($webroot, $cookie['path']);
     }
 
     private function _setup(ServerRequestInterface $request = null)

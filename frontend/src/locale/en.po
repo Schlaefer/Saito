@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *i18n*\n"
 
-#: frontend/src/modules/answering/answering.ts:111
+#: frontend/src/modules/answering/answering.ts:91
 msgid "answer.btn.preview"
 msgstr "Preview"
 
@@ -26,7 +26,7 @@ msgstr "Preview"
 msgid "answer.btn.sbmt"
 msgstr "Submit"
 
-#: frontend/src/modules/answering/views/CategorySelectVw.ts:22
+#: frontend/src/modules/answering/views/CategorySelectVw.ts:23
 msgid "answer.cat.l"
 msgstr "Category"
 
@@ -34,37 +34,37 @@ msgstr "Category"
 msgid "answer.cite.t"
 msgstr "Cite"
 
-#: frontend/src/modules/answering/editor/DraftsView.ts:108
+#: frontend/src/modules/answering/Draft.ts:113
 msgid "answer.draft.saved.t"
 msgstr "Answer is saved as draft."
 
-#: frontend/src/modules/answering/editor/DraftsView.ts:109
+#: frontend/src/modules/answering/Draft.ts:117
 msgid "answer.draft.unsaved.t"
 msgstr "Not all changes are saved as draft."
 
-#: frontend/src/modules/answering/answering.ts:96
+#: frontend/src/modules/answering/answering.ts:76
 msgid "answer.reply.t"
 msgstr "Write a Reply"
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:236
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:223
 msgid "answer.subject.t"
 msgstr "Subject"
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:315
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:304
 msgid "answer.submit.e.t"
 msgstr "Error: Posting Could Not Be Saved"
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:272
-#: frontend/src/modules/answering/answering.ts:314
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:261
+#: frontend/src/modules/answering/answering.ts:303
 msgid "api.generic.e.exp"
 msgstr ""
 "Couldn't reach the internet server. Check your connection and try again."
 
-#: frontend/src/modules/answering/answering.ts:129
-#: frontend/src/modules/answering/answering.ts:273
+#: frontend/src/modules/answering/answering.ts:109
+#: frontend/src/modules/answering/answering.ts:262
 msgid "api.generic.e.t"
 msgstr "Error: Couldn't Connect to Server"
 
@@ -104,13 +104,13 @@ msgstr "Error: Bookmark could not be saved."
 msgid "bkm.title.pl"
 msgstr "Bookmarks"
 
-#: frontend/src/views/postingActionBookmark.js:13
-#: frontend/src/views/postingActionBookmark.js:65
+#: frontend/src/views/postingActionBookmark.ts:19
+#: frontend/src/views/postingActionBookmark.ts:70
 msgid "bmk.doBookmark"
 msgstr "Bookmark the entry"
 
-#: frontend/src/views/postingActionBookmark.js:13
-#: frontend/src/views/postingActionBookmark.js:61
+#: frontend/src/views/postingActionBookmark.ts:19
+#: frontend/src/views/postingActionBookmark.ts:66
 msgid "bmk.isBookmarked"
 msgstr "Entry is bookmarked"
 
@@ -152,32 +152,32 @@ msgstr "Insert"
 msgid "medins.notRecognized"
 msgstr "Nothing recognized."
 
-#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:9
-#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:57
+#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:17
+#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:65
 msgid "medins.title"
 msgstr "Embed Content"
 
-#: frontend/src/views/postingActionDelete.js:29
+#: frontend/src/views/postingActionDelete.ts:26
 msgid "posting.delete.abort.btn"
 msgstr "Abort"
 
-#: frontend/src/views/postingActionDelete.js:31
-#: frontend/src/views/postingActionDelete.js:33
-#: frontend/src/views/postingActionDelete.js:54
+#: frontend/src/views/postingActionDelete.ts:28
+#: frontend/src/views/postingActionDelete.ts:30
+#: frontend/src/views/postingActionDelete.ts:42
 msgid "posting.delete.title"
 msgstr "Delete Posting"
 
-#: frontend/src/views/postingActionSolves.js:12
-#: frontend/src/views/postingActionSolves.js:28
+#: frontend/src/views/postingActionSolves.ts:22
+#: frontend/src/views/postingActionSolves.ts:33
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
 
-#: frontend/src/modules/answering/views/PreviewVw.ts:45
-#: frontend/src/modules/answering/views/PreviewVw.ts:63
+#: frontend/src/modules/answering/views/PreviewVw.ts:43
+#: frontend/src/modules/answering/views/PreviewVw.ts:61
 msgid "preview.e.generic"
 msgstr "Error: Couldn't load preview."
 
-#: frontend/src/modules/answering/views/PreviewVw.ts:39
+#: frontend/src/modules/answering/views/PreviewVw.ts:37
 msgid "preview.t"
 msgstr "Preview"
 
@@ -186,25 +186,47 @@ msgstr "Preview"
 msgid "time.relative.yesterday"
 msgstr "yesterday"
 
-#: frontend/src/views/postingActionDelete.js:24
+#: frontend/src/views/postingActionDelete.ts:21
 msgid "tree.delete.confirm"
 msgstr "Are sure?"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:24
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:41
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:53
+msgid "upl.add.calc"
+msgstr "Calculating…"
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:35
+msgid "upl.add.remaining.t"
+msgstr "Remaining"
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:39
+msgid "upl.add.size.t"
+msgstr "Size"
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:31
+msgid "upl.add.speed.t"
+msgstr "Speed"
+
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:12
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:13
+msgid "upl.btn.abort.title"
+msgstr "Abort upload"
+
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
 msgid "upl.btn.insert"
 msgstr "Insert"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:20
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:21
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:22
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:23
 msgid "upl.btn.title"
 msgstr "Chose file…"
 
-#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:26
+#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:30
 msgid "upl.del.btn"
 msgstr "Delete file"
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:62
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:155
 msgid "upl.failure"
 msgstr "Error occurred on upload."
 
@@ -217,20 +239,19 @@ msgstr "Error occurred on upload."
 msgid "upl.loading"
 msgstr "Loading"
 
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:10
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:24
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:11
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:27
 msgid "upl.ncy"
 msgstr "No uploads yet."
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:8
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:101
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:42
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:65
 msgid "upl.new.title"
 msgstr "Drop File Here"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:26
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:7
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:68
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:8
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:27
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:39
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:72
 msgid "upl.title"
 msgstr "Uploads"
 
@@ -238,7 +259,17 @@ msgstr "Uploads"
 msgid "upl.title.pl"
 msgstr "Uploads"
 
-#: src/Template/Users/view.ctp:325
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:1
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:36
+msgid "upl.vald.e.dad"
+msgstr "Didn't find a file."
+
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:1
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:40
+msgid "upl.vald.e.fileExists"
+msgstr "File with same name already uploaded."
+
+#: src/Template/Users/view.ctp:323
 msgid "user.block.hours"
 msgstr "{hours} hours"
 

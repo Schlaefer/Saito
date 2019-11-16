@@ -20,7 +20,7 @@ class UsersSeed extends AbstractSeed
     {
         $data = [
                 'id' => 1,
-                'user_type' => 'admin',
+                'user_type' => 'owner',
                 'username' => '__set_by_installer__',
                 'password' => '__set_by_installer__',
                 'activate_code' => '0',

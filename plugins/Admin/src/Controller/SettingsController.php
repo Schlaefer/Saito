@@ -29,7 +29,6 @@ class SettingsController extends AdminAppController
     protected $settingsShownInAdminIndex = [
         'autolink' => ['type' => 'bool'],
         'bbcode_img' => ['type' => 'bool'],
-        'block_user_ui' => ['type' => 'bool'],
         // Activates and deactivates the category-chooser on entries/index
         'category_chooser_global' => ['type' => 'bool'],
         // Allows users to show the category-chooser even if the default
@@ -89,13 +88,13 @@ class SettingsController extends AdminAppController
     /**
      * edit setting
      *
-     * @param null $id settings-ID
+     * @param string|null $id settings-ID
      *
      * @return \Cake\Network\Response|void
      */
-    public function edit($id = null)
+    public function edit(string $id = null)
     {
-        if (!$id) {
+        if (empty($id)) {
             throw new NotFoundException;
         }
 

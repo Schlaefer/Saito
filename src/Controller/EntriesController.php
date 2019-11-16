@@ -18,15 +18,16 @@ use App\Controller\Component\RefererComponent;
 use App\Controller\Component\ThreadsComponent;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\Routing\RequestActionTrait;
 use Saito\Exception\SaitoForbiddenException;
-use Saito\Posting\Posting;
-use Saito\Posting\PostingInterface;
+use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
@@ -45,12 +46,6 @@ class EntriesController extends AppController
 
     public $helpers = ['Posting', 'Text'];
 
-    public $actionAuthConfig = [
-        'ajaxToggle' => 'mod',
-        'merge' => 'mod',
-        'delete' => 'mod'
-    ];
-
     /**
      * {@inheritDoc}
      */
@@ -60,7 +55,7 @@ class EntriesController extends AppController
 
         $this->loadComponent('MarkAsRead');
         $this->loadComponent('Referer');
-        $this->loadComponent('Threads');
+        $this->loadComponent('Threads', ['table' => $this->Entries]);
     }
 
     /**
@@ -80,7 +75,7 @@ class EntriesController extends AppController
         $order = ['fixed' => 'DESC', $sortKey => 'DESC'];
 
         //= get threads
-        $threads = $this->Threads->paginate($order);
+        $threads = $this->Threads->paginate($order, $this->CurrentUser);
         $this->set('entries', $threads);
 
         $currentPage = (int)$this->request->getQuery('page') ?: 1;
@@ -124,21 +119,13 @@ class EntriesController extends AppController
             throw new BadRequestException();
         }
 
-        $postings = $this->Entries->treeForNode(
-            $tid,
-            ['root' => true, 'complete' => true]
-        );
+        try {
+            $postings = $this->Entries->postingsForThread($tid, true, $this->CurrentUser);
+        } catch (RecordNotFoundException $e) {
+            /// redirect sub-posting to mix view of thread
+            $actualTid = $this->Entries->getThreadId($tid);
 
-        /// redirect sub-posting to mix view of thread
-        if (!$postings) {
-            $post = $this->Entries->find()
-                ->select(['tid'])
-                ->where(['id' => $tid])
-                ->first();
-            if (!empty($post)) {
-                return $this->redirect([$post->get('tid'), '#' => $tid], 301);
-            }
-            throw new NotFoundException;
+            return $this->redirect([$actualTid, '#' => $tid], 301);
         }
 
         // check if anonymous tries to access internal categories
@@ -155,7 +142,7 @@ class EntriesController extends AppController
 
         $this->_showAnsweringPanel();
 
-        $this->Threads->incrementViews($root, 'thread');
+        $this->Threads->incrementViewsForThread($root, $this->CurrentUser);
         $this->MarkAsRead->thread($postings);
     }
 
@@ -209,16 +196,18 @@ class EntriesController extends AppController
             return $this->redirect('/');
         }
 
-        if (!$this->CurrentUser->getCategories()->permission('read', $entry->get('category'))) {
+        $posting = $entry->toPosting()->withCurrentUser($this->CurrentUser);
+
+        if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
             return $this->_requireAuth();
         }
 
-        $this->set('entry', $entry);
-        $this->Threads->incrementViews($entry);
-        $this->_setRootEntry($entry);
+        $this->set('entry', $posting);
+        $this->Threads->incrementViewsForPosting($posting, $this->CurrentUser);
+        $this->_setRootEntry($posting);
         $this->_showAnsweringPanel();
 
-        $this->MarkAsRead->posting($entry);
+        $this->MarkAsRead->posting($posting);
 
         // inline open
         if ($this->request->is('ajax')) {
@@ -228,9 +217,9 @@ class EntriesController extends AppController
         // full page request
         $this->set(
             'tree',
-            $this->Entries->treeForNode($entry->get('tid'), ['root' => true])
+            $this->Entries->postingsForThread($posting->get('tid'), false, $this->CurrentUser)
         );
-        $this->Title->setFromPosting($entry);
+        $this->Title->setFromPosting($posting);
 
         Stopwatch::stop('Entries->view()');
     }
@@ -260,11 +249,11 @@ class EntriesController extends AppController
             throw new BadRequestException;
         }
 
-        /** @var PostingInterface */
-        $posting = $this->Entries->get($id);
-        if (!$posting) {
+        $entry = $this->Entries->get($id);
+        if (empty($entry)) {
             throw new NotFoundException;
         }
+        $posting = $entry->toPosting()->withCurrentUser($this->CurrentUser);
 
         if (!$posting->isEditingAllowed()) {
             throw new SaitoForbiddenException(
@@ -301,7 +290,7 @@ class EntriesController extends AppController
      */
     public function threadLine($id = null)
     {
-        $posting = $this->Entries->get($id);
+        $posting = $this->Entries->get($id)->toPosting()->withCurrentUser($this->CurrentUser);
         if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
             return $this->_requireAuth();
         }
@@ -320,9 +309,10 @@ class EntriesController extends AppController
      * @throws NotFoundException
      * @throws MethodNotAllowedException
      */
-    public function delete($id = null)
+    public function delete(string $id)
     {
         //$this->request->allowMethod(['post', 'delete']);
+        $id = (int)$id;
         if (!$id) {
             throw new NotFoundException;
         }
@@ -332,7 +322,14 @@ class EntriesController extends AppController
             throw new NotFoundException;
         }
 
-        $success = $this->Entries->treeDeleteNode($id);
+        $action = $posting->isRoot() ? 'thread' : 'answer';
+        $allowed = $this->CurrentUser->getCategories()
+            ->permission($action, $posting->get('category_id'));
+        if (!$allowed) {
+            throw new ForbiddenException(null, 1571309481);
+        }
+
+        $success = $this->Entries->deletePosting($id);
 
         if ($success) {
             $flashType = 'success';
@@ -374,7 +371,7 @@ class EntriesController extends AppController
     {
         $this->autoRender = false;
         try {
-            $posting = $this->Entries->get($id, ['return' => 'Entity']);
+            $posting = $this->Entries->get($id);
 
             if (empty($posting)) {
                 throw new \InvalidArgumentException('Posting to mark solved not found.');
@@ -418,9 +415,9 @@ class EntriesController extends AppController
         }
 
         /* @var Entry */
-        $posting = $this->Entries->findById($sourceId)->first();
+        $entry = $this->Entries->findById($sourceId)->first();
 
-        if (!$posting || !$posting->isRoot()) {
+        if (!$entry || !$entry->isRoot()) {
             throw new NotFoundException();
         }
 
@@ -437,7 +434,7 @@ class EntriesController extends AppController
         }
 
         $this->viewBuilder()->setLayout('Admin.admin');
-        $this->set(compact('posting'));
+        $this->set('posting', $entry);
     }
 
     /**
@@ -485,6 +482,10 @@ class EntriesController extends AppController
             ['solve', 'view']
         );
         $this->Authentication->allowUnauthenticated(['index', 'view', 'mix', 'update']);
+
+        $this->AuthUser->authorizeAction('ajaxToggle', 'saito.core.posting.pinAndLock');
+        $this->AuthUser->authorizeAction('merge', 'saito.core.posting.merge');
+        $this->AuthUser->authorizeAction('delete', 'saito.core.posting.delete');
 
         Stopwatch::stop('Entries->beforeFilter()');
     }
@@ -564,10 +565,10 @@ class EntriesController extends AppController
     /**
      * makes root posting of $posting avaiable in view
      *
-     * @param Posting $posting posting for root entry
+     * @param BasicPostingInterface $posting posting for root entry
      * @return void
      */
-    protected function _setRootEntry(Posting $posting)
+    protected function _setRootEntry(BasicPostingInterface $posting)
     {
         if (!$posting->isRoot()) {
             $root = $this->Entries->find()

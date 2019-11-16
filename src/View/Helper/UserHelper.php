@@ -82,25 +82,6 @@ class UserHelper extends AppHelper
     }
 
     /**
-     * Translates user types
-     *
-     * @param string $type type
-     * @return mixed
-     */
-    public function type($type)
-    {
-        // write out all __() strings for l10n
-        switch ($type) {
-            case 'user':
-                return __('user.type.user');
-            case 'mod':
-                return __('user.type.mod');
-            case 'admin':
-                return __('user.type.admin');
-        }
-    }
-
-    /**
      * Creates link to user's external (non-Saito) homepage
      *
      * @param string $url user provided URL-string

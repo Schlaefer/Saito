@@ -3,26 +3,26 @@
 namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\Component\ThreadsComponent;
+use App\Model\Table\EntriesTable;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
 use Cake\Network\Request;
-use Cake\ORM\TableRegistry;
-use Saito\App\Registry;
-use Saito\Test\SaitoTestCase;
-use Saito\User\CurrentUser\CurrentUser;
+use Saito\Test\Model\Table\SaitoTableTestCase;
+use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
  * Class ThemesComponentTest
  *
  * @package App\Test\TestCase\Controller\Component
  */
-class ThreadsComponentTest extends SaitoTestCase
+class ThreadsComponentTest extends SaitoTableTestCase
 {
     public $fixtures = [
         'app.Category',
         'app.Entry',
-        'app.User'
+        'app.User',
+        'plugin.Bookmarks.Bookmark',
     ];
 
     /**
@@ -35,6 +35,11 @@ class ThreadsComponentTest extends SaitoTestCase
      */
     public $controller;
 
+    public $tableClass = 'Entries';
+
+    /** @var EntriesTable */
+    public $Table;
+
     public function setUp()
     {
         parent::setUp();
@@ -43,7 +48,7 @@ class ThreadsComponentTest extends SaitoTestCase
         $response = new Response();
         $this->controller = new Controller($request, $response);
         $registry = new ComponentRegistry($this->controller);
-        $this->component = new ThreadsComponent($registry);
+        $this->component = new ThreadsComponent($registry, ['table' => $this->Table]);
     }
 
     public function tearDown()
@@ -52,7 +57,7 @@ class ThreadsComponentTest extends SaitoTestCase
         parent::tearDown();
     }
 
-    public function testThreadIncrementView()
+    public function testIncrementViewForPosting()
     {
         $tid = 4;
 
@@ -62,15 +67,60 @@ class ThreadsComponentTest extends SaitoTestCase
         $this->component->AuthUser->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
-        Registry::set('CU', (new CurrentUser([], $this->component->getController())));
+        $CU = CurrentUserFactory::createDummy();
 
-        $Entries = TableRegistry::get('Entries');
-        $posting = $Entries->get(4);
+        $posting = $this->Table->get(4);
 
-        $this->component->incrementViews($posting, 'thread');
+        $this->component->incrementViewsForPosting($posting, $CU);
 
-        $Entries = TableRegistry::get('Entries');
-        $result = $Entries->find()
+        $result = $this->Table->find()
+            ->select('views')
+            ->where(['tid' => $tid])
+            ->toArray();
+        $this->assertEquals(1, array_shift($result)->get('views'));
+        $this->assertEquals(0, array_shift($result)->get('views'));
+    }
+
+    public function testIncrementViewForPostingOmmitUser()
+    {
+        $tid = 4;
+
+        $this->component->AuthUser = $this->getMockBuilder(AuthUserComponent::class)
+            ->setMethods(['isBot'])
+            ->getMock();
+        $this->component->AuthUser->expects($this->once())->method('isBot')->will(
+            $this->returnValue(false)
+        );
+        $CU = CurrentUserFactory::createDummy(['id' => 1]);
+        $posting = $this->Table->get(4);
+
+        $this->component->incrementViewsForPosting($posting, $CU);
+
+        $result = $this->Table->find()
+            ->select('views')
+            ->where(['tid' => $tid])
+            ->toArray();
+        $this->assertEquals(0, array_shift($result)->get('views'));
+        $this->assertEquals(0, array_shift($result)->get('views'));
+    }
+
+    public function testIncrementViewForThread()
+    {
+        $tid = 4;
+
+        $this->component->AuthUser = $this->getMockBuilder(AuthUserComponent::class)
+            ->setMethods(['isBot'])
+            ->getMock();
+        $this->component->AuthUser->expects($this->once())->method('isBot')->will(
+            $this->returnValue(false)
+        );
+        $CU = CurrentUserFactory::createDummy();
+
+        $posting = $this->Table->get(4);
+
+        $this->component->incrementViewsForThread($posting, $CU);
+
+        $result = $this->Table->find()
             ->select('views')
             ->where(['tid' => $tid])
             ->toArray();
@@ -87,15 +137,13 @@ class ThreadsComponentTest extends SaitoTestCase
         $this->component->AuthUser->expects($this->once())->method('isBot')->will(
             $this->returnValue(false)
         );
-        Registry::set('CU', (new CurrentUser(['id' => 3], $this->component->getController())));
+        $CU = CurrentUserFactory::createDummy(['id' => 3]);
 
-        $Entries = TableRegistry::get('Entries');
-        $posting = $Entries->get(4);
+        $posting = $this->Table->get(4);
 
-        $this->component->incrementViews($posting, 'thread');
+        $this->component->incrementViewsForThread($posting, $CU);
 
-        $Entries = TableRegistry::get('Entries');
-        $result = $Entries->find()
+        $result = $this->Table->find()
             ->select('views')
             ->where(['tid' => $tid])
             ->toArray();

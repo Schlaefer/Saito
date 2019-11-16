@@ -6,16 +6,8 @@
 
         if ($isCore) {
             echo '<hr>';
-            // @td i10n
-            switch ($help->get('lang')) {
-                case 'de':
-                    $title = 'Diese Hilfeseite verbessern';
-                    break;
-                default:
-                    $title = 'Improve this help-page';
-            }
             $url = "https://github.com/Schlaefer/Saito/tree/develop/docs/help/{$help->get('lang')}/{$help->get('file')}";
-            echo $this->Html->link($title, $url);
+            echo $this->Html->link(__d('saito_help', 'improve'), $url);
         }
         ?>
     </div>

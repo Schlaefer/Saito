@@ -110,7 +110,7 @@ class Stopwatch
         // phpcs:disable Generic.PHP.NoSilencedErrors.Discouraged
         $dat = @getrusage();
         // phpcs:enable Generic.PHP.NoSilencedErrors.Discouraged
-        if ($dat === null) {
+        if (empty($dat)) {
             // some hosters disable getrusage() while hardening their PHP
             $utime = 0;
         } else {

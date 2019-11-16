@@ -1,17 +1,19 @@
 <?php
 if (!$CurrentUser->isLoggedIn()) {
-    $register = $this->request->getAttribute('webroot') . 'users/register/';
-    echo '<a href="' . $register . '" class="btn btn-link" rel="nofollow">';
-    echo __('register_linkname');
-    echo '</a>';
+    if ($CurrentUser->permission('saito.core.user.register')) {
+        $register = $this->request->getAttribute('webroot') . 'users/register/';
+        echo '<a href="' . $register . '" class="btn btn-link" rel="nofollow">';
+        echo __('register_linkname');
+        echo '</a>';
+    }
 
     $action = $this->request->getParam('action');
     if ($action !== 'login' && $action !== 'register') {
         echo $this->element('users/login_modal');
         ?>
         <a href="<?php echo $this->request->getAttribute('webroot'); ?>login/"
-           id="showLoginForm" title="<?= __('login_btn') ?>"
-           class='btn btn-link' rel="nofollow">
+            id="showLoginForm" title="<?= __('login_btn') ?>"
+            class='btn btn-link' rel="nofollow">
             <?= $this->Layout->textWithIcon(__('login_btn'), 'sign-in') ?>
         </a>
         <?php

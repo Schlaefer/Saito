@@ -249,6 +249,9 @@ export default class AnsweringView extends View<AnswerModel> {
 
         this.triggerMethod('answering:form:rendered', data);
         App.eventBus.trigger('change:DOM');
+
+        // Uploader debug
+        // this.$('.btn-markup-Upload').click();
     }
 
     /**

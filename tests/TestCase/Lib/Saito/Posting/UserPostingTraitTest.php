@@ -78,6 +78,8 @@ class UserPostingTraitTest extends SaitoTestCase
     public function testIsEditingForbiddenSuccess()
     {
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'time' => new Time(time() - ($this->editPeriod * 60) + 1),
             'locked' => 0
@@ -87,6 +89,31 @@ class UserPostingTraitTest extends SaitoTestCase
         $user = ['id' => 1, 'user_type' => 'user'];
         $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
 
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertTrue($result);
+    }
+
+    public function testIsEditingForbiddenCategory()
+    {
+        /// Setup
+        $entry = [
+            'category_id' => 1, // accesion 2
+            'pid' => 0,
+            'user_id' => 1,
+            'time' => new Time(time() - ($this->editPeriod * 60) + 1),
+            'locked' => 0
+        ];
+        $this->Mock->set($entry);
+
+        /// Normal user can't access category
+        $user = ['id' => 1, 'user_type' => 'user'];
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
+        $result = $this->Mock->isEditingAllowed();
+        $this->assertFalse($result);
+
+        /// Admin can access category
+        $user = ['id' => 1, 'user_type' => 'admin'];
+        $this->Mock->setCurrentUser(CurrentUserFactory::createDummy($user));
         $result = $this->Mock->isEditingAllowed();
         $this->assertTrue($result);
     }
@@ -123,6 +150,8 @@ class UserPostingTraitTest extends SaitoTestCase
     public function testIsEditingForbiddenWrongUser()
     {
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'time' => new Time(),
         ];
@@ -141,6 +170,8 @@ class UserPostingTraitTest extends SaitoTestCase
         $editPeriod = 20;
         Configure::write('Saito.Settings.edit_period', $editPeriod);
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'locked' => false,
             'time' => new Time(time() - ($this->editPeriod * 60) - 1)
@@ -158,6 +189,8 @@ class UserPostingTraitTest extends SaitoTestCase
     public function testIsEditingForbiddenLocked()
     {
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'time' => new Time(),
             'locked' => 1,
@@ -176,6 +209,8 @@ class UserPostingTraitTest extends SaitoTestCase
     public function testIsEditingForbiddenModToLateNotFixed()
     {
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'time' => new Time(time() - ($this->editPeriod * 60) - 1),
             'fixed' => false,
@@ -197,6 +232,8 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'time' => new Time(time() - $editPeriod - 1),
             'fixed' => false,
@@ -220,6 +257,8 @@ class UserPostingTraitTest extends SaitoTestCase
     {
         $editPeriod = Configure::read('Saito.Settings.edit_period') * 60;
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 1,
             'time' => new Time(time() - $editPeriod - 1),
             'fixed' => true,
@@ -239,6 +278,8 @@ class UserPostingTraitTest extends SaitoTestCase
     public function testIsEditingForbiddenModsModOtherUsers()
     {
         $entry = [
+            'category_id' => 2,
+            'pid' => 0,
             'user_id' => 2,
             'time' => new Time(0),
             'fixed' => false,
