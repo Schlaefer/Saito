@@ -5,6 +5,15 @@
 - Δ Changed
 - − Removed
 
+## [Next]
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...<next>)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
+
+### Changes
+
+### Update Notes
+
 ## [5.5.0] - 2019-11-16
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.4.1...5.5.0)
