@@ -432,7 +432,7 @@ class UsersController extends AppController
 
         $blockForm = new BlockForm();
         $solved = $this->Users->countSolved($id);
-        $this->set(compact('blockForm', 'isEditingAllowed', 'solved', 'user'));
+        $this->set(compact('blockForm', 'solved', 'user'));
         $this->set('titleForLayout', $user->get('username'));
     }
 

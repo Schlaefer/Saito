@@ -12,6 +12,8 @@
 
 ### Changes
 
+- ＋ Improves compatibility with PHP 7.3
+
 ### Update Notes
 
 ## [5.5.0] - 2019-11-16
