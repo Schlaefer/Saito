@@ -33,6 +33,7 @@
     "yarn": "^1.15.2"
   },
   "devDependencies": {
+    "@metahub/karma-jasmine-jquery": "^3.0.0",
     "@types/autosize": "^3.0.6",
     "@types/backbone.marionette": "^3.3.10",
     "@types/blazy": "^1.5",
@@ -68,7 +69,6 @@
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-ajax": "^0.1.13",
-    "karma-jasmine-jquery": "^0.1.1",
     "karma-jasmine-matchers": "^3.7.0",
     "karma-mocha-reporter": "^2.2.5",
     "karma-webpack": "^3.0.0",

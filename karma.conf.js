@@ -20,6 +20,8 @@ module.exports = function (config) {
     frameworks: ['jasmine-jquery', 'jasmine-ajax', 'jasmine', 'jasmine-matchers'],
 
 
+    plugins: ['@metahub/karma-jasmine-jquery', 'karma-*'],
+
     // list of files / patterns to load in the browser
     files: [
       // 'test/**/*.js',
