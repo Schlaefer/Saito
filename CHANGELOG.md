@@ -14,7 +14,7 @@
 
 - ＋ Improves compatibility with PHP 7.3
 - Internal code changes:
-  - Δ Updates PHP libraries
+  - Δ Updates PHP and Javascript libraries
 
 ### Update Notes
 
