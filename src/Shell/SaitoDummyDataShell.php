@@ -140,18 +140,27 @@ class SaitoDummyDataShell extends Shell
         for ($i = 0; $i < $nPostings; $i++) {
             $newThread = $i < $seed;
 
+            $user = $this->_randomUser();
             $posting = [
+                'name' => $user->get('username'),
                 'subject' => "$i",
                 'text' => rand(0, 1) ? $this->_randomText() : '',
+                'user_id' => $user->getId(),
             ];
             if ($newThread) {
+                $posting['pid'] = 0;
                 $posting['category_id'] = $this->_randomCategory();
             } else {
-                $posting['pid'] = array_rand($this->_Threads, 1);
+                $id = array_rand($this->_Threads, 1);
+                $posting['category_id'] = $this->_Threads[$id]['category_id'];
+                $posting['tid'] = $this->_Threads[$id]['tid'];
+                $posting['pid'] = $this->_Threads[$id]['id'];
             }
-            $user = $this->_randomUser();
 
-            $posting = $this->Entries->createPosting($posting, $user);
+            $posting = $this->Entries->createEntry($posting);
+            if ($posting->hasErrors()) {
+                var_dump($posting->errors());
+            }
 
             if (empty($posting)) {
                 throw new \RuntimeException(
@@ -162,7 +171,11 @@ class SaitoDummyDataShell extends Shell
             $this->_progress($i, $nPostings);
 
             $id = $posting->get('id');
-            $this->_Threads[$id] = $id;
+            $this->_Threads[] = [
+                'category_id' => $posting->get('category_id'),
+                'id' => $id,
+                'tid' => $posting->get('tid'),
+            ];
         }
 
         $this->out();

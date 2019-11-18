@@ -52,6 +52,7 @@ class UserIgnoresTable extends AppTable
     {
         $validator->setProvider('saito', SaitoValidationProvider::class);
 
+        // @td move to application rule
         $validator->notEmpty('user_id')
             ->add(
                 'user_id',
@@ -64,6 +65,7 @@ class UserIgnoresTable extends AppTable
                 ]
             );
 
+        // @td move to application rule
         $validator->notEmpty('blocked_user_id')
             ->add(
                 'blocked_user_id',
@@ -102,7 +104,7 @@ class UserIgnoresTable extends AppTable
         $entity = $this->newEntity($data);
         $this->save($entity);
 
-        $this->_dispatchEvent(
+        $this->dispatchDbEvent(
             'Event.Saito.User.afterIgnore',
             [
                 'blockedUserId' => $blockedUserId,

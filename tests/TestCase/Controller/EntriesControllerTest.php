@@ -350,7 +350,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeNoSourceId()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -363,7 +363,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeSourceIdNotFound()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -376,7 +376,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeShowForm()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -389,7 +389,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeIsNotAuthorized()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -403,7 +403,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeSuccess()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
 
         $Entries->expects($this->exactly(1))

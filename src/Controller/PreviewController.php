@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
+use App\Controller\Component\PostingComponent;
 use App\Model\Table\EntriesTable;
 use Cake\I18n\Time;
 use Cake\View\Helper\IdGeneratorTrait;
@@ -21,6 +22,7 @@ use Cake\View\Helper\IdGeneratorTrait;
  * Class EntriesController
  *
  * @property EntriesTable $Entries
+ * @property PostingComponent $Posting
  */
 class PreviewController extends ApiAppController
 {
@@ -34,6 +36,7 @@ class PreviewController extends ApiAppController
     public function preview()
     {
         $this->loadModel('Entries');
+        $this->loadComponent('Posting');
 
         $data = [
             'category_id' => $this->request->getData('category_id'),
@@ -54,7 +57,7 @@ class PreviewController extends ApiAppController
 
         if (!empty($data['pid'])) {
             $parent = $this->Entries->get($data['pid']);
-            $data = $this->Entries->prepareChildPosting($parent, $data);
+            $data = $this->Posting->prepareChildPosting($parent, $data);
         }
 
         /** @var \App\Model\Entity\Entry */

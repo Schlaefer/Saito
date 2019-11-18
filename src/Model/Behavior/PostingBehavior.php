@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace App\Model\Behavior;
 
-use App\Lib\Model\Table\FieldFilter;
-use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Cache\Cache;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Event\Event;
 use Cake\ORM\Behavior;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
-use Saito\Posting\Basic\BasicPostingInterface;
+use Cake\ORM\RulesChecker;
 use Saito\Posting\Posting;
 use Saito\Posting\PostingInterface;
 use Saito\Posting\TreeBuilder;
@@ -29,169 +29,70 @@ use Traversable;
 
 class PostingBehavior extends Behavior
 {
-    /** @var CurrentUserInterface */
-    private $CurrentUser;
+    /**
+     * {@inheritDoc}
+     */
+    public function buildRules(Event $event, RulesChecker $rules)
+    {
+        $rules->add(
+            function ($entity) {
+                return $entity->isDirty('locked') ? ($entity->get('pid') === 0) : true;
+            },
+            'checkOnlyRootCanBeLocked',
+            [
+                'errorField' => 'locked',
+                'message' => 'Only a root posting can be locked.',
+            ]
+        );
 
-    /** @var FieldFilter */
-    private $fieldFilter;
+        $rules->addUpdate(
+            function ($entity) {
+                if ($entity->isDirty('category_id')) {
+                    return $entity->isRoot();
+                }
+
+                return true;
+            },
+            'checkCategoryChangeOnlyOnRootPostings',
+            [
+                'errorField' => 'category_id',
+                'message' => 'Cannot change category on non-root-postings.',
+            ]
+        );
+
+        $rules->add($rules->existsIn('category_id', 'Categories'));
+
+        return $rules;
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function beforeSave(Event $event, Entity $entity)
     {
-        $this->fieldFilter = (new fieldfilter())
-            ->setConfig('create', ['category_id', 'pid', 'subject', 'text'])
-            ->setConfig('update', ['category_id', 'subject', 'text']);
-    }
+        $success = true;
 
-    /**
-     * Creates a new posting from user
-     *
-     * @param array $data raw posting data
-     * @param CurrentUserInterface $CurrentUser the current user
-     * @return Entry|null on success, null otherwise
-     */
-    public function createPosting(array $data, CurrentUserInterface $CurrentUser): ?Entry
-    {
-        $data = $this->fieldFilter->filterFields($data, 'create');
-
-        if (!empty($data['pid'])) {
-            /// new posting is answer to existing posting
-            $parent = $this->getTable()->get($data['pid']);
-
-            if (empty($parent)) {
-                throw new \InvalidArgumentException(
-                    'Parent posting for creating a new answer not found.',
-                    1564756571
-                );
-            }
-
-            $data = $this->prepareChildPosting($parent, $data);
-        } else {
-            /// if no pid is provided the new posting is root-posting
-            $data['pid'] = 0;
+        /// change category of thread if category of root entry changed
+        if (!$entity->isNew() && $entity->isDirty('category_id')) {
+            $success &= $this->threadChangeCategory(
+                $entity->get('id'),
+                $entity->get('category_id')
+            );
         }
 
-        /// set user who created the posting
-        $data['user_id'] = $CurrentUser->getId();
-        $data['name'] = $CurrentUser->get('username');
-
-        $this->validatorSetup($CurrentUser);
-
-        /** @var EntriesTable */
-        $table = $this->getTable();
-
-        return $table->createEntry($data);
-    }
-
-    /**
-     * Updates an existing posting
-     *
-     * @param Entry $posting the posting to update
-     * @param array $data data the posting should be updated with
-     * @param CurrentUserInterface $CurrentUser the current-user
-     * @return Entry|null the posting which was asked to update
-     */
-    public function updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser): ?Entry
-    {
-        $data = $this->fieldFilter->filterFields($data, 'update');
-        $isRoot = $posting->isRoot();
-
-        if (!$isRoot) {
-            $parent = $this->getTable()->get($posting->get('pid'));
-            $data = $this->prepareChildPosting($parent, $data);
+        if (!$success) {
+            $event->stopPropagation();
         }
-
-        $data['edited_by'] = $CurrentUser->get('username');
-
-        /// must be set for validation
-        $data['locked'] = $posting->get('locked');
-        $data['fixed'] = $posting->get('fixed');
-        $data['category_id'] = $data['category_id'] ?? $posting->get('category_id');
-
-        $data['pid'] = $posting->get('pid');
-        $data['time'] = $posting->get('time');
-        $data['user_id'] = $posting->get('user_id');
-
-        $this->validatorSetup($CurrentUser);
-        $this->getTable()->getValidator()->add(
-            'edited_by',
-            'isEditingAllowed',
-            ['rule' => [$this, 'validateEditingAllowed']]
-        );
-
-        /** @var EntriesTable */
-        $table = $this->getTable();
-
-        return $table->updateEntry($posting, $data);
     }
 
     /**
-     * Populates data of an answer derived from parent the parent-posting
-     *
-     * @param BasicPostingInterface $parent parent data
-     * @param array $data current posting data
-     * @return array populated $data
+     * {@inheritDoc}
      */
-    public function prepareChildPosting(BasicPostingInterface $parent, array $data): array
+    public function afterSave(Event $event, Entity $entity)
     {
-        if (empty($data['subject'])) {
-            // if new subject is empty use the parent's subject
-            $data['subject'] = $parent->get('subject');
+        if ($entity->isDirty('locked')) {
+            $this->lockThread($entity->get('tid'), $entity->get('locked'));
         }
-
-        $data['category_id'] = $data['category_id'] ?? $parent->get('category_id');
-        $data['tid'] = $parent->get('tid');
-
-        return $data;
-    }
-
-    /**
-     * Sets-up validator for the table
-     *
-     * @param CurrentUserInterface $CurrentUser current user
-     * @return void
-     */
-    private function validatorSetup(CurrentUserInterface $CurrentUser): void
-    {
-        $this->CurrentUser = $CurrentUser;
-
-        $this->getTable()->getValidator()->add(
-            'category_id',
-            'isAllowed',
-            ['rule' => [$this, 'validateCategoryIsAllowed']]
-        );
-    }
-
-    /**
-     * check that entries are only in existing and allowed categories
-     *
-     * @param mixed $categoryId value
-     * @param array $context context
-     * @return bool
-     */
-    public function validateCategoryIsAllowed($categoryId, $context): bool
-    {
-        $isRoot = $context['data']['pid'] == 0;
-        $action = $isRoot ? 'thread' : 'answer';
-
-        // @td better return !$posting->isAnsweringForbidden();
-        return $this->CurrentUser->getCategories()->permission($action, $categoryId);
-    }
-
-    /**
-     * check editing allowed
-     *
-     * @param mixed $check value
-     * @param array $context context
-     * @return bool
-     */
-    public function validateEditingAllowed($check, $context): bool
-    {
-        $posting = (new Posting($context['data']))->withCurrentUser($this->CurrentUser);
-
-        return $posting->isEditingAllowed();
     }
 
     /**
@@ -407,5 +308,124 @@ class PostingBehavior extends Behavior
         Stopwatch::stop('PostingBehavior::findEntriesForThreads');
 
         return $query;
+    }
+
+    /**
+     * Locks or unlocks a thread
+     *
+     * The lock operation is supposed to be done on the root entry.
+     * All other entries in the same thread are set to locked too.
+     *
+     * @param int $tid ID of the thread to lock
+     * @param bool $locked True to lock, false to unlock
+     * @return void
+     */
+    protected function lockThread(int $tid, $locked = true)
+    {
+        $this->getTable()->updateAll(['locked' => $locked], ['tid' => $tid]);
+    }
+
+    /**
+     * Changes the category of a thread.
+     *
+     * Assigns the new category-id to all postings in that thread.
+     *
+     * @param int $tid thread-ID
+     * @param int $newCategoryId id for new category
+     * @return bool success
+     * @throws RecordNotFoundException
+     */
+    protected function threadChangeCategory(int $tid, int $newCategoryId): bool
+    {
+        $affected = $this->getTable()->updateAll(
+            ['category_id' => $newCategoryId],
+            ['tid' => $tid]
+        );
+
+        return $affected > 0;
+    }
+
+    /**
+     * Merge thread on to entry $targetId
+     *
+     * @param int $sourceId root-id of the posting that is merged onto another
+     *     thread
+     * @param int $targetId id of the posting the source-thread should be
+     *     appended to
+     * @return bool true if merge was successfull false otherwise
+     */
+    public function threadMerge(int $sourceId, int $targetId): bool
+    {
+        /** @var EntriesTable */
+        $table = $this->getTable();
+
+        $sourcePosting = $table->get($sourceId, ['return' => 'Entity']);
+
+        // check that source is thread-root and not an subposting
+        if (!$sourcePosting->isRoot()) {
+            return false;
+        }
+
+        $targetPosting = $table->get($targetId);
+
+        // check that target exists
+        if (!$targetPosting) {
+            return false;
+        }
+
+        // check that a thread is not merged onto itself
+        if ($targetPosting->get('tid') === $sourcePosting->get('tid')) {
+            return false;
+        }
+
+        // set target entry as new parent entry
+        $table->patchEntity(
+            $sourcePosting,
+            ['pid' => $targetPosting->get('id')]
+        );
+        if ($table->save($sourcePosting)) {
+            // associate all entries in source thread to target thread
+            $table->updateAll(
+                ['tid' => $targetPosting->get('tid')],
+                ['tid' => $sourcePosting->get('tid')]
+            );
+
+            // appended source entries get category of target thread
+            $this->threadChangeCategory(
+                $targetPosting->get('tid'),
+                $targetPosting->get('category_id')
+            );
+
+            // update target thread last answer if source is newer
+            $sourceLastAnswer = $sourcePosting->get('last_answer');
+            $targetLastAnswer = $targetPosting->get('last_answer');
+            if ($sourceLastAnswer->gt($targetLastAnswer)) {
+                $targetRoot = $table->get(
+                    $targetPosting->get('tid'),
+                    ['return' => 'Entity']
+                );
+                $targetRoot = $table->patchEntity(
+                    $targetRoot,
+                    ['last_answer' => $sourceLastAnswer]
+                );
+                $table->save($targetRoot);
+            }
+
+            // propagate pinned property from target to source
+            $isTargetPinned = $targetPosting->isLocked();
+            $isSourcePinned = $sourcePosting->isLocked();
+            if ($isSourcePinned !== $isTargetPinned) {
+                $this->lockThread($targetPosting->get('tid'), $isTargetPinned);
+            }
+
+            $table->dispatchDbEvent(
+                'Model.Thread.change',
+                ['subject' => $targetPosting->get('tid')]
+            );
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
+use App\Controller\Component\PostingComponent;
 use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
@@ -25,6 +26,7 @@ use Saito\Posting\PostingInterface;
  * Endpoint for adding/POST and editing/PUT posting
  *
  * @property EntriesTable $Entries
+ * @property PostingComponent $Posting
  */
 class PostingsController extends ApiAppController
 {
@@ -35,6 +37,7 @@ class PostingsController extends ApiAppController
     {
         parent::initialize();
         $this->loadModel('Entries');
+        $this->loadComponent('Posting');
     }
 
     /**
@@ -44,10 +47,17 @@ class PostingsController extends ApiAppController
      */
     public function add(): void
     {
-        $data = $this->request->getData();
+        $data = $this->getRequest()->getData();
+        $allowedFields = ['category_id', 'edited', 'edited_by', 'pid', 'subject', 'text'];
+        $data = array_intersect_key($data, array_fill_keys($allowedFields, 1));
+
+        $data += [
+            'name' => $this->CurrentUser->get('username'),
+            'user_id' => $this->CurrentUser->getId(),
+        ];
 
         /** @var Entry */
-        $posting = $this->Entries->createPosting($data, $this->CurrentUser);
+        $posting = $this->Posting->create($data, $this->CurrentUser);
 
         if (empty($posting)) {
             throw new BadRequestException();
@@ -73,19 +83,27 @@ class PostingsController extends ApiAppController
      */
     public function edit(string $id): void
     {
-        $data = $this->request->getData();
+        $id = $this->getRequest()->getData('id', null);
 
-        if (empty($data['id'])) {
+        if (empty($id)) {
             throw new BadRequestException('No posting-id provided.');
         }
 
-        $id = $data['id'];
         $posting = $this->Entries->get($id);
         if (!$posting) {
             throw new NotFoundException('Posting not found.');
         }
 
-        $updatedPosting = $this->Entries->updatePosting($posting, $data, $this->CurrentUser);
+        $data = $this->getRequest()->getData();
+        $allowedFields = ['category_id', 'edited', 'edited_by', 'subject', 'text'];
+        $data = array_intersect_key($data, array_fill_keys($allowedFields, 1));
+
+        $data += [
+            'edited' => bDate(),
+            'edited_by' => $this->CurrentUser->get('username'),
+        ];
+
+        $updatedPosting = $this->Posting->update($posting, $data, $this->CurrentUser);
 
         if (!$updatedPosting) {
             throw new BadRequestException('Posting could not be saved.');

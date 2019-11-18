@@ -465,7 +465,7 @@ class UsersTable extends AppTable
         } catch (\Exception $e) {
             return false;
         }
-        $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
+        $this->dispatchDbEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
 
         return true;
     }
@@ -509,7 +509,7 @@ class UsersTable extends AppTable
             ['edited_by' => $entity->getOriginal('username')]
         );
 
-        $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
+        $this->dispatchDbEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
     }
 
     /**
@@ -756,7 +756,7 @@ class UsersTable extends AppTable
             return false;
         }
 
-        $this->_dispatchEvent('Model.User.afterActivate', ['User' => $user]);
+        $this->dispatchDbEvent('Model.User.afterActivate', ['User' => $user]);
 
         return ['status' => 'activated', 'User' => $user];
     }

@@ -19,7 +19,6 @@ use App\Model\Table\DraftsTable;
 use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
-use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -47,6 +46,7 @@ use Search\Manager;
  * @method bool deletePosting(int $id)
  * @method array postingsForThreads(array $tids, ?array $order = null, ?CurrentUserInterface $CU)
  * @method PostingInterface postingsForThread(int $tid, ?bool $complete = false, ?CurrentUserInterface $CU)
+ * @method threadMerge(int $sourceId, int $targetId)
  */
 class EntriesTable extends AppTable
 {
@@ -138,18 +138,7 @@ class EntriesTable extends AppTable
         $categoryRequiredL10N = __('vld.entries.categories.notEmpty');
         $validator
             ->notEmpty('category_id', $categoryRequiredL10N)
-            ->requirePresence('category_id', 'create', $categoryRequiredL10N)
-            ->add(
-                'category_id',
-                [
-                    'numeric' => ['rule' => 'numeric'],
-                    'assoc' => [
-                        'rule' => ['validateAssoc', 'Categories'],
-                        'last' => true,
-                        'provider' => 'saito'
-                    ]
-                ]
-            );
+            ->requirePresence('category_id', 'create', $categoryRequiredL10N);
 
         /// last_answer
         $validator
@@ -205,18 +194,18 @@ class EntriesTable extends AppTable
     {
         $rules = parent::buildRules($rules);
 
-        $rules->addUpdate(
+        $rules->add(
             function ($entity) {
-                if ($entity->isDirty('category_id')) {
-                    return $entity->isRoot();
+                if (!$entity->isDirty('solves') || empty($entity->get('solves') > 0)) {
+                    return true;
                 }
 
-                return true;
+                return !$entity->isRoot();
             },
-            'checkCategoryChangeOnlyOnRootPostings',
+            'checkSolvesOnlyOnAnswers',
             [
-                'errorField' => 'category_id',
-                'message' => 'Cannot change category on non-root-postings.',
+                'errorField' => 'solves',
+                'message' => 'Root postings cannot mark themself solved.',
             ]
         );
 
@@ -398,7 +387,7 @@ class EntriesTable extends AppTable
 
         $id = $posting->get('id');
         /** @var Entry */
-        $posting = $this->get($id, ['return' => 'Entity']);
+        $posting = $this->get($id);
 
         if ($posting->isRoot()) {
             // posting started a new thread, so set thread-ID to posting's own ID
@@ -408,7 +397,7 @@ class EntriesTable extends AppTable
                 return $posting;
             }
 
-            $this->_dispatchEvent('Model.Thread.create', ['subject' => $id, 'data' => $posting]);
+            $this->dispatchDbEvent('Model.Thread.create', ['subject' => $id, 'data' => $posting]);
         } else {
             // update last answer time of root entry
             $this->updateAll(
@@ -417,8 +406,8 @@ class EntriesTable extends AppTable
             );
 
             $eventData = ['subject' => $posting->get('pid'), 'data' => $posting];
-            $this->_dispatchEvent('Model.Entry.replyToEntry', $eventData);
-            $this->_dispatchEvent('Model.Entry.replyToThread', $eventData);
+            $this->dispatchDbEvent('Model.Entry.replyToEntry', $eventData);
+            $this->dispatchDbEvent('Model.Entry.replyToThread', $eventData);
         }
 
         return $posting;
@@ -436,7 +425,6 @@ class EntriesTable extends AppTable
     public function updateEntry(Entry $posting, array $data): ?Entry
     {
         $data['id'] = $posting->get('id');
-        $data['edited'] = bDate();
 
         /** @var Entry */
         $patched = $this->patchEntity($posting, $data);
@@ -451,7 +439,7 @@ class EntriesTable extends AppTable
             return null;
         }
 
-        $this->_dispatchEvent(
+        $this->dispatchDbEvent(
             'Model.Entry.update',
             ['subject' => $posting->get('id'), 'data' => $posting]
         );
@@ -478,34 +466,12 @@ class EntriesTable extends AppTable
             return false;
         }
 
-        $this->_dispatchEvent(
+        $this->dispatchDbEvent(
             'Model.Entry.update',
             ['subject' => $posting->get('id'), 'data' => $posting]
         );
 
         return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toggle($id, $key)
-    {
-        $result = parent::toggle($id, $key);
-        if ($key === 'locked') {
-            $this->_threadLock($id, $result);
-        }
-
-        $entry = $this->get($id);
-        $this->_dispatchEvent(
-            'Model.Entry.update',
-            [
-                'subject' => $entry->get('id'),
-                'data' => $entry
-            ]
-        );
-
-        return $result;
     }
 
     /**
@@ -567,89 +533,8 @@ class EntriesTable extends AppTable
         );
 
         if ($success) {
-            $this->_dispatchEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
+            $this->dispatchDbEvent('Cmd.Cache.clear', ['cache' => 'Thread']);
         }
-    }
-
-    /**
-     * Merge thread on to entry $targetId
-     *
-     * @param int $sourceId root-id of the posting that is merged onto another
-     *     thread
-     * @param int $targetId id of the posting the source-thread should be
-     *     appended to
-     * @return bool true if merge was successfull false otherwise
-     */
-    public function threadMerge($sourceId, $targetId)
-    {
-        $sourcePosting = $this->get($sourceId, ['return' => 'Entity']);
-
-        // check that source is thread-root and not an subposting
-        if (!$sourcePosting->isRoot()) {
-            return false;
-        }
-
-        $targetPosting = $this->get($targetId);
-
-        // check that target exists
-        if (!$targetPosting) {
-            return false;
-        }
-
-        // check that a thread is not merged onto itself
-        if ($targetPosting->get('tid') === $sourcePosting->get('tid')) {
-            return false;
-        }
-
-        // set target entry as new parent entry
-        $this->patchEntity(
-            $sourcePosting,
-            ['pid' => $targetPosting->get('id')]
-        );
-        if ($this->save($sourcePosting)) {
-            // associate all entries in source thread to target thread
-            $this->updateAll(
-                ['tid' => $targetPosting->get('tid')],
-                ['tid' => $sourcePosting->get('tid')]
-            );
-
-            // appended source entries get category of target thread
-            $this->_threadChangeCategory(
-                $targetPosting->get('tid'),
-                $targetPosting->get('category_id')
-            );
-
-            // update target thread last answer if source is newer
-            $sourceLastAnswer = $sourcePosting->get('last_answer');
-            $targetLastAnswer = $targetPosting->get('last_answer');
-            if ($sourceLastAnswer->gt($targetLastAnswer)) {
-                $targetRoot = $this->get(
-                    $targetPosting->get('tid'),
-                    ['return' => 'Entity']
-                );
-                $targetRoot = $this->patchEntity(
-                    $targetRoot,
-                    ['last_answer' => $sourceLastAnswer]
-                );
-                $this->save($targetRoot);
-            }
-
-            // propagate pinned property from target to source
-            $isTargetPinned = $targetPosting->isLocked();
-            $isSourcePinned = $sourcePosting->isLocked();
-            if ($isSourcePinned !== $isTargetPinned) {
-                $this->_threadLock($targetPosting->get('tid'), $isTargetPinned);
-            }
-
-            $this->_dispatchEvent(
-                'Model.Thread.change',
-                ['subject' => $targetPosting->get('tid')]
-            );
-
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -673,39 +558,6 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Un-/Locks thread: sets posting in thread $tid to $locked
-     *
-     * @param int $tid thread-ID
-     * @param bool $locked flag
-     * @return void
-     */
-    protected function _threadLock($tid, $locked)
-    {
-        $this->updateAll(['locked' => $locked], ['tid' => $tid]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function beforeSave(Event $event, Entity $entity)
-    {
-        $success = true;
-
-        /// change category of thread if category of root entry changed
-        if (!$entity->isNew() && $entity->isDirty('category_id')) {
-            $success &= $this->_threadChangeCategory(
-                // rules checks that only roots are allowed to change category, so tid = id
-                $entity->get('id'),
-                $entity->get('category_id')
-            );
-        }
-
-        if (!$success) {
-            $event->stopPropagation();
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
@@ -713,29 +565,5 @@ class EntriesTable extends AppTable
         if ($entity->isNew()) {
             $this->Drafts->deleteDraftForPosting($entity);
         }
-    }
-
-    /**
-     * Changes the category of a thread.
-     *
-     * Assigns the new category-id to all postings in that thread.
-     *
-     * @param int $tid thread-ID
-     * @param int $newCategoryId id for new category
-     * @return bool success
-     * @throws NotFoundException
-     */
-    protected function _threadChangeCategory(int $tid, int $newCategoryId): bool
-    {
-        $exists = $this->Categories->exists($newCategoryId);
-        if (!$exists) {
-            throw new NotFoundException();
-        }
-        $affected = $this->updateAll(
-            ['category_id' => $newCategoryId],
-            ['tid' => $tid]
-        );
-
-        return $affected > 0;
     }
 }

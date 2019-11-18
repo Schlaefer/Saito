@@ -14,6 +14,7 @@
 
 - ＋ Improves compatibility with PHP 7.3
 - Internal code changes:
+  - Δ Refactors creation and update of new postings
   - Δ Updates PHP and Javascript libraries
 
 ### Update Notes

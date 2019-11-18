@@ -296,10 +296,10 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testSetUsername()
     {
-        $Users = $this->getMockForTable('Users', ['_dispatchEvent']);
+        $Users = $this->getMockForTable('Users', ['dispatchDbEvent']);
         $Entity = $Users->get(3);
         $Users->expects($this->once())
-            ->method('_dispatchEvent')
+            ->method('dispatchDbEvent')
             ->with('Cmd.Cache.clear', ['cache' => 'Thread']);
         $Users->patchEntity($Entity, ['username' => 'foo']);
         $Users->save($Entity);

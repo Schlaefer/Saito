@@ -26,6 +26,7 @@ class SaitoValidationProvider
      * @param string $table - Name of associated table e.g. 'Comments'.
      * @param array $context - Context.
      * @return bool
+     * @td move in favor of application rule
      */
     public static function validateAssoc($value, $table, array $context)
     {

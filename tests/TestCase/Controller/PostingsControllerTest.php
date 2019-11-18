@@ -17,6 +17,7 @@ use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
+use InvalidArgumentException;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
@@ -74,9 +75,9 @@ class PostingsControllerTest extends IntegrationTestCase
     {
         $this->loginJwt(3);
 
-        $entries = $this->getMockForTable('Entries', ['createPosting'])
+        $this->getMockOnController('Posting', ['create'])
             ->expects($this->once())
-            ->method('createPosting')
+            ->method('create')
             ->will($this->returnValue(null));
 
         $this->expectException(BadRequestException::class);
@@ -84,11 +85,20 @@ class PostingsControllerTest extends IntegrationTestCase
         $this->post('api/v2/postings/', []);
     }
 
-    public function testAddValidationErrorsCategoryAndSubjectMissing()
+    public function testAddValidationErrorsCategoryMissing()
+    {
+        $this->loginJwt(3);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionCode(1573123345);
+
+        $this->post('api/v2/postings/', ['subject' => 'foo']);
+    }
+
+    public function testAddValidationErrorsSubjectMissing()
     {
         $this->loginJwt(3);
 
-        $this->post('api/v2/postings/', []);
+        $this->post('api/v2/postings/', ['category_id' => 3]);
 
         $this->assertResponseCode(200);
         $response = json_decode((string)$this->_response->getBody(), true);
@@ -96,7 +106,6 @@ class PostingsControllerTest extends IntegrationTestCase
         $this->assertArrayHasKey('errors', $response);
 
         $pointers = array_flip(Hash::extract($response, 'errors.{n}.source.pointer'));
-        $this->assertArrayHasKey('/data/attributes/category_id', $pointers);
         $this->assertArrayHasKey('/data/attributes/subject', $pointers);
     }
 
@@ -264,9 +273,9 @@ class PostingsControllerTest extends IntegrationTestCase
         $this->loginJwt(1);
         $data = ['id' => 1, 'subject' => 'foo'];
 
-        $entries = $this->getMockForTable('Entries', ['updatePosting'])
+        $entries = $this->getMockOnController('Posting', ['update'])
             ->expects($this->once())
-            ->method('updatePosting')
+            ->method('update')
             ->will($this->returnValue(null));
 
         $this->expectException(BadRequestException::class);

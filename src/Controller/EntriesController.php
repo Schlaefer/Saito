@@ -14,6 +14,7 @@ namespace App\Controller;
 
 use App\Controller\Component\AutoReloadComponent;
 use App\Controller\Component\MarkAsReadComponent;
+use App\Controller\Component\PostingComponent;
 use App\Controller\Component\RefererComponent;
 use App\Controller\Component\ThreadsComponent;
 use App\Model\Table\EntriesTable;
@@ -37,6 +38,7 @@ use Stopwatch\Lib\Stopwatch;
  * @property CurrentUserInterface $CurrentUser
  * @property EntriesTable $Entries
  * @property MarkAsReadComponent $MarkAsRead
+ * @property PostingComponent $Posting
  * @property RefererComponent $Referer
  * @property ThreadsComponent $Threads
  */
@@ -53,6 +55,7 @@ class EntriesController extends AppController
     {
         parent::initialize();
 
+        $this->loadComponent('Posting');
         $this->loadComponent('MarkAsRead');
         $this->loadComponent('Referer');
         $this->loadComponent('Threads', ['table' => $this->Entries]);
@@ -408,9 +411,10 @@ class EntriesController extends AppController
      * @throws NotFoundException
      * @td put into admin entries controller
      */
-    public function merge($sourceId = null)
+    public function merge(string $sourceId = null)
     {
-        if (!$sourceId) {
+        $sourceId = (int)$sourceId;
+        if (empty($sourceId)) {
             throw new NotFoundException();
         }
 
@@ -456,15 +460,12 @@ class EntriesController extends AppController
             throw new BadRequestException;
         }
 
-        $current = $this->Entries->toggle((int)$id, $toggle);
-        if ($current) {
-            $out['html'] = __d('nondynamic', $toggle . '_unset_entry_link');
-        } else {
-            $out['html'] = __d('nondynamic', $toggle . '_set_entry_link');
-        }
+        $posting = $this->Entries->get($id);
+        $data = ['id' => (int)$id, $toggle => !$posting->get($toggle)];
+        $this->Posting->update($posting, $data, $this->CurrentUser);
 
         $this->response = $this->response->withType('json');
-        $this->response = $this->response->withStringBody(json_encode($out));
+        $this->response = $this->response->withStringBody(json_encode('OK'));
 
         return $this->response;
     }

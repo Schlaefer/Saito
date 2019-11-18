@@ -145,18 +145,47 @@ abstract class IntegrationTestCase extends TestCase
      * @param array $methods methods to mock
      * @return mixed
      */
-    public function getMockForTable($table, array $methods = [])
+    protected function getMockForTable($table, array $methods = [])
     {
-        $Mock = $this->getMockForTableParent($table, $methods);
+        $mock = $this->getMockForTableParent($table, $methods);
+        $this->attachToController($table, $mock);
+
+        return $mock;
+    }
+
+    /**
+     * Mocks a property on a controller (e.g. empty Component).
+     *
+     * @param string $name Property to mock
+     * @param array $methods Methods to mock
+     * @return mixed
+     */
+    protected function getMockOnController(string $name, array $methods = [])
+    {
+        $mock = $this->getMockBuilder('stdClass')
+            ->setMethods($methods)
+            ->getMock();
+        $this->attachToController($name, $mock);
+
+        return $mock;
+    }
+
+    /**
+     * Attaches an property to the controller
+     *
+     * @param string $name Property name
+     * @param mixed $item Item
+     * @return void
+     */
+    private function attachToController(string $name, $item): void
+    {
         EventManager::instance()->on(
             'Controller.initialize',
-            function (Event $event) use ($table, $Mock) {
+            function (Event $event) use ($name, $item) {
                 $Controller = $event->getSubject();
-                $Controller->{$table} = $Mock;
+                $Controller->{$name} = $item;
             }
         );
-
-        return $Mock;
     }
 
     /**

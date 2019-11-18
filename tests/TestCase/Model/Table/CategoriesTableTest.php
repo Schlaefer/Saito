@@ -21,11 +21,11 @@ class CategoriesTableTest extends SaitoTableTestCase
     {
         $this->Table = $this->getMockForModel(
             'Categories',
-            ['_dispatchEvent'],
+            ['dispatchDbEvent'],
             ['table' => 'categories']
         );
         $this->Table->expects($this->once())
-            ->method('_dispatchEvent')
+            ->method('dispatchDbEvent')
             ->with('Cmd.Cache.clear', ['cache' => ['Saito', 'Thread']]);
 
         $data = ['category' => 'foo'];
@@ -39,11 +39,11 @@ class CategoriesTableTest extends SaitoTableTestCase
     {
         $this->Table = $this->getMockForModel(
             'Categories',
-            ['_dispatchEvent'],
+            ['dispatchDbEvent'],
             ['table' => 'categories']
         );
         $this->Table->expects($this->once())
-            ->method('_dispatchEvent')
+            ->method('dispatchDbEvent')
             ->with('Cmd.Cache.clear', ['cache' => ['Saito', 'Thread']]);
 
         $category = $this->Table->get(1);
