@@ -11,6 +11,9 @@
       "forum": "http://saito.siezi.com/forum/"
     }
   },
+  "config": {
+    "discard-changes": true
+  },
   "require": {
     "php": ">=7.2",
     "cakephp/cakephp": "3.8.*",
