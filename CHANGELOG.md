@@ -13,6 +13,8 @@
 ### Changes
 
 - ＋ Improves compatibility with PHP 7.3
+- Internal code changes:
+  - Δ Updates PHP libraries
 
 ### Update Notes
 
