@@ -18,6 +18,7 @@
 - Internal code changes:
   - Δ Refactors creation and update of new postings
   - Δ Updates PHP and Javascript libraries
+  - − Remove SaitoValidationProvider::validateAssoc with CakePHP build-in facility
 
 ### Update Notes
 

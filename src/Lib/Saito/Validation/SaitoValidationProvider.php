@@ -12,38 +12,8 @@ declare(strict_types=1);
 
 namespace Saito\Validation;
 
-use Cake\ORM\TableRegistry;
-use Saito\RememberTrait;
-
 class SaitoValidationProvider
 {
-    use RememberTrait;
-
-    /**
-     * validator checking if associated value exists
-     *
-     * @param int $value - ID in assocciated table.
-     * @param string $table - Name of associated table e.g. 'Comments'.
-     * @param array $context - Context.
-     * @return bool
-     * @td move in favor of application rule
-     */
-    public static function validateAssoc($value, $table, array $context)
-    {
-        if (!is_numeric($value)) {
-            return false;
-        }
-        $value = (int)$value;
-
-        $key = $table . $value;
-
-        return static::rememberStatic($key, function () use ($value, $table) {
-            $Table = TableRegistry::get($table);
-
-            return $Table->exists(['id' => $value]);
-        });
-    }
-
     /**
      * validator checking if value is unique case insensitive
      *

@@ -14,8 +14,7 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
 use Cake\ORM\Query;
-use Cake\Validation\Validator;
-use Saito\Validation\SaitoValidationProvider;
+use Cake\ORM\RulesChecker;
 
 class UserIgnoresTable extends AppTable
 {
@@ -46,41 +45,15 @@ class UserIgnoresTable extends AppTable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function validationDefault(Validator $validator)
+    public function buildRules(RulesChecker $rules)
     {
-        $validator->setProvider('saito', SaitoValidationProvider::class);
+        $rules->add($rules->existsIn('user_id', 'Users'));
 
-        // @td move to application rule
-        $validator->notEmpty('user_id')
-            ->add(
-                'user_id',
-                [
-                    'assoc' => [
-                        'rule' => ['validateAssoc', 'Users'],
-                        'last' => true,
-                        'provider' => 'saito'
-                    ]
-                ]
-            );
+        $rules->add($rules->existsIn('blocked_user_id', 'Users'));
 
-        // @td move to application rule
-        $validator->notEmpty('blocked_user_id')
-            ->add(
-                'blocked_user_id',
-                [
-                    'assoc' => [
-                        'rule' => ['validateAssoc', 'Users'],
-                        'last' => true,
-                        'provider' => 'saito'
-                    ]
-                ]
-            );
-
-        $validator->notEmpty('timestamp');
-
-        return $validator;
+        return $rules;
     }
 
     /**
