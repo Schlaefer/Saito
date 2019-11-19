@@ -106,6 +106,10 @@ class AppController extends Controller
         $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
         $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
+        if (PHP_SAPI !== 'cli') {
+            // if: The security mock in testing doesn't allow seeting cookie-name.
+            $this->Csrf->setConfig('cookieName', Configure::read('Session.cookie') . '-CSRF');
+        }
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');

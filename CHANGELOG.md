@@ -13,6 +13,7 @@
 ### Changes
 
 - ＋ Improves compatibility with PHP 7.3
+- Δ Adds "Saito" prefix to CSRF-cookie name
 - Internal code changes:
   - Δ Refactors creation and update of new postings
   - Δ Updates PHP and Javascript libraries

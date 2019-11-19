@@ -105,7 +105,7 @@ class JsDataHelper extends AppHelper
      */
     protected function _getCsrf(View $View)
     {
-        $key = 'csrfToken';
+        $key = Configure::read('Session.cookie') . '-CSRF';
         $token = $View->getRequest()->getCookie($key);
         if (empty($token)) {
             $token = $View->getResponse()->getCookie($key)['value'];
