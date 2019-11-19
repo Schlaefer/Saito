@@ -9,16 +9,21 @@ $this->start('theme_head');
 
     <script>
         (function (SaitoApp) {
-            var css = 'theme';
+            var theme = {
+                css: '<?= $this->Url->assetUrl('Bota.css/theme.css') ?>',
+                name: 'theme',
+            }
+
             try {
                 preset = localStorage.theme;
                 if (preset && preset === 'night') {
-                    css = 'night';
+                    theme.css = '<?= $this->Url->assetUrl('Bota.css/night.css') ?>';
+                    theme.name = 'night';
                 }
             } catch (e) {
             }
-            document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'Bota/css/' + css + '.css" />');
-            SaitoApp.app.theme = {preset: css};
+            document.write('<link rel="stylesheet" type="text/css" href="' + theme.css + '" />');
+            SaitoApp.app.theme = {preset: theme.name};
         })(SaitoApp);
     </script>
     <noscript>

@@ -13,6 +13,7 @@
 ### Changes
 
 - ＋ Improves compatibility with PHP 7.3
+- ＋ Improves browser detection for changes in the Bota theme CSS
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
 - Δ Adds "Saito" prefix to CSRF-cookie name
 - Internal code changes:
