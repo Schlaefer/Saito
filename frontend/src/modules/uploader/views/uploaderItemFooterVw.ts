@@ -1,7 +1,7 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import numeral from 'numeral';
 import App from 'models/app';
+import numeral from 'numeral';
 import { defaults, template } from 'underscore';
 import TextElipsisVw from 'views/TextElipsisVw';
 

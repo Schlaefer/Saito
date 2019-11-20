@@ -3,6 +3,7 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\EntriesController;
+use App\Model\Entity\Entry;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
@@ -697,11 +698,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testSolveSaveError()
     {
-        $Entries = $this->getMockForTable('Entries', ['toggleSolve']);
+        $Entries = $this->getMockForTable('Entries', ['updateEntry']);
         $this->_loginUser(3);
         $Entries->expects($this->once())
-            ->method('toggleSolve')
-            ->will($this->returnValue(false));
+            ->method('updateEntry')
+            ->will($this->returnValue(null));
         $this->expectException(
             'Cake\Http\Exception\BadRequestException'
         );
@@ -710,11 +711,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testSolveSuccess()
     {
-        $Entries = $this->getMockForTable('Entries', ['toggleSolve']);
+        $Entries = $this->getMockForTable('Entries', ['updateEntry']);
         $this->_loginUser(3);
         $Entries->expects($this->once())
-            ->method('toggleSolve')
-            ->will($this->returnValue(true));
+            ->method('updateEntry')
+            ->will($this->returnValue(new Entry()));
         $this->get('/entries/solve/2');
         $this->assertResponseOk();
         $this->assertResponseEquals('');

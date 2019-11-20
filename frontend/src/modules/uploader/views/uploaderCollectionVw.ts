@@ -5,8 +5,8 @@ import $ from 'jquery';
 import App from 'models/app';
 import * as _ from 'underscore';
 import { NoContentView as EmptyView } from 'views/NoContentView';
-import UploaderItemVw from './uploaderItemVw';
 import UploaderAddVw from './uploaderAddVw';
+import UploaderItemVw from './uploaderItemVw';
 
 class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
     private blazy!: BlazyInstance;

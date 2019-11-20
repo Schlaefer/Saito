@@ -209,6 +209,21 @@ class EntriesTable extends AppTable
             ]
         );
 
+        $rules->add(
+            function ($entity) {
+                if (!$entity->isDirty('solves') || empty($entity->get('solves') > 0)) {
+                    return true;
+                }
+
+                return !$entity->isRoot();
+            },
+            'checkSolvesOnlyOnAnswers',
+            [
+                'errorField' => 'solves',
+                'message' => 'Root postings cannot mark themself solved.',
+            ]
+        );
+
         return $rules;
     }
 
@@ -327,6 +342,7 @@ class EntriesTable extends AppTable
             'Users.avatar',
             'Users.id',
             'Users.signature',
+            'Users.user_type',
             'Users.user_place'
         ];
 
@@ -414,9 +430,7 @@ class EntriesTable extends AppTable
     }
 
     /**
-     * Updates a posting
-     *
-     * fields in $data are filtered except for $id!
+     * Updates a posting with new data
      *
      * @param Entry $posting Entity
      * @param array $data data
@@ -445,33 +459,6 @@ class EntriesTable extends AppTable
         );
 
         return $new;
-    }
-
-    /**
-     * Marks a sub-entry as solution to a root entry
-     *
-     * @param Entry $posting posting to toggle
-     * @return bool success
-     */
-    public function toggleSolve(Entry $posting)
-    {
-        if ($posting->get('solves')) {
-            $value = 0;
-        } else {
-            $value = $posting->get('tid');
-        }
-
-        $this->patchEntity($posting, ['solves' => $value]);
-        if (!$this->save($posting)) {
-            return false;
-        }
-
-        $this->dispatchDbEvent(
-            'Model.Entry.update',
-            ['subject' => $posting->get('id'), 'data' => $posting]
-        );
-
-        return true;
     }
 
     /**

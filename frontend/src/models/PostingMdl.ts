@@ -19,14 +19,20 @@ export default abstract class PostingModel extends JsonApiModel {
         _.defaults(defaults, {
             category_id: undefined,
             id: undefined,
-            pid: undefined,
+            pid: 0,
+            solves: 0,
             subject: '',
-            text: '',
+            text: undefined,
         });
         super(defaults, options);
     }
 
     public isRoot(): boolean {
-        return !this.get('pid');
+        const pid = this.get('pid');
+        if (!_.isNumber(pid)) {
+            throw new Error('pid is not a number.');
+        }
+        return pid === 0;
     }
+
 }

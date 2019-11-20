@@ -2,6 +2,7 @@ import { View } from 'backbone.marionette';
 import $ from 'jquery';
 import App from 'models/app';
 import _ from 'underscore';
+import { isNumber } from 'util';
 import PostingModel from '../models/PostingMdl';
 
 export default class extends View<PostingModel> {
@@ -16,7 +17,7 @@ export default class extends View<PostingModel> {
             },
 
             modelEvents: {
-                'change:isSolves': '_toggle',
+                'change:solves': 'onChangeSolves',
             },
             tagName: 'a',
             template: _.template('<i class="fa fa-badge-solves-o fa-lg"></i>'),
@@ -40,38 +41,38 @@ export default class extends View<PostingModel> {
     }
 
     private _shouldRender() {
-        if (!App.currentUser.isLoggedIn()) {
-            return false;
-        }
-        if (this.model.isRoot()) {
-            return false;
-        }
-        if (this.model.get('rootEntryUserId') !== App.currentUser.get('id')) {
-            return false;
-        }
-        return true;
+        return this.model.get('showSolvedBtn');
     }
 
     private _onClick(event: Event) {
         event.preventDefault();
-        this.model.toggle('isSolves');
+        const solves = this.model.get('solves');
+        if (isNumber(solves) && solves > 0) {
+            this.model.set('solves', 0);
+        } else {
+            this.model.set('solves', this.model.get('tid'));
+        }
+    }
+
+    private onChangeSolves() {
+        this._toggle();
     }
 
     private _toggle() {
         const $icon = this.$('i');
-        const isSolves = this.model.get('isSolves');
+        const isSolves = this.model.get('solves');
         let html = '';
 
-        if (isSolves) {
+        if (isSolves === 0) {
+            $icon.removeClass('fa-badge-solves');
+            $icon.addClass('fa-badge-solves-o');
+            $icon.removeClass('solves-isSolved');
+        } else {
             $icon.addClass('solves-isSolved');
             $icon.removeClass('fa-badge-solves-o');
             $icon.addClass('fa-badge-solves');
             html = this.$el.html();
             $(html).removeClass('fa-lg');
-        } else {
-            $icon.removeClass('fa-badge-solves');
-            $icon.addClass('fa-badge-solves-o');
-            $icon.removeClass('solves-isSolved');
         }
         this._toggleGlobal(html);
     }

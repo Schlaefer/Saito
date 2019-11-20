@@ -169,13 +169,16 @@ export default class DraftView extends View<Model> {
         if (!this.enabled) {
             return;
         }
-        if (!this.model.get('id')) {
-            // Do only when creating a new draft, not on an existing one.
+
+        /// Send empty subject and text only on existing draft to delete it.
+        const isNewDraft = !this.model.get('id');
+        if (isNewDraft) {
             if (!this.model.get('subject') && !this.model.get('text')) {
                 // Don't send empty data.
                 return;
             }
         }
+
         this.model.save(null, {
             success: (model, response, options) => { this.showSaved(); },
         });

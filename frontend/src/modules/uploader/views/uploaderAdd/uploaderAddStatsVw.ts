@@ -8,9 +8,9 @@
 
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import * as _ from 'underscore';
 import moment from 'moment';
 import numeral from 'numeral';
+import * as _ from 'underscore';
 
 class StatsVw extends View<Model> {
     /**
@@ -21,8 +21,8 @@ class StatsVw extends View<Model> {
         _.defaults(options, {
             classTag: 'imageUploader-card-details',
             modelEvents: {
+                'change:fileToUpload': 'onChangeFile',
                 'change:progress': 'onChangeProgress',
-                'change:fileToUpload': 'onChangeFile'
             },
             template: _.template(`
             <ul>
@@ -42,8 +42,8 @@ class StatsVw extends View<Model> {
             `),
             ui: {
                 speed: '.js-speed',
-                total: '.js-total',
                 time: '.js-time',
+                total: '.js-total',
             },
         });
         super(...arguments);
@@ -74,7 +74,6 @@ class StatsVw extends View<Model> {
             bitrate = Math.round(model.get('loaded') / period);
         }
         this.getUI('speed').html(numeral(bitrate).format('0 b') + '/s');
-
 
         const total = model.get('fileToUpload').size;
         let remaining = Math.floor((total - model.get('loaded')) / bitrate) + 1;

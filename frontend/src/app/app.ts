@@ -16,7 +16,9 @@ import moment from 'moment';
 /// Load numeral.js
 import numeral from 'numeral';
 // load locales for numeral.js
-require('numeral/locales')
+/* tslint:disable */
+require('numeral/locales');
+/* tslint:enable */
 
 interface ISaitoCallbacks {
     beforeAppInit: CallableFunction[];

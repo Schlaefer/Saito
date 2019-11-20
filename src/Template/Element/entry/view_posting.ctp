@@ -1,4 +1,7 @@
 <?php
+
+use Saito\User\Permission\ResourceAI;
+
 // setup
 $level = $level ?? 0;
 $editLinkIsShown = false;
@@ -9,8 +12,12 @@ $jsEntry = json_encode(
     [
         'pid' => $entry->get('pid'),
         'isBookmarked' => $entry->isBookmarked(),
-        'isSolves' => (bool)$entry->get('solves'),
-        'rootEntryUserId' => (int)$rootEntry->get('user_id'),
+        'solves' => $entry->get('solves'),
+        'showSolvedBtn' => $CurrentUser->permission(
+            'saito.core.posting.solves.set',
+            (new ResourceAI())->onRole($rootEntry->get('user')->getRole())->onOwner($rootEntry->get('user_id'))
+        ),
+        'tid' => (int)$entry->get('tid'),
         'time' => $this->TimeH->dateToIso($entry->get('time'))
     ]
 );

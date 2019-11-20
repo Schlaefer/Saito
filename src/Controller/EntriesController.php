@@ -30,6 +30,7 @@ use Cake\Routing\RequestActionTrait;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\Permission\ResourceAI;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -380,23 +381,25 @@ class EntriesController extends AppController
                 throw new \InvalidArgumentException('Posting to mark solved not found.');
             }
 
-            if ($posting->isRoot()) {
-                throw new \InvalidArgumentException('Root postings cannot mark themself solved.');
-            }
-
             $rootId = $posting->get('tid');
             $rootPosting = $this->Entries->get($rootId);
-            if ($rootPosting->get('user_id') !== $this->CurrentUser->getId()) {
+
+            $allowed = $this->CurrentUser->permission(
+                'saito.core.posting.solves.set',
+                (new ResourceAI())->onRole($rootPosting->get('user')->getRole())->onOwner($rootPosting->get('user_id'))
+            );
+            if (!$allowed) {
                 throw new SaitoForbiddenException(
                     sprintf('Attempt to mark posting %s as solution.', $posting->get('id')),
                     ['CurrentUser' => $this->CurrentUser]
                 );
             }
 
-            $success = $this->Entries->toggleSolve($posting);
+            $value = $posting->get('solves') ? 0 : $rootPosting->get('tid');
+            $success = $this->Entries->updateEntry($posting, ['solves' => $value]);
 
             if (!$success) {
-                throw new BadRequestException;
+                throw new BadRequestException();
             }
         } catch (\Exception $e) {
             throw new BadRequestException();
@@ -573,8 +576,9 @@ class EntriesController extends AppController
     {
         if (!$posting->isRoot()) {
             $root = $this->Entries->find()
-                ->select(['user_id'])
-                ->where(['id' => $posting->get('tid')])
+                ->select(['user_id', 'Users.user_type'])
+                ->where(['Entries.id' => $posting->get('tid')])
+                ->contain(['Users'])
                 ->first();
         } else {
             $root = $posting;

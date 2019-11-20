@@ -63,6 +63,9 @@ $config['Saito']['Permission']['Resources'] = (new Resources())
     // Merge postings
     ->add((new Resource('saito.core.posting.merge'))
         ->allow((new ResourceAC())->asRole('mod')))
+    // Allow posting to be marked as solution
+    ->add((new Resource('saito.core.posting.solves.set'))
+        ->allow((new ResourceAC())->onOwn()))
     // Show a user's activation status
     ->add((new Resource('saito.core.user.activate.view'))
         ->allow((new ResourceAC())->asRole('admin')))
