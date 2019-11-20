@@ -43,9 +43,6 @@ class EntriesTest extends SaitoTableTestCase
             ['dispatchDbEvent'],
             ['className' => 'Saito\Test\Model\Table\EntriesTableMock']
         );
-        $this->Table->expects($this->once())
-            ->method('dispatchDbEvent')
-            ->with('Model.Thread.create', $this->anything());
 
         //= Setup CurrentUser
         $SaitoUser = CurrentUserFactory::createLoggedIn(

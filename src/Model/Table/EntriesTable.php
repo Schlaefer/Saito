@@ -228,6 +228,35 @@ class EntriesTable extends AppTable
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
+    {
+        if ($entity->isNew()) {
+            $this->Drafts->deleteDraftForPosting($entity);
+
+            /** @var Entry */
+            $posting = $this->get($entity->get('id'));
+            if ($posting->isRoot()) {
+                /// New thread: set thread-ID to posting's own ID.
+                $patched = $this->patchEntity($posting, ['tid' => $entity->get('id')]);
+                if (!$this->save($patched)) {
+                    $event->stopPropagation();
+                }
+                // Set it in the entity returned by the the save
+                $entity->set('tid', $entity->get('id'));
+            } else {
+                /// New answer: update last answer time of root entry
+                // @td Is this really necessary?
+                $this->updateAll(
+                    ['last_answer' => $posting->get('last_answer')],
+                    ['id' => $posting->get('tid')]
+                );
+            }
+        }
+    }
+
+    /**
      * Advanced search configuration from SaitoSearch plugin
      *
      * @see https://github.com/FriendsOfCake/search
@@ -396,35 +425,14 @@ class EntriesTable extends AppTable
             return $posting;
         }
 
+        /** @var Entry */
         $posting = $this->save($posting);
-        if (!$posting) {
+        if (empty($posting)) {
             return null;
         }
 
-        $id = $posting->get('id');
-        /** @var Entry */
-        $posting = $this->get($id);
-
-        if ($posting->isRoot()) {
-            // posting started a new thread, so set thread-ID to posting's own ID
-            /** @var Entry */
-            $posting = $this->patchEntity($posting, ['tid' => $id]);
-            if (!$this->save($posting)) {
-                return $posting;
-            }
-
-            $this->dispatchDbEvent('Model.Thread.create', ['subject' => $id, 'data' => $posting]);
-        } else {
-            // update last answer time of root entry
-            $this->updateAll(
-                ['last_answer' => $posting->get('last_answer')],
-                ['id' => $posting->get('tid')]
-            );
-
-            $eventData = ['subject' => $posting->get('pid'), 'data' => $posting];
-            $this->dispatchDbEvent('Model.Entry.replyToEntry', $eventData);
-            $this->dispatchDbEvent('Model.Entry.replyToThread', $eventData);
-        }
+        $eventData = ['subject' => $posting->get('pid'), 'data' => $posting];
+        $this->dispatchDbEvent('Model.Entry.replyToEntry', $eventData);
 
         return $posting;
     }
@@ -542,15 +550,5 @@ class EntriesTable extends AppTable
         }
 
         return $query;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
-    {
-        if ($entity->isNew()) {
-            $this->Drafts->deleteDraftForPosting($entity);
-        }
     }
 }

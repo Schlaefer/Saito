@@ -18,7 +18,7 @@
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
 - Δ Adds "Saito" prefix to CSRF-cookie name
 - Internal code changes:
-  - Δ Refactors creation and update of new postings
+  - Δ Refactors creation, update and validation of postings
   - Δ Updates PHP and Javascript libraries
   - − Remove SaitoValidationProvider::validateAssoc with CakePHP build-in facility
 
