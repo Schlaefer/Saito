@@ -22,7 +22,6 @@ use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -249,6 +248,7 @@ class EntriesController extends AppController
      */
     public function edit($id = null)
     {
+        // throw new \Cake\Http\Exception\ForbiddenException();
         if (empty($id)) {
             throw new BadRequestException;
         }
@@ -330,7 +330,7 @@ class EntriesController extends AppController
         $allowed = $this->CurrentUser->getCategories()
             ->permission($action, $posting->get('category_id'));
         if (!$allowed) {
-            throw new ForbiddenException(null, 1571309481);
+            throw new SaitoForbiddenException();
         }
 
         $success = $this->Entries->deletePosting($id);

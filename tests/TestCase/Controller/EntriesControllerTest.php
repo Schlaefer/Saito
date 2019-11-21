@@ -8,7 +8,6 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\Exception\SaitoForbiddenException;
@@ -278,7 +277,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(3);
         $this->mockSecurity();
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->post('/entries/delete/1');
     }
@@ -301,8 +300,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertRedirect('/entries/view/14');
 
         // Category 4 new threads are not allowed for mods
-        $this->expectException(ForbiddenException::class);
-        $this->expectExceptionCode(1571309481);
+        $this->expectException(SaitoForbiddenException::class);
         $this->post('/entries/delete/14');
     }
 
@@ -394,7 +392,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->_loginUser(3);
         $this->mockSecurity();

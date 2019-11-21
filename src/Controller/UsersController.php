@@ -560,13 +560,9 @@ class UsersController extends AppController
             (new ResourceAI())->onRole($readUser->getRole())
         );
         if (!$permission) {
-            throw new ForbiddenException(
-                sprintf(
-                    'User "%s" is not allowed to delete user "%s".',
-                    $this->CurrentUser->get('username'),
-                    $readUser->get('username')
-                ),
-                1571811593
+            throw new SaitoForbiddenException(
+                'Not allowed to delete a user.',
+                ['CurrentUser' => $this->CurrentUser, 'user_id' => $readUser->get('username')]
             );
         }
 
@@ -631,7 +627,10 @@ class UsersController extends AppController
             (new ResourceAI())->onRole($readUser->getRole())
         );
         if (!$permission) {
-            throw new ForbiddenException(null, 1571316877);
+            throw new SaitoForbiddenException(
+                null,
+                ['CurrentUser' => $this->CurrentUser]
+            );
         }
 
         if ($this->CurrentUser->isUser($readUser)) {
@@ -679,7 +678,10 @@ class UsersController extends AppController
             (new ResourceAI())->onRole($user->getRole())
         );
         if (!$permission) {
-            throw new ForbiddenException(null, 1571316877);
+            throw new SaitoForbiddenException(
+                null,
+                ['CurrentUser' => $this->CurrentUser]
+            );
         }
 
         if (!$this->Users->UserBlocks->unblock($id)) {
@@ -814,7 +816,10 @@ class UsersController extends AppController
         $unrestricted = $this->CurrentUser->permission('saito.core.user.role.set.unrestricted', $identifier);
         $restricted = $this->CurrentUser->permission('saito.core.user.role.set.restricted', $identifier);
         if (!$restricted && !$unrestricted) {
-            throw new ForbiddenException();
+            throw new SaitoForbiddenException(
+                null,
+                ['CurrentUser' => $this->CurrentUser]
+            );
         }
 
         /** @var Permissions */

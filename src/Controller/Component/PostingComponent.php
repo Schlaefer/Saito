@@ -15,8 +15,8 @@ namespace App\Controller\Component;
 use App\Model\Entity\Entry;
 use App\Model\Table\EntriesTable;
 use Cake\Controller\Component;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\Posting;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -63,7 +63,7 @@ class PostingComponent extends Component
         // @td better return !$posting->isAnsweringForbidden();
         $allowed = $CurrentUser->getCategories()->permission($action, $posting->get('category_id'));
         if ($allowed !== true) {
-            throw new ForbiddenException('Creating new posting not allowed.');
+            throw new SaitoForbiddenException('Creating new posting not allowed.');
         }
 
         return $this->getTable()->createEntry($data);
@@ -88,7 +88,7 @@ class PostingComponent extends Component
 
         $allowed = $entry->toPosting()->withCurrentUser($CurrentUser)->isEditingAllowed();
         if ($allowed !== true) {
-            throw new ForbiddenException('Updating posting not allowed.');
+            throw new SaitoForbiddenException('Updating posting not allowed.');
         }
 
         return $this->getTable()->updateEntry($entry, $data);

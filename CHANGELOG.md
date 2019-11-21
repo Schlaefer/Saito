@@ -15,6 +15,7 @@
 - ＋ Adds permissions `saito.core.posting.solves.set` for marking a posting as solution/helpful.
 - ＋ Improves compatibility with PHP 7.3
 - ＋ Improves browser detection for changes in the Bota theme CSS
+- ＋ Improves logging of unauthorized access
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
 - Δ Adds "Saito" prefix to CSRF-cookie name
 - Internal code changes:

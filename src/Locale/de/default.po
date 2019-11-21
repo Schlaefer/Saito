@@ -1461,6 +1461,8 @@ msgstr "Nutzer löschen"
 msgid "user.del.ok.m"
 msgstr "Nutzer \"{0}\" wurde gelöscht."
 
+msgid "exc.forbidden"
+msgstr "Zugriff nicht erlaubt"
 
 #~ msgid "Ressources"
 #~ msgstr "Ressourcen"

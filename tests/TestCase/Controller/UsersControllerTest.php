@@ -8,7 +8,6 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use Saito\Exception\SaitoForbiddenException;
@@ -260,8 +259,7 @@ class UsersControllerTest extends IntegrationTestCase
         Configure::read('Saito.Permission.Resources')
             ->get('saito.core.user.register')
             ->disallow((new ResourceAC())->asEverybody());
-        $this->expectException(ForbiddenException::class);
-        $this->expectExceptionCode(1571852880);
+        $this->expectException(SaitoForbiddenException::class);
         $this->get('/users/register');
     }
 
@@ -438,8 +436,7 @@ class UsersControllerTest extends IntegrationTestCase
         Configure::read('Saito.Permission.Resources')
             ->get('saito.core.user.register')
             ->disallow((new ResourceAC())->asEverybody());
-        $this->expectException(ForbiddenException::class);
-        $this->expectExceptionCode(1571852880);
+        $this->expectException(SaitoForbiddenException::class);
         $this->get('/users/rs/10/?c=1549');
     }
 
@@ -830,7 +827,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->mockSecurity();
         $this->_loginUser(3);
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->post('/users/lock', ['lockUserId' => 4]);
     }
@@ -857,7 +854,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->mockSecurity();
         $this->_loginUser(11);
 
-        $this->expectException(ForbiddenException::class, 1571316877);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->post('/users/lock', ['lockUserId' => 11]);
     }
@@ -1411,7 +1408,7 @@ class UsersControllerTest extends IntegrationTestCase
     public function testRoleViewUnauthorized()
     {
         $this->_loginUser(3);
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
         $this->get('/users/role/3');
     }
 
@@ -1481,7 +1478,7 @@ class UsersControllerTest extends IntegrationTestCase
         $userId = 3;
         $newType = 'admin';
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $data = ['user_type' => $newType];
         $this->put("/users/role/$userId", $data);
@@ -1503,8 +1500,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->mockSecurity();
         $this->_loginUser(11);
 
-        $this->expectException(ForbiddenException::class);
-        $this->expectExceptionCode(1571811593);
+        $this->expectException(SaitoForbiddenException::class);
 
         $url = '/users/delete/4';
         $this->get($url);

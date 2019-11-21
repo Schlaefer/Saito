@@ -17,12 +17,12 @@ use App\Test\Fixture\UserFixture;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use Saito\Exception\SaitoForbiddenException;
 
 /**
  * Setup/teardown, helper and assumptions for Saito integration tests
@@ -319,7 +319,7 @@ abstract class IntegrationTestCase extends TestCase
                 $cought = false;
                 try {
                     $this->{$method}($route);
-                } catch (ForbiddenException $e) {
+                } catch (SaitoForbiddenException $e) {
                     $cought = true;
                 }
 

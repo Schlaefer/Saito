@@ -1435,6 +1435,9 @@ msgstr "Delete user"
 msgid "user.del.ok.m"
 msgstr "User \"{0}\" was deleted."
 
+msgid "exc.forbidden"
+msgstr "Access forbidden"
+
 #, fuzzy
 #~ msgid "Uploads"
 #~ msgstr "Upload"

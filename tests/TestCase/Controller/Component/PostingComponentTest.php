@@ -5,10 +5,10 @@ namespace App\Test\TestCase\Controller\Component;
 use App\Controller\Component\PostingComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Posting;
 use Saito\Test\SaitoTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
@@ -61,7 +61,7 @@ class PostingComponentTest extends SaitoTestCase
         $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
         $user = CurrentUserFactory::createLoggedIn($user);
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->component->create($thread, $user);
     }
@@ -72,7 +72,7 @@ class PostingComponentTest extends SaitoTestCase
         $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
         $user = CurrentUserFactory::createLoggedIn($user);
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $result = $this->component->create($answer, $user);
     }
@@ -157,7 +157,7 @@ class PostingComponentTest extends SaitoTestCase
         $user = ['id' => 7, 'user_type' => 'mod', 'username' => 'bar'];
         $user = CurrentUserFactory::createLoggedIn($user);
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->component->update($entity, $edit, $user);
     }

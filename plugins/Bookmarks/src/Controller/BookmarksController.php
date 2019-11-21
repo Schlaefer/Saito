@@ -154,7 +154,8 @@ class BookmarksController extends ApiAppController
         );
         if (!$allowed) {
             throw new SaitoForbiddenException(
-                "Attempt to access bookmark $bookmarkId."
+                "Attempt to access bookmark $bookmarkId.",
+                ['CurrentUser' => $this->CurrentUser]
             );
         }
 

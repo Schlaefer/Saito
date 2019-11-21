@@ -25,6 +25,8 @@ class SaitoForbiddenException extends HttpException
     {
         $logger = new ForbiddenLogger;
         $logger->write($message, $data);
-        parent::__construct($message, 403);
+
+        $publicMessage = __('exc.forbidden');
+        parent::__construct($publicMessage, 403);
     }
 }
