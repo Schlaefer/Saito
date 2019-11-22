@@ -23,6 +23,7 @@
   - Δ Refactors creation, update and validation of postings
   - Δ Updates PHP and Javascript libraries
   - Δ Entries::Table throws RecordNotFoundException instead of returning null
+  - Δ Update Apcu version in docker container to 5.1.18
   - − Remove SaitoValidationProvider::validateAssoc with CakePHP build-in facility
 
 ### Update Notes

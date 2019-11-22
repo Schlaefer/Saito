@@ -33,8 +33,9 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
       opcache
 
 # Install apcu
-RUN pecl install apcu-5.1.17
+RUN pecl install apcu-5.1.18
 RUN docker-php-ext-enable apcu
+RUN echo "apc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
 # Install xdebug
 RUN pecl install xdebug-2.7.1
