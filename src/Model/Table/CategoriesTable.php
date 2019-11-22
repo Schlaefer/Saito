@@ -17,7 +17,9 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Saito\App\Registry;
 use Saito\RememberTrait;
+use Saito\User\Permission\Permissions;
 
 /**
  * Class CategoriesTable
@@ -51,23 +53,23 @@ class CategoriesTable extends AppSettingTable
             )
             ->add(
                 'accession',
+                'validateRoleExists',
                 [
-                    'isNumeric' => ['rule' => 'numeric'],
-                    'range' => ['rule' => ['range', 0, 3]]
+                    'rule' => [$this, 'validateRoleExists'],
                 ]
             )
             ->add(
                 'accession_new_thread',
+                'validateRoleExists',
                 [
-                    'isNumeric' => ['rule' => 'numeric'],
-                    'range' => ['rule' => ['range', 1, 3]]
+                    'rule' => [$this, 'validateRoleExists'],
                 ]
             )
             ->add(
                 'accession_new_posting',
+                'validateRoleExists',
                 [
-                    'isNumeric' => ['rule' => 'numeric'],
-                    'range' => ['rule' => ['range', 1, 3]]
+                    'rule' => [$this, 'validateRoleExists'],
                 ]
             );
 
@@ -139,5 +141,21 @@ class CategoriesTable extends AppSettingTable
             ['category_id' => $category->get('id')]
         );
         $this->delete($category);
+    }
+
+    /**
+     * Validate that a role for the category actually exists
+     *
+     * @param string $roleId The role-ID int
+     * @return bool
+     */
+    public function validateRoleExists($roleId): bool
+    {
+        /** @var Permissions */
+        $permissions = Registry::get('Permissions');
+        $roles = $permissions->getRoles()->getAvailable(true);
+        $roleIds = array_column($roles, 'id');
+
+        return in_array((int)$roleId, $roleIds);
     }
 }

@@ -1,6 +1,6 @@
 # Change-Log
 
-- ＋ New
+- ＋ Added
 - ✓ Fixed
 - Δ Changed
 - − Removed
@@ -17,6 +17,7 @@
 - ＋ Improves browser detection for changes in the Bota theme CSS
 - ＋ Improves logging of unauthorized access
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
+- ✓ User roles with ID greater than 3 can't be assigned to category access control
 - Δ Adds "Saito" prefix to CSRF-cookie name
 - − Removes visiblity description for category in category-title hover
 - Internal code changes:
