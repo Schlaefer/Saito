@@ -298,7 +298,8 @@ class EntriesTable extends AppTable
      *
      * @param int $primaryKey key
      * @param array $options options
-     * @return mixed Posting if found false otherwise
+     * @throws RecordNotFoundException if record isn't found
+     * @return mixed Posting
      */
     public function get($primaryKey, $options = [])
     {
@@ -307,8 +308,12 @@ class EntriesTable extends AppTable
             ->where([$this->getAlias() . '.id' => $primaryKey])
             ->first();
 
-        // @td throw exception here
-        return empty($result) ? false : $result;
+        if (empty($result)) {
+            $msg = sprintf('Posting with ID "%s" not found.', $primaryKey);
+            throw new RecordNotFoundException($msg);
+        }
+
+        return $result;
     }
 
     /**

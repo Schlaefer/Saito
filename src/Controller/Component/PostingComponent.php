@@ -36,14 +36,6 @@ class PostingComponent extends Component
         if (!empty($data['pid'])) {
             /// new posting is answer to existing posting
             $parent = $this->getTable()->get($data['pid']);
-
-            if (empty($parent)) {
-                throw new \InvalidArgumentException(
-                    'Parent posting for creating a new answer not found.',
-                    1564756571
-                );
-            }
-
             $data = $this->prepareChildPosting($parent, $data);
         } else {
             /// if no pid is provided the new posting is root-posting

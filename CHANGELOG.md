@@ -21,6 +21,7 @@
 - Internal code changes:
   - Δ Refactors creation, update and validation of postings
   - Δ Updates PHP and Javascript libraries
+  - Δ Entries::Table throws RecordNotFoundException instead of returning null
   - − Remove SaitoValidationProvider::validateAssoc with CakePHP build-in facility
 
 ### Update Notes

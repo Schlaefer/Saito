@@ -288,11 +288,6 @@ msgstr ""
 msgid "view.type.mix"
 msgstr "Mix"
 
-#: src/Controller/EntriesController.php:200
-#: src/Controller/EntriesController.php:209
-msgid "Invalid post"
-msgstr ""
-
 #: src/Controller/EntriesController.php:247
 msgid "Write a New Posting"
 msgstr ""

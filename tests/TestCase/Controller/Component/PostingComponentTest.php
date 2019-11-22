@@ -5,6 +5,7 @@ namespace App\Test\TestCase\Controller\Component;
 use App\Controller\Component\PostingComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
@@ -111,8 +112,7 @@ class PostingComponentTest extends SaitoTestCase
         $user = ['id' => 100, 'username' => 'foo', 'user_type' => 'user'];
         $user = CurrentUserFactory::createLoggedIn($user);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionCode(1564756571);
+        $this->expectException(RecordNotFoundException::class);
 
         $this->component->create($answer, $user);
     }

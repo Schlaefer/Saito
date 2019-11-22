@@ -8,6 +8,7 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
 use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Error\PHP7ErrorException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\Exception\SaitoForbiddenException;
@@ -285,8 +286,8 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeletePostingDoesntExist()
     {
         $this->_loginUser(1);
-        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->mockSecurity();
+        $this->expectException(RecordNotFoundException::class);
         $this->post('/entries/delete/9999');
     }
 
@@ -421,7 +422,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntry()
     {
         $this->_loginUser(2);
-        $this->expectException('Cake\Http\Exception\NotFoundException');
+        $this->expectException(RecordNotFoundException::class);
         $this->get('entries/edit/9999');
     }
 
@@ -431,9 +432,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntryId()
     {
         $this->_loginUser(2);
-        $this->expectException(
-            'Cake\Http\Exception\BadRequestException'
-        );
+        $this->expectException(PHP7ErrorException::class);
         $this->get('entries/edit/');
     }
 
@@ -524,8 +523,8 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testViewPostingDoesNotExistRedirect()
     {
+        $this->expectException(RecordNotFoundException::class);
         $this->get('/entries/view/9999');
-        $this->assertRedirect('/');
     }
 
     /**

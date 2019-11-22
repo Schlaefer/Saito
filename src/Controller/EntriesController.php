@@ -179,26 +179,12 @@ class EntriesController extends AppController
      * @param string $id posting-ID
      * @return \Cake\Network\Response|void
      */
-    public function view($id = null)
+    public function view(string $id)
     {
+        $id = (int)$id;
         Stopwatch::start('Entries->view()');
 
-        // redirect if no id is given
-        if (!$id) {
-            $this->Flash->set(__('Invalid post'), ['element' => 'error']);
-
-            return $this->redirect(['action' => 'index']);
-        }
-
         $entry = $this->Entries->get($id);
-
-        // redirect if posting doesn't exists
-        if ($entry == false) {
-            $this->Flash->set(__('Invalid post'));
-
-            return $this->redirect('/');
-        }
-
         $posting = $entry->toPosting()->withCurrentUser($this->CurrentUser);
 
         if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
@@ -246,17 +232,10 @@ class EntriesController extends AppController
      * @throws NotFoundException
      * @throws BadRequestException
      */
-    public function edit($id = null)
+    public function edit(string $id)
     {
-        // throw new \Cake\Http\Exception\ForbiddenException();
-        if (empty($id)) {
-            throw new BadRequestException;
-        }
-
+        $id = (int)$id;
         $entry = $this->Entries->get($id);
-        if (empty($entry)) {
-            throw new NotFoundException;
-        }
         $posting = $entry->toPosting()->withCurrentUser($this->CurrentUser);
 
         if (!$posting->isEditingAllowed()) {
@@ -322,9 +301,6 @@ class EntriesController extends AppController
         }
         /* @var Entry $posting */
         $posting = $this->Entries->get($id);
-        if (!$posting) {
-            throw new NotFoundException;
-        }
 
         $action = $posting->isRoot() ? 'thread' : 'answer';
         $allowed = $this->CurrentUser->getCategories()
