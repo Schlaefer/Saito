@@ -30,8 +30,8 @@ $schemaMeta = [];
     </header>
     <aside class="postingBody-info">
         <span class="c-category acs-<?= $entry->get('category')['accession']; ?>"
-                title="<?= $entry->get('category')['description'] ?> (<?= __d('nondynamic', 'category_acs_' . $entry->get('category')['accession'] . '_exp') ?>)">
-        <?= $entry->get('category')['category']; ?>
+                title="<?= h($entry->get('category')['description']) ?>">
+        <?= h($entry->get('category')['category']) ?>
         </span>
         –
         <span itemscope itemprop="author"

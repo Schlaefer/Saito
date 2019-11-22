@@ -33,11 +33,11 @@
         <tr<?= $class; ?>>
             <td><?= $category->get('category_order'); ?>
                 &nbsp;</td>
-            <td><?= $category->get('category'); ?>&nbsp;</td>
-            <td><?= $category->get('description'); ?> &nbsp;</td>
-            <td><?= __d('nondynamic', 'permission.role.' . $category->get('accession')) ?>&nbsp;</td>
-            <td><?= __d('nondynamic', 'permission.role.' . $category->get('accession_new_thread')) ?>&nbsp;</td>
-            <td><?= __d('nondynamic', 'permission.role.' . $category->get('accession_new_posting')) ?>&nbsp;</td>
+            <td><?= h($category->get('category')) ?>&nbsp;</td>
+            <td><?= h($category->get('description')) ?> &nbsp;</td>
+            <td><?= h(__d('nondynamic', 'permission.role.' . $category->get('accession'))) ?>&nbsp;</td>
+            <td><?= h(__d('nondynamic', 'permission.role.' . $category->get('accession_new_thread'))) ?>&nbsp;</td>
+            <td><?= h(__d('nondynamic', 'permission.role.' . $category->get('accession_new_posting'))) ?>&nbsp;</td>
             <td class="actions">
                 <?php
                 echo $this->Html->link(

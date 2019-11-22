@@ -32,18 +32,6 @@ msgid "notEmpty"
 msgstr "Feld darf nicht leer sein."
 
 #
-msgid "category_acs_0_exp"
-msgstr "Kategorie für nicht eingeloggte Benutzer sichtbar"
-
-#
-msgid "category_acs_1_exp"
-msgstr "Kategorie nur für eingeloggte Benutzer sichtbar"
-
-#
-msgid "category_acs_2_exp"
-msgstr "Kategorie nur für Moderatoren sichtbar"
-
-#
 msgid "validation_error_pwConfirm"
 msgstr "Passwortbestätigung stimmt nicht überein."
 

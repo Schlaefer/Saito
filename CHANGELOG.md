@@ -18,6 +18,7 @@
 - ＋ Improves logging of unauthorized access
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
 - Δ Adds "Saito" prefix to CSRF-cookie name
+- − Removes visiblity description for category in category-title hover
 - Internal code changes:
   - Δ Refactors creation, update and validation of postings
   - Δ Updates PHP and Javascript libraries
