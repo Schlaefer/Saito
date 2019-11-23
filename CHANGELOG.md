@@ -19,6 +19,7 @@
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
 - ✓ User roles with ID greater than 3 can't be assigned to category access control
 - Δ Adds "Saito" prefix to CSRF-cookie name
+- Δ Moves layout for viewing a posting and answering from center to the left
 - − Removes visiblity description for category in category-title hover
 - Internal code changes:
   - Δ Refactors creation, update and validation of postings

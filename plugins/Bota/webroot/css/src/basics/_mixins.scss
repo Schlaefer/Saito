@@ -29,25 +29,42 @@
   }
 }
 
-/* flex-lefty
-// ------------------------------------- */
-.flex-lefty {
-  display: flex;
-  flex-direction: row;
-}
+/******************************************************************************
+ * Lefty
+ ******************************************************************************/
 
-.flex-lefty-aside {
+/* lefty
+/* ------------------------------------- */
+
+.lefty-aside {
   @extend .px-2;
   @extend .py-1;
   @extend .py-lg-2;
 
   @include border-radius($card-inner-border-radius $card-inner-border-radius 0 0);
 
-  // padding: $card-spacer-y $card-spacer-x;
-
   flex: 0;
   display: flex;
   flex-direction: column;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .lefty-aside {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+/* flex-lefty
+/* ------------------------------------- */
+.flex-lefty {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-lefty-aside {
+  @extend .lefty-aside;
+  // padding: $card-spacer-y $card-spacer-x;
 }
 
 .flex-lefty-item {
@@ -59,11 +76,22 @@
     flex-direction: column;
   }
 
-  .flex-lefty-aside {
-    align-items: center;
-    flex-direction: row;
+  .flex-lefty-item {
+  }
+}
+
+/* table-lefty
+/* ------------------------------------- */
+@media only screen and (min-width: map-get($grid-breakpoints, lg)) {
+  .table-lefty {
+    display: table;
   }
 
-  .flex-lefty-item {
+  .table-lefty-row {
+    display: table-row;
+  }
+
+  .table-lefty-item {
+    display: table-cell;
   }
 }

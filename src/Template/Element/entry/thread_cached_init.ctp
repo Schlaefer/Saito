@@ -35,7 +35,7 @@ foreach ($entriesSub as $entrySub) :
     ?>
     <div class="threadBox <?= $css ?>" data-id="<?= $entrySub->get('id') ?>">
         <?php if ($toolboxButtons['panel-info']) : ?>
-            <div class="threadBox-tools flex-lefty-aside">
+            <div class="threadBox-tools lefty-aside">
                 <a href="<?= $this->request->getAttribute('webroot') ?>entries/mix/<?= $entrySub->get('tid') ?>" class="btn btn-link" rel="nofollow">
                     <?= $l10nCache['mix']; ?>
                 </a>

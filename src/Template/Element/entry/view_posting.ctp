@@ -23,32 +23,38 @@ $jsEntry = json_encode(
 );
 ?>
 <div class="postingLayout js-entry-view-core" data-id="<?= $entry->get('id') ?>">
-    <div class="postingLayout-main">
-        <div class="postingLayout-aside">
-            <div class="postingLayout-aside-item">
-                <?= $this->User->getAvatar($entry->get('user')) ?>
+    <div class="postingLayout-main table-lefty">
+        <div class="table-lefty-row">
+            <div class="postingLayout-aside table-lefty-item lefty-aside">
+                <div class="postingLayout-aside-item">
+                    <?= $this->User->getAvatar($entry->get('user')) ?>
+                </div>
+                <div class="postingLayout-aside-item">
+                    <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
+                </div>
             </div>
-            <div class="postingLayout-aside-item">
-                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
+            <div class="postingLayout-body table-lefty-item">
+                <?php
+                if (!$CurrentUser->get('user_signatures_hide') &&
+                    $entry->get('user')->get('signature') &&
+                    !$entry->isNt()
+                ) {
+                    $showSignature = true;
+                }
+                echo $this->element(
+                    '/entry/view_content',
+                    [
+                        'entry' => $entry,
+                        'level' => $level,
+                        'signature' => $showSignature
+                    ]
+                );
+                ?>
             </div>
         </div>
-        <div class="postingLayout-body">
-            <?php
-            if (!$CurrentUser->get('user_signatures_hide') &&
-                $entry->get('user')->get('signature') &&
-                !$entry->isNt()
-            ) {
-                $showSignature = true;
-            }
-            echo $this->element(
-                '/entry/view_content',
-                [
-                    'entry' => $entry,
-                    'level' => $level,
-                    'signature' => $showSignature
-                ]
-            );
-            ?>
+        <div class="table-lefty-row">
+            <div class="table-lefty-item"></div>
+            <div class="postingLayout-slider table-lefty-item"></div>
         </div>
     </div>
 
@@ -100,7 +106,7 @@ $jsEntry = json_encode(
                     ['class' => 'btn btn-secondary js-btn-edit']
                 );
             } elseif ($entry->isEditingAllowed()) {
-            // edit entry
+                // edit entry
                 $editLinkIsShown = true;
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-fw fa-pencil"></i> ' . __('edit_linkname'),
@@ -176,6 +182,5 @@ $jsEntry = json_encode(
         </div>
     <?php endif; ?>
 
-    <div class="postingLayout-slider"></div>
     <div class='js-data' data-entry='<?= $jsEntry ?>'></div>
 </div>

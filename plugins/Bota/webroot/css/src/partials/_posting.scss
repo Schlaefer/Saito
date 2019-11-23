@@ -12,17 +12,10 @@
   @extend .text-success;
 }
 
-.postingLayout {
-  max-width: $readingWidth;
-  margin: 0 auto;
-}
-
 .postingLayout-main {
-  @extend .flex-lefty;
 }
 
 .postingLayout-aside {
-  @extend .flex-lefty-aside;
   @extend .panel-info;
   @extend .small;
   @extend .text-center;
@@ -34,7 +27,7 @@
 }
 
 .postingLayout-body {
-  width: 100%;
+  max-width: $readingWidth;
 
   @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
     margin-top: 1em;
@@ -94,6 +87,13 @@
   @extend .panel;
 
   display: none;
+
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .postingLayout-slider {
+    padding: 0 !important;
+  }
 }
 
 .postingBody-signature {
