@@ -10,14 +10,14 @@ $this->start('theme_head');
     <script>
         (function (SaitoApp) {
             var theme = {
-                css: '<?= $this->Url->assetUrl('Bota.css/theme.css') ?>',
+                css: '<?= $this->Url->assetUrl($this->getTheme() . '.css/theme.css') ?>',
                 name: 'theme',
             }
 
             try {
                 preset = localStorage.theme;
                 if (preset && preset === 'night') {
-                    theme.css = '<?= $this->Url->assetUrl('Bota.css/night.css') ?>';
+                    theme.css = '<?= $this->Url->assetUrl($this->getTheme() . '.css/night.css') ?>';
                     theme.name = 'night';
                 }
             } catch (e) {
@@ -27,7 +27,7 @@ $this->start('theme_head');
         })(SaitoApp);
     </script>
     <noscript>
-        <?= $this->Html->css('Bota.theme.css') ?>
+        <?= $this->Html->css($this->getTheme() . '.theme.css') ?>
     </noscript>
 
 <?php
@@ -96,7 +96,7 @@ $this->start('theme_header');
 $this->end();
 
 $this->start('theme_footer');
-    echo $this->Html->script('Bota.theme.js', ['async' => 'true']);
+    echo $this->Html->script($this->getTheme() . '.theme.js', ['async' => 'true']);
 $this->end();
 
 echo $this->fetch('content');

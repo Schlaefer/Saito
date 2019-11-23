@@ -27,6 +27,7 @@
   - Δ Exchanges dark and light distinction between background and form areas
   - Δ Darkens border and dividiers
 - Internal code changes:
+  - ＋ Minor changes for improved theming support
   - Δ Refactors creation, update and validation of postings
   - Δ Updates PHP and Javascript libraries
   - Δ Entries::Table throws RecordNotFoundException instead of returning null
