@@ -21,6 +21,11 @@
 - Δ Adds "Saito" prefix to CSRF-cookie name
 - Δ Moves layout for viewing a posting and answering from center to the left
 - − Removes visiblity description for category in category-title hover
+- Improves dark theme:
+  - ✓ Drop down menus aren't styled
+  - ✓ Code inserts aren't styled
+  - Δ Exchanges dark and light distinction between background and form areas
+  - Δ Darkens border and dividiers
 - Internal code changes:
   - Δ Refactors creation, update and validation of postings
   - Δ Updates PHP and Javascript libraries
