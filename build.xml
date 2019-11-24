@@ -21,6 +21,7 @@
         <include name="CHANGELOG.md"/>
         <include name="README.md"/>
         <exclude name="**/css/src/**"/>
+        <exclude name="plugins/*/dev/**"/>
         <exclude name="plugins/*/tests/**"/>
     </fileset>
 
