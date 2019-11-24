@@ -5,7 +5,7 @@ $this->extend('_default');
 
 $this->start('theme_head');
 ?>
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="<?= $this->request->getAttribute('webroot') ?>favicon.ico"/>
 
     <script>
         (function (SaitoApp) {
