@@ -12,11 +12,17 @@ declare(strict_types=1);
 
 namespace ImageUploader\Model\Entity;
 
+use App\Model\Entity\User;
 use Cake\Core\Configure;
 use Cake\Filesystem\File;
 use Cake\ORM\Entity;
 use Cake\Utility\Text;
 
+/**
+ * Upload entity
+ *
+ * @property User $user
+ */
 class Upload extends Entity
 {
     /**

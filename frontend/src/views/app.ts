@@ -126,8 +126,7 @@ class AppView extends View<Model> {
     }
 
     public _initUser(element: JQuery) {
-        const id = Number.parseInt(element.data('id'), 10);
-        const model = new Bb.Model({ id });
+        const model = new Bb.Model(element.data('user'));
         const User = new UserVw({ el: element, model });
         User.render();
     }

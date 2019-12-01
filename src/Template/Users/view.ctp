@@ -8,6 +8,8 @@ $this->end();
 
 $this->element('users/menu');
 
+$ResourceAI = (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId());
+
 $urlToHistory = [
     'controller' => 'searches',
     'action' => 'advanced',
@@ -157,6 +159,7 @@ if ($items) {
         $table[] = [$item['title'], $item['content']];
     }
 }
+
 ?>
 <div class="users view">
     <div class="card mb-3">
@@ -172,7 +175,7 @@ if ($items) {
         <?php
         $panel = '';
 
-        if ($CurrentUser->permission('saito.core.user.edit', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
+        if ($CurrentUser->permission('saito.core.user.edit', $ResourceAI)) {
             $panel .= $this->Html->link(
                 __('edit_userdata'),
                 ['action' => 'edit', $user->get('id')],
@@ -219,7 +222,7 @@ if ($items) {
         // START Admin menu
         $menuItems = [];
 
-        $deleteAllowed = !$CurrentUser->isUser($user) && $CurrentUser->permission('saito.core.user.delete', (new ResourceAI())->onRole($user->getRole()));
+        $deleteAllowed = !$CurrentUser->isUser($user) && $CurrentUser->permission('saito.core.user.delete', $ResourceAI);
         if ($deleteAllowed) {
             if (!empty($menuItems)) {
                 $menuItems[] = 'divider';
@@ -253,7 +256,7 @@ if ($items) {
         ?>
     </div>
     <?php
-    if ($CurrentUser->permission('saito.core.user.lock.set', (new ResourceAI())->onRole($user->getRole()))) { ?>
+    if ($CurrentUser->permission('saito.core.user.lock.set', $ResourceAI)) { ?>
         <div class="card mb-3">
             <div class="card-header">
                 <?= $this->Layout->panelHeading(__('user.block.history')) ?>
@@ -438,5 +441,15 @@ if ($items) {
         ?>
     </div>
 </script>
-
-<div class="js-rgUser" data-id="<?= $user->get('id') ?>"></div>
+<?php
+    $userData = ['id' => $user->get('id')];
+    $permissions = [
+        'saito.plugin.uploader.add',
+        'saito.plugin.uploader.delete',
+        'saito.plugin.uploader.view',
+    ];
+    foreach ($permissions as $permission) {
+        $userData['permission'][$permission] = $CurrentUser->permission($permission, $ResourceAI);
+    }
+    ?>
+<div class="js-rgUser" data-user="<?= h(json_encode($userData)) ?>"></div>

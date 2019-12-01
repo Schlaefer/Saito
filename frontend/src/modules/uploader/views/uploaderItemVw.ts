@@ -6,10 +6,11 @@ import AudioTpl from '../templates/uploadItemAudioTpl.html';
 import GenericTpl from '../templates/uploadItemGenericTpl.html';
 import ImageTpl from '../templates/uploadItemImageTpl.html';
 import VideoTpl from '../templates/uploadItemVideoTpl.html';
+import { IUploaderOptions } from '../uploader';
 import UploaderItemFooterVw from './uploaderItemFooterVw';
 
 class UploaderItemVw extends View<Model> {
-    public constructor(options: any = {}) {
+    public constructor(options: IUploaderOptions) {
         _.defaults(options, {
             className: 'card imageUploader-card',
             regions: {
@@ -36,7 +37,11 @@ class UploaderItemVw extends View<Model> {
     }
 
     public onRender() {
-        this.showChildView('footer', new UploaderItemFooterVw({ model: this.model }));
+        this.showChildView('footer', new UploaderItemFooterVw({
+            model: this.model,
+            permission: this.getOption('permission'),
+            userId: this.getOption('userId'),
+        }));
 
         const actionView = App.eventBus.request('uploader:item:action');
         if (actionView) {

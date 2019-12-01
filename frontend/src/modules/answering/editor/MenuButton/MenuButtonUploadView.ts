@@ -1,6 +1,5 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import { Channel } from 'backbone.radio';
 import BbcodeTag from 'lib/saito/Editor/Bbcode/BbcodeTag';
 import App from 'models/app';
 import ModalDialog from 'modules/modalDialog/modalDialog';
@@ -67,7 +66,14 @@ class MenuButtonUploadView extends AbstractMenuButtonView {
             () => {
                 return new InsertVw({ channel: this.channel });
             });
-        const uploadsView = new UploaderVw();
+        const uploadsView = new UploaderVw({
+            permission: {
+                'saito.plugin.uploader.add': true,
+                'saito.plugin.uploader.delete': true,
+                'saito.plugin.uploader.view': true,
+            },
+            userId: App.currentUser.get('id'),
+        });
 
         ModalDialog.show(uploadsView, { title: $.i18n.__('upl.title'), width: 'max' });
     }

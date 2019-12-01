@@ -5,7 +5,7 @@ import $ from 'jquery';
 import App from 'models/app';
 import * as _ from 'underscore';
 import { NoContentView as EmptyView } from 'views/NoContentView';
-import UploaderAddVw from './uploaderAddVw';
+import { IUploaderOptions } from '../uploader';
 import UploaderItemVw from './uploaderItemVw';
 
 class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
@@ -13,12 +13,16 @@ class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
 
     private throttledLoader: any;
 
-    public constructor(options: any = {}) {
+    public constructor(options: IUploaderOptions) {
         _.defaults(options, {
             childView: UploaderItemVw,
             childViewEvents: {
                 // new image was uploaded and inserted
                 'dom:refresh': 'initLazyLoading',
+            },
+            childViewOptions: {
+                permission: options.permission,
+                userId: options.userId,
             },
             className: 'imageUploader-cards',
             emptyView: EmptyView,
@@ -31,8 +35,6 @@ class UploaderClVw extends CollectionView<Model, View<Model>, Collection> {
         super(...arguments);
     }
     public onRender() {
-        const addVw = new UploaderAddVw({collection: this.collection});
-        this.addChildView(addVw, 0);
         this.listenTo(App.eventBus, 'app:modal:shown', this.initLazyLoading);
         this.initLazyLoading();
     }
