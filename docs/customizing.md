@@ -1,6 +1,12 @@
 
 # Customizing #
 
+## Requirements ##
+
+To start Customizing Saito you need to meet the following requirements and setup:
+
+[Specify development requirements]
+
 ## Themes ##
 
 The default theme *Bota* is implemented as a [CakePHP 3 theme plugin](https://book.cakephp.org/3.0/en/views/themes.html) and lives in *plugins/Bota*. The UI is implemented as [Bootstrap 4](https://getbootstrap.com/docs/4.3/getting-started/introduction/) theme.
