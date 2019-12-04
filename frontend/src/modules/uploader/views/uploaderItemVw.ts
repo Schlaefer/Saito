@@ -47,9 +47,6 @@ class UploaderItemVw extends View<Model> {
         if (actionView) {
             actionView.model = this.model;
             this.showChildView('rgForm', actionView);
-        } else {
-            this.removeRegion('rgForm');
-            this.$('.js-rgForm').remove();
         }
 
         //// delay display of loading spinner

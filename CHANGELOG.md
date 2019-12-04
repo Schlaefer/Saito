@@ -12,7 +12,7 @@
 
 ### Changes
 
-- ＋ Adds permissions `saito.core.posting.solves.set` for marking a posting as solution/helpful (defaults to thread creator).
+- ＋ Adds permission `saito.core.posting.solves.set` for marking a posting as solution/helpful (defaults to thread creator).
 - ＋ Improves compatibility with PHP 7.3
 - ＋ Improves browser detection for changes in the Bota theme CSS
 - ＋ Improves logging of unauthorized access
@@ -32,6 +32,7 @@
   - ＋ Adds permission `saito.plugin.uploader.view` for viewing uploads (defaults to upload owner and group `admin`).
   - ＋ Adds permission `saito.plugin.uploader.add` for uploading new files (defaults to profile owner).
   - ＋ Adds permission `saito.plugin.uploader.delete` for deleting uploads (defaults to upload owner and group `admin`).
+  - Δ Layout improvements
 - Internal code changes:
   - ＋ Minor changes for improved theming support
   - Δ Refactors creation, update and validation of postings

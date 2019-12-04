@@ -13,12 +13,26 @@
 }
 
 .postingLayout-main {
+  @extend .grid-lefty;
+
+  grid-template-areas:
+    'aside content'
+    '. compose';
+
+  @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+    grid-template-areas:
+      'aside'
+      'content'
+      'compose';
+  }
 }
 
 .postingLayout-aside {
   @extend .panel-info;
   @extend .small;
   @extend .text-center;
+
+  grid-area: aside;
 }
 
 .postingLayout-aside-item {
@@ -27,6 +41,8 @@
 }
 
 .postingLayout-body {
+  grid-area: content;
+
   max-width: $readingWidth;
 
   @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
@@ -86,8 +102,9 @@
 .postingLayout-slider {
   @extend .panel;
 
-  display: none;
+  grid-area: compose;
 
+  display: none;
 }
 
 @media only screen and (max-width: map-get($grid-breakpoints, lg)) {

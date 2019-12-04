@@ -80,18 +80,15 @@
   }
 }
 
-/* table-lefty
+/* grid-lefty
 /* ------------------------------------- */
-@media only screen and (min-width: map-get($grid-breakpoints, lg)) {
-  .table-lefty {
-    display: table;
-  }
+.grid-lefty {
+  display: grid;
+  grid-template-columns: fit-content(20%) auto;
+}
 
-  .table-lefty-row {
-    display: table-row;
-  }
-
-  .table-lefty-item {
-    display: table-cell;
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .grid-lefty {
+    grid-template-columns: 1fr;
   }
 }

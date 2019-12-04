@@ -7,27 +7,24 @@
         <div class='js-statsRg' style="text-align: left;"></div>
     </div>
     <div class="card-footer">
-        <div></div>
-        <div>
-            <button class="btn btn-secondary js-abortBtn" type="button" style="display: none;">
-                <%- $.i18n.__('upl.btn.abort.title') %>
+        <button class="btn btn-secondary js-abortBtn" type="button" style="display: none;">
+            <%- $.i18n.__('upl.btn.abort.title') %>
+        </button>
+        <div style="position: relative;">
+            <%
+            // To present a nice upload button we generate a stayled fake button.
+            // Beneath the styled dummy button is the actual input file upload,
+            // but it's hidden behind the opacity: 0 curtain div.
+            // z-index: 2000 to have the button above the jQuery UI modal.
+            %>
+            <button class="btn btn-primary js-sendBtn" type="button">
+                <%- $.i18n.__('upl.btn.title') %>
             </button>
-            <div style="position: relative;">
-                <%
-                // To present a nice upload button we generate a stayled fake button.
-                // Beneath the styled dummy button is the actual input file upload,
-                // but it's hidden behind the opacity: 0 curtain div.
-                // z-index: 2000 to have the button above the jQuery UI modal.
-                %>
-                <button class="btn btn-primary js-sendBtn" type="button">
-                    <%- $.i18n.__('upl.btn.title') %>
-                </button>
-                <div class="imageUploader-add-veil">
-                    <input id="Upload0File"
-                        class="btn btn-primary"
-                        type="file" name="upload[0][file]"
-                        style="width: 150px; height: 100%;">
-                </div>
+            <div class="imageUploader-add-veil">
+                <input id="Upload0File"
+                    class="btn btn-primary"
+                    type="file" name="upload[0][file]"
+                    style="width: 150px; height: 100%;">
             </div>
         </div>
     </div>

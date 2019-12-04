@@ -18,7 +18,6 @@ class InsertVw extends View<Model> {
      */
     public constructor(options: object = {}) {
         _.defaults(options, {
-            className: 'imageUploader-action',
             events: { 'click @ui.button': 'onButtonClick' },
             template: _.template(`
                 <button class="btn btn-primary imageUploader-action-btn">

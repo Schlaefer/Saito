@@ -23,39 +23,34 @@ $jsEntry = json_encode(
 );
 ?>
 <div class="postingLayout js-entry-view-core" data-id="<?= $entry->get('id') ?>">
-    <div class="postingLayout-main table-lefty">
-        <div class="table-lefty-row">
-            <div class="postingLayout-aside table-lefty-item lefty-aside">
-                <div class="postingLayout-aside-item">
-                    <?= $this->User->getAvatar($entry->get('user')) ?>
-                </div>
-                <div class="postingLayout-aside-item">
-                    <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
-                </div>
+    <div class="postingLayout-main grid-lefty">
+        <div class="postingLayout-aside lefty-aside">
+            <div class="postingLayout-aside-item">
+                <?= $this->User->getAvatar($entry->get('user')) ?>
             </div>
-            <div class="postingLayout-body table-lefty-item">
-                <?php
-                if (!$CurrentUser->get('user_signatures_hide') &&
-                    $entry->get('user')->get('signature') &&
-                    !$entry->isNt()
-                ) {
-                    $showSignature = true;
-                }
-                echo $this->element(
-                    '/entry/view_content',
-                    [
-                        'entry' => $entry,
-                        'level' => $level,
-                        'signature' => $showSignature
-                    ]
-                );
-                ?>
+            <div class="postingLayout-aside-item">
+                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
             </div>
         </div>
-        <div class="table-lefty-row">
-            <div class="table-lefty-item"></div>
-            <div class="postingLayout-slider table-lefty-item"></div>
+        <div class="postingLayout-body">
+            <?php
+            if (!$CurrentUser->get('user_signatures_hide') &&
+                $entry->get('user')->get('signature') &&
+                !$entry->isNt()
+            ) {
+                $showSignature = true;
+            }
+            echo $this->element(
+                '/entry/view_content',
+                [
+                    'entry' => $entry,
+                    'level' => $level,
+                    'signature' => $showSignature
+                ]
+            );
+            ?>
         </div>
+        <div class="postingLayout-slider"></div>
     </div>
 
     <?php if (!empty($showAnsweringPanel)) : ?>
