@@ -15,7 +15,7 @@ namespace SaitoSearch\Test\Controller;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
- /*
+/*
 class SearchesMockController extends SearchesController
 {
 
@@ -44,6 +44,23 @@ class SearchesControllerTest extends IntegrationTestCase
         'app.UserRead',
         'app.UserOnline',
     ];
+
+    /**
+     * Sorting search results by rank
+     */
+    public function testSimpleSortByRank()
+    {
+        $this->skipOnDataSource('Postgres');
+        $this->_loginUser(1);
+
+        $this->get('/searches/simple?searchTerm="Second_Subject"&order=rank');
+
+        $this->assertResponseCode(200);
+
+        $result = $this->viewVariable('results');
+        $this->assertEquals(2, $result->first()->get('id'));
+        $this->assertEquals(5, $result->skip(1)->first()->get('id'));
+    }
 
     /**
      * Admin Category results should be in search results for admin
