@@ -117,6 +117,8 @@ $config['Saito']['Settings']['uploader'] = (new UploaderConfig())
      */
     ->addType('audio/mpeg')
     ->addType('audio/mp4')
+    ->addType('audio/ogg')
+    ->addType('audio/opus')
     ->addType('audio/webm')
     ->addType('image/jpeg', '19MB')
     ->addType('image/png', '19MB')

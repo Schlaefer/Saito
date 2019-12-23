@@ -33,6 +33,7 @@
   - ＋ Adds permission `saito.plugin.uploader.view` for viewing uploads (defaults to upload owner and group `admin`).
   - ＋ Adds permission `saito.plugin.uploader.add` for uploading new files (defaults to profile owner).
   - ＋ Adds permission `saito.plugin.uploader.delete` for deleting uploads (defaults to upload owner and group `admin`).
+  - ＋ Adds "audio/ogg" and "audio/opus" to default allowed mime-types
   - ✓ Wrong error message is shown if no file was received on the server
   - Δ Layout improvements
 - Internal code changes:
