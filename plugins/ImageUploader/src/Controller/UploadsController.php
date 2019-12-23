@@ -77,6 +77,11 @@ class UploadsController extends ApiAppController
      */
     public function add()
     {
+        $submitted = $this->request->getData('upload.0.file');
+        if (!is_array($submitted)) {
+            throw new GenericApiException(__d('image_uploader', 'add.failure'));
+        }
+
         $userId = (int)$this->getRequest()->getData('userId');
         /** @var User */
         $user = $this->Users->get($userId);
@@ -91,10 +96,6 @@ class UploadsController extends ApiAppController
             );
         }
 
-        $submitted = $this->request->getData('upload.0.file');
-        if (!is_array($submitted)) {
-            throw new GenericApiException(__d('image_uploader', 'add.failure'));
-        }
         $parts = explode('.', $submitted['name']);
         $ext = array_pop($parts);
         $name = $this->CurrentUser->getId() .
