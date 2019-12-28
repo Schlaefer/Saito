@@ -1,10 +1,18 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
 import BbcodeTag from 'lib/saito/Editor/Bbcode/BbcodeTag';
 import App from 'models/app';
 import ModalDialog from 'modules/modalDialog/modalDialog';
 import UploaderVw from 'modules/uploader/uploader';
-import * as _ from 'underscore';
+import { defaults, template } from 'underscore';
 import { AbstractMenuButtonView } from './AbstractMenuButtonView';
 
 /**
@@ -17,9 +25,9 @@ class InsertVw extends View<Model> {
      * @param options marionette init
      */
     public constructor(options: object = {}) {
-        _.defaults(options, {
+        options = defaults(options, {
             events: { 'click @ui.button': 'onButtonClick' },
-            template: _.template(`
+            template: template(`
                 <button class="btn btn-primary imageUploader-action-btn">
                     <%- $.i18n.__("upl.btn.insert") %>
                 </button>`),
@@ -74,7 +82,11 @@ class MenuButtonUploadView extends AbstractMenuButtonView {
             userId: App.currentUser.get('id'),
         });
 
-        ModalDialog.show(uploadsView, { title: $.i18n.__('upl.title'), width: 'max' });
+        ModalDialog.show(uploadsView, {
+            title: $.i18n.__('upl.title'),
+            trailing: true,
+            width: 'max',
+        });
     }
 }
 

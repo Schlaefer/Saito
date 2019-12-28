@@ -32,6 +32,8 @@
   - Δ Exchanges dark and light distinction between background and form areas
   - Δ Darkens border and dividiers
 - Uploader:
+  - ＋ Adds filter options
+  - ＋ Performance improvements for users with many (100+) uploads
   - ＋ Adds permission `saito.plugin.uploader.view` for viewing uploads (defaults to upload owner and group `admin`).
   - ＋ Adds permission `saito.plugin.uploader.add` for uploading new files (defaults to profile owner).
   - ＋ Adds permission `saito.plugin.uploader.delete` for deleting uploads (defaults to upload owner and group `admin`).

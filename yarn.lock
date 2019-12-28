@@ -55,11 +55,6 @@
     "@types/jquery" "*"
     "@types/underscore" "*"
 
-"@types/blazy@^1.5":
-  version "1.5.31"
-  resolved "https://registry.yarnpkg.com/@types/blazy/-/blazy-1.5.31.tgz#0517f95420c040c04f2e336710e9fc6c09bb27ab"
-  integrity sha512-ySAagXhof7PwVyEC7n4215nhXlAZWOpQpfLM/fhATe9LQD5f6bTWPxU+x3QYW+AQ+5CuJwnFvx+I7FF0j6g5kQ==
-
 "@types/bootstrap@^4.1.0":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-4.3.1.tgz#15fa89a4d275b114a4eceb90909d4eb8b90d43f5"
@@ -1294,11 +1289,6 @@ bl@~1.1.2:
   integrity sha1-/cqHGplxOqANGeO7ukHER4emU5g=
   dependencies:
     readable-stream "~2.0.5"
-
-blazy@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/blazy/-/blazy-1.8.2.tgz#50dfd638baaf9003efd6eb3a836aca54184ab6da"
-  integrity sha1-UN/WOLqvkAPv1us6g2rKVBhKtto=
 
 blob@0.0.5:
   version "0.0.5"

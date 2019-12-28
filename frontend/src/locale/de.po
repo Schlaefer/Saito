@@ -52,23 +52,23 @@ msgid "answer.subject.t"
 msgstr "Betreff"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:304
+#: frontend/src/modules/answering/answering.ts:305
 msgid "answer.submit.e.t"
 msgstr "Fehler: Beitrag wurde nicht gesichert"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:261
-#: frontend/src/modules/answering/answering.ts:303
+#: frontend/src/modules/answering/answering.ts:262
+#: frontend/src/modules/answering/answering.ts:304
 msgid "api.generic.e.exp"
 msgstr "Es konnte keine Verbindung zum Internet-Server hergestellt werden."
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:262
+#: frontend/src/modules/answering/answering.ts:263
 msgid "api.generic.e.t"
 msgstr "Fehler: Keine Verbindung zum Server"
 
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
-#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:88
+#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:90
 msgid "bkm.delete.failure"
 msgstr "Fehler: Lesezeichen konnte nicht gelöscht werden."
 
@@ -166,8 +166,8 @@ msgstr "Abbrechen"
 msgid "posting.delete.title"
 msgstr "Beitrag löschen"
 
-#: frontend/src/views/postingActionSolves.ts:22
-#: frontend/src/views/postingActionSolves.ts:33
+#: frontend/src/views/postingActionSolves.ts:23
+#: frontend/src/views/postingActionSolves.ts:34
 msgid "posting.helpful"
 msgstr "Beitrag als hilfreich markieren."
 
@@ -206,55 +206,90 @@ msgstr "Größe"
 msgid "upl.add.speed.t"
 msgstr "Geschwindigkeit"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:12
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:13
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:10
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:11
 msgid "upl.btn.abort.title"
 msgstr "Abbrechen"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
 msgid "upl.btn.insert"
 msgstr "Einfügen"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:22
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:23
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:20
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:21
 msgid "upl.btn.title"
 msgstr "Datei auswählen…"
 
-#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:30
+#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:32
 msgid "upl.del.btn"
 msgstr "Datei löschen"
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:155
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:26
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:163
 msgid "upl.failure"
 msgstr "Beim Hochladen ist ein Fehler aufgetreten."
 
-#: frontend/src/modules/uploader/templates/uploadItemAudioTpl.html:4
-#: frontend/src/modules/uploader/templates/uploadItemImageTpl.html:4
-#: frontend/src/modules/uploader/templates/uploadItemVideoTpl.html:4
-#: frontend/src/modules/uploader/templates/uploadItemAudioTpl.html:5
-#: frontend/src/modules/uploader/templates/uploadItemImageTpl.html:5
-#: frontend/src/modules/uploader/templates/uploadItemVideoTpl.html:5
-msgid "upl.loading"
-msgstr "Lade"
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:9
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:12
+msgid "upl.menu.search.t"
+msgstr "Suche"
 
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:11
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:27
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:28
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:40
+msgid "upl.menu.sort.size"
+msgstr "Größe"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:28
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:39
+msgid "upl.menu.sort.time"
+msgstr "Zeit"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+msgid "upl.menu.type.all"
+msgstr "Art: Alle"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:39
+msgid "upl.mime.type.app"
+msgstr "Anwendungsdatei"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:43
+msgid "upl.mime.type.audio"
+msgstr "Audio"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:47
+msgid "upl.mime.type.image"
+msgstr "Bild"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:51
+msgid "upl.mime.type.text"
+msgstr "Text"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:55
+msgid "upl.mime.type.video"
+msgstr "Video"
+
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:12
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:32
 msgid "upl.ncy"
-msgstr "Noch nichts hochgeladen."
+msgstr "Keine Uploads gefunden."
 
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:42
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:65
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:40
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:63
 msgid "upl.new.title"
 msgstr "Datei hier hineinziehen"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:27
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:39
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:72
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:38
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:77
 msgid "upl.title"
 msgstr "Hochladen"
 
-#: frontend/src/modules/user/userVw.ts:25
+#: frontend/src/modules/user/userVw.ts:27
 msgid "upl.title.pl"
 msgstr "Uploads"
 
@@ -268,7 +303,7 @@ msgstr "Datei wurde nicht erkannt."
 msgid "upl.vald.e.fileExists"
 msgstr "Datei mit gleichen Namen wurde bereits hochgeladen."
 
-#: src/Template/Users/view.ctp:323
+#: src/Template/Users/view.ctp:325
 msgid "user.block.hours"
 msgstr "{hours} Stunden"
 
