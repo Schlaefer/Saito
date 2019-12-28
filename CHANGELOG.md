@@ -19,11 +19,13 @@
 - ✓ Deleting a bookmark creates an empty area above the bookmarks
 - ✓ User roles with ID greater than 3 can't be assigned to category access control
 - ✓ Fixes link to default favicon if installed in subdirectory
-- ✓ Internal error on simple search when results are sorted by rank
 - Δ Adds "Saito" prefix to CSRF-cookie name
 - Δ Moves layout for viewing a posting and answering from center to the left
 - Δ Updates Saito default favicon
 - − Removes visiblity description for category in category-title hover
+- Search:
+  - ✓ Internal error on simple search when results are sorted by rank
+  - ✓ Internal error if search term contains multiple whitespaces
 - Improves dark theme:
   - ✓ Drop down menus aren't styled
   - ✓ Code inserts aren't styled

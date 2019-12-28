@@ -43,7 +43,7 @@ class SimpleSearchString
      */
     public function __construct($string)
     {
-        $this->_string = $string;
+        $this->_string = trim($string);
     }
 
     /**
@@ -126,8 +126,12 @@ class SimpleSearchString
     public function replaceOperators()
     {
         $string = $this->_fulltextHyphenFix($this->_string);
+        // Collapse multiple whitespaces into one.
+        $string = preg_replace('/\s+/', ' ', $string);
+        // Add + operator to words
+        $string = ltrim(preg_replace('/(^|\s)(?![-+><])/i', ' +', $string));
 
-        return ltrim(preg_replace('/(^|\s)(?![-+><])/i', ' +', $string));
+        return $string;
     }
 
     /**
