@@ -38,36 +38,17 @@ class Permissions
     /** @var Resources */
     protected $resources;
 
-    /** @var CategoriesTable */
-    protected $categories;
-
     /**
      * Constructor
      *
      * @param Roles $roles The roles
      * @param Resources $resources The resources collection
-     * @param CategoriesTable $categories Categories for accession permissions
      */
-    public function __construct(Roles $roles, Resources $resources, CategoriesTable $categories)
+    public function __construct(Roles $roles, Resources $resources)
     {
         Stopwatch::start('Permission::__construct()');
         $this->roles = $roles;
         $this->resources = $resources;
-        $this->categories = $categories;
-
-        $categories = Cache::remember(
-            'saito.core.permission.categories',
-            function () {
-                return $this->bootstrapCategories();
-            }
-        );
-        foreach ($categories as $category) {
-            $this->resources->add(
-                (new Resource($category['resource']))
-                ->allow((new ResourceAC())
-                    ->asRole($category['role']))
-            );
-        }
 
         Stopwatch::stop('Permission::__construct()');
     }
@@ -97,35 +78,49 @@ class Permissions
     }
 
     /**
-     * convert category-accessions and insert them as resources
+     * Build category permissions
      *
-     * Resource: `saito.core.category.<category-ID>.<action>`
-     *
-     * @return array [['resource' => <Resource>, 'role' => <role-type>]]
+     * @param CategoriesTable $categories Categories for accession permissions
+     * @return void
      */
-    protected function bootstrapCategories(): array
+    public function buildCategories(CategoriesTable $categories): void
     {
-        $resources = [];
-        $categories = $this->categories->getAllCategories();
-        $roles = $this->roles->getAvailable(true);
-        $accessions = array_combine(array_column($roles, 'id'), array_column($roles, 'type'));
-        $actions = [
-            'read' => 'accession',
-            'thread' => 'accession_new_thread',
-            'answer' => 'accession_new_posting'
-        ];
-        foreach ($categories as $category) {
-            foreach ($actions as $action => $field) {
-                if (empty($accessions[$category->get($field)])) {
-                    continue;
+        $categories = Cache::remember(
+            'saito.core.permission.categories',
+            function () use ($categories): array {
+                $resources = [];
+                $categories = $categories->getAllCategories();
+                $roles = $this->roles->getAvailable(true);
+                $accessions = array_combine(array_column($roles, 'id'), array_column($roles, 'type'));
+                $actions = [
+                    'read' => 'accession',
+                    'thread' => 'accession_new_thread',
+                    'answer' => 'accession_new_posting'
+                ];
+                foreach ($categories as $category) {
+                    foreach ($actions as $action => $field) {
+                        if (empty($accessions[$category->get($field)])) {
+                            continue;
+                        }
+                        $role = $accessions[$category->get($field)];
+                        $categoryId = $category->get('id');
+                        $resource = "saito.core.category.{$categoryId}.{$action}";
+                        $resources[] = ['resource' => $resource, 'role' => $role];
+                    }
                 }
-                $role = $accessions[$category->get($field)];
-                $categoryId = $category->get('id');
-                $resource = "saito.core.category.{$categoryId}.{$action}";
-                $resources[] = ['resource' => $resource, 'role' => $role];
-            }
-        }
 
-        return $resources;
+                // array [['resource' => <Resource>, 'role' => <role-type>]]
+                // Resource: `saito.core.category.<category-ID>.<action>`
+                return $resources;
+            }
+        );
+
+        foreach ($categories as $category) {
+            $this->resources->add(
+                (new Resource($category['resource']))
+                ->allow((new ResourceAC())
+                    ->asRole($category['role']))
+            );
+        }
     }
 }

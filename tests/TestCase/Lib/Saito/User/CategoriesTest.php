@@ -1,8 +1,6 @@
 <?php
 
 use Saito\Test\SaitoTestCase;
-use Saito\User\Categories;
-use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
@@ -13,6 +11,12 @@ use Saito\User\CurrentUser\CurrentUserFactory;
 class CategoriesTest extends SaitoTestCase
 {
     public $fixtures = ['app.Category', 'app.User'];
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->insertCategoryPermissions();
+    }
 
     public function testGetAllForAnon()
     {

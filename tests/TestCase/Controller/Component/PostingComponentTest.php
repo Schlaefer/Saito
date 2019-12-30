@@ -46,6 +46,8 @@ class PostingComponentTest extends SaitoTestCase
             ->getMock();
         $registry = new ComponentRegistry($this->controller);
         $this->component = new PostingComponent($registry);
+
+        $this->insertCategoryPermissions();
     }
 
     public function tearDown()

@@ -17,6 +17,7 @@ use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\I18n\I18n;
 use Cake\Mailer\TransportFactory;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Saito\App\Registry;
 use Saito\Cache\CacheSupport;
@@ -119,6 +120,17 @@ trait TestCaseTrait
         );
 
         return $Mock;
+    }
+
+    /**
+     * Insert categories into permissions
+     *
+     * @return void
+     */
+    protected function insertCategoryPermissions(): void
+    {
+        Registry::get('Permissions')
+            ->buildCategories(TableRegistry::getTableLocator()->get('Categories'));
     }
 
     /**

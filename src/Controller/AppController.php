@@ -27,6 +27,8 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\I18n\I18n;
+use Cake\ORM\TableRegistry;
+use Saito\App\Registry;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -99,6 +101,8 @@ class AppController extends Controller
         if (!$this->request->is('requested')) {
             $this->request->getSession()->start();
         }
+
+        Registry::get('Permissions')->buildCategories(TableRegistry::getTableLocator()->get('Categories'));
 
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');

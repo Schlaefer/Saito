@@ -15,7 +15,6 @@ namespace Saito\App;
 use Aura\Di\Container;
 use Aura\Di\ContainerBuilder;
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use Cron\Lib\Cron;
 use Saito\Markup\MarkupSettings;
 use Saito\User\Permission\Permissions;
@@ -45,7 +44,6 @@ class Registry
         $dic->set('Permissions', $dic->lazyNew(Permissions::class));
         $dic->params[Permissions::class]['roles'] = Configure::read('Saito.Permission.Roles');
         $dic->params[Permissions::class]['resources'] = Configure::read('Saito.Permission.Resources');
-        $dic->params[Permissions::class]['categories'] = TableRegistry::getTableLocator()->get('Categories');
 
         $dic->set('AppStats', $dic->lazyNew('\Saito\App\Stats'));
 
