@@ -48,17 +48,17 @@ class DraftsControllerTest extends IntegrationTestCase
         $this->post('api/v2/drafts/', $data);
     }
 
-    public function testAddSuccess()
+    public function testDraftAddSuccess()
     {
         $this->loginJwt(3);
         $table = TableRegistry::getTableLocator()->get('Drafts');
-        $draft = $table->find()->where(['user_id' => 3, 'pid IS NULL'])->first();
+        $draft = $table->find()->where(['user_id' => 3, 'pid' => 0])->first();
         $this->assertEmpty($draft);
 
-        $data = ['subject' => 'foo', 'text' => 'bar'];
+        $data = ['pid' => 0, 'subject' => 'foo', 'text' => 'bar'];
         $this->post('/api/v2/drafts/', $data);
 
-        $draft = $table->find()->where(['user_id' => '3', 'pid IS NULL'])->first();
+        $draft = $table->find()->where(['user_id' => '3', 'pid' => 0])->first();
         $this->assertEquals('foo', $draft->get('subject'));
         $this->assertEquals('bar', $draft->get('text'));
 

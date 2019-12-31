@@ -52,6 +52,10 @@ class DraftsTable extends AppTable
      */
     public function validationDefault(Validator $validator)
     {
+        /// pid
+        $validator
+            ->requirePresence('pid', 'create');
+
         /// subject
         $validator
             ->allowEmptyString('subject')
@@ -66,6 +70,10 @@ class DraftsTable extends AppTable
 
         /// text
         $validator->allowEmptyString('text');
+
+        /// user_id
+        $validator
+            ->requirePresence('user_id', 'create');
 
         return $validator;
     }
@@ -91,7 +99,7 @@ class DraftsTable extends AppTable
     {
         $rules = parent::buildRules($rules);
 
-        $rules->addCreate(new IsUnique(['pid', 'user_id'], ['allowMultipleNulls' => false]));
+        $rules->addCreate(new IsUnique(['pid', 'user_id']));
 
         $rules->add(
             function ($entity) {
@@ -121,8 +129,7 @@ class DraftsTable extends AppTable
      */
     public function deleteDraftForPosting(Entry $entry): void
     {
-        $where = ['user_id' => $entry->get('user_id')];
-        $entry->isRoot() ? $where[] = 'pid IS NULL' : $where['pid'] = $entry->get('pid');
+        $where = ['pid' => $entry->get('pid'), 'user_id' => $entry->get('user_id')];
         $this->deleteAll($where);
     }
 

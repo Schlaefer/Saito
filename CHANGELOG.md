@@ -46,6 +46,7 @@
   - Δ Updates PHP and Javascript libraries
   - Δ Entries::Table throws RecordNotFoundException instead of returning null
   - Δ Update Apcu version in docker container to 5.1.18
+  - Δ Drafts for new threads are stored with a `pid` of `0` instead of `NULL`
   - − Removes SaitoValidationProvider::validateAssoc with CakePHP build-in facility
   - − Removes abandonded Selenium test files
 

@@ -141,7 +141,7 @@ class PostingsControllerTest extends IntegrationTestCase
     public function testMetaCommon()
     {
         $this->loginJwt(3);
-        $this->get('api/v2/postingmeta');
+        $this->get('api/v2/postingmeta?pid=0');
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertResponseCode(200);
@@ -167,7 +167,7 @@ class PostingsControllerTest extends IntegrationTestCase
     {
         $this->loginJwt(1);
 
-        $this->get('api/v2/postingmeta/');
+        $this->get('api/v2/postingmeta/?pid=0');
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $expected = [

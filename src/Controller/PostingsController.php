@@ -162,7 +162,9 @@ class PostingsController extends ApiAppController
         } else {
             /// We currently don't save drafts for edits
             $where = ['user_id' => $this->CurrentUser->getId()];
-            ($pid) ? $where['pid'] = $pid : $where[] = 'pid IS NULL';
+            if (is_numeric($pid)) {
+                $where['pid'] = $pid;
+            }
             $draft = $this->Entries->Drafts->find()->where($where)->first();
 
             if ($draft) {
