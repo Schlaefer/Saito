@@ -7,8 +7,17 @@
 
 ## [Next]
 
-- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...<next>)
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...<next>)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
+
+### Changes
+
+### Update Notes
+
+## [5.6.0]
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-5.6.0.zip)
 
 ### Changes
 
@@ -49,8 +58,6 @@
   - Δ Drafts for new threads are stored with a `pid` of `0` instead of `NULL`
   - − Removes SaitoValidationProvider::validateAssoc with CakePHP build-in facility
   - − Removes abandonded Selenium test files
-
-### Update Notes
 
 ## [5.5.0] - 2019-11-16
 
