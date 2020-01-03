@@ -14,10 +14,10 @@
 
 ### Update Notes
 
-## [5.6.0]
+## [5.6.0] - 2020-01-03 
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-5.6.0.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.6.0.zip)
 
 ### Changes
 
