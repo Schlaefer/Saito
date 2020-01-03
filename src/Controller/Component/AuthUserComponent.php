@@ -25,6 +25,7 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
+use Saito\Exception\SaitoForbiddenException;
 use Saito\RememberTrait;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUser;
@@ -120,7 +121,7 @@ class AuthUserComponent extends Component
     public function startup()
     {
         if (!$this->isAuthorized($this->CurrentUser)) {
-            throw new ForbiddenException(null, 1571852880);
+            throw new SaitoForbiddenException(null, ['CurrentUser' => $this->CurrentUser]);
         }
     }
 

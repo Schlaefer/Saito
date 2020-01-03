@@ -158,9 +158,6 @@ $btn-strip-top-width: 25px;
 .viewEntry {
   @extend .panel;
 
-  max-width: $readingWidth;
-  margin: 0 auto;
-
   @media only screen and (max-width: map-get($grid-breakpoints, sm)) {
     padding-left: 0 !important;
     padding-right: 0 !important;

@@ -52,24 +52,24 @@ msgid "answer.subject.t"
 msgstr "Subject"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:304
+#: frontend/src/modules/answering/answering.ts:305
 msgid "answer.submit.e.t"
 msgstr "Error: Posting Could Not Be Saved"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:261
-#: frontend/src/modules/answering/answering.ts:303
+#: frontend/src/modules/answering/answering.ts:262
+#: frontend/src/modules/answering/answering.ts:304
 msgid "api.generic.e.exp"
 msgstr ""
 "Couldn't reach the internet server. Check your connection and try again."
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:262
+#: frontend/src/modules/answering/answering.ts:263
 msgid "api.generic.e.t"
 msgstr "Error: Couldn't Connect to Server"
 
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
-#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:88
+#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:90
 msgid "bkm.delete.failure"
 msgstr "Error: Bookmark could not be deleted."
 
@@ -167,8 +167,8 @@ msgstr "Abort"
 msgid "posting.delete.title"
 msgstr "Delete Posting"
 
-#: frontend/src/views/postingActionSolves.ts:22
-#: frontend/src/views/postingActionSolves.ts:33
+#: frontend/src/views/postingActionSolves.ts:23
+#: frontend/src/views/postingActionSolves.ts:34
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
 
@@ -207,55 +207,90 @@ msgstr "Size"
 msgid "upl.add.speed.t"
 msgstr "Speed"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:12
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:13
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:10
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:11
 msgid "upl.btn.abort.title"
 msgstr "Abort upload"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
 msgid "upl.btn.insert"
 msgstr "Insert"
 
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:22
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:23
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:20
+#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:21
 msgid "upl.btn.title"
 msgstr "Chose file…"
 
-#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:30
+#: frontend/src/modules/uploader/views/uploaderItemFooterVw.ts:32
 msgid "upl.del.btn"
 msgstr "Delete file"
 
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:19
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:155
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:26
+#: frontend/src/modules/uploader/views/uploaderAddVw.ts:163
 msgid "upl.failure"
 msgstr "Error occurred on upload."
 
-#: frontend/src/modules/uploader/templates/uploadItemAudioTpl.html:4
-#: frontend/src/modules/uploader/templates/uploadItemImageTpl.html:4
-#: frontend/src/modules/uploader/templates/uploadItemVideoTpl.html:4
-#: frontend/src/modules/uploader/templates/uploadItemAudioTpl.html:5
-#: frontend/src/modules/uploader/templates/uploadItemImageTpl.html:5
-#: frontend/src/modules/uploader/templates/uploadItemVideoTpl.html:5
-msgid "upl.loading"
-msgstr "Loading"
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:9
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:12
+msgid "upl.menu.search.t"
+msgstr "Search"
 
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:11
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:27
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:28
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:40
+msgid "upl.menu.sort.size"
+msgstr "Size"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:28
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:39
+msgid "upl.menu.sort.time"
+msgstr "Time"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+msgid "upl.menu.type.all"
+msgstr "Type: All"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:39
+msgid "upl.mime.type.app"
+msgstr "Application file"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:43
+msgid "upl.mime.type.audio"
+msgstr "Audio"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:47
+msgid "upl.mime.type.image"
+msgstr "Image"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:51
+msgid "upl.mime.type.text"
+msgstr "Text"
+
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:55
+msgid "upl.mime.type.video"
+msgstr "Video"
+
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:12
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:32
 msgid "upl.ncy"
-msgstr "No uploads yet."
+msgstr "No uploads found."
 
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:42
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:65
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:40
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:63
 msgid "upl.new.title"
 msgstr "Drop File Here"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:27
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:39
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:72
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
+#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:38
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:77
 msgid "upl.title"
 msgstr "Uploads"
 
-#: frontend/src/modules/user/userVw.ts:25
+#: frontend/src/modules/user/userVw.ts:27
 msgid "upl.title.pl"
 msgstr "Uploads"
 
@@ -269,7 +304,7 @@ msgstr "Didn't find a file."
 msgid "upl.vald.e.fileExists"
 msgstr "File with same name already uploaded."
 
-#: src/Template/Users/view.ctp:323
+#: src/Template/Users/view.ctp:325
 msgid "user.block.hours"
 msgstr "{hours} hours"
 

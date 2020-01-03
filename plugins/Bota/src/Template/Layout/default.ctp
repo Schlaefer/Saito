@@ -5,24 +5,29 @@ $this->extend('_default');
 
 $this->start('theme_head');
 ?>
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico"/>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="<?= $this->request->getAttribute('webroot') ?>favicon.ico"/>
 
     <script>
         (function (SaitoApp) {
-            var css = 'theme';
+            var theme = {
+                css: '<?= $this->Url->assetUrl($this->getTheme() . '.css/theme.css') ?>',
+                name: 'theme',
+            }
+
             try {
                 preset = localStorage.theme;
                 if (preset && preset === 'night') {
-                    css = 'night';
+                    theme.css = '<?= $this->Url->assetUrl($this->getTheme() . '.css/night.css') ?>';
+                    theme.name = 'night';
                 }
             } catch (e) {
             }
-            document.write('<link rel="stylesheet" type="text/css" href="' + SaitoApp.app.settings.webroot + 'Bota/css/' + css + '.css" />');
-            SaitoApp.app.theme = {preset: css};
+            document.write('<link rel="stylesheet" type="text/css" href="' + theme.css + '" />');
+            SaitoApp.app.theme = {preset: theme.name};
         })(SaitoApp);
     </script>
     <noscript>
-        <?= $this->Html->css('Bota.theme.css') ?>
+        <?= $this->Html->css($this->getTheme() . '.theme.css') ?>
     </noscript>
 
 <?php
@@ -91,7 +96,7 @@ $this->start('theme_header');
 $this->end();
 
 $this->start('theme_footer');
-    echo $this->Html->script('Bota.theme.js', ['async' => 'true']);
+    echo $this->Html->script($this->getTheme() . '.theme.js', ['async' => 'true']);
 $this->end();
 
 echo $this->fetch('content');

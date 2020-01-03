@@ -68,7 +68,7 @@ class GeshiView extends View<GeshiModel> {
 
     private renderText() {
         if (this.model.get('isPlaintext') && this.plainText) {
-            this.block.text(this.plainText).wrapInner('<pre class="code"></pre>');
+            this.block.text(this.plainText).wrapInner('<pre class="geshi-plain code"></pre>');
         } else if (this.htmlText) {
             this.block.html(this.htmlText);
         }

@@ -11,7 +11,9 @@
 
 .preview-wrapper,
 .postingform {
-  @extend .panel-center;
+  @extend .panel-fixedWidth;
+
+  padding: 0 !important;
 }
 
 .preview-wrapper {

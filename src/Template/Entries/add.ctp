@@ -11,4 +11,4 @@ if (isset($posting)) {
     $attributes['data-edit'] = $posting->get('id');
 }
 
-echo $this->Html->div('js-answer-wrapper', '', $attributes);
+echo $this->Html->div('panel-center js-answer-wrapper', '', $attributes);

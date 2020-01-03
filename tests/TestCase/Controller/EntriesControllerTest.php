@@ -3,11 +3,12 @@
 namespace App\Test\TestCase\Controller;
 
 use App\Controller\EntriesController;
+use App\Model\Entity\Entry;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Database\Schema\Table;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Http\Exception\ForbiddenException;
+use Cake\Error\PHP7ErrorException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\Exception\SaitoForbiddenException;
@@ -277,7 +278,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     {
         $this->_loginUser(3);
         $this->mockSecurity();
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->post('/entries/delete/1');
     }
@@ -285,8 +286,8 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testDeletePostingDoesntExist()
     {
         $this->_loginUser(1);
-        $this->expectException('Cake\Http\Exception\NotFoundException');
         $this->mockSecurity();
+        $this->expectException(RecordNotFoundException::class);
         $this->post('/entries/delete/9999');
     }
 
@@ -300,8 +301,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         $this->assertRedirect('/entries/view/14');
 
         // Category 4 new threads are not allowed for mods
-        $this->expectException(ForbiddenException::class);
-        $this->expectExceptionCode(1571309481);
+        $this->expectException(SaitoForbiddenException::class);
         $this->post('/entries/delete/14');
     }
 
@@ -350,7 +350,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeNoSourceId()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -363,7 +363,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeSourceIdNotFound()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -376,7 +376,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeShowForm()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
@@ -389,11 +389,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeIsNotAuthorized()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
         $Entries->expects($this->never())->method('threadMerge');
 
-        $this->expectException(ForbiddenException::class);
+        $this->expectException(SaitoForbiddenException::class);
 
         $this->_loginUser(3);
         $this->mockSecurity();
@@ -403,7 +403,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testMergeSuccess()
     {
         $mergeMethod = 'threadMerge';
-        $this->assertTrue(method_exists($this->Table, $mergeMethod));
+        $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
         $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
 
         $Entries->expects($this->exactly(1))
@@ -422,7 +422,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntry()
     {
         $this->_loginUser(2);
-        $this->expectException('Cake\Http\Exception\NotFoundException');
+        $this->expectException(RecordNotFoundException::class);
         $this->get('entries/edit/9999');
     }
 
@@ -432,9 +432,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
     public function testEditNoEntryId()
     {
         $this->_loginUser(2);
-        $this->expectException(
-            'Cake\Http\Exception\BadRequestException'
-        );
+        $this->expectException(PHP7ErrorException::class);
         $this->get('entries/edit/');
     }
 
@@ -525,8 +523,8 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testViewPostingDoesNotExistRedirect()
     {
+        $this->expectException(RecordNotFoundException::class);
         $this->get('/entries/view/9999');
-        $this->assertRedirect('/');
     }
 
     /**
@@ -697,11 +695,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testSolveSaveError()
     {
-        $Entries = $this->getMockForTable('Entries', ['toggleSolve']);
+        $Entries = $this->getMockForTable('Entries', ['updateEntry']);
         $this->_loginUser(3);
         $Entries->expects($this->once())
-            ->method('toggleSolve')
-            ->will($this->returnValue(false));
+            ->method('updateEntry')
+            ->will($this->returnValue(null));
         $this->expectException(
             'Cake\Http\Exception\BadRequestException'
         );
@@ -710,11 +708,11 @@ class EntriesControllerTestCase extends IntegrationTestCase
 
     public function testSolveSuccess()
     {
-        $Entries = $this->getMockForTable('Entries', ['toggleSolve']);
+        $Entries = $this->getMockForTable('Entries', ['updateEntry']);
         $this->_loginUser(3);
         $Entries->expects($this->once())
-            ->method('toggleSolve')
-            ->will($this->returnValue(true));
+            ->method('updateEntry')
+            ->will($this->returnValue(new Entry()));
         $this->get('/entries/solve/2');
         $this->assertResponseOk();
         $this->assertResponseEquals('');

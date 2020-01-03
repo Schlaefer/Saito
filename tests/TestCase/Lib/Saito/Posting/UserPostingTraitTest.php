@@ -32,12 +32,16 @@ class UserPostingTraitTest extends SaitoTestCase
 
     public $fixtures = ['app.Category'];
 
+    /** @var UserPostingTraitClassMock */
+    private $Mock;
+
     public function setUp()
     {
         parent::setUp();
         $this->editPeriodGlob = Configure::read('Saito.Settings.edit_period');
         Configure::write('Saito.Settings.edit_period', $this->editPeriod);
         $this->Mock = new UserPostingTraitClassMock();
+        $this->insertCategoryPermissions();
     }
 
     public function tearDown()

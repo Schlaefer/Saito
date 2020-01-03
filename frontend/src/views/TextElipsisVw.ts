@@ -14,8 +14,8 @@ class TextElipsisVw extends View<Model> {
     public constructor(options: {field?: string, model: Model, modelEvents?: any}) {
         _.defaults(options, {
             cutOff: 5,
-            modelEvents: {},
             field: 'title',
+            modelEvents: {},
             template: _.template(`
             <div class="textElipsis-wrap" title="<%- title %>">
                 <div class="textElipsis-start">
@@ -47,7 +47,7 @@ class TextElipsisVw extends View<Model> {
             title: text || '',
             titleStart: text ? sliceStart(text, cutOff) : '',
             titleTrunc: text ? sliceEnd(text, cutOff) : '',
-        }
+        };
     }
 }
 

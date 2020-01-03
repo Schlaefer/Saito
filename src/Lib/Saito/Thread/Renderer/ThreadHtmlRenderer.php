@@ -126,13 +126,10 @@ EOF;
             $categoryId = $posting['category']['id'];
             if (!isset(self::$_catL10n[$categoryId])) {
                 $accession = $posting['category']['accession'];
-                $catAcs = h(
-                    __d('nondynamic', 'category_acs_' . $accession . '_exp')
-                );
                 $catDesc = h($posting['category']['description']);
                 $catTitle = h($posting['category']['category']);
                 $category = <<<EOF
-<span class="c-category acs-$accession" title="$catDesc ($catAcs)">
+<span class="c-category acs-$accession" title="$catDesc">
 	($catTitle)
 </span>
 EOF;

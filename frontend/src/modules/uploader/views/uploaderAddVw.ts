@@ -7,7 +7,7 @@
  */
 
 import { Model } from 'backbone';
-import { View } from 'backbone.marionette';
+import { View, ViewOptions } from 'backbone.marionette';
 import App from 'models/app';
 import * as _ from 'underscore';
 import Template from '../templates/uploaderAddTpl.html';
@@ -15,6 +15,13 @@ import DragAreaVw from './uploaderAdd/uploaderAddDragAreaVw';
 import UploaderAddMdl from './uploaderAdd/uploaderAddMdl';
 import ProgressBarVw from './uploaderAdd/uploaderAddProgressVw';
 import StatsVw from './uploaderAdd/uploaderAddStatsVw';
+
+interface IUploaderAddOptions extends ViewOptions<Model> {
+    /**
+     * The ID of the user account the file will be uploaded to.
+     */
+    userId: string;
+}
 
 class UploaderAddVw extends View<Model> {
     private xhr: XMLHttpRequest|undefined;
@@ -24,7 +31,7 @@ class UploaderAddVw extends View<Model> {
      *
      * @param options Ma view options
      */
-    public constructor(options: any = {}) {
+    public constructor(options: IUploaderAddOptions) {
         _.defaults(options, {
             className: 'imageUploader-card imageUploader-add card',
             events: {
@@ -49,6 +56,7 @@ class UploaderAddVw extends View<Model> {
             },
         });
         super(...arguments);
+        this.model.set('userId', options.userId);
     }
 
     /**
@@ -63,8 +71,7 @@ class UploaderAddVw extends View<Model> {
     /**
      * Ma onBeforeDestroy callback
      */
-    public onBeforeDestroy()
-    {
+    public onBeforeDestroy() {
         if (this.model.get('uploadInProgress')) {
             this.onAbortBtn();
         }
@@ -141,6 +148,7 @@ class UploaderAddVw extends View<Model> {
 
         const formData = new FormData();
         formData.append('upload[0][file]', file);
+        formData.append('userId', this.model.get('userId'));
 
         xhr.send(formData);
     }

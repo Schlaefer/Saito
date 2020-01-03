@@ -78,19 +78,22 @@ export default class extends Mn.View<any> {
 
     protected handleDelete() {
         this._deactivateInteractions();
-        this.$el.hide('slide', null, 500);
-        this.model.destroy({
-            error: () => {
-                this._activateInteractions();
-                this.$el.show('slide', null, 500);
-                const notification = {
-                    code: 1527277946,
-                    message: $.i18n.__('bkm.delete.failure'),
-                    type: 'error',
-                };
-                App.eventBus.trigger('notification', notification);
-            },
-            wait: true,
+        this.$el.hide('slide', null, 500, () => {
+            // Wait until the animation finished, so it isn't interrupted by the
+            // Ma-colleciton redraw on model removal.
+            this.model.destroy({
+                error: () => {
+                    this._activateInteractions();
+                    this.$el.show('slide', null, 500);
+                    const notification = {
+                        code: 1527277946,
+                        message: $.i18n.__('bkm.delete.failure'),
+                        type: 'error',
+                    };
+                    App.eventBus.trigger('notification', notification);
+                },
+                wait: true,
+            });
         });
     }
 

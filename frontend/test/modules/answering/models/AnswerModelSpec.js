@@ -17,11 +17,11 @@ describe('answer model', function () {
     });
 
     it('text', () => {
-      expect(model.get('text')).toEqual('');
+      expect(model.get('text')).toBeUndefined();
     });
 
     it('pid', () => {
-      expect(model.get('pid')).toBeUndefined();
+      expect(model.get('pid')).toEqual(0);
     });
   })
 });

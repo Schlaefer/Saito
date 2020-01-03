@@ -294,11 +294,6 @@ msgstr "Seite"
 msgid "view.type.mix"
 msgstr "Mix"
 
-#: src/Controller/EntriesController.php:200
-#: src/Controller/EntriesController.php:209
-msgid "Invalid post"
-msgstr "Posting konnte nicht gefunden werden."
-
 #: src/Controller/EntriesController.php:247
 msgid "Write a New Posting"
 msgstr "Neuen Beitrag verfassen"
@@ -1461,6 +1456,8 @@ msgstr "Nutzer löschen"
 msgid "user.del.ok.m"
 msgstr "Nutzer \"{0}\" wurde gelöscht."
 
+msgid "exc.forbidden"
+msgstr "Zugriff nicht erlaubt"
 
 #~ msgid "Ressources"
 #~ msgstr "Ressourcen"

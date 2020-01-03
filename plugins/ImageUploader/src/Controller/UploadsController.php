@@ -14,11 +14,14 @@ namespace ImageUploader\Controller;
 
 use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
+use App\Model\Entity\User;
 use Cake\Cache\Cache;
 use Cake\Utility\Security;
+use ImageUploader\Model\Entity\Upload;
 use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\Permission\ResourceAI;
 
 /**
  * Upload Controller
@@ -31,13 +34,35 @@ class UploadsController extends ApiAppController
     public $helpers = ['ImageUploader.ImageUploader'];
 
     /**
+     * {@inheritDoc}
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadModel('Users');
+    }
+
+    /**
      * View uploads
      *
      * @return void
      */
     public function index()
     {
-        $userId = $this->CurrentUser->getId();
+        $userId = (int)$this->getRequest()->getQuery('id');
+        /** @var User */
+        $user = $this->Users->get($userId);
+        $permission = $this->CurrentUser->permission(
+            'saito.plugin.uploader.view',
+            (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId())
+        );
+        if (!$permission) {
+            throw new SaitoForbiddenException(
+                sprintf('Attempt to index uploads of "%s".', $userId),
+                ['CurrentUser' => $this->CurrentUser]
+            );
+        }
+
         $images = $this->Uploads->find()
             ->where(['user_id' => $userId])
             ->order(['id' => 'DESC'])
@@ -56,6 +81,21 @@ class UploadsController extends ApiAppController
         if (!is_array($submitted)) {
             throw new GenericApiException(__d('image_uploader', 'add.failure'));
         }
+
+        $userId = (int)$this->getRequest()->getData('userId');
+        /** @var User */
+        $user = $this->Users->get($userId);
+        $permission = $this->CurrentUser->permission(
+            'saito.plugin.uploader.add',
+            (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId())
+        );
+        if (!$permission) {
+            throw new SaitoForbiddenException(
+                sprintf('Attempt to add uploads for "%s".', $userId),
+                ['CurrentUser' => $this->CurrentUser]
+            );
+        }
+
         $parts = explode('.', $submitted['name']);
         $ext = array_pop($parts);
         $name = $this->CurrentUser->getId() .
@@ -68,7 +108,7 @@ class UploadsController extends ApiAppController
             'name' => $name,
             'title' => $submitted['name'],
             'size' => $submitted['size'],
-            'user_id' => $this->CurrentUser->getId(),
+            'user_id' => $userId,
         ];
         $document = $this->Uploads->newEntity($data);
 
@@ -89,10 +129,15 @@ class UploadsController extends ApiAppController
      */
     public function delete($imageId)
     {
-        $upload = $this->Uploads->get($imageId);
-        if ($upload->get('user_id') !== $this->CurrentUser->getId()) {
+        /** @var Upload */
+        $upload = $this->Uploads->get($imageId, ['contain' => ['Users']]);
+        $permission = $this->CurrentUser->permission(
+            'saito.plugin.uploader.delete',
+            (new ResourceAI())->onRole($upload->user->getRole())->onOwner($upload->user->getId())
+        );
+        if (!$permission) {
             throw new SaitoForbiddenException(
-                'Attempt to delete upload.',
+                sprintf('Attempt to delete upload "%s".', $imageId),
                 ['CurrentUser' => $this->CurrentUser]
             );
         }

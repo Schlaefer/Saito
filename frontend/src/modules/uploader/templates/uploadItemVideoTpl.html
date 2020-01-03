@@ -1,12 +1,7 @@
 <a href="<%= url %>" target="_blank">
     <div class="card-upload-container video">
-        <div class="spinner-border image-uploader-spinner" role="status">
-            <span class="sr-only">
-                <%- $.i18n.__('upl.loading') %>
-            </span>
-        </div>
-        <video controls class="b-lazy card-img-top" preload="auto" data-src="<%= url %>">
+        <video controls class="card-img-top" preload="auto" src="<%= url %>">
     </div>
 </a>
-<div class = 'js-footer'></div>
-<div class = 'js-rgForm'></div>
+<div class='js-footer'></div>
+<div class='js-rgForm imageUploader-action'></div>

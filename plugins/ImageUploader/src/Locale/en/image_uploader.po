@@ -16,7 +16,7 @@ msgstr ""
 
 msgid "add.failure"
 msgstr ""
-"Error: Server didnd't receive a file. Check that the file size doesn't exceed"
+"Error: Server didnd't receive a file. The filesize probably exceeds the"
 " the server limit."
 
 msgid "delete.failure"

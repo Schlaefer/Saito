@@ -1,25 +1,26 @@
 import { Model } from 'backbone';
 import * as $ from 'jquery';
 import App from 'models/app';
+import PostingMdl from 'models/PostingMdl';
 import _ from 'underscore';
 
-class PostingModel extends Model {
-    public defaults() {
-        const posting = {
-            text: null,
-        };
-        const meta = {
+class PostingModel extends PostingMdl {
+    public saitoUrl: string;
+
+    public constructor(defaults: any = {}, options: any = {}) {
+        _.defaults(defaults, {
             html: '',
             isAnsweringFormShown: false,
             isBookmarked: false,
-            isSolves: false,
-        };
+        });
+        super(defaults, options);
 
-        return _.extend(posting, meta);
+        // This model is currently not used for sending
+        this.saitoUrl = 'foo';
     }
 
     public initialize() {
-        this.listenTo(this, 'change:isSolves', this.syncSolved);
+        this.listenTo(this, 'change:solves', this.onChangeSolves);
     }
 
     public fetchHtml(options: any) {
@@ -34,15 +35,7 @@ class PostingModel extends Model {
         });
     }
 
-    public isRoot(): boolean {
-        const pid = this.get('pid');
-        if (!_.isNumber(pid)) {
-            throw new Error('pid is not a number.');
-        }
-        return pid === 0;
-    }
-
-    private syncSolved() {
+    private onChangeSolves() {
         $.ajax({
             dataType: 'json',
             type: 'POST',

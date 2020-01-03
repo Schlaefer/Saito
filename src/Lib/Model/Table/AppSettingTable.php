@@ -52,7 +52,7 @@ class AppSettingTable extends AppTable
      */
     public function clearCache()
     {
-        $this->_dispatchEvent(
+        $this->dispatchDbEvent(
             'Cmd.Cache.clear',
             ['cache' => ['Saito', 'Thread']]
         );

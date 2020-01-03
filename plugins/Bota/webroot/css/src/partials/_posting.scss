@@ -12,20 +12,27 @@
   @extend .text-success;
 }
 
-.postingLayout {
-  max-width: $readingWidth;
-  margin: 0 auto;
-}
-
 .postingLayout-main {
-  @extend .flex-lefty;
+  @extend .grid-lefty;
+
+  grid-template-areas:
+    'aside content'
+    '. compose';
+
+  @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+    grid-template-areas:
+      'aside'
+      'content'
+      'compose';
+  }
 }
 
 .postingLayout-aside {
-  @extend .flex-lefty-aside;
   @extend .panel-info;
   @extend .small;
   @extend .text-center;
+
+  grid-area: aside;
 }
 
 .postingLayout-aside-item {
@@ -34,7 +41,9 @@
 }
 
 .postingLayout-body {
-  width: 100%;
+  grid-area: content;
+
+  max-width: $readingWidth;
 
   @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
     margin-top: 1em;
@@ -93,7 +102,15 @@
 .postingLayout-slider {
   @extend .panel;
 
+  grid-area: compose;
+
   display: none;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, lg)) {
+  .postingLayout-slider {
+    padding: 0 !important;
+  }
 }
 
 .postingBody-signature {

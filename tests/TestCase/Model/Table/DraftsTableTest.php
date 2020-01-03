@@ -58,23 +58,21 @@ class DraftsTableTest extends SaitoTableTestCase
     {
         $fixtures = [
             [
-                'd' => ['user_id' => 1, 'pid IS NULL'],
                 'e' => ['user_id' => 1, 'pid' => 0],
             ],
             [
-                'd' => ['user_id' => 3, 'pid' => 4],
                 'e' => ['user_id' => 3, 'pid' => 4],
             ],
         ];
 
         foreach ($fixtures as $where) {
-            $count = $this->Drafts->find()->where($where['d'])->count();
+            $count = $this->Drafts->find()->where($where['e'])->count();
             $this->assertEquals(1, $count);
 
             $posting = new Entry($where['e']);
             $this->Drafts->deleteDraftForPosting($posting);
 
-            $count = $this->Drafts->find()->where($where['d'])->count();
+            $count = $this->Drafts->find()->where($where['e'])->count();
             $this->assertEquals(0, $count);
         }
     }
@@ -91,18 +89,18 @@ class DraftsTableTest extends SaitoTableTestCase
 
     public function testValidateOneNotEmptySuccess()
     {
-        $fields = ['subject' => '', 'text' => 'foo'];
+        $fields = ['pid' => '0', 'subject' => '', 'text' => 'foo'];
         $draft = $this->Drafts->newEntity($fields);
 
         $success = $this->Drafts->save($draft);
 
-        $this->assertNotEmpty($success);
+        $this->assertFalse($success);
         $this->assertEmpty($draft->getError('oneNotEmpty'));
     }
 
     public function testValidateOneNotEmptyFailure()
     {
-        $fields = ['subject' => '', 'text' => ''];
+        $fields = ['pid' => '0', 'user_id' => '1', 'subject' => '', 'text' => ''];
         $draft = $this->Drafts->newEntity($fields);
 
         $success = $this->Drafts->save($draft);

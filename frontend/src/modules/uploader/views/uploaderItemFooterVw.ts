@@ -1,12 +1,13 @@
 import { Model } from 'backbone';
 import { View } from 'backbone.marionette';
-import numeral from 'numeral';
 import App from 'models/app';
+import numeral from 'numeral';
 import { defaults, template } from 'underscore';
 import TextElipsisVw from 'views/TextElipsisVw';
+import { IUploaderOptions } from '../uploader';
 
 class UploaderItemFooterVw extends View<Model> {
-    public constructor(options: any = {}) {
+    public constructor(options: IUploaderOptions) {
         defaults(options, {
             className: 'imageUploader-card-details',
             events: {
@@ -27,9 +28,11 @@ class UploaderItemFooterVw extends View<Model> {
                         <%- filesize %>
                     </li>
                 </ul>
-                <button class="btn btn-link btnUploadDelete" title="<%- $.i18n.__('upl.del.btn') %>">
-                    <i class="fa fa-trash-o"></i>
-                </button>
+                <% if (permission['saito.plugin.uploader.delete']) { %>
+                    <button class="btn btn-link btnUploadDelete" title="<%- $.i18n.__('upl.del.btn') %>">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                <% } %>
             `),
         });
         super(...arguments);
@@ -59,6 +62,7 @@ class UploaderItemFooterVw extends View<Model> {
             created: new Date(this.model.get('created'))
                 .toLocaleDateString(App.settings.get('language')),
             filesize: numeral(this.model.get('size')).format('0.0 b'),
+            permission: this.getOption('permission'),
         };
     }
 }

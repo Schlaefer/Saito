@@ -14,6 +14,7 @@ namespace App\Controller;
 
 use App\Controller\Component\AutoReloadComponent;
 use App\Controller\Component\MarkAsReadComponent;
+use App\Controller\Component\PostingComponent;
 use App\Controller\Component\RefererComponent;
 use App\Controller\Component\ThreadsComponent;
 use App\Model\Table\EntriesTable;
@@ -21,7 +22,6 @@ use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
@@ -29,6 +29,7 @@ use Cake\Routing\RequestActionTrait;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
+use Saito\User\Permission\ResourceAI;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -37,6 +38,7 @@ use Stopwatch\Lib\Stopwatch;
  * @property CurrentUserInterface $CurrentUser
  * @property EntriesTable $Entries
  * @property MarkAsReadComponent $MarkAsRead
+ * @property PostingComponent $Posting
  * @property RefererComponent $Referer
  * @property ThreadsComponent $Threads
  */
@@ -53,6 +55,7 @@ class EntriesController extends AppController
     {
         parent::initialize();
 
+        $this->loadComponent('Posting');
         $this->loadComponent('MarkAsRead');
         $this->loadComponent('Referer');
         $this->loadComponent('Threads', ['table' => $this->Entries]);
@@ -176,26 +179,12 @@ class EntriesController extends AppController
      * @param string $id posting-ID
      * @return \Cake\Network\Response|void
      */
-    public function view($id = null)
+    public function view(string $id)
     {
+        $id = (int)$id;
         Stopwatch::start('Entries->view()');
 
-        // redirect if no id is given
-        if (!$id) {
-            $this->Flash->set(__('Invalid post'), ['element' => 'error']);
-
-            return $this->redirect(['action' => 'index']);
-        }
-
         $entry = $this->Entries->get($id);
-
-        // redirect if posting doesn't exists
-        if ($entry == false) {
-            $this->Flash->set(__('Invalid post'));
-
-            return $this->redirect('/');
-        }
-
         $posting = $entry->toPosting()->withCurrentUser($this->CurrentUser);
 
         if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
@@ -243,16 +232,10 @@ class EntriesController extends AppController
      * @throws NotFoundException
      * @throws BadRequestException
      */
-    public function edit($id = null)
+    public function edit(string $id)
     {
-        if (empty($id)) {
-            throw new BadRequestException;
-        }
-
+        $id = (int)$id;
         $entry = $this->Entries->get($id);
-        if (empty($entry)) {
-            throw new NotFoundException;
-        }
         $posting = $entry->toPosting()->withCurrentUser($this->CurrentUser);
 
         if (!$posting->isEditingAllowed()) {
@@ -318,15 +301,12 @@ class EntriesController extends AppController
         }
         /* @var Entry $posting */
         $posting = $this->Entries->get($id);
-        if (!$posting) {
-            throw new NotFoundException;
-        }
 
         $action = $posting->isRoot() ? 'thread' : 'answer';
         $allowed = $this->CurrentUser->getCategories()
             ->permission($action, $posting->get('category_id'));
         if (!$allowed) {
-            throw new ForbiddenException(null, 1571309481);
+            throw new SaitoForbiddenException();
         }
 
         $success = $this->Entries->deletePosting($id);
@@ -377,23 +357,25 @@ class EntriesController extends AppController
                 throw new \InvalidArgumentException('Posting to mark solved not found.');
             }
 
-            if ($posting->isRoot()) {
-                throw new \InvalidArgumentException('Root postings cannot mark themself solved.');
-            }
-
             $rootId = $posting->get('tid');
             $rootPosting = $this->Entries->get($rootId);
-            if ($rootPosting->get('user_id') !== $this->CurrentUser->getId()) {
+
+            $allowed = $this->CurrentUser->permission(
+                'saito.core.posting.solves.set',
+                (new ResourceAI())->onRole($rootPosting->get('user')->getRole())->onOwner($rootPosting->get('user_id'))
+            );
+            if (!$allowed) {
                 throw new SaitoForbiddenException(
                     sprintf('Attempt to mark posting %s as solution.', $posting->get('id')),
                     ['CurrentUser' => $this->CurrentUser]
                 );
             }
 
-            $success = $this->Entries->toggleSolve($posting);
+            $value = $posting->get('solves') ? 0 : $rootPosting->get('tid');
+            $success = $this->Entries->updateEntry($posting, ['solves' => $value]);
 
             if (!$success) {
-                throw new BadRequestException;
+                throw new BadRequestException();
             }
         } catch (\Exception $e) {
             throw new BadRequestException();
@@ -408,9 +390,10 @@ class EntriesController extends AppController
      * @throws NotFoundException
      * @td put into admin entries controller
      */
-    public function merge($sourceId = null)
+    public function merge(string $sourceId = null)
     {
-        if (!$sourceId) {
+        $sourceId = (int)$sourceId;
+        if (empty($sourceId)) {
             throw new NotFoundException();
         }
 
@@ -456,15 +439,12 @@ class EntriesController extends AppController
             throw new BadRequestException;
         }
 
-        $current = $this->Entries->toggle((int)$id, $toggle);
-        if ($current) {
-            $out['html'] = __d('nondynamic', $toggle . '_unset_entry_link');
-        } else {
-            $out['html'] = __d('nondynamic', $toggle . '_set_entry_link');
-        }
+        $posting = $this->Entries->get($id);
+        $data = ['id' => (int)$id, $toggle => !$posting->get($toggle)];
+        $this->Posting->update($posting, $data, $this->CurrentUser);
 
         $this->response = $this->response->withType('json');
-        $this->response = $this->response->withStringBody(json_encode($out));
+        $this->response = $this->response->withStringBody(json_encode('OK'));
 
         return $this->response;
     }
@@ -572,8 +552,9 @@ class EntriesController extends AppController
     {
         if (!$posting->isRoot()) {
             $root = $this->Entries->find()
-                ->select(['user_id'])
-                ->where(['id' => $posting->get('tid')])
+                ->select(['user_id', 'Users.user_type'])
+                ->where(['Entries.id' => $posting->get('tid')])
+                ->contain(['Users'])
                 ->first();
         } else {
             $root = $posting;

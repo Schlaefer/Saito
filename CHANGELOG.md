@@ -1,9 +1,63 @@
 # Change-Log
 
-- ＋ New
+- ＋ Added
 - ✓ Fixed
 - Δ Changed
 - − Removed
+
+## [Next]
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...<next>)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
+
+### Changes
+
+### Update Notes
+
+## [5.6.0]
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-5.6.0.zip)
+
+### Changes
+
+- ＋ Adds permission `saito.core.posting.solves.set` for marking a posting as solution/helpful (defaults to thread creator).
+- ＋ Improves compatibility with PHP 7.3
+- ＋ Improves browser detection for changes in the Bota theme CSS
+- ＋ Improves logging of unauthorized access
+- ✓ Deleting a bookmark creates an empty area above the bookmarks
+- ✓ User roles with ID greater than 3 can't be assigned to category access control
+- ✓ Fixes link to default favicon if installed in subdirectory
+- Δ Adds "Saito" prefix to CSRF-cookie name
+- Δ Moves layout for viewing a posting and answering from center to the left
+- Δ Updates Saito default favicon
+- − Removes visiblity description for category in category-title hover
+- Search:
+  - ✓ Internal error on simple search when results are sorted by rank
+  - ✓ Internal error if search term contains multiple whitespaces
+- Improves dark theme:
+  - ✓ Drop down menus aren't styled
+  - ✓ Code inserts aren't styled
+  - Δ Exchanges dark and light distinction between background and form areas
+  - Δ Darkens border and dividiers
+- Uploader:
+  - ＋ Adds filter options
+  - ＋ Performance improvements for users with many (100+) uploads
+  - ＋ Adds permission `saito.plugin.uploader.view` for viewing uploads (defaults to upload owner and group `admin`).
+  - ＋ Adds permission `saito.plugin.uploader.add` for uploading new files (defaults to profile owner).
+  - ＋ Adds permission `saito.plugin.uploader.delete` for deleting uploads (defaults to upload owner and group `admin`).
+  - ＋ Adds "audio/ogg" and "audio/opus" to default allowed mime-types
+  - ✓ Wrong error message is shown if no file was received on the server
+  - Δ Layout improvements
+- Internal code changes:
+  - ＋ Minor changes for improved theming support
+  - Δ Refactors creation, update and validation of postings
+  - Δ Updates PHP and Javascript libraries
+  - Δ Entries::Table throws RecordNotFoundException instead of returning null
+  - Δ Update Apcu version in docker container to 5.1.18
+  - Δ Drafts for new threads are stored with a `pid` of `0` instead of `NULL`
+  - − Removes SaitoValidationProvider::validateAssoc with CakePHP build-in facility
+  - − Removes abandonded Selenium test files
 
 ## [5.5.0] - 2019-11-16
 

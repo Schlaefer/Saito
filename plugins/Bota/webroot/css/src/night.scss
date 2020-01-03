@@ -2,23 +2,23 @@
  * Bootstrap variables
  ******************************************************************************/
 
-$body-bg: #28282b !default;
+$body-bg: #1d1d1f !default;
 $modal-content-bg: $body-bg !default;
 
+$primary: rgb(255, 184, 30) !default;
 $body-color: #decab2 !default;
-$border-color: $body-color !default;
+
+$border-color: darken($primary, 35%) !default;
 $close-color: $body-color !default;
 $input-color: $body-color !default;
 
 $text-muted: #9a866d !default;
 
-$primary: rgb(255, 184, 30) !default;
-
-$input-border-color: darken($primary, 40%) !default;
-$input-focus-border-color: lighten($input-border-color, 10%) !default;
+$input-border-color: darken($primary, 35%) !default;
+$input-focus-border-color: lighten($input-border-color, 15%) !default;
 $nav-tabs-link-active-color: $primary;
 
-$form-bg: #1e1e20 !default;
+$form-bg: #28282b !default;
 $card-cap-bg: lighten($form-bg, 10%) !default;
 $card-bg: $form-bg !default;
 $list-group-bg: $form-bg !default;
@@ -45,6 +45,15 @@ $toast-background-color: $body-bg !default;
 $toast-header-background-color: $form-bg !default;
 $toast-header-color: $body-color !default;
 
+/// Dropdown Menu
+$dropdown-link-color: $body-color !default;
+$dropdown-bg: $body-bg !default;
+$dropdown-link-hover-color: $body-bg !default;
+$dropdown-link-hover-bg: $primary !default;
+$dropdown-border: $border-color !default;
+$dropdown-border-color: $dropdown-border !default;
+$dropdown-divider-bg: $border-color !default;
+
 /******************************************************************************
  * Core Theme Include
  ******************************************************************************/
@@ -66,4 +75,8 @@ img,
 iframe,
 video {
   filter: contrast(80%) brightness(90%) sepia(50%);
+}
+
+.geshi-wrapper ol {
+  filter: invert(0.9);
 }

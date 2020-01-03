@@ -21,7 +21,7 @@ describe('answering form', () => {
           expect(view.send).toHaveBeenCalled();
 
           const request = $.ajax.calls.mostRecent().args[0];
-          expect(JSON.parse(request.data)).toEqual(data);
+          expect(JSON.parse(request.data)).toEqual(jasmine.objectContaining(data));
           expect(request.type).toEqual('POST');
           expect(request.url).toEqual('/test/root/api/v2/drafts/');
 
@@ -46,7 +46,7 @@ describe('answering form', () => {
 
       setTimeout(
         () => {
-          expect(view.send).not.toHaveBeenCalled();
+          expect($.ajax).not.toHaveBeenCalled();
           done();
         },
         4 // wait for long and short timer to fire
@@ -69,9 +69,10 @@ describe('answering form', () => {
       setTimeout(
         () => {
           expect(view.send).toHaveBeenCalled();
+          expect($.ajax).toHaveBeenCalled();
 
           const request = $.ajax.calls.mostRecent().args[0];
-          expect(JSON.parse(request.data)).toEqual(data);
+          expect(JSON.parse(request.data)).toEqual(jasmine.objectContaining(data));
           expect(request.type).toEqual('PUT');
           expect(request.url).toEqual('/test/root/api/v2/drafts/5');
 
@@ -97,9 +98,10 @@ describe('answering form', () => {
       setTimeout(
         () => {
           expect(view.send).toHaveBeenCalled();
+          expect($.ajax).toHaveBeenCalled();
 
           const request = $.ajax.calls.mostRecent().args[0];
-          expect(JSON.parse(request.data)).toEqual(data);
+          expect(JSON.parse(request.data)).toEqual(jasmine.objectContaining(data));
           expect(request.type).toEqual('PUT');
           expect(request.url).toEqual('/test/root/api/v2/drafts/5');
 

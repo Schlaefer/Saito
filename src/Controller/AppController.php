@@ -27,6 +27,8 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\I18n\I18n;
+use Cake\ORM\TableRegistry;
+use Saito\App\Registry;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -100,12 +102,18 @@ class AppController extends Controller
             $this->request->getSession()->start();
         }
 
+        Registry::get('Permissions')->buildCategories(TableRegistry::getTableLocator()->get('Categories'));
+
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');
         $this->loadComponent('Cookie');
         $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
         $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
+        if (PHP_SAPI !== 'cli') {
+            // if: The security mock in testing doesn't allow seeting cookie-name.
+            $this->Csrf->setConfig('cookieName', Configure::read('Session.cookie') . '-CSRF');
+        }
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');

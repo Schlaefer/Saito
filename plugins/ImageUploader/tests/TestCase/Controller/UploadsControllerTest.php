@@ -16,6 +16,7 @@ use Api\Error\Exception\GenericApiException;
 use Authentication\Authenticator\UnauthenticatedException;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use ImageUploader\Model\Table\UploadsTable;
@@ -64,6 +65,24 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->post('api/v2/uploads', []);
     }
 
+    public function testAddFailureUploadBelongsToDifferentUser()
+    {
+        $this->loginJwt(3);
+
+        $this->expectException(SaitoForbiddenException::class);
+
+        $this->upload($this->file, 1);
+    }
+
+    public function testAddFailureUserDoesNotExist()
+    {
+        $this->loginJwt(1);
+
+        $this->expectException(RecordNotFoundException::class);
+
+        $this->upload($this->file, 9999);
+    }
+
     /**
      * png is successfully uploaded and converted to jpeg
      */
@@ -71,7 +90,7 @@ class UploadsControllerTest extends IntegrationTestCase
     {
         $this->loginJwt(1);
 
-        $this->upload($this->file);
+        $this->upload($this->file, 1);
         $response = json_decode((string)$this->_response->getBody(), true);
 
         $this->assertResponseCode(200);
@@ -283,11 +302,20 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->get('api/v2/uploads');
     }
 
+    public function testIndexFailureUploadBelongsToDifferentUser()
+    {
+        $this->loginJwt(3);
+
+        $this->expectException(SaitoForbiddenException::class);
+
+        $this->get('api/v2/uploads/?id=1');
+    }
+
     public function testIndexSuccess()
     {
         $this->loginJwt(3);
 
-        $this->get('api/v2/uploads');
+        $this->get('api/v2/uploads?id=3');
 
         $response = json_decode((string)$this->_response->getBody(), true);
 
@@ -326,6 +354,22 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->delete('api/v2/uploads/1');
     }
 
+    public function testDeleteFailureUploadBelongsToDifferentUser()
+    {
+        $this->loginJwt(3);
+
+        $this->expectException(SaitoForbiddenException::class);
+
+        $this->delete('api/v2/uploads/1');
+    }
+
+    public function testUploadDeleteFailureNotFound()
+    {
+        $this->loginJwt(1);
+        $this->expectException(RecordNotFoundException::class);
+        $this->delete('api/v2/uploads/9999');
+    }
+
     public function testDeleteSuccess()
     {
         $this->loginJwt(1);
@@ -343,21 +387,13 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->assertFalse($Uploads->exists(1));
     }
 
-    public function testDeleteFailureUploadBelongsToDifferentUser()
-    {
-        $this->loginJwt(3);
-
-        $this->expectException(SaitoForbiddenException::class);
-
-        $this->delete('api/v2/uploads/1');
-    }
-
     /**
      * Sends a file to upload api
      *
      * @param File $file The file to send
+     * @param mixed $userId The user-ID to upload to
      */
-    private function upload(File $file)
+    private function upload(File $file, $userId = 1)
     {
         $data = [
             'upload' => [
@@ -371,6 +407,9 @@ class UploadsControllerTest extends IntegrationTestCase
                 ]
             ]
         ];
+        if ($userId) {
+            $data['userId'] = (string)$userId;
+        }
         $this->post('api/v2/uploads.json', $data);
     }
 }

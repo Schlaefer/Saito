@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace SaitoSearch\Model\Behavior;
 
-use App\Model\Table\EntriesTable;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 
@@ -29,12 +28,8 @@ class SaitoSearchBehavior extends Behavior
      */
     public function findSimpleSearchByTime(Query $query, array $options): Query
     {
-        $connection = $this->getTable()->getConnection();
-        $q = $connection->quote($options['searchTerm']->replaceOperators());
-        $query = $this->prepareFindSimpleSearch($query, $options)
-            ->where([
-                "MATCH (Entries.subject, Entries.text, Entries.name) AGAINST ($q IN BOOLEAN MODE)"
-            ])
+        $query = $this
+            ->findSimpleSearchByRank($query, $options)
             ->order(['`Entries`.`time`' => 'DESC']);
 
         return $query;
@@ -53,21 +48,8 @@ class SaitoSearchBehavior extends Behavior
      */
     public function findSimpleSearchByRank(Query $query, array $options): Query
     {
-        /** @var EntriesTable */
-        $table = $this->getTable();
-        $connection = $table->getConnection();
-        // $q = $connection->quote($options['searchTerm']->replaceOperators());
-        $connection->getDriver()->enableAutoQuoting(false);
         $query = $this->prepareFindSimpleSearch($query, $options)
-            ->select(
-                [
-                    'relSubject' => 'MATCH (Entries.subject) AGAINST (:q IN BOOLEAN MODE)',
-                    'relText' => 'MATCH (Entries.text) AGAINST (:q IN BOOLEAN MODE)',
-                    'relName' => 'MATCH (Entries.name) AGAINST (:q IN BOOLEAN MODE)'
-                ] + $table->getFieldset()
-            )
-            ->where("MATCH (`Entries`.`subject`, `Entries`.`text`, `Entries`.`name`) AGAINST (:q IN BOOLEAN MODE)")
-            ->order(['(2*relSubject + relText + 4*relName)' => 'DESC', '`Entries`.`time`' => 'DESC'])
+            ->where(['MATCH (`Entries`.`subject`, `Entries`.`text`, `Entries`.`name`) AGAINST (:q IN BOOLEAN MODE)'])
             ->bind(':q', $options['searchTerm']->replaceOperators());
 
         return $query;

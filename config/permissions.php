@@ -36,9 +36,9 @@ $config['Saito']['Permission']['Roles'] = (new Roles)
  * everbody > owner > role
  */
 $config['Saito']['Permission']['Resources'] = (new Resources())
-    /**
-     * Allow roles access to resource based on roles
-     */
+    /***********************************************************
+     * Core                                                    *
+     ***********************************************************/
     // Access to the administration backend
     ->add((new Resource('saito.core.admin.backend'))
         ->allow((new ResourceAC())->asRole('admin')))
@@ -63,6 +63,9 @@ $config['Saito']['Permission']['Resources'] = (new Resources())
     // Merge postings
     ->add((new Resource('saito.core.posting.merge'))
         ->allow((new ResourceAC())->asRole('mod')))
+    // Allow posting to be marked as solution
+    ->add((new Resource('saito.core.posting.solves.set'))
+        ->allow((new ResourceAC())->onOwn()))
     // Show a user's activation status
     ->add((new Resource('saito.core.user.activate.view'))
         ->allow((new ResourceAC())->asRole('admin')))
@@ -96,6 +99,9 @@ $config['Saito']['Permission']['Resources'] = (new Resources())
     ->add((new Resource('saito.core.user.password.set'))
         ->allow((new ResourceAC())->asRole('admin')->onRoles('mod', 'user'))
         ->allow((new ResourceAC())->asRole('owner')))
+    // Use the register form
+    ->add((new Resource('saito.core.user.register'))
+        ->allow((new ResourceAC())->asEverybody()))
     // Change a user's role. Allowed ranks: all the current user has but not
     // their own rank.
     ->add((new Resource('saito.core.user.role.set.restricted'))
@@ -104,12 +110,28 @@ $config['Saito']['Permission']['Resources'] = (new Resources())
     // their own rank.
     ->add((new Resource('saito.core.user.role.set.unrestricted'))
         ->allow((new ResourceAC())->asRole('owner')))
+
+    /***********************************************************
+     * Bookmarks                                               *
+     ***********************************************************/
     // Deleting bookmarks
     ->add((new Resource('saito.plugin.bookmarks.delete'))
         ->allow((new ResourceAC())->onOwn()))
-    // Use the register form
-    ->add((new Resource('saito.core.user.register'))
-        ->allow((new ResourceAC())->asEverybody()))
+
+    /***********************************************************
+     * Uploader                                                *
+     ***********************************************************/
+    // Allow uploads
+    ->add((new Resource('saito.plugin.uploader.add'))
+        ->allow((new ResourceAC())->onOwn()))
+    // Allow deleting uploads
+    ->add((new Resource('saito.plugin.uploader.delete'))
+        ->allow((new ResourceAC())->asRole('admin'))
+        ->allow((new ResourceAC())->onOwn()))
+    // View the uploader
+    ->add((new Resource('saito.plugin.uploader.view'))
+        ->allow((new ResourceAC())->asRole('admin'))
+        ->allow((new ResourceAC())->onOwn()))
     ;
 
 return $config;

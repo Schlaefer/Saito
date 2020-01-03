@@ -81,6 +81,15 @@
 .imageUploader-action {
   @extend .card-footer;
   text-align: center;
+
+  /// Profile page: Add card has actions, View cards don't
+  // Show empty action area on View cards with background (first row)
+  height: 100%;
+  // Hide if action area is empty
+  &:empty {
+    border: none;
+    padding: 0 !important;
+  }
 }
 
 .imageUploader-action-btn {
@@ -88,12 +97,12 @@
 }
 
 .imageUploader-cards {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 15rem);
   justify-content: center;
 
   .card-upload-container {
-    height: 7rem;
+    height: 9rem;
     margin: 0 auto;
     padding: 4px;
     display: flex;
@@ -129,14 +138,14 @@
 }
 
 .imageUploader-card {
-  width: 13rem;
+  @extend .shadow-sm;
 }
 
 @include media-breakpoint-down(xs) {
-  .imageUploader-card {
-  // Phone: There will only fit one card horizontally anyway, so make the
-  // card full width for better optics.
-    width: 100%;
+  .imageUploader-cards {
+    // Phone: There will only fit one card horizontally anyway, so make the
+    // card full width for better optics.
+    grid-template-columns: 1fr;
   }
 
   .imageUploader-cards .card-upload-container {
@@ -145,10 +154,8 @@
 }
 
 @include media-breakpoint-up(xl) {
-  .imageUploader-card {
-  // Phone: There will only fit one card horizontally anyway, so make the
-  // card full width for better optics.
-    width: 17rem;
+  .imageUploader-cards {
+    grid-template-columns: repeat(auto-fit, 19rem);
   }
   .imageUploader-cards .card-upload-container {
     height: 10rem;

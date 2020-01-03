@@ -1,4 +1,7 @@
 <?php
+
+use Saito\User\Permission\ResourceAI;
+
 // setup
 $level = $level ?? 0;
 $editLinkIsShown = false;
@@ -9,15 +12,19 @@ $jsEntry = json_encode(
     [
         'pid' => $entry->get('pid'),
         'isBookmarked' => $entry->isBookmarked(),
-        'isSolves' => (bool)$entry->get('solves'),
-        'rootEntryUserId' => (int)$rootEntry->get('user_id'),
+        'solves' => $entry->get('solves'),
+        'showSolvedBtn' => $CurrentUser->permission(
+            'saito.core.posting.solves.set',
+            (new ResourceAI())->onRole($rootEntry->get('user')->getRole())->onOwner($rootEntry->get('user_id'))
+        ),
+        'tid' => (int)$entry->get('tid'),
         'time' => $this->TimeH->dateToIso($entry->get('time'))
     ]
 );
 ?>
 <div class="postingLayout js-entry-view-core" data-id="<?= $entry->get('id') ?>">
-    <div class="postingLayout-main">
-        <div class="postingLayout-aside">
+    <div class="postingLayout-main grid-lefty">
+        <div class="postingLayout-aside lefty-aside">
             <div class="postingLayout-aside-item">
                 <?= $this->User->getAvatar($entry->get('user')) ?>
             </div>
@@ -43,6 +50,7 @@ $jsEntry = json_encode(
             );
             ?>
         </div>
+        <div class="postingLayout-slider"></div>
     </div>
 
     <?php if (!empty($showAnsweringPanel)) : ?>
@@ -93,7 +101,7 @@ $jsEntry = json_encode(
                     ['class' => 'btn btn-secondary js-btn-edit']
                 );
             } elseif ($entry->isEditingAllowed()) {
-            // edit entry
+                // edit entry
                 $editLinkIsShown = true;
                 $menuItems[] = $this->Html->link(
                     '<i class="fa fa-fw fa-pencil"></i> ' . __('edit_linkname'),
@@ -169,6 +177,5 @@ $jsEntry = json_encode(
         </div>
     <?php endif; ?>
 
-    <div class="postingLayout-slider"></div>
     <div class='js-data' data-entry='<?= $jsEntry ?>'></div>
 </div>

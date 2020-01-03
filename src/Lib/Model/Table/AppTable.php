@@ -37,26 +37,6 @@ class AppTable extends Table
     protected $_SEM;
 
     /**
-     * Toggle bool field value.
-     *
-     * @param int $recordId The record-ID.
-     * @param string $field The name of the field to toggle.
-     * @return int new field The new value after the toggle.
-     */
-    public function toggle($recordId, $field)
-    {
-        $entity = $this->query()
-            ->select(['id', $field])
-            ->where(['id' => $recordId])
-            ->first();
-        $new = ($entity->get($field) == 0) ? 1 : 0;
-        $this->patchEntity($entity, [$field => $new]);
-        $this->save($entity);
-
-        return $new;
-    }
-
-    /**
      * Check that a record exists.
      *
      * @param int|array|\ArrayAccess $conditions Record-ID or query conditions.
@@ -110,7 +90,7 @@ class AppTable extends Table
      * @param array $data additional event data
      * @return void
      */
-    protected function _dispatchEvent($event, $data = [])
+    public function dispatchDbEvent($event, $data = [])
     {
         EventManager::instance()->dispatch(new Event($event, $this, $data));
         // propagate event on Saito's event bus

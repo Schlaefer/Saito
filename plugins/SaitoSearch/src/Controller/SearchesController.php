@@ -162,7 +162,10 @@ class SearchesController extends AppController
         if (!empty($queryData['category_id'])) {
             $category = $queryData['category_id'];
             if (!in_array($category, $categories)) {
-                throw new SaitoForbiddenException("Tried to search category $category.");
+                throw new SaitoForbiddenException(
+                    "Tried to search category $category.",
+                    ['CurrentUser' => $this->CurrentUser]
+                );
             }
             $categories = [$category];
         }

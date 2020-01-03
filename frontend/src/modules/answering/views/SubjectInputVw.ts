@@ -184,9 +184,8 @@ export default class SubjectInputView extends View<Model> {
     private setProgress(cssClass: ProgressBarState) {
         const $progress = this.getUI('progressBar');
         Object.keys(ProgressBarState).forEach((key) => {
-            // @td bogus
-            const k = key as unknown as number;
-            $progress.removeClass(ProgressBarState[k]);
+            const state = ProgressBarState[key as keyof typeof ProgressBarState];
+            $progress.removeClass(state);
         });
         $progress.addClass(cssClass);
     }

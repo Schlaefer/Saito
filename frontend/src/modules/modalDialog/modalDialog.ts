@@ -1,16 +1,36 @@
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ */
+
 import { Model } from 'backbone';
-import { View } from 'backbone.marionette';
+import { View, ViewOptions } from 'backbone.marionette';
 import App from 'models/app';
 import Tpl from 'modules/modalDialog/templates/modalDialog.html';
-import _ from 'underscore';
+import { defaults, delay } from 'underscore';
+
+interface IModalDialogOptions {
+    /**
+     * Insert content after modal dialog is fully shown
+     */
+    trailing: boolean;
+    title: string;
+    width: string;
+}
 
 class ModalDialogView extends View<Model> {
-    // el: '#saito-modal-dialog',
+    /**
+     * View which will be rendered as main content into the modal dialog
+     */
+    protected contentView: View<Model>|undefined;
 
-    private defaults: object;
+    private defaults: Partial<IModalDialogOptions>;
 
     public constructor(options: any = {}) {
-        _.defaults(options, {
+        options = defaults(options, {
             regions: {
                 content: '#saito-modal-dialog-content',
             },
@@ -18,8 +38,10 @@ class ModalDialogView extends View<Model> {
         });
         super(options);
         this.defaults = {
+            trailing: false,
             width: 'normal',
         };
+        this.contentView = undefined;
     }
 
     public initialize() {
@@ -32,15 +54,20 @@ class ModalDialogView extends View<Model> {
      * @param {Marionette.View} content
      * @param {Object}
      */
-    public show(content: View<Model>, options: any) {
-        options = _.defaults(options, this.defaults);
+    public show(content: View<Model>, options: Partial<IModalDialogOptions> = {}) {
+        const showOptions = defaults(options, this.defaults) as IModalDialogOptions;
         this.model.set('title', options.title || '');
         this.render();
 
-        // puts content into dialog
-        this.showChildView('content', content);
+        this.setWidth(showOptions.width);
 
-        this.setWidth(options.width);
+        if (showOptions.trailing) {
+            // Insert content after showing the modal
+            this.contentView = content;
+        } else {
+            // Insert content before showing the modal
+            this.showContent(content);
+        }
 
         // shows BS dialog
         this.$el.parent().on('shown.bs.modal', () => {
@@ -63,9 +90,27 @@ class ModalDialogView extends View<Model> {
 
     public invalidInput() {
         this.$el.addClass('animation shake');
-        _.delay(() => {
+        delay(() => {
             this.$el.removeClass('animation shake', 1000);
         });
+    }
+
+    /**
+     * Called after the modal dialog is fully shown
+     */
+    protected onShown() {
+        // Show trailing
+        if (this.contentView !== undefined) {
+            this.showContent(this.contentView);
+            this.contentView = undefined;
+        }
+    }
+
+    /**
+     * Shows content
+     */
+    protected showContent(contentView: View<Model>) {
+        this.showChildView('content', contentView);
     }
 
     private setWidth(width: string) {

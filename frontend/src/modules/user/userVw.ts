@@ -21,6 +21,8 @@ export default class extends Mn.View<Bb.Model> {
         <%- $.i18n.__('bkm.title.pl') %>
     </a>
     </li>
+<% } %>
+<% if (permission['saito.plugin.uploader.view']) { %>
     <li class="nav-item">
     <a class="js-btnUpl nav-link" id="uploads-tab" data-toggle="tab" href="#uploads" role="tab">
         <%- $.i18n.__('upl.title.pl') %>
@@ -60,6 +62,7 @@ export default class extends Mn.View<Bb.Model> {
     private templateContext() {
         return {
             current: App.currentUser.get('id') === this.model.get('id'),
+            permission: this.model.get('permission'),
         };
     }
 
@@ -72,7 +75,10 @@ export default class extends Mn.View<Bb.Model> {
 
     private handleBtnUploads() {
         if (!this.getRegion('rgUploads').hasView()) {
-            this.showChildView('rgUploads', new UploaderVw());
+            this.showChildView('rgUploads', new UploaderVw({
+                permission: this.model.get('permission'),
+                userId: this.model.get('id'),
+            }));
         }
         this.scrollToTop();
     }
