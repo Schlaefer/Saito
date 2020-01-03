@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-01-03 19:47+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: __d:2\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: Template/Searches/advanced.ctp:14
+msgid "subject"
+msgstr "Subject"
+
+#: Template/Searches/advanced.ctp:21
+msgid "text"
+msgstr "Text"
+
+#: Template/Searches/advanced.ctp:28
+msgid "name"
+msgstr "Name"

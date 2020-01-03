@@ -9,15 +9,24 @@
 
         echo $this->Html->div(
             'form-group',
-            $this->Form->control('subject', ['class' => 'form-control'])
+            $this->Form->control('subject', [
+                'class' => 'form-control',
+                'label' => __d('saito_search', 'subject'),
+            ])
         );
         echo $this->Html->div(
             'form-group',
-            $this->Form->control('text', ['class' => 'form-control'])
+            $this->Form->control('text', [
+                'class' => 'form-control',
+                'label' => __d('saito_search', 'text'),
+            ])
         );
         echo $this->Html->div(
             'form-group',
-            $this->Form->control('name', ['class' => 'form-control'])
+            $this->Form->control('name', [
+                'class' => 'form-control',
+                'label' => __d('saito_search', 'name'),
+            ])
         );
         ?>
 

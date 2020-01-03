@@ -11,6 +11,7 @@
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
 
 - ✓ Improves wrapping of long words and links in posting #365
+- ✓ Fixes localization in advanced search #364
 
 ### Changes
 
