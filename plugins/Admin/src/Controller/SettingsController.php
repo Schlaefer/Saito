@@ -52,7 +52,6 @@ class SettingsController extends AdminAppController
         'store_ip' => ['type' => 'bool'],
         'store_ip_anonymized' => ['type' => 'bool'],
         'subject_maxlength' => 1,
-        'text_word_maxlength' => 1,
         'thread_depth_indent' => 1,
         'timezone' => 1,
         'topics_per_page' => 1,

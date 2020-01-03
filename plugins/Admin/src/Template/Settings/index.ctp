@@ -50,7 +50,6 @@ echo $this->Setting->table(
         'quote_symbol',
         'signature_separator',
         'subject_maxlength',
-        'text_word_maxlength',
         'video_domains_allowed'
     ],
     $Settings

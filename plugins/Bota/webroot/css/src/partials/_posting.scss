@@ -44,6 +44,8 @@
   grid-area: content;
 
   max-width: $readingWidth;
+  // Overide grid default. Long words/links would always widen the layout.
+  min-width: 0;
 
   @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
     margin-top: 1em;

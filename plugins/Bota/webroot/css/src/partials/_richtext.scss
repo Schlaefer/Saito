@@ -66,6 +66,10 @@
   }
 }
 
+.richtext-link.truncate {
+  word-break: break-all;
+}
+
 .richtext-linkInfo {
   @extend .small;
   @extend .text-muted;

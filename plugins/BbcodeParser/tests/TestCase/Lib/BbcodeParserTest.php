@@ -127,6 +127,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'a' => [
                 'href' => 'http://thetempe.st/station',
+                'class' => 'richtext-link',
                 'rel' => 'external',
                 'target' => '_blank'
             ],
@@ -149,9 +150,24 @@ class BbcodeParserTest extends SaitoTestCase
     public function testLink()
     {
         $input = '[url=http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&item=250678480561&ssPageName=ADME:X:RTQ:DE:1123]test[/url]';
-        $expected = "<a href='http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123' rel='external' target='_blank'>test</a> <span class='richtext-linkInfo'>[ebay.de]</span>";
         $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
+        $expected = [
+            'a' => [
+                'href' => 'http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123',
+                'class' => 'richtext-link',
+                'rel' => 'external',
+                'target' => '_blank'
+            ],
+            'test',
+            '/a',
+            'span' => [
+                'class' => 'richtext-linkInfo'
+            ],
+            '[ebay.de]',
+            '/span',
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
 
         /*
          * external server
@@ -160,6 +176,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'a' => [
                 'href' => 'http://heise.de/foobar',
+                'class' => 'richtext-link truncate',
                 'rel' => 'external',
                 'target' => '_blank'
             ],
@@ -173,6 +190,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'a' => [
                 'href' => 'http://heise.de/foobar',
+                'class' => 'richtext-link truncate',
                 'rel' => 'external',
                 'target' => '_blank'
             ],
@@ -187,6 +205,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'a' => [
                 'href' => 'http://heise.de/foobar',
+                'class' => 'richtext-link',
                 'rel' => 'external',
                 'target' => '_blank'
             ],
@@ -204,6 +223,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'a' => [
                 'href' => 'http://heise.de/foobar',
+                'class' => 'richtext-link',
                 'rel' => 'external',
                 'target' => '_blank',
             ],
@@ -217,14 +237,22 @@ class BbcodeParserTest extends SaitoTestCase
          * local server
          */
         $input = '[url=http://macnemo.de/foobar]foobar[/url]';
-        $expected = "<a href='http://macnemo.de/foobar'>foobar</a>";
+        $expected = [
+            'a' => [
+                'href' => 'http://macnemo.de/foobar',
+                'class' => 'richtext-link',
+            ],
+            'foobar',
+            '/a',
+        ];
         $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
+        $this->assertHtml($expected, $result);
 
         $input = '[url]/foobar[/url]';
         $expected = [
             'a' => [
                 'href' => '/foobar',
+                'class' => 'richtext-link truncate',
             ],
             'preg:/\/foobar/',
             '/a',
@@ -234,21 +262,36 @@ class BbcodeParserTest extends SaitoTestCase
 
         // test lokaler server with absolute url
         $input = '[url=/foobar]foobar[/url]';
-        $expected = "<a href='/foobar'>foobar</a>";
+        $expected = [
+            'a' => [
+                'href' => '/foobar',
+                'class' => 'richtext-link',
+            ],
+            'foobar',
+            '/a',
+        ];
         $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
+        $this->assertHtml($expected, $result);
 
         // test 'http://' only
         $input = '[url=http://]foobar[/url]';
-        $expected = "<a href='http://'>foobar</a>";
+        $expected = [
+            'a' => [
+                'href' => 'http://',
+                'class' => 'richtext-link',
+            ],
+            'foobar',
+            '/a',
+        ];
         $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
+        $this->assertHtml($expected, $result);
 
         // test for co.uk
         $input = '[url=http://heise.co.uk/foobar]foobar[/url]';
         $expected = [
             'a' => [
                 'href' => 'http://heise.co.uk/foobar',
+                'class' => 'richtext-link',
                 'rel' => 'external',
                 'target' => '_blank'
             ],
@@ -269,6 +312,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'em' => [],
             'a' => [
+                'class' => 'richtext-link',
                 'href' => '/hash/2234'
             ],
             '#2234',
@@ -284,6 +328,7 @@ class BbcodeParserTest extends SaitoTestCase
             'ul' => true,
             'li' => true,
             'a' => [
+                'class' => 'richtext-link',
                 'href' => '/hash/2234'
             ],
             '#2234',
@@ -299,6 +344,7 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'foo (',
             'a' => [
+                'class' => 'richtext-link',
                 'href' => '/hash/2234'
             ],
             '#2234',
@@ -326,11 +372,11 @@ class BbcodeParserTest extends SaitoTestCase
     {
         $input = '@Alice @Bob @Bobby Junior @Bobby Tables @Dr. No';
         $expected =
-            "<a href='/at/Alice'>@Alice</a>" .
+            "<a href='/at/Alice' class=\"richtext-link\">@Alice</a>" .
             " @Bob " .
-            "<a href='/at/Bobby+Junior'>@Bobby Junior</a>" .
+            "<a href='/at/Bobby+Junior' class=\"richtext-link\">@Bobby Junior</a>" .
             " @Bobby Tables " .
-            "<a href='/at/Dr.+No'>@Dr. No</a>";
+            "<a href='/at/Dr.+No' class=\"richtext-link\">@Dr. No</a>";
 
         $result = $this->_Parser->parse($input);
         $this->assertEquals(
@@ -349,7 +395,10 @@ class BbcodeParserTest extends SaitoTestCase
         $input = "@Alice\nfoo";
         $result = $this->_Parser->parse($input);
         $expected = [
-            'a' => ['href' => '/at/Alice'],
+            'a' => [
+                'class' => 'richtext-link',
+                'href' => '/at/Alice'
+            ],
             '@Alice',
             '/a',
             'br' => true
@@ -360,7 +409,7 @@ class BbcodeParserTest extends SaitoTestCase
     public function testLinkEmptyUrl()
     {
         $input = '[url=][/url]';
-        $expected = "<a href=''></a>";
+        $expected = "<a href='' class=\"richtext-link\"></a>";
         $result = $this->_Parser->parse($input);
         $this->assertEquals($expected, $result);
     }
@@ -501,15 +550,36 @@ EOF;
     public function testLinkAuto()
     {
         $input = 'http://heise.de/foobar';
-        $expected = "<a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a>";
+        $expected = [
+            'a' => [
+                'class' => 'richtext-link truncate',
+                'href' => 'http://heise.de/foobar',
+                'rel' => 'external',
+                'target' => '_blank',
+            ],
+            'http://heise.de/foobar',
+            '/a',
+        ];
         $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
+        $this->assertHtml($expected, $result);
 
         // autolink surrounded by text
         $input = 'some http://heise.de/foobar text';
         $expected = "some <a href='http://heise.de/foobar' rel='external' target='_blank'>http://heise.de/foobar</a> text";
+        $expected = [
+            'some ',
+            'a' => [
+                'class' => 'richtext-link truncate',
+                'href' => 'http://heise.de/foobar',
+                'rel' => 'external',
+                'target' => '_blank',
+            ],
+            'http://heise.de/foobar',
+            '/a',
+            ' text',
+        ];
         $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
+        $this->assertHtml($expected, $result);
 
         // no autolink in [code]
         $input = '[code]http://heise.de/foobar[/code]';
@@ -551,6 +621,7 @@ EOF;
             'some ',
             'a' => [
                 'href' => 'http://www.example.com/foobar',
+                'class' => 'richtext-link truncate',
                 'rel' => 'external',
                 'target' => '_blank',
             ],
@@ -568,6 +639,7 @@ EOF;
         $expected = [
             'some (',
             'a' => [
+                'class' => 'richtext-link truncate',
                 'href' => 'http://www.example.com/foobar',
                 'rel' => 'external',
                 'target' => '_blank',
@@ -587,6 +659,7 @@ EOF;
         $expected = [
             'text ',
             'a' => [
+                'class' => 'richtext-link truncate',
                 'href' => 'http://example.com/?foo,,',
                 'rel' => 'external',
                 'target' => '_blank',
@@ -603,6 +676,7 @@ EOF;
         $expected = [
             'question ',
             'a' => [
+                'class' => 'richtext-link truncate',
                 'href' => 'http://example.com/',
                 'rel' => 'external',
                 'target' => '_blank',
@@ -619,6 +693,7 @@ EOF;
         $expected = [
             'no question ',
             'a' => [
+                'class' => 'richtext-link truncate',
                 'href' => 'http://example.com/?foo=bar',
                 'rel' => 'external',
                 'target' => '_blank',
@@ -643,23 +718,6 @@ EOF;
         $expected = 'test test test';
         $actual = $this->_Parser->parse($in, ['return' => 'text']);
         $this->assertEquals($expected, $actual);
-    }
-
-    public function testShortenLink()
-    {
-        $maxLength = 15;
-        $this->MarkupSettings->setSingle('text_word_maxlength', $maxLength);
-
-        $input = '[url]http://this/url/is/32/chars/long[/url]';
-        $expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
-
-        $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
-
-        $input = 'http://this/url/is/32/chars/long';
-        $expected = "<a href='http://this/url/is/32/chars/long' rel='external' target='_blank'>http:// … /long</a>";
-        $result = $this->_Parser->parse($input);
-        $this->assertEquals($expected, $result);
     }
 
     public function testIframe()
@@ -830,12 +888,10 @@ EOF;
     {
         $input = '[url=http://heise.de][img]http://heise.de/img.png[/img][/url]';
 
-        /*
-        $expected = "<a href='http://heise.de' rel='external' target='_blank'><img src=\"http://heise.de/img.png\" class=\"external_image\" style=\"\" width=\"auto\" height=\"auto\" alt=\"\" /></a>";
-        */
         $expected = [
             [
                 'a' => [
+                    'class' => 'richtext-link',
                     'href' => 'http://heise.de',
                     'rel' => 'external',
                     'target' => '_blank',
@@ -904,11 +960,12 @@ EOF;
 
     public function testInternalImageExternallyLinked()
     {
-        //// internal image
+        /// internal image
         $input = '[url=http://foo.de][upload]test.png[/upload][/url]';
         $expected = [
             [
                 'a' => [
+                    'class' => 'richtext-link',
                     'href' => 'http://foo.de',
                     'rel' => 'external',
                     'target' => '_blank',
@@ -945,7 +1002,7 @@ EOF;
 
     public function testUploadTypeAudio()
     {
-        //// internal image
+        /// internal image
         $input = '[audio src=upload]test.mp3[/audio]';
         $expected = [
             'audio' => [
@@ -1307,7 +1364,6 @@ EOF;
             'quote_symbol' => '»',
             'smilies' => true,
             'smiliesData' => $SmileyLoader,
-            'text_word_maxlength' => 100000,
             'video_domains_allowed' => 'youtube',
             'webroot' => ''
         ]);

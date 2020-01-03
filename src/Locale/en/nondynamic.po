@@ -241,14 +241,6 @@ msgid "subject_maxlength_exp"
 msgstr "Number of chars allowed in subject."
 
 #
-msgid "text_word_maxlength"
-msgstr "Word Length"
-
-#
-msgid "text_word_maxlength_exp"
-msgstr "Max numbers of chars allowed in one word."
-
-#
 msgid "video_domains_allowed"
 msgstr "Embeddable Video Sources"
 

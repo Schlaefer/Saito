@@ -83,11 +83,11 @@ trait UrlParserTrait
             }
         }
 
-        if ($truncate === true) {
-            $text = $this->_truncate($text);
+        $out = "<a href='$url' class=\"richtext-link";
+        if ($truncate) {
+            $out .= ' truncate';
         }
-        $out = "<a href='$url'>$text</a>";
-
+        $out .= "\">$text</a>";
         $out = $this->_decorateTarget($out);
 
         // add domain info: `[url=domain.info]my link[/url]` -> `my link [domain.info]`
@@ -101,40 +101,6 @@ trait UrlParserTrait
         }
 
         return $out;
-    }
-
-    /**
-     * Truncates long links
-     *
-     * @bogus does this truncate strings or the longest word in the string or
-     *     what?
-     * @bogus what about [url=][img]...[/img][url]. Is the [img] url truncated
-     *     too?
-     *
-     * @param string $string string
-     *
-     * @throws \Exception
-     * @return string
-     */
-    protected function _truncate($string)
-    {
-        $_textWordMaxLength = $this->_sOptions->get('text_word_maxlength');
-        if (empty($_textWordMaxLength)) {
-            throw new \Exception('Text word maxlength not set.');
-        }
-
-        if (mb_strlen($string) <= $_textWordMaxLength) {
-            return $string;
-        }
-
-        $_placeholder = ' … ';
-        $leftMargin = (int)floor($_textWordMaxLength / 2);
-        $rightMargin = (int)(-1 * ($_textWordMaxLength - $leftMargin - mb_strlen($_placeholder)));
-
-        $string = mb_substr($string, 0, $leftMargin) . $_placeholder .
-            mb_substr($string, $rightMargin);
-
-        return $string;
     }
 
     /**

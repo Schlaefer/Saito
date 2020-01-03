@@ -10,6 +10,8 @@
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...<next>)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
 
+- ✓ Improves wrapping of long words and links in posting #365
+
 ### Changes
 
 ### Update Notes
