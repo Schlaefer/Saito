@@ -12,14 +12,14 @@ class SmileyFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'sort' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
             'length' => 4,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'icon' => [
             'type' => 'string',
@@ -41,13 +41,13 @@ class SmileyFixture extends TestFixture
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
+            'engine' => 'InnoDB',
         ],
     ];
 

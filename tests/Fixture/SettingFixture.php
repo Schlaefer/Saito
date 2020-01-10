@@ -13,8 +13,8 @@ class SettingFixture extends TestFixture
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     public $records = [

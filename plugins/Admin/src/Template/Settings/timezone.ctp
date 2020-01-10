@@ -11,7 +11,7 @@ echo $this->Form->create(
     $setting,
     [
         'inputDefaults' => [],
-        'class' => 'well'
+        'class' => 'well',
     ]
 );
 echo $this->Form->control(
@@ -19,7 +19,7 @@ echo $this->Form->control(
     [
         'label' => '🌍🕐',
         'type' => 'select',
-        'options' => ['fields' => $this->TimeH->getTimezoneSelectOptions()]
+        'options' => ['fields' => $this->TimeH->getTimezoneSelectOptions()],
     ]
 );
 

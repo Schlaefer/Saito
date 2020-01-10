@@ -9,7 +9,7 @@ class LastRefreshDatabaseTest extends SaitoTestCase
 {
     public $fixtures = [
         'app.User',
-        'app.UserRead'
+        'app.UserRead',
     ];
 
     /**

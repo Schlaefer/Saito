@@ -54,14 +54,14 @@ class ManualBlocker extends BlockerAbstract
     {
         $user = $this->Table->Users->get($userId);
         if (empty($user)) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
 
         $conditions = [
             'blocked_by_user_id' => $this->adminId,
             'ended IS' => null,
             'reason' => $this->getReason(),
-            'user_id' => $userId
+            'user_id' => $userId,
         ];
 
         if ($this->duration) {

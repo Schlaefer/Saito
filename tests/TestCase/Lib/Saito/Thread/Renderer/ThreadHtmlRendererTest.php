@@ -33,9 +33,9 @@ class ThreadHtmlRendererTest extends SaitoTestCase
                 'id' => 1,
                 'accession' => 0,
                 'description' => 'd',
-                'category' => 'c'
+                'category' => 'c',
             ],
-            'user' => ['id' => 1, 'username' => 'u']
+            'user' => ['id' => 1, 'username' => 'u'],
         ];
 
         $entries = $this->getMockBuilder('\Saito\Posting\Posting')
@@ -79,9 +79,9 @@ class ThreadHtmlRendererTest extends SaitoTestCase
                 'id' => 1,
                 'accession' => 0,
                 'description' => 'd',
-                'category' => 'c'
+                'category' => 'c',
             ],
-            'user' => ['username' => 'u']
+            'user' => ['username' => 'u'],
         ];
 
         $entry1['subject'] = 'b';
@@ -129,9 +129,9 @@ class ThreadHtmlRendererTest extends SaitoTestCase
                 'id' => 1,
                 'accession' => 0,
                 'description' => 'd',
-                'category' => 'c'
+                'category' => 'c',
             ],
-            'user' => ['username' => 'u']
+            'user' => ['username' => 'u'],
         ];
 
         // root + 2 sublevels
@@ -139,9 +139,9 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         $entries['_children'] = [
             $entry + [
                 '_children' => [
-                    $entry
-                ]
-            ]
+                    $entry,
+                ],
+            ],
         ];
 
         $entries = (new Posting($entries))->withCurrentUser($this->SaitoUser);

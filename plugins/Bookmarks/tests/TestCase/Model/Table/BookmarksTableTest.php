@@ -27,7 +27,7 @@ class BookmarksTableTest extends SaitoTableTestCase
         'app.Entry',
         'app.User',
         'app.UserOnline',
-        'plugin.Bookmarks.Bookmark'
+        'plugin.Bookmarks.Bookmark',
        ];
 
     /**

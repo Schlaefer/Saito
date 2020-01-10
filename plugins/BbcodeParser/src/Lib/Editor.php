@@ -39,7 +39,7 @@ class Editor
                 'className' => 'btn-markup-Bold',
                 'type' => 'enclose',
                 'openWith' => '[b]',
-                'closeWith' => '[/b]'
+                'closeWith' => '[/b]',
             ],
             [
                 'name' => "<i class='fa fa-italic'></i>",
@@ -47,7 +47,7 @@ class Editor
                 'className' => 'btn-markup-Italic',
                 'type' => 'enclose',
                 'openWith' => '[i]',
-                'closeWith' => '[/i]'
+                'closeWith' => '[/i]',
             ],
             [
                 'name' => "<i class='fa fa-strikethrough'></i>",
@@ -55,7 +55,7 @@ class Editor
                 'className' => 'btn-markup-Stroke',
                 'type' => 'enclose',
                 'openWith' => '[strike]',
-                'closeWith' => '[/strike]'
+                'closeWith' => '[/strike]',
             ],
             [
                 'name' => "<i class='fa fa-s-code'></i>",
@@ -63,7 +63,7 @@ class Editor
                 'className' => 'btn-markup-Code',
                 'type' => 'enclose',
                 'openWith' => "[code=text]\n",
-                'closeWith' => "\n[/code]"
+                'closeWith' => "\n[/code]",
             ],
             [
                 'name' => "<i class='fa fa-list-ul'></i>",
@@ -71,7 +71,7 @@ class Editor
                 'className' => 'btn-markup-List',
                 'type' => 'enclose',
                 'openWith' => "[list]\n[*] ",
-                'closeWith' => "\n[*]\n[/list]"
+                'closeWith' => "\n[*]\n[/list]",
             ],
             [
                 'name' => "<i class='fa fa-stop'></i>",
@@ -79,7 +79,7 @@ class Editor
                 'title' => __('Spoiler'),
                 'type' => 'enclose',
                 'openWith' => '[spoiler]',
-                'closeWith' => '[/spoiler]'
+                'closeWith' => '[/spoiler]',
             ],
             [
                 'name' => "<i class='fa fa-quote-left'></i>",
@@ -87,7 +87,7 @@ class Editor
                 'title' => __('Cite'),
                 'type' => 'enclose',
                 'openWith' => '[quote]',
-                'closeWith' => '[/quote]'
+                'closeWith' => '[/quote]',
             ],
             [
                 'type' => 'separator',

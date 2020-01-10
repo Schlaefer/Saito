@@ -3,7 +3,7 @@ $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack([
     'controller' => 'users',
     'action' => 'view',
-    $user->get('id')
+    $user->get('id'),
 ]);
 $this->end();
 ?>

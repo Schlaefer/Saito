@@ -70,7 +70,7 @@ class EntriesTable extends AppTable
     ];
 
     protected $_defaultConfig = [
-        'subject_maxlength' => 100
+        'subject_maxlength' => 100,
     ];
 
     /**
@@ -105,13 +105,13 @@ class EntriesTable extends AppTable
                         }
 
                         $query = $table->find('all', ['conditions' => [
-                            'pid' => 0, 'category_id' => $categoryId
+                            'pid' => 0, 'category_id' => $categoryId,
                         ]]);
                         $count = $query->count();
 
                         return $count;
-                    }
-                ]
+                    },
+                ],
             ]
         );
 
@@ -163,8 +163,8 @@ class EntriesTable extends AppTable
                 [
                     'maxLength' => [
                         'rule' => ['maxLength', $this->getConfig('subject_maxlength')],
-                        'message' => __('vld.entries.subject.maxlength')
-                    ]
+                        'message' => __('vld.entries.subject.maxlength'),
+                    ],
                 ]
             );
 
@@ -377,7 +377,7 @@ class EntriesTable extends AppTable
             'Users.id',
             'Users.signature',
             'Users.user_type',
-            'Users.user_place'
+            'Users.user_place',
         ];
 
         $fields = $threadLineFieldList;

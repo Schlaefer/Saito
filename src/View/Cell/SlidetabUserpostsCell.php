@@ -36,7 +36,7 @@ class SlidetabUserpostsCell extends SlidetabCell
             $CurrentUser,
             [
                 'user_id' => $CurrentUser->getId(),
-                'limit' => 5
+                'limit' => 5,
             ]
         );
         $this->set(compact('recentPosts', 'CurrentUser'));

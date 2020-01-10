@@ -14,7 +14,7 @@
             __d('installer', 'finished.btn'),
             null,
             [
-            'class' => 'btn btn-primary'
+            'class' => 'btn btn-primary',
             ]
         );
         ?>

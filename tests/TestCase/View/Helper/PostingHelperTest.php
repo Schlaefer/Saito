@@ -39,7 +39,7 @@ class PostingHelperTest extends SaitoTestCase
             'tid' => 1,
             'pid' => 1,
             'subject' => 'Subject',
-            'text' => 'Text'
+            'text' => 'Text',
         ];
         $posting = new Posting($data);
         $expected = '<a href="localhost/entries/view/3" class="">Subject</a>';

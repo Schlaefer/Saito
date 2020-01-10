@@ -31,7 +31,7 @@ use Cake\Utility\Text;
                 '.'
             ),
             'loggedin' => $loggedin,
-            'anon' => $Stats->getNumberOfAnonUsersOnline()
+            'anon' => $Stats->getNumberOfAnonUsersOnline(),
         ]
     );
 

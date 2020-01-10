@@ -13,7 +13,7 @@ class StatsTest extends SaitoTestCase
         'app.Category',
         'app.Entry',
         'app.UserOnline',
-        'app.User'
+        'app.User',
     ];
 
     /**

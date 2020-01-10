@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Saito\Cache;
 
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class ItemCache
@@ -34,7 +34,7 @@ class ItemCache
         'duration' => null,
         'maxItems' => null,
         // +/- percentage maxItems can deviate before gc is triggered
-        'maxItemsFuzzy' => 0.06
+        'maxItemsFuzzy' => 0.06,
     ];
 
     protected $_gcFuzzy;
@@ -136,7 +136,7 @@ class ItemCache
     public function compareUpdated($key, $timestamp, callable $comp)
     {
         if (!isset($this->_cache[$key])) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
 
         return $comp(

@@ -51,64 +51,64 @@ class Parser
             'b' => [
                 'type' => 'replacement',
                 'title' => 'b',
-                'replacement' => '<strong>{param}</strong>'
+                'replacement' => '<strong>{param}</strong>',
             ],
             // code
             'codeWithAttributes' => [
                 'type' => 'class',
-                'title' => 'CodeWithAttributes'
+                'title' => 'CodeWithAttributes',
             ],
             'codeWithoutAttributes' => [
                 'type' => 'class',
-                'title' => 'CodeWithoutAttributes'
+                'title' => 'CodeWithoutAttributes',
             ],
             // edit marker
             'e' => [
                 'type' => 'replacement',
                 'title' => 'e',
-                'replacement' => '<span class="richtext-editMark"></span>{param}'
+                'replacement' => '<span class="richtext-editMark"></span>{param}',
             ],
             // float
             'float' => [
                 'type' => 'replacement',
                 'title' => 'float',
-                'replacement' => '<div class="clearfix"></div><div class="richtext-float">{param}</div>'
+                'replacement' => '<div class="clearfix"></div><div class="richtext-float">{param}</div>',
             ],
             // email
             'email' => [
                 'type' => 'class',
-                'title' => 'email'
+                'title' => 'email',
             ],
             'emailWithAttributes' => [
                 'type' => 'class',
-                'title' => 'emailWithAttributes'
+                'title' => 'emailWithAttributes',
             ],
             // hr
             'hr' => [
                 'type' => 'replacement',
                 'title' => 'hr',
-                'replacement' => '<hr>{param}'
+                'replacement' => '<hr>{param}',
             ],
             '---' => [
                 'type' => 'replacement',
                 'title' => '---',
-                'replacement' => '<hr>{param}'
+                'replacement' => '<hr>{param}',
             ],
             // emphasis
             'i' => [
                 'type' => 'replacement',
                 'title' => 'i',
-                'replacement' => '<em>{param}</em>'
+                'replacement' => '<em>{param}</em>',
             ],
             // list
             'list' => [
                 'type' => 'class',
-                'title' => 'ulList'
+                'title' => 'ulList',
             ],
             // spoiler
             'spoiler' => [
                 'type' => 'class',
-                'title' => 'spoiler'
+                'title' => 'spoiler',
             ],
             // strike
             's' => [
@@ -124,39 +124,39 @@ class Parser
             // url
             'link' => [
                 'type' => 'class',
-                'title' => 'link'
+                'title' => 'link',
             ],
             'linkWithAttributes' => [
                 'type' => 'class',
-                'title' => 'linkWithAttributes'
+                'title' => 'linkWithAttributes',
             ],
             'url' => [
                 'type' => 'class',
-                'title' => 'url'
+                'title' => 'url',
             ],
             'urlWithAttributes' => [
                 'type' => 'class',
-                'title' => 'urlWithAttributes'
+                'title' => 'urlWithAttributes',
             ],
             // quotes
             'quote' => [
                 'type' => 'replacement',
                 'title' => 'quote',
-                'replacement' => '<blockquote>{param}</blockquote>'
-            ]
+                'replacement' => '<blockquote>{param}</blockquote>',
+            ],
         ],
         'multimedia' => [
             'image' => [
                 'type' => 'class',
-                'title' => 'Image'
+                'title' => 'Image',
             ],
             'imageWithAttributes' => [
                 'type' => 'class',
-                'title' => 'ImageWithAttributes'
+                'title' => 'ImageWithAttributes',
             ],
             'html5audio' => [
                 'type' => 'class',
-                'title' => 'Html5Audio'
+                'title' => 'Html5Audio',
             ],
             'html5audioWithAttributes' => [
                 'type' => 'class',
@@ -164,37 +164,37 @@ class Parser
             ],
             'html5video' => [
                 'type' => 'class',
-                'title' => 'Html5Video'
+                'title' => 'Html5Video',
             ],
             'html5videoWithAttributes' => [
                 'type' => 'class',
-                'title' => 'Html5VideoWithAttributes'
+                'title' => 'Html5VideoWithAttributes',
             ],
             'upload' => [
                 'type' => 'class',
-                'title' => 'Upload'
+                'title' => 'Upload',
             ],
             'uploadWithAttributes' => [
                 'type' => 'class',
-                'title' => 'UploadWithAttributes'
+                'title' => 'UploadWithAttributes',
             ],
             'fileWithAttributes' => [
                 'type' => 'class',
                 'title' => 'fileWithAttributes',
-            ]
+            ],
         ],
         'embed' => [
             'embed' => [
                 'type' => 'class',
-                'title' => 'Embed'
+                'title' => 'Embed',
             ],
             'flash' => [
                 'type' => 'class',
-                'title' => 'Flash'
+                'title' => 'Flash',
             ],
             'iframe' => [
                 'type' => 'class',
-                'title' => 'Iframe'
+                'title' => 'Iframe',
             ],
         ],
     ];

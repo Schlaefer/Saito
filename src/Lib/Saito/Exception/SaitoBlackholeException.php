@@ -23,7 +23,7 @@ class SaitoBlackholeException extends BadRequestException
     public function __construct($type = null, $data = [])
     {
         $message = 'Request was blackholed. Type: ' . $type;
-        $logger = new ExceptionLogger;
+        $logger = new ExceptionLogger();
         $logger->write($message, $data);
         parent::__construct($message, 400);
     }

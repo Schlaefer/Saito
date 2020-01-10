@@ -95,7 +95,7 @@ class Permissions
                 $actions = [
                     'read' => 'accession',
                     'thread' => 'accession_new_thread',
-                    'answer' => 'accession_new_posting'
+                    'answer' => 'accession_new_posting',
                 ];
                 foreach ($categories as $category) {
                     foreach ($actions as $action => $field) {

@@ -78,7 +78,7 @@ class InstallerControllerTest extends IntegrationTestCase
                 'username' => 'admin',
                 'password' => 'admin',
                 'password_confirm' => 'admin',
-                'user_email' => $email
+                'user_email' => $email,
             ]
         );
 

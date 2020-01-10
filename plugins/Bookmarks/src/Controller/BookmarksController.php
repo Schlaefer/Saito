@@ -44,7 +44,7 @@ class BookmarksController extends ApiAppController
                 'contain' => ['Entries' => ['Categories', 'Users']],
                 'conditions' => [
                     'Bookmarks.user_id' => $this->CurrentUser->getId(),
-                    'Entries.category_id IN' => $categories
+                    'Entries.category_id IN' => $categories,
                 ],
                 'order' => 'Bookmarks.id DESC',
             ]

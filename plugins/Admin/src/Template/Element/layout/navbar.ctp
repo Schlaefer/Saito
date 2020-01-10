@@ -18,7 +18,7 @@
                     '/admin/users/index',
                     [
                         'class' => 'nav-link dropdown-toggle',
-                        'data-toggle' => 'dropdown'
+                        'data-toggle' => 'dropdown',
                     ]
                 );
                 echo $this->Html->nestedList(
@@ -32,7 +32,7 @@
                             __('user.block.history'),
                             '/admin/users/block',
                             ['class' => 'dropdown-item']
-                        )
+                        ),
                     ],
                     ['class' => 'dropdown-menu']
                 );
@@ -53,7 +53,7 @@
                     '#',
                     [
                         'class' => 'nav-link dropdown-toggle',
-                        'data-toggle' => 'dropdown'
+                        'data-toggle' => 'dropdown',
                     ]
                 );
 

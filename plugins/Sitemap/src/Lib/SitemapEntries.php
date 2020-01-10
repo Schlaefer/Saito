@@ -57,14 +57,14 @@ class SitemapEntries extends SitemapGenerator
     {
         $start = filter_var($params[0], FILTER_VALIDATE_INT);
         $end = filter_var($params[1], FILTER_VALIDATE_INT);
-        if (!$start || !$end || ($end - $start) > $this->_divider ||
+        if (
+            !$start || !$end || ($end - $start) > $this->_divider ||
                 // entries must be in even divider range
                 // prevents maliciously spamming the server with new cache files
                 ($start - 1) % $this->_divider !== 0 ||
                 ($end) % $this->_divider !== 0
-
         ) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
 
         return ['start' => $start, 'end' => $end];
@@ -114,7 +114,7 @@ class SitemapEntries extends SitemapGenerator
             $urls[] = [
                     'loc' => 'entries/view/' . $entry['id'],
                     'lastmod' => Date('c', $lastmod),
-                    'changefreq' => $changefreq
+                    'changefreq' => $changefreq,
             ];
         }
 

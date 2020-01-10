@@ -12,7 +12,7 @@
 
     echo $this->Html->css([
         'stylesheets/bootstrap.min',
-        'Admin.admin.css'
+        'Admin.admin.css',
     ]);
     ?>
 </head>

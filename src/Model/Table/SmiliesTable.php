@@ -13,9 +13,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppSettingTable;
-use Cake\Core\Configure;
 use Cake\Validation\Validator;
-use \Stopwatch\Lib\Stopwatch;
 
 class SmiliesTable extends AppSettingTable
 {

@@ -403,9 +403,9 @@ class UploadsControllerTest extends IntegrationTestCase
                         'name' => $file->name() . '.' . $file->ext(),
                         'size' => $file->size(),
                         'type' => $file->mime(),
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
         if ($userId) {
             $data['userId'] = (string)$userId;

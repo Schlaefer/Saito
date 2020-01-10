@@ -216,9 +216,10 @@ class Categories
                     'Saito.Settings.category_chooser_global'
                 );
                 if (!$globalActivation) {
-                    if (!Configure::read(
-                        'Saito.Settings.category_chooser_user_override'
-                    )
+                    if (
+                        !Configure::read(
+                            'Saito.Settings.category_chooser_user_override'
+                        )
                     ) {
                         return false;
                     }

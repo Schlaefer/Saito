@@ -27,19 +27,19 @@ class BookmarkFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'user_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'entry_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'comment' => [
             'type' => 'string',
@@ -52,14 +52,14 @@ class BookmarkFixture extends TestFixture
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB',
-        ]
+        ],
     ];
 
     /**
@@ -74,7 +74,7 @@ class BookmarkFixture extends TestFixture
             'entry_id' => 1, // !important
             'comment' => '', // !important
             'created' => '2012-08-07 09:51:45',
-            'modified' => '2012-08-07 09:51:45'
+            'modified' => '2012-08-07 09:51:45',
         ],
         [
             'id' => 2,
@@ -82,7 +82,7 @@ class BookmarkFixture extends TestFixture
             'entry_id' => 11,
             'comment' => '< Comment 2',
             'created' => '2012-08-07 19:51:45',
-            'modified' => '2012-08-07 19:51:45'
+            'modified' => '2012-08-07 19:51:45',
         ],
         [
             'id' => 3,
@@ -90,7 +90,7 @@ class BookmarkFixture extends TestFixture
             'entry_id' => 1,
             'comment' => 'Comment 3',
             'created' => '2012-08-07 09:51:45',
-            'modified' => '2012-08-07 09:51:45'
+            'modified' => '2012-08-07 09:51:45',
         ],
         [
             'id' => 4,
@@ -98,7 +98,7 @@ class BookmarkFixture extends TestFixture
             'entry_id' => 4,
             'comment' => 'Comment 4',
             'created' => '2012-08-07 09:51:45',
-            'modified' => '2012-08-07 09:51:45'
+            'modified' => '2012-08-07 09:51:45',
         ],
         [
             'id' => 5,
@@ -106,7 +106,7 @@ class BookmarkFixture extends TestFixture
             'entry_id' => 6,
             'comment' => '<BookmarkComment',
             'created' => '2012-08-07 09:51:45',
-            'modified' => '2012-08-07 09:51:45'
-        ]
+            'modified' => '2012-08-07 09:51:45',
+        ],
     ];
 }

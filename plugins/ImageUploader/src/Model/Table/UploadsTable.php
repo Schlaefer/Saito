@@ -81,7 +81,7 @@ class UploadsTable extends AppTable
             [
                 'maxLength' => [
                     'rule' => ['maxLength', self::FILENAME_MAXLENGTH],
-                    'message' => __('vld.uploads.title.maxlength', self::FILENAME_MAXLENGTH)
+                    'message' => __('vld.uploads.title.maxlength', self::FILENAME_MAXLENGTH),
                 ],
             ]
         );
@@ -106,7 +106,7 @@ class UploadsTable extends AppTable
             'maxAllowedUploadsPerUser',
             [
                 'errorField' => 'user_id',
-                'message' => __d('image_uploader', 'validation.error.maxNumberOfItems', $nMax)
+                'message' => __d('image_uploader', 'validation.error.maxNumberOfItems', $nMax),
             ]
         );
 

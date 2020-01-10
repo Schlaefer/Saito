@@ -171,7 +171,7 @@ class SmileyRenderer
                     '',
                     [
                         'class' => "saito-smiley-font saito-smiley-{$smiley['image']}",
-                        'title' => $title
+                        'title' => $title,
                     ]
                 );
                 //= pixel image smileys
@@ -181,7 +181,7 @@ class SmileyRenderer
                     [
                         'alt' => $smiley['code'],
                         'class' => 'saito-smiley-image',
-                        'title' => $title
+                        'title' => $title,
                     ]
                 );
             }

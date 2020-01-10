@@ -297,7 +297,7 @@ class EntriesController extends AppController
         //$this->request->allowMethod(['post', 'delete']);
         $id = (int)$id;
         if (!$id) {
-            throw new NotFoundException;
+            throw new NotFoundException();
         }
         /* @var Entry $posting */
         $posting = $this->Entries->get($id);
@@ -431,12 +431,13 @@ class EntriesController extends AppController
     public function ajaxToggle($id = null, $toggle = null)
     {
         $allowed = ['fixed', 'locked'];
-        if (!$id
+        if (
+            !$id
             || !$toggle
             || !$this->request->is('ajax')
             || !in_array($toggle, $allowed)
         ) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
 
         $posting = $this->Entries->get($id);
@@ -485,9 +486,10 @@ class EntriesController extends AppController
             'Saito.Settings.category_chooser_global'
         );
         if (!$globalActivation) {
-            if (!Configure::read(
-                'Saito.Settings.category_chooser_user_override'
-            )
+            if (
+                !Configure::read(
+                    'Saito.Settings.category_chooser_user_override'
+                )
             ) {
                 return;
             }
@@ -528,7 +530,8 @@ class EntriesController extends AppController
 
         if ($this->CurrentUser->isLoggedIn()) {
             // Only logged in users see the answering buttons if they …
-            if (// … directly on entries/view but not inline
+            if (
+// … directly on entries/view but not inline
                 ($this->request->getParam('action') === 'view' && !$this->request->is('ajax'))
                 // … directly in entries/mix
                 || $this->request->getParam('action') === 'mix'

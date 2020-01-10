@@ -15,7 +15,7 @@ class StatusControllerTest extends IntegrationTestCase
         'app.UserBlock',
         'app.UserOnline',
         'app.UserRead',
-        'plugin.Bookmarks.Bookmark'
+        'plugin.Bookmarks.Bookmark',
     ];
 
     public function testStatusMustBeAjax()

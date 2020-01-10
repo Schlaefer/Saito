@@ -95,7 +95,7 @@ class UsersTableTest extends SaitoTableTestCase
             '3' => '0',
             '5' => '0',
             '9999' => '1',
-            ['foo']
+            ['foo'],
         ];
 
         $expected = [
@@ -354,7 +354,7 @@ class UsersTableTest extends SaitoTableTestCase
         $Entity = $this->Table->get(3);
         $data = [
             'password' => 'new_pw',
-            'password_confirm' => 'new_pw_wrong'
+            'password_confirm' => 'new_pw_wrong',
         ];
         $this->Table->patchEntity($Entity, $data);
         $this->assertTrue(array_key_exists('password', $Entity->getErrors()));
@@ -362,7 +362,7 @@ class UsersTableTest extends SaitoTableTestCase
         $Entity = $this->Table->get(3);
         $data = [
             'password' => 'new_pw',
-            'password_confirm' => 'new_pw'
+            'password_confirm' => 'new_pw',
         ];
         $this->Table->patchEntity($Entity, $data);
         $this->assertEmpty($Entity->getErrors());
@@ -391,7 +391,7 @@ class UsersTableTest extends SaitoTableTestCase
         $data = [
             'password_old' => $password,
             'password' => 'new_pw_2',
-            'password_confirm' => 'new_pw_2'
+            'password_confirm' => 'new_pw_2',
         ];
 
         $result = $this->Table->patchEntity($Entity, $data);
@@ -484,7 +484,7 @@ class UsersTableTest extends SaitoTableTestCase
 
         $expected = $data + [
                 'registered' => new Time($now),
-                'user_type' => 'user'
+                'user_type' => 'user',
             ];
         unset($expected['password'], $expected['password_confirm']);
         $result = array_intersect_key(
@@ -506,7 +506,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => $pw,
             'user_email' => 'Reginald@example.com',
             'user_type' => 'admin',
-            'activate_code' => '0'
+            'activate_code' => '0',
         ];
         $user = $this->Table->register($data);
         $this->assertNotEmpty($user->get('activate_code'));
@@ -522,7 +522,7 @@ class UsersTableTest extends SaitoTableTestCase
             'password_confirm' => $pw,
             'user_email' => 'Reginald@example.com',
             'user_type' => 'admin',
-            'activate_code' => '0'
+            'activate_code' => '0',
         ];
         $user = $this->Table->register($data, true);
         $this->assertEmpty($user->get('activate_code'));
@@ -534,7 +534,7 @@ class UsersTableTest extends SaitoTableTestCase
             'username' => 'mITch',
             'user_email' => 'alice@example.com',
             'password' => 'NewUserspassword',
-            'password_confirm' => 'NewUser1spassword'
+            'password_confirm' => 'NewUser1spassword',
         ];
 
         $user = $this->Table->register($data);
@@ -553,7 +553,7 @@ class UsersTableTest extends SaitoTableTestCase
             'username' => 'Eloise in the <I>-Post',
             'user_email' => 'church@losangeles.com',
             'password' => 'Daniel',
-            'password_confirm' => 'Daniel'
+            'password_confirm' => 'Daniel',
         ];
         $user = $this->Table->register($data);
 
@@ -566,7 +566,7 @@ class UsersTableTest extends SaitoTableTestCase
             'username' => '☸🏝',
             'user_email' => 'redacted@example.com',
             'password' => 'Benjamin',
-            'password_confirm' => 'Benjamin'
+            'password_confirm' => 'Benjamin',
         ];
         $user = $this->Table->register($data);
 
@@ -579,7 +579,7 @@ class UsersTableTest extends SaitoTableTestCase
             'username' => 'Mitsch',
             'user_email' => 'mib@example.com',
             'password' => 'beforeandagain',
-            'password_confirm' => 'beforeandagain'
+            'password_confirm' => 'beforeandagain',
         ];
 
         $result = $this->Table->register($data);
@@ -589,7 +589,7 @@ class UsersTableTest extends SaitoTableTestCase
             'username' => 'Mischa',
             'user_email' => 'mib@example.com',
             'password' => 'beforeandagain',
-            'password_confirm' => 'beforeandagain'
+            'password_confirm' => 'beforeandagain',
         ];
         $entity = $this->Table->register($data);
         $this->assertArrayNotHasKey('username', $entity->getErrors());
@@ -603,7 +603,7 @@ class UsersTableTest extends SaitoTableTestCase
     {
         $data = [
             'username' => 'Liane',
-            'user_email' => 'new@example.com'
+            'user_email' => 'new@example.com',
         ];
         $entity = $this->Table->get(9);
         $entity = $this->Table->patchEntity($entity, $data);

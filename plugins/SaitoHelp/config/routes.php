@@ -17,7 +17,7 @@ Router::connect(
     [
         'plugin' => 'SaitoHelp',
         'controller' => 'SaitoHelps',
-        'action' => 'languageRedirect'
+        'action' => 'languageRedirect',
     ],
     ['pass' => ['id']]
 );
@@ -27,7 +27,7 @@ Router::connect(
     [
         'plugin' => 'SaitoHelp',
         'controller' => 'SaitoHelps',
-        'action' => 'view'
+        'action' => 'view',
     ],
     ['pass' => ['lang', 'id']]
 );

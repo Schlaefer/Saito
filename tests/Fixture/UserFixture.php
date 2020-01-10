@@ -14,7 +14,7 @@ class UserFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'user_type' => [
             'type' => 'string',
@@ -66,38 +66,38 @@ class UserFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'logins' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'last_login' => [
             'type' => 'timestamp',
             'null' => true,
-            'default' => null
+            'default' => null,
         ],
         'registered' => [
             'type' => 'timestamp',
             'null' => true,
-            'default' => null
+            'default' => null,
         ],
         'last_refresh' => [
             'type' => 'datetime',
             'null' => true,
-            'default' => null
+            'default' => null,
         ],
         'last_refresh_tmp' => [
             'type' => 'datetime',
             'null' => true,
-            'default' => null
+            'default' => null,
         ],
         'personal_messages' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '1'
+            'default' => '1',
         ],
         'user_lock' => ['type' => 'boolean', 'null' => false, 'default' => '0'],
         'activate_code' => [
@@ -105,33 +105,33 @@ class UserFixture extends TestFixture
             'null' => false,
             'default' => '0',
             'length' => 7,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'user_signatures_hide' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '0'
+            'default' => '0',
         ],
         'user_signatures_images_hide' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '0'
+            'default' => '0',
         ],
         'user_forum_refresh_time' => [
             'type' => 'integer',
             'null' => true,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'user_automaticaly_mark_as_read' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '1'
+            'default' => '1',
         ],
         'user_sort_last_answer' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '1'
+            'default' => '1',
         ],
         'user_color_new_postings' => [
             'type' => 'string',
@@ -162,23 +162,23 @@ class UserFixture extends TestFixture
         'inline_view_on_click' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '0'
+            'default' => '0',
         ],
         'user_show_thread_collapsed' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '0'
+            'default' => '0',
         ],
         'user_category_override' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '0'
+            'default' => '0',
         ],
         'user_category_active' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'user_category_custom' => [
             'type' => 'string',
@@ -191,7 +191,7 @@ class UserFixture extends TestFixture
             'null' => false,
             'default' => '0',
             'length' => 10,
-            'unsigned' => true
+            'unsigned' => true,
         ],
         'avatar' => [
             'type' => 'string',
@@ -206,15 +206,15 @@ class UserFixture extends TestFixture
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
+                'columns' => ['id'],
             ],
-            'username' => ['type' => 'unique', 'columns' => 'username']
+            'username' => ['type' => 'unique', 'columns' => 'username'],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     public $records = [
@@ -275,7 +275,7 @@ class UserFixture extends TestFixture
             'id' => 8,
             'username' => 'Walt',
             'user_email' => 'walt@example.com',
-            'user_lock' => 1
+            'user_lock' => 1,
         ],
         [
             'id' => 9,
@@ -289,7 +289,7 @@ class UserFixture extends TestFixture
             'id' => 10,
             'username' => 'Diane',
             'user_email' => 'diane@example.com',
-            'activate_code' => 1548
+            'activate_code' => 1548,
         ],
         [
             'id' => 11,
@@ -311,7 +311,7 @@ class UserFixture extends TestFixture
             'user_automaticaly_mark_as_read' => 0,
             'user_category_custom' => '',
             'user_lock' => 0,
-            'user_type' => 'user'
+            'user_type' => 'user',
         ];
 
         foreach ($this->records as $k => $record) {

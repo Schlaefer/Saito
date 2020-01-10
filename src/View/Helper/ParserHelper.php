@@ -43,7 +43,7 @@ class ParserHelper extends AppHelper
         'Url',
         //= usefull in Parsers
         'Layout',
-        'SaitoHelp'
+        'SaitoHelp',
     ];
 
     /**
@@ -110,7 +110,7 @@ class ParserHelper extends AppHelper
 
         if (!empty($smilies)) {
             $buttons[] = [
-                'type' => 'separator'
+                'type' => 'separator',
             ];
             $buttons[] = [
                 'name' => "<i class='fa fa-s-smile-o'></i>",

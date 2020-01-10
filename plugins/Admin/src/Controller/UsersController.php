@@ -43,7 +43,7 @@ class UsersController extends AdminAppController
                     'user_type',
                     'user_email',
                     'registered',
-                    'user_lock'
+                    'user_lock',
                 ]
             )
             ->order(['username' => 'asc'])

@@ -83,7 +83,7 @@ class ThreadsComponent extends Component
         ////! Check DB performance after changing conditions/sorting!
         $customFinderOptions = [
             'conditions' => [
-                'Entries.category_id IN' => $categories
+                'Entries.category_id IN' => $categories,
             ],
             // @td sanitize input?
             'limit' => Configure::read('Saito.Settings.topics_per_page'),
@@ -104,7 +104,7 @@ class ThreadsComponent extends Component
                 );
 
                 return $count;
-            }
+            },
         ];
 
         $settings = [
@@ -158,8 +158,10 @@ class ThreadsComponent extends Component
             return;
         }
 
-        if ($CurrentUser->isLoggedIn()
-            && ($posting->get('user_id') === $CurrentUser->getId())) {
+        if (
+            $CurrentUser->isLoggedIn()
+            && ($posting->get('user_id') === $CurrentUser->getId())
+        ) {
             return;
         }
 

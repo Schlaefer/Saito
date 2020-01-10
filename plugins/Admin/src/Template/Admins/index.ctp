@@ -28,7 +28,7 @@ $this->Breadcrumbs->add(__('admin.sysInfo.h'), false);
         [
             'controller' => 'admins',
             'action' => 'phpinfo',
-            'plugin' => 'admin'
+            'plugin' => 'admin',
         ]
     );
     echo $this->Html->nestedList($si)

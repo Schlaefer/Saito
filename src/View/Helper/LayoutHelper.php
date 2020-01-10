@@ -28,7 +28,7 @@ class LayoutHelper extends AppHelper
         'templates' => [
             'dropdownMenuDivider' => '<div class="dropdown-divider"></div>',
             'dropdownMenu' => '<div class="dropdown" style="display: inline;">{{button}}<div id="{{id}}" class="dropdown-menu">{{menu}}</div></div>',
-        ]
+        ],
     ];
 
     /**
@@ -137,7 +137,7 @@ class LayoutHelper extends AppHelper
             'class' => 'flex-bar-header panel-heading',
             'escape' => true,
             'pageHeading' => false,
-            'tag' => 'h2'
+            'tag' => 'h2',
         ];
         if ($options['pageHeading']) {
             $options['class'] .= ' pageTitle';
@@ -200,7 +200,7 @@ class LayoutHelper extends AppHelper
     {
         $defaults = [
             'class' => 'btn btn-link navbar-item',
-            'position' => 'left'
+            'position' => 'left',
         ];
         $class = '';
         if (isset($options['class'])) {

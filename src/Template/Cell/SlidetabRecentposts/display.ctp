@@ -23,7 +23,7 @@
                                     $this->Time->timeAgoInWords(
                                         $entry->get('time'),
                                         [
-                                            'accuracy' => ['hour' => 'hour']
+                                            'accuracy' => ['hour' => 'hour'],
                                         ]
                                     ); ?>
                                 </span>

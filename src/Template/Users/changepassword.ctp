@@ -26,7 +26,7 @@ $this->end();
                 'div' => ['class' => 'input'],
                 'label' => __('user_name'),
                 'type' => 'hidden',
-                'value' => $username
+                'value' => $username,
             ]
         ) ?>
         </div>

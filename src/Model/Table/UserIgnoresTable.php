@@ -34,7 +34,7 @@ class UserIgnoresTable extends AppTable
                 'removeOld' => [
                     'id' => 'UserIgnore.removeOld',
                     'due' => '+1 day',
-                ]
+                ],
             ]
         );
         // cache by how many other a user is ignored
@@ -72,7 +72,7 @@ class UserIgnoresTable extends AppTable
         $data = [
             'user_id' => $userId,
             'blocked_user_id' => $blockedUserId,
-            'timestamp' => bDate()
+            'timestamp' => bDate(),
         ];
         $entity = $this->newEntity($data);
         $this->save($entity);
@@ -81,7 +81,7 @@ class UserIgnoresTable extends AppTable
             'Event.Saito.User.afterIgnore',
             [
                 'blockedUserId' => $blockedUserId,
-                'userId' => $userId
+                'userId' => $userId,
             ]
         );
     }
@@ -116,8 +116,8 @@ class UserIgnoresTable extends AppTable
             [
                 'conditions' => [
                     'user_id' => $userId,
-                    'blocked_user_id' => $blockedId
-                ]
+                    'blocked_user_id' => $blockedId,
+                ],
             ]
         )->first();
     }
@@ -137,7 +137,7 @@ class UserIgnoresTable extends AppTable
                         $query->select(['Users.id', 'Users.username']);
 
                         return $query;
-                    }
+                    },
                 ]
             )
             ->where(['user_id' => $userId])
@@ -181,7 +181,7 @@ class UserIgnoresTable extends AppTable
         return $this->find(
             'all',
             [
-                'conditions' => ['blocked_user_id' => $id]
+                'conditions' => ['blocked_user_id' => $id],
             ]
         )->toArray();
     }

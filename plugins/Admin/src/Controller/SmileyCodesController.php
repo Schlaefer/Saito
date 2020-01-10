@@ -104,7 +104,7 @@ class SmileyCodesController extends AdminAppController
                 'list',
                 [
                     'keyField' => 'id',
-                    'valueField' => 'icon'
+                    'valueField' => 'icon',
                 ]
             )
             ->toArray();

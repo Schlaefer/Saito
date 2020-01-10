@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Saito\Test;
 
 use App\Test\Fixture\UserFixture;
-
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -98,7 +97,7 @@ abstract class IntegrationTestCase extends TestCase
     protected function _setJson()
     {
         $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
+            'headers' => ['Accept' => 'application/json'],
         ]);
     }
 
@@ -110,7 +109,7 @@ abstract class IntegrationTestCase extends TestCase
     protected function _unsetJson()
     {
         $this->configRequest([
-            'headers' => ['Accept' => 'text/html,application/xhtml+xml,application/xml']
+            'headers' => ['Accept' => 'text/html,application/xhtml+xml,application/xml'],
         ]);
     }
 
@@ -204,7 +203,7 @@ abstract class IntegrationTestCase extends TestCase
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'bearer ' . $jwtToken,
-            ]
+            ],
         ]);
     }
 
@@ -351,7 +350,7 @@ abstract class IntegrationTestCase extends TestCase
         $expected = Router::url([
             '_name' => 'login',
             'plugin' => false,
-            '?' => ['redirect' => $redirectUrl]
+            '?' => ['redirect' => $redirectUrl],
         ], true);
         $redirectHeader = $response->getHeader('Location')[0];
         $this->assertEquals($expected, $redirectHeader, $msg);

@@ -26,7 +26,7 @@ class SlidetabsComponent extends Component
     private $_available = [
         'slidetab_recententries' => 'SlidetabRecentposts',
         'slidetab_recentposts' => 'SlidetabUserposts',
-        'slidetab_userlist' => 'SlidetabUserlist'
+        'slidetab_userlist' => 'SlidetabUserlist',
     ];
 
     /**

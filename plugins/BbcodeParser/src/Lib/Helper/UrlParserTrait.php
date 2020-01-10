@@ -144,7 +144,7 @@ trait UrlParserTrait
      * @param string $id currently name in uploads folder
      * @return string URL
      */
-    protected function _linkToUploadedFile(string $id) : string
+    protected function _linkToUploadedFile(string $id): string
     {
         // @bogus, there's an user-config for that
         $root = '/useruploads/';

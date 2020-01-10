@@ -18,7 +18,7 @@ $jsEntry = json_encode(
             (new ResourceAI())->onRole($rootEntry->get('user')->getRole())->onOwner($rootEntry->get('user_id'))
         ),
         'tid' => (int)$entry->get('tid'),
-        'time' => $this->TimeH->dateToIso($entry->get('time'))
+        'time' => $this->TimeH->dateToIso($entry->get('time')),
     ]
 );
 ?>
@@ -34,7 +34,8 @@ $jsEntry = json_encode(
         </div>
         <div class="postingLayout-body">
             <?php
-            if (!$CurrentUser->get('user_signatures_hide') &&
+            if (
+                !$CurrentUser->get('user_signatures_hide') &&
                 $entry->get('user')->get('signature') &&
                 !$entry->isNt()
             ) {
@@ -45,7 +46,7 @@ $jsEntry = json_encode(
                 [
                     'entry' => $entry,
                     'level' => $level,
-                    'signature' => $showSignature
+                    'signature' => $showSignature,
                 ]
             );
             ?>
@@ -62,7 +63,7 @@ $jsEntry = json_encode(
                     'Request.Saito.View.Posting.footerActions',
                     [
                         'posting' => $entry->toArray(),
-                        'View' => $this
+                        'View' => $this,
                     ]
                 );
                 foreach ($items as $item) {
@@ -83,7 +84,7 @@ $jsEntry = json_encode(
                     $title,
                     [
                         'class' => 'btn btn-primary',
-                        'disabled' => 'disabled'
+                        'disabled' => 'disabled',
                     ]
                 );
             } elseif (!$isAnsweringForbidden) {
@@ -119,7 +120,7 @@ $jsEntry = json_encode(
                 if ($CurrentUser->permission('saito.core.posting.pinAndLock')) {
                     $ajaxToggleOptions = [
                         'fixed' => 'fa fa-fw fa-thumb-tack',
-                        'locked' => 'fa fa-fw fa-lock'
+                        'locked' => 'fa fa-fw fa-lock',
                     ];
                     foreach ($ajaxToggleOptions as $key => $icon) {
                         if (($entry->get($key) == 0)) {
@@ -132,7 +133,7 @@ $jsEntry = json_encode(
 
                         $options = [
                             'class' => 'dropdown-item js-btn-toggle-' . $key,
-                            'escape' => false
+                            'escape' => false,
                         ];
                         $menuItems[] = $this->Html->link(
                             $title,

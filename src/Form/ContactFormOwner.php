@@ -46,8 +46,8 @@ class ContactFormOwner extends ContactForm
             ->add('sender_contact', [
                 'isEmail' => [
                     'rule' => ['email', true],
-                    'message' => __('error_email_not-valid')
-                ]
+                    'message' => __('error_email_not-valid'),
+                ],
             ]);
 
         return $validator;

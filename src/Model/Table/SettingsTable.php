@@ -17,14 +17,14 @@ use App\Model\Table\EntriesTable;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Validation\Validator;
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 class SettingsTable extends AppSettingTable
 {
     protected $_optionalEmailFields = [
         'email_contact',
         'email_register',
-        'email_system'
+        'email_system',
     ];
 
     /**
@@ -61,7 +61,7 @@ class SettingsTable extends AppSettingTable
                     ],
                     'subjectMaxLength' => [
                         'rule' => [$this, 'validateSubjectMaxLength'],
-                        'message' => __('vld.settings.subjectMaxLength', EntriesTable::SUBJECT_MAXLENGTH)
+                        'message' => __('vld.settings.subjectMaxLength', EntriesTable::SUBJECT_MAXLENGTH),
                     ],
                 ]
             );

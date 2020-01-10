@@ -4,6 +4,6 @@ $out = [
     'html' => $this->Posting->renderThread(
         $entrySub,
         ['level' => $level]
-    )
+    ),
 ];
 echo json_encode($out);

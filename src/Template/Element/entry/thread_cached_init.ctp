@@ -1,5 +1,5 @@
 <?php
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('entries/thread_cached_init');
 
@@ -57,7 +57,7 @@ EOF;
                     [
                         'title' => $l10nCache['more'],
                         'class' => 'btn btn-link',
-                        'style' => $style
+                        'style' => $style,
                     ]
                 );
                 ?>

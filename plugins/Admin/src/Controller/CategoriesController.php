@@ -23,8 +23,8 @@ class CategoriesController extends AdminAppController
 
     public $paginate = [
         'order' => [
-            'Categories.category_order' => 'asc'
-        ]
+            'Categories.category_order' => 'asc',
+        ],
     ];
 
     /**
@@ -45,7 +45,7 @@ class CategoriesController extends AdminAppController
     {
         $this->paginate = [
             'limit' => 1000, // limit high enough so that no paging should occur
-            'order' => ['Categories.category_order' => 'ASC']
+            'order' => ['Categories.category_order' => 'ASC'],
         ];
         $this->set('categories', $this->paginate());
     }
@@ -95,7 +95,7 @@ class CategoriesController extends AdminAppController
     {
         try {
             if (empty($id)) {
-                throw new BadRequestException;
+                throw new BadRequestException();
             }
             $category = $this->Categories->get($id);
         } catch (\Exception $e) {
@@ -135,7 +135,7 @@ class CategoriesController extends AdminAppController
     {
         try {
             if (empty($id)) {
-                throw new BadRequestException;
+                throw new BadRequestException();
             }
             $category = $this->Categories->get($id);
         } catch (\Exception $e) {

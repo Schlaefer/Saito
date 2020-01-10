@@ -51,7 +51,7 @@ class SaitoEventManager implements EventListenerInterface
         return [
             'Controller.initialize' => 'cakeEventPassThrough',
             'Model.initialize' => 'cakeEventPassThrough',
-            'View.beforeRender' => 'cakeEventPassThrough'
+            'View.beforeRender' => 'cakeEventPassThrough',
         ];
     }
 
@@ -91,7 +91,7 @@ class SaitoEventManager implements EventListenerInterface
         }
         $this->_listeners[$key][] = [
             'func' => $callable,
-            'type' => gettype($callable) === 'array' ? 'object' : 'closure'
+            'type' => gettype($callable) === 'array' ? 'object' : 'closure',
         ];
     }
 

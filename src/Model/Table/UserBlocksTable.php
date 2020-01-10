@@ -86,7 +86,7 @@ class UserBlocksTable extends Table
             'all',
             [
                 'conditions' => ['user_id' => $userId, 'ended IS' => null],
-                'sort' => ['ends' => 'asc']
+                'sort' => ['ends' => 'asc'],
             ]
         )->first();
 
@@ -104,7 +104,7 @@ class UserBlocksTable extends Table
         $block = $this->find()->where(['id' => $id, 'ended IS' => null])->first(
         );
         if (!$block) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
         $this->patchEntity(
             $block,
@@ -162,7 +162,7 @@ class UserBlocksTable extends Table
             [
                 'ends IS NOT' => null,
                 'ends <' => bDate(),
-                'ended IS' => null
+                'ended IS' => null,
             ]
         );
 
@@ -200,8 +200,8 @@ class UserBlocksTable extends Table
             [
                 'conditions' => [
                     'ended IS' => null,
-                    'user_id' => $userId
-                ]
+                    'user_id' => $userId,
+                ],
             ]
         )->first();
         $user = $this->Users->get($userId, ['fields' => ['id', 'user_lock']]);

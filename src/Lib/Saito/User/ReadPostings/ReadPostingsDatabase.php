@@ -79,7 +79,7 @@ class ReadPostingsDatabase extends ReadPostingsAbstract
      * @return int
      * @throws \UnexpectedValueException
      */
-    protected function postingsPerUser() :int
+    protected function postingsPerUser(): int
     {
         $threadsOnPage = Configure::read('Saito.Settings.topics_per_page');
         $postingsPerThread = Configure::read('Saito.Globals.postingsPerThread');

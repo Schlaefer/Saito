@@ -27,7 +27,7 @@ class SaitoEmailContact implements ContactInterface
         'main' => 'Saito.Settings.forum_email',
         'contact' => 'Saito.Settings.email_contact',
         'register' => 'Saito.Settings.email_register',
-        'system' => 'Saito.Settings.email_system'
+        'system' => 'Saito.Settings.email_system',
     ];
 
     /**
@@ -79,7 +79,7 @@ class SaitoEmailContact implements ContactInterface
     public function getName()
     {
         if (!$this->name) {
-            throw new \RuntimeException;
+            throw new \RuntimeException();
         }
 
         return $this->name;
@@ -93,7 +93,7 @@ class SaitoEmailContact implements ContactInterface
     public function getAddress()
     {
         if (!$this->address) {
-            throw new \RuntimeException;
+            throw new \RuntimeException();
         }
 
         return $this->address;

@@ -10,7 +10,7 @@ Stopwatch::start('category-chooser.ctp'); ?>
         [
             'url' => [
                 'controller' => 'users',
-                'action' => 'setcategory'
+                'action' => 'setcategory',
             ],
             'style' => 'clear: none;',
         ]
@@ -38,7 +38,7 @@ Stopwatch::start('category-chooser.ctp'); ?>
                     [
                         'onclick' => "$('#cb-category-chooser-all').removeAttr('checked')",
                         'checked' => isset($categoryChooserChecked[$key]),
-                        'value' => 1
+                        'value' => 1,
                     ]
                 );
 

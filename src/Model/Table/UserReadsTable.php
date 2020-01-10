@@ -44,7 +44,7 @@ class UserReadsTable extends Table
             'garbageCollection' => [
                 'id' => 'UserReadsTable.gc',
                 'due' => '+12 hours',
-            ]
+            ],
         ]);
         $this->addBehavior('Timestamp');
 
@@ -74,7 +74,7 @@ class UserReadsTable extends Table
             $this->userCache[$userId][$entryId] = $entryId;
             $data[] = [
                 'entry_id' => $entryId,
-                'user_id' => $userId
+                'user_id' => $userId,
             ];
         }
 
@@ -127,7 +127,7 @@ class UserReadsTable extends Table
     public function deleteUserEntriesBefore(int $userId, int $entryId): void
     {
         if (empty($userId) || empty($entryId)) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
         unset($this->userCache[$userId]);
         $this->deleteAll(['entry_id <' => $entryId, 'user_id' => $userId]);
@@ -143,7 +143,7 @@ class UserReadsTable extends Table
     public function deleteAllFromUser(int $userId): void
     {
         if (empty($userId)) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
         unset($this->userCache[$userId]);
         $this->deleteAll(['user_id' => $userId]);

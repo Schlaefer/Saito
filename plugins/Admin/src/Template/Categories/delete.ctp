@@ -23,7 +23,7 @@
             'targetCategory',
             [
                 'label' => __d('admin', 'cat.del.mbd.l'),
-                'type' => 'select'
+                'type' => 'select',
             ]
         );
         echo $this->Form->hidden('mode', ['value' => 'move']);

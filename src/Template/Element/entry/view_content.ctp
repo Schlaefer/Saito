@@ -15,7 +15,8 @@ $schemaMeta = [];
             );
             $schemaMeta['url'] = $url;
             // only make subject a link if it is not in entries/view
-            if ($this->request->getParam('action') !== 'preview' &&
+            if (
+                $this->request->getParam('action') !== 'preview' &&
                 ($this->request->is('ajax') || $this->request->getParam('action') === 'mix')
             ) {
                 $subject = $this->Html->link(
@@ -67,7 +68,7 @@ $schemaMeta = [];
                         '{0} edited by {1}',
                         [
                             $this->TimeH->formatTime($entry->get('edited')),
-                            $entry->get('edited_by')
+                            $entry->get('edited_by'),
                         ]
                     );
                 }

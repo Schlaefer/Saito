@@ -38,7 +38,7 @@ class DomainParser
      * @param string $uri uri
      * @return string|null requested URI part if detected or null otherwise
      */
-    public static function domainAndTld(string $uri) : ?string
+    public static function domainAndTld(string $uri): ?string
     {
         return (new Extract())->parse($uri)->getRegistrableDomain();
     }

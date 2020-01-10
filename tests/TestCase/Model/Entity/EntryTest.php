@@ -35,7 +35,7 @@ class EntryTest extends SaitoTestCase
         $markupSettings->set([
             'server' => 'http://example.com',
             'webroot' => '/foo/',
-            'hashBaseUrl' => 'hash/base/'
+            'hashBaseUrl' => 'hash/base/',
         ]);
 
         $input = 'http://example.com/foo/hash/base/345';

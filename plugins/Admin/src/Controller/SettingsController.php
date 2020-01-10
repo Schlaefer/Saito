@@ -23,7 +23,7 @@ class SettingsController extends AdminAppController
 
     public $helpers = [
         'Admin.Setting',
-        'TimeH'
+        'TimeH',
     ];
 
     protected $settingsShownInAdminIndex = [
@@ -94,12 +94,12 @@ class SettingsController extends AdminAppController
     public function edit(string $id = null)
     {
         if (empty($id)) {
-            throw new NotFoundException;
+            throw new NotFoundException();
         }
 
         $setting = $this->Settings->get($id);
         if (empty($setting)) {
-            throw new NotFoundException;
+            throw new NotFoundException();
         }
 
         if ($this->request->is(['post', 'put'])) {

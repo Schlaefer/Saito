@@ -14,13 +14,13 @@ class SmileyCodeFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'smiley_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'code' => [
             'type' => 'string',
@@ -31,36 +31,36 @@ class SmileyCodeFixture extends TestFixture
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     public $records = [
         [
             'id' => 1,
             'smiley_id' => 1,
-            'code' => ':-)'
+            'code' => ':-)',
         ],
         [
             'id' => 2,
             'smiley_id' => 2,
-            'code' => ';-)'
+            'code' => ';-)',
         ],
         [
             'id' => 3,
             'smiley_id' => 2,
-            'code' => ';)'
+            'code' => ';)',
         ],
         [
             'id' => 4,
             'smiley_id' => 3,
-            'code' => '[_]P'
-        ]
+            'code' => '[_]P',
+        ],
     ];
 }

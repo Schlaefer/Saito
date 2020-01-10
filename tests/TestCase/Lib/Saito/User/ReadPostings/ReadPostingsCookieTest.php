@@ -161,7 +161,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             [
                 new Entry(['id' => 1, 'time' => $time]),
                 new Entry(['id' => 3, 'time' => $time + 1]),
-                new Entry(['id' => 4, 'time' => $time + 2])
+                new Entry(['id' => 4, 'time' => $time + 2]),
             ]
         );
 
@@ -184,7 +184,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 
         $this->ReadPostings->set(
             [
-                new Entry(['id' => 4, 'time' => 0])
+                new Entry(['id' => 4, 'time' => 0]),
             ]
         );
     }
@@ -201,7 +201,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             [
                 new Entry(['id' => 1, 'time' => 0]),
                 new Entry(['id' => 5, 'time' => 1]),
-                new Entry(['id' => 6, 'time' => 2])
+                new Entry(['id' => 6, 'time' => 2]),
             ]
         );
     }

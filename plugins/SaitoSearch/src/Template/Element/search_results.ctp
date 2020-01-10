@@ -5,7 +5,7 @@
             echo $this->element(
                 'generic/no-content-yet',
                 [
-                    'message' => __('search_nothing_found')
+                    'message' => __('search_nothing_found'),
                 ]
             );
         } else {

@@ -52,7 +52,7 @@ class ParserComponent extends Component
                 'server' => Router::fullBaseUrl(),
                 'UserList' => new UserlistModel(),
                 'video_domains_allowed' => $settings['video_domains_allowed'],
-                'webroot' => $this->request->getAttribute('webroot')
+                'webroot' => $this->request->getAttribute('webroot'),
         ]);
     }
 }

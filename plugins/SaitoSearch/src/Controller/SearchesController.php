@@ -72,7 +72,7 @@ class SearchesController extends AppController
     {
         $defaults = [
             'searchTerm' => '',
-            'order' => 'time'
+            'order' => 'time',
         ];
 
         // @td pgsql
@@ -97,11 +97,11 @@ class SearchesController extends AppController
             'finder' => [
                 $finder => [
                     'categories' => $this->CurrentUser->getCategories()->getAll('read'),
-                    'searchTerm' => $searchString
-                ]
+                    'searchTerm' => $searchString,
+                ],
             ],
             // only sort paginate for "page"-query-param
-            'whitelist' => ['page']
+            'whitelist' => ['page'],
         ];
 
         $results = $this->Paginator->paginate($this->Entries, $config);

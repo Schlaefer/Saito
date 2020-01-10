@@ -35,7 +35,7 @@ class CacheSupport implements EventListenerInterface
     ];
 
     protected $metaKeys = [
-        'Thread' => ['EntriesCache', 'LineCache']
+        'Thread' => ['EntriesCache', 'LineCache'],
     ];
 
     /**
@@ -45,7 +45,7 @@ class CacheSupport implements EventListenerInterface
     {
         foreach ($this->_buildInCaches as $_name) {
             $name = 'Saito\Cache\\' . $_name;
-            $this->add(new $name);
+            $this->add(new $name());
         }
         EventManager::instance()->on($this);
     }
@@ -239,7 +239,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
         return [
             'Model.Thread.change' => 'onThreadChanged',
             'Model.Entry.replyToEntry' => 'onEntryChanged',
-            'Model.Entry.update' => 'onEntryChanged'
+            'Model.Entry.update' => 'onEntryChanged',
         ];
     }
 
@@ -249,7 +249,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
     public function implementedSaitoEvents()
     {
         return [
-            'Model.Saito.Postings.delete' => 'onDelete'
+            'Model.Saito.Postings.delete' => 'onDelete',
         ];
     }
 

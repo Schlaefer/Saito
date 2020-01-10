@@ -81,8 +81,8 @@ class BbcodeParserTest extends SaitoTestCase
             [
                 'div' => [
                     'class' => 'richtext-spoiler',
-                    'style' => 'display: inline;'
-                ]
+                    'style' => 'display: inline;',
+                ],
             ],
             ['script' => true],
             'preg:/(.*?)"string":" te &quot;&#039; xt"(.*?)(?=<)/',
@@ -91,12 +91,12 @@ class BbcodeParserTest extends SaitoTestCase
                 'a' => [
                     'href' => '#',
                     'class' => 'richtext-spoiler-link',
-                    'onclick'
-                ]
+                    'onclick',
+                ],
             ],
             'preg:/.*▇ Spoiler ▇.*?(?=<)/',
             '/a',
-            '/div'
+            '/div',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -115,7 +115,7 @@ class BbcodeParserTest extends SaitoTestCase
             'bar',
             ['br' => []],
             '/li',
-            '/ul'
+            '/ul',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -129,10 +129,10 @@ class BbcodeParserTest extends SaitoTestCase
                 'href' => 'http://thetempe.st/station',
                 'class' => 'richtext-link',
                 'rel' => 'external',
-                'target' => '_blank'
+                'target' => '_blank',
             ],
             'purge',
-            '/a'
+            '/a',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -156,12 +156,12 @@ class BbcodeParserTest extends SaitoTestCase
                 'href' => 'http://cgi.ebay.de/ws/eBayISAPI.dll?ViewItem&amp;item=250678480561&amp;ssPageName=ADME:X:RTQ:DE:1123',
                 'class' => 'richtext-link',
                 'rel' => 'external',
-                'target' => '_blank'
+                'target' => '_blank',
             ],
             'test',
             '/a',
             'span' => [
-                'class' => 'richtext-linkInfo'
+                'class' => 'richtext-linkInfo',
             ],
             '[ebay.de]',
             '/span',
@@ -178,10 +178,10 @@ class BbcodeParserTest extends SaitoTestCase
                 'href' => 'http://heise.de/foobar',
                 'class' => 'richtext-link truncate',
                 'rel' => 'external',
-                'target' => '_blank'
+                'target' => '_blank',
             ],
             'http://heise.de/foobar',
-            '/a'
+            '/a',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -192,10 +192,10 @@ class BbcodeParserTest extends SaitoTestCase
                 'href' => 'http://heise.de/foobar',
                 'class' => 'richtext-link truncate',
                 'rel' => 'external',
-                'target' => '_blank'
+                'target' => '_blank',
             ],
             'http://heise.de/foobar',
-            '/a'
+            '/a',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -207,13 +207,13 @@ class BbcodeParserTest extends SaitoTestCase
                 'href' => 'http://heise.de/foobar',
                 'class' => 'richtext-link',
                 'rel' => 'external',
-                'target' => '_blank'
+                'target' => '_blank',
             ],
             'foobar',
             '/a',
             'span' => ['class' => 'richtext-linkInfo'],
             '[heise.de]',
-            '/span'
+            '/span',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -293,13 +293,13 @@ class BbcodeParserTest extends SaitoTestCase
                 'href' => 'http://heise.co.uk/foobar',
                 'class' => 'richtext-link',
                 'rel' => 'external',
-                'target' => '_blank'
+                'target' => '_blank',
             ],
             'foobar',
             '/a',
             'span' => ['class' => 'richtext-linkInfo'],
             '[heise.co.uk]',
-            '/span'
+            '/span',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -313,11 +313,11 @@ class BbcodeParserTest extends SaitoTestCase
             'em' => [],
             'a' => [
                 'class' => 'richtext-link',
-                'href' => '/hash/2234'
+                'href' => '/hash/2234',
             ],
             '#2234',
             '/a',
-            '/em'
+            '/em',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -329,12 +329,12 @@ class BbcodeParserTest extends SaitoTestCase
             'li' => true,
             'a' => [
                 'class' => 'richtext-link',
-                'href' => '/hash/2234'
+                'href' => '/hash/2234',
             ],
             '#2234',
             '/a',
             '/li',
-            '/ul'
+            '/ul',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -345,11 +345,11 @@ class BbcodeParserTest extends SaitoTestCase
             'foo (',
             'a' => [
                 'class' => 'richtext-link',
-                'href' => '/hash/2234'
+                'href' => '/hash/2234',
             ],
             '#2234',
             '/a',
-            ') bar'
+            ') bar',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -397,11 +397,11 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'a' => [
                 'class' => 'richtext-link',
-                'href' => '/at/Alice'
+                'href' => '/at/Alice',
             ],
             '@Alice',
             '/a',
-            'br' => true
+            'br' => true,
         ];
         $this->assertHtml($expected, $result);
     }
@@ -420,10 +420,10 @@ class BbcodeParserTest extends SaitoTestCase
         $expected = [
             'pre ',
             'span' => [
-                'class' => 'richtext-editMark'
+                'class' => 'richtext-editMark',
             ],
             '/span',
-            ' post'
+            ' post',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -539,7 +539,7 @@ EOF;
             ['div' => ['class' => 'richtext-float']],
             'text',
             '/div',
-            'more'
+            'more',
         ];
 
         $input = '[float]text[/float]more';
@@ -627,7 +627,7 @@ EOF;
             ],
             'http://www.example.com/foobar',
             '/a',
-            ' text'
+            ' text',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -646,7 +646,7 @@ EOF;
             ],
             'http://www.example.com/foobar',
             '/a',
-            ') text'
+            ') text',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -666,7 +666,7 @@ EOF;
             ],
             'http://example.com/?foo,,',
             '/a',
-            ', text'
+            ', text',
         ];
         $this->assertHtml($expected, $result);
 
@@ -683,7 +683,7 @@ EOF;
             ],
             'http://example.com/',
             '/a',
-            '? Text'
+            '? Text',
         ];
         $this->assertHtml($expected, $result);
 
@@ -700,7 +700,7 @@ EOF;
             ],
             'http://example.com/?foo=bar',
             '/a',
-            ' text'
+            ' text',
         ];
         $this->assertHtml($expected, $result);
     }
@@ -736,8 +736,8 @@ EOF;
                     'src' => 'http://www.youtube.com/embed/HdoW3t_WorU?&amp;wmode=Opaque',
                     'height' => '349',
                     'width' => '560',
-                    'frameborder' => '0'
-                ]
+                    'frameborder' => '0',
+                ],
             ],
             '/iframe',
         ];
@@ -795,8 +795,8 @@ EOF;
             ],
             'img' => [
                 'src' => 'http://foo.bar/img/macnemo.png',
-                'alt' => ''
-            ]
+                'alt' => '',
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -813,8 +813,8 @@ EOF;
             ],
             'img' => [
                 'src' => '/somewhere/macnemo.png',
-                'alt' => ''
-            ]
+                'alt' => '',
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -836,7 +836,7 @@ EOF;
                 'src' => 'http://foo.bar/img/macnemo.png',
                 'alt' => '',
                 'width' => '50',
-            ]
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -859,7 +859,7 @@ EOF;
                 'alt' => '',
                 'height' => '100',
                 'width' => '50',
-            ]
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -877,7 +877,7 @@ EOF;
             'img' => [
                 'src' => 'https://foo.bar/img/macnemo.png',
                 'alt' => '',
-            ]
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -895,15 +895,15 @@ EOF;
                     'href' => 'http://heise.de',
                     'rel' => 'external',
                     'target' => '_blank',
-                ]
+                ],
             ],
             [
                 'img' => [
                     'src' => 'http://heise.de/img.png',
                     'alt' => '',
-                ]
+                ],
             ],
-            '/a'
+            '/a',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -945,8 +945,8 @@ EOF;
                         'src' => '/useruploads/test.png',
                         'width' => '50',
                         'height' => '60',
-                    ]
-            ]
+                    ],
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -973,7 +973,7 @@ EOF;
                 'img' => [
                     'src' => '/useruploads/test.png',
                     'alt' => '',
-                ]
+                ],
             ],
         ];
         $result = $this->_Parser->parse($input);
@@ -993,7 +993,7 @@ EOF;
                 'img' => [
                     'src' => '/useruploads/test.png',
                     'alt' => '',
-                ]
+                ],
             ],
         ];
         $result = $this->_Parser->parse($input);
@@ -1010,7 +1010,7 @@ EOF;
                 'preload' => 'auto',
                 'src' => '/useruploads/test.mp3',
                 'x-webkit-airplay' => 'allow',
-            ]
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -1025,7 +1025,7 @@ EOF;
                 'preload' => 'auto',
                 'src' => '/useruploads/test.mp4',
                 'x-webkit-airplay' => 'allow',
-            ]
+            ],
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -1040,7 +1040,7 @@ EOF;
                 'target' => '_blank',
             ],
             'test.txt',
-            '/a'
+            '/a',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);
@@ -1078,7 +1078,7 @@ EOF;
         $input = '[code][b]text[b][/code]';
         $expected = [
             [
-                'div' => ['class' => 'geshi-wrapper']
+                'div' => ['class' => 'geshi-wrapper'],
             ],
             'preg:/.*?\[b\]text\[b\].*/',
         ];
@@ -1143,7 +1143,7 @@ EOF;
             'test',
             '/strong',
             ' ba',
-            '/span'
+            '/span',
         ];
         $this->assertHtml($expected, $result);
     }
@@ -1163,7 +1163,7 @@ EOF;
                 'src' => $url,
                 'preload' => 'auto',
                 'controls' => 'controls',
-                'x-webkit-airplay' => 'allow'
+                'x-webkit-airplay' => 'allow',
             ],
         ];
         $this->assertHtml($expected, $result);
@@ -1280,7 +1280,7 @@ EOF;
                     'prefix' => 'saito_embed-',
                     'path' => CACHE,
                     'groups' => ['embed'],
-                    'duration' => '+1 year'
+                    'duration' => '+1 year',
 
                 ]
             );
@@ -1316,7 +1316,7 @@ EOF;
                 'image' => 'wink.png',
                 'title' => 'Wink',
                 'code' => ';)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'order' => 2,
@@ -1324,7 +1324,7 @@ EOF;
                 'image' => 'smile_image.svg',
                 'title' => 'Smile',
                 'code' => ':-)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'order' => 3,
@@ -1332,7 +1332,7 @@ EOF;
                 'image' => 'coffee',
                 'title' => 'Coffee',
                 'code' => '[_]P',
-                'type' => 'font'
+                'type' => 'font',
             ],
         ];
         Cache::write('Saito.Smilies.data', $smiliesFixture);
@@ -1365,7 +1365,7 @@ EOF;
             'smilies' => true,
             'smiliesData' => $SmileyLoader,
             'video_domains_allowed' => 'youtube',
-            'webroot' => ''
+            'webroot' => '',
         ]);
         $this->_Helper = $ParserHelper = new ParserHelper($View);
         $ParserHelper->beforeRender(null);

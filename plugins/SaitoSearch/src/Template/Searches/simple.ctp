@@ -25,7 +25,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
             [
             'url' => [
               'controller' => 'searches',
-              'action' => 'simple'
+              'action' => 'simple',
             ],
             'type' => 'GET',
             'class' => 'search_form',
@@ -41,7 +41,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
             'placeholder' => __('search_term'),
         ]);
         $submit = $this->Form->submit(__('search_submit'), [
-            'class' => 'btn btn-primary btn_search_submit'
+            'class' => 'btn btn-primary btn_search_submit',
         ]);
         $form .= $this->Html->div('form-group search_main', $text . $submit);
 
@@ -54,7 +54,7 @@ echo $this->Html->css('SaitoSearch.saitosearch');
             ],
             [
                 'class' => 'form-check-input',
-                'hiddenField' => false
+                'hiddenField' => false,
             ]
         );
         $menu .= $this->Html->div('form-group form-check form-check-inline', __('Sort by: {0}', $sortBy));

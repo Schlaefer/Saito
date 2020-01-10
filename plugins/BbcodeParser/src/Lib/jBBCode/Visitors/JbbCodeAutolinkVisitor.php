@@ -128,7 +128,7 @@ class JbbCodeAutolinkVisitor extends JbbCodeTextVisitor
             }
             $matches += [
                 'prefix' => '',
-                'suffix' => ''
+                'suffix' => '',
             ];
 
             $url = $this->_url(

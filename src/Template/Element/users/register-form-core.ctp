@@ -3,7 +3,7 @@
         'autocomplete' => 'username',
         'class' => 'form-control',
         'label' => __('register_user_name'),
-        'tabindex' => 1
+        'tabindex' => 1,
     ]) ?>
 </div>
 <div class="form-group">
@@ -11,7 +11,7 @@
         'autocomplete' => 'email',
         'class' => 'form-control',
         'label' => __('register_user_email'),
-        'tabindex' => 2
+        'tabindex' => 2,
     ]) ?>
 </div>
 <div class="form-group">
@@ -21,7 +21,7 @@
         'type' => 'password',
         'label' => __('user_pw'),
         'tabindex' => 3,
-        'value' => ''
+        'value' => '',
     ]) ?>
     </div>
 <div class="form-group">
@@ -32,6 +32,6 @@
         'label' => __('user_pw_confirm'),
         'required' => true,
         'tabindex' => 4,
-        'value' => ''
+        'value' => '',
     ]) ?>
 </div>

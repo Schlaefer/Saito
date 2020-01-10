@@ -61,8 +61,8 @@ class BookmarksTable extends Table
                     'unique' => [
                         'rule' => [$this, 'validateUniqueBookmark'],
                         'last' => true,
-                        'on' => 'create'
-                    ]
+                        'on' => 'create',
+                    ],
                 ]
             )
             ->requirePresence('user_id', 'create')
@@ -117,7 +117,7 @@ class BookmarksTable extends Table
         }
         $conditions = [
             'entry_id' => $data['entry_id'],
-            'user_id' => $data['user_id']
+            'user_id' => $data['user_id'],
         ];
 
         return !$this->exists($conditions);

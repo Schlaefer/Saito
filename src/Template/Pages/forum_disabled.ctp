@@ -93,17 +93,15 @@
 
     </style>
 
-    <?php use Cake\Core\Configure; ?>
-
     <h1 class="header">
-        <?php echo Configure::read('Saito.Settings.forum_name'); ?>
+        <?php echo Cake\Core\Configure::read('Saito.Settings.forum_name'); ?>
     </h1>
     <div class="outer">
         <div class="inner">
             <div class="rotate">
                 <div class="sticky">
                     <p>
-                        <?php echo Configure::read('Saito.Settings.forum_disabled_text'); ?>
+                        <?php echo Cake\Core\Configure::read('Saito.Settings.forum_disabled_text'); ?>
                     </p>
                 </div>
             </div>

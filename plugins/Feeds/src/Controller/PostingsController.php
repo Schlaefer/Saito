@@ -80,7 +80,7 @@ class PostingsController extends AppController
             ->find('feed')
             ->where([
                 'category_id IN' => $this->CurrentUser->getCategories()->getAll('read'),
-                'pid' => 0
+                'pid' => 0,
             ]);
         $this->set('entries', $entries);
 

@@ -33,7 +33,7 @@ class DraftsControllerTest extends IntegrationTestCase
         'app.UserBlock',
         'app.UserIgnore',
         'app.UserOnline',
-        'app.UserRead'
+        'app.UserRead',
     ];
 
     public function testAddFailureNoAuthorization()
@@ -41,7 +41,7 @@ class DraftsControllerTest extends IntegrationTestCase
         $this->expectException(UnauthenticatedException::class);
 
         $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
+            'headers' => ['Accept' => 'application/json'],
         ]);
 
         $data = ['subject' => 'foo', 'text' => 'bar'];
@@ -91,7 +91,7 @@ class DraftsControllerTest extends IntegrationTestCase
         $this->expectException(UnauthenticatedException::class);
 
         $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
+            'headers' => ['Accept' => 'application/json'],
         ]);
 
         $data = ['subject' => 'foo', 'text' => 'bar'];

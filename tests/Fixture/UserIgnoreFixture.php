@@ -16,7 +16,7 @@ class UserIgnoreFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => true
+            'unsigned' => true,
         ],
         'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
         'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
@@ -24,30 +24,30 @@ class UserIgnoreFixture extends TestFixture
             'type' => 'integer',
             'null' => true,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'blocked_user_id' => [
             'type' => 'integer',
             'null' => true,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'timestamp' => [
             'type' => 'datetime',
             'null' => true,
-            'default' => null
+            'default' => null,
         ],
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     /**

@@ -23,47 +23,47 @@ class UseronlineFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => true
+            'unsigned' => true,
         ],
         'uuid' => [
             'type' => 'string',
             'null' => false,
             'length' => 32,
             'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
+            'charset' => 'utf8',
         ],
         'user_id' => [
             'type' => 'integer',
             'null' => true,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'logged_in' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => null
+            'default' => null,
         ],
         'time' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
             'length' => 14,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
         'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
+                'columns' => ['id'],
             ],
-            'useronline_uuid' => ['type' => 'unique', 'columns' => 'uuid']
+            'useronline_uuid' => ['type' => 'unique', 'columns' => 'uuid'],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'MEMORY'
-        ]
+            'engine' => 'MEMORY',
+        ],
     ];
 
     /**

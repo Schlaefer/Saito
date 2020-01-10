@@ -47,8 +47,8 @@ class SpectrumColorpickerHelper extends Helper
             'text' => [
                 'label' => false,
                 'maxlength' => '7',
-                'type' => 'text'
-            ]
+                'type' => 'text',
+            ],
         ];
 
         foreach (['color-picker', 'text'] as $key) {

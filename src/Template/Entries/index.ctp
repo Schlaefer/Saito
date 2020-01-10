@@ -1,5 +1,5 @@
 <?php
-use \Stopwatch\Lib\Stopwatch;
+use Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('entries/index');
 
@@ -19,7 +19,7 @@ echo $this->Layout->navbarItem(
     [
         'class' => 'btn-entryAdd',
         'escape' => false,
-        'rel' => 'nofollow'
+        'rel' => 'nofollow',
     ]
 );
 $this->end();
@@ -33,7 +33,7 @@ echo $this->Layout->navbarItem(
         'escape' => false,
         'class' => 'btn-hf-center shp',
         'position' => '',
-        'data-shpid' => 2
+        'data-shpid' => 2,
     ]
 );
 $this->end();
@@ -52,7 +52,7 @@ if (isset($categoryChooser)) :
         [
             'id' => 'btn-category-chooser',
             'class' => 'btn btn-link navbar-item right',
-            'escape' => false
+            'escape' => false,
         ]
     );
     echo $this->element('entry/category-chooser');
@@ -65,7 +65,7 @@ echo $this->Html->div(
         'entry/thread_cached_init',
         [
             'entriesSub' => $entries,
-            'toolboxButtons' => ['panel-info' => true]
+            'toolboxButtons' => ['panel-info' => true],
         ]
     )
 );

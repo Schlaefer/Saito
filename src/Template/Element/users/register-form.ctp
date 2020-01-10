@@ -12,7 +12,7 @@ echo $this->SimpleCaptcha->control(
         'class' => 'form-control mb-3',
         'required' => true,
         'div' => ['class' => 'form-group'],
-        'tabindex' => 10
+        'tabindex' => 10,
     ]
 );
 
@@ -36,10 +36,10 @@ if (Configure::read('Saito.Settings.tos_enabled')) {
                         ['target' => '_blank']
                     )
                 ),
-                'escape' => false
+                'escape' => false,
             ],
             'id' => 'tosConfirm',
-            'tabindex' => 11
+            'tabindex' => 11,
         ]
     );
     echo $this->Html->div('form-group form-check', $tos);
@@ -51,7 +51,7 @@ echo $this->Form->submit(
         'id' => 'btn-register-submit',
         'class' => 'btn btn-primary',
         'disabled' => $tosRequired ? 'disabled' : '',
-        'tabindex' => 12
+        'tabindex' => 12,
     ]
 );
 echo $this->Form->end();

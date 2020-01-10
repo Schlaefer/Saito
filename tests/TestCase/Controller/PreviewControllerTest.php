@@ -36,7 +36,7 @@ class PreviewControllerTest extends IntegrationTestCase
         'app.UserBlock',
         'app.UserIgnore',
         'app.UserOnline',
-        'app.UserRead'
+        'app.UserRead',
     ];
 
     public function setUp()

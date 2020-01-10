@@ -86,7 +86,7 @@ class UserPostingTraitTest extends SaitoTestCase
             'pid' => 0,
             'user_id' => 1,
             'time' => new Time(time() - ($this->editPeriod * 60) + 1),
-            'locked' => 0
+            'locked' => 0,
         ];
         $this->Mock->set($entry);
 
@@ -105,7 +105,7 @@ class UserPostingTraitTest extends SaitoTestCase
             'pid' => 0,
             'user_id' => 1,
             'time' => new Time(time() - ($this->editPeriod * 60) + 1),
-            'locked' => 0
+            'locked' => 0,
         ];
         $this->Mock->set($entry);
 
@@ -178,7 +178,7 @@ class UserPostingTraitTest extends SaitoTestCase
             'pid' => 0,
             'user_id' => 1,
             'locked' => false,
-            'time' => new Time(time() - ($this->editPeriod * 60) - 1)
+            'time' => new Time(time() - ($this->editPeriod * 60) - 1),
         ];
         $this->Mock->set($entry);
         $user = [

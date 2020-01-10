@@ -14,8 +14,8 @@ $config = [
     'Saito' =>
         [
             'v' => '5.6.0',
-            'saitoHomepage' => 'https://saito.siezi.com/'
-        ]
+            'saitoHomepage' => 'https://saito.siezi.com/',
+        ],
 ];
 
 return $config;

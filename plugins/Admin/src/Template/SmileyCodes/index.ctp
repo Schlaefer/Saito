@@ -35,7 +35,7 @@
                         [
                             'controller' => 'smilies',
                             'action' => 'edit',
-                            $smileyCode->get('smiley')->get('id')
+                            $smileyCode->get('smiley')->get('id'),
                         ]
                     );
                     ?>
@@ -47,7 +47,7 @@
                         __('Edit'),
                         [
                             'action' => 'edit',
-                            $smileyCode->get('id')
+                            $smileyCode->get('id'),
                         ],
                         ['class' => 'btn btn-warning']
                     );
@@ -56,7 +56,7 @@
                         __('Delete'),
                         [
                             'action' => 'delete',
-                            $smileyCode->get('id')
+                            $smileyCode->get('id'),
                         ],
                         ['class' => 'btn btn-danger'],
                         sprintf(

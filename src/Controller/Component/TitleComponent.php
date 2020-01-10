@@ -125,7 +125,7 @@ class TitleComponent extends Component
                 [
                     'category' => $posting->get('category')['category'],
                     'subject' => $posting->get('subject'),
-                    'type' => $type
+                    'type' => $type,
                 ]
             )
         );

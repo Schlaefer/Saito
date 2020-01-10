@@ -59,13 +59,13 @@ class JsDataHelper extends AppHelper
                         'html5-notification-icon.png',
                         [
                             'pathPrefix' => Configure::read('App.imageBaseUrl'),
-                            'fullBase' => true
+                            'fullBase' => true,
                         ]
                     ),
                     'theme' => $View->getTheme(),
                     'apiroot' => $request->getAttribute('webroot') . 'api/v2/',
-                    'webroot' => $request->getAttribute('webroot')
-                ]
+                    'webroot' => $request->getAttribute('webroot'),
+                ],
             ],
             'assets' => [
                 'lang' => $this->Url->assetUrl('js/locale/' . Configure::read('Saito.language') . '.json'),
@@ -75,19 +75,19 @@ class JsDataHelper extends AppHelper
                 'action' => $request->getParam('action'),
                 'controller' => $request->getParam('controller'),
                 'isMobile' => $request->is('mobile'),
-                'csrf' => $this->_getCsrf($View)
+                'csrf' => $this->_getCsrf($View),
             ],
             'currentUser' => [
                 'id' => (int)$CurrentUser->get('id'),
                 'username' => $CurrentUser->get('username'),
                 'user_show_inline' => $CurrentUser->get('inline_view_on_click') ?: false,
-                'user_show_thread_collapsed' => $CurrentUser->get('user_show_thread_collapsed') ?: false
+                'user_show_thread_collapsed' => $CurrentUser->get('user_show_thread_collapsed') ?: false,
             ],
             'callbacks' => [
                 'beforeAppInit' => [],
                 'afterAppInit' => [],
-                'afterViewInit' => []
-            ]
+                'afterViewInit' => [],
+            ],
         ];
         $out = 'var SaitoApp = ' . json_encode($js);
         $out .= '; SaitoApp.timeAppStart = new Date().getTime();';

@@ -212,7 +212,7 @@ class PostingBehavior extends Behavior
                     [
                         'conditions' => $conditions,
                         'limit' => $options['limit'],
-                        'order' => ['time' => 'DESC']
+                        'order' => ['time' => 'DESC'],
                     ]
                 )
                 // hydrating kills performance
@@ -265,7 +265,7 @@ class PostingBehavior extends Behavior
      * @param int $id id
      * @return PostingInterface|null tree or null if nothing found
      */
-    protected function postingsForNode(int $id) : ?PostingInterface
+    protected function postingsForNode(int $id): ?PostingInterface
     {
         /** @var EntriesTable */
         $table = $this->getTable();

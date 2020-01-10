@@ -19,7 +19,7 @@ $this->Breadcrumbs->add(__('Smilies'), false);
         __('List Smiley Codes'),
         [
             'controller' => 'smiley_codes',
-            'action' => 'index'
+            'action' => 'index',
         ],
         ['class' => 'btn btn-secondary']
     );
@@ -73,7 +73,7 @@ $this->Breadcrumbs->add(__('Smilies'), false);
                             __('Edit'),
                             [
                                 'action' => 'edit',
-                                $smiley->get('id')
+                                $smiley->get('id'),
                             ],
                             ['class' => 'btn btn-warning']
                         );
@@ -83,7 +83,7 @@ $this->Breadcrumbs->add(__('Smilies'), false);
                             __('Delete'),
                             [
                                 'action' => 'delete',
-                                $smiley->get('id')
+                                $smiley->get('id'),
                             ],
                             ['class' => 'btn btn-danger'],
                             sprintf(

@@ -111,7 +111,7 @@ class PostingHelper extends AppHelper
                 'Saito.Settings.thread_depth_indent'
             ),
             'renderer' => 'thread',
-            'rootWrap' => false
+            'rootWrap' => false,
         ];
         $renderer = $options['renderer'];
         unset($options['renderer']);
