@@ -47,29 +47,23 @@ msgid "answer.reply.t"
 msgstr "Write a Reply"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:223
 msgid "answer.subject.t"
 msgstr "Subject"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:305
 msgid "answer.submit.e.t"
 msgstr "Error: Posting Could Not Be Saved"
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:262
-#: frontend/src/modules/answering/answering.ts:304
 msgid "api.generic.e.exp"
 msgstr ""
 "Couldn't reach the internet server. Check your connection and try again."
 
 #: frontend/src/modules/answering/answering.ts:109
-#: frontend/src/modules/answering/answering.ts:263
 msgid "api.generic.e.t"
 msgstr "Error: Couldn't Connect to Server"
 
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
-#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:90
 msgid "bkm.delete.failure"
 msgstr "Error: Bookmark could not be deleted."
 
@@ -82,12 +76,10 @@ msgid "bkm.edit.title"
 msgstr "Comment"
 
 #: frontend/src/modules/bookmarks/bookmarksModule.ts:20
-#: frontend/src/modules/bookmarks/bookmarksModule.ts:38
 msgid "bkm.failure.loading"
 msgstr "Error: Bookmarks could not be loaded."
 
 #: frontend/src/modules/bookmarks/views/bookmarksVw.ts:7
-#: frontend/src/modules/bookmarks/views/bookmarksVw.ts:12
 msgid "bkm.ncy"
 msgstr "No bookmarks created yet."
 
@@ -96,7 +88,6 @@ msgid "bkm.save.btn"
 msgstr "Save bookmark."
 
 #: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:23
-#: frontend/src/modules/bookmarks/views/bookmarkItemVw.ts:65
 msgid "bkm.save.failure"
 msgstr "Error: Bookmark could not be saved."
 
@@ -105,17 +96,14 @@ msgid "bkm.title.pl"
 msgstr "Bookmarks"
 
 #: frontend/src/views/postingActionBookmark.ts:19
-#: frontend/src/views/postingActionBookmark.ts:70
 msgid "bmk.doBookmark"
 msgstr "Bookmark the entry"
 
 #: frontend/src/views/postingActionBookmark.ts:19
-#: frontend/src/views/postingActionBookmark.ts:66
 msgid "bmk.isBookmarked"
 msgstr "Entry is bookmarked"
 
 #: frontend/src/views/categoryChooserVw.ts:6
-#: frontend/src/views/categoryChooserVw.ts:24
 msgid "category.title.pl"
 msgstr "Categories"
 
@@ -124,22 +112,18 @@ msgid "editor.link.insert"
 msgstr "Insert link"
 
 #: frontend/src/modules/answering/editor/Menu/LinkView.ts:7
-#: frontend/src/modules/answering/editor/Menu/LinkView.ts:48
 msgid "editor.link.t"
 msgstr "Insert Link"
 
 #: frontend/src/modules/answering/editor/Menu/template/linkView.html:3
-#: frontend/src/modules/answering/editor/Menu/template/linkView.html:4
 msgid "editor.link.title.t"
 msgstr "Title"
 
 #: frontend/src/modules/answering/editor/Menu/template/linkView.html:15
-#: frontend/src/modules/answering/editor/Menu/template/linkView.html:16
 msgid "editor.link.url.t"
 msgstr "URL"
 
 #: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:4
-#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:5
 msgid "medins.exp"
 msgstr "Bitte Verweis zu Mediendatei oder Code zum Einbinden angeben: "
 
@@ -148,12 +132,10 @@ msgid "medins.insert.btn"
 msgstr "Insert"
 
 #: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:17
-#: frontend/src/modules/answering/editor/Menu/template/mediaInsert.html:18
 msgid "medins.notRecognized"
 msgstr "Nothing recognized."
 
 #: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:17
-#: frontend/src/modules/answering/editor/Menu/MediaInsertView.ts:65
 msgid "medins.title"
 msgstr "Embed Content"
 
@@ -163,17 +145,14 @@ msgstr "Abort"
 
 #: frontend/src/views/postingActionDelete.ts:28
 #: frontend/src/views/postingActionDelete.ts:30
-#: frontend/src/views/postingActionDelete.ts:42
 msgid "posting.delete.title"
 msgstr "Delete Posting"
 
 #: frontend/src/views/postingActionSolves.ts:23
-#: frontend/src/views/postingActionSolves.ts:34
 msgid "posting.helpful"
 msgstr "Mark entry as helpful."
 
 #: frontend/src/modules/answering/views/PreviewVw.ts:43
-#: frontend/src/modules/answering/views/PreviewVw.ts:61
 msgid "preview.e.generic"
 msgstr "Error: Couldn't load preview."
 
@@ -182,7 +161,6 @@ msgid "preview.t"
 msgstr "Preview"
 
 #: frontend/src/lib/saito/templateHelpers.js:1
-#: frontend/src/lib/saito/templateHelpers.js:42
 msgid "time.relative.yesterday"
 msgstr "yesterday"
 
@@ -191,7 +169,6 @@ msgid "tree.delete.confirm"
 msgstr "Are sure?"
 
 #: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:41
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddStatsVw.ts:53
 msgid "upl.add.calc"
 msgstr "Calculating…"
 
@@ -208,16 +185,14 @@ msgid "upl.add.speed.t"
 msgstr "Speed"
 
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:10
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:11
 msgid "upl.btn.abort.title"
 msgstr "Abort upload"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:23
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:31
 msgid "upl.btn.insert"
 msgstr "Insert"
 
 #: frontend/src/modules/uploader/templates/uploaderAddTpl.html:20
-#: frontend/src/modules/uploader/templates/uploaderAddTpl.html:21
 msgid "upl.btn.title"
 msgstr "Chose file…"
 
@@ -226,67 +201,55 @@ msgid "upl.del.btn"
 msgstr "Delete file"
 
 #: frontend/src/modules/uploader/views/uploaderAddVw.ts:26
-#: frontend/src/modules/uploader/views/uploaderAddVw.ts:163
 msgid "upl.failure"
 msgstr "Error occurred on upload."
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:9
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:12
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTitleVw.ts:18
 msgid "upl.menu.search.t"
 msgstr "Search"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:28
-#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:40
+#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:39
 msgid "upl.menu.sort.size"
 msgstr "Size"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:28
 #: frontend/src/modules/uploader/views/menu/uploaderMenuSortVw.ts:39
 msgid "upl.menu.sort.time"
 msgstr "Time"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:31
 msgid "upl.menu.type.all"
 msgstr "Type: All"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:39
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:31
 msgid "upl.mime.type.app"
 msgstr "Application file"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:43
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:31
 msgid "upl.mime.type.audio"
 msgstr "Audio"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:47
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:31
 msgid "upl.mime.type.image"
 msgstr "Image"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:51
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:31
 msgid "upl.mime.type.text"
 msgstr "Text"
 
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:19
-#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:55
+#: frontend/src/modules/uploader/views/menu/uploaderMenuTypeVw.ts:31
 msgid "upl.mime.type.video"
 msgstr "Video"
 
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:12
-#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:32
+#: frontend/src/modules/uploader/views/uploaderCollectionVw.ts:17
 msgid "upl.ncy"
 msgstr "No uploads found."
 
 #: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:40
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:63
 msgid "upl.new.title"
 msgstr "Drop File Here"
 
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:25
+#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:33
 #: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddDragAreaVw.ts:38
-#: frontend/src/modules/answering/editor/MenuButton/MenuButtonUploadView.ts:77
 msgid "upl.title"
 msgstr "Uploads"
 
@@ -295,12 +258,10 @@ msgid "upl.title.pl"
 msgstr "Uploads"
 
 #: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:1
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:36
 msgid "upl.vald.e.dad"
 msgstr "Didn't find a file."
 
 #: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:1
-#: frontend/src/modules/uploader/views/uploaderAdd/uploaderAddMdl.ts:40
 msgid "upl.vald.e.fileExists"
 msgstr "File with same name already uploaded."
 

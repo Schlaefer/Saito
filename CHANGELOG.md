@@ -12,6 +12,8 @@
 
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
+- Internal code changes:
+  - Δ Improves scanning of JS localizaton strings
 
 ### Changes
 
