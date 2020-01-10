@@ -14,7 +14,7 @@
 - ✓ Fixes localization in advanced search #364
 - Internal code changes:
   - Δ Improves scanning of JS localizaton strings
-  - Δ Upgrades Bootstrap to 4.4
+  - Δ Updates core JS-, CSS- and PHP-libraries
 
 ### Changes
 
