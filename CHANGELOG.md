@@ -393,7 +393,7 @@ body {
 
 Otherwise you have to bring your own Bootstrap-theme and layout additional forum properties from scratch.
 
-## [4.1.10] - 2019-06-10
+## [4.10.1] - 2019-06-10
 
 ### What's new
 
