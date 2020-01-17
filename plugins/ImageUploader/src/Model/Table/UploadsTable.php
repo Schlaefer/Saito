@@ -40,8 +40,6 @@ class UploadsTable extends AppTable
      */
     public const FILENAME_MAXLENGTH = 191;
 
-    private const MAX_RESIZE = 800 * 1024;
-
     /**
      * {@inheritDoc}
      */
@@ -195,7 +193,9 @@ class UploadsTable extends AppTable
                     // no break
                 case 'image/jpeg':
                     $this->fixOrientation($file);
-                    $this->resize($file, self::MAX_RESIZE);
+                    /** @var \ImageUploader\Lib\UploaderConfig */
+                    $UploaderConfig = Configure::read('Saito.Settings.uploader');
+                    $this->resize($file, $UploaderConfig->getMaxResize());
                     $entity->set('size', $file->size());
                     break;
                 default:

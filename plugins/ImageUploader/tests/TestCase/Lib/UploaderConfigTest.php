@@ -17,6 +17,17 @@ use ImageUploader\Lib\UploaderConfig;
 
 class UploaderConfigTest extends TestCase
 {
+    public function testMaxResize()
+    {
+        $config = new UploaderConfig();
+
+        $this->assertEquals(450000, $config->getMaxResize());
+
+        $newDefaultSize = random_int(1, 1000);
+        $config->setDefaultMaxResize($newDefaultSize);
+        $this->assertEquals($newDefaultSize, $config->getMaxResize());
+    }
+
     public function testDefaultSize()
     {
         $config = new UploaderConfig();

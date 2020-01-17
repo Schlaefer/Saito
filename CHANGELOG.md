@@ -10,9 +10,14 @@
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...<next>)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
 
+### Changes
+
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
-- Internal code changes:
+- Uploader
+  - ＋ Default target-size for resizing images is configurable
+  - Δ Default target-size for resizing images is reduced from 820 kB to 450 kB
+- Internal code changes
   - Δ Improves scanning of JS localizaton strings
   - Δ Updates core JS-, CSS- and PHP-libraries
 
