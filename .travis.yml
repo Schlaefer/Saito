@@ -23,6 +23,7 @@ matrix:
     - php: 7.2
       env: PHPCS=1 DEFAULT=0
     - php: 7.3
+    - php: 7.4
     - language: node_js
       env: JS=1 DEFAULT=0 PHP=0
       node_js:
@@ -65,6 +66,7 @@ before_install:
 
 install:
   - if [ $PHP = 1 ]; then composer install --prefer-source --no-interaction; fi
+  - if [ $JS = 1 ]; then yarn; fi
 
 before_script:
   - if [ $PHPCS = 1 ]; then vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer; fi

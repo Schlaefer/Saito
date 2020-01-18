@@ -14,6 +14,7 @@ namespace App\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
+use Cake\Log\Log;
 use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
 use Saito\JsData\Notifications;
@@ -107,7 +108,8 @@ class JsDataHelper extends AppHelper
     {
         $key = Configure::read('Session.cookie') . '-CSRF';
         $token = $View->getRequest()->getCookie($key);
-        if (empty($token)) {
+        if (is_array($token)) {
+            // @bogus In which situation is that not a string or null?
             $token = $View->getResponse()->getCookie($key)['value'];
         }
         $header = 'X-CSRF-Token';
