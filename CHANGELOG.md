@@ -20,12 +20,13 @@
 - Internal code changes
   - Δ Improves scanning of JS localizaton strings
   - Δ Updates core JS-, CSS- and PHP-libraries
+  - Δ Updates travis-ci environment from trusty to bionic
 
 ### Changes
 
 ### Update Notes
 
-## [5.6.0] - 2020-01-03 
+## [5.6.0] - 2020-01-03
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.6.0.zip)

@@ -7,7 +7,8 @@ php:
 
 env:
   matrix:
-    - DB=mysql DATABASE_TEST_URL='mysql://root:password@127.0.0.1/cakephp_test'
+    - DB=mysql
+
   global:
     - DEFAULT=1
     - PHP=1
@@ -34,7 +35,7 @@ matrix:
             - google-chrome-stable
       script: yarn travis
 
-dist: trusty
+dist: bionic
 
 services:
   - mysql
@@ -47,22 +48,25 @@ cache:
 before_install:
   - phpenv config-rm xdebug.ini
 
-  - if [ $PHP = 1 ] && [ $DB = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
-  - if [ $PHP = 1 ] && [ $DB = 'mysql' ]; then mysql -u root -e "USE mysql; UPDATE user SET password=PASSWORD('password') WHERE user='root'; FLUSH PRIVILEGES;"; fi
-
-  - if [$PHP = 1 ]; then pecl channel-update pecl.php.net; fi
   - |
-      if [ $PHP = 1 ] && [[ ${TRAVIS_PHP_VERSION} != "5.6" ]]; then
-        echo 'extension = memcached.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini;
+      if [ $PHP = 1 ] && [ $DB = 'mysql' ]; then
+        mysql -u root -e 'CREATE DATABASE cakephp_test;';
+        echo 'DATABASE_TEST_URL="mysql://root:@127.0.0.1/cakephp_test"' >> config/.env;
       fi
-  - if [$PHP = 1 ]; then echo 'extension = apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
-  - if [$PHP = 1 ]; then echo 'apc.enable_cli = 1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 
-  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]] ; then echo "yes" | pecl install channel://pecl.php.net/apcu-5.1.5 || true; fi
-  - sudo locale-gen da_DK
+  - |
+      if [ $PHP = 1 ]; then
+        pecl channel-update pecl.php.net;
+        echo 'extension = apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini;
+        echo 'apc.enable_cli = 1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini;
+      fi
+
+  - sudo locale-gen da_DK.UTF-8
+
+install:
+  - if [ $PHP = 1 ]; then composer install --prefer-source --no-interaction; fi
 
 before_script:
-  - if [ $PHP = 1 ]; then composer install --prefer-source --no-interaction; fi
   - if [ $PHPCS = 1 ]; then vendor/bin/phpcs --config-set installed_paths vendor/cakephp/cakephp-codesniffer; fi
 
 script:
