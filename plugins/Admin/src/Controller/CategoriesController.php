@@ -53,7 +53,7 @@ class CategoriesController extends AdminAppController
     /**
      * add new category
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function add()
     {
@@ -89,7 +89,7 @@ class CategoriesController extends AdminAppController
      * edit category
      *
      * @param string $id category-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function edit($id)
     {
@@ -129,7 +129,7 @@ class CategoriesController extends AdminAppController
      *
      * @param string $id category-ID
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function delete($id)
     {

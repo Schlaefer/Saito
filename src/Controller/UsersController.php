@@ -327,7 +327,7 @@ class UsersController extends AppController
      *
      * @param int $blockedId user to ignore
      * @param bool $set block or unblock
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _ignore($blockedId, $set)
     {
@@ -377,7 +377,7 @@ class UsersController extends AppController
      * View user profile.
      *
      * @param null $id user-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function view($id = null)
     {
@@ -440,7 +440,7 @@ class UsersController extends AppController
      * Set user avatar.
      *
      * @param string $userId user-ID
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function avatar($userId)
     {
@@ -498,7 +498,7 @@ class UsersController extends AppController
      *
      * @param null $id user-ID
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function edit($id = null)
     {
@@ -546,7 +546,7 @@ class UsersController extends AppController
      * delete user
      *
      * @param string $id user-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function delete($id)
     {
@@ -607,7 +607,7 @@ class UsersController extends AppController
     /**
      * Lock user.
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      * @throws BadRequestException
      */
     public function lock()
@@ -854,7 +854,7 @@ class UsersController extends AppController
     /**
      * Set slidetab-order.
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      * @throws BadRequestException
      */
     public function slidetabOrder()
@@ -902,7 +902,7 @@ class UsersController extends AppController
      * Set category for user.
      *
      * @param string|null $id category-ID
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     public function setcategory(?string $id = null)
     {

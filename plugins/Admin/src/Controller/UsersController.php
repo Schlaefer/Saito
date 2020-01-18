@@ -54,7 +54,7 @@ class UsersController extends AdminAppController
     /**
      * add user
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function add()
     {

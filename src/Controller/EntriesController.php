@@ -64,7 +64,7 @@ class EntriesController extends AppController
     /**
      * posting index
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function index()
     {
@@ -177,7 +177,7 @@ class EntriesController extends AppController
      * View posting.
      *
      * @param string $id posting-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function view(string $id)
     {
@@ -216,7 +216,7 @@ class EntriesController extends AppController
     /**
      * Add new posting.
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function add()
     {
@@ -228,7 +228,7 @@ class EntriesController extends AppController
      * Edit posting
      *
      * @param string $id posting-ID
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      * @throws NotFoundException
      * @throws BadRequestException
      */
@@ -269,7 +269,7 @@ class EntriesController extends AppController
      * Get thread-line to insert after an inline-answer
      *
      * @param string $id posting-ID
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function threadLine($id = null)
     {
@@ -426,7 +426,7 @@ class EntriesController extends AppController
      * @param string $id posting-ID
      * @param string $toggle property
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     public function ajaxToggle($id = null, $toggle = null)
     {

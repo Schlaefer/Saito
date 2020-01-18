@@ -19,6 +19,7 @@
   - Δ Default target-size for resizing images is reduced from 820 kB to 450 kB
 - Internal code changes
   - ＋ Tests PHP 7.4 on travis-ci
+  - ✓ Fixes phpstan deprecated warnings
   - Δ Improves scanning of JS localizaton strings
   - Δ Updates core JS-, CSS- and PHP-libraries
   - Δ Updates travis-ci environment from trusty to bionic

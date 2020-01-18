@@ -98,7 +98,7 @@ class ContactsController extends AppController
      * @param Form $contact contact-form
      * @param mixed $recipient recipient
      * @param mixed $sender sender
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     protected function _contact(Form $contact, $recipient, $sender)
     {

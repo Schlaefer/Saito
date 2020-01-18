@@ -89,7 +89,7 @@ class SettingsController extends AdminAppController
      *
      * @param string|null $id settings-ID
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function edit(string $id = null)
     {
