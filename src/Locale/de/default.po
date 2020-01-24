@@ -333,7 +333,6 @@ msgid "Custom"
 msgstr "Angepasst"
 
 #: src/Controller/EntriesController.php:532
-#: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:30
 #: src/Template/Element/entry/category-chooser.ctp:29
 msgid "All Categories"
 msgstr "Alle Kategorien"
@@ -861,46 +860,9 @@ msgstr "Suche"
 msgid "ial.aa"
 msgstr "Einstellungen"
 
-#: plugins/SaitoSearch/src/Template/Element/search_results.ctp:8
-msgid "search_nothing_found"
-msgstr "Keine Einträge."
-
-#: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:34
-msgid "search_since"
-msgstr "Seit"
-
-#: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:47
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:43
-msgid "search_submit"
-msgstr "Suchen"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:5
-msgid "search_advanced"
-msgstr "Erweiterte Suche"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:41
-msgid "search_term"
-msgstr "Suchbegriff"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:52
-#, fuzzy
-msgid "Time"
-msgstr "Zeit"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:53
-msgid "Rank"
-msgstr "Rang"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:60
 #: src/Template/Users/index.ctp:19
 msgid "Sort by: {0}"
 msgstr "Sortieren nach: {0}"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:64
-msgid "search.tooShort"
-msgstr ""
-"Die folgenden Wörter sind zu kurz und wurden ignoriert: {0}. Die "
-"Mindestzeichenzahl pro Wort beträgt: {1}."
 
 #: src/Template/Cell/AppStatus/display.ctp:13
 msgid "discl.status"

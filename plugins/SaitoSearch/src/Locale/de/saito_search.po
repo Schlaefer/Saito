@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2020-01-03 19:47+0100\n"
+"POT-Creation-Date: 2020-01-24 15:13+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Schlaefer <openmail+sourcecode@siezi.com>\n"
 "Language-Team: \n"
@@ -14,14 +14,64 @@ msgstr ""
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Template/Searches/advanced.ctp:14
+#: Template/Element/search_results.ctp:8
+msgid "nothingFound.l"
+msgstr "Keine Einträge"
+
+#: Template/Searches/advanced.ctp:10
+msgid "simple.t"
+msgstr "Einfache Suche"
+
+#: Template/Searches/advanced.ctp:28
 msgid "subject"
 msgstr "Betreff"
 
-#: Template/Searches/advanced.ctp:21
+#: Template/Searches/advanced.ctp:35
 msgid "text"
 msgstr "Text"
 
-#: Template/Searches/advanced.ctp:28
+#: Template/Searches/advanced.ctp:42
 msgid "name"
 msgstr "Name"
+
+#: Template/Searches/advanced.ctp:49
+msgid "lbl.categories"
+msgstr "Kategorie"
+
+#: Template/Searches/advanced.ctp:53
+msgid "allCategories"
+msgstr "Alle Kategorien"
+
+#: Template/Searches/advanced.ctp:57
+msgid "since.l"
+msgstr "Seit"
+
+#: Template/Searches/advanced.ctp:70 Template/Searches/simple.ctp:47
+msgid "submit.l"
+msgstr "Suche"
+
+#: Template/Searches/simple.ctp:9
+msgid "advanced.t"
+msgstr "Erweiterte Suche"
+
+#: Template/Searches/simple.ctp:45
+msgid "term.l"
+msgstr "Suchbegriff"
+
+#: Template/Searches/simple.ctp:56
+msgid "Time"
+msgstr "Zeit"
+
+#: Template/Searches/simple.ctp:57
+msgid "Rank"
+msgstr "Rang"
+
+#: Template/Searches/simple.ctp:64
+msgid "Sort by: {0}"
+msgstr "Sortieren nach: {0}"
+
+#: Template/Searches/simple.ctp:68
+msgid "tooShort"
+msgstr ""
+"Die folgenden Wörter sind zu kurz und wurden ignoriert: {0}. Die "
+"Mindestzeichenzahl pro Wort beträgt: {1}."

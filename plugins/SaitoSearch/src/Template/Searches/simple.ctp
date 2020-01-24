@@ -1,8 +1,12 @@
 <?php
+$this->start('headerSubnavLeft');
+echo $this->Layout->navbarBack();
+$this->end();
+
 $this->start('headerSubnavRight');
 echo $this->Layout->navbarItem(
     $this->Layout->textWithIcon(
-        __('search_advanced'),
+        __d('saito_search', 'advanced.t'),
         'search'
     ),
     ['controller' => 'searches', 'action' => 'advanced'],
@@ -38,10 +42,10 @@ echo $this->Html->css('SaitoSearch.saitosearch');
             'id' => 'search_fulltext_textfield',
             'class' => 'form-control search_textfield',
             'label' => false,
-            'placeholder' => __('search_term'),
+            'placeholder' => __d('saito_search', 'term.l'),
         ]);
-        $submit = $this->Form->submit(__('search_submit'), [
-            'class' => 'btn btn-primary btn_search_submit',
+        $submit = $this->Form->submit(__d('saito_search', 'submit.l'), [
+            'class' => 'btn btn-primary btn_submit.l',
         ]);
         $form .= $this->Html->div('form-group search_main', $text . $submit);
 
@@ -49,19 +53,19 @@ echo $this->Html->css('SaitoSearch.saitosearch');
         $sortBy = $this->Form->radio(
             'order',
             [
-              ['text' => __('Time'), 'value' => 'time'],
-              ['text' => __('Rank'), 'value' => 'rank'],
+              ['text' => __d('saito_search', 'Time'), 'value' => 'time'],
+              ['text' => __d('saito_search', 'Rank'), 'value' => 'rank'],
             ],
             [
                 'class' => 'form-check-input',
                 'hiddenField' => false,
             ]
         );
-        $menu .= $this->Html->div('form-group form-check form-check-inline', __('Sort by: {0}', $sortBy));
+        $menu .= $this->Html->div('form-group form-check form-check-inline', __d('saito_search', 'Sort by: {0}', $sortBy));
         $menu .= $this->SaitoHelp->icon(1);
 
         if (!empty($omittedWords)) {
-            $wordLength = h(__('search.tooShort', [$omittedWords, $minWordLength]));
+            $wordLength = h(__d('saito.search', 'tooShort', [$omittedWords, $minWordLength]));
             $wordLength .= $this->SaitoHelp->icon(1);
             $menu .= $this->Html->para('form-text small text-muted', $wordLength);
         }

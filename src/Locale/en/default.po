@@ -327,7 +327,6 @@ msgid "Custom"
 msgstr ""
 
 #: src/Controller/EntriesController.php:532
-#: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:30
 #: src/Template/Element/entry/category-chooser.ctp:29
 msgid "All Categories"
 msgstr ""
@@ -844,45 +843,9 @@ msgstr ""
 msgid "ial.aa"
 msgstr "Settings"
 
-#: plugins/SaitoSearch/src/Template/Element/search_results.ctp:8
-msgid "search_nothing_found"
-msgstr "Nothing found."
-
-#: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:34
-msgid "search_since"
-msgstr "Since"
-
-#: plugins/SaitoSearch/src/Template/Searches/advanced.ctp:47
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:43
-msgid "search_submit"
-msgstr "Search"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:5
-msgid "search_advanced"
-msgstr "Advanced Search"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:41
-msgid "search_term"
-msgstr "Search"
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:52
-msgid "Time"
-msgstr ""
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:53
-msgid "Rank"
-msgstr ""
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:60
 #: src/Template/Users/index.ctp:19
 msgid "Sort by: {0}"
 msgstr ""
-
-#: plugins/SaitoSearch/src/Template/Searches/simple.ctp:64
-msgid "search.tooShort"
-msgstr ""
-"The following words are to short and were omitted: {0}. Minimum number of "
-"characters is: {1}."
 
 #: src/Template/Cell/AppStatus/display.ctp:13
 msgid "discl.status"

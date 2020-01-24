@@ -1,5 +1,19 @@
 <?= $this->Html->css('SaitoSearch.saitosearch') ?>
 
+<?php
+$this->start('headerSubnavLeft');
+echo $this->Layout->navbarBack();
+$this->end();
+
+$this->start('headerSubnavRight');
+echo $this->Layout->navbarItem(
+    $this->Layout->textWithIcon(h(__d('saito_search', 'simple.t')), 'search'),
+    ['controller' => 'searches', 'action' => 'simple'],
+    ['position' => 'right', 'escape' => false]
+);
+$this->end();
+?>
+
 <div class="container">
     <div class="card panel-form panel-center">
         <div class="card-body">
@@ -32,15 +46,15 @@
 
         <div class="form-row">
             <div class="form-group col-sm-6">
-                <?= $this->Form->label(__('Categories')) ?>
+                <?= $this->Form->label(__d('saito_search', 'lbl.categories')) ?>
                 <?= $this->Form->select(
                     'category_id',
                     $categories,
-                    ['class' => 'form-control', 'empty' => __('All Categories'), 'required' => false]
+                    ['class' => 'form-control', 'empty' => __d('saito_search', 'allCategories'), 'required' => false]
                 )?>
             </div>
             <div class="form-group col-sm-6">
-                <?= $this->Form->label(__('search_since')) ?>
+                <?= $this->Form->label(__d('saito_search', 'since.l')) ?>
                 <?= $this->Form->month('month', ['class' => 'form-control mb-3', 'value' => $month]) ?>
                 <?= $this->Form->year(
                     'year',
@@ -53,7 +67,7 @@
         echo $this->Html->div(
             'form-group',
             $this->Form->button(
-                __('search_submit'),
+                __d('saito_search', 'submit.l'),
                 ['class' => 'btn btn-primary', 'type' => 'submit']
             ) . $this->SaitoHelp->icon(1)
         );

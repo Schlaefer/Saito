@@ -61,12 +61,6 @@ msgstr "Bookmarks"
 msgid "bookmarks/edit"
 msgstr "Edit Bookmark"
 
-msgid "searches/advanced"
-msgstr "Advanced Search"
-
-msgid "searches/simple"
-msgstr "Search"
-
 #
 msgid "users/changepassword"
 msgstr "Change Password"

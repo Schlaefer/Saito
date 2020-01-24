@@ -14,6 +14,7 @@
 
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
+- ✓ Missing navigation links in search head
 - Δ Set default period for advanced search to the last 12 months #354
 - Uploader
   - ＋ Default target-size for resizing images is configurable

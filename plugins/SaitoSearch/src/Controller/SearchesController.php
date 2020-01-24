@@ -70,6 +70,8 @@ class SearchesController extends AppController
      */
     public function simple()
     {
+        $this->set('titleForPage', __d('saito_search', 'simple.t'));
+
         $defaults = [
             'searchTerm' => '',
             'order' => 'time',
@@ -118,6 +120,8 @@ class SearchesController extends AppController
      */
     public function advanced()
     {
+        $this->set('titleForPage', __d('saito_search', 'advanced.t'));
+
         $queryData = $this->request->getQueryParams();
 
         /// Setup time filter data

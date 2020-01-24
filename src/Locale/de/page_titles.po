@@ -62,12 +62,6 @@ msgstr "Lesezeichen"
 msgid "bookmarks/edit"
 msgstr "Lesezeichen bearbeiten"
 
-msgid "searches/advanced"
-msgstr "Erweiterte Suche"
-
-msgid "searches/simple"
-msgstr "Suche"
-
 #
 msgid "users/changepassword"
 msgstr "Passwort ändern"
