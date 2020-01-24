@@ -86,6 +86,15 @@ $table[] = [
     ),
 ];
 
+if ($CurrentUser->permission('saito.core.user.lastLogin.view')) {
+    $table[] = [
+        h(__('user.lastLogin.t')),
+        empty($user->get('last_login'))
+            ? __('user.lastLogin.never')
+            : $this->TimeH->formatTime($user->get('last_login')),
+    ];
+}
+
 $table[] = [
     __('user_postings'),
     $this->Html->link(

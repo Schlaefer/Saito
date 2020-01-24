@@ -236,6 +236,7 @@ class UserFixture extends TestFixture
             'user_type' => 'user', //!important
             'user_email' => 'ulysses@example.com',
             'personal_messages' => 1,
+            'last_login' => '2010-09-02 12:00',
         ],
         [
             'id' => 4,

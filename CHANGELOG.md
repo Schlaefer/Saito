@@ -12,6 +12,7 @@
 
 ### Changes
 
+- ＋ Adds permission `saito.core.user.lastLogin.view` to see a user's last login (defaults to admin)
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
 - ✓ Missing navigation links in search head
