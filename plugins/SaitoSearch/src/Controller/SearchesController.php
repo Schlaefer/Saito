@@ -17,8 +17,8 @@ use App\Model\Table\EntriesTable;
 use Cake\Chronos\Chronos;
 use Cake\Database\Driver\Mysql;
 use Cake\Event\Event;
-use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Response;
+use Cake\I18n\FrozenDate;
 use SaitoSearch\Lib\SimpleSearchString;
 use Saito\Exception\SaitoForbiddenException;
 use Search\Controller\Component\PrgComponent;
@@ -120,20 +120,24 @@ class SearchesController extends AppController
     {
         $queryData = $this->request->getQueryParams();
 
-        //// Setup time filter data
+        /// Setup time filter data
         $first = $this->Entries->find()
             ->order(['id' => 'ASC'])
             ->first();
         if ($first) {
             $startDate = $first->get('time');
+            /// Limit default search range to one year in the past
+            $aYearAgo = new FrozenDate('-1 year');
+            $defaultDate = $startDate < $aYearAgo ? $aYearAgo : $startDate;
         } else {
-            $startDate = Chronos::now();
+            /// No entries yet
+            $startDate = $defaultDate = Chronos::now();
         }
         $startYear = $startDate->format('Y');
 
         // calculate current month and year
-        $month = $queryData['month']['month'] ?? $startDate->format('n');
-        $year = $queryData['year']['year'] ?? $startYear;
+        $month = $queryData['month']['month'] ?? $defaultDate->month;
+        $year = $queryData['year']['year'] ?? $defaultDate->year;
         $this->set(compact('month', 'year', 'startYear'));
 
         /// Category drop-down data
@@ -153,11 +157,11 @@ class SearchesController extends AppController
 
         /// Time filter
         $time = Chronos::createFromDate($year, $month, 1);
-        if ($time->year !== $startDate->year || $time->month !== $startDate->month) {
+        if ($time->year !== $defaultDate->year || $time->month !== $defaultDate->month) {
             $query->where(['time >=' => $time]);
         }
 
-        //// Category filter
+        /// Category filter
         $categories = array_flip($categories);
         if (!empty($queryData['category_id'])) {
             $category = $queryData['category_id'];

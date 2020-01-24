@@ -14,6 +14,7 @@
 
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
+- Δ Set default period for advanced search to the last 12 months #354
 - Uploader
   - ＋ Default target-size for resizing images is configurable
   - Δ Default target-size for resizing images is reduced from 820 kB to 450 kB
