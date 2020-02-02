@@ -30,7 +30,7 @@ class ErrorController extends Controller
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -42,7 +42,7 @@ class ErrorController extends Controller
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         parent::beforeRender($event);
 

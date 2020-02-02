@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace App\Database\Type;
 
 use Cake\Database\Driver;
-use Cake\Database\Type;
+use Cake\Database\TypeFactory;
 use PDO;
 
-class SerializeType extends Type
+class SerializeType extends \Cake\Database\TypeFactory
 {
 
     /**

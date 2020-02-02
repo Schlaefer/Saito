@@ -14,7 +14,7 @@ class PostingHelperTest extends SaitoTestCase
 {
     public $Helper;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -23,7 +23,7 @@ class PostingHelperTest extends SaitoTestCase
         $this->Helper = new PostingHelper($View);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Helper);
         parent::tearDown();

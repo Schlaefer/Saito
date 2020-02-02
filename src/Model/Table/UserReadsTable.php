@@ -38,7 +38,7 @@ class UserReadsTable extends Table
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->addBehavior('Cron.Cron', [
             'garbageCollection' => [

@@ -29,7 +29,7 @@ class UserBlocksTable extends Table
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->addBehavior('Timestamp');
 
@@ -45,7 +45,7 @@ class UserBlocksTable extends Table
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
             ->allowEmpty('ends')

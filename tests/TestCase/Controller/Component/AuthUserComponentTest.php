@@ -49,14 +49,14 @@ class AuthUserComponentTest extends IntegrationTestCase
      */
     public $controller = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->_setup();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         // Clean up after we're done

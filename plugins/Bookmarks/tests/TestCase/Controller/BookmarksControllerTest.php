@@ -39,7 +39,7 @@ class BookmarksControllerTest extends IntegrationTestCase
      */
     protected $Bookmarks;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->Bookmarks = TableRegistry::get('Bookmarks');
         parent::setUp();

@@ -59,7 +59,7 @@ class SitemapsControllerTest extends IntegrationTestCase
         $this->assertResponseNotContains("{$baseUrl}/entries/view/6</loc>");
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (Cache::getConfig('sitemap')) {
             Cache::clear(false, 'sitemap');

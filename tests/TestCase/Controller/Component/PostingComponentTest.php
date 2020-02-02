@@ -34,7 +34,7 @@ class PostingComponentTest extends SaitoTestCase
      */
     public $controller;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         // Setup our component and fake test controller
@@ -50,7 +50,7 @@ class PostingComponentTest extends SaitoTestCase
         $this->insertCategoryPermissions();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         // Clean up after we're done

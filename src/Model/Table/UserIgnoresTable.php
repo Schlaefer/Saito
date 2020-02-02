@@ -26,7 +26,7 @@ class UserIgnoresTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->addBehavior(
             'Cron.Cron',
@@ -47,7 +47,7 @@ class UserIgnoresTable extends AppTable
     /**
      * {@inheritdoc}
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(\Cake\Event\EventInterface $rules): \Cake\ORM\RulesChecker
     {
         $rules->add($rules->existsIn('user_id', 'Users'));
 

@@ -76,7 +76,7 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setPrimaryKey('id');
 
@@ -130,7 +130,7 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator->setProvider('saito', SaitoValidationProvider::class);
 
@@ -190,7 +190,7 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(\Cake\Event\EventInterface $rules): \Cake\ORM\RulesChecker
     {
         $rules = parent::buildRules($rules);
 
@@ -230,7 +230,7 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
+    public function afterSave(\Cake\Event\EventInterface $event, Entity $entity, \ArrayObject $options)
     {
         if ($entity->isNew()) {
             $this->Drafts->deleteDraftForPosting($entity);

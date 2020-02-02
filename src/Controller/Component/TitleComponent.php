@@ -25,7 +25,7 @@ class TitleComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $controller = $event->getSubject();
 

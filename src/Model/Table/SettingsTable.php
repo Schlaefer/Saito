@@ -30,7 +30,7 @@ class SettingsTable extends AppSettingTable
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setPrimaryKey('name');
     }
@@ -38,7 +38,7 @@ class SettingsTable extends AppSettingTable
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
             ->notEmptyString('name')

@@ -28,7 +28,7 @@ class AppSettingTable extends AppTable
      *  - 'clearCache' set to 'false' to prevent cache clearing
      * @return void
      */
-    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
+    public function afterSave(\Cake\Event\EventInterface $event, Entity $entity, \ArrayObject $options)
     {
         if (!isset($options['clearCache']) || $options['clearCache'] !== false) {
             $this->clearCache();

@@ -32,7 +32,7 @@ class CacheSupportComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->_CacheSupport = new CacheSupport();
         $this->_initLineCache();
@@ -69,7 +69,7 @@ class CacheSupportComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $event->getSubject()->set('LineCache', $this->LineCache);
     }

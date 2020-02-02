@@ -25,7 +25,7 @@ class AppStatusCellTest extends SaitoTestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->request = $this->createMock('Cake\Network\Request');
@@ -39,7 +39,7 @@ class AppStatusCellTest extends SaitoTestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->AppStatus);
 

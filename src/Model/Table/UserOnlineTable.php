@@ -45,7 +45,7 @@ class UserOnlineTable extends Table
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setTable('useronline');
 
@@ -67,7 +67,7 @@ class UserOnlineTable extends Table
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         /// uuid
         $validator

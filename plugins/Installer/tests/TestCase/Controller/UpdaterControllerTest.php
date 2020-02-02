@@ -31,7 +31,7 @@ class UpdaterControllerTest extends IntegrationTestCase
     /** @var DbVersion */
     protected $dbVersion;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->token = new File(CONFIG . 'updater');
@@ -39,7 +39,7 @@ class UpdaterControllerTest extends IntegrationTestCase
         Configure::write('Saito.updated', false);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->token->delete();
         unset($this->settings, $this->token);

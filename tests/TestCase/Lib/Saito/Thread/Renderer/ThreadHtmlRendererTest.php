@@ -160,7 +160,7 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         $this->assertEquals(substr_count($result, '<ul'), 2);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->PostingHelper = $this->_setupPostingHelper();

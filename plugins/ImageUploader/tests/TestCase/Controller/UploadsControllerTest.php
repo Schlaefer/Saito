@@ -42,7 +42,7 @@ class UploadsControllerTest extends IntegrationTestCase
      */
     private $file;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -50,7 +50,7 @@ class UploadsControllerTest extends IntegrationTestCase
         $this->mockMediaFile($this->file);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->file->delete();
         unset($this->file);

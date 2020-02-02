@@ -45,7 +45,7 @@ class AppController extends Controller
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         Cache::clear();
         Cache::disable();

@@ -26,7 +26,7 @@ class ParserComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $controller = $this->getController();
 

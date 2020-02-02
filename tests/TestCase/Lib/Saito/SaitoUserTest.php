@@ -66,13 +66,13 @@ class SaitoUserTest extends SaitoTestCase
         $this->assertEquals($this->SaitoUser->get('foo'), 'bar');
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->SaitoUser = new SaitoUser();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->SaitoUser);

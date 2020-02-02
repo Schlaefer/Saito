@@ -63,7 +63,7 @@ class UsersTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->addBehavior(
             'Cron.Cron',
@@ -139,7 +139,7 @@ class UsersTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator->setProvider(
             'saito',
@@ -515,7 +515,7 @@ class UsersTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
+    public function afterSave(\Cake\Event\EventInterface $event, Entity $entity, \ArrayObject $options)
     {
         if ($entity->isDirty('username')) {
             $this->updateUsername($entity);
@@ -526,7 +526,7 @@ class UsersTable extends AppTable
      * {@inheritDoc}
      */
     public function beforeSave(
-        Event $event,
+        \Cake\Event\EventInterface $event,
         Entity $entity,
         \ArrayObject $options
     ) {

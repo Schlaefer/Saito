@@ -29,7 +29,7 @@ class RefererComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         $baseUrl = Router::url('/', true);
         $referer = $event->getSubject()->referer();
@@ -50,7 +50,7 @@ class RefererComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $controller = $event->getSubject();
         $controller->set('referer', $this->last);

@@ -32,7 +32,7 @@ class ReadPostingsDatabaseTest extends SaitoTableTestCase
         'app.User',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Configure::write('Saito.Settings.topics_per_page', 10);

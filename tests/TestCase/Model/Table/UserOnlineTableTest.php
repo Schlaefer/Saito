@@ -259,13 +259,13 @@ class UserOnlineTableTest extends SaitoTableTestCase
         unset($UserOnline['time']);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->_startUsersOnline = [];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->UserOnline);
         parent::tearDown();

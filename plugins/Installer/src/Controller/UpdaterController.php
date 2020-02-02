@@ -36,7 +36,7 @@ class UpdaterController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->dbVersion = Configure::read('Saito.Settings.db_version');
@@ -46,7 +46,7 @@ class UpdaterController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(\Cake\Event\Event $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         $this->set('titleForLayout', __d('installer', 'update.title'));
     }

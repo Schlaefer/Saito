@@ -39,13 +39,13 @@ class PreviewControllerTest extends IntegrationTestCase
         'app.UserRead',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->Table = TableRegistry::get('Entries');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->Table);

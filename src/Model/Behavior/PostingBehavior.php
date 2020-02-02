@@ -32,7 +32,7 @@ class PostingBehavior extends Behavior
     /**
      * {@inheritDoc}
      */
-    public function buildRules(Event $event, RulesChecker $rules)
+    public function buildRules(\Cake\Event\EventInterface $event, RulesChecker $rules)
     {
         $rules->add(
             function ($entity) {
@@ -68,7 +68,7 @@ class PostingBehavior extends Behavior
     /**
      * {@inheritDoc}
      */
-    public function beforeSave(Event $event, Entity $entity)
+    public function beforeSave(\Cake\Event\EventInterface $event, Entity $entity)
     {
         $success = true;
 
@@ -88,7 +88,7 @@ class PostingBehavior extends Behavior
     /**
      * {@inheritDoc}
      */
-    public function afterSave(Event $event, Entity $entity)
+    public function afterSave(\Cake\Event\EventInterface $event, Entity $entity)
     {
         if ($entity->isDirty('locked')) {
             $this->lockThread($entity->get('tid'), $entity->get('locked'));

@@ -22,7 +22,7 @@ class CronComponent extends Component
     /**
      * {@inheritDoc}
      */
-    public function shutdown(Event $event)
+    public function shutdown(\Cake\Event\EventInterface $event)
     {
         $Cron = Registry::get('Cron');
         $Cron->execute();

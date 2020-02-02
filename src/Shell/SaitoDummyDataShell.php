@@ -102,7 +102,7 @@ class SaitoDummyDataShell extends Shell
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         Registry::initialize();

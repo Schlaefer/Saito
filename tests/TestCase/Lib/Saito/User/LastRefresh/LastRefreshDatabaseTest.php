@@ -17,7 +17,7 @@ class LastRefreshDatabaseTest extends SaitoTestCase
      */
     public $CurrentUser;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -25,7 +25,7 @@ class LastRefreshDatabaseTest extends SaitoTestCase
         $this->LastRefresh = $this->CurrentUser->getLastRefresh();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->CurrentUser);
         unset($this->LastRefresh);

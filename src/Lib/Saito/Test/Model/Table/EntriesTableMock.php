@@ -22,7 +22,7 @@ class EntriesTableMock extends EntriesTable
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->setEntityClass('Entry');
         parent::initialize($config);

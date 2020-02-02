@@ -34,7 +34,7 @@ class ThemesComponentTest extends SaitoTestCase
      */
     public $controller;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         // Setup our component and fake test controller
@@ -45,7 +45,7 @@ class ThemesComponentTest extends SaitoTestCase
         $this->component = new ThemesComponent($registry);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->component, $this->controller);
         parent::tearDown();

@@ -23,7 +23,7 @@ class IpLoggingBehavior extends Behavior
     /**
      * {@inheritDoc}
      */
-    public function beforeSave(Event $event, Entity $entity)
+    public function beforeSave(\Cake\Event\EventInterface $event, Entity $entity)
     {
         if (!$entity->isNew() || !Configure::read('Saito.Settings.store_ip')) {
             return;

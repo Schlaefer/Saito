@@ -46,7 +46,7 @@ class UsersController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadComponent('Referer');
@@ -190,7 +190,7 @@ class UsersController extends AppController
         }
 
         $validator = new SimpleCaptchaValidator();
-        $errors = $validator->errors($this->request->getData());
+        $errors = $validator->validate($this->request->getData());
 
         $user = $this->Users->register($data);
         $user->setErrors($errors);
@@ -922,7 +922,7 @@ class UsersController extends AppController
     /**
      * {@inheritdoc}
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
         Stopwatch::start('Users->beforeFilter()');

@@ -40,7 +40,7 @@ class ThreadsComponentTest extends SaitoTableTestCase
     /** @var EntriesTable */
     public $Table;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         // Setup our component and fake test controller
@@ -51,7 +51,7 @@ class ThreadsComponentTest extends SaitoTableTestCase
         $this->component = new ThreadsComponent($registry, ['table' => $this->Table]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->component, $this->controller);
         parent::tearDown();

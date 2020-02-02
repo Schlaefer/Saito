@@ -22,7 +22,7 @@ class CronBehavior extends Behavior
      *
      * Register table cron-jobs as behavior config.
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $cron = Registry::get('Cron');
         foreach ($config as $func => $options) {
