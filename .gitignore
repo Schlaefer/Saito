@@ -1,17 +1,56 @@
-### OS and editor ###
-.DS_Store
+# CakePHP specific files #
+##########################
+/config/app_local.php
+/config/.env
+/logs/*
+/tmp/*
+/vendor/*
 
-### Package Manager & Build System###
-.sass-cache
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+.directory
+
+# Tool specific files #
+#######################
+# PHPUnit
+.phpunit.result.cache
+# vim
+*~
+*.swp
+*.swo
+# sublime text & textmate
+*.sublime-*
+*.stTheme.cache
+*.tmlanguage.cache
+*.tmPreferences.cache
+# Eclipse
+.settings/*
+# JetBrains, aka PHPStorm, IntelliJ IDEA
+.idea/*
+# NetBeans
+nbproject/*
+# Visual Studio Code
+.vscode
+# Sass preprocessor
+.sass-cache/
+
+# Saito specific files #
+########################
+# Package Manager & Build System
 /node_modules
 
-### CakePHP 3 ###
+# CakePhp
 schema-dump-default.lock
-/logs
-/tmp
-/vendor
 
-### Saito ###
+# App
 /_attic
 /build/
 /config/.env
@@ -19,14 +58,11 @@ schema-dump-default.lock
 /dist/
 /webroot/useruploads/*
 
-### Assets ###
+# Assets
 plugins/Bota/webroot/css/*
 !plugins/Bota/webroot/css/src/
-
 plugins/Bota/webroot/fonts/*.woff*
-
 plugins/SpectrumColorpicker/webroot/*
-
 webroot/css/stylesheets/*
 !webroot/css/stylesheets/src/
 webroot/js/*

@@ -1,4 +1,15 @@
-<?= $this->Html->docType('html5') . "\n"; ?>
+<?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ * @var \App\View\AppView $this
+ */
+
+echo $this->Html->docType('html5') . "\n";
+?>
 <html>
 <head>
     <?= $this->element('layout/html_header') ?>

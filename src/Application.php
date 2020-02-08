@@ -15,11 +15,12 @@ declare(strict_types=1);
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use App\Auth\AuthenticationServiceFactory;
 use App\Middleware\SaitoBootstrapMiddleware;
-use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
 use Authentication\UrlChecker\DefaultUrlChecker;
@@ -59,7 +60,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     }
 
     /**
-     * {@inheritDoc}
+     * Load all the application configuration and bootstrap logic.
+     *
+     * @return void
      */
     public function bootstrap(): void
     {
@@ -75,7 +78,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
          * Debug Kit should not be installed on a production system
          */
         if (Configure::read('debug')) {
-            // $this->addPlugin(\DebugKit\Plugin::class);
+            // $this->addPlugin('DebugKit');
         }
         // Load more plugins here
 
@@ -157,7 +160,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      *
      * {@inheritDoc}
      */
-    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response): AuthenticationService
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         $isApi = (new DefaultUrlChecker())
             ->check($request, ['#api/v2#'], ['useRegex' => true]);
@@ -188,6 +191,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     }
 
     /**
+     * Bootrapping for CLI application.
+     *
+     * That is when running commands.
+     *
      * @return void
      */
     protected function bootstrapCli(): void
@@ -197,7 +204,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         } catch (MissingPluginException $e) {
             // Do not halt if the plugin is missing
         }
+
         $this->addPlugin('Migrations');
+
         // Load more plugins here
     }
 }
