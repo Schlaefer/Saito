@@ -18,12 +18,12 @@ use Saito\Test\SaitoTestCase;
 class LegacyPasswordHasherSaltlessTest extends SaitoTestCase
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->Hasher = new LegacyPasswordHasherSaltless(['hashType' => 'md5']);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Hasher);
     }
@@ -39,6 +39,6 @@ class LegacyPasswordHasherSaltlessTest extends SaitoTestCase
         $hash = $this->Hasher->hash($password);
         $this->assertTrue($this->Hasher->check($password, $hash));
 
-        $this->assertFalse($this->Hasher->check(mt_rand(1, 99999), $hash));
+        $this->assertFalse($this->Hasher->check((string)mt_rand(1, 99999), $hash));
     }
 }

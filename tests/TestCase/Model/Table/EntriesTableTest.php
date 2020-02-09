@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Entity\Entry;
-use App\Model\Table\EntriesTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
@@ -12,7 +12,9 @@ class EntriesTest extends SaitoTableTestCase
 {
     public $tableClass = 'Entries';
 
-    /** @var EntriesTable */
+    /**
+     * @var EntriesTable
+     */
     public $Table;
 
     public $fixtures = [

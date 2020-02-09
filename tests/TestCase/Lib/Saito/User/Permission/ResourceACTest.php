@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Saito\Test;
 
 use Exception;
-use Saito\Test\SaitoTestCase;
 use Saito\User\Permission\ResourceAC;
 use Saito\User\Permission\ResourceAI;
 use Saito\User\SaitoUser;
@@ -24,20 +22,24 @@ class ResourceACTest extends SaitoTestCase
         'app.Category',
     ];
 
-    /** @var ResourceAC */
+    /**
+     * @var ResourceAC
+     */
     private $ac;
 
-    /** @var ResourceAI */
+    /**
+     * @var ResourceAI
+     */
     private $ai;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->ac = new ResourceAC();
         $this->ai = new ResourceAI();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->ac, $this->ai);

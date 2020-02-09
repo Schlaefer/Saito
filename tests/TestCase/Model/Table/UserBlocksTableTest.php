@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
@@ -6,7 +7,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class UserBlocksTableTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'UserBlocks';
 
     public $fixtures = [

@@ -339,7 +339,7 @@ class UsersControllerTest extends IntegrationTestCase
                             ->first();
                         $id = $user->get('id');
                         $activate = $user->get('activate_code');
-                        $this->assertContains(
+                        $this->assertStringContainsString(
                             "/users/rs/$id?c=$activate",
                             implode(' ', $email->message())
                         );

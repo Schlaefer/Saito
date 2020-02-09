@@ -54,7 +54,7 @@ class DbVersion
     {
         $dbSetting = $this->table->findByName('db_version')->first();
         if (!$dbSetting) {
-            $dbSetting = $this->table->newEntity();
+            $dbSetting = $this->table->newEmptyEntity();
         }
         $dbSetting->set('value', $version);
         $this->table->save($dbSetting);

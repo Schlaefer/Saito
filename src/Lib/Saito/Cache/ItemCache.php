@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,11 +21,10 @@ use Stopwatch\Lib\Stopwatch;
  */
 class ItemCache
 {
-
     protected $_cache = null;
 
     /**
-     * @var null|SaitoCacheEngineInterface if null cache is only active for this request
+     * @var null|\Saito\Cache\SaitoCacheEngineInterface if null cache is only active for this request
      */
     protected $_CacheEngine = null;
 
@@ -55,12 +53,12 @@ class ItemCache
      * Constructor
      *
      * @param string $name name
-     * @param SaitoCacheEngineInterface $CacheEngine engine
+     * @param \Saito\Cache\SaitoCacheEngineInterface $CacheEngine engine
      * @param array $options options
      */
     public function __construct(
         $name,
-        SaitoCacheEngineInterface $CacheEngine = null,
+        ?SaitoCacheEngineInterface $CacheEngine = null,
         $options = []
     ) {
         $this->_settings = $options + $this->_settings;
@@ -288,7 +286,7 @@ class ItemCache
                     return 0;
                 }
 
-                return ($a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated']) ? 1 : -1;
+                return $a['metadata']['content_last_updated'] < $b['metadata']['content_last_updated'] ? 1 : -1;
             }
         );
     }

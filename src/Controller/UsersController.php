@@ -36,13 +36,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class UsersController extends AppController
 {
-    public $helpers = [
-        'SpectrumColorpicker.SpectrumColorpicker',
-        'Posting',
-        'Siezi/SimpleCaptcha.SimpleCaptcha',
-        'Text',
-    ];
-
     /**
      * {@inheritDoc}
      */
@@ -167,7 +160,7 @@ class UsersController extends AppController
         $tosRequired = Configure::read('Saito.Settings.tos_enabled');
         $this->set(compact('tosRequired'));
 
-        $user = $this->Users->newEntity();
+        $user = $this->Users->newEmptyEntity();
         $this->set('user', $user);
 
         if (!$this->request->is('post')) {
@@ -502,6 +495,8 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $this->viewBuilder()->setHelpers(['SpectrumColorpicker.SpectrumColorpicker']);
+
         /** @var User */
         $user = $this->Users->get($id);
 
@@ -765,7 +760,7 @@ class UsersController extends AppController
      * Directly set password for user
      *
      * @param string $id user-ID
-     * @return Response|null
+     * @return Response|void
      */
     public function setpassword($id)
     {

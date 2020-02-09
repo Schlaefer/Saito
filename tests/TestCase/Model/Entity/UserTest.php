@@ -1,14 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Entity;
 
-use App\Model\Entity\User;
 use Cake\ORM\TableRegistry;
 use Saito\Test\SaitoTestCase;
 
 class UserTest extends SaitoTestCase
 {
-
     public $fixtures = ['app.Category', 'app.User'];
 
     public function testNumberOfPostings()

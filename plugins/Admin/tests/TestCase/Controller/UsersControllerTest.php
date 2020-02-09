@@ -33,7 +33,7 @@ class UsersControllerTest extends IntegrationTestCase
         'app.UserOnline',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         foreach (['Users'] as $table) {

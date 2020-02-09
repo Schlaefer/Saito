@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\Test\User\ReadPostings;
 
-use App\Model\Table\UserReadsTable;
 use Cake\Core\Configure;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 use Saito\User\CurrentUser\CurrentUser;
@@ -23,7 +21,9 @@ class ReadPostingsDatabaseTest extends SaitoTableTestCase
 {
     public $tableClass = 'UserReads';
 
-    /** @var UserReadsTable */
+    /**
+     * @var UserReadsTable
+     */
     public $Table;
 
     public $fixtures = [

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -9,14 +10,15 @@
 
 namespace App\Test\TestCase\Model\Behavior;
 
-use App\Model\Table\EntriesTable;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class PostingBehaviorTest extends SaitoTableTestCase
 {
     public $tableClass = 'Entries';
 
-    /** @var EntriesTable */
+    /**
+     * @var EntriesTable
+     */
     public $Table;
 
     public $fixtures = [

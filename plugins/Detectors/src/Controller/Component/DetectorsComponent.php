@@ -93,7 +93,7 @@ class DetectorsComponent extends Component
      */
     public function initialize(array $config): void
     {
-        $request = $this->_registry->getController()->request;
+        $request = $this->_registry->getController()->getRequest();
         $request->addDetector('bot', [$this, 'isBot']);
         $request->addDetector('preview', [$this, 'isPreview']);
         $request->addDetector('mobile', [$this, 'isMobile']);

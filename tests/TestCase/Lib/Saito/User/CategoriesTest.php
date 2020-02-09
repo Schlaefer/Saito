@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+namespace Saito\Test\User;
 
 use Saito\Test\SaitoTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
@@ -12,7 +15,7 @@ class CategoriesTest extends SaitoTestCase
 {
     public $fixtures = ['app.Category', 'app.User'];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->insertCategoryPermissions();

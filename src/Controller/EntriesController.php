@@ -20,7 +20,6 @@ use App\Controller\Component\ThreadsComponent;
 use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
@@ -44,10 +43,6 @@ use Stopwatch\Lib\Stopwatch;
  */
 class EntriesController extends AppController
 {
-    use RequestActionTrait;
-
-    public $helpers = ['Posting', 'Text'];
-
     /**
      * {@inheritDoc}
      */

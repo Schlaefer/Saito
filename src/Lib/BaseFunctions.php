@@ -41,19 +41,15 @@ function dateToUnix($timestamp): int
         return $timestamp->getTimestamp();
     }
 
-    if ($timestamp !== null) {
-        $unix = strtotime($timestamp);
-        if ($unix < 0 || $unix === false) {
-            throw new \RuntimeException(
-                "Can't convert timestamp $timestamp to unix-timestamp.",
-                1524230476
-            );
-        }
-
-        return $unix;
+    $unix = strtotime($timestamp);
+    if ($unix < 0 || $unix === false) {
+        throw new \RuntimeException(
+            "Can't convert timestamp $timestamp to unix-timestamp.",
+            1524230476
+        );
     }
 
-    throw new \RuntimeException();
+    return $unix;
 }
 
 /**

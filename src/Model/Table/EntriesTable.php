@@ -17,6 +17,7 @@ use App\Model\Entity\Entry;
 use App\Model\Table\CategoriesTable;
 use App\Model\Table\DraftsTable;
 use Bookmarks\Model\Table\BookmarksTable;
+use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
@@ -137,7 +138,7 @@ class EntriesTable extends AppTable
         /// category_id
         $categoryRequiredL10N = __('vld.entries.categories.notEmpty');
         $validator
-            ->notEmpty('category_id', $categoryRequiredL10N)
+            ->notEmptyString('category_id', $categoryRequiredL10N)
             ->requirePresence('category_id', 'create', $categoryRequiredL10N);
 
         /// last_answer
@@ -190,7 +191,7 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function buildRules(\Cake\Event\EventInterface $rules): \Cake\ORM\RulesChecker
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules = parent::buildRules($rules);
 
@@ -299,9 +300,9 @@ class EntriesTable extends AppTable
      * @param int $primaryKey key
      * @param array $options options
      * @throws RecordNotFoundException if record isn't found
-     * @return mixed Posting
+     * @return EntityInterface
      */
-    public function get($primaryKey, $options = [])
+    public function get($primaryKey, $options = []): EntityInterface
     {
         /** @var Entry */
         $result = $this->find('entry', ['complete' => true])

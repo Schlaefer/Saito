@@ -13,11 +13,9 @@ declare(strict_types=1);
 namespace Saito\Test;
 
 use App\Application;
-use Cake\Http\Client\Request;
-use GuzzleHttp\Psr7\Uri;
-use Zend\Diactoros\Request as ZendRequest;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
+use Cake\Http\Client\Response;
+use Cake\Http\ServerRequest;
+use Cake\Routing\Router;
 
 class ApplicationTest extends SaitoTestCase
 {
@@ -30,14 +28,16 @@ class ApplicationTest extends SaitoTestCase
     /** @var Application */
     private $application;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
-        $this->application = new Application(__DIR__);
+        $this->application = new Application(CONFIG);
+        $builder = Router::createRouteBuilder('/');
+        $this->application->routes($builder);
     }
 
-    public function teardDown()
+    public function teardDown(): void
     {
         unset($this->application);
         parent::tearDown();
@@ -52,18 +52,14 @@ class ApplicationTest extends SaitoTestCase
         ];
 
         foreach ($urls as $url) {
-            $request = new ServerRequest([], [], $url);
+            $request = new ServerRequest(['url' => $url]);
             $response = new Response();
 
             $provider = $this->application->getAuthenticationService($request, $response);
 
-            $authenticator = $provider->authenticators()->get('Jwt');
-            $this->assertNotEmpty($authenticator);
-
-            $authenticator = $provider->authenticators()->get('Session');
-            $this->assertEmpty($authenticator);
-            $authenticator = $provider->authenticators()->get('Cookie');
-            $this->assertEmpty($authenticator);
+            $this->assertTrue($provider->authenticators()->has('Jwt'));
+            $this->assertFalse($provider->authenticators()->has('Session'));
+            $this->assertFalse($provider->authenticators()->has('Cookie'));
         }
     }
 
@@ -76,9 +72,7 @@ class ApplicationTest extends SaitoTestCase
             $response = new Response();
 
             $provider = $this->application->getAuthenticationService($request, $response);
-            $authenticator = $provider->authenticators()->get('Session');
-
-            $this->assertNotEmpty($authenticator);
+            $this->assertTrue($provider->authenticators()->has('Session'));
         }
     }
 }

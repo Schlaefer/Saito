@@ -1,7 +1,15 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ * @var \App\View\AppView $this
+ */
 use Cake\Core\Configure;
 
-$signature = $signature ?? false;
+$signature = isset($signature) ? $signature : false;
 $schemaMeta = [];
 ?>
 <article itemscope itemtype="http://schema.org/Article" class="postingBody">

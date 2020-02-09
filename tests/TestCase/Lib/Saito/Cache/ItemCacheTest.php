@@ -1,33 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Cache;
 
-use Saito\Cache\ItemCache;
+use App\Lib\Saito\Test\Cache\ItemCacheMock;
 use Saito\Test\SaitoTestCase;
-
-class ItemCacheMock extends ItemCache
-{
-
-    public function setCacheEngine($CacheEngine)
-    {
-        $this->_CacheEngine = $CacheEngine;
-    }
-
-    public function setRaw($data)
-    {
-        $this->_cache = $data;
-    }
-
-    public function write()
-    {
-        $this->_write();
-    }
-}
 
 class ItemCacheTest extends SaitoTestCase
 {
-
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->_setupItemCache();
@@ -35,7 +16,7 @@ class ItemCacheTest extends SaitoTestCase
         $this->time = time();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         $this->_cleanUp();
@@ -59,7 +40,7 @@ class ItemCacheTest extends SaitoTestCase
     protected function _setupItemCache($methods = null, array $options = [])
     {
         $this->_cleanUp();
-        $this->ItemCache = $this->getMockBuilder('\Saito\Test\Cache\ItemCacheMock')
+        $this->ItemCache = $this->getMockBuilder(ItemCacheMock::class)
             ->setConstructorArgs(['test', null, $options])
             ->setMethods($methods)
             ->getMock();

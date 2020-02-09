@@ -37,5 +37,16 @@ class AppView extends View
      */
     public function initialize(): void
     {
+        parent::initialize();
+        $this->loadHelper('Form', [
+            // Bootstrap 4 CSS-class for invalid input elements
+            'errorClass' => 'is-invalid',
+            'templates' => [
+                // Bootstrap 4 CSS-class for input validation message
+                'error' => '<div class="invalid-feedback">{{content}}</div>',
+            ],
+        ]);
+        $this->loadHelper('SaitoHelp.SaitoHelp');
+        $this->loadHelper('Stopwatch.Stopwatch');
     }
 }

@@ -16,7 +16,7 @@ use App\Controller\AppController;
 use App\Model\Table\EntriesTable;
 use Cake\Chronos\Chronos;
 use Cake\Database\Driver\Mysql;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\I18n\FrozenDate;
 use SaitoSearch\Lib\SimpleSearchString;
@@ -29,13 +29,10 @@ use Search\Controller\Component\PrgComponent;
  */
 class SearchesController extends AppController
 {
-    /** @var array CakePHP helpers */
-    public $helpers = ['Form', 'Html', 'Posting'];
-
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Entries');
@@ -57,7 +54,7 @@ class SearchesController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['simple']);

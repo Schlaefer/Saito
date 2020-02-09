@@ -9,7 +9,7 @@ if (empty($UserBlock)) {
 
     return;
 }
-$mode = $mode ?? 'profile';
+$mode = $mode ? $mode : 'profile';
 $format = ($mode === 'full') ? 'eng' : 'normal';
 ?>
 <table id="blocklist"

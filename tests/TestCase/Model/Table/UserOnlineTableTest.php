@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -61,7 +60,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         /// set anon user online
         $_userId = 'sessionIdTest';
         $this->_startUsersOnline[1] = [
-            'uuid' => substr(($_userId), 0, 32),
+            'uuid' => substr($_userId, 0, 32),
             'user_id' => null,
             'time' => (string)time(),
             'logged_in' => 0,
@@ -121,7 +120,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $_userId = 'sessionIdTest';
         $this->_startUsersOnline = [];
         $this->_startUsersOnline[0] = [
-            'uuid' => substr(($_userId), 0, 32),
+            'uuid' => substr($_userId, 0, 32),
             'user_id' => null,
             'logged_in' => false,
         ];

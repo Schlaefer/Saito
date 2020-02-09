@@ -16,8 +16,8 @@ use App\Lib\Model\Table\AppTable;
 use App\Model\Entity\Entry;
 use Cake\Chronos\Chronos;
 use Cake\Event\Event;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Rule\IsUnique;
+use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 
 /**
@@ -50,7 +50,7 @@ class DraftsTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator): \Cake\Validation\Validator
+    public function validationDefault(Validator $validator): Validator
     {
         /// pid
         $validator
@@ -95,7 +95,7 @@ class DraftsTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function buildRules(\Cake\Event\EventInterface $rules): \Cake\ORM\RulesChecker
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules = parent::buildRules($rules);
 

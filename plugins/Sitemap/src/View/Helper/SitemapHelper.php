@@ -39,6 +39,6 @@ class SitemapHelper extends Helper
      */
     public function baseUrl()
     {
-        return $this->Url->build('/', true);
+        return $this->Url->build('/', ['fullBase' => true]);
     }
 }

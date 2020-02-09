@@ -22,7 +22,7 @@ abstract class SaitoTestCase extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->setUpSaito();
@@ -31,7 +31,7 @@ abstract class SaitoTestCase extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->tearDownSaito();
         parent::tearDown();

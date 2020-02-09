@@ -157,7 +157,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
                             $email->getSender(),
                             ['system@example.com' => 'macnemo']
                         );
-                        $this->assertContains(
+                        $this->assertStringContainsString(
                             'message-text',
                             $email->message('text')
                         );

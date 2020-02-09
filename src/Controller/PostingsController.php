@@ -89,8 +89,9 @@ class PostingsController extends ApiAppController
             throw new BadRequestException('No posting-id provided.');
         }
 
-        $posting = $this->Entries->get($id);
-        if (!$posting) {
+        try {
+            $posting = $this->Entries->get($id);
+        } catch (\Throwable $e) {
             throw new NotFoundException('Posting not found.');
         }
 

@@ -43,7 +43,7 @@ class UploadsTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->addBehavior('Timestamp');
         $this->setEntityClass(Upload::class);
@@ -54,7 +54,7 @@ class UploadsTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
@@ -90,7 +90,7 @@ class UploadsTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         /** @var \ImageUploader\Lib\UploaderConfig */
         $UploaderConfig = Configure::read('Saito.Settings.uploader');

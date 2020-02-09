@@ -47,7 +47,7 @@ class UserIgnoresTable extends AppTable
     /**
      * {@inheritdoc}
      */
-    public function buildRules(\Cake\Event\EventInterface $rules): \Cake\ORM\RulesChecker
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn('user_id', 'Users'));
 

@@ -15,7 +15,6 @@ namespace App\Controller\Component;
 use App\Controller\ErrorController;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
-use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\Smiley\SmileyLoader;
@@ -52,7 +51,7 @@ class ParserComponent extends Component
                 'server' => Router::fullBaseUrl(),
                 'UserList' => new UserlistModel(),
                 'video_domains_allowed' => $settings['video_domains_allowed'],
-                'webroot' => $this->request->getAttribute('webroot'),
+                'webroot' => $controller->getRequest()->getAttribute('webroot'),
         ]);
     }
 }

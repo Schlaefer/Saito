@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
@@ -7,7 +8,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class CategoriesTableTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'Categories';
 
     public $fixtures = [

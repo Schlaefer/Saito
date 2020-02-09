@@ -14,7 +14,7 @@ class SmileyRenderTest extends SaitoTestCase
 
     public $fixtures = ['app.Smiley', 'app.SmileyCode'];
 
-    public function setUp()
+    public function setUp(): void
     {
         //= smiley fixture
         $smiliesFixture = [
@@ -54,7 +54,7 @@ class SmileyRenderTest extends SaitoTestCase
         $this->Renderer->setHelper($this->Helper);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Helper, $this->Renderer);
     }

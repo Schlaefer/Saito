@@ -209,8 +209,8 @@ class UploadsControllerTest extends IntegrationTestCase
         };
         $exif = $readExif($this->file);
         $this->assertNotEmpty($exif['SectionsFound']);
-        $this->assertContains('EXIF', $exif['SectionsFound']);
-        $this->assertContains('IFD0', $exif['SectionsFound']);
+        $this->assertStringContainsString('EXIF', $exif['SectionsFound']);
+        $this->assertStringContainsString('IFD0', $exif['SectionsFound']);
 
         $this->upload($this->file);
 

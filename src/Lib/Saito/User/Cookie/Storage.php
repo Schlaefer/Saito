@@ -44,9 +44,9 @@ class Storage
      *
      * @var Controller
      */
-    protected $_Controller;
+    protected $Controller;
 
-    protected $_key;
+    protected $key;
 
     /**
      * Constructor
@@ -60,8 +60,8 @@ class Storage
         if (empty($key)) {
             throw new \LogicException('Cookie must not be empty.', 1525764689);
         }
-        $this->_Controller = $controller;
-        $this->_key = $key;
+        $this->Controller = $controller;
+        $this->key = $key;
         $this->setConfig($config);
     }
 
@@ -73,7 +73,7 @@ class Storage
     public function read()
     {
         // raw string value of cookie
-        $raw = $this->_Controller->request->getCookie($this->_key);
+        $raw = $this->Controller->getRequest()->getCookie($this->key);
         if ($raw === null) {
             return null;
         }
@@ -95,7 +95,7 @@ class Storage
     {
         $cookie = $this->createCookie()
             ->withValue($data);
-        $this->_Controller->response = $this->_Controller->response->withCookie($cookie);
+        $this->Controller->setResponse($this->Controller->getResponse()->withCookie($cookie));
     }
 
     /**
@@ -106,7 +106,7 @@ class Storage
     public function delete(): void
     {
         $cookie = $this->createCookie();
-        $this->_Controller->response = $this->_Controller->response->withExpiredCookie($cookie);
+        $this->Controller->setResponse($this->Controller->getResponse()->withExpiredCookie($cookie));
     }
 
     /**
@@ -116,7 +116,7 @@ class Storage
      */
     private function createCookie(): Cookie
     {
-        $cookie = (new Cookie($this->_key))
+        $cookie = (new Cookie($this->key))
             ->withPath(Router::url('/', false))
             ->withHttpOnly($this->getConfig('http'))
             ->withExpiry(new Chronos($this->getConfig('expire')));

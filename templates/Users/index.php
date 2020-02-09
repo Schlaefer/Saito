@@ -1,4 +1,13 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ * @var \App\View\AppView $this
+ */
+
 $this->start('headerSubnavLeft');
 echo $this->Layout->navbarBack();
 $this->end();
@@ -12,6 +21,7 @@ $this->element('users/menu');
         <div class="panel-content">
             <div class="table-menu sort-menu">
                 <?php
+                $menu = [];
                 foreach ($menuItems as $field => $item) {
                     list($title, $options) = $item;
                     $menu[] = $this->Paginator->sort($field, $title, $options);

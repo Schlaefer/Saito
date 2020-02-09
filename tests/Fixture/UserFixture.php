@@ -300,7 +300,7 @@ class UserFixture extends TestFixture
         ],
     ];
 
-    public function init()
+    public function init(): void
     {
         $hasher = PasswordHasherFactory::build(DefaultPasswordHasher::class);
         $common = [
@@ -318,7 +318,6 @@ class UserFixture extends TestFixture
         foreach ($this->records as $k => $record) {
             $this->records[$k] += $common;
         }
-
-        return parent::init();
+        parent::init();
     }
 }

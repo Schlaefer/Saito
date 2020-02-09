@@ -50,7 +50,7 @@ class DraftFixture extends TestFixture
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         $outdated = (new Chronos(DraftsTable::OUTDATED))->getTimestamp() - 1;
         $this->records = [

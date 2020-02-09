@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Sitemap\Controller;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Sitemap\Lib\SitemapCollection;
 

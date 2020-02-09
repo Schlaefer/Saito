@@ -4,6 +4,7 @@
  */
 use Cake\Core\Configure;
 use Cake\Error\Debugger;
+use Saito\Exception\SaitoBlackholeException;
 
 if (Configure::read('debug')) :
     $this->layout = 'dev_error';

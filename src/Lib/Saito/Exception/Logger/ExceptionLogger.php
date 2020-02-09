@@ -79,7 +79,7 @@ class ExceptionLogger
 
         if ($request) {
             $data = $request->getData();
-            if (!empty($data)) {
+            if (is_array($data)) {
                 $this->_add($this->_filterData($data), 'Data');
             }
         }
@@ -119,14 +119,11 @@ class ExceptionLogger
      *
      * esp. cleartext passwords in $_POST data
      *
-     * @param mixed $data data
+     * @param array $data data
      * @return array
      */
-    protected function _filterData($data)
+    protected function _filterData(array $data): array
     {
-        if (!is_array($data)) {
-            return $data;
-        }
         foreach ($data as $key => $datum) {
             if (is_array($datum)) {
                 $data[$key] = $this->_filterData($datum);

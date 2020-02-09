@@ -55,7 +55,7 @@ class StatusController extends AppController
         $retry = '10000';
         $this->response = $this->response->withType(['eventstream' => 'text/event-stream']);
         $this->response = $this->response->withType('eventstream');
-        $this->response->disableCache();
+        $this->response->withDisabledCache();
         $out = '';
         $out .= "retry: $retry\n";
         $out .= 'data: ' . $data . "\n\n";

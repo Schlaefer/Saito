@@ -53,6 +53,7 @@ trait UserPostingTrait
      */
     public function isAnsweringForbidden()
     {
+        // @bogus Locked isn't a user property
         if ($this->isLocked()) {
             return 'locked';
         }

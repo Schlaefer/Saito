@@ -23,7 +23,7 @@ class SmileyCodesController extends AdminAppController
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('SmileyCodes');
@@ -47,7 +47,7 @@ class SmileyCodesController extends AdminAppController
      */
     public function add()
     {
-        $smiley = $this->SmileyCodes->newEntity();
+        $smiley = $this->SmileyCodes->newEmptyEntity();
         $this->_addEditCommon($smiley);
     }
 

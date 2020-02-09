@@ -24,7 +24,7 @@ class InstallerControllerTest extends IntegrationTestCase
 {
     protected $isUpdated = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->dropTables();
@@ -35,7 +35,7 @@ class InstallerControllerTest extends IntegrationTestCase
         Configure::write('Saito.updated', false);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->createInstallerToken();
         $this->dropTables();

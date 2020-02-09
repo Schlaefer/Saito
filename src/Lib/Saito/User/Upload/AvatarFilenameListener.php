@@ -13,11 +13,9 @@ declare(strict_types=1);
 namespace Saito\User\Upload;
 
 use App\Model\Entity\User;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Filesystem\Folder;
-use Cake\ORM\Entity;
 use Cake\Utility\Text;
 use Proffer\Lib\ProfferPath;
 
@@ -46,7 +44,7 @@ class AvatarFilenameListener implements EventListenerInterface
     /**
      * {@inheritDoc}
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Proffer.afterPath' => 'change',

@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Admin\Controller;
 
 use App\Controller\AppController;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 
 class AdminAppController extends AppController
 {
@@ -30,7 +30,7 @@ class AdminAppController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->viewBuilder()->setLayout('Admin.admin');

@@ -3,7 +3,7 @@
     <?php foreach ($files as $file) : ?>
         <sitemap>
             <loc>
-                <?= $this->Url->build('/sitemap/file/' . $file['url'], true) . '.xml' ?>
+                <?= $this->Url->build('/sitemap/file/' . $file['url'], ['fullBase' => true]) . '.xml' ?>
             </loc>
         </sitemap>
     <?php endforeach; ?>

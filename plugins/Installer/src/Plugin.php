@@ -20,7 +20,7 @@ class Plugin extends BasePlugin
     /**
      * {@inheritdoc}
      */
-    public function bootstrap(PluginApplicationInterface $app)
+    public function bootstrap(PluginApplicationInterface $app): void
     {
         parent::bootstrap($app);
 

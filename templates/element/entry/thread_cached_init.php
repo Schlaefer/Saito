@@ -1,9 +1,18 @@
 <?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ * @var \App\View\AppView $this
+ */
 use Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('entries/thread_cached_init');
 
-$allowThreadCollapse = $allowThreadCollapse ?? false;
+$allowThreadCollapse = isset($allowThreadCollapse) ? $allowThreadCollapse : false;
+$toolboxButtons = isset($toolboxButtons) ? $toolboxButtons : [];
 
 /*
  * Caching the localized threadbox title tags.
@@ -15,10 +24,6 @@ $l10nCache = [
     'more' => __('gn.btn.more.t'),
 ];
 $toolboxButtonsToDisplay = ['mix' => 1, 'panel-info' => false];
-
-if (!isset($toolboxButtons)) {
-    $toolboxButtons = [];
-}
 $toolboxButtons += $toolboxButtonsToDisplay;
 
 foreach ($entriesSub as $entrySub) :

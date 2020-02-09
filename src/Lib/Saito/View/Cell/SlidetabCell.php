@@ -20,7 +20,7 @@ abstract class SlidetabCell extends Cell
     /**
      * {@inheritDoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         $this->_prepareRendering();
         $string = parent::__toString();

@@ -7,9 +7,8 @@
  * @license http://opensource.org/licenses/MIT
  * @var \App\View\AppView $this
  */
-
-echo $this->Html->docType('html5') . "\n";
 ?>
+<!DOCTYPE html>
 <html>
 <head>
     <?= $this->element('layout/html_header') ?>
@@ -78,7 +77,7 @@ echo $this->Html->docType('html5') . "\n";
         /*
          * Navbar bottom
          */
-        if ($showBottomNavigation ?? false) {
+        if (isset($showBottomNavigation) ? $showBottomNavigation : false) {
             echo '<div id="footer-pinned">';
 
             $navCenter = '<a href="#" class="js-scrollToTop btn-hf-center">' .
@@ -94,7 +93,7 @@ echo $this->Html->docType('html5') . "\n";
         ?>
     </div>
     <?php
-    if ($showDisclaimer ?? false) {
+    if (isset($showDisclaimer) ? $showDisclaimer : false) {
         echo $this->element('layout/disclaimer');
     }
     ?>

@@ -25,7 +25,7 @@ class ContactForm extends Form
      * @param \Cake\Form\Schema $schema The schema to customize.
      * @return \Cake\Form\Schema The schema to use.
      */
-    protected function _buildSchema(Schema $schema)
+    protected function _buildSchema(Schema $schema): Schema
     {
         return $schema
             ->addField('subject', 'string')
@@ -39,8 +39,8 @@ class ContactForm extends Form
      * @param \Cake\Validation\Validator $validator The validator to customize.
      * @return \Cake\Validation\Validator The validator to use.
      */
-    protected function _buildValidator(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
-        return $validator->notEmpty('subject', __('error_subject_empty'));
+        return $validator->notEmptyString('subject', __('error_subject_empty'));
     }
 }

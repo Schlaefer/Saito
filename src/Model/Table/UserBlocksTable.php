@@ -48,10 +48,10 @@ class UserBlocksTable extends Table
     public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
-            ->allowEmpty('ends')
+            ->allowEmptyDateTime('ends')
             ->add('ends', 'datetime', ['rule' => ['datetime']]);
-        $validator->notEmpty('user_id');
-        $validator->notEmpty('reason');
+        $validator->notEmptyString('user_id');
+        $validator->notEmptyString('reason');
 
         return $validator;
     }

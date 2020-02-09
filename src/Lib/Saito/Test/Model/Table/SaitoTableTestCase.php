@@ -32,7 +32,7 @@ abstract class SaitoTableTestCase extends SaitoTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ abstract class SaitoTableTestCase extends SaitoTestCase
     /**
      * {@inheritDoc}
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->Table);
         parent::tearDown();

@@ -24,7 +24,7 @@ class Mlf2PasswordHasher extends AbstractPasswordHasher
     /**
      * {@inheritDoc}
      */
-    public function hash($password)
+    public function hash($password): string
     {
         // compare to includes/functions.inc.php generate_pw_hash() mlf 2.3
         $salt = self::_generateRandomString(10);
@@ -53,7 +53,7 @@ class Mlf2PasswordHasher extends AbstractPasswordHasher
     /**
      * {@inheritDoc}
      */
-    public function check($password, $hash)
+    public function check($password, $hash): bool
     {
         $out = false;
         // compare to includes/functions.inc.php is_pw_correct() mlf 2.3

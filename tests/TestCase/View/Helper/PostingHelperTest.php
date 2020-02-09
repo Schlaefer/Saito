@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\View\Helper;
 
@@ -7,8 +8,6 @@ use Cake\View\View;
 use Saito\Cache\ItemCache;
 use Saito\Posting\Posting;
 use Saito\Test\SaitoTestCase;
-use Saito\User\CurrentUser\CurrentUserFactory;
-use Saito\User\SaitoUser;
 
 class PostingHelperTest extends SaitoTestCase
 {

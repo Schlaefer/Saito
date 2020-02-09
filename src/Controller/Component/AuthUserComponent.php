@@ -20,8 +20,6 @@ use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\ORM\TableRegistry;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
@@ -165,7 +163,7 @@ class AuthUserComponent extends Component
         $this->UsersTable->UserOnline->setOffline($originalSessionId);
 
         /// password update
-        $password = (string)$this->request->getData('password');
+        $password = (string)$this->getController()->getRequest()->getData('password');
         if ($password) {
             $this->UsersTable->autoUpdatePassword($this->CurrentUser->getId(), $password);
         }
@@ -375,15 +373,16 @@ class AuthUserComponent extends Component
      */
     private function isAuthorized(CurrentUser $user)
     {
+        $request = $this->getController()->getRequest();
         /// Authorize action through resource
-        $action = $this->getController()->getRequest()->getParam('action');
+        $action = $request->getParam('action');
         if (isset($this->actionAuthorizationResources[$action])) {
             return $user->permission($this->actionAuthorizationResources[$action]);
         }
 
         /// Authorize admin area
-        $prefix = $this->request->getParam('prefix');
-        $plugin = $this->request->getParam('plugin');
+        $prefix = $request->getParam('prefix');
+        $plugin = $request->getParam('plugin');
         $isAdminRoute = ($prefix && strtolower($prefix) === 'admin')
             || ($plugin && strtolower($plugin) === 'admin');
         if ($isAdminRoute) {

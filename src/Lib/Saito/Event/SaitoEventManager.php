@@ -46,7 +46,7 @@ class SaitoEventManager implements EventListenerInterface
     /**
      * {@inheritDoc}
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Controller.initialize' => 'cakeEventPassThrough',

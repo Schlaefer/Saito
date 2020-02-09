@@ -159,7 +159,7 @@ class SaitoDummyDataShell extends Shell
 
             $posting = $this->Entries->createEntry($posting);
             if ($posting->hasErrors()) {
-                var_dump($posting->errors());
+                var_dump($posting->getErrors());
             }
 
             if (empty($posting)) {
@@ -178,7 +178,7 @@ class SaitoDummyDataShell extends Shell
             ];
         }
 
-        $this->out();
+        $this->out('');
         $this->out("Generated $i postings.");
     }
 
@@ -215,7 +215,7 @@ class SaitoDummyDataShell extends Shell
             $this->_progress($i++, $n);
         }
 
-        $this->out();
+        $this->out('');
         $this->out("Generated $i users.");
     }
 

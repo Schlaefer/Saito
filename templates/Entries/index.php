@@ -4,7 +4,7 @@ use Stopwatch\Lib\Stopwatch;
 Stopwatch::start('entries/index');
 
 if ($this->Paginator->current() === 1) {
-    $cUrl = $this->Url->build('/', true);
+    $cUrl = $this->Url->build('/', ['fullBase' => true]);
     $seo = '<link rel="canonical" href="' . $cUrl . '"/>';
 } else {
     $seo = '<meta name="robots" content="noindex, follow">';

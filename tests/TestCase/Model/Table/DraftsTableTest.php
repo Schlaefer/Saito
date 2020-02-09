@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -24,12 +23,16 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
  */
 class DraftsTableTest extends SaitoTableTestCase
 {
-    /** @var DraftsTable */
+    /**
+     * @var DraftsTable
+     */
     public $Drafts;
 
     public $fixtures = [
         'app.Draft',
     ];
+
+    public $tableClass = 'Drafts';
 
     public function setUp(): void
     {

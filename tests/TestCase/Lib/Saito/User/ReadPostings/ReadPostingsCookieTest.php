@@ -1,48 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\User\ReadPostings;
 
+use App\Lib\Saito\Test\User\Cookie\ReadPostingsCookieMock;
 use App\Model\Entity\Entry;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUserFactory;
-use Saito\User\ReadPostings\ReadPostingsCookie;
-
-class ReadPostingsCookieMock extends ReadPostingsCookie
-{
-
-    /**
-     * @param mixed $maxPostings
-     */
-    public function setMaxPostings($maxPostings)
-    {
-        $this->maxPostings = $maxPostings;
-    }
-
-    public function setLastRefresh($LR)
-    {
-        $this->LastRefresh = $LR;
-    }
-
-    public function __get($property)
-    {
-        if ($property === 'Cookie') {
-            return $this->storage;
-        }
-        if (property_exists($this, $property)) {
-            return $this->{$property};
-        }
-    }
-
-    public function __call($method, $arguments)
-    {
-        if (is_callable([$this, $method])) {
-            return call_user_func_array([$this, $method], $arguments);
-        }
-    }
-}
 
 class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 {
@@ -210,7 +177,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
     {
         $currentUser = CurrentUserFactory::createDummy();
 
-        $request = new Request();
+        $request = new ServerRequest();
         $request->getSession()->start();
         $request->getSession()->id('test');
         $response = new Response();
@@ -222,7 +189,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             ->setMethods(['read', 'write', 'delete'])
             ->getMock();
 
-        $this->ReadPostings = $this->getMockBuilder('Saito\Test\User\ReadPostings\ReadPostingsCookieMock')
+        $this->ReadPostings = $this->getMockBuilder(ReadPostingsCookieMock::class)
             ->setConstructorArgs([$currentUser, $cookie])
             ->setMethods($methods)
             ->getMock();
@@ -233,7 +200,7 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->ReadPostings->delete();
         unset($this->ReadPostings);

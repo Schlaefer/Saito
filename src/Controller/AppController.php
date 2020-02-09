@@ -51,26 +51,6 @@ class AppController extends Controller
 {
     use InstanceConfigTrait;
 
-    public $helpers = [
-        'Form' => [
-            // Bootstrap 4 CSS-class for invalid input elements
-            'errorClass' => 'is-invalid',
-            'templates' => [
-                // Bootstrap 4 CSS-class for input validation message
-                'error' => '<div class="invalid-feedback">{{content}}</div>',
-            ],
-        ],
-        'Html',
-        'JsData',
-        'Layout',
-        'Permissions',
-        'SaitoHelp.SaitoHelp',
-        'Stopwatch.Stopwatch',
-        'TimeH',
-        'Url',
-        'User',
-    ];
-
     /**
      * Default config used by InstanceConfigTrait
      *
@@ -267,7 +247,7 @@ class AppController extends Controller
 
         $path = $check($locale);
         if ($path) {
-            $this->viewBuilder()->templatePath($path);
+            $this->viewBuilder()->setTemplatePath($path);
 
             return;
         }
@@ -276,7 +256,7 @@ class AppController extends Controller
             list($locale) = explode('_', $locale);
             $path = $check($locale);
             if ($path) {
-                $this->viewBuilder()->templatePath($path);
+                $this->viewBuilder()->setTemplatePath($path);
             }
         }
     }

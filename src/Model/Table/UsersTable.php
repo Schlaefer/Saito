@@ -197,7 +197,7 @@ class UsersTable extends AppTable
             );
 
         $validator
-            ->notEmpty('password')
+            ->notEmptyString('password')
             ->add(
                 'password',
                 [
@@ -210,7 +210,7 @@ class UsersTable extends AppTable
             );
 
         $validator
-            ->notEmpty('password_old')
+            ->notEmptyString('password_old')
             ->add(
                 'password_old',
                 [
@@ -223,7 +223,7 @@ class UsersTable extends AppTable
             );
 
         $validator
-            ->notEmpty('username', __('error_no_name'))
+            ->notEmptyString('username', __('error_no_name'))
             ->add(
                 'username',
                 [
@@ -259,7 +259,7 @@ class UsersTable extends AppTable
             );
 
         $validator
-            ->notEmpty('user_email')
+            ->notEmptyString('user_email')
             ->add(
                 'user_email',
                 [
@@ -295,7 +295,7 @@ class UsersTable extends AppTable
             ]
         );
 
-        $validator->notEmpty('registered');
+        $validator->notEmptyDateTime('registered');
 
         $validator->add(
             'logins',
@@ -313,7 +313,7 @@ class UsersTable extends AppTable
         );
 
         $validator
-            ->notEmpty('activate_code')
+            ->notEmptyString('activate_code')
             ->add(
                 'activate_code',
                 [
@@ -343,7 +343,7 @@ class UsersTable extends AppTable
         );
 
         $validator
-            ->allowEmpty('user_color_new_postings')
+            ->allowEmptyString('user_color_new_postings')
             ->add(
                 'user_color_new_postings',
                 [
@@ -353,7 +353,7 @@ class UsersTable extends AppTable
                 ]
             );
         $validator
-            ->allowEmpty('user_color_old_postings')
+            ->allowEmptyString('user_color_old_postings')
             ->add(
                 'user_color_old_postings',
                 [
@@ -363,7 +363,7 @@ class UsersTable extends AppTable
                 ]
             );
         $validator
-            ->allowEmpty('user_color_actual_posting')
+            ->allowEmptyString('user_color_actual_posting')
             ->add(
                 'user_color_actual_posting',
                 [
@@ -531,7 +531,7 @@ class UsersTable extends AppTable
         \ArrayObject $options
     ) {
         if ($entity->isDirty('password')) {
-            $hashedPassword = $this->getPasswordHasher()->hash($entity->get('password'));
+            $hashedPassword = $this->getPasswordHasher()->hash((string)$entity->get('password'));
             $entity->set('password', $hashedPassword);
         }
     }
@@ -566,7 +566,7 @@ class UsersTable extends AppTable
         $oldPasswordHash = $this->get($userId, ['fields' => ['password']])
             ->get('password');
 
-        return $this->getPasswordHasher()->check($value, $oldPasswordHash);
+        return $this->getPasswordHasher()->check((string)$value, $oldPasswordHash);
     }
 
     /**
@@ -846,7 +846,7 @@ class UsersTable extends AppTable
             //=if set a single category
             $category = (int)$category;
             if (
-                $category > 0 && $this->Entries->Categories->exists((int)$category)
+                $category > 0 && $this->Entries->Categories->exists(['id' => $category])
             ) {
                 $active = $category;
             } else {

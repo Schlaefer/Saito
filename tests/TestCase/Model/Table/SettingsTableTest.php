@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,7 +18,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class SettingsTableTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'Settings';
 
     public $fixtures = ['app.Setting'];
@@ -136,7 +134,7 @@ class SettingsTableTest extends SaitoTableTestCase
             ['name' => 'subject_maxlength', 'value' => $max + 1]
         );
         $this->assertArrayHasKey('subjectMaxLength', $entity->getError('value'));
-        $this->assertContains((string)$max, $entity->getError('value')['subjectMaxLength']);
+        $this->assertStringContainsString((string)$max, $entity->getError('value')['subjectMaxLength']);
     }
 
     public function tearDown(): void

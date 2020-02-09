@@ -5,6 +5,15 @@
 - Δ Changed
 - − Removed
 
+## [6.0.0]
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/<last>...6.0.0)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
+
+### Changes
+
+### Update Notes
+
 ## [Next]
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...<next>)

@@ -22,7 +22,7 @@ class SmiliesController extends AdminAppController
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
         $this->loadModel('Smilies');
@@ -51,7 +51,7 @@ class SmiliesController extends AdminAppController
      */
     public function add()
     {
-        $smiley = $this->Smilies->newEntity();
+        $smiley = $this->Smilies->newEmptyEntity();
         if ($this->request->is('post')) {
             $this->Smilies->patchEntity($smiley, $this->request->getData());
             if ($this->Smilies->save($smiley)) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
@@ -10,7 +11,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
  */
 class UserIgnoreTest extends SaitoTableTestCase
 {
-
     /**
      * @var UserIgnoresTable
      */

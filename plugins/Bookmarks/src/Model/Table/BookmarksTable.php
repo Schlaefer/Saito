@@ -32,7 +32,7 @@ class BookmarksTable extends Table
      * @param array $config config
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->addBehavior('Timestamp');
 
@@ -46,7 +46,7 @@ class BookmarksTable extends Table
      * @param \Cake\Validation\Validator $validator validator
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->requirePresence('entry_id', 'create')

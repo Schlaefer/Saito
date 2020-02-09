@@ -22,7 +22,7 @@ class Plugin extends BasePlugin
     /**
      * {@inheritdoc}
      */
-    public function bootstrap(PluginApplicationInterface $app)
+    public function bootstrap(PluginApplicationInterface $app): void
     {
         // Add constants, load configuration defaults.
         // By default will load `config/bootstrap.php` in the plugin.

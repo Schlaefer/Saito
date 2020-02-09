@@ -1,4 +1,4 @@
-<?= $this->Html->docType('html5'); ?>
+<!DOCTYPE html>
 <html>
 <head>
     <title><?= h($titleForLayout) ?></title>

@@ -21,13 +21,13 @@ class MarkupTest extends SaitoTestCase
     /** @var Markup */
     private $markup;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->markup = new Markup(new MarkupSettings(['quote_symbol' => '»']));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->markup);
         parent::tearDown();

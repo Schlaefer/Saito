@@ -55,13 +55,13 @@ class CurrentUserTest extends SaitoTestCase
         $this->assertFalse($this->CurrentUser->isLoggedIn());
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->CurrentUser = new CurrentUser();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->CurrentUser);

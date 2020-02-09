@@ -15,7 +15,7 @@ namespace App\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Log\LogTrait;
-use Cake\Mailer\Email;
+use Cake\Mailer\Mailer;
 use Cake\Mailer\Transport\DebugTransport;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
@@ -53,7 +53,7 @@ class SaitoEmailComponent extends Component
         $from = new SaitoEmailContact($params['sender']);
         $to = new SaitoEmailContact($params['recipient']);
 
-        $email = new Email('saito');
+        $email = new Mailer('saito');
         $email->setEmailFormat('text')
             ->setFrom($from->toCake())
             ->setTo($to->toCake())
@@ -72,10 +72,10 @@ class SaitoEmailComponent extends Component
     /**
      * Sends a copy of a completely configured email to the author
      *
-     * @param Email $email email
+     * @param Mailer $email email
      * @return void
      */
-    protected function _sendCopyToOriginalSender(Email $email)
+    protected function _sendCopyToOriginalSender(Mailer $email)
     {
         /* set new subject */
         $email = clone $email;
@@ -96,15 +96,15 @@ class SaitoEmailComponent extends Component
     /**
      * Sends the completely configured email
      *
-     * @param Email $email email
+     * @param Mailer $email email
      * @return void
      */
-    protected function _send(Email $email)
+    protected function _send(Mailer $email)
     {
         $debug = Configure::read('Saito.debug.email');
         if ($debug) {
             $transport = new DebugTransport();
-            $email->transport($transport);
+            $email->setTransport($transport);
         };
 
         $sender = (new SaitoEmailContact('system'))->toCake();

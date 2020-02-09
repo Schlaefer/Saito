@@ -380,12 +380,11 @@ class EntryFixture extends TestFixture
         ],
     ];
 
-    public function init()
+    public function init(): void
     {
         foreach ($this->records as $k => $record) {
             $this->records[$k] += $this->_common;
         }
-
-        return parent::init();
+        parent::init();
     }
 }

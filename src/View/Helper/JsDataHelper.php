@@ -14,7 +14,6 @@ namespace App\View\Helper;
 
 use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
-use Cake\Log\Log;
 use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
 use Saito\JsData\Notifications;
@@ -51,7 +50,7 @@ class JsDataHelper extends AppHelper
         $js = [
             'app' => [
                 'settings' => [
-                    'autoPageReload' => (isset($View->viewVars['autoPageReload']) ? $View->viewVars['autoPageReload'] : 0),
+                    'autoPageReload' => $View->get('autoPageReload', 0),
                     'editPeriod' => (int)Configure::read(
                         'Saito.Settings.edit_period'
                     ),

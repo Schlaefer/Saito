@@ -1,3 +1,13 @@
+<?php
+/**
+ * Saito - The Threaded Web Forum
+ *
+ * @copyright Copyright (c) the Saito Project Developers
+ * @link https://github.com/Schlaefer/Saito
+ * @license http://opensource.org/licenses/MIT
+ * @var \App\View\AppView $this
+ */
+?>
 <?php $this->start('slidetab-tab-button'); ?>
 <div class="btn-slidetabRecentposts">
     <i class="fa fa-book fa-lg"></i>
@@ -29,4 +39,4 @@
     <?php endif; ?>
 </div>
 <?php $this->end('slidetab-content'); ?>
-<?= $this->element('Cell/slidetabs'); ?>
+<?= $this->element('cell/slidetabs'); ?>

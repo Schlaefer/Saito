@@ -35,7 +35,7 @@ class UserPostingTraitTest extends SaitoTestCase
     /** @var UserPostingTraitClassMock */
     private $Mock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->editPeriodGlob = Configure::read('Saito.Settings.edit_period');
@@ -44,7 +44,7 @@ class UserPostingTraitTest extends SaitoTestCase
         $this->insertCategoryPermissions();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         unset($this->Mock);

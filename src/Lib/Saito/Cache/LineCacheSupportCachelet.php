@@ -38,7 +38,7 @@ class LineCacheSupportCachelet extends CacheSupportCachelet implements
     /**
      * {@inheritDoc}
      */
-    public function implementedEvents()
+    public function implementedEvents(): array
     {
         return [
             'Model.Entry.update' => 'onEntryChanged',

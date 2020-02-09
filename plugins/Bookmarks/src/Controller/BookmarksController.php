@@ -16,7 +16,7 @@ use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
 use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Datasource\EntityInterface;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
@@ -121,10 +121,10 @@ class BookmarksController extends ApiAppController
     /**
      * {@inheritdoc}
      *
-     * @param Event $event An Event instance
+     * @param EventInterface $event An Event instance
      * @return void
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->Security->setConfig('unlockedActions', ['add']);

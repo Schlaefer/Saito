@@ -44,7 +44,7 @@ class CategoriesTable extends AppSettingTable
     public function validationDefault(Validator $validator): \Cake\Validation\Validator
     {
         $validator
-            ->allowEmpty('category_order', 'create')
+            ->allowEmptyString('category_order', 'create')
             ->add(
                 'category_order',
                 [

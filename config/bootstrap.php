@@ -31,9 +31,11 @@ require __DIR__ . '/paths.php';
  */
 require CORE_PATH . 'config' . DS . 'bootstrap.php';
 
+use App\Database\Type\SerializeType;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Core\Configure\Engine\PhpConfig;
+use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ConsoleErrorHandler;
 use Cake\Error\ErrorHandler;
@@ -59,13 +61,13 @@ use Cake\Utility\Security;
  * security risks. See https://github.com/josegonzalez/php-dotenv#general-security-information
  * for more information for recommended practices.
 */
-// if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-//     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-//     $dotenv->parse()
-//         ->putenv()
-//         ->toEnv()
-//         ->toServer();
-// }
+if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
+    $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
+    $dotenv->parse()
+        ->putenv()
+        ->toEnv()
+        ->toServer();
+}
 
 /*
  * Read configuration file and inject configuration into various
@@ -236,11 +238,11 @@ ServerRequest::addDetector('tablet', function ($request) {
 Inflector::rules('plural', ['/^(smil)ey$/i' => '\1ies']);
 Inflector::rules('singular', ['/^(smil)ies$/i' => '\1ey']);
 
-include Cake\Core\App::path('Lib')[0] . 'BaseFunctions.php';
+include \Cake\Core\App::classPath('Lib')[0] . 'BaseFunctions.php';
 
 \Cake\Event\EventManager::instance()->on(\Saito\Event\SaitoEventManager::getInstance());
 
 /**
  * Add custom Database-types
  */
-// Type::map('serialize', 'App\Database\Type\SerializeType');
+TypeFactory::map('serialize', SerializeType::class);

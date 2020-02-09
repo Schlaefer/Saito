@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\View\Helper;
 
@@ -15,7 +16,7 @@ class CurrencyRendererHelperTest extends TestCase
      */
     public $helper = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $View = new View();

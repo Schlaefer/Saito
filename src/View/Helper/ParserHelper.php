@@ -43,7 +43,7 @@ class ParserHelper extends AppHelper
         'Url',
         //= usefull in Parsers
         'Layout',
-        'SaitoHelp',
+        'SaitoHelp.SaitoHelp',
     ];
 
     /**

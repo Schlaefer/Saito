@@ -82,7 +82,7 @@ class SaitoHelpHelper extends Helper
      */
     private function _replaceUrl($text, $CurrentUser)
     {
-        $webroot = $this->Url->build('/', true);
+        $webroot = $this->Url->build('/', ['fullBase' => true]);
 
         $text = preg_replace_callback(
             '/\[(?P<text>.*?)\]\((?P<url>.*?)\)/',

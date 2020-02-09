@@ -180,7 +180,7 @@ class InstallController extends AppController
         $Users = TableRegistry::getTableLocator()->get('Users');
 
         if ($this->getRequest()->is('get')) {
-            $this->set('admin', $Users->newEntity());
+            $this->set('admin', $Users->newEmptyEntity());
 
             return;
         }
@@ -229,9 +229,9 @@ class InstallController extends AppController
     /**
      * {@inheritdoc}
      */
-    public function log($msg, $level = LogLevel::INFO, $context = ['saito.install'])
+    public function log(string $msg, $level = LogLevel::INFO, $context = ['saito.install']): bool
     {
-        parent::log($msg, $level, $context);
+        return parent::log($msg, $level, $context);
     }
 
     /**

@@ -35,7 +35,7 @@ class CategoriesControllerTest extends IntegrationTestCase
         'app.UserOnline',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         foreach (['Entries', 'Categories'] as $table) {

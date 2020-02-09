@@ -45,7 +45,7 @@ class SaitoHelpsController extends AppController
      *
      * @param string $lang language
      * @param string $id help page ID
-     * @return Response|Null
+     * @return Response|void
      */
     public function view($lang, $id)
     {

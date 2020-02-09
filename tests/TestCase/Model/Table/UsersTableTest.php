@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
@@ -10,7 +11,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class UsersTableTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'Users';
 
     /**
@@ -214,7 +214,6 @@ class UsersTableTest extends SaitoTableTestCase
             ->with(3)
             ->will($this->returnValue(true));
 
-        //
         $result = $this->Table->exists(3);
         $this->assertTrue($result);
 
@@ -618,7 +617,7 @@ class UsersTableTest extends SaitoTableTestCase
         $this->Table->patchEntity($user, ['username' => str_pad('', $max + 1, '0')]);
 
         $this->assertArrayHasKey('maxLength', $user->getError('username'));
-        $this->assertContains('191', $user->getError('username')['maxLength']);
+        $this->assertStringContainsString('191', $user->getError('username')['maxLength']);
     }
 
     public function testRenameUser()

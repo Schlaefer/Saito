@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,8 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\User\ReadPostings;
 
-use Saito\User\Cookie\Storage;
-
 /**
  * Handles read posting by a client side cookie. Used for non logged-in
  * users.
@@ -25,7 +22,9 @@ class ReadPostingsCookie extends ReadPostingsAbstract
      */
     protected $maxPostings = 240;
 
-    /** @var Storage */
+    /**
+     * @var \Saito\User\Cookie\Storage
+     */
     protected $storage;
 
     /**

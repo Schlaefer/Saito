@@ -14,7 +14,7 @@ namespace Feeds\Controller;
 
 use App\Controller\AppController;
 use App\Model\Table\EntriesTable;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Http\Exception\BadRequestException;
 use Feeds\Model\Behavior\FeedsPostingBehavior;
 
@@ -30,7 +30,7 @@ class PostingsController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function initialize()
+    public function initialize(): void
     {
         parent::initialize();
 
@@ -42,7 +42,7 @@ class PostingsController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(Event $event)
+    public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['new', 'threads']);

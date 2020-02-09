@@ -35,7 +35,7 @@ class SaitoBootstrapMiddleware
      */
     public function __invoke(ServerRequest $request, Response $response, $next): Response
     {
-        //// start installer
+        /// start installer
         $url = $request->getUri()->getPath();
         if (!Configure::read('Saito.installed')) {
             if (strpos($url, '.')) {
@@ -49,19 +49,19 @@ class SaitoBootstrapMiddleware
 
             return $next($request, $response);
         } elseif (strpos($url, 'install/finished')) {
-            //// User has has removed installer token. Installer no longer available.
+            /// User has has removed installer token. Installer no longer available.
             InstallerState::reset();
 
             return (new Response())->withLocation(Router::url('/'));
         }
 
-        //// load settings
+        /// load settings
         $tableLocator = TableRegistry::getTableLocator();
         /** @var SettingsTable $settingsTable */
         $settingsTable = $tableLocator->get('Settings');
         $settingsTable->load(Configure::read('Saito.Settings'));
 
-        //// start updater
+        /// start updater
         $updated = Configure::read('Saito.updated');
         if (!$updated) {
             $dbVersion = Configure::read('Saito.Settings.db_version');

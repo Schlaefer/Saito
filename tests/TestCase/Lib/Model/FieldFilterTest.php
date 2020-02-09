@@ -10,13 +10,13 @@ class AppTableTest extends TestCase
     /** @var FieldFilter */
     private $fieldFilter;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->fieldFilter = new FieldFilter();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->fieldFilter);
         parent::tearDown();

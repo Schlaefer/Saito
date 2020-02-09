@@ -22,7 +22,7 @@ class UpdaterStartForm extends Form
     /**
      * {@inheritDoc}
      */
-    protected function _buildSchema(Schema $schema)
+    protected function _buildSchema(Schema $schema): Schema
     {
         return $schema
             ->addField('dbname', ['type' => 'string'])
@@ -32,18 +32,18 @@ class UpdaterStartForm extends Form
     /**
      * {@inheritDoc}
      */
-    protected function _buildValidator(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->requirePresence('dbname')
-            ->notEmpty('dbname')
+            ->notEmptyString('dbname')
             ->add('dbname', 'custom', [
                 'rule' => [$this, 'validateDbName'],
             ]);
 
         $validator
             ->requirePresence('dbpassword')
-            ->allowEmpty('dbpassword')
+            ->allowEmptyString('dbpassword')
             ->add('dbpassword', 'custom', [
                 'rule' => [$this, 'validateDbPassword'],
             ]);

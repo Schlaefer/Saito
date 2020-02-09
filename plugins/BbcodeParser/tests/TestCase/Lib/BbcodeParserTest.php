@@ -142,7 +142,7 @@ class BbcodeParserTest extends SaitoTestCase
     {
         $input = '[img=]foo.png[/img]';
         $result = $this->_Parser->parse($input, ['multimedia' => true]);
-        $this->assertContains('<img src', $result);
+        $this->assertStringContainsString('<img src', $result);
         $result = $this->_Parser->parse($input, ['multimedia' => false]);
         $this->assertNotContains('<img src', $result);
     }
@@ -767,7 +767,7 @@ EOF;
         $expected = 'src="http://www.youtubescam.com/embed/HdoW3t_WorU';
         $this->MarkupSettings->setSingle('video_domains_allowed', '*');
         $result = $this->_Parser->parse($input);
-        $this->assertContains($expected, $result);
+        $this->assertStringContainsString($expected, $result);
     }
 
     public function testIframeNoDomainAllowed()
@@ -1099,7 +1099,7 @@ EOF;
         $input = '[code]text[/code]';
         $result = $this->_Parser->parse($input);
         $expected = 'lang="text"';
-        $this->assertContains($expected, $result);
+        $this->assertStringContainsString($expected, $result);
     }
 
     public function testCodeLangAttribute()
@@ -1107,7 +1107,7 @@ EOF;
         $input = '[code=php]text[/code]';
         $result = $this->_Parser->parse($input);
         $expected = 'lang="php"';
-        $this->assertContains($expected, $result);
+        $this->assertStringContainsString($expected, $result);
     }
 
     /**
@@ -1268,7 +1268,7 @@ EOF;
 
     /* ******************** Setup ********************** */
 
-    public function setUp()
+    public function setUp(): void
     {
         Cache::clear();
 
@@ -1377,7 +1377,7 @@ EOF;
         $this->_Parser = new Parser($ParserHelper, $this->MarkupSettings);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         if ($this->server_name) {

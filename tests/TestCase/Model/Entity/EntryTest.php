@@ -1,12 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Entity;
 
 use App\Model\Entity\Entry;
 use Cake\ORM\TableRegistry;
-use Plugin\BbcodeParser\src\Lib\Markup;
 use Saito\App\Registry;
-use Saito\Markup\Settings;
 use Saito\Test\SaitoTestCase;
 
 class EntryTest extends SaitoTestCase
