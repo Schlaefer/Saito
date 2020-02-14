@@ -13,25 +13,23 @@ namespace App\Middleware;
 
 use Cake\Core\Configure;
 use Cake\Http\Response;
-use Cake\Http\ServerRequest;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Installer\Lib\InstallerState;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Loads Settings from DB into Configure
  */
-class SaitoBootstrapMiddleware
+class SaitoBootstrapMiddleware implements MiddlewareInterface
 {
     /**
-     * Implements CakePHP 3 middleware
-     *
-     * @param \Cake\Http\ServerRequest $request request
-     * @param \Cake\Http\Response $response response
-     * @param callable $next next callable in middleware queue
-     * @return \Cake\Http\Response
+     * {@inheritdoc}
      */
-    public function __invoke(ServerRequest $request, Response $response, $next): Response
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /// start installer
         $url = $request->getUri()->getPath();
@@ -41,11 +39,9 @@ class SaitoBootstrapMiddleware
                 // Automatic browser favicon.ico request messes-up installer state.
                 return new Response(['status' => 503]);
             }
-            $request = $request
-                ->withParam('plugin', 'Installer')
-                ->withParam('controller', 'Install');
+            $request = $this->forceRediret($request, 'Installer', 'controller');
 
-            return $next($request, $response);
+            return $handler->handle($request);
         } elseif (strpos($url, 'install/finished')) {
             /// User has has removed installer token. Installer no longer available.
             InstallerState::reset();
@@ -65,13 +61,35 @@ class SaitoBootstrapMiddleware
             $dbVersion = Configure::read('Saito.Settings.db_version');
             $saitoVersion = Configure::read('Saito.v');
             if ($dbVersion !== $saitoVersion) {
-                $request = $request
-                    ->withParam('plugin', 'Installer')
-                    ->withParam('controller', 'Updater')
-                    ->withParam('action', 'start');
+                $request = $this->forceRediret($request, 'Installer', 'Updater', 'start');
             }
         }
 
-        return $next($request, $response);
+        return $handler->handle($request);
+    }
+
+    /**
+     * Forces a particular Cake route on the request
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request The request.
+     * @param null|string $plugin The plugin.
+     * @param null|string $controller The controller.
+     * @param null|string $action The action.
+     * @return \Psr\Http\Message\ServerRequestInterface
+     */
+    protected function forceRediret(
+        ServerRequestInterface $request,
+        ?string $plugin = null,
+        ?string $controller = null,
+        ?string $action = null
+    ): ServerRequestInterface {
+        $params = $request->getAttribute('params', []);
+        foreach (['plugin', 'controller', 'action'] as $param) {
+            if ($$param !== null) {
+                $params[$param] = $$param;
+            }
+        }
+
+        return $request->withAttribute('params', $params);
     }
 }
