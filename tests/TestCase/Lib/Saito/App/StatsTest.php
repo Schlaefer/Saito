@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\App;
 
@@ -8,7 +9,6 @@ use Saito\Test\SaitoTestCase;
 
 class StatsTest extends SaitoTestCase
 {
-
     public $fixtures = [
         'app.Category',
         'app.Entry',

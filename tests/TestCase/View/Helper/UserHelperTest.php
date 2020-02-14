@@ -7,7 +7,7 @@ use App\View\Helper\UserHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
-class CurrencyRendererHelperTest extends TestCase
+class UserHelperTest extends TestCase
 {
     /**
      * Helper to test

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,8 +12,6 @@ declare(strict_types=1);
 namespace App\View\Helper;
 
 use Cake\Core\Configure;
-use Cake\Http\ServerRequest;
-use Cake\View\Helper\UrlHelper;
 use Cake\View\View;
 use Saito\JsData\Notifications;
 use Saito\User\ForumsUserInterface;
@@ -22,8 +19,8 @@ use Saito\User\ForumsUserInterface;
 /**
  * Javascript Data Helper
  *
- * @property ServerRequest $request
- * @property UrlHelper $Url
+ * @property \Cake\Http\ServerRequest $request
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class JsDataHelper extends AppHelper
 {
@@ -32,15 +29,15 @@ class JsDataHelper extends AppHelper
     /**
      * Notifications
      *
-     * @var Notifications
+     * @var \Saito\JsData\Notifications
      */
     protected $Notifications;
 
     /**
      * get app js
      *
-     * @param View $View view
-     * @param ForumsUserInterface $CurrentUser user
+     * @param \Cake\View\View $View view
+     * @param \Saito\User\ForumsUserInterface $CurrentUser user
      * @return string
      */
     public function getAppJs(View $View, ForumsUserInterface $CurrentUser)
@@ -98,7 +95,7 @@ class JsDataHelper extends AppHelper
     /**
      * Get CSRF-config
      *
-     * @param View $View View
+     * @param \Cake\View\View $View View
      * @return array
      * - 'header' HTTP header for CSRF-token
      * - 'token' CSRF-token
@@ -119,7 +116,7 @@ class JsDataHelper extends AppHelper
     /**
      * Gets notifications
      *
-     * @return Notifications The notifications.
+     * @return \Saito\JsData\Notifications The notifications.
      */
     public function notifications(): Notifications
     {

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use Cake\Cache\Cache;
 
 class SaitoCacheEngineAppCache implements SaitoCacheEngineInterface
 {
-
     /**
      * {@inheritDoc}
      */

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -23,8 +22,9 @@ use Saito\Test\IntegrationTestCase;
  */
 class SearchesControllerTest extends IntegrationTestCase
 {
-
-    /** @var array Fixtures */
+    /**
+     * @var array Fixtures
+     */
     public $fixtures = [
         'app.Category',
         'app.Entry',

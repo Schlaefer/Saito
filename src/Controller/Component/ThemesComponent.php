@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use App\Controller\AppController;
 use Cake\Controller\Component;
 use Cake\Core\InstanceConfigTrait;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -39,7 +37,7 @@ class ThemesComponent extends Component
     /**
      * Sets theme
      *
-     * @param CurrentUserInterface $user current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $user current user
      * @param string $theme theme to set
      * @return void
      */
@@ -77,7 +75,7 @@ class ThemesComponent extends Component
     /**
      * Get theme for specific user.
      *
-     * @param CurrentUserInterface $user current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $user current user
      * @return string current theme for user
      */
     public function getThemeForUser(CurrentUserInterface $user): string
@@ -91,7 +89,7 @@ class ThemesComponent extends Component
     /**
      * Gets all available themes for user.
      *
-     * @param CurrentUserInterface $user current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $user current user
      * @return array
      */
     public function getAvailable(CurrentUserInterface $user): array
@@ -102,7 +100,7 @@ class ThemesComponent extends Component
             $global = $this->getConfig('available', []);
             $userThemes = $this->getConfig('users', []);
             $userId = $user->getId();
-            $userThemes = isset($userThemes[$userId]) ? $userThemes[$userId] : [];
+            $userThemes = $userThemes[$userId] ?? [];
             $available = array_merge($global, $userThemes);
         }
 

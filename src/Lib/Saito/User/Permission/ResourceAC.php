@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,10 +18,14 @@ use Saito\App\Registry;
  */
 class ResourceAC
 {
-    /** @var array Roles as array_keys [<roleName> => true] */
+    /**
+     * @var array Roles as array_keys [<roleName> => true]
+     */
     protected $asRole = [];
 
-    /** @var array Roles as array_keys [<roleName> => true] */
+    /**
+     * @var array Roles as array_keys [<roleName> => true]
+     */
     protected $onRole = [];
 
     protected $onOwn = false;
@@ -123,7 +126,7 @@ class ResourceAC
     /**
      * Check permission against identity-provider
      *
-     * @param ResourceAI $identity identity
+     * @param \Saito\User\Permission\ResourceAI $identity identity
      * @return bool
      */
     public function check(ResourceAI $identity): bool

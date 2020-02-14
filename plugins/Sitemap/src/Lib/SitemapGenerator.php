@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use Cake\Controller\Controller;
 
 abstract class SitemapGenerator
 {
-
     /**
      * Number of URLs per sitemap file.
      *
@@ -31,7 +29,7 @@ abstract class SitemapGenerator
     protected $_type = null;
 
     /**
-     * @param Controller $Controller controller
+     * @param \Cake\Controller\Controller $Controller controller
      * @throws \Exception
      */
     public function __construct(Controller $Controller)
@@ -55,7 +53,7 @@ abstract class SitemapGenerator
      */
     public function content($file)
     {
-        list($type, $params) = $this->_parseFilename($file);
+        [$type, $params] = $this->_parseFilename($file);
         if ($type !== $this->_type) {
             return false;
         }

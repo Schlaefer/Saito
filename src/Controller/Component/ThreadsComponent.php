@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,9 +11,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use App\Model\Table\EntriesTable;
 use Cake\Controller\Component;
-use Cake\Controller\Component\PaginatorComponent;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Saito\Posting\Basic\BasicPostingInterface;
@@ -24,8 +21,8 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Class ThreadsComponent
  *
- * @property PaginatorComponent $Paginator
- * @property AuthUserComponent $AuthUser
+ * @property \Cake\Controller\Component\PaginatorComponent $Paginator
+ * @property \App\Controller\Component\AuthUserComponent $AuthUser
  */
 class ThreadsComponent extends Component
 {
@@ -34,7 +31,7 @@ class ThreadsComponent extends Component
     /**
      * Entries table
      *
-     * @var EntriesTable
+     * @var \App\Model\Table\EntriesTable
      */
     protected $Table;
 
@@ -51,7 +48,7 @@ class ThreadsComponent extends Component
      * Load paginated threads
      *
      * @param mixed $order order to apply
-     * @param CurrentUserInterface $CurrentUser CurrentUser
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser CurrentUser
      * @return array
      */
     public function paginate($order, CurrentUserInterface $CurrentUser): array
@@ -68,7 +65,7 @@ class ThreadsComponent extends Component
      * Gets thread ids for paginated entries/index.
      *
      * @param array $order sort order
-     * @param CurrentUserInterface $User current-user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $User current-user
      * @return array thread ids
      */
     protected function paginateThreads($order, CurrentUserInterface $User): array
@@ -127,8 +124,8 @@ class ThreadsComponent extends Component
     /**
      * Increment views for all postings in thread
      *
-     * @param BasicPostingInterface $posting posting
-     * @param CurrentUserInterface $CurrentUser current user
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting posting
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current user
      * @return void
      */
     public function incrementViewsForThread(BasicPostingInterface $posting, CurrentUserInterface $CurrentUser)
@@ -148,8 +145,8 @@ class ThreadsComponent extends Component
     /**
      * Increment views for posting if posting
      *
-     * @param BasicPostingInterface $posting posting
-     * @param CurrentUserInterface $CurrentUser current user
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting posting
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current user
      * @return void
      */
     public function incrementViewsForPosting(BasicPostingInterface $posting, CurrentUserInterface $CurrentUser)

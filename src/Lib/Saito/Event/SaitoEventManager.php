@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -24,7 +23,6 @@ use Cake\Event\EventListenerInterface;
  */
 class SaitoEventManager implements EventListenerInterface
 {
-
     protected static $_Instance;
 
     protected $_listeners = [];
@@ -32,7 +30,7 @@ class SaitoEventManager implements EventListenerInterface
     /**
      * Return instance
      *
-     * @return SaitoEventManager
+     * @return \Saito\Event\SaitoEventManager
      */
     public static function getInstance()
     {
@@ -58,12 +56,12 @@ class SaitoEventManager implements EventListenerInterface
     /**
      * Pass event throuh
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      */
     public function cakeEventPassThrough(Event $event)
     {
-        $data = ($event->getData()) ?: [];
+        $data = $event->getData() ?: [];
         $data += ['subject' => $event->getSubject()];
         $name = 'Event.Saito.' . $event->getName();
         $this->dispatch($name, $data);
@@ -72,7 +70,7 @@ class SaitoEventManager implements EventListenerInterface
     /**
      * attaches event-listener
      *
-     * @param string|SaitoEventListener $key key
+     * @param string|\Saito\Event\SaitoEventListener $key key
      * @param null $callable function if $key is set
      * @return void
      * @throws \InvalidArgumentException

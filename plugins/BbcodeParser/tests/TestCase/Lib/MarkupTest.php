@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,9 @@ use Saito\Test\SaitoTestCase;
 
 class MarkupTest extends SaitoTestCase
 {
-    /** @var Markup */
+    /**
+     * @var Markup
+     */
     private $markup;
 
     public function setUp(): void

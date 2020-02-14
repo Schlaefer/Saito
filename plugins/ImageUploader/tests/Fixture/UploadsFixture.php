@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -20,7 +19,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class UploadsFixture extends TestFixture
 {
-
     /**
      * Fields
      *

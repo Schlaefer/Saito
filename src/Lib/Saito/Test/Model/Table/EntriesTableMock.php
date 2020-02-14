@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use App\Model\Table\EntriesTable;
 
 class EntriesTableMock extends EntriesTable
 {
-
     protected $_table = 'entries';
 
     /**

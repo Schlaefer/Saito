@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -23,13 +22,12 @@ use Saito\User\CurrentUser\CurrentUserInterface;
 
 class PostingComponent extends Component
 {
-
     /**
      * Creates a new posting from user
      *
      * @param array $data raw posting data
-     * @param CurrentUserInterface $CurrentUser the current user
-     * @return Entry|null on success, null otherwise
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser the current user
+     * @return \App\Model\Entity\Entry|null on success, null otherwise
      */
     public function create(array $data, CurrentUserInterface $CurrentUser): ?Entry
     {
@@ -64,10 +62,10 @@ class PostingComponent extends Component
     /**
      * Updates an existing posting
      *
-     * @param Entry $entry the posting to update
+     * @param \App\Model\Entity\Entry $entry the posting to update
      * @param array $data data the posting should be updated with
-     * @param CurrentUserInterface $CurrentUser the current-user
-     * @return Entry|null the posting which was asked to update
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser the current-user
+     * @return \App\Model\Entity\Entry|null the posting which was asked to update
      */
     public function update(Entry $entry, array $data, CurrentUserInterface $CurrentUser): ?Entry
     {
@@ -89,7 +87,7 @@ class PostingComponent extends Component
     /**
      * Populates data of an child derived from its parent-posting
      *
-     * @param BasicPostingInterface $parent parent data
+     * @param \Saito\Posting\Basic\BasicPostingInterface $parent parent data
      * @param array $data current posting data
      * @return array populated $data
      */
@@ -109,11 +107,11 @@ class PostingComponent extends Component
     /**
      * Get Entries table
      *
-     * @return EntriesTable
+     * @return \App\Model\Table\EntriesTable
      */
     protected function getTable(): EntriesTable
     {
-        /** @var EntriesTable */
+        /** @var \App\Model\Table\EntriesTable $table */
         $table = TableRegistry::getTableLocator()->get('Entries');
 
         return $table;

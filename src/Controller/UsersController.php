@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,20 +12,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\BlockForm;
-use App\Model\Entity\User;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
-use Cake\Routing\Router;
 use Saito\App\Registry;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Blocker\ManualBlocker;
-use Saito\User\Permission\Permissions;
 use Saito\User\Permission\ResourceAI;
 use Siezi\SimpleCaptcha\Model\Validation\SimpleCaptchaValidator;
 use Stopwatch\Lib\Stopwatch;
@@ -48,7 +42,7 @@ class UsersController extends AppController
     /**
      * Login user.
      *
-     * @return void|Response
+     * @return void|\Cake\Http\Response
      */
     public function login()
     {
@@ -65,7 +59,7 @@ class UsersController extends AppController
                     __('user.authe.required.exp'),
                     ['element' => 'warning', 'params' => ['title' => __('user.authe.required.t')]]
                 );
-            };
+            }
 
             return;
         }
@@ -88,7 +82,7 @@ class UsersController extends AppController
 
         /// error on login
         $username = $this->request->getData('username');
-        /** @var User */
+        /** @var \App\Model\Entity\User $User */
         $User = $this->Users->find()
             ->where(['username' => $username])
             ->first();
@@ -131,7 +125,7 @@ class UsersController extends AppController
     /**
      * Logout user.
      *
-     * @return void|Response
+     * @return void|\Cake\Http\Response
      */
     public function logout()
     {
@@ -149,7 +143,7 @@ class UsersController extends AppController
     /**
      * Register new user.
      *
-     * @return void|Response
+     * @return void|\Cake\Http\Response
      */
     public function register()
     {
@@ -232,7 +226,7 @@ class UsersController extends AppController
      *
      * @param string $id user-ID
      * @return void
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function rs($id = null)
     {
@@ -385,7 +379,7 @@ class UsersController extends AppController
 
         $id = (int)$id;
 
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->find()
             ->contain(
                 [
@@ -415,7 +409,7 @@ class UsersController extends AppController
 
         $this->set(
             'hasMoreEntriesThanShownOnPage',
-            ($user->numberOfPostings() - $entriesShownOnPage) > 0
+            $user->numberOfPostings() - $entriesShownOnPage > 0
         );
 
         if ($this->CurrentUser->getId() === $id) {
@@ -441,7 +435,7 @@ class UsersController extends AppController
             throw new BadRequestException();
         }
 
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($userId);
 
         $permissionEditing = $this->CurrentUser->permission(
@@ -497,7 +491,7 @@ class UsersController extends AppController
     {
         $this->viewBuilder()->setHelpers(['SpectrumColorpicker.SpectrumColorpicker']);
 
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($id);
 
         $permissionEditing = $this->CurrentUser->permission(
@@ -546,7 +540,7 @@ class UsersController extends AppController
     public function delete($id)
     {
         $id = (int)$id;
-        /** @var User */
+        /** @var \App\Model\Entity\User $readUser */
         $readUser = $this->Users->get($id);
 
         /// Check permission
@@ -603,7 +597,7 @@ class UsersController extends AppController
      * Lock user.
      *
      * @return \Cake\Http\Response|void
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function lock()
     {
@@ -614,7 +608,7 @@ class UsersController extends AppController
 
         $id = (int)$this->request->getData('lockUserId');
 
-        /** @var User */
+        /** @var \App\Model\Entity\User $readUser */
         $readUser = $this->Users->get($id);
 
         $permission = $this->CurrentUser->permission(
@@ -660,7 +654,7 @@ class UsersController extends AppController
     {
         $id = (int)$id;
 
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users
             ->find()
             ->matching('UserBlocks', function ($q) use ($id) {
@@ -697,7 +691,7 @@ class UsersController extends AppController
      * @param null $id user-ID
      * @return void
      * @throws \Saito\Exception\SaitoForbiddenException
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function changepassword($id = null)
     {
@@ -705,7 +699,7 @@ class UsersController extends AppController
             throw new BadRequestException();
         }
 
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($id);
         $allowed = $this->CurrentUser->isUser($user);
         if (empty($user) || !$allowed) {
@@ -760,14 +754,15 @@ class UsersController extends AppController
      * Directly set password for user
      *
      * @param string $id user-ID
-     * @return Response|void
+     * @return \Cake\Http\Response|void
      */
     public function setpassword($id)
     {
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($id);
 
-        if (!$this->CurrentUser->permission('saito.core.user.password.set', (new ResourceAI())->onRole($user->getRole()))) {
+        $permissionResource = (new ResourceAI())->onRole($user->getRole());
+        if (!$this->CurrentUser->permission('saito.core.user.password.set', $permissionResource)) {
             throw new SaitoForbiddenException(
                 "Attempt to set password for user $id.",
                 ['CurrentUser' => $this->CurrentUser]
@@ -801,11 +796,11 @@ class UsersController extends AppController
      * View and set user role
      *
      * @param string $id User-ID
-     * @return void|Response
+     * @return void|\Cake\Http\Response
      */
     public function role($id)
     {
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($id);
         $identifier = (new ResourceAI())->onRole($user->getRole());
         $unrestricted = $this->CurrentUser->permission('saito.core.user.role.set.unrestricted', $identifier);
@@ -817,7 +812,7 @@ class UsersController extends AppController
             );
         }
 
-        /** @var Permissions */
+        /** @var \Saito\User\Permission\Permissions $Permissions */
         $Permissions = Registry::get('Permissions');
 
         $roles = $Permissions->getRoles()->get($this->CurrentUser->getRole(), false, $unrestricted);
@@ -850,7 +845,7 @@ class UsersController extends AppController
      * Set slidetab-order.
      *
      * @return \Cake\Http\Response
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function slidetabOrder()
     {
@@ -944,7 +939,7 @@ class UsersController extends AppController
     /**
      * Logout user if logged in and create response to revisit logged out
      *
-     * @return Response|null
+     * @return \Cake\Http\Response|null
      */
     protected function _logoutAndComeHereAgain(): ?Response
     {

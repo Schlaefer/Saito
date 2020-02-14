@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,7 +13,6 @@ namespace Saito\Contact;
 
 interface ContactInterface
 {
-
     /**
      * get title/(user-)name of the contact
      *

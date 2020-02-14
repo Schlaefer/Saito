@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Lib\App;
 
@@ -7,7 +8,6 @@ use Saito\App\SettingsImmutable;
 
 class SettingsImmutableTest extends TestCase
 {
-
     public function testGet()
     {
         $settings = (new SettingsImmutable(['foo' => 'bar']));

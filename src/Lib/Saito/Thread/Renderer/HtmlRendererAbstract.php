@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -42,7 +41,7 @@ abstract class HtmlRendererAbstract
     /**
      * Constructor
      *
-     * @param PostingHelper $PostingHelper helper
+     * @param \App\View\Helper\PostingHelper $PostingHelper helper
      * @param array $options options
      */
     public function __construct(PostingHelper $PostingHelper, $options = [])
@@ -56,7 +55,7 @@ abstract class HtmlRendererAbstract
     /**
      * Render init.
      *
-     * @param PostingInterface $node posting
+     * @param \Saito\Posting\PostingInterface $node posting
      * @return string
      */
     public function render(PostingInterface $node)
@@ -84,7 +83,7 @@ abstract class HtmlRendererAbstract
     /**
      * Render node.
      *
-     * @param PostingInterface $node posting
+     * @param \Saito\Posting\PostingInterface $node posting
      * @return string
      */
     protected function _renderNode(PostingInterface $node)
@@ -109,7 +108,7 @@ abstract class HtmlRendererAbstract
     /**
      * Main render routine for thread.
      *
-     * @param PostingInterface $node posting
+     * @param \Saito\Posting\PostingInterface $node posting
      * @return string
      */
     abstract protected function _renderCore(PostingInterface $node);
@@ -141,13 +140,13 @@ abstract class HtmlRendererAbstract
     /**
      * generates CSS classes
      *
-     * @param PostingInterface $node posting
+     * @param \Saito\Posting\PostingInterface $node posting
      * @return string
      */
     protected function _css($node)
     {
-        $entryType = ($node->isRoot()) ? 'et-root' : 'et-reply';
-        $entryType .= ($node->isUnread()) ? ' et-new' : ' et-old';
+        $entryType = $node->isRoot() ? 'et-root' : 'et-reply';
+        $entryType .= $node->isUnread() ? ' et-new' : ' et-old';
         if ($node->get('id') === (int)$this->_settings['currentEntry']) {
             $entryType .= ' et-current';
         }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -34,7 +33,7 @@ class SitemapEntries extends SitemapGenerator
             ->order(['Entries.id' => 'DESC'])
             ->first();
 
-        $count = (empty($entry)) ? 0 : $entry->get('id');
+        $count = empty($entry) ? 0 : $entry->get('id');
         $count = intval($count / $this->_divider) + 1;
         $files = [];
         for ($i = 0; $i < $count; $i++) {
@@ -104,9 +103,9 @@ class SitemapEntries extends SitemapGenerator
             } else {
                 $lastmod = $entry['time']->getTimestamp();
             }
-            if ($now > ($lastmod + (3 * DAY))) { // old entries
+            if ($now > $lastmod + (3 * DAY)) { // old entries
                 $changefreq = 'monthly';
-            } elseif ($now > ($lastmod + DAY)) { // recently active entries
+            } elseif ($now > $lastmod + DAY) { // recently active entries
                 $changefreq = 'daily';
             } else { // currently active entries
                 $changefreq = 'hourly';

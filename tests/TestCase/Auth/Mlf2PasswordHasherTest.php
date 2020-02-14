@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Auth;
 
@@ -7,7 +8,6 @@ use Saito\Test\SaitoTestCase;
 
 class Mlf2PasswordHasherTest extends SaitoTestCase
 {
-
     public function setUp(): void
     {
         $this->Hasher = new Mlf2PasswordHasher();

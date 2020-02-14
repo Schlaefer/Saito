@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -84,9 +83,9 @@ class TreeBuilder
     protected function _sort($a, $b)
     {
         if ($a['time'] === $b['time']) {
-            return ($a['id'] > $b['id']) ? 1 : -1;
+            return $a['id'] > $b['id'] ? 1 : -1;
         } else {
-            return ($a['time'] > $b['time']) ? 1 : -1;
+            return $a['time'] > $b['time'] ? 1 : -1;
         }
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,22 +15,21 @@ use App\View\Helper\ParserHelper;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\View\View;
-use Plugin\BbcodeParser\Lib;
 use Plugin\BbcodeParser\src\Lib\Parser;
 use Saito\Markup\MarkupSettings;
 use Saito\Test\SaitoTestCase;
-use Saito\User\Userlist;
 use Saito\User\Userlist\UserlistModel;
 
 class BbcodeParserTest extends SaitoTestCase
 {
-
     /**
      * @var Parser
      */
     protected $_Parser = null;
 
-    /** @var MarkupSettings */
+    /**
+     * @var MarkupSettings
+     */
     protected $MarkupSettings;
 
     public function testBold()

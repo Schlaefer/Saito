@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,13 +11,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Response;
 
 class StatusController extends AppController
 {
-
     public $autoRender = false;
 
     /**
@@ -27,7 +23,7 @@ class StatusController extends AppController
      * Even if no data is send for other functionality the ping keeps the
      * current user online.
      *
-     * @return Response
+     * @return \Cake\Http\Response
      */
     public function status()
     {
@@ -82,7 +78,7 @@ class StatusController extends AppController
     /**
      * {@inheritdoc}
      *
-     * @param Event $event An Event instance
+     * @param \Cake\Event\Event $event An Event instance
      * @return void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)

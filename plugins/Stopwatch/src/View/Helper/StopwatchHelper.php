@@ -12,15 +12,13 @@ declare(strict_types=1);
 namespace Stopwatch\View\Helper;
 
 use Cake\View\Helper;
-use Cake\View\Helper\HtmlHelper;
-use Cake\View\Helper\NumberHelper;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Stopwatch Helper
  *
- * @property HtmlHelper $Html
- * @property NumberHelper $Number
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\NumberHelper $Number
  */
 class StopwatchHelper extends Helper
 {

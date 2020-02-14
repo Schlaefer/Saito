@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -34,7 +33,7 @@ class Storage
      *
      * @var array
      */
-    private $_defaultConfig = [
+    protected $_defaultConfig = [
         'expire' => '+1 month',
         'http' => true,
     ];
@@ -42,7 +41,7 @@ class Storage
     /**
      * Controller
      *
-     * @var Controller
+     * @var \Cake\Controller\Controller
      */
     protected $Controller;
 
@@ -51,7 +50,7 @@ class Storage
     /**
      * Constructor
      *
-     * @param Controller $controller Controller
+     * @param \Cake\Controller\Controller $controller Controller
      * @param string $key cookie-key
      * @param array $config additional options
      */
@@ -112,7 +111,7 @@ class Storage
     /**
      * Creates a new CakePHP cookie instance with default values set
      *
-     * @return Cookie
+     * @return \Cake\Http\Cookie\Cookie
      */
     private function createCookie(): Cookie
     {

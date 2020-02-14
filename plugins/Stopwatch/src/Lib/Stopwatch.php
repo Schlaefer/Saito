@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,7 +13,6 @@ namespace Stopwatch\Lib;
 
 class Stopwatch
 {
-
     protected static $_startupTime = 0;
 
     protected static $_instance = null;
@@ -42,7 +40,7 @@ class Stopwatch
     /**
      * get instance
      *
-     * @return null|Stopwatch
+     * @return null|\Stopwatch\Lib\Stopwatch
      */
     public static function getInstance()
     {
@@ -101,8 +99,8 @@ class Stopwatch
             return;
         }
 
-        list($usec, $sec) = explode(' ', microtime());
-        $wtime = ((float)$sec + (float)$usec);
+        [$usec, $sec] = explode(' ', microtime());
+        $wtime = (float)$sec + (float)$usec;
         if (!self::$_wallStart) {
             self::$_wallStart = $wtime;
         }
@@ -114,17 +112,17 @@ class Stopwatch
             // some hosters disable getrusage() while hardening their PHP
             $utime = 0;
         } else {
-            $utime = ($dat['ru_utime.tv_sec'] + $dat['ru_utime.tv_usec'] / 1000000);
+            $utime = $dat['ru_utime.tv_sec'] + $dat['ru_utime.tv_usec'] / 1000000;
         }
 
         if (!self::$_userStart) {
             self::$_userStart = $utime;
         }
 
-        $udiff = ($wtime - self::$_wallStart == 0) ? 0 : $utime - self::$_userLast;
+        $udiff = $wtime - self::$_wallStart == 0 ? 0 : $utime - self::$_userLast;
         self::$_userLast = $utime;
 
-        $wdiff = ($wtime - self::$_wallStart == 0) ? 0 : $wtime - self::$_wallLast;
+        $wdiff = $wtime - self::$_wallStart == 0 ? 0 : $wtime - self::$_wallLast;
         self::$_wallLast = $wtime;
 
         if (!isset(self::$_starts[$x])) {
@@ -161,9 +159,9 @@ class Stopwatch
         ];
 
         // endtime
-        list($eusec, $esec) = explode(' ', microtime());
-        $ewtime = ((float)$esec + (float)$eusec);
-        self::$_stopwatchTime += ($ewtime - $wtime);
+        [$eusec, $esec] = explode(' ', microtime());
+        $ewtime = (float)$esec + (float)$eusec;
+        self::$_stopwatchTime += $ewtime - $wtime;
         self::$_stopwatchCalls++;
     }
 

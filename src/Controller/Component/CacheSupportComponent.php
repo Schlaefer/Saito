@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Event\Event;
 use Saito\Cache\CacheSupport;
 use Saito\Cache\ItemCache;
 use Saito\Cache\LineCacheSupportCachelet;
@@ -21,11 +19,13 @@ use Saito\Cache\SaitoCacheEngineAppCache;
 
 class CacheSupportComponent extends Component
 {
-    /** @var CacheSupport */
+    /**
+     * @var \Saito\Cache\CacheSupport
+     */
     protected $_CacheSupport;
 
     /**
-     * @var ItemCache
+     * @var \Saito\Cache\ItemCache
      */
     public $LineCache;
 

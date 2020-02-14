@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,8 +15,6 @@ use Cake\Controller\Controller;
 use Cake\ORM\TableRegistry;
 use Saito\User\Categories;
 use Saito\User\Cookie\Storage;
-use Saito\User\CurrentUser\CurrentUser;
-use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\LastRefresh\LastRefreshCookie;
 use Saito\User\LastRefresh\LastRefreshDatabase;
 use Saito\User\LastRefresh\LastRefreshDummy;
@@ -34,7 +31,7 @@ class CurrentUserFactory
      * Creates a logged-in user
      *
      * @param array $config user configuration
-     * @return CurrentUserInterface
+     * @return \Saito\User\CurrentUser\CurrentUserInterface
      */
     public static function createLoggedIn(array $config = []): CurrentUserInterface
     {
@@ -61,9 +58,9 @@ class CurrentUserFactory
     /**
      * Creates a visitor
      *
-     * @param Controller $controller CakePHP controller access request/response
+     * @param \Cake\Controller\Controller $controller CakePHP controller access request/response
      * @param array|null $config user configuration
-     * @return CurrentUserInterface
+     * @return \Saito\User\CurrentUser\CurrentUserInterface
      */
     public static function createVisitor(Controller $controller, ?array $config = []): CurrentUserInterface
     {
@@ -83,7 +80,7 @@ class CurrentUserFactory
      * Creates user without persistence (bots, internal error-pages, testing)
      *
      * @param array|null $config user configuration (usually empty)
-     * @return CurrentUserInterface
+     * @return \Saito\User\CurrentUser\CurrentUserInterface
      */
     public static function createDummy(?array $config = []): CurrentUserInterface
     {

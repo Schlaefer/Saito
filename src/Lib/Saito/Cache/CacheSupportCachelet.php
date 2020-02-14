@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,7 +13,6 @@ namespace Saito\Cache;
 
 abstract class CacheSupportCachelet implements CacheSupportCacheletInterface
 {
-
     /**
      * get cachelet id
      *
@@ -29,7 +27,7 @@ abstract class CacheSupportCachelet implements CacheSupportCacheletInterface
         return preg_replace(
             '/Saito\\\Cache\\\(.*)CacheSupportCachelet/',
             '\\1',
-            get_class($this)
+            static::class
         );
     }
 }

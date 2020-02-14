@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -74,10 +73,10 @@ trait TestCaseTrait
     protected function _storeSettings()
     {
         $this->saitoSettings = Configure::read('Saito.Settings');
-        $this->saitoPermissions = clone(Configure::read('Saito.Permission.Resources'));
+        $this->saitoPermissions = clone Configure::read('Saito.Permission.Resources');
         $this->setI18n('en');
         Configure::write('Saito.Settings.ParserPlugin', \Plugin\BbcodeParser\src\Lib\Markup::class);
-        Configure::write('Saito.Settings.uploader', clone($this->saitoSettings['uploader']));
+        Configure::write('Saito.Settings.uploader', clone $this->saitoSettings['uploader']);
     }
 
     /**
@@ -150,8 +149,7 @@ trait TestCaseTrait
     /**
      * Creates a mock image file in $file
      *
-     * @param File $file File with extension.
-     *
+     * @param \Cake\Filesystem\File $file File with extension.
      * Mime type is taken from extension. Allowed extensions: png, jpeg, jpg
      *
      * @param int $size size of the mock image in kB

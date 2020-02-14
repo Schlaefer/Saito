@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,18 +12,15 @@ declare(strict_types=1);
 namespace Admin\View\Helper;
 
 use App\View\Helper\AppHelper;
-use Cake\View\Helper\HtmlHelper;
-use SaitoHelp\View\Helper\SaitoHelpHelper;
 
 /**
  * Setting Helper
  *
- * @property HtmlHelper $Html
- * @property SaitoHelpHelper $SaitoHelp
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \SaitoHelp\View\Helper\SaitoHelpHelper $SaitoHelp
  */
 class SettingHelper extends AppHelper
 {
-
     protected $_headers = [];
 
     public $helpers = [

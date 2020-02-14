@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,16 +15,24 @@ use Cake\Cache\Cache;
 
 class Cron
 {
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $jobs = [];
 
-    /** @var bool Should garbage collection be run before persisting */
+    /**
+     * @var bool Should garbage collection be run before persisting
+     */
     protected $runGc = false;
 
-    /** @var int Now */
+    /**
+     * @var int Now
+     */
     protected $now;
 
-    /** @var array|null Null if not intialized */
+    /**
+     * @var array|null Null if not intialized
+     */
     protected $lastRuns = null;
 
     /**

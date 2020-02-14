@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,8 @@ declare(strict_types=1);
 
 namespace Plugin\BbcodeParser\src\Lib;
 
-use Cake\Core\Plugin;
 use Cake\View\Helper;
-use Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 use Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
-use Plugin\BbcodeParser\src\Lib\Processors;
 use Saito\Markup\MarkupSettings;
 
 class Parser
@@ -31,7 +27,7 @@ class Parser
     protected $_Postprocessors;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $areCombinedClassFilesLoaded = false;
 
@@ -207,20 +203,20 @@ class Parser
     protected $_initializedParsers = [];
 
     /**
-     * @var MarkupSettings cache for app settings
+     * @var \Saito\Markup\MarkupSettings cache for app settings
      */
     protected $_cSettings;
 
     /**
-     * @var Helper Helper usually the ParseHelper
+     * @var \Cake\View\Helper Helper usually the ParseHelper
      */
     protected $_Helper;
 
     /**
      * Constructor
      *
-     * @param Helper $Helper helper
-     * @param MarkupSettings $settings settings
+     * @param \Cake\View\Helper $Helper helper
+     * @param \Saito\Markup\MarkupSettings $settings settings
      */
     public function __construct(Helper $Helper, MarkupSettings $settings)
     {
@@ -327,7 +323,7 @@ class Parser
      * Add definitin set
      *
      * @param string $set set
-     * @param MarkupSettings $options options
+     * @param \Saito\Markup\MarkupSettings $options options
      *
      * @return void
      * @throws \Exception

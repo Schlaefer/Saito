@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,13 +21,16 @@ use Migrations\Migrations;
 
 class UpdaterControllerTest extends IntegrationTestCase
 {
-
     public $fixtures = ['app.Setting', 'plugin.Installer.Phinxlog'];
 
-    /** @var File */
+    /**
+     * @var File
+     */
     protected $token;
 
-    /** @var DbVersion */
+    /**
+     * @var DbVersion
+     */
     protected $dbVersion;
 
     public function setUp(): void

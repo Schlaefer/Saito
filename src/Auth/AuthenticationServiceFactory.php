@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,8 +11,6 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
-use App\Auth\LegacyPasswordHasherSaltless;
-use App\Auth\Mlf2PasswordHasher;
 use Authentication\AuthenticationService;
 use Cake\Core\Configure;
 use Cake\Routing\Router;
@@ -26,7 +23,7 @@ class AuthenticationServiceFactory
     /**
      * Build authentication service for JWT based API
      *
-     * @return AuthenticationService
+     * @return \Authentication\AuthenticationService
      */
     public static function buildJwt(): AuthenticationService
     {
@@ -44,7 +41,7 @@ class AuthenticationServiceFactory
     /**
      * Build authentication service with Session, Cookie and Form
      *
-     * @return AuthenticationService
+     * @return \Authentication\AuthenticationService
      */
     public static function buildApp(): AuthenticationService
     {

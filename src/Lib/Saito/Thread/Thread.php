@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,7 +18,6 @@ use Saito\Posting\PostingInterface;
  */
 class Thread
 {
-
     protected $_Postings = [];
 
     protected $_rootId;
@@ -29,7 +27,7 @@ class Thread
     /**
      * Add posting to thread
      *
-     * @param PostingInterface $posting posting
+     * @param \Saito\Posting\PostingInterface $posting posting
      * @return void
      */
     public function add(PostingInterface $posting)
@@ -50,7 +48,7 @@ class Thread
      * @param int|string $id posting-ID
      * - <int> - Posting with that id
      * - 'root' - Root-posting
-     * @return PostingInterface
+     * @return \Saito\Posting\PostingInterface
      */
     public function get($id): PostingInterface
     {
@@ -68,7 +66,7 @@ class Thread
      */
     public function getLastAnswer(): int
     {
-        /** @var \DateTime */
+        /** @var \DateTime $lastAnswer */
         $lastAnswer = $this->get('root')->get('last_answer');
 
         return $lastAnswer->getTimestamp();

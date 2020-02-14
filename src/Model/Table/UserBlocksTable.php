@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Table\UsersTable;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -21,11 +19,10 @@ use Saito\User\Blocker\BlockerAbstract;
 /**
  * UserBlock table
  *
- * @property UsersTable $Users
+ * @property \App\Model\Table\UsersTable $Users
  */
 class UserBlocksTable extends Table
 {
-
     /**
      * {@inheritDoc}
      */
@@ -59,7 +56,7 @@ class UserBlocksTable extends Table
     /**
      * block user
      *
-     * @param BlockerAbstract $Blocker blocker
+     * @param \Saito\User\Blocker\BlockerAbstract $Blocker blocker
      * @param int $userId user-ID
      * @return bool success
      */
@@ -139,7 +136,7 @@ class UserBlocksTable extends Table
     /**
      * get all
      *
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function getAll()
     {
@@ -152,9 +149,9 @@ class UserBlocksTable extends Table
     /**
      * gc finder
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findToGc(Query $query, array $options)
     {
@@ -174,8 +171,8 @@ class UserBlocksTable extends Table
      *
      * Don't hydrate full user entities.
      *
-     * @param Query $query query
-     * @return Query
+     * @param \Cake\ORM\Query $query query
+     * @return \Cake\ORM\Query
      */
     public function findAssocUsers(Query $query)
     {

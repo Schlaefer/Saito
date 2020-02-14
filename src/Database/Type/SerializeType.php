@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,6 @@ use PDO;
 
 class SerializeType extends BaseType
 {
-
     /**
      * {@inheritDoc}
      */

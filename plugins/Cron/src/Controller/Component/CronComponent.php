@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,12 +12,10 @@ declare(strict_types=1);
 namespace Cron\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Event\Event;
 use Saito\App\Registry;
 
 class CronComponent extends Component
 {
-
     /**
      * {@inheritDoc}
      */

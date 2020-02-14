@@ -19,6 +19,8 @@ class ReadPostingsCookie extends ReadPostingsAbstract
 {
     /**
      * Max number of postings in cookie
+     *
+     * @var int
      */
     protected $maxPostings = 240;
 

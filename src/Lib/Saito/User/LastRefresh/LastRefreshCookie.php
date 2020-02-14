@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -28,7 +27,7 @@ class LastRefreshCookie extends LastRefreshAbstract
     protected $_Cookie;
 
     /**
-     * @var Storage
+     * @var \Saito\User\Cookie\Storage
      */
     protected $_storage;
 

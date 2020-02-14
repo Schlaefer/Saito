@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\View\Cell;
 
-use App\Model\Table\EntriesTable;
 use Cake\ORM\TableRegistry;
 use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\View\Cell\SlidetabCell;
@@ -24,13 +22,14 @@ use Saito\View\Cell\SlidetabCell;
  */
 class SlidetabRecentpostsCell extends SlidetabCell
 {
-
     /**
      * {@inheritDoc}
      */
     public function display(CurrentUserInterface $CurrentUser)
     {
-        /** @var EntriesTable */
+        /**
+         * @var \App\Model\Table\EntriesTable
+         */
         $Entries = TableRegistry::getTableLocator()->get('Entries');
         $recentEntries = $Entries->getRecentPostings($CurrentUser);
         $this->set(compact('recentEntries', 'CurrentUser'));

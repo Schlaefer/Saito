@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,14 +21,14 @@ interface UserPostingInterface
     /**
      * Get current-user.
      *
-     * @return CurrentUserInterface
+     * @return \Saito\User\CurrentUser\CurrentUserInterface
      */
     public function getCurrentUser(): CurrentUserInterface;
 
     /**
      * Set current user.
      *
-     * @param CurrentUserInterface $CurrentUser  current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current user
      * @return void
      */
     public function setCurrentUser(CurrentUserInterface $CurrentUser);

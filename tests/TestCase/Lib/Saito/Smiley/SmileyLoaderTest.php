@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Smiley;
 
@@ -7,7 +8,6 @@ use Saito\Test\SaitoTestCase;
 
 class SmileyLoaderTest extends SaitoTestCase
 {
-
     public $fixtures = ['app.Smiley', 'app.SmileyCode'];
 
     public function testLoad()

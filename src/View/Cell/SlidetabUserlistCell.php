@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,6 @@ use Saito\View\Cell\SlidetabCell;
 
 class SlidetabUserlistCell extends SlidetabCell
 {
-
     protected $_validCellOptions = [];
 
     /**
@@ -26,7 +24,7 @@ class SlidetabUserlistCell extends SlidetabCell
      */
     public function display(CurrentUserInterface $CurrentUser)
     {
-        /* @var \Saito\App\Stats $stats */
+        /** @var \Saito\App\Stats $stats */
         $stats = Registry::get('AppStats');
         $this->set('CurrentUser', $CurrentUser);
         $this->set('online', $stats->getRegistredUsersOnline());

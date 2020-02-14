@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -20,11 +19,11 @@ class SaitoSearchBehavior extends Behavior
     /**
      * Finder for simple search ordered by time
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
      *  - `searchTerm` SaitoSearch\Lib\SimpleSearchBehavior
      *  - 'categories' array of int list of category-IDs
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findSimpleSearchByTime(Query $query, array $options): Query
     {
@@ -40,11 +39,11 @@ class SaitoSearchBehavior extends Behavior
      *
      * Check for performance if queries are changed!
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
      *  - `searchTerm` SaitoSearch\Lib\SimpleSearchBehavior
      *  - 'categories' array of int list of category-IDs
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findSimpleSearchByRank(Query $query, array $options): Query
     {
@@ -58,11 +57,11 @@ class SaitoSearchBehavior extends Behavior
     /**
      * Shared finder code for simple-search-finders
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
      *  - `searchTerm` SaitoSearch\Lib\SimpleSearchBehavior
      *  - 'categories' array of int list of category-IDs
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     private function prepareFindSimpleSearch(Query $query, array $options): Query
     {

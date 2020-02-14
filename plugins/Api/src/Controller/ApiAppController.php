@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,9 +12,6 @@ declare(strict_types=1);
 namespace Api\Controller;
 
 use App\Controller\AppController;
-use Cake\Controller\Component\AuthComponent;
-use Cake\Core\Configure;
-use Cake\Event\Event;
 
 /**
  * Api App Controller

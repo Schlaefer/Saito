@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -11,8 +10,6 @@ declare(strict_types=1);
  */
 
 namespace Saito\User\ReadPostings;
-
-use Saito\User\ReadPostings\ReadPostingsInterface;
 
 /**
  * Nothing can be set read

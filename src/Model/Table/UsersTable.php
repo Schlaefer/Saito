@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,35 +13,29 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
 use App\Lib\Model\Table\FieldFilter;
-use App\Model\Table\EntriesTable;
-use App\Model\Table\UserBlocksTable;
-use App\Model\Table\UserIgnoresTable;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Authentication\PasswordHasher\PasswordHasherFactory;
 use Authentication\PasswordHasher\PasswordHasherInterface;
 use Cake\Core\Configure;
-use Cake\Database\Schema\TableSchema;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
-use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use DateTimeInterface;
 use Saito\App\Registry;
-use Saito\User\Permission\Permissions;
-use Saito\User\Upload\AvatarFilenameListener;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Users table
  *
- * @property EntriesTable $Entries
- * @property UserBlocksTable $UserBlocks
- * @property UserIgnoresTable $UserIgnores
- * @property UserOnlineTable $UserOnline
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \App\Model\Table\UserBlocksTable $UserBlocks
+ * @property \App\Model\Table\UserIgnoresTable $UserIgnores
+ * @property \App\Model\Table\UserOnlineTable $UserOnline
  */
 class UsersTable extends AppTable
 {
@@ -379,7 +372,7 @@ class UsersTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    protected function _initializeSchema(TableSchema $table)
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         $table->setColumnType('avatar', 'proffer.file');
         $table->setColumnType('user_category_custom', 'serialize');
@@ -391,10 +384,10 @@ class UsersTable extends AppTable
      * set last refresh
      *
      * @param int $userId user-ID
-     * @param DateTimeInterface|null $lastRefresh last refresh
+     * @param \DateTimeInterface|null $lastRefresh last refresh
      * @return void
      */
-    public function setLastRefresh(int $userId, DateTimeInterface $lastRefresh = null)
+    public function setLastRefresh(int $userId, ?DateTimeInterface $lastRefresh = null)
     {
         Stopwatch::start('Users->setLastRefresh()');
         $data['last_refresh_tmp'] = bDate();
@@ -415,7 +408,7 @@ class UsersTable extends AppTable
     /**
      * Increment logins
      *
-     * @param Entity $user user
+     * @param \Cake\ORM\Entity $user user
      * @param int $amount amount
      * @return void
      * @throws \Exception
@@ -491,7 +484,7 @@ class UsersTable extends AppTable
     /**
      * Post processing when updating a username.
      *
-     * @param Entity $entity The updated entity.
+     * @param \Cake\ORM\Entity $entity The updated entity.
      * @return void
      */
     protected function updateUsername(Entity $entity)
@@ -612,7 +605,7 @@ class UsersTable extends AppTable
      */
     public function validateUserRoleExists($value, array $context)
     {
-        /** @var Permissions */
+        /** @var \Saito\User\Permission\Permissions $Permissions */
         $Permissions = Registry::get('Permissions');
         $roles = array_column($Permissions->getRoles()->getAvailable(), 'type');
         if (in_array($value, $roles)) {
@@ -654,7 +647,7 @@ class UsersTable extends AppTable
      *
      * @param array $data data
      * @param bool $activate activate
-     * @return EntityInterface
+     * @return \Cake\Datasource\EntityInterface
      */
     public function register($data, $activate = false): EntityInterface
     {
@@ -861,7 +854,7 @@ class UsersTable extends AppTable
     /**
      * Get default password hasher for hashing user passwords.
      *
-     * @return PasswordHasherInterface
+     * @return \Authentication\PasswordHasher\PasswordHasherInterface
      */
     public function getPasswordHasher(): PasswordHasherInterface
     {
@@ -871,9 +864,9 @@ class UsersTable extends AppTable
     /**
      * Finds a user with additional profil informations from associated tables
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findProfile(Query $query, array $options): Query
     {
@@ -895,9 +888,9 @@ class UsersTable extends AppTable
     /**
      * Find all sorted by username
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findPaginated(Query $query, array $options)
     {
@@ -911,9 +904,9 @@ class UsersTable extends AppTable
     /**
      * Find the latest, successfully registered user
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findLatest(Query $query, array $options)
     {

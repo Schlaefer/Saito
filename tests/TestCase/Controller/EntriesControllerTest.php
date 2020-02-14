@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
@@ -6,7 +7,6 @@ use App\Controller\EntriesController;
 use App\Model\Entity\Entry;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\Database\Schema\Table;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Error\PHP7ErrorException;
 use Cake\ORM\TableRegistry;
@@ -16,7 +16,6 @@ use Saito\Test\IntegrationTestCase;
 
 class EntriesMockController extends EntriesController
 {
-
     // @codingStandardsIgnoreStart
     public $uses = ['Entries'];
 
@@ -35,9 +34,8 @@ class EntriesMockController extends EntriesController
  *
  * @package App\Test\TestCase\Controller
  */
-class EntriesControllerTestCase extends IntegrationTestCase
+class EntriesControllerTest extends IntegrationTestCase
 {
-
     /**
      * @var table for the controller
      */

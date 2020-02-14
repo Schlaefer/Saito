@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -55,13 +54,13 @@ class AvatarFilenameListener implements EventListenerInterface
     /**
      * Rename a file and change it's upload folder before it's processed
      *
-     * @param Event $event The event class with a subject of the entity
-     * @param ProfferPath $path path
-     * @return ProfferPath $path
+     * @param \Cake\Event\Event $event The event class with a subject of the entity
+     * @param \Proffer\Lib\ProfferPath $path path
+     * @return \Proffer\Lib\ProfferPath $path
      */
     public function change(Event $event, ProfferPath $path)
     {
-        /** @var User $user */
+        /** @var \App\Model\Entity\User $user */
         $user = $event->getSubject();
 
         if ($user->isDirty('avatar')) {
@@ -102,12 +101,12 @@ class AvatarFilenameListener implements EventListenerInterface
      * Proffer only handles deleting an image when DB row is deleting, but
      * we don't delete the user, only set the avatar image null.
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      */
     public function onModelAfterSaveCommit(Event $event): void
     {
-        /** @var User $user */
+        /** @var \App\Model\Entity\User $user */
         $user = $event->getData('entity');
         $avatar = $user->get('avatar');
         if (!$user->isDirty('avatar') || !empty($avatar)) {
@@ -119,7 +118,7 @@ class AvatarFilenameListener implements EventListenerInterface
     /**
      * Delete existing avatar images for a user
      *
-     * @param User $user user
+     * @param \App\Model\Entity\User $user user
      * @return void
      */
     private function deleteExistingFilesForUser(User $user): void

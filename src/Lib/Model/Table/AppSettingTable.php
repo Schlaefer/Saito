@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,18 +11,15 @@ declare(strict_types=1);
 
 namespace App\Lib\Model\Table;
 
-use App\Lib\Model\Table\AppTable;
-use Cake\Event\Event;
 use Cake\ORM\Entity;
 
 class AppSettingTable extends AppTable
 {
-
     /**
      * afterSave callback
      *
-     * @param Event $event event
-     * @param Entity $entity entity
+     * @param \Cake\Event\Event $event event
+     * @param \Cake\ORM\Entity $entity entity
      * @param \ArrayObject $options options
      *  - 'clearCache' set to 'false' to prevent cache clearing
      * @return void

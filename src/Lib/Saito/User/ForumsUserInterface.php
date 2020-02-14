@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,7 +21,7 @@ interface ForumsUserInterface
      * @param string $setting Setting to get.
      * @return mixed
      */
-    public function get($setting);
+    public function get(string $setting);
 
     /**
      * Set a user setting.
@@ -64,7 +63,7 @@ interface ForumsUserInterface
     /**
      * Checks if the user is the same user as $user
      *
-     * @param ForumsUserInterface $user - User to check against.
+     * @param \Saito\User\ForumsUserInterface $user - User to check against.
      * @return bool
      */
     public function isUser(ForumsUserInterface $user): bool;
@@ -80,8 +79,8 @@ interface ForumsUserInterface
      * Check if user has permission to access a resource.
      *
      * @param string $resource resource
-     * @param ResourceAI $identity Identity
+     * @param \Saito\User\Permission\ResourceAI $identity Identity
      * @return bool
      */
-    public function permission(string $resource, ResourceAI $identity = null): bool;
+    public function permission(string $resource, ?ResourceAI $identity = null): bool;
 }

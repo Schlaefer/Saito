@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -23,7 +22,7 @@ class SitemapCollection
      * Constructor
      *
      * @param array $generators generators
-     * @param Controller $Controller Controller
+     * @param \Cake\Controller\Controller $Controller Controller
      */
     public function __construct(array $generators, Controller $Controller)
     {
@@ -47,7 +46,7 @@ class SitemapCollection
      * Add generator
      *
      * @param string $name generator
-     * @param Controller $Controller controller
+     * @param \Cake\Controller\Controller $Controller controller
      * @return void
      */
     protected function _add($name, Controller $Controller)

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
 use Cake\Cache\Cache;
-use Cake\Core\Configure;
 use Plugin\BbcodeParser\src\Lib\Helper\Message;
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
 use Saito\DomainParser;
@@ -23,7 +21,9 @@ use Saito\DomainParser;
  *
  * @package Saito\Jbb\CodeDefinition
  */
+//@codingStandardsIgnoreStart
 class Email extends CodeDefinition
+//@codingStandardsIgnoreEnd
 {
     use UrlParserTrait;
 
@@ -281,9 +281,21 @@ class Flash extends Iframe
             }
         }
 
-        $out = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="' . $width . '" height="' . $height . '">
-									<param name="movie" value="' . $url . '"></param>
-									<embed src="' . $url . '" width="' . $width . '" height="' . $height . '" type="application/x-shockwave-flash" wmode="opaque" style="width:' . $width . 'px; height:' . $height . 'px;" id="VideoPlayback" flashvars=""> </embed> </object>';
+        $out = '<object
+                    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+                    width="' . $width . '"
+                    height="' . $height . '">
+                        <param name="movie" value="' . $url . '"></param>
+                        <embed src="' . $url . '"
+                            width="' . $width . '"
+                            height="' . $height . '"
+                            type="application/x-shockwave-flash"
+                            wmode="opaque"
+                            style="width:' . $width . 'px; height:' . $height . 'px;"
+                            id="VideoPlayback"
+                            flashvars="">
+                        </embed>
+                </object>';
 
         return $out;
     }

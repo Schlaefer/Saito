@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -15,15 +14,12 @@ namespace SaitoHelp\Controller;
 use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
-use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
-use Cake\Http\Response;
 use Cake\ORM\Entity;
-use SaitoHelp\Model\Table\SaitoHelpTable;
 
 /**
- * @property SaitoHelpTable $SaitoHelp
+ * @property \SaitoHelp\Model\Table\SaitoHelpTable $SaitoHelp
  */
 class SaitoHelpsController extends AppController
 {
@@ -45,7 +41,7 @@ class SaitoHelpsController extends AppController
      *
      * @param string $lang language
      * @param string $id help page ID
-     * @return Response|void
+     * @return \Cake\Http\Response|void
      */
     public function view($lang, $id)
     {
@@ -84,12 +80,12 @@ class SaitoHelpsController extends AppController
      *
      * @param string $lang Language. Folder docs/help/<langugage>
      * @param string $id Plugin file id. [<plugin>.]<id>
-     * @return Entity|null Null if help file wan't found
+     * @return \Cake\ORM\Entity|null Null if help file wan't found
      */
     private function find(string $lang, string $id): ?Entity
     {
         $findFiles = function ($id, $lang) {
-            list($plugin, $id) = pluginSplit($id);
+            [$plugin, $id] = pluginSplit($id);
             if ($plugin) {
                 $folderPath = Plugin::path($plugin);
             } else {
@@ -103,11 +99,11 @@ class SaitoHelpsController extends AppController
             return [$files, $folderPath];
         };
 
-        list($files, $folderPath) = $findFiles($id, $lang);
+        [$files, $folderPath] = $findFiles($id, $lang);
 
         if (empty($files)) {
-            list($lang) = explode('_', $lang);
-            list($files, $folderPath) = $findFiles($id, $lang);
+            [$lang] = explode('_', $lang);
+            [$files, $folderPath] = $findFiles($id, $lang);
         }
 
         if (!$files) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -10,18 +11,15 @@
 
 namespace App\Shell;
 
-use App\Model\Table\EntriesTable;
-use App\Model\Table\UsersTable;
 use Cake\Console\Shell;
 use Saito\App\Registry;
 use Saito\User\CurrentUser\CurrentUserFactory;
-use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * Creates dummy data for development
  *
- * @property EntriesTable $Entries
- * @property UsersTable $Users
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \App\Model\Table\UsersTable $Users
  */
 class SaitoDummyDataShell extends Shell
 {
@@ -29,7 +27,9 @@ class SaitoDummyDataShell extends Shell
 
     protected $_Categories = null;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $_Users;
 
     protected $_text = null;
@@ -232,7 +232,8 @@ class SaitoDummyDataShell extends Shell
             return;
         }
         $this->out('.', 0);
-        if ($i > 1 && !($i % 50)) {
+        $line = $i % 50;
+        if ($i > 1 && $line) {
             $percent = (int)floor($i / $off * 100);
             $this->out(sprintf(' %3s%%', $percent), 1);
         }
@@ -259,7 +260,7 @@ class SaitoDummyDataShell extends Shell
     /**
      * Return random user
      *
-     * @return CurrentUserInterface a user
+     * @return \Saito\User\CurrentUser\CurrentUserInterface a user
      */
     protected function _randomUser()
     {

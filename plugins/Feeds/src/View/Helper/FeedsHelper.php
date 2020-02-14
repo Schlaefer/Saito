@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -21,10 +20,14 @@ use Suin\RSSWriter\Feed;
 
 class FeedsHelper extends Helper
 {
-    /** @var Feed */
+    /**
+     * @var \Suin\RSSWriter\Feed
+     */
     private $feed;
 
-    /** @var Channel */
+    /**
+     * @var \Suin\RSSWriter\Channel
+     */
     private $channel;
 
     /**
@@ -49,7 +52,7 @@ class FeedsHelper extends Helper
     /**
      * Get RssWriter channel
      *
-     * @return Channel
+     * @return \Suin\RSSWriter\Channel
      */
     public function getChannel(): Channel
     {
@@ -59,7 +62,7 @@ class FeedsHelper extends Helper
     /**
      * Get RssWriter feed
      *
-     * @return Feed
+     * @return \Suin\RSSWriter\Feed
      */
     public function getFeed(): Feed
     {

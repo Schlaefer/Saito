@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -50,7 +49,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     /**
      * {@inheritDoc}
      */
-    public function __construct($configDir, EventManagerInterface $eventManager = null)
+    public function __construct($configDir, ?EventManagerInterface $eventManager = null)
     {
         Stopwatch::init();
         Stopwatch::enable();

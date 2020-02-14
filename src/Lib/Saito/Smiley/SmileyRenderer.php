@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,31 +13,29 @@ namespace Saito\Smiley;
 
 use Cake\Cache\Cache as CakeCache;
 use Cake\View\Helper\HtmlHelper;
-use Saito\Smiley\SmileyLoader;
 
 class SmileyRenderer
 {
-
-    const DEBUG_SMILIES_KEY = ':smilies-debug:';
+    public const DEBUG_SMILIES_KEY = ':smilies-debug:';
 
     protected $_replacements;
 
     /**
-     * @var SmileyLoader
+     * @var \Saito\Smiley\SmileyLoader
      */
     protected $_smileyData;
 
     protected $_useCache;
 
     /**
-     * @var HtmlHelper
+     * @var \Cake\View\Helper\HtmlHelper
      */
     protected $HtmlHelper;
 
     /**
      * Constructor
      *
-     * @param SmileyLoader $smileyData data
+     * @param \Saito\Smiley\SmileyLoader $smileyData data
      */
     public function __construct(SmileyLoader $smileyData)
     {
@@ -71,10 +68,10 @@ class SmileyRenderer
     /**
      * Set Helper
      *
-     * @param HtmlHelper $Helper helper
-     * @return SmileyRenderer
+     * @param \Cake\View\Helper\HtmlHelper $Helper helper
+     * @return self
      */
-    public function setHelper(HtmlHelper $Helper): SmileyRenderer
+    public function setHelper(HtmlHelper $Helper): self
     {
         $this->HtmlHelper = $Helper;
 
@@ -101,7 +98,8 @@ class SmileyRenderer
         foreach ($replacements['html'] as $k => $smiley) {
             $title = $this->_l10n($smilies[$k]['title']);
             $out[] = '<tr>';
-            $out[] = "<td>{$smiley}</td><td>{$smilies[$k]['code']}</td><td>{$smilies[$k]['image']}</td><td>{$title}</td>";
+            $out[] = "<td>{$smiley}</td><td>{$smilies[$k]['code']}</td>";
+            $out[] = "<td>{$smilies[$k]['image']}</td><td>{$title}</td>";
             $out[] = '</tr>';
         }
         $out[] = '</table>';

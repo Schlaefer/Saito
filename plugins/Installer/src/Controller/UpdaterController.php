@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,11 +12,8 @@ declare(strict_types=1);
 namespace Installer\Controller;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Filesystem\File;
-use Cake\I18n\I18n;
-use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Installer\Form\UpdaterStartForm;
 use Installer\Lib\DbVersion;
 use Psr\Log\LogLevel;
@@ -27,10 +23,14 @@ use Psr\Log\LogLevel;
  */
 class UpdaterController extends AppController
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $dbVersion;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $saitoVersion;
 
     /**
@@ -46,7 +46,7 @@ class UpdaterController extends AppController
     /**
      * {@inheritDoc}
      */
-    public function beforeRender(\Cake\Event\EventInterface $event)
+    public function beforeRender(EventInterface $event)
     {
         $this->set('titleForLayout', __d('installer', 'update.title'));
     }

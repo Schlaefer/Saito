@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -23,8 +22,8 @@ $getUri = function () {
         $uri = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['PHP_SELF']);
     } elseif (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
         $uri = $_SERVER['HTTP_X_REWRITE_URL'];
-    } elseif ($var = env('argv')) {
-        $uri = $var[0];
+    } elseif (env('argv')) {
+        $uri = env('argv')[0];
     } else {
         throw new \Exception('Could not evaluate URL', 155949137);
     }

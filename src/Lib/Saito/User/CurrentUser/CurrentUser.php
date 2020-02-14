@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,7 +13,6 @@ namespace Saito\User\CurrentUser;
 
 use Bookmarks\Lib\Bookmarks;
 use Saito\User\Categories;
-use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\LastRefresh\LastRefreshInterface;
 use Saito\User\ReadPostings\ReadPostingsInterface;
 use Saito\User\SaitoUser;
@@ -27,26 +25,26 @@ class CurrentUser extends SaitoUser implements CurrentUserInterface
     /**
      * Bookmarks manager
      *
-     * @var Bookmarks
+     * @var \Bookmarks\Lib\Bookmarks
      */
     private $bookmarks = null;
 
     /**
      * Manages the last refresh/mark entries as read for the current user
      *
-     * @var LastRefreshInterface
+     * @var \Saito\User\LastRefresh\LastRefreshInterface
      */
     private $lastRefresh = null;
 
     /**
-     * @var ReadPostingsInterface
+     * @var \Saito\User\ReadPostings\ReadPostingsInterface
      */
     private $readPostings;
 
     /**
      * Categories
      *
-     * @var Categories
+     * @var \Saito\User\Categories
      */
     private $categories;
 

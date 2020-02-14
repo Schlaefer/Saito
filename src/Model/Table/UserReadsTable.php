@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,12 +11,11 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Table\UsersTable;
 use Cake\ORM\Table;
 use Stopwatch\Lib\Stopwatch;
 
 /**
- * @property UsersTable $Users
+ * @property \App\Model\Table\UsersTable $Users
  */
 class UserReadsTable extends Table
 {

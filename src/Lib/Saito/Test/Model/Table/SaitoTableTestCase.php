@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,20 +11,18 @@ declare(strict_types=1);
 
 namespace Saito\Test\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Saito\Test\SaitoTestCase;
 
 abstract class SaitoTableTestCase extends SaitoTestCase
 {
-
     /**
      * @var string
      */
     public $tableClass;
 
     /**
-     * @var Table
+     * @var \Cake\ORM\Table
      */
     public $Table;
 

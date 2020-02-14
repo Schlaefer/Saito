@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,6 @@ use DateTimeZone;
 
 class TimeHHelper extends AppHelper
 {
-
     public $helpers = [
         'Time',
     ];
@@ -35,10 +33,14 @@ class TimeHHelper extends AppHelper
         'Pacific' => DateTimeZone::PACIFIC,
     ];
 
-    /** @var int unix timestamp of current time */
+    /**
+     * @var int unix timestamp of current time
+     */
     protected $_now = null;
 
-    /** @var int unix timestamp of today */
+    /**
+     * @var int unix timestamp of today
+     */
     protected $_today;
 
     protected $_timeDiffToUtc = 0;
@@ -97,7 +99,7 @@ class TimeHHelper extends AppHelper
     /**
      * Format timestamp to readable string
      *
-     * @param DateTime $timestamp timestamp
+     * @param \DateTime $timestamp timestamp
      * @param string $format format
      * @param array $options options
      * @return string
@@ -141,10 +143,10 @@ class TimeHHelper extends AppHelper
      */
     protected function _formatRelative($timestamp)
     {
-        if ($timestamp > $this->_today || $timestamp > ($this->_now - 21600)) {
+        if ($timestamp > $this->_today || $timestamp > $this->_now - 21600) {
             // today or in the last 6 hours
             $time = strftime("%H:%M", $timestamp);
-        } elseif ($timestamp > ($this->_today - 64800)) {
+        } elseif ($timestamp > $this->_today - 64800) {
             // yesterday but in the last 18 hours
             $time = __('yesterday') . ' ' . strftime("%H:%M", $timestamp);
         } else {

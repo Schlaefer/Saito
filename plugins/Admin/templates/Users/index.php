@@ -1,5 +1,4 @@
 <?php
-use Cake\Core\Configure;
 
 $this->Breadcrumbs->add(__('Users'), false);
 ?>

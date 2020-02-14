@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,10 +11,8 @@ declare(strict_types=1);
 
 namespace App\Model\Behavior;
 
-use App\Model\Table\EntriesTable;
 use Cake\Cache\Cache;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
@@ -100,11 +97,11 @@ class PostingBehavior extends Behavior
      *
      * @param array $tids Thread-IDs
      * @param array|null $order Thread sort order
-     * @param CurrentUserInterface $CU Current User
-     * @return array<PostingInterface> Array of postings found
-     * @throws RecordNotFoundException If no thread is found
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CU Current User
+     * @return array<\Saito\Posting\PostingInterface> Array of postings found
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException If no thread is found
      */
-    public function postingsForThreads(array $tids, ?array $order = null, CurrentUserInterface $CU = null): array
+    public function postingsForThreads(array $tids, ?array $order = null, ?CurrentUserInterface $CU = null): array
     {
         $entries = $this->getTable()
             ->find('entriesForThreads', ['threadOrder' => $order, 'tids' => $tids])
@@ -124,12 +121,15 @@ class PostingBehavior extends Behavior
      *
      * @param int $tid Thread-ID
      * @param bool $complete complete fieldset
-     * @param CurrentUserInterface|null $CurrentUser CurrentUser
-     * @return PostingInterface
-     * @throws RecordNotFoundException If thread isn't found
+     * @param \Saito\User\CurrentUser\CurrentUserInterface|null $CurrentUser CurrentUser
+     * @return \Saito\Posting\PostingInterface
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException If thread isn't found
      */
-    public function postingsForThread(int $tid, bool $complete = false, ?CurrentUserInterface $CurrentUser = null): PostingInterface
-    {
+    public function postingsForThread(
+        int $tid,
+        bool $complete = false,
+        ?CurrentUserInterface $CurrentUser = null
+    ): PostingInterface {
         $entries = $this->getTable()
             ->find('entriesForThreads', ['complete' => $complete, 'tids' => [$tid]])
             ->all();
@@ -164,9 +164,9 @@ class PostingBehavior extends Behavior
         $idsToDelete = [];
         foreach ($nodesToDelete as $node) {
             $idsToDelete[] = $node->get('id');
-        };
+        }
 
-        /** @var EntriesTable */
+        /** @var \App\Model\Table\EntriesTable $table */
         $table = $this->getTable();
 
         return $table->deleteWithIds($idsToDelete);
@@ -180,10 +180,10 @@ class PostingBehavior extends Behavior
      * - `user_id` int|<null> If provided finds only postings of that user.
      * - `limit` int <10> Number of postings to find.
      *
-     * @param CurrentUserInterface $User User who has access to postings
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $User User who has access to postings
      * @param array $options find options
      *
-     * @return array<PostingInterface> Array of Postings
+     * @return array<\Saito\Posting\PostingInterface> Array of Postings
      */
     public function getRecentPostings(CurrentUserInterface $User, array $options = []): array
     {
@@ -203,7 +203,7 @@ class PostingBehavior extends Behavior
             }
             if ($options['category_id'] !== null) {
                 $conditions[]['Entries.category_id IN'] = $options['category_id'];
-            };
+            }
 
             $result = $this
                 ->getTable()
@@ -238,9 +238,9 @@ class PostingBehavior extends Behavior
     /**
      * Convert array with Entry entities to array with Postings
      *
-     * @param Traversable $entries Entry array
-     * @param CurrentUserInterface|null $CurrentUser The current user
-     * @return array<PostingInterface>
+     * @param \Traversable $entries Entry array
+     * @param \Saito\User\CurrentUser\CurrentUserInterface|null $CurrentUser The current user
+     * @return array<\Saito\Posting\PostingInterface>
      */
     protected function entriesToPostings(Traversable $entries, ?CurrentUserInterface $CurrentUser = null): array
     {
@@ -263,11 +263,11 @@ class PostingBehavior extends Behavior
      * tree of a single node and its subentries
      *
      * @param int $id id
-     * @return PostingInterface|null tree or null if nothing found
+     * @return \Saito\Posting\PostingInterface|null tree or null if nothing found
      */
     protected function postingsForNode(int $id): ?PostingInterface
     {
-        /** @var EntriesTable */
+        /** @var \App\Model\Table\EntriesTable $table */
         $table = $this->getTable();
         $tid = $table->getThreadId($id);
         $postings = $this->postingsForThreads([$tid]);
@@ -279,12 +279,12 @@ class PostingBehavior extends Behavior
     /**
      * Finder to get all entries for threads
      *
-     * @param Query $query Query
+     * @param \Cake\ORM\Query $query Query
      * @param array $options Options
      * - 'tids' array required thread-IDs
      * - 'complete' fieldset
      * - 'threadOrder' order
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findEntriesForThreads(Query $query, array $options): Query
     {
@@ -333,7 +333,7 @@ class PostingBehavior extends Behavior
      * @param int $tid thread-ID
      * @param int $newCategoryId id for new category
      * @return bool success
-     * @throws RecordNotFoundException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     protected function threadChangeCategory(int $tid, int $newCategoryId): bool
     {
@@ -356,7 +356,7 @@ class PostingBehavior extends Behavior
      */
     public function threadMerge(int $sourceId, int $targetId): bool
     {
-        /** @var EntriesTable */
+        /** @var \App\Model\Table\EntriesTable $table */
         $table = $this->getTable();
 
         $sourcePosting = $table->get($sourceId, ['return' => 'Entity']);
@@ -367,11 +367,6 @@ class PostingBehavior extends Behavior
         }
 
         $targetPosting = $table->get($targetId);
-
-        // check that target exists
-        if (!$targetPosting) {
-            return false;
-        }
 
         // check that a thread is not merged onto itself
         if ($targetPosting->get('tid') === $sourcePosting->get('tid')) {

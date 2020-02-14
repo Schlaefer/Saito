@@ -6,7 +6,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class SmileyFixture extends TestFixture
 {
-
     public $fields = [
         'id' => [
             'type' => 'integer',

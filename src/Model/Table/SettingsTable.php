@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppSettingTable;
-use App\Model\Table\EntriesTable;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Validation\Validator;

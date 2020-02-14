@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,7 +18,6 @@ use Saito\Test\IntegrationTestCase;
 
 class PreviewControllerTest extends IntegrationTestCase
 {
-
     /**
      * @var table for the controller
      */

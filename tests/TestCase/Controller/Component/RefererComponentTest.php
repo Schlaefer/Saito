@@ -1,17 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\Component\RefererComponent;
 use Cake\Controller\ComponentRegistry;
-use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use Cake\Network\Session;
 use Saito\Test\SaitoTestCase;
-use Saito\User\SaitoUser;
 
 class RefererComponentTest extends SaitoTestCase
 {

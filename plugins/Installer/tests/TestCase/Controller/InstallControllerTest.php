@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -20,7 +19,7 @@ use Installer\Lib\DbVersion;
 use Installer\Lib\InstallerState;
 use Installer\Lib\IntegrationTestCase;
 
-class InstallerControllerTest extends IntegrationTestCase
+class InstallControllerTest extends IntegrationTestCase
 {
     protected $isUpdated = false;
 

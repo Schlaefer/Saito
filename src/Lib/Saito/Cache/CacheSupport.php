@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -21,7 +20,6 @@ use Saito\Event\SaitoEventManager;
 
 class CacheSupport implements EventListenerInterface
 {
-
     protected $_Caches = [];
 
     protected $_buildInCaches = [
@@ -61,7 +59,7 @@ class CacheSupport implements EventListenerInterface
     /**
      * Clears out cache by name in $event['cache'];
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      */
     public function onClear(Event $event)
@@ -107,7 +105,7 @@ class CacheSupport implements EventListenerInterface
     /**
      * add cachelet
      *
-     * @param CacheSupportCacheletInterface $cache cachelet
+     * @param \Saito\Cache\CacheSupportCacheletInterface $cache cachelet
      * @param string $id id
      * @return void
      */
@@ -126,7 +124,6 @@ class CacheSupport implements EventListenerInterface
 interface CacheSupportCacheletInterface
 //@codingStandardsIgnoreEnd
 {
-
     /**
      * clear cachelet cache
      *
@@ -162,7 +159,6 @@ class SaitoCacheSupportCachelet extends CacheSupportCachelet
 class ApcCacheSupportCachelet extends CacheSupportCachelet
 //@codingStandardsIgnoreEnd
 {
-
     /**
      * {@inheritDoc}
      */
@@ -179,7 +175,6 @@ class ApcCacheSupportCachelet extends CacheSupportCachelet
 class OpCacheSupportCachelet extends CacheSupportCachelet
 //@codingStandardsIgnoreEnd
 {
-
     /**
      * {@inheritDoc}
      */
@@ -196,7 +191,6 @@ class OpCacheSupportCachelet extends CacheSupportCachelet
 class CakeCacheSupportCachelet extends CacheSupportCachelet
 //@codingStandardsIgnoreEnd
 {
-
     protected $_title = 'Cake';
 
     /**
@@ -216,7 +210,6 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
     EventListenerInterface,
     SaitoEventListener
 {
-
     // only rename if you rename event cmds triggering this cache
     protected $_title = 'EntriesCache';
 
@@ -256,7 +249,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
     /**
      * on delete
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      */
     public function onDelete($event)
@@ -267,7 +260,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
     /**
      * on thread changed
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      */
     public function onThreadChanged($event)
@@ -278,7 +271,7 @@ class EntriesCacheSupportCachelet extends CacheSupportCachelet implements
     /**
      * on entry changed
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      */
     public function onEntryChanged($event)

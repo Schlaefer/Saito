@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,13 +15,15 @@ use App\Model\Table\SettingsTable;
 
 class DbVersion
 {
-    /** @var SettingsTable */
+    /**
+     * @var \App\Model\Table\SettingsTable
+     */
     private $table;
 
     /**
      * Constructor
      *
-     * @param SettingsTable $table settings-table
+     * @param \App\Model\Table\SettingsTable $table settings-table
      */
     public function __construct(SettingsTable $table)
     {

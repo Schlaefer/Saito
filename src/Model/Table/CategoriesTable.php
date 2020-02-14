@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,13 +12,11 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppSettingTable;
-use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Saito\App\Registry;
 use Saito\RememberTrait;
-use Saito\User\Permission\Permissions;
 
 /**
  * Class CategoriesTable
@@ -79,7 +76,7 @@ class CategoriesTable extends AppSettingTable
     /**
      * Get all categories in sort order
      *
-     * @return ResultSetInterface
+     * @return \Cake\Datasource\ResultSetInterface
      */
     public function getAllCategories(): ResultSetInterface
     {
@@ -104,7 +101,7 @@ class CategoriesTable extends AppSettingTable
      * @param int $sourceId id
      * @param int $targetId id
      * @return void
-     * @throws RecordNotFoundException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     public function merge($sourceId, $targetId)
     {
@@ -131,7 +128,7 @@ class CategoriesTable extends AppSettingTable
      *
      * @param int $categoryId id
      * @return void
-     * @throws RecordNotFoundException
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException
      */
     public function deleteWithAllEntries($categoryId)
     {
@@ -151,7 +148,7 @@ class CategoriesTable extends AppSettingTable
      */
     public function validateRoleExists($roleId): bool
     {
-        /** @var Permissions */
+        /** @var \Saito\User\Permission\Permissions $permissions */
         $permissions = Registry::get('Permissions');
         $roles = $permissions->getRoles()->getAvailable(true);
         $roleIds = array_column($roles, 'id');

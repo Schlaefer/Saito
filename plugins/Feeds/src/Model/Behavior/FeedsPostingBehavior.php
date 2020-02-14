@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,8 +21,8 @@ class FeedsPostingBehavior extends Behavior
      *
      * Add parameters for generating a rss/json-feed with find('feed', …)
      *
-     * @param Query $query query
-     * @return Query
+     * @param \Cake\ORM\Query $query query
+     * @return \Cake\ORM\Query
      */
     public function findFeed(Query $query)
     {

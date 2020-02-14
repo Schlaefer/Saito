@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,10 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use App\Controller\Component\CacheSupportComponent;
 use Saito\Event\SaitoEventManager;
 
 /**
- * @property CacheSupportComponent $CacheSupport
+ * @property \App\Controller\Component\CacheSupportComponent $CacheSupport
  */
 class AdminsController extends AdminAppController
 {

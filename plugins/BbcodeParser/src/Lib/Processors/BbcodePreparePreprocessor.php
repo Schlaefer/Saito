@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,7 +13,6 @@ namespace Plugin\BbcodeParser\src\Lib\Processors;
 
 class BbcodePreparePreprocessor extends BbcodeProcessor
 {
-
     /**
      * {@inheritDoc}
      */

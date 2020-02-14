@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,13 +17,21 @@ use Saito\Markup\MarkupSettings;
 
 class Markup implements MarkupInterface
 {
-    /** @var Editor|null */
+    /**
+     * @var \Plugin\BbcodeParser\src\Lib\Editor|null
+     */
     protected $editor;
-    /** @var Parser|null */
+    /**
+     * @var \Plugin\BbcodeParser\src\Lib\Parser|null
+     */
     protected $parser;
-    /** @var Preprocessor|null */
+    /**
+     * @var \Plugin\BbcodeParser\src\Lib\Preprocessor|null
+     */
     protected $preproccesor;
-    /** @var MarkupSettings|null */
+    /**
+     * @var \Saito\Markup\MarkupSettings|null
+     */
     protected $settings;
 
     /**
@@ -141,7 +148,7 @@ class Markup implements MarkupInterface
     /**
      * Get editor
      *
-     * @return Editor
+     * @return \Plugin\BbcodeParser\src\Lib\Editor
      */
     protected function getEditor(): Editor
     {

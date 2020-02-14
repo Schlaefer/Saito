@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,13 +12,11 @@ declare(strict_types=1);
 namespace Plugin\BbcodeParser\src\Lib\Helper;
 
 use Cake\Validation\Validator;
-use Cake\View\Helper\UrlHelper;
-use MailObfuscator\View\Helper\MailObfuscatorHelper;
 use Saito\DomainParser;
 
 /**
- * @property MailObfuscatorHelper $MailObfuscator
- * @property UrlHelper $Url
+ * @property \MailObfuscator\View\Helper\MailObfuscatorHelper $MailObfuscator
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 trait UrlParserTrait
 {

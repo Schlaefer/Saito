@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,9 +11,7 @@ declare(strict_types=1);
 
 namespace BbcodeParser;
 
-use Cake\Cache\Cache;
 use Cake\Core\BasePlugin;
-use Cake\Core\PluginApplicationInterface;
 
 class Plugin extends BasePlugin
 {

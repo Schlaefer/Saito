@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -25,7 +24,7 @@ class AutoReloadComponent extends Component
     /**
      * Set auto refresh time
      *
-     * @param CurrentUserInterface $CurrentUser period in minutes
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser period in minutes
      * @return void
      */
     public function after(CurrentUserInterface $CurrentUser)

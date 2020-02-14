@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,12 +11,11 @@ declare(strict_types=1);
 
 namespace SaitoSearch\Test\Lib;
 
-use SaitoSearch\Lib\SimpleSearchString;
 use Saito\Test\SaitoTestCase;
+use SaitoSearch\Lib\SimpleSearchString;
 
 class SimpleSearchStringTest extends SaitoTestCase
 {
-
     public function testReplaceOperators()
     {
         $in = '  zap  -foo-bar   baz  ';

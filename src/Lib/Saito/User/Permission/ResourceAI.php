@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,19 +18,25 @@ use Saito\User\ForumsUserInterface;
  */
 class ResourceAI
 {
-    /** @var string role */
+    /**
+     * @var string role
+     */
     protected $role = null;
 
-    /** @var int user-ID */
+    /**
+     * @var int user-ID
+     */
     protected $userId = null;
 
-    /** @var ForumsUserInterface User to check against */
+    /**
+     * @var \Saito\User\ForumsUserInterface User to check against
+     */
     protected $user = null;
 
     /**
      * Get the user which requests the permission
      *
-     * @return ForumsUserInterface|null
+     * @return \Saito\User\ForumsUserInterface|null
      */
     public function getUser(): ?ForumsUserInterface
     {
@@ -61,7 +66,7 @@ class ResourceAI
     /**
      * Set a user which requests the permission
      *
-     * @param ForumsUserInterface $user The user.
+     * @param \Saito\User\ForumsUserInterface $user The user.
      * @return self
      */
     public function asUser(ForumsUserInterface $user): self

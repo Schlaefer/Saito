@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,18 +13,12 @@ namespace App\Model\Table;
 
 use App\Lib\Model\Table\AppTable;
 use App\Model\Entity\Entry;
-use App\Model\Table\CategoriesTable;
-use App\Model\Table\DraftsTable;
-use Bookmarks\Model\Table\BookmarksTable;
-use Cake\Datasource\EntityInterface;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
-use Saito\Posting\PostingInterface;
-use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\Validation\SaitoValidationProvider;
 use Search\Manager;
 
@@ -36,17 +29,17 @@ use Search\Manager;
  * - `edited_by` - Came from mylittleforum. @td Should by migrated to User.id.
  * - `name` - Came from mylittleforum. Is still used in fulltext index.
  *
- * @property BookmarksTable $Bookmarks
- * @property CategoriesTable $Categories
- * @property DraftsTable $Drafts
+ * @property \Bookmarks\Model\Table\BookmarksTable $Bookmarks
+ * @property \App\Model\Table\CategoriesTable $Categories
+ * @property \App\Model\Table\DraftsTable $Drafts
  * @method array treeBuild(array $postings)
- * @method createPosting(array $data, CurrentUserInterface $CurrentUser)
- * @method updatePosting(Entry $posting, array $data, CurrentUserInterface $CurrentUser)
- * @method array prepareChildPosting(BasicPostingInterface $parent, array $data)
- * @method array getRecentPostings(CurrentUserInterface $CU, ?array $options = [])
+ * @method createPosting(array $data, \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser)
+ * @method updatePosting(\App\Model\Entity\Entry $posting, array $data, \App\Model\Table\CurrentUserInterface $CurrentUser)
+ * @method array prepareChildPosting(\App\Model\Table\BasicPostingInterface $parent, array $data)
+ * @method array getRecentPostings(\Saito\User\CurrentUser\CurrentUserInterface $CU, ?array $options = [])
  * @method bool deletePosting(int $id)
- * @method array postingsForThreads(array $tids, ?array $order = null, ?CurrentUserInterface $CU)
- * @method PostingInterface postingsForThread(int $tid, ?bool $complete = false, ?CurrentUserInterface $CU)
+ * @method array postingsForThreads(array $tids, ?array $order = null, ?\Saito\User\CurrentUser\CurrentUserInterface $CU)
+ * @method \Saito\Posting\PostingInterface postingsForThread(int $tid, ?bool $complete = false, ?\App\Model\Table\CurrentUserInterface $CU)
  * @method threadMerge(int $sourceId, int $targetId)
  */
 class EntriesTable extends AppTable
@@ -131,7 +124,7 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function validationDefault(Validator $validator): \Cake\Validation\Validator
+    public function validationDefault(Validator $validator): Validator
     {
         $validator->setProvider('saito', SaitoValidationProvider::class);
 
@@ -231,12 +224,12 @@ class EntriesTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function afterSave(\Cake\Event\EventInterface $event, Entity $entity, \ArrayObject $options)
+    public function afterSave(Event $event, Entity $entity, \ArrayObject $options)
     {
         if ($entity->isNew()) {
             $this->Drafts->deleteDraftForPosting($entity);
 
-            /** @var Entry */
+            /** @var \App\Model\Entity\Entry $posting */
             $posting = $this->get($entity->get('id'));
             if ($posting->isRoot()) {
                 /// New thread: set thread-ID to posting's own ID.
@@ -262,11 +255,11 @@ class EntriesTable extends AppTable
      *
      * @see https://github.com/FriendsOfCake/search
      *
-     * @return Manager
+     * @return \Search\Manager
      */
     public function searchManager(): Manager
     {
-        /** @var Manager $searchManager */
+        /** @var \Search\Manager $searchManager */
         $searchManager = $this->getBehavior('Search')->searchManager();
         $searchManager
         ->like('subject', [
@@ -299,12 +292,12 @@ class EntriesTable extends AppTable
      *
      * @param int $primaryKey key
      * @param array $options options
-     * @throws RecordNotFoundException if record isn't found
-     * @return EntityInterface
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException if record isn't found
+     * @return \App\Model\Entity\Entry
      */
-    public function get($primaryKey, $options = []): EntityInterface
+    public function get($primaryKey, $options = []): Entry
     {
-        /** @var Entry */
+        /** @var \App\Model\Entity\Entry $result */
         $result = $this->find('entry', ['complete' => true])
             ->where([$this->getAlias() . '.id' => $primaryKey])
             ->first();
@@ -320,10 +313,10 @@ class EntriesTable extends AppTable
     /**
      * Implements the custom find type 'entry'
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options options
      * - 'complete' bool controls fieldset selected as in getFieldset($complete)
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findEntry(Query $query, array $options = [])
     {
@@ -394,7 +387,7 @@ class EntriesTable extends AppTable
      *
      * @param int $id Posting-Id
      * @return int Thread-Id
-     * @throws RecordNotFoundException If posting isn't found
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException If posting isn't found
      */
     public function getThreadId($id)
     {
@@ -417,21 +410,21 @@ class EntriesTable extends AppTable
      * fields in $data are filtered
      *
      * @param array $data data
-     * @return Entry|null on success, null otherwise
+     * @return \App\Model\Entity\Entry|null on success, null otherwise
      */
     public function createEntry(array $data): ?Entry
     {
         $data['time'] = bDate();
         $data['last_answer'] = bDate();
 
-        /** @var Entry */
+        /** @var \App\Model\Entity\Entry $posting */
         $posting = $this->newEntity($data);
         $errors = $posting->getErrors();
         if (!empty($errors)) {
             return $posting;
         }
 
-        /** @var Entry */
+        /** @var \App\Model\Entity\Entry $posting */
         $posting = $this->save($posting);
         if (empty($posting)) {
             return null;
@@ -446,22 +439,22 @@ class EntriesTable extends AppTable
     /**
      * Updates a posting with new data
      *
-     * @param Entry $posting Entity
+     * @param \App\Model\Entity\Entry $posting Entity
      * @param array $data data
-     * @return Entry|null
+     * @return \App\Model\Entity\Entry|null
      */
     public function updateEntry(Entry $posting, array $data): ?Entry
     {
         $data['id'] = $posting->get('id');
 
-        /** @var Entry */
+        /** @var \App\Model\Entity\Entry $patched */
         $patched = $this->patchEntity($posting, $data);
         $errors = $patched->getErrors();
         if (!empty($errors)) {
             return $patched;
         }
 
-        /** @var Entry */
+        /** @var \App\Model\Entity\Entry $new */
         $new = $this->save($posting);
         if (empty($new)) {
             return null;
@@ -541,9 +534,9 @@ class EntriesTable extends AppTable
     /**
      * Implements the custom find type 'index paginator'
      *
-     * @param Query $query query
+     * @param \Cake\ORM\Query $query query
      * @param array $options finder options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findIndexPaginator(Query $query, array $options)
     {

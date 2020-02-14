@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use App\Controller\AppController;
 use Cake\Controller\Component;
 use Saito\Posting\PostingInterface;
 
@@ -37,7 +35,7 @@ class MarkAsReadComponent extends Component
             return;
         }
 
-        /** @var AppController */
+        /** @var \App\Controller\AppController $controller */
         $controller = $this->getController();
         $controller->CurrentUser->getReadPostings()->set($this->postings);
     }
@@ -49,7 +47,7 @@ class MarkAsReadComponent extends Component
      */
     public function next()
     {
-        /** @var AppController */
+        /** @var \App\Controller\AppController $controller */
         $controller = $this->getController();
         $CU = $controller->CurrentUser;
         if (!$CU->isLoggedIn() || !$CU->get('user_automaticaly_mark_as_read')) {
@@ -68,7 +66,7 @@ class MarkAsReadComponent extends Component
      */
     public function refresh(array $options = [])
     {
-        /** @var AppController */
+        /** @var \App\Controller\AppController $controller */
         $controller = $this->getController();
         $CU = $controller->CurrentUser;
         if ($controller->getRequest()->is('preview') || !$CU->isLoggedIn()) {
@@ -109,7 +107,7 @@ class MarkAsReadComponent extends Component
     /**
      * Mark single posting as read
      *
-     * @param PostingInterface $posting posting
+     * @param \Saito\Posting\PostingInterface $posting posting
      *
      * @return void
      */
@@ -121,7 +119,7 @@ class MarkAsReadComponent extends Component
     /**
      * Mark posting and all subpostings as read
      *
-     * @param PostingInterface $posting posting
+     * @param \Saito\Posting\PostingInterface $posting posting
      * @return void
      */
     public function thread(PostingInterface $posting)

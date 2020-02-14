@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,16 +13,14 @@ namespace Saito\User\ReadPostings;
 
 use Saito\Posting\Posting;
 use Saito\User\CurrentUser\CurrentUserInterface;
-use Saito\User\ReadPostings\ReadPostingsInterface;
 
 /**
  * Handles read postings for the current users
  */
 abstract class ReadPostingsAbstract implements ReadPostingsInterface
 {
-
     /**
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     protected $CurrentUser;
 
@@ -34,7 +31,9 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
      */
     protected $readPostings = null;
 
-    /** @var mixed $storage storage for read postings */
+    /**
+     * @var mixed $storage storage for read postings
+     */
     protected $storage;
 
     /**
@@ -45,7 +44,7 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
     /**
      * Constructor.
      *
-     * @param CurrentUserInterface $CurrentUser current-user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current-user
      * @param mixed $storage $storage
      */
     public function __construct(
@@ -89,7 +88,7 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
     /**
      * Prepare postings for save.
      *
-     * @param Posting|array $postings - Postings which are read
+     * @param \Saito\Posting\Posting|array $postings - Postings which are read
      * @return array posting-IDs
      */
     protected function _prepareForSave($postings)

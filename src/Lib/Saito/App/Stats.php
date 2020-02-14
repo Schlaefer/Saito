@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,8 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\App;
 
-use App\Model\Entity\User;
-use App\Model\Table\UserOnlineTable;
 use Cake\Cache\Cache;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
@@ -27,14 +24,14 @@ class Stats
     /**
      * Get registred users online
      *
-     * @return Query of UserOnline entities
+     * @return \Cake\ORM\Query of UserOnline entities
      */
     public function getRegistredUsersOnline(): Query
     {
         return $this->remember(
             'UsersOnline',
             function () {
-                /** @var UserOnlineTable */
+                /** @var \App\Model\Table\UserOnlineTable $UserOnline */
                 $UserOnline = TableRegistry::get('UserOnline');
 
                 return $UserOnline->getLoggedIn();
@@ -78,7 +75,7 @@ class Stats
         $registred = $this->getNumberOfRegisteredUsersOnline();
         $anon = $online - $registred;
         // compensate for cached online
-        $anon = ($anon < 0) ? 0 : $anon;
+        $anon = $anon < 0 ? 0 : $anon;
 
         return $anon;
     }
@@ -106,7 +103,7 @@ class Stats
     /**
      * Get latest registered user
      *
-     * @return User entity
+     * @return \App\Model\Entity\User entity
      */
     public function getLatestUser()
     {

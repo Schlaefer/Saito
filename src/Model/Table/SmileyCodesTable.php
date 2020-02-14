@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -15,11 +14,10 @@ namespace App\Model\Table;
 use App\Lib\Model\Table\AppSettingTable;
 
 /**
- * @property SmiliesTable $Smilies
+ * @property \App\Model\Table\SmiliesTable $Smilies
  */
 class SmileyCodesTable extends AppSettingTable
 {
-
     public $name = 'SmileyCode';
 
     public $displayField = 'code';

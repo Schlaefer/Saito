@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Saito\Posting;
 
 use Saito\Posting\Basic\BasicPostingTrait;
-use Saito\Posting\PostingInterface;
 use Saito\Posting\UserPosting\UserPostingTrait;
 use Saito\Thread\Thread;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -43,12 +41,12 @@ class Posting implements PostingInterface
      *
      * @param array $rawData raw posting data
      * @param array $options options
-     * @param null|Thread $tree thread
+     * @param null|\Saito\Thread\Thread $tree thread
      */
     public function __construct(
         $rawData,
         array $options = [],
-        Thread $tree = null
+        ?Thread $tree = null
     ) {
         $this->_rawData = $rawData;
 
@@ -76,9 +74,9 @@ class Posting implements PostingInterface
     public function get($var)
     {
         switch (true) {
-            case (isset($this->_rawData[$var])):
+            case isset($this->_rawData[$var]):
                 return $this->_rawData[$var];
-            case (array_key_exists($var, $this->_rawData)):
+            case array_key_exists($var, $this->_rawData):
                 // key is set but null
                 return $this->_rawData[$var];
             default:

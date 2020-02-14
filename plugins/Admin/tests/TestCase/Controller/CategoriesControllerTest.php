@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -23,7 +22,6 @@ use Saito\Test\IntegrationTestCase;
  */
 class CategoriesControllerTest extends IntegrationTestCase
 {
-
     public $fixtures = [
         'app.Category',
         'app.Entry',

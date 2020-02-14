@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\Thread\Renderer;
 
-use Saito\Cache\ItemCache;
 use Saito\Posting\PostingInterface;
 
 /**
@@ -20,14 +18,13 @@ use Saito\Posting\PostingInterface;
  */
 class ThreadHtmlRenderer extends HtmlRendererAbstract
 {
-
     /**
      * @var array performance-cheat for category l10n
      */
     protected static $_catL10n = [];
 
     /**
-     * @var ItemCache
+     * @var \Saito\Cache\ItemCache
      */
     protected $_LineCache = null;
 
@@ -102,7 +99,7 @@ EOF;
     /**
      * Render a single threadline
      *
-     * @param PostingInterface $node posting
+     * @param \Saito\Posting\PostingInterface $node posting
      * @param array $posting posting
      * @param int $level level
      * @return string
@@ -112,7 +109,8 @@ EOF;
         $id = $posting['id'];
         $useLineCache = ($level > 0) && ($this->_LineCache !== null);
 
-        if ($useLineCache && $threadLine = $this->_LineCache->get($id)) {
+        $threadLine = $this->_LineCache->get($id);
+        if ($useLineCache && $threadLine) {
             return $threadLine;
         }
 

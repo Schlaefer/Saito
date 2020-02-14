@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -25,12 +24,12 @@ use Stopwatch\Lib\Stopwatch;
 class ReadPostingsDatabase extends ReadPostingsAbstract
 {
     /**
-     * @var UserReadsTable
+     * @var \App\Model\Table\UserReadsTable
      */
     protected $storage;
 
     /**
-     * @var EntriesTable
+     * @var \App\Model\Table\EntriesTable
      */
     protected $entriesTable;
 

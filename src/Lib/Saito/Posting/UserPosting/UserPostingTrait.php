@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -28,7 +27,7 @@ trait UserPostingTrait
     private $_userPostingTraitUnreadCache = [];
 
     /**
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     private $_CurrentUser;
 
@@ -92,8 +91,8 @@ trait UserPostingTrait
     /**
      * Check if editing on the posting is forbidden.
      *
-     * @param BasicPostingInterface $posting The posting.
-     * @param CurrentUserInterface $User The user.
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting The posting.
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $User The user.
      * @return bool|string string if a reason is available.
      */
     protected function _isEditingAllowed(BasicPostingInterface $posting, CurrentUserInterface $User)

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Installer\Controller;
 
-use App\Model\Table\SettingsTable;
 use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -26,13 +24,15 @@ use Migrations\Migrations;
 /**
  * Installer App Controller
  *
- * @property SettingsTable $Settings
+ * @property \App\Model\Table\SettingsTable $Settings
  */
 class AppController extends Controller
 {
     use LogTrait;
 
-    /** @var Migrations */
+    /**
+     * @var \Migrations\Migrations
+     */
     protected $migrations;
 
     /**
@@ -70,8 +70,8 @@ class AppController extends Controller
     /**
      * Initialize migration property
      *
-     * @param Table $table a table to read the config from
-     * @return Migrations
+     * @param \Cake\ORM\Table $table a table to read the config from
+     * @return \Migrations\Migrations
      */
     private function initializeMigrations(Table $table)
     {

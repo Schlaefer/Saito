@@ -19,7 +19,7 @@ $schemaMeta = [];
             $subject = $this->Posting->getSubject($entry);
             $url = $this->Url->build(
                 '/entries/view/' . $entry->get('id'),
-                true
+                ['fullBase' => true]
             );
             $schemaMeta['url'] = $url;
             // only make subject a link if it is not in entries/view

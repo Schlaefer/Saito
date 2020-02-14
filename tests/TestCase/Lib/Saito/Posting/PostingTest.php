@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,16 +11,15 @@ declare(strict_types=1);
 
 namespace Saito\Test\Posting;
 
-use App\Model\Table\EntriesTable;
-use Saito\Posting\Posting;
-use Saito\Posting\TreeBuilder;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class PostingTest extends SaitoTableTestCase
 {
     public $tableClass = 'Entries';
 
-    /** @var EntriesTable */
+    /**
+     * @var EntriesTable
+     */
     public $Table;
 
     public $fixtures = [

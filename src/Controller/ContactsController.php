@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -15,7 +14,6 @@ namespace App\Controller;
 use App\Form\ContactForm;
 use App\Form\ContactFormOwner;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Event\Event;
 use Cake\Form\Form;
 use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
@@ -23,7 +21,6 @@ use Saito\Exception\Logger\ExceptionLogger;
 
 class ContactsController extends AppController
 {
-
     /**
      * {@inheritDoc}
      */
@@ -60,7 +57,7 @@ class ContactsController extends AppController
      * @param string $id user-ID
      * @return void
      * @throws \InvalidArgumentException
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function user($id = null)
     {
@@ -95,7 +92,7 @@ class ContactsController extends AppController
     /**
      *  contact form validating and email sending
      *
-     * @param Form $contact contact-form
+     * @param \Cake\Form\Form $contact contact-form
      * @param mixed $recipient recipient
      * @param mixed $sender sender
      * @return \Cake\Http\Response|void

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -72,7 +71,7 @@ class SaitoEmailComponent extends Component
     /**
      * Sends a copy of a completely configured email to the author
      *
-     * @param Mailer $email email
+     * @param \Cake\Mailer\Mailer $email email
      * @return void
      */
     protected function _sendCopyToOriginalSender(Mailer $email)
@@ -96,7 +95,7 @@ class SaitoEmailComponent extends Component
     /**
      * Sends the completely configured email
      *
-     * @param Mailer $email email
+     * @param \Cake\Mailer\Mailer $email email
      * @return void
      */
     protected function _send(Mailer $email)
@@ -105,7 +104,7 @@ class SaitoEmailComponent extends Component
         if ($debug) {
             $transport = new DebugTransport();
             $email->setTransport($transport);
-        };
+        }
 
         $sender = (new SaitoEmailContact('system'))->toCake();
         if ($email->getFrom() !== $sender) {

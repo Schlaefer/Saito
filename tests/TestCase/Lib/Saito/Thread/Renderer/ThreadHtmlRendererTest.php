@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Thread\Renderer;
 
@@ -12,7 +13,6 @@ use Saito\User\CurrentUser\CurrentUserFactory;
 
 class ThreadHtmlRendererTest extends SaitoTestCase
 {
-
     /**
      * tests that posting of ignored user is/not ignored
      */

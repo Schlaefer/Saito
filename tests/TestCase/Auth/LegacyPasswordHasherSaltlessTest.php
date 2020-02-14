@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -17,7 +16,6 @@ use Saito\Test\SaitoTestCase;
 
 class LegacyPasswordHasherSaltlessTest extends SaitoTestCase
 {
-
     public function setUp(): void
     {
         $this->Hasher = new LegacyPasswordHasherSaltless(['hashType' => 'md5']);

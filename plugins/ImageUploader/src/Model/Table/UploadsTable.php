@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -92,7 +91,7 @@ class UploadsTable extends AppTable
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        /** @var \ImageUploader\Lib\UploaderConfig */
+        /** @var \ImageUploader\Lib\UploaderConfig $UploaderConfig */
         $UploaderConfig = Configure::read('Saito.Settings.uploader');
         $nMax = $UploaderConfig->getMaxNumberOfUploadsPerUser();
         $rules->add(
@@ -167,12 +166,12 @@ class UploadsTable extends AppTable
     /**
      * Puts uploaded file into upload folder
      *
-     * @param Upload $entity upload
+     * @param \ImageUploader\Model\Entity\Upload $entity upload
      * @return void
      */
     private function moveUpload(Upload $entity): void
     {
-        /** @var File $file */
+        /** @var \Cake\Filesystem\File $file */
         $file = $entity->get('file');
         try {
             $tmpFile = new File($entity->get('document')['tmp_name']);
@@ -193,7 +192,7 @@ class UploadsTable extends AppTable
                     // no break
                 case 'image/jpeg':
                     $this->fixOrientation($file);
-                    /** @var \ImageUploader\Lib\UploaderConfig */
+                    /** @var \ImageUploader\Lib\UploaderConfig $UploaderConfig */
                     $UploaderConfig = Configure::read('Saito.Settings.uploader');
                     $this->resize($file, $UploaderConfig->getMaxResize());
                     $entity->set('size', $file->size());
@@ -213,8 +212,8 @@ class UploadsTable extends AppTable
     /**
      * Convert image file to jpeg
      *
-     * @param File $file the non-jpeg image file handler
-     * @return File handler to jpeg file
+     * @param \Cake\Filesystem\File $file the non-jpeg image file handler
+     * @return \Cake\Filesystem\File handler to jpeg file
      */
     private function convertToJpeg(File $file): File
     {
@@ -239,8 +238,8 @@ class UploadsTable extends AppTable
     /**
      * Fix image orientation according to image exif data
      *
-     * @param File $file file
-     * @return File handle to fixed file
+     * @param \Cake\Filesystem\File $file file
+     * @return \Cake\Filesystem\File handle to fixed file
      */
     private function fixOrientation(File $file): File
     {
@@ -256,7 +255,7 @@ class UploadsTable extends AppTable
     /**
      * Resizes a file
      *
-     * @param File $file file to resize
+     * @param \Cake\Filesystem\File $file file to resize
      * @param int $target size in bytes
      * @return void
      */
@@ -269,7 +268,7 @@ class UploadsTable extends AppTable
 
         $raw = $file->read();
 
-        list($width, $height) = getimagesizefromstring($raw);
+        [$width, $height] = getimagesizefromstring($raw);
         $ratio = $size / $target;
         $ratio = sqrt($ratio);
 
@@ -304,7 +303,7 @@ class UploadsTable extends AppTable
      */
     public function validateFile($check, array $context)
     {
-        /** @var \ImageUploader\Lib\UploaderConfig */
+        /** @var \ImageUploader\Lib\UploaderConfig $UploaderConfig */
         $UploaderConfig = Configure::read('Saito.Settings.uploader');
 
         /// Check file type

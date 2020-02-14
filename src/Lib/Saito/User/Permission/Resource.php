@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,13 +13,19 @@ namespace Saito\User\Permission;
 
 class Resource
 {
-    /** @var string resource name */
+    /**
+     * @var string resource name
+     */
     protected $name;
 
-    /** @var ResourceAC[] Allowed permissions */
+    /**
+     * @var \Saito\User\Permission\ResourceAC[] Allowed permissions
+     */
     protected $allowed = [];
 
-    /** @var ResourceAC[] Disallowed permissions */
+    /**
+     * @var \Saito\User\Permission\ResourceAC[] Disallowed permissions
+     */
     protected $disallowed = [];
 
     /**
@@ -46,7 +51,7 @@ class Resource
     /**
      * Allow the resource on a permission
      *
-     * @param ResourceAC $permission permission
+     * @param \Saito\User\Permission\ResourceAC $permission permission
      * @return self
      */
     public function allow(ResourceAC $permission): self
@@ -60,7 +65,7 @@ class Resource
     /**
      * Disallow the resource on a permission
      *
-     * @param ResourceAC $permission permission
+     * @param \Saito\User\Permission\ResourceAC $permission permission
      * @return self
      */
     public function disallow(ResourceAC $permission): self
@@ -74,7 +79,7 @@ class Resource
     /**
      * Check resource against identity
      *
-     * @param ResourceAI $identity Identity
+     * @param \Saito\User\Permission\ResourceAI $identity Identity
      * @return bool
      */
     public function check(ResourceAI $identity): bool

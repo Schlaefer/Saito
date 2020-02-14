@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
-use App\Model\Table\SettingsTable;
 use Cake\Core\Configure;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
@@ -28,10 +26,10 @@ class SaitoBootstrapMiddleware
     /**
      * Implements CakePHP 3 middleware
      *
-     * @param ServerRequest $request request
-     * @param Response $response response
+     * @param \Cake\Http\ServerRequest $request request
+     * @param \Cake\Http\Response $response response
      * @param callable $next next callable in middleware queue
-     * @return Response
+     * @return \Cake\Http\Response
      */
     public function __invoke(ServerRequest $request, Response $response, $next): Response
     {
@@ -57,7 +55,7 @@ class SaitoBootstrapMiddleware
 
         /// load settings
         $tableLocator = TableRegistry::getTableLocator();
-        /** @var SettingsTable $settingsTable */
+        /** @var \App\Model\Table\SettingsTable $settingsTable */
         $settingsTable = $tableLocator->get('Settings');
         $settingsTable->load(Configure::read('Saito.Settings'));
 

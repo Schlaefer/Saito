@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,13 +15,12 @@ use Saito\Markup\MarkupSettings;
 
 abstract class BbcodeProcessor
 {
-
     protected $_sOptions;
 
     /**
      * Constructor
      *
-     * @param MarkupSettings $options options
+     * @param \Saito\Markup\MarkupSettings $options options
      */
     public function __construct(MarkupSettings $options)
     {

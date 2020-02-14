@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,13 +13,12 @@ namespace Plugin\BbcodeParser\src\Lib\Processors;
 
 class BbcodeProcessorCollection
 {
-
     protected $_Processors = [];
 
     /**
      * Add processor to collection.
      *
-     * @param BbcodeProcessor $Preprocessor processor
+     * @param \Plugin\BbcodeParser\src\Lib\Processors\BbcodeProcessor $Preprocessor processor
      * @param array $options options
      * @return void
      */

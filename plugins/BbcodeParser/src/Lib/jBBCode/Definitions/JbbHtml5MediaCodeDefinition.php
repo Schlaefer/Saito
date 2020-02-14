@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
 use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
-use Plugin\BbcodeParser\src\Lib\jBBCode\Definitions\CodeDefinition;
 
 //@codingStandardsIgnoreStart
 class Html5Audio extends CodeDefinition

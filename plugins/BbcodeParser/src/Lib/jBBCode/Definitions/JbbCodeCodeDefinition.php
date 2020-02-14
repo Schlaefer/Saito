@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,9 @@ declare(strict_types=1);
 
 namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
 
+//@codingStandardsIgnoreStart
 class CodeWithoutAttributes extends CodeDefinition
+//@codingStandardsIgnoreEnd
 {
     protected $_sTagName = 'code';
 

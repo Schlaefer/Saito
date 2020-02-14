@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -20,7 +19,9 @@ use Cake\Filesystem\File;
  */
 class MimeType
 {
-    /** @var array [<wrong type> => [<file .ext> => <right type>]] */
+    /**
+     * @var array [<wrong type> => [<file .ext> => <right type>]]
+     */
     private static $conversion = [
         'application/octet-stream' => [
             'mp4' => 'video/mp4',

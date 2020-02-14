@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -11,8 +10,6 @@ declare(strict_types=1);
  */
 
 namespace Saito\Posting\ThreadNode;
-
-use Saito\Thread\Thread;
 
 /**
  * Posting properties derived from the other postings building a (sub)thread
@@ -43,7 +40,7 @@ interface ThreadNodeInterface
     /**
      * Get thread for posting.
      *
-     * @return Thread
+     * @return \Saito\Thread\Thread
      */
     public function getThread();
 

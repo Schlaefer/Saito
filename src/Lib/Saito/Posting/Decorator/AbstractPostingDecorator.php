@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -28,7 +27,6 @@ use Saito\Posting\PostingInterface;
  */
 abstract class AbstractPostingDecorator implements BasicPostingInterface, PostingInterface
 {
-
     protected $_Posting;
 
     /**
@@ -44,7 +42,7 @@ abstract class AbstractPostingDecorator implements BasicPostingInterface, Postin
             return call_user_func_array([$this->_Posting, $method], $args);
         }
         throw new \RuntimeException(
-            'Undefined method ' . get_class($this) . '::' . $method
+            'Undefined method ' . static::class . '::' . $method
         );
     }
 

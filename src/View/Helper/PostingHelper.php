@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,10 +11,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\View\Helper\TimeHHelper;
 use Cake\Core\Configure;
-use Cake\View\Helper\FormHelper;
-use Cake\View\Helper\HtmlHelper;
 use Saito\Event\SaitoEventManager;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\Posting\PostingInterface;
@@ -24,9 +20,9 @@ use Saito\Thread\Renderer;
 /**
  * Class PostingHelper
  *
- * @property FormHelper $Form
- * @property HtmlHelper $Html
- * @property TimeHHelper $TimeH
+ * @property \Cake\View\Helper\FormHelper $Form
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \App\View\Helper\TimeHHelper $TimeH
  * @package App\View\Helper
  */
 class PostingHelper extends AppHelper
@@ -39,7 +35,7 @@ class PostingHelper extends AppHelper
     protected $_renderers = [];
 
     /**
-     * @var SaitoEventManager
+     * @var \Saito\Event\SaitoEventManager
      */
     protected $_SEM;
 
@@ -67,7 +63,7 @@ class PostingHelper extends AppHelper
     /**
      * Get fast link for posting.
      *
-     * @param BasicPostingInterface $posting posting
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting posting
      * @param array $options options
      * @return string HTML
      */
@@ -85,7 +81,7 @@ class PostingHelper extends AppHelper
     /**
      * Render view counter
      *
-     * @param BasicPostingInterface $posting posting
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting posting
      *
      * @return string
      */
@@ -97,7 +93,7 @@ class PostingHelper extends AppHelper
     /**
      * renders a posting tree as thread
      *
-     * @param PostingInterface $tree passed as reference to share CU-decorator "up"
+     * @param \Saito\Posting\PostingInterface $tree passed as reference to share CU-decorator "up"
      * @param array $options options
      *    - 'renderer' [thread]|mix
      * @return string
@@ -127,7 +123,7 @@ class PostingHelper extends AppHelper
                 case 'thread':
                     $renderer = new Renderer\ThreadHtmlRenderer($this);
                     break;
-                case (is_string($renderer)):
+                case is_string($renderer):
                     $renderer = new $renderer($this);
                     break;
                 default:
@@ -143,7 +139,7 @@ class PostingHelper extends AppHelper
     /**
      * Get badges
      *
-     * @param PostingInterface $entry posting
+     * @param \Saito\Posting\PostingInterface $entry posting
      * @return string
      */
     public function getBadges(PostingInterface $entry)
@@ -185,7 +181,7 @@ class PostingHelper extends AppHelper
      * This function may be called serveral hundred times on the front page.
      * Don't make ist slow, benchmark!
      *
-     * @param BasicPostingInterface $posting posting
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting posting
      * @return string
      */
     public function getSubject(BasicPostingInterface $posting)
@@ -196,7 +192,7 @@ class PostingHelper extends AppHelper
     /**
      * Gets SaitoEventManager
      *
-     * @return SaitoEventManager
+     * @return \Saito\Event\SaitoEventManager
      */
     private function getSaitoEventManager(): SaitoEventManager
     {

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,9 +17,8 @@ use Saito\Markup\MarkupSettings;
 
 abstract class CodeDefinition extends \JBBCode\CodeDefinition
 {
-
     /**
-     * @var Helper calling CakePHP helper
+     * @var \Cake\View\Helper calling CakePHP helper
      */
     protected $_sHelper;
 
@@ -83,7 +81,7 @@ abstract class CodeDefinition extends \JBBCode\CodeDefinition
      *
      * @param string $content content
      * @param array $attributes attributes
-     * @param ElementNode $node node
+     * @param \JBBCode\ElementNode $node node
      *
      * @return mixed parsed string or bool false if parsing failed
      */

@@ -100,8 +100,8 @@
     "post-create-project-cmd": "App\\Console\\Installer::postInstall",
     "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
 
-    "cs-check": "unset XDEBUG_CONFIG; phpcs --parallel=4 -p --colors --runtime-set ignore_warnings_on_exit true",
-    "cs-fix": "unset XDEBUG_CONFIG; phpcbf --parallel=4 -p --colors > /dev/null || true",
+    "cs-check": "unset XDEBUG_CONFIG; phpcs --parallel=4",
+    "cs-fix": "unset XDEBUG_CONFIG; phpcbf --parallel=4 > /dev/null || true",
     "check": ["@cs-fix", "@cs-check"],
     "phpstan": "unset XDEBUG_CONFIG; vendor/bin/phpstan analyse --ansi",
     "coverage": [

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -17,7 +16,6 @@ namespace Saito\Thread\Renderer;
  */
 class MixHtmlRenderer extends HtmlRendererAbstract
 {
-
     /**
      * {@inheritDoc}
      */

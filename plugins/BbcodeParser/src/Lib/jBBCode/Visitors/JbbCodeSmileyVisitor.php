@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -21,7 +20,9 @@ use Saito\Smiley\SmileyRenderer;
  */
 class JbbCodeSmileyVisitor extends JbbCodeTextVisitor
 {
-    /** @var SmileyRenderer */
+    /**
+     * @var \Saito\Smiley\SmileyRenderer
+     */
     protected $renderer;
 
     /**

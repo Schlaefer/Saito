@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Admin;
 
-use Cake\ORM\TableRegistry;
 use Saito\Test\IntegrationTestCase;
 
 /**

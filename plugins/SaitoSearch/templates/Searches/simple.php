@@ -61,7 +61,10 @@ echo $this->Html->css('SaitoSearch.saitosearch');
                 'hiddenField' => false,
             ]
         );
-        $menu .= $this->Html->div('form-group form-check form-check-inline', __d('saito_search', 'Sort by: {0}', $sortBy));
+        $menu .= $this->Html->div(
+            'form-group form-check form-check-inline',
+            __d('saito_search', 'Sort by: {0}', $sortBy)
+        );
         $menu .= $this->SaitoHelp->icon(1);
 
         if (!empty($omittedWords)) {

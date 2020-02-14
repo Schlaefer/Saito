@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,19 +11,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Component\AutoReloadComponent;
-use App\Controller\Component\MarkAsReadComponent;
-use App\Controller\Component\PostingComponent;
-use App\Controller\Component\RefererComponent;
-use App\Controller\Component\ThreadsComponent;
-use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Http\Response;
-use Cake\Routing\RequestActionTrait;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Posting\Basic\BasicPostingInterface;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -34,12 +24,12 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Class EntriesController
  *
- * @property CurrentUserInterface $CurrentUser
- * @property EntriesTable $Entries
- * @property MarkAsReadComponent $MarkAsRead
- * @property PostingComponent $Posting
- * @property RefererComponent $Referer
- * @property ThreadsComponent $Threads
+ * @property \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \App\Controller\Component\MarkAsReadComponent $MarkAsRead
+ * @property \App\Controller\Component\PostingComponent $Posting
+ * @property \App\Controller\Component\RefererComponent $Referer
+ * @property \App\Controller\Component\ThreadsComponent $Threads
  */
 class EntriesController extends AppController
 {
@@ -96,7 +86,7 @@ class EntriesController extends AppController
 
         $this->_setupCategoryChooser($this->CurrentUser);
 
-        /** @var AutoReloadComponent */
+        /** @var \App\Controller\Component\AutoReloadComponent $autoReload */
         $autoReload = $this->loadComponent('AutoReload');
         $autoReload->after($this->CurrentUser);
 
@@ -107,8 +97,8 @@ class EntriesController extends AppController
      * Mix view
      *
      * @param string $tid thread-ID
-     * @return void|Response
-     * @throws NotFoundException
+     * @return void|\Cake\Http\Response
+     * @throws \Cake\Http\Exception\NotFoundException
      */
     public function mix($tid)
     {
@@ -224,8 +214,8 @@ class EntriesController extends AppController
      *
      * @param string $id posting-ID
      * @return void|\Cake\Http\Response
-     * @throws NotFoundException
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\NotFoundException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function edit(string $id)
     {
@@ -284,8 +274,8 @@ class EntriesController extends AppController
      *
      * @param string $id posting-ID
      * @return void
-     * @throws NotFoundException
-     * @throws MethodNotAllowedException
+     * @throws \Cake\Http\Exception\NotFoundException
+     * @throws \Cake\Http\Exception\MethodNotAllowedException
      */
     public function delete(string $id)
     {
@@ -294,7 +284,7 @@ class EntriesController extends AppController
         if (!$id) {
             throw new NotFoundException();
         }
-        /* @var Entry $posting */
+        /** @var \App\Model\Entity\Entry $posting */
         $posting = $this->Entries->get($id);
 
         $action = $posting->isRoot() ? 'thread' : 'answer';
@@ -340,7 +330,7 @@ class EntriesController extends AppController
      *
      * @param string $id posting-ID
      * @return void
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function solve($id)
     {
@@ -382,17 +372,17 @@ class EntriesController extends AppController
      *
      * @param string $sourceId posting-ID of thread to be merged
      * @return void
-     * @throws NotFoundException
+     * @throws \Cake\Http\Exception\NotFoundException
      * @td put into admin entries controller
      */
-    public function merge(string $sourceId = null)
+    public function merge(?string $sourceId = null)
     {
         $sourceId = (int)$sourceId;
         if (empty($sourceId)) {
             throw new NotFoundException();
         }
 
-        /* @var Entry */
+        /** @var \App\Model\Entity\Entry $entry */
         $entry = $this->Entries->findById($sourceId)->first();
 
         if (!$entry || !$entry->isRoot()) {
@@ -469,7 +459,7 @@ class EntriesController extends AppController
     /**
      * set view vars for category chooser
      *
-     * @param CurrentUserInterface $User CurrentUser
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $User CurrentUser
      * @return void
      */
     protected function _setupCategoryChooser(CurrentUserInterface $User)
@@ -543,7 +533,7 @@ class EntriesController extends AppController
     /**
      * makes root posting of $posting avaiable in view
      *
-     * @param BasicPostingInterface $posting posting for root entry
+     * @param \Saito\Posting\Basic\BasicPostingInterface $posting posting for root entry
      * @return void
      */
     protected function _setRootEntry(BasicPostingInterface $posting)

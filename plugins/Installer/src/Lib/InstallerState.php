@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -62,7 +61,7 @@ class InstallerState
      * The file is stored as file in writable directory. Cache isn't available
      * during the installation.
      *
-     * @return File file handle
+     * @return \Cake\Filesystem\File file handle
      * @throws \RuntimeException
      */
     private static function getFile(): File
@@ -71,6 +70,6 @@ class InstallerState
             throw new \RuntimeException('TMP directory not available.', 1560524787);
         }
 
-        return (new File(TMP . 'installer.state'));
+        return new File(TMP . 'installer.state');
     }
 }

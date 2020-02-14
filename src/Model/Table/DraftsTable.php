@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -124,7 +123,7 @@ class DraftsTable extends AppTable
     /**
      * Deletes a draft which might have been the source for a posting.
      *
-     * @param Entry $entry The posting which might have been created by a draft.
+     * @param \App\Model\Entity\Entry $entry The posting which might have been created by a draft.
      * @return void
      */
     public function deleteDraftForPosting(Entry $entry): void

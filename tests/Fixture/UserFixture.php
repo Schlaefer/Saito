@@ -8,7 +8,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class UserFixture extends TestFixture
 {
-
     public $fields = [
         'id' => [
             'type' => 'integer',

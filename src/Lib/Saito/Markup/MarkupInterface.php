@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,14 +18,14 @@ interface MarkupInterface
     /**
      * Constructor
      *
-     * @param MarkupSettings $settings forum-settings for markup
+     * @param \Saito\Markup\MarkupSettings $settings forum-settings for markup
      */
     public function __construct(MarkupSettings $settings);
 
     /**
      * Get editor help.
      *
-     * @param ParserHelper $helper ParserHelper
+     * @param \App\View\Helper\ParserHelper $helper ParserHelper
      * @return string HTML-escaped content
      */
     public function getEditorHelp(ParserHelper $helper): string;
@@ -50,7 +49,7 @@ interface MarkupInterface
      * should render the markup to HTML
      *
      * @param string $string unescaped markup
-     * @param ParserHelper $helper ParserHelper
+     * @param \App\View\Helper\ParserHelper $helper ParserHelper
      * @param array $options options
      * @return string !!Make sure to escape HTML special chars, or you'll have
      *     a bad day!!

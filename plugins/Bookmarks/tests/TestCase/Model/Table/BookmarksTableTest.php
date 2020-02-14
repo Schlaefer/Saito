@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,7 +18,6 @@ use Saito\Test\Model\Table\SaitoTableTestCase;
  */
 class BookmarksTableTest extends SaitoTableTestCase
 {
-
     public $tableClass = 'Bookmarks.Bookmarks';
 
     public $fixtures = [

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * Saito - The Threaded Web Forum
@@ -23,7 +24,6 @@ use Saito\User\CurrentUser\CurrentUserFactory;
  */
 class ThemesComponentTest extends SaitoTestCase
 {
-
     /**
      * @var ThemesComponent
      */

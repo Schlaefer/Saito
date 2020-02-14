@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,12 +11,8 @@ declare(strict_types=1);
 
 namespace Saito\Test;
 
-use Cake\Event\Event;
-use Cake\Event\EventManager;
-
 trait SecurityMockTrait
 {
-
     /**
      * Mock security component.
      *

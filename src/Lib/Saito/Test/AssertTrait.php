@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -54,14 +53,14 @@ trait AssertTrait
      * @param string $html HTML
      * @param string $path XPath
      * @param int $count how many times should XPath exist in HTML
-     * @return mixed
+     * @return void
      */
-    public function assertXPath($html, $path, $count = 1)
+    public function assertXPath($html, $path, $count = 1): void
     {
         $xpath = $this->_getDOMXPath($html);
         $length = $xpath->query($path)->length;
 
-        return $this->assertEquals(
+        $this->assertEquals(
             $count,
             $length,
             "Failed XPath. Expected '$path' to be found $count times instead of $length."
@@ -73,11 +72,11 @@ trait AssertTrait
      *
      * @param string $html path
      * @param string $path path
-     * @return bool
+     * @return void
      */
-    public function assertNotXPath($html, $path)
+    public function assertNotXPath($html, $path): void
     {
-        return !$this->assertXPath($html, $path, 0);
+        $this->assertXPath($html, $path, 0);
     }
 
     /**
@@ -105,7 +104,7 @@ trait AssertTrait
      * @param bool $debug debugging
      * @return void
      */
-    protected function assertFlash(string $message, string $element = null, $debug = false): void
+    protected function assertFlash(string $message, ?string $element = null, $debug = false): void
     {
         if ($debug) {
             debug($_SESSION['Flash']['flash']);

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,12 +12,10 @@ declare(strict_types=1);
 namespace Saito\Smiley;
 
 use Cake\Cache\Cache;
-use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 
 class SmileyLoader
 {
-
     protected $_smilies;
 
     /**

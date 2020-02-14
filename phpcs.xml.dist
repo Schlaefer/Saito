@@ -4,7 +4,7 @@
     <arg name="report" value="full"/>
     <arg name="colors"/>
     <arg value="sp"/>
-    <arg name="extensions" value="php,ctp"/>
+    <arg name="extensions" value="php"/>
     <!-- <arg name="severity" value="8"/> -->
 
     <file>./plugins</file>
@@ -12,5 +12,6 @@
     <file>./tests</file>
 
     <rule ref="vendor/cakephp/cakephp-codesniffer/CakePHP"></rule>
+    <rule ref="Generic.Commenting.Todo"/>
 
 </ruleset>

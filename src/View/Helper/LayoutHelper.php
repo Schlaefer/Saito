@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,10 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use Cake\View\Helper\HtmlHelper;
 use Cake\View\StringTemplateTrait;
 
 /**
- * @property HtmlHelper $Html
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class LayoutHelper extends AppHelper
 {
@@ -26,8 +24,10 @@ class LayoutHelper extends AppHelper
 
     protected $_defaultConfig = [
         'templates' => [
+            //@codingStandardsIgnoreStart
             'dropdownMenuDivider' => '<div class="dropdown-divider"></div>',
             'dropdownMenu' => '<div class="dropdown" style="display: inline;">{{button}}<div id="{{id}}" class="dropdown-menu">{{menu}}</div></div>',
+            //@codingStandardsIgnoreEnd
         ],
     ];
 

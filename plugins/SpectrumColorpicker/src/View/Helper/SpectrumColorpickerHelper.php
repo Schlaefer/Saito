@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,12 +12,10 @@ declare(strict_types=1);
 namespace SpectrumColorpicker\View\Helper;
 
 use Cake\View\Helper;
-use Cake\View\Helper\FormHelper;
-use Cake\View\Helper\HtmlHelper;
 
 /**
- * @property FormHelper $Form
- * @property HtmlHelper $Html
+ * @property \Cake\View\Helper\FormHelper $Form
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class SpectrumColorpickerHelper extends Helper
 {
@@ -82,7 +79,10 @@ class SpectrumColorpickerHelper extends Helper
         $js = "$(function() {
             let el = $('input#{$id}');
             el.spectrum({$options});
-            el.on('hide.spectrum', function(e, color) { e.currentTarget.value = color === null ? '' : '#' + color.toHex(); });
+            el.on(
+                'hide.spectrum',
+                function(e, color) { e.currentTarget.value = color === null ? '' : '#' + color.toHex(); }
+            );
         });";
         $this->Html->scriptBlock($js, ['block' => 'script']);
     }

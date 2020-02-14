@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use App\Controller\AppController;
 use Cake\Controller\Component;
 use Saito\User\ForumsUserInterface;
 
@@ -49,7 +47,9 @@ class SlidetabsComponent extends Component
      */
     public function show($slidetabs = 'all')
     {
-        /** @var AppController */
+        /**
+         * @var \App\Controller\AppController
+         */
         $Controller = $this->getController();
         $user = $Controller->CurrentUser;
         if (!$user->isLoggedIn()) {
@@ -71,7 +71,7 @@ class SlidetabsComponent extends Component
     /**
      * Get all slidetabs in correct order for user
      *
-     * @param ForumsUserInterface $user user
+     * @param \Saito\User\ForumsUserInterface $user user
      * @return array
      */
     protected function _getForUser(ForumsUserInterface $user)

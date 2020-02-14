@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
@@ -7,7 +8,6 @@ use Saito\Test\IntegrationTestCase;
 
 class ContactsControllerTestCase extends IntegrationTestCase
 {
-
     public $fixtures = [
         'app.Category',
         'app.Entry',

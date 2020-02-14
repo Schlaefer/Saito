@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -26,13 +25,15 @@ class AppTable extends Table
         getConfig as private traitGetConfig;
     }
 
-    /** @var array default config for InstanceConfigTrait */
+    /**
+     * @var array default config for InstanceConfigTrait
+     */
     protected $_defaultConfig = [];
 
     public $SharedObjects;
 
     /**
-     * @var SaitoEventManager
+     * @var \Saito\Event\SaitoEventManager
      */
     protected $_SEM;
 

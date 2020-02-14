@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,24 +11,21 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use Cake\View\Helper\HtmlHelper;
-use Cake\View\Helper\UrlHelper;
 use Saito\App\Registry;
-use Saito\User\Permission\Permissions;
 
 /**
  * Class UserHelper
  *
  * @package App\View\Helper
- * @property HtmlHelper $Html
- * @property UrlHelper $Url
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class PermissionsHelper extends AppHelper
 {
     /**
      * Permissions
      *
-     * @var Permissions
+     * @var \Saito\User\Permission\Permissions
      */
     private $Permissions;
 
@@ -40,7 +36,9 @@ class PermissionsHelper extends AppHelper
     {
         parent::initialize($config);
 
-        /** @var Permissions */
+        /**
+         * @var \Saito\User\Permission\Permissions
+         */
         $permissions = Registry::get('Permissions');
         $this->Permissions = $permissions;
     }

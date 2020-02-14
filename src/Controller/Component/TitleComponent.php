@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use App\Controller\ErrorController;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\Utility\Text;
 use Saito\Posting\Posting;
 
@@ -44,7 +42,7 @@ class TitleComponent extends Component
     /**
      * Get title for page shown on header on page
      *
-     * @param Controller $controller The controller
+     * @param \Cake\Controller\Controller $controller The controller
      * @return string
      */
     protected function getPageTitle(Controller $controller): string
@@ -71,7 +69,7 @@ class TitleComponent extends Component
     /**
      * Gets forum name
      *
-     * @param Controller $controller The controller
+     * @param \Cake\Controller\Controller $controller The controller
      * @return string
      */
     public function getForumName(Controller $controller): string
@@ -82,7 +80,7 @@ class TitleComponent extends Component
     /**
      * title + forum name for layout, shown in HTML-<title>-tag
      *
-     * @param Controller $controller The controller
+     * @param \Cake\Controller\Controller $controller The controller
      * @param string $page Title of the current page.
      * @param string $forum Title of the forum.
      * @return string
@@ -110,7 +108,7 @@ class TitleComponent extends Component
     /**
      * Set title
      *
-     * @param Posting $posting posting
+     * @param \Saito\Posting\Posting $posting posting
      * @param string $type type
      * @return void
      */

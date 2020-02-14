@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,20 +11,16 @@ declare(strict_types=1);
 
 namespace SaitoHelp\View\Helper;
 
-use App\View\Helper\LayoutHelper;
 use Cake\View\Helper;
-use Cake\View\Helper\HtmlHelper;
-use Cake\View\Helper\UrlHelper;
-use Commonmark\View\Helper\CommonmarkHelper;
 use Saito\User\CurrentUser\CurrentUserInterface;
 
 /**
  * Helper for Saito-help
  *
- * @property CommonmarkHelper $Commonmark
- * @property HtmlHelper $Html
- * @property LayoutHelper $Layout
- * @property UrlHelper $Url
+ * @property \Commonmark\View\Helper\CommonmarkHelper $Commonmark
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \App\View\Helper\LayoutHelper $Layout
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class SaitoHelpHelper extends Helper
 {
@@ -63,7 +58,7 @@ class SaitoHelpHelper extends Helper
      * Parse text
      *
      * @param string $text text to parse
-     * @param CurrentUserInterface $CurrentUser current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current user
      * @return string
      */
     public function parse($text, CurrentUserInterface $CurrentUser)
@@ -77,7 +72,7 @@ class SaitoHelpHelper extends Helper
      * Allow linking within the Saito app
      *
      * @param string $text text to parse with link markup
-     * @param CurrentUserInterface $CurrentUser current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current user
      * @return string text with links replaced
      */
     private function _replaceUrl($text, $CurrentUser)

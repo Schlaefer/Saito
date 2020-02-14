@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,11 +13,10 @@ namespace SaitoSearch\Lib;
 
 class SimpleSearchString
 {
-
     /**
      * Minimum search word length
      *
-     * @var integer
+     * @var int
      */
     protected $_length = 4;
 

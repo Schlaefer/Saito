@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,11 @@ declare(strict_types=1);
 
 namespace Saito\User\Permission;
 
-use Saito\User\Permission\Resource;
-
 class Resources
 {
-    /** @var \Saito\User\Permission\Resource[] Resources */
+    /**
+     * @var \Saito\User\Permission\Resource[] Resources
+     */
     protected $resources = [];
 
     /**

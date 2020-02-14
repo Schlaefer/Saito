@@ -8,7 +8,7 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
-class EntriesTest extends SaitoTableTestCase
+class EntriesTableTest extends SaitoTableTestCase
 {
     public $tableClass = 'Entries';
 

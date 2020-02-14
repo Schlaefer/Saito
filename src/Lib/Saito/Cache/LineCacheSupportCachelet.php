@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,7 +18,6 @@ use Cake\Event\EventManager;
 class LineCacheSupportCachelet extends CacheSupportCachelet implements
     EventListenerInterface
 {
-
     protected $_title = 'LineCache';
 
     protected $_LineCache;
@@ -27,7 +25,7 @@ class LineCacheSupportCachelet extends CacheSupportCachelet implements
     /**
      * Constructor
      *
-     * @param ItemCache $LineCache line-cache
+     * @param \Saito\Cache\ItemCache $LineCache line-cache
      */
     public function __construct(ItemCache $LineCache)
     {
@@ -48,7 +46,7 @@ class LineCacheSupportCachelet extends CacheSupportCachelet implements
     /**
      * Event listener
      *
-     * @param Event $event event
+     * @param \Cake\Event\Event $event event
      * @return void
      * @throws \InvalidArgumentException
      */

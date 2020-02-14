@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -17,11 +16,14 @@ namespace Saito\User\Blocker;
  */
 class ManualBlocker extends BlockerAbstract
 {
-
-    /** @var int admin-ID */
+    /**
+     * @var int admin-ID
+     */
     private $adminId;
 
-    /** @var int duration in seconds */
+    /**
+     * @var int duration in seconds
+     */
     private $duration;
 
     /**

@@ -1,6 +1,5 @@
 <?php
 use Cake\Collection\Collection;
-use Cake\Utility\Hash;
 
 $this->Breadcrumbs->add(__('Smilies'), false);
 ?>

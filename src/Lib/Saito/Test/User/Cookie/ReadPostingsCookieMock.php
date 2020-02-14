@@ -11,23 +11,39 @@ declare(strict_types=1);
 
 namespace App\Lib\Saito\Test\User\Cookie;
 
+use Saito\User\LastRefresh\LastRefreshInterface;
 use Saito\User\ReadPostings\ReadPostingsCookie;
 
+/**
+ * Mock for ReadPostingsCookie
+ */
 class ReadPostingsCookieMock extends ReadPostingsCookie
 {
     /**
-     * @param mixed $maxPostings
+     * Set max $maxPostings
+     *
+     * @param int $maxPostings max postings
+     * @return void
      */
-    public function setMaxPostings($maxPostings)
+    public function setMaxPostings(int $maxPostings): void
     {
         $this->maxPostings = $maxPostings;
     }
 
-    public function setLastRefresh($LR)
+    /**
+     * Set last refresh
+     *
+     * @param \Saito\User\LastRefresh\LastRefreshInterface $LR LastRefresh
+     * @return void
+     */
+    public function setLastRefresh(LastRefreshInterface $LR): void
     {
         $this->LastRefresh = $LR;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __get($property)
     {
         if ($property === 'Cookie') {
@@ -38,6 +54,9 @@ class ReadPostingsCookieMock extends ReadPostingsCookie
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __call($method, $arguments)
     {
         if (is_callable([$this, $method])) {

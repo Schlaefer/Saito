@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,15 +11,13 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use App\Model\Table\CategoriesTable;
 use Cake\Http\Exception\BadRequestException;
 
 /**
- * @property CategoriesTable $Categories
+ * @property \App\Model\Table\CategoriesTable $Categories
  */
 class CategoriesController extends AdminAppController
 {
-
     public $paginate = [
         'order' => [
             'Categories.category_order' => 'asc',
@@ -145,7 +142,7 @@ class CategoriesController extends AdminAppController
         }
 
         switch ($this->request->getData('mode')) {
-            case ('move'):
+            case 'move':
                 $targetId = (int)$this->request->getData('targetCategory');
                 try {
                     $this->Categories->merge($category->get('id'), $targetId);
@@ -164,7 +161,7 @@ class CategoriesController extends AdminAppController
                     return $this->redirect($this->referer());
                 }
                 // No break: always returned above before reaching next case
-            case ('delete'):
+            case 'delete':
                 try {
                     $this->Categories->deleteWithAllEntries(
                         $category->get('id')

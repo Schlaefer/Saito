@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\User\Userlist;
 
-use App\Model\Table\UsersTable;
 use Cake\ORM\TableRegistry;
 use Saito\RememberTrait;
 
@@ -31,7 +29,7 @@ class UserlistModel
     public function get(): array
     {
         return $this->remember('userlist', function () {
-            /** @var UsersTable $users */
+            /** @var \App\Model\Table\UsersTable $users */
             $users = TableRegistry::get('Users');
 
             return $users->userlist();

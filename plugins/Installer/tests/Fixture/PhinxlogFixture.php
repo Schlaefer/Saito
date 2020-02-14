@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class PhinxlogFixture extends TestFixture
 {
-
     public $fields = [
         'version' => [
             'type' => 'integer',

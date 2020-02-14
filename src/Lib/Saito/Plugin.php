@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use Cake\Core\Configure;
 
 class Plugin
 {
-
     /**
      * loads defaults from plugin config and merges them with global config
      *

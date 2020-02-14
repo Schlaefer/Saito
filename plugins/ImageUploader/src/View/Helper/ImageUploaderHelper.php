@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,13 +12,12 @@ declare(strict_types=1);
 namespace ImageUploader\View\Helper;
 
 use App\View\Helper\AppHelper;
-use Cake\View\Helper\UrlHelper;
 use ImageUploader\Model\Entity\Upload;
 
 /**
  * Image Uploader Helper
  *
- * @property UrlHelper $Url
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class ImageUploaderHelper extends AppHelper
 {
@@ -28,7 +26,7 @@ class ImageUploaderHelper extends AppHelper
     /**
      * Returns data representation for an image
      *
-     * @param Upload $image image
+     * @param \ImageUploader\Model\Entity\Upload $image image
      * @return array
      */
     public function image(Upload $image): array

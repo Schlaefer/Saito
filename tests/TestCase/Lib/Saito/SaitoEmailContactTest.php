@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Contact;
 
@@ -14,7 +15,6 @@ use Saito\Test\SaitoTestCase;
  */
 class SaitoEmailContactTest extends SaitoTestCase
 {
-
     public $fixtures = ['app.User'];
 
     public function testCakeFormat()

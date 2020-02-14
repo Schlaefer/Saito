@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,16 +12,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
-use App\Controller\Component\PostingComponent;
-use App\Model\Table\EntriesTable;
 use Cake\I18n\Time;
 use Cake\View\Helper\IdGeneratorTrait;
 
 /**
  * Class EntriesController
  *
- * @property EntriesTable $Entries
- * @property PostingComponent $Posting
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \App\Controller\Component\PostingComponent $Posting
  */
 class PreviewController extends ApiAppController
 {
@@ -60,7 +57,7 @@ class PreviewController extends ApiAppController
             $data = $this->Posting->prepareChildPosting($parent, $data);
         }
 
-        /** @var \App\Model\Entity\Entry */
+        /** @var \App\Model\Entity\Entry $newEntry */
         $newEntry = $this->Entries->newEntity($data);
         $errors = $newEntry->getErrors();
 

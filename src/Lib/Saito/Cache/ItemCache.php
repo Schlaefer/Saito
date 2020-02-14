@@ -21,6 +21,11 @@ use Stopwatch\Lib\Stopwatch;
  */
 class ItemCache
 {
+    /**
+     * Cache array
+     *
+     * @var array|null
+     */
     protected $_cache = null;
 
     /**
@@ -105,7 +110,7 @@ class ItemCache
      * Getter
      *
      * @param string|null $key key
-     * @return null|string
+     * @return null|string|array
      */
     public function get($key = null)
     {

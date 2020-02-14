@@ -1,9 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\Component\ThreadsComponent;
-use App\Model\Table\EntriesTable;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
@@ -37,7 +37,9 @@ class ThreadsComponentTest extends SaitoTableTestCase
 
     public $tableClass = 'Entries';
 
-    /** @var EntriesTable */
+    /**
+     * @var EntriesTable
+     */
     public $Table;
 
     public function setUp(): void

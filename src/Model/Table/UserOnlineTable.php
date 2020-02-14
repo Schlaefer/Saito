@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -181,7 +180,7 @@ class UserOnlineTable extends Table
      *
      * @td @sm make finder
      *
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function getLoggedIn(): Query
     {

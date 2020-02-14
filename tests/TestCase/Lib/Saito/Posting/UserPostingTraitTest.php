@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test\Posting;
 
+use App\Lib\Saito\Test\Posting\UserPostingTraitClassMock;
 use Cake\Core\Configure;
 use Cake\I18n\Time;
 use Saito\Test\SaitoTestCase;
@@ -9,30 +11,15 @@ use Saito\User\Categories;
 use Saito\User\CurrentUser\CurrentUser;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
-class UserPostingTraitClassMock extends \Saito\Posting\Posting
-{
-    public function __construct()
-    {
-    }
-
-    public function set($key, $val = null)
-    {
-        if ($val === null) {
-            $this->_rawData = $key;
-
-            return;
-        }
-        $this->_rawData[$key] = $val;
-    }
-}
-
 class UserPostingTraitTest extends SaitoTestCase
 {
     public $editPeriod = 20;
 
     public $fixtures = ['app.Category'];
 
-    /** @var UserPostingTraitClassMock */
+    /**
+     * @var UserPostingTraitClassMock
+     */
     private $Mock;
 
     public function setUp(): void

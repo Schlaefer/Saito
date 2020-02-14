@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -27,11 +26,9 @@ class LastRefreshDatabase extends LastRefreshAbstract
     use RememberTrait;
 
     /**
-     * @var UsersTable
+     * @var \App\Model\Table\UsersTable
      */
     protected $storage;
-
-    private $initialized = false;
 
     /**
      * {@inheritdoc}
@@ -80,10 +77,10 @@ class LastRefreshDatabase extends LastRefreshAbstract
     /**
      * Persist to strorage
      *
-     * @param DateTimeInterface $timestamp datetime string for last_refresh
+     * @param \DateTimeInterface $timestamp datetime string for last_refresh
      * @return void
      */
-    protected function persist(DateTimeInterface $timestamp = null): void
+    protected function persist(?DateTimeInterface $timestamp = null): void
     {
         $this->_storage->setLastRefresh(
             $this->_CurrentUser->getId(),

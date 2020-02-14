@@ -4,7 +4,7 @@ namespace App\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-class UseronlineFixture extends TestFixture
+class UserOnlineFixture extends TestFixture
 {
     /**
      * Table name

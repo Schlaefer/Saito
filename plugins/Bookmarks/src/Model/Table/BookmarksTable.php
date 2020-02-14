@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,20 +11,17 @@ declare(strict_types=1);
 
 namespace Bookmarks\Model\Table;
 
-use App\Model\Table\EntriesTable;
-use App\Model\Table\UsersTable;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Bookmarks Table
  *
- * @property EntriesTable $Entries
- * @property UsersTable $Users
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \App\Model\Table\UsersTable $Users
  */
 class BookmarksTable extends Table
 {
-
     /**
      * {@inheritdoc}
      *

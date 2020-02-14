@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,9 +11,6 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use App\Model\Entity\User;
-use Cake\View\Helper\HtmlHelper;
-use Cake\View\Helper\UrlHelper;
 use Identicon\Identicon;
 use Saito\RememberTrait;
 use Saito\User\CurrentUser\CurrentUserInterface;
@@ -25,8 +21,8 @@ use Stopwatch\Lib\Stopwatch;
  * Class UserHelper
  *
  * @package App\View\Helper
- * @property HtmlHelper $Html
- * @property UrlHelper $Url
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class UserHelper extends AppHelper
 {
@@ -106,12 +102,12 @@ class UserHelper extends AppHelper
     /**
      * Link to user-profile
      *
-     * @param User|ForumsUserInterface $user user
-     * @param bool|CurrentUserInterface $link link
+     * @param \Saito\User\ForumsUserInterface $user user
+     * @param bool|\Saito\User\CurrentUser\CurrentUserInterface $link link
      * @param array $options options
      * @return string
      */
-    public function linkToUserProfile($user, $link = true, array $options = []): string
+    public function linkToUserProfile(ForumsUserInterface $user, $link = true, array $options = []): string
     {
         $options += [
             'title' => $user->get('username'),
@@ -143,11 +139,11 @@ class UserHelper extends AppHelper
     /**
      * Get image avatar for user
      *
-     * @param User|ForumsUserInterface $user User
+     * @param \Saito\User\ForumsUserInterface $user User
      * @param array $options options
      * @return string HTML
      */
-    public function getAvatar($user, array $options = [])
+    public function getAvatar(ForumsUserInterface $user, array $options = [])
     {
         $getAvatar = function () use ($user, $options) {
             Stopwatch::start('UserHelper::getAvatar()');

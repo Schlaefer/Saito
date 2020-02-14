@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,10 +18,6 @@ use Sitemap\Lib\SitemapCollection;
 class SitemapsController extends AppController
 {
     public $uses = false;
-
-    public $helpers = [
-            'Sitemap.Sitemap',
-    ];
 
     public $generators = [
             'SitemapEntries',
@@ -55,7 +50,7 @@ class SitemapsController extends AppController
      *
      * @param string $file filename
      * @return void
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function file($file)
     {

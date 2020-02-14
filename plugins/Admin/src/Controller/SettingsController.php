@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,15 +11,14 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use App\Model\Table\SettingsTable;
 use Cake\Http\Exception\NotFoundException;
 
 /**
- * @property SettingsTable $Settings
+ * @property \App\Model\Table\SettingsTable $Settings
  */
 class SettingsController extends AdminAppController
 {
-
+        // TODO
     public $helpers = [
         'Admin.Setting',
         'TimeH',
@@ -91,7 +89,7 @@ class SettingsController extends AdminAppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function edit(string $id = null)
+    public function edit(?string $id = null)
     {
         if (empty($id)) {
             throw new NotFoundException();

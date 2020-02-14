@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,17 +13,13 @@ namespace Admin\View\Helper;
 
 use Admin\Lib\CakeLogEntry;
 use App\View\Helper\AppHelper;
-use App\View\Helper\TimeHHelper;
 use Cake\Cache\Cache;
-use Cake\View\Helper\BreadcrumbsHelper;
-use Cake\View\Helper\HtmlHelper;
-use SaitoHelp\View\Helper\SaitoHelpHelper;
 
 /**
- * @property BreadcrumbsHelper $Breadcrumbs
- * @property HtmlHelper $Html
- * @property SaitoHelpHelper $SaitoHelp
- * @property TimeHHelper $TimeH
+ * @property \Cake\View\Helper\BreadcrumbsHelper $Breadcrumbs
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \SaitoHelp\View\Helper\SaitoHelpHelper $SaitoHelp
+ * @property \App\View\Helper\TimeHHelper $TimeH
  */
 class AdminHelper extends AppHelper
 {
@@ -121,9 +116,12 @@ class AdminHelper extends AppHelper
             $_i = self::tagId();
             $_details = $e->details();
             if (!empty($_details)) {
-                $out .= '<button class="btn btn-mini" style="float:right;" onclick="$(\'#' . $_i . '\').toggle(); return false;">' . __(
-                    'Details'
-                ) . '</button>' . "\n";
+                $out .= '<button class="btn btn-mini" style="float:right;" onclick="$(\'#'
+                    . $_i
+                    . '\').toggle(); return false;">'
+                    . __('Details')
+                    . '</button>'
+                    . "\n";
             }
             $out .= '<pre style="font-size: 10px;">' . "\n";
             $out .= '<div class="row"><div class="span2" style="text-align: right">';

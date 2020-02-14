@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,20 +13,16 @@ namespace ImageUploader\Controller;
 
 use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
-use App\Model\Entity\User;
 use Cake\Cache\Cache;
 use Cake\Utility\Security;
-use ImageUploader\Model\Entity\Upload;
-use ImageUploader\Model\Table\UploadsTable;
 use Saito\Exception\SaitoForbiddenException;
-use Saito\User\CurrentUser\CurrentUserInterface;
 use Saito\User\Permission\ResourceAI;
 
 /**
  * Upload Controller
  *
- * @property CurrentUserInterface $CurrentUser
- * @property UploadsTable $Uploads
+ * @property \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser
+ * @property \ImageUploader\Model\Table\UploadsTable $Uploads
  */
 class UploadsController extends ApiAppController
 {
@@ -50,7 +45,7 @@ class UploadsController extends ApiAppController
     public function index()
     {
         $userId = (int)$this->getRequest()->getQuery('id');
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($userId);
         $permission = $this->CurrentUser->permission(
             'saito.plugin.uploader.view',
@@ -83,7 +78,7 @@ class UploadsController extends ApiAppController
         }
 
         $userId = (int)$this->getRequest()->getData('userId');
-        /** @var User */
+        /** @var \App\Model\Entity\User $user */
         $user = $this->Users->get($userId);
         $permission = $this->CurrentUser->permission(
             'saito.plugin.uploader.add',
@@ -129,7 +124,7 @@ class UploadsController extends ApiAppController
      */
     public function delete($imageId)
     {
-        /** @var Upload */
+        /** @var \ImageUploader\Model\Entity\Upload $upload */
         $upload = $this->Uploads->get($imageId, ['contain' => ['Users']]);
         $permission = $this->CurrentUser->permission(
             'saito.plugin.uploader.delete',

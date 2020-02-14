@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -185,7 +184,7 @@ class AuthUserComponentTest extends IntegrationTestCase
         $this->assertEquals($webroot, $cookie['path']);
     }
 
-    private function _setup(ServerRequestInterface $request = null)
+    private function _setup(?ServerRequestInterface $request = null)
     {
         $request = $request ?: new ServerRequest();
         $response = new Response();

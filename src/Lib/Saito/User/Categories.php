@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\User;
 
-use App\Model\Table\CategoriesTable;
 use Cake\Core\Configure;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -30,14 +28,14 @@ class Categories
     use RememberTrait;
 
     /**
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     protected $_User;
 
     /**
      * Constructor.
      *
-     * @param CurrentUserInterface $User Current-User
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $User Current-User
      */
     public function __construct(CurrentUserInterface $User)
     {
@@ -61,7 +59,7 @@ class Categories
         $categories = $this->remember(
             $key,
             function () use ($action, $format) {
-                /** @var CategoriesTable */
+                /** @var \App\Model\Table\CategoriesTable $Categories */
                 $Categories = TableRegistry::get('Categories');
                 $all = $Categories->getAllCategories();
                 $categories = [];
@@ -184,7 +182,7 @@ class Categories
      * Check if user as permission for action on category
      *
      * @param string $action action
-     * @param int|Entity|array $category ID, category-array or category-entity
+     * @param int|\Cake\ORM\Entity|array $category ID, category-array or category-entity
      * @return bool
      */
     public function permission($action, $category)

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Saito\Test;
 
@@ -6,7 +7,6 @@ use Saito\DomainParser;
 
 class DomainParserTest extends SaitoTestCase
 {
-
     public function testDomainAndTld()
     {
         $input = 'http://www.youtöbe.com/foo';

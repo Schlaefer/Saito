@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,7 +21,7 @@ interface PostingInterface extends BasicPostingInterface, ThreadNodeInterface, U
     /**
      * Set current user for UserPostingTrait
      *
-     * @param CurrentUserInterface $CU The current user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CU The current user
      * @return mixed
      */
     public function withCurrentUser(CurrentUserInterface $CU);

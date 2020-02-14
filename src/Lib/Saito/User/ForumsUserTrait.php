@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Saito\User;
 
 use Saito\App\Registry;
-use Saito\User\ForumsUserInterface;
 use Saito\User\Permission\ResourceAI;
 
 /**
@@ -78,7 +76,7 @@ trait ForumsUserTrait
     /**
      * {@inheritDoc}
      */
-    public function permission(string $resource, ResourceAI $identity = null): bool
+    public function permission(string $resource, ?ResourceAI $identity = null): bool
     {
         if ($identity === null) {
             $identity = new ResourceAI();

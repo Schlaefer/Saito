@@ -1,13 +1,16 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Lib\Model;
 
 use App\Lib\Model\Table\FieldFilter;
 use Cake\TestSuite\TestCase;
 
-class AppTableTest extends TestCase
+class FieldFilterTest extends TestCase
 {
-    /** @var FieldFilter */
+    /**
+     * @var FieldFilter
+     */
     private $fieldFilter;
 
     public function setUp(): void

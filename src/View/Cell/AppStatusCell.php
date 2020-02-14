@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -21,7 +20,6 @@ use Saito\User\CurrentUser\CurrentUserInterface;
  */
 class AppStatusCell extends Cell
 {
-
     /**
      * List of valid options that can be passed into this
      * cell's constructor.

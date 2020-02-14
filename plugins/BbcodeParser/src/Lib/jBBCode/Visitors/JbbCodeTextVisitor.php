@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,11 +17,10 @@ use Saito\Markup\MarkupSettings;
 
 abstract class JbbCodeTextVisitor implements NodeVisitor
 {
-
     protected $_disallowedTags = ['code'];
 
     /**
-     * @var Helper calling CakePHP helper
+     * @var \Cake\View\Helper calling CakePHP helper
      */
     protected $_sHelper;
 

@@ -6,7 +6,6 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class CategoryFixture extends TestFixture
 {
-
     public $fields = [
         'id' => [
             'type' => 'integer',

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Installer\Controller;
 
 use Cake\Core\Configure;
-use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
@@ -65,7 +63,7 @@ class InstallController extends AppController
     public function dbconnection()
     {
         try {
-            /** @var Connection */
+            /** @var \Cake\Database\Connection $connection */
             $connection = ConnectionManager::get('default');
             if ($connection->connect()) {
                 $this->log('Database connection found.');
@@ -238,7 +236,7 @@ class InstallController extends AppController
      * Redirect to a different installer stage
      *
      * @param string $action controller-action to redirect to
-     * @return Response redirect
+     * @return \Cake\Http\Response redirect
      */
     private function installerRedirect(string $action): Response
     {

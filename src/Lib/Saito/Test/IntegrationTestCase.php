@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -16,7 +15,6 @@ use App\Test\Fixture\UserFixture;
 use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
-use Cake\Http\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\TestSuite\IntegrationTestTrait;
@@ -340,12 +338,10 @@ abstract class IntegrationTestCase extends TestCase
      * Check that an redirect to the login is performed
      *
      * @param string $redirectUrl redirect URL '/where/I/come/from'
-     * @param string $msg Message
      * @return void
      */
-    public function assertRedirectLogin($redirectUrl = null, string $msg = '')
+    public function assertRedirectLogin($redirectUrl = null): void
     {
-        /** @var Response $response */
         $response = $this->_response;
         $expected = Router::url([
             '_name' => 'login',
@@ -353,7 +349,11 @@ abstract class IntegrationTestCase extends TestCase
             '?' => ['redirect' => $redirectUrl],
         ], true);
         $redirectHeader = $response->getHeader('Location')[0];
-        $this->assertEquals($expected, $redirectHeader, $msg);
+        // AuthenticationService::getUnauthenticatedRedirectUrl() always returns
+        // without fullBase in version 2.x (CakePHP 4) even if an URL with
+        // fullBase is provided as redirect-URL. ¯\_(ツ)_/¯
+        // So we test for substring instead expect equals.
+        $this->assertStringContainsString($redirectHeader, $expected);
         $this->assertResponseEmpty();
         $this->assertResponseCode(302);
     }
@@ -363,7 +363,6 @@ abstract class IntegrationTestCase extends TestCase
      *
      * @param array $expected expected
      * @return void
-     * TODO Remove for assertHtml?
      */
     public function assertResponseContainsTags($expected)
     {

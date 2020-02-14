@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,16 +21,24 @@ class UploaderConfig
     /** @var string key used for CakePHP upload cache */
     private const CACHE_KEY = 'uploadsThumbnails';
 
-    /** @var int max upload size in bytes */
+    /**
+     * @var int max upload size in bytes
+     */
     private $defaultSize = 2000000;
 
-    /** @var int max number of allowed uploads per user */
+    /**
+     * @var int max number of allowed uploads per user
+     */
     private $maxNumberOfUploads = 10;
 
-    /** @var array allowed mime types */
+    /**
+     * @var array allowed mime types
+     */
     private $types = [];
 
-    /** @var int Default target size for resizing a type in bytes */
+    /**
+     * @var int Default target size for resizing a type in bytes
+     */
     private $defaultResize = 450000;
 
     /**

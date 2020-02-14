@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -45,10 +44,14 @@ class Preprocessor
      */
     protected function _hashInternalEntryLinks($string)
     {
+        $server = $this->_settings->get('server');
+        $webroot = $this->_settings->get('webroot');
+        $hashBaseUrl = $this->_settings->get('hashBaseUrl');
+        $url = $server . $webroot . $hashBaseUrl;
         $string = preg_replace(
             "%
 				(?<!=) # don't hash if part of [url=…
-				{$this->_settings->get('server')}{$this->_settings->get('webroot')}{$this->_settings->get('hashBaseUrl')}
+				{$url}
 				(\d+)  # the id
 				%imx",
             "#\\1",

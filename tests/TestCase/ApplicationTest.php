@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -25,7 +24,9 @@ class ApplicationTest extends SaitoTestCase
 
     private const API_ROOT = 'api/v2';
 
-    /** @var Application */
+    /**
+     * @var Application
+     */
     private $application;
 
     public function setUp(): void

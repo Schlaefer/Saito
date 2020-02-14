@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -10,8 +9,8 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
+use Cake\Routing\Router;
 
 Router::plugin(
     'Feeds',

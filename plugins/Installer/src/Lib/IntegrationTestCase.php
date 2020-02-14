@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,13 +11,7 @@ declare(strict_types=1);
 
 namespace Installer\Lib;
 
-use App\Test\Fixture\UserFixture;
-use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
-use Cake\Event\Event;
-use Cake\Event\EventManager;
-use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
 use Saito\Test\IntegrationTestCase as SaitoIntegrationTestCase;
 
 /**

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -46,7 +45,7 @@ class Entry extends Entity implements BasicPostingInterface
     /**
      * Convert entity to posting
      *
-     * @return PostingInterface
+     * @return \Saito\Posting\PostingInterface
      */
     public function toPosting(): PostingInterface
     {

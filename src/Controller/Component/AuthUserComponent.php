@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Component;
 
-use App\Controller\AppController;
 use App\Model\Entity\User;
-use App\Model\Table\UsersTable;
 use Authentication\Authenticator\CookieAuthenticator;
-use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
@@ -34,7 +30,7 @@ use Stopwatch\Lib\Stopwatch;
 /**
  * Authenticates the current user and bootstraps the CurrentUser information
  *
- * @property AuthenticationComponent $Authentication
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  */
 class AuthUserComponent extends Component
 {
@@ -59,14 +55,14 @@ class AuthUserComponent extends Component
     /**
      * Current user
      *
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     protected $CurrentUser;
 
     /**
      * UsersTableInstance
      *
-     * @var UsersTable
+     * @var \App\Model\Table\UsersTable
      */
     protected $UsersTable = null;
 
@@ -84,7 +80,7 @@ class AuthUserComponent extends Component
     {
         Stopwatch::start('CurrentUser::initialize()');
 
-        /** @var UsersTable */
+        /** @var \App\Model\Table\UsersTable $UsersTable */
         $UsersTable = TableRegistry::getTableLocator()->get('Users');
         $this->UsersTable = $UsersTable;
 
@@ -174,7 +170,7 @@ class AuthUserComponent extends Component
     /**
      * Tries to authenticate and login the user.
      *
-     * @return null|User User if is logged-in, null otherwise.
+     * @return null|\App\Model\Entity\User User if is logged-in, null otherwise.
      */
     protected function authenticate(): ?User
     {
@@ -185,7 +181,7 @@ class AuthUserComponent extends Component
             return null;
         }
 
-        /** @var User User is always retrieved from ORM */
+        /** @var \App\Model\Entity\User $user User is always retrieved from ORM */
         $user = $result->getData();
 
         $isUnactivated = $user['activate_code'] !== 0;
@@ -270,7 +266,7 @@ class AuthUserComponent extends Component
     /**
      * Stores (or deletes) the JS-Web-Token as Cookie for access in front-end
      *
-     * @param Controller $controller The controller
+     * @param \Cake\Controller\Controller $controller The controller
      * @return void
      */
     private function setJwtCookie(Controller $controller): void
@@ -301,10 +297,10 @@ class AuthUserComponent extends Component
             // [performance] Done every logged-in request. Don't decrypt whole
             // token with signature. We only make sure it exists, the auth
             // happens elsewhere.
-            $payload = Jwt::jsonDecode(Jwt::urlsafeB64Decode($payloadEncoded));
+            $payload = JWT::jsonDecode(JWT::urlsafeB64Decode($payloadEncoded));
             $isCurrentUser = $payload->sub === $this->CurrentUser->getId();
             // Assume expired if within the next two hours.
-            $aboutToExpire = $payload->exp > (time() - 7200);
+            $aboutToExpire = $payload->exp > time() - 7200;
             // Token doesn't require an update if it belongs to current user and
             // isn't about to expire.
             if ($isCurrentUser && !$aboutToExpire) {
@@ -328,7 +324,7 @@ class AuthUserComponent extends Component
     /**
      * Returns the current-user
      *
-     * @return CurrentUserInterface
+     * @return \Saito\User\CurrentUser\CurrentUserInterface
      */
     public function getUser(): CurrentUserInterface
     {
@@ -338,14 +334,14 @@ class AuthUserComponent extends Component
     /**
      * Makes the current user available throughout the application
      *
-     * @param CurrentUserInterface $CurrentUser current-user to set
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current-user to set
      * @return void
      */
     private function setCurrentUser(CurrentUserInterface $CurrentUser): void
     {
         $this->CurrentUser = $CurrentUser;
 
-        /** @var AppController */
+        /** @var \App\Controller\AppController $controller */
         $controller = $this->getController();
         // makes CurrentUser available in Controllers
         $controller->CurrentUser = $this->CurrentUser;
@@ -368,7 +364,7 @@ class AuthUserComponent extends Component
     /**
      * Check if user is authorized to access the current action.
      *
-     * @param CurrentUser $user The current user.
+     * @param \Saito\User\CurrentUser\CurrentUser $user The current user.
      * @return bool True if authorized False otherwise.
      */
     private function isAuthorized(CurrentUser $user)

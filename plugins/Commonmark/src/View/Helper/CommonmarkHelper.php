@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -34,7 +33,7 @@ class CommonmarkHelper extends Helper
     /**
      * Get parser
      *
-     * @return CommonMarkConverter
+     * @return \League\CommonMark\CommonMarkConverter
      */
     protected function _getParser()
     {

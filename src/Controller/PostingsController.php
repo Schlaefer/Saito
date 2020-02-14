@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,20 +12,16 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
-use App\Controller\Component\PostingComponent;
-use App\Model\Entity\Entry;
-use App\Model\Table\EntriesTable;
 use Cake\Core\Configure;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Saito\Exception\SaitoForbiddenException;
-use Saito\Posting\PostingInterface;
 
 /**
  * Endpoint for adding/POST and editing/PUT posting
  *
- * @property EntriesTable $Entries
- * @property PostingComponent $Posting
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \App\Controller\Component\PostingComponent $Posting
  */
 class PostingsController extends ApiAppController
 {
@@ -56,7 +51,7 @@ class PostingsController extends ApiAppController
             'user_id' => $this->CurrentUser->getId(),
         ];
 
-        /** @var Entry */
+        /** @var \App\Model\Entity\Entry $posting */
         $posting = $this->Posting->create($data, $this->CurrentUser);
 
         if (empty($posting)) {
@@ -136,7 +131,7 @@ class PostingsController extends ApiAppController
         $isAnswer = !empty($pid);
 
         if ($isAnswer) {
-            /** @var PostingInterface */
+            /** @var \Saito\Posting\PostingInterface $parent */
             $parent = $this->Entries->get($pid)->toPosting()->withCurrentUser($this->CurrentUser);
 
             // Don't leak content of forbidden categories
@@ -151,7 +146,7 @@ class PostingsController extends ApiAppController
         }
 
         if ($isEdit) {
-            /** @var PostingInterface */
+            /** @var \Saito\Posting\PostingInterface $posting */
             $posting = $this->Entries->get($id)->toPosting()->withCurrentUser($this->CurrentUser);
             if (!$posting->isEditingAllowed()) {
                 throw new SaitoForbiddenException(

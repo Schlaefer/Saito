@@ -12,20 +12,39 @@ declare(strict_types=1);
 namespace App\Lib\Saito\Test\Cache;
 
 use Saito\Cache\ItemCache;
+use Saito\Cache\SaitoCacheEngineInterface;
 
+/**
+ * Mock for item cache
+ * @package App\Lib\Saito\Test\Cache
+ */
 class ItemCacheMock extends ItemCache
 {
-    public function setCacheEngine($CacheEngine)
+    /**
+     * Set Cache Engine
+     * @param \Saito\Cache\SaitoCacheEngineInterface $CacheEngine cache engine
+     * @return void
+     */
+    public function setCacheEngine(SaitoCacheEngineInterface $CacheEngine): void
     {
         $this->_CacheEngine = $CacheEngine;
     }
 
-    public function setRaw($data)
+    /**
+     * Set raw
+     * @param array $data data
+     * @return void
+     */
+    public function setRaw(array $data): void
     {
         $this->_cache = $data;
     }
 
-    public function write()
+    /**
+     * Write
+     * @return void
+     */
+    public function write(): void
     {
         $this->_write();
     }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -15,10 +14,6 @@ namespace Saito\User\Permission;
 use App\Model\Table\CategoriesTable;
 use Cake\Cache\Cache;
 use Saito\RememberTrait;
-use Saito\User\Permission\Resource;
-use Saito\User\Permission\ResourceAC;
-use Saito\User\Permission\Resources;
-use Saito\User\Permission\Roles;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -32,17 +27,21 @@ class Permissions
 {
     use RememberTrait;
 
-    /** @var Roles */
+    /**
+     * @var \Saito\User\Permission\Roles
+     */
     protected $roles;
 
-    /** @var Resources */
+    /**
+     * @var \Saito\User\Permission\Resources
+     */
     protected $resources;
 
     /**
      * Constructor
      *
-     * @param Roles $roles The roles
-     * @param Resources $resources The resources collection
+     * @param \Saito\User\Permission\Roles $roles The roles
+     * @param \Saito\User\Permission\Resources $resources The resources collection
      */
     public function __construct(Roles $roles, Resources $resources)
     {
@@ -57,7 +56,7 @@ class Permissions
      * Check if access to resource is allowed.
      *
      * @param string $resource Resource to check
-     * @param ResourceAI $identifier Identifier to provide
+     * @param \Saito\User\Permission\ResourceAI $identifier Identifier to provide
      * @return bool
      */
     public function check(string $resource, ResourceAI $identifier): bool
@@ -70,7 +69,7 @@ class Permissions
     /**
      * Gets the roles object
      *
-     * @return Roles
+     * @return \Saito\User\Permission\Roles
      */
     public function getRoles(): Roles
     {
@@ -80,7 +79,7 @@ class Permissions
     /**
      * Build category permissions
      *
-     * @param CategoriesTable $categories Categories for accession permissions
+     * @param \App\Model\Table\CategoriesTable $categories Categories for accession permissions
      * @return void
      */
     public function buildCategories(CategoriesTable $categories): void

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,11 @@ declare(strict_types=1);
 
 namespace Saito\User\Blocker;
 
-use App\Model\Table\UserBlocksTable;
-
 abstract class BlockerAbstract
 {
-    /** @var UserBlocksTable UserBlocks table */
+    /**
+     * @var \App\Model\Table\UserBlocksTable UserBlocks table
+     */
     protected $Table;
 
     /**
@@ -39,7 +38,7 @@ abstract class BlockerAbstract
     /**
      * Set user block table
      *
-     * @param UserBlocksTable $Table table
+     * @param \App\Model\Table\UserBlocksTable $Table table
      * @return void
      */
     public function setUserBlockTable($Table)

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -14,11 +13,8 @@ namespace Bookmarks\Controller;
 
 use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
-use Bookmarks\Model\Table\BookmarksTable;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
-use Cake\Http\Exception\BadRequestException;
-use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Permission\ResourceAI;
@@ -26,7 +22,7 @@ use Saito\User\Permission\ResourceAI;
 /**
  * Bookmarks Controller
  *
- * @property BookmarksTable $Bookmarks
+ * @property \Bookmarks\Model\Table\BookmarksTable $Bookmarks
  */
 class BookmarksController extends ApiAppController
 {
@@ -56,8 +52,8 @@ class BookmarksController extends ApiAppController
      * Add a new bookmark.
      *
      * @return void
-     * @throws MethodNotAllowedException
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\MethodNotAllowedException
+     * @throws \Cake\Http\Exception\BadRequestException
      */
     public function add()
     {
@@ -78,7 +74,7 @@ class BookmarksController extends ApiAppController
      * Edit a bookmark.
      *
      * @param int $id bookmark-ID
-     * @throws MethodNotAllowedException
+     * @throws \Cake\Http\Exception\MethodNotAllowedException
      * @return void
      */
     public function edit($id)
@@ -121,7 +117,7 @@ class BookmarksController extends ApiAppController
     /**
      * {@inheritdoc}
      *
-     * @param EventInterface $event An Event instance
+     * @param \Cake\Event\EventInterface $event An Event instance
      * @return void
      */
     public function beforeFilter(EventInterface $event)
@@ -134,9 +130,9 @@ class BookmarksController extends ApiAppController
      * Get a single bookmark
      *
      * @param int $bookmarkId bookmark-ID
-     * @throws NotFoundException
-     * @throws SaitoForbiddenException
-     * @return EntityInterface
+     * @throws \Cake\Http\Exception\NotFoundException
+     * @throws \Saito\Exception\SaitoForbiddenException
+     * @return \Cake\Datasource\EntityInterface
      */
     private function getBookmark(int $bookmarkId): EntityInterface
     {

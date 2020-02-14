@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Saito\App;
 
-use Aura\Di\Container;
 use Aura\Di\ContainerBuilder;
 use Cake\Core\Configure;
 use Cron\Lib\Cron;
@@ -27,14 +25,14 @@ use Saito\User\Permission\Permissions;
 class Registry
 {
     /**
-     * @var Container;
+     * @var \Aura\Di\Container ;
      */
     protected static $dic;
 
     /**
      * Resets and initializes registry.
      *
-     * @return Container
+     * @return \Aura\Di\Container
      */
     public static function initialize()
     {

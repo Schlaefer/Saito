@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,10 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use App\Model\Table\SmileyCodesTable;
 use Cake\ORM\Entity;
 
 /**
- * @property SmileyCodesTable $SmileyCodes
+ * @property \App\Model\Table\SmileyCodesTable $SmileyCodes
  */
 class SmileyCodesController extends AdminAppController
 {
@@ -75,7 +73,7 @@ class SmileyCodesController extends AdminAppController
     /**
      * Code shared between add and edit.
      *
-     * @param Entity $smiley smiley
+     * @param \Cake\ORM\Entity $smiley smiley
      * @return void
      */
     protected function _addEditCommon(Entity $smiley)

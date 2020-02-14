@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,13 +12,11 @@ declare(strict_types=1);
 namespace App\Model\Behavior;
 
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 
 class IpLoggingBehavior extends Behavior
 {
-
     /**
      * {@inheritDoc}
      */

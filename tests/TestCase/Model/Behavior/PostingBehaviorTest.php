@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Behavior;
 
+use Cake\Datasource\Exception\RecordNotFoundException;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
 class PostingBehaviorTest extends SaitoTableTestCase
@@ -303,5 +304,11 @@ class PostingBehaviorTest extends SaitoTableTestCase
         $this->Table->patchEntity($posting, ['category_id' => $newCategory]);
         $result = $this->Table->save($posting);
         $this->assertFalse($result);
+    }
+
+    public function testMergeSourcePostingDoesNotExist()
+    {
+        $this->expectException(RecordNotFoundException::class);
+        $this->Table->threadMerge(9999, 2);
     }
 }

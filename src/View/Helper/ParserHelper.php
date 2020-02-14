@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,25 +11,19 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use Cake\View\Helper\FormHelper;
-use Cake\View\Helper\HtmlHelper;
-use Geshi\View\Helper\GeshiHelper;
-use SaitoHelp\View\Helper\SaitoHelpHelper;
 use Saito\App\Registry;
-use Saito\Markup\MarkupInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Parser Helper
  *
- * @property GeshiHelper $Geshi
- * @property FormHelper $Form
- * @property HtmlHelper $Html
- * @property SaitoHelpHelper $SaitoHelp
+ * @property \Geshi\View\Helper\GeshiHelper $Geshi
+ * @property \Cake\View\Helper\FormHelper $Form
+ * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \SaitoHelp\View\Helper\SaitoHelpHelper $SaitoHelp
  */
 class ParserHelper extends AppHelper
 {
-
     /**
      * @var array these Helpers are also used in the Parser
      */
@@ -53,7 +46,9 @@ class ParserHelper extends AppHelper
      */
     protected $_parserCache = [];
 
-    /** @var MarkupInterface */
+    /**
+     * @var \Saito\Markup\MarkupInterface
+     */
     protected $Markup;
 
     /**
@@ -62,7 +57,9 @@ class ParserHelper extends AppHelper
     public function initialize(array $config): void
     {
         parent::initialize($config);
-        /** @var MarkupInterface */
+        /**
+         * @var \Saito\Markup\MarkupInterface
+         */
         $Markup = Registry::get('Markup');
         $this->Markup = $Markup;
     }

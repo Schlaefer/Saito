@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,7 +11,6 @@ declare(strict_types=1);
 
 namespace Bookmarks\Lib;
 
-use Bookmarks\Model\Table\BookmarksTable;
 use Cake\ORM\TableRegistry;
 use Saito\User\CurrentUser\CurrentUserInterface;
 
@@ -27,14 +25,14 @@ class Bookmarks
     protected $_bookmarks;
 
     /**
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     protected $_CurrentUser;
 
     /**
      * Constructor.
      *
-     * @param CurrentUserInterface $CurrentUser CurrentUser
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser CurrentUser
      */
     public function __construct(CurrentUserInterface $CurrentUser)
     {
@@ -69,7 +67,7 @@ class Bookmarks
 
             return;
         }
-        /** @var BookmarksTable */
+        /** @var \Bookmarks\Model\Table\BookmarksTable $BookmarksTable */
         $BookmarksTable = TableRegistry::get('Bookmarks.Bookmarks');
         $this->_bookmarks = $BookmarksTable
             ->find('list', ['keyField' => 'entry_id', 'valueField' => 'id'])

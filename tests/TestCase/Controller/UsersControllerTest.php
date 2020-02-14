@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
@@ -129,7 +130,11 @@ class UsersControllerTest extends IntegrationTestCase
                 ],
             ],
         ];
-        $this->assertContainsTag($username, (string)$this->_response->getBody());
+
+        $expected = [
+            'input',
+        ];
+        $this->assertResponseContainsTags($username);
 
         //# test logout on form show
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
@@ -251,7 +256,7 @@ class UsersControllerTest extends IntegrationTestCase
                 ],
             ],
         ];
-        $this->assertContainsTag($expected, (string)$this->_response->getBody());
+        $this->assertResponseContainsTags($expected);
     }
 
     public function testRegisterViewFormFailureNoPermission()

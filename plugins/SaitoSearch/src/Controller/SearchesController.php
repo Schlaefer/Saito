@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,19 +12,16 @@ declare(strict_types=1);
 namespace SaitoSearch\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\EntriesTable;
 use Cake\Chronos\Chronos;
 use Cake\Database\Driver\Mysql;
 use Cake\Event\EventInterface;
-use Cake\Http\Response;
 use Cake\I18n\FrozenDate;
-use SaitoSearch\Lib\SimpleSearchString;
 use Saito\Exception\SaitoForbiddenException;
-use Search\Controller\Component\PrgComponent;
+use SaitoSearch\Lib\SimpleSearchString;
 
 /**
- * @property EntriesTable $Entries
- * @property PrgComponent $Prg
+ * @property \App\Model\Table\EntriesTable $Entries
+ * @property \Search\Controller\Component\PrgComponent $Prg
  */
 class SearchesController extends AppController
 {
@@ -63,7 +59,7 @@ class SearchesController extends AppController
     /**
      * Simple search
      *
-     * @return void|Response
+     * @return void|\Cake\Http\Response
      */
     public function simple()
     {

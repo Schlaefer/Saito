@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,18 +11,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Component\ThemesComponent;
-use App\Controller\Component\TitleComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
-use Cake\Event\Event;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
  * Custom Error Controller to render errors in default theme for production.
  *
- * @property ThemesComponent $Themes
- * @property TitleComponent $Title
+ * @property \App\Controller\Component\ThemesComponent $Themes
+ * @property \App\Controller\Component\TitleComponent $Title
  */
 class ErrorController extends Controller
 {

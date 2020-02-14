@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Component;
 
 use App\Controller\Component\PostingComponent;
 use Cake\Controller\ComponentRegistry;
-use Cake\Controller\Controller;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;

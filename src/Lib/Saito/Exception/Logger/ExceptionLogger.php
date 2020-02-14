@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,6 @@ use Saito\User\CurrentUser\CurrentUserInterface;
 
 class ExceptionLogger
 {
-
     private $__lines = [];
 
     /**
@@ -44,7 +42,7 @@ class ExceptionLogger
 
         //# add exception data
         if (isset($data['e'])) {
-            /* @var $Exception \Exception */
+            /** @var \Exception $Exception */
             $Exception = $data['e'];
             unset($data['e']);
             $message = $Exception->getMessage();
@@ -54,7 +52,7 @@ class ExceptionLogger
         }
 
         //# add request data
-        $request = (php_sapi_name() !== 'cli') ? Router::getRequest() : false;
+        $request = php_sapi_name() !== 'cli' ? Router::getRequest() : false;
 
         $url = false;
         if (isset($data['URL'])) {

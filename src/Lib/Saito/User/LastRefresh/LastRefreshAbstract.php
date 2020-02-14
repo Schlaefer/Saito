@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,9 +18,8 @@ use Saito\User\CurrentUser\CurrentUserInterface;
  */
 abstract class LastRefreshAbstract implements LastRefreshInterface
 {
-
     /**
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     protected $_CurrentUser;
 
@@ -33,7 +31,7 @@ abstract class LastRefreshAbstract implements LastRefreshInterface
     /**
      * Constructor
      *
-     * @param CurrentUserInterface $CurrentUser current-user
+     * @param \Saito\User\CurrentUser\CurrentUserInterface $CurrentUser current-user
      * @param mixed $storage storage a storage handler
      */
     public function __construct(CurrentUserInterface $CurrentUser, $storage = null)

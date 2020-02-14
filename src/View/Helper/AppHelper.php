@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,9 +17,9 @@ use Cake\View\Helper\IdGeneratorTrait;
 /**
  * App Helper
  *
- * @property FormHelper $Form
- * @property HtmlHelper $Html
- * @property UrlHelper $Url
+ * @property \App\View\Helper\FormHelper $Form
+ * @property \App\View\Helper\HtmlHelper $Html
+ * @property \App\View\Helper\UrlHelper $Url
  */
 class AppHelper extends Helper
 {

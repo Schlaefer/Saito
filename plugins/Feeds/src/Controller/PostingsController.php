@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace Feeds\Controller;
 
 use App\Controller\AppController;
-use App\Model\Table\EntriesTable;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\BadRequestException;
 use Feeds\Model\Behavior\FeedsPostingBehavior;
@@ -21,7 +19,7 @@ use Feeds\Model\Behavior\FeedsPostingBehavior;
 /**
  * Feed Posting Controller
  *
- * @property EntriesTable $Entries
+ * @property \App\Model\Table\EntriesTable $Entries
  */
 class PostingsController extends AppController
 {
@@ -34,7 +32,7 @@ class PostingsController extends AppController
     {
         parent::initialize();
 
-        /** @var EntriesTable */
+        /** @var \App\Model\Table\EntriesTable $EntriesTable */
         $EntriesTable = $this->loadModel('Entries');
         $EntriesTable->addBehavior(FeedsPostingBehavior::class);
     }
@@ -93,7 +91,7 @@ class PostingsController extends AppController
      * Can't use beforeFilter because RequestHandlerComponent::startup() not called
      * and thus RequestHandler uninitialized
      *
-     * @throws BadRequestException
+     * @throws \Cake\Http\Exception\BadRequestException
      * @return void
      */
     private function checkRss(): void

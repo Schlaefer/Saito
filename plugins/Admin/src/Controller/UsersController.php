@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,10 +11,8 @@ declare(strict_types=1);
 
 namespace Admin\Controller;
 
-use App\Model\Table\UsersTable;
-
 /**
- * @property UsersTable $Users
+ * @property \App\Model\Table\UsersTable $Users
  */
 class UsersController extends AdminAppController
 {

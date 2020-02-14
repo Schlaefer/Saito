@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,40 +11,29 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Component\AuthUserComponent;
-use App\Controller\Component\JsDataComponent;
-use App\Controller\Component\RefererComponent;
-use App\Controller\Component\SaitoEmailComponent;
-use App\Controller\Component\SlidetabsComponent;
-use App\Controller\Component\ThemesComponent;
-use App\Controller\Component\TitleComponent;
-use App\Model\Table\UsersTable;
-use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
-use Cake\Event\Event;
-use Cake\Http\Response;
+use Cake\Event\EventInterface;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Saito\App\Registry;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
-use Saito\User\CurrentUser\CurrentUserInterface;
 use Stopwatch\Lib\Stopwatch;
 
 /**
  * Class AppController
  *
- * @property AuthUserComponent $AuthUser
- * @property AuthenticationComponent $Authentication
- * @property JsDataComponent $JsData
- * @property RefererComponent $Referer
- * @property SaitoEmailComponent $SaitoEmail
- * @property SlidetabsComponent $Slidetabs
- * @property ThemesComponent $Themes
- * @property TitleComponent $Title
- * @property UsersTable $Users
+ * @property \App\Controller\Component\AuthUserComponent $AuthUser
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
+ * @property \App\Controller\Component\JsDataComponent $JsData
+ * @property \App\Controller\Component\RefererComponent $Referer
+ * @property \App\Controller\Component\SaitoEmailComponent $SaitoEmail
+ * @property \App\Controller\Component\SlidetabsComponent $Slidetabs
+ * @property \App\Controller\Component\ThemesComponent $Themes
+ * @property \App\Controller\Component\TitleComponent $Title
+ * @property \App\Model\Table\UsersTable $Users
  */
 class AppController extends Controller
 {
@@ -63,7 +51,7 @@ class AppController extends Controller
     /**
      * The current user, set by the AuthUserComponent
      *
-     * @var CurrentUserInterface
+     * @var \Saito\User\CurrentUser\CurrentUserInterface
      */
     public $CurrentUser;
 
@@ -109,7 +97,7 @@ class AppController extends Controller
     /**
      * {@inheritDoc}
      */
-    public function beforeFilter(\Cake\Event\EventInterface $event)
+    public function beforeFilter(EventInterface $event)
     {
         Stopwatch::start('App->beforeFilter()');
 
@@ -180,13 +168,13 @@ class AppController extends Controller
             $stopwatch && Configure::read('Saito.Settings.stopwatch_get')
         ) {
             $this->setConfig('showStopwatch', true);
-        };
+        }
 
         //= change language
         $lang = $this->request->getQuery('lang');
         if (!empty($lang)) {
             Configure::write('Saito.language', $lang);
-        };
+        }
     }
 
     /**
@@ -207,7 +195,7 @@ class AppController extends Controller
     /**
      * manually require auth and redirect cycle
      *
-     * @return Response
+     * @return \Cake\Http\Response
      */
     protected function _requireAuth()
     {
@@ -253,7 +241,7 @@ class AppController extends Controller
         }
 
         if (strpos($locale, '_')) {
-            list($locale) = explode('_', $locale);
+            [$locale] = explode('_', $locale);
             $path = $check($locale);
             if ($path) {
                 $this->viewBuilder()->setTemplatePath($path);

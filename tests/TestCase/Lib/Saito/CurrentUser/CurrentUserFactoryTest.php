@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -20,7 +19,9 @@ use Saito\User\CurrentUser\CurrentUserFactory;
 
 class CurrentUserFactoryTest extends SaitoTestCase
 {
-    /** @var Controller */
+    /**
+     * @var Controller
+     */
     private $controller;
 
     public function testCurrentUserFactoryVisitorIsRoleAnon()

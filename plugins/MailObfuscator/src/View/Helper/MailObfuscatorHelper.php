@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,16 +12,14 @@ declare(strict_types=1);
 namespace MailObfuscator\View\Helper;
 
 use Cake\View\Helper;
-use Cake\View\Helper\HtmlHelper;
 
 /**
  * Mail Obfuscator Helper
  *
- * @property HtmlHelper $Html
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class MailObfuscatorHelper extends Helper
 {
-
     public $helpers = ['Html'];
 
     /**
@@ -40,7 +37,7 @@ class MailObfuscatorHelper extends Helper
             $hasTitle = 1;
         }
         $rand = "moh_" . md5(mt_rand(1, 10000) . $addr);
-        list($ttl, $dom) = explode('@', $addr);
+        [$ttl, $dom] = explode('@', $addr);
 
         // missing  style='unicode-bidi:bidi-override;direction:rtl;'
         $mailto = '<a id="' . $rand . '" href="#" data-ttl="' . $ttl . '" data-dom="' . $dom . '">' . $title . '</a>';

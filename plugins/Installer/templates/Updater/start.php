@@ -15,7 +15,12 @@
             <?= __d('installer', 'update.dbOutdated.failure') ?>
         </div>
         <p class="card-text">
-            <?= __d('installer', 'update.dbOutdated.explanation', ['dbVersion' => $dbVersion, 'saitoVersion' => $saitoVersion]) ?>
+            <?= __d(
+                'installer',
+                'update.dbOutdated.explanation',
+                ['dbVersion' => $dbVersion, 'saitoVersion' => $saitoVersion]
+            )
+?>
         </p>
         <div class="alert alert-warning">
             <?= __d('installer', 'update.dbOutdated.backup') ?>

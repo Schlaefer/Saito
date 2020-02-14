@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -22,7 +21,7 @@ interface CurrentUserInterface extends ForumsUserInterface
     /**
      * Setter for last refresh
      *
-     * @param LastRefreshInterface $lastRefresh last refresh
+     * @param \Saito\User\LastRefresh\LastRefreshInterface $lastRefresh last refresh
      * @return self
      */
     public function setLastRefresh(LastRefreshInterface $lastRefresh): CurrentUserInterface;
@@ -30,14 +29,14 @@ interface CurrentUserInterface extends ForumsUserInterface
     /**
      * Getter for last refresh
      *
-     * @return LastRefreshInterface
+     * @return \Saito\User\LastRefresh\LastRefreshInterface
      */
     public function getLastRefresh(): LastRefreshInterface;
 
     /**
      * Setter for read postings
      *
-     * @param ReadPostingsInterface $readPostings read postings
+     * @param \Saito\User\ReadPostings\ReadPostingsInterface $readPostings read postings
      * @return self
      */
     public function setReadPostings(ReadPostingsInterface $readPostings): CurrentUserInterface;
@@ -45,14 +44,14 @@ interface CurrentUserInterface extends ForumsUserInterface
     /**
      * Getter for read postings
      *
-     * @return ReadPostingsInterface
+     * @return \Saito\User\ReadPostings\ReadPostingsInterface
      */
     public function getReadPostings(): ReadPostingsInterface;
 
     /**
      * Setter for categories
      *
-     * @param Categories $categories categories
+     * @param \Saito\User\Categories $categories categories
      * @return self
      */
     public function setCategories(Categories $categories): CurrentUserInterface;
@@ -60,7 +59,7 @@ interface CurrentUserInterface extends ForumsUserInterface
     /**
      * Gets Categories
      *
-     * @return Categories
+     * @return \Saito\User\Categories
      */
     public function getCategories(): Categories;
 

@@ -5,7 +5,7 @@ namespace App\Test\TestCase\Model\Table;
 
 use Saito\Test\Model\Table\SaitoTableTestCase;
 
-class SmileyCodeTest extends SaitoTableTestCase
+class SmileyCodesTest extends SaitoTableTestCase
 {
     public $tableClass = 'SmileyCodes';
 

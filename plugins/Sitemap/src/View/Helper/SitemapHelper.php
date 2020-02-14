@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,13 +12,15 @@ declare(strict_types=1);
 namespace Sitemap\View\Helper;
 
 use Cake\View\Helper;
-use Cake\View\Helper\UrlHelper;
 
 /**
- * @property UrlHelper $Url
+ * @property \Cake\View\Helper\UrlHelper $Url
  */
 class SitemapHelper extends Helper
 {
+    /**
+     * {@inheritdoc}
+     */
     public $helpers = ['Url'];
 
     /**

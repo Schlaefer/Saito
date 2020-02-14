@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -31,7 +30,7 @@ class ThumbnailController extends Controller
     /**
      * Thumb Image Generator
      *
-     * @return Response
+     * @return \Cake\Http\Response
      */
     public function thumb(): Response
     {

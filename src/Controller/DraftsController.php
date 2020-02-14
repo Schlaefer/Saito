@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -13,7 +12,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Api\Controller\ApiAppController;
-use App\Model\Table\DraftsTable;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Exception\NotFoundException;
 use Saito\Exception\SaitoForbiddenException;
@@ -21,7 +19,7 @@ use Saito\Exception\SaitoForbiddenException;
 /**
  * Endpoint for adding/POST and editing/PUT posting
  *
- * @property DraftsTable $Drafts
+ * @property \App\Model\Table\DraftsTable $Drafts
  */
 class DraftsController extends ApiAppController
 {

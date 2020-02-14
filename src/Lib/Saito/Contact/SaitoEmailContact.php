@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -18,7 +17,6 @@ use Cake\ORM\TableRegistry;
 
 class SaitoEmailContact implements ContactInterface
 {
-
     protected $name;
 
     protected $address;
