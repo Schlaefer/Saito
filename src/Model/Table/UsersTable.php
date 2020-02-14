@@ -683,7 +683,13 @@ class UsersTable extends AppTable
         if (!empty($errors)) {
             return $user;
         }
-        $this->save($user);
+        $user = $this->save($user);
+        if ($user !== false) {
+            $this->dispatchDbEvent('saito.core.user.register.after', [
+                'subject' => $user,
+                'table' => $this,
+            ]);
+        }
 
         return $user;
     }
@@ -744,12 +750,15 @@ class UsersTable extends AppTable
         }
 
         $user->set('activate_code', 0);
-        $success = $this->save($user);
-        if (empty($success)) {
+        $user = $this->save($user);
+        if ($user === false) {
             return false;
         }
 
-        $this->dispatchDbEvent('Model.User.afterActivate', ['User' => $user]);
+        $this->dispatchDbEvent('saito.core.user.activate.after', [
+            'subject' => $user,
+            'table' => $this,
+        ]);
 
         return ['status' => 'activated', 'User' => $user];
     }

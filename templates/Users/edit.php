@@ -394,7 +394,7 @@ $this->end();
         <?php
         //= get additional profile info from plugins
         $items = $SaitoEventManager->dispatch(
-            'Request.Saito.View.User.edit',
+            'saito.core.user.edit.render.request',
             [
                 'user' => $user,
                 'View' => $this,

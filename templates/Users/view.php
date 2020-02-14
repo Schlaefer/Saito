@@ -168,7 +168,7 @@ if ($user->get('signature')) {
 
 //= get additional profile info from plugins
 $items = $SaitoEventManager->dispatch(
-    'Request.Saito.View.User.beforeFullProfile',
+    'saito.core.user.profile.render.request',
     ['user' => $user, 'View' => $this]
 );
 if ($items) {

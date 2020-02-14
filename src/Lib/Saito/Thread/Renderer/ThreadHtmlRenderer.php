@@ -56,8 +56,8 @@ class ThreadHtmlRenderer extends HtmlRendererAbstract
         $badges = $this->_Helper->getBadges($node);
 
         $requestedParams = $this->_SEM->dispatch(
-            'Request.Saito.View.ThreadLine.beforeRender',
-            ['node' => $node, 'View' => $this->_View]
+            'saito.core.threadline.render.before',
+            ['posting' => $posting, 'view' => $this->_View]
         );
 
         $params = ['css' => '', 'style' => ''];

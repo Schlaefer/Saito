@@ -15,7 +15,7 @@ use Saito\Event\SaitoEventManager;
  * register plugin's admin-UI in admin-backend
  */
 SaitoEventManager::getInstance()->attach(
-    'Request.Saito.View.Admin.plugins',
+    'saito.plugin.admin.plugins.request',
     function () {
         $url = '/admin/plugins/sitemap';
         $title = 'Sitemap';

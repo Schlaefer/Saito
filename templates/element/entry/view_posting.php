@@ -68,7 +68,7 @@ $jsEntry = json_encode(
                 <?php
                 //= get additional actions from plugins
                 $items = $SaitoEventManager->dispatch(
-                    'Request.Saito.View.Posting.footerActions',
+                    'saito.core.posting.view.footerActions.request',
                     [
                         'posting' => $entry->toArray(),
                         'View' => $this,

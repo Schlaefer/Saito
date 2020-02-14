@@ -27,7 +27,7 @@ class TitleComponent extends Component
     {
         $controller = $event->getSubject();
 
-        $forum = $this->getForumName($controller);
+        $forum = $this->getForumName();
         $controller->set('forumName', $forum);
 
         if ($controller instanceof ErrorController) {
@@ -69,10 +69,9 @@ class TitleComponent extends Component
     /**
      * Gets forum name
      *
-     * @param \Cake\Controller\Controller $controller The controller
-     * @return string
+     * @return string|null
      */
-    public function getForumName(Controller $controller): string
+    public function getForumName(): ?string
     {
         return Configure::read('Saito.Settings.forum_name');
     }

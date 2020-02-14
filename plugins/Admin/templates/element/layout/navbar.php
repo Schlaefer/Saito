@@ -46,7 +46,7 @@
             </li>
             <?php
             //= plugins
-            $items = $SaitoEventManager->dispatch('Request.Saito.View.Admin.plugins');
+            $items = $SaitoEventManager->dispatch('saito.plugin.admin.plugins.request');
             if ($items) {
                 $dropdown = $this->Html->link(
                     __('Plugins'),
