@@ -78,7 +78,7 @@ class UserIgnoresTable extends AppTable
         $this->save($entity);
 
         $this->dispatchDbEvent(
-            'Event.Saito.User.afterIgnore',
+            'saito.core.user.ignore.after',
             [
                 'blockedUserId' => $blockedUserId,
                 'userId' => $userId,

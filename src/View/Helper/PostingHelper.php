@@ -160,7 +160,7 @@ class PostingHelper extends AppHelper
         $out .= '</span>';
 
         $additionalBadges = $this->getSaitoEventManager()->dispatch(
-            'Request.Saito.View.Posting.badges',
+            'saito.core.posting.view.badges.request',
             ['posting' => $entry->toArray()]
         );
         if ($additionalBadges) {

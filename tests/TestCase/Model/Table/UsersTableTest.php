@@ -325,6 +325,16 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testActivateUserSuccess()
     {
+        $this->Table = $this->getMockForModel(
+            'Users',
+            ['dispatchDbEvent'],
+            ['table' => 'users']
+        );
+
+        $this->Table->expects($this->once())
+            ->method('dispatchDbEvent')
+            ->with('saito.core.user.activate.after');
+
         $result = $this->Table->activate(10, '1548');
         $this->assertEquals('activated', $result['status']);
         $user = $this->Table->get(10);
@@ -466,6 +476,16 @@ class UsersTableTest extends SaitoTableTestCase
 
     public function testRegisterSuccess()
     {
+        $this->Table = $this->getMockForModel(
+            'Users',
+            ['dispatchDbEvent'],
+            ['table' => 'users']
+        );
+
+        $this->Table->expects($this->at(1))
+            ->method('dispatchDbEvent')
+            ->with('saito.core.user.register.after');
+
         // new user
         $pw = 'test';
         $data = [

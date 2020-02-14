@@ -13,6 +13,8 @@
 ### Changes
 
 - ＋ Adds permission `saito.core.user.lastLogin.view` to see a user's last login (defaults to admin)
+- ＋ Emit event `saito.core.user.activate.after` after user activation
+- ＋ Emit event `saito.core.user.register.after` after user registration
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
 - ✓ Missing navigation links in search head
@@ -28,10 +30,11 @@
   - Δ Improves scanning of JS localizaton strings
   - Δ Updates core JS-, CSS- and PHP-libraries
   - Δ Updates travis-ci environment from trusty to bionic
-
-### Changes
+  - Δ Consolidates PHP event names updates documentation
 
 ### Update Notes
+
+Plugins subscribing to events may have to update event-names. See *docs/dev-hooks.md* for available events.
 
 ## [5.6.0] - 2020-01-03
 

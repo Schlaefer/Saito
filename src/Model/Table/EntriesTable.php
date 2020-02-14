@@ -506,7 +506,7 @@ class EntriesTable extends AppTable
         $this->Bookmarks->deleteAll(['entry_id IN' => $idsToDelete]);
 
         $this->dispatchSaitoEvent(
-            'Model.Saito.Postings.delete',
+            'saito.core.posting.delete.after',
             ['subject' => $idsToDelete, 'table' => $this]
         );
 

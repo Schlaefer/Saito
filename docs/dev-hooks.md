@@ -1,40 +1,6 @@
 # PHP #
 
-## Event.Saito.Controller.initialize ##
-
-Trigger: on CakePHP's 'Controller.initialize' event
-
-Data:
-
-- subject: Controller object
-
-## Event.Saito.Model.initialize ##
-
-Trigger: after a Model is constructed
-
-Data:
-
-- Model
-
-## Event.Saito.User.afterIgnore ##
-
-Trigger: after a user is ignored
-
-Data:
-
-- blockedUserId
-- userId
-- Model - UserIgnore
-
-## Event.Saito.View.beforeRender ##
-
-Trigger: on CakePHP's 'View.beforeRender' event
-
-Data:
-
-- subject: View object
-
-## Model.Saito.Postings.delete ##
+## saito.core.posting.delete.after ##
 
 Trigger: after a posting was deleted
 
@@ -43,15 +9,7 @@ Data:
 - subject: Posting
 - table: Table
 
-## Request.Saito.View.Admin.plugins ##
-
-Trigger: plugins for admin area
-
-Returns: array
-- 'title' title
-- 'url' URL to plugin page, should be under '/admin/plugin'
-
-## Request.Saito.View.Posting.badges ##
+## saito.core.posting.view.badges.request ##
 
 Trigger: badge for posting
 
@@ -63,7 +21,7 @@ Returns: badge
 
 Be careful, this callback is performance sensitive when rendering thread-trees or long threads in mix-view.
 
-## Request.Saito.View.Posting.footerActions ##
+## saito.core.posting.view.footerActions.request ##
 
 Add HTML content to the footer actions when viewing a posting.
 
@@ -76,14 +34,14 @@ Returns: items to be inserted in
 
 Be careful, this callback may be performance sensitive when rendering long threads in mix-view.
 
-## Request.Saito.View.ThreadLine.beforeRender ##
+## saito.core.threadline.render.before ##
 
 Trigger: before threadline is rendered
 
 Data:
 
-- node - jBBCode node
-- View
+- posting
+- view
 
 Returns: array with optional keys
 
@@ -92,7 +50,47 @@ Returns: array with optional keys
 
 Be **very** careful, this callback is performance sensitive when rendering thread-trees.
 
-## Request.Saito.View.User.beforeFullProfile ##
+## saito.core.user.activate.after ##
+
+Trigger: after a new user activated an account
+
+Data:
+
+- subject: User
+- table: Table
+
+## saito.core.user.ignore.after ##
+
+Trigger: after a user is ignored
+
+Data:
+
+- blockedUserId
+- userId
+- Model - UserIgnore
+
+
+## saito.core.user.register.after ##
+
+Trigger: after a new user registered
+
+Data:
+
+- subject: User
+- table: Table
+
+## saito.core.user.edit.render.request ##
+
+Inserts content into user edit page.
+
+Data:
+
+- user
+- View
+
+Returns: HTML
+
+## saito.core.user.profile.render.request ##
 
 Trigger: before user profile is rendered (users/view)
 
@@ -106,16 +104,14 @@ Returns: Additional user profile data  as array with mandatory keys:
 - 'title'
 - 'content'
 
-## Request.Saito.View.User.edit ##
+## saito.plugin.admin.plugins.request ##
 
-Inserts content into user edit page.
+Trigger: Request for additional plugins to add to admin area.
 
-Data:
+Returns: array
+- 'title' title
+- 'url' URL to plugin page, should be under '/admin/plugin'
 
-- user
-- View
-
-Returns: HTML
 
 # JS #
 
@@ -141,27 +137,3 @@ SaitoApp.callbacks.afterViewInit.push(function() {
 ### Vent.Posting.View.afterRender ###
 
 Trigger: after a single posting view is rendered and initialized
-
-
-<!-- Not official/deprecated
-
-
-## Mobile ##
-
-The following callbacks are available and may be set in `custom_html_header.ctp`:
-
-    <script>
-      window.Saito.callbacks = {
-        afterEntriesIndex: function() {
-          …
-        },
-        afterEntriesMix: function() {
-          …
-        },
-        afterAppmenu: function() {
-          …
-        }
-      }
-    </script>
-
--->
