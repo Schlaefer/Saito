@@ -23,11 +23,9 @@ class ApiAppController extends AppController
      */
     public function initialize(): void
     {
+        // TODO empty: remove
         parent::initialize();
 
-        if ($this->components()->has('Csrf')) {
-            $this->components()->unload('Csrf');
-        }
         if ($this->components()->has('Security')) {
             $this->components()->unload('Security');
         }

@@ -57,7 +57,7 @@ class UploadsTable extends AppTable
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create')
+            ->allowEmptyString('id', 'create')
             ->notBlank('name')
             ->notBlank('size')
             ->notBlank('type')

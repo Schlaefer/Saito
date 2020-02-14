@@ -44,11 +44,11 @@ class ThumbnailControllerTest extends IntegrationTestCase
 
         $cacheKey = Configure::read('Saito.Settings.uploader')->getCacheKey();
 
-        $this->assertFalse(Cache::read($upload->get('id'), $cacheKey));
+        $this->assertNull(Cache::read((string)$upload->get('id'), $cacheKey));
 
         $this->get('/api/v2/uploads/thumb/1?h=' . $upload->get('hash'));
 
-        $cache = Cache::read($upload->get('id'), $cacheKey);
+        $cache = Cache::read((string)$upload->get('id'), $cacheKey);
 
         $image = imagecreatefromstring($cache['raw']);
         $this->assertSame(300, imagesx($image));

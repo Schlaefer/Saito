@@ -74,14 +74,8 @@ class AppController extends Controller
 
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');
-        $this->loadComponent('Cookie');
         $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
-        $this->loadComponent('Csrf', ['expiry' => time() + 10800]);
-        if (PHP_SAPI !== 'cli') {
-            // if: The security mock in testing doesn't allow seeting cookie-name.
-            $this->Csrf->setConfig('cookieName', Configure::read('Session.cookie') . '-CSRF');
-        }
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
@@ -119,6 +113,15 @@ class AppController extends Controller
         if ($this->request->getParam('plugin') === 'debug_kit') {
             $this->Authentication->allowUnauthenticated(['sql_explain']);
         }
+
+        $this->viewBuilder()->setHelpers(['Form' => [
+            // Bootstrap 4 CSS-class for invalid input elements
+            'errorClass' => 'is-invalid',
+            'templates' => [
+                // Bootstrap 4 CSS-class for input validation message
+                'error' => '<div class="invalid-feedback">{{content}}</div>',
+            ],
+        ]]);
 
         Stopwatch::stop('App->beforeFilter()');
     }

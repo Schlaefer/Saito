@@ -40,7 +40,7 @@ class JsonApiExceptionRenderer extends ExceptionRenderer
         }
 
         $this->controller->set('data', $data);
-        $this->controller->set('_serialize', 'data');
+        $this->controller->viewBuilder()->setOption('serialize', 'data');
 
         // Render output as JSON instead of HTML.
         $viewClass = App::className('Json', 'View', 'View');

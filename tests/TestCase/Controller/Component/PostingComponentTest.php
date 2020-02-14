@@ -38,7 +38,7 @@ class PostingComponentTest extends SaitoTestCase
     {
         parent::setUp();
         // Setup our component and fake test controller
-        $request = new ServerRequest('/users/view/5');
+        $request = new ServerRequest(['url' => '/users/view/5']);
         $response = new Response();
         $this->controller = $this->getMockBuilder('Cake\Controller\Controller')
             ->setConstructorArgs([$request, $response])

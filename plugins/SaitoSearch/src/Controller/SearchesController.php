@@ -134,7 +134,9 @@ class SearchesController extends AppController
 
         // calculate current month and year
         $month = $queryData['month']['month'] ?? $defaultDate->month;
+        $month = (int)$month;
         $year = $queryData['year']['year'] ?? $defaultDate->year;
+        $year = (int)$year;
         $this->set(compact('month', 'year', 'startYear'));
 
         /// Category drop-down data

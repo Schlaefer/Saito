@@ -281,21 +281,23 @@ class Flash extends Iframe
             }
         }
 
-        $out = '<object
-                    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-                    width="' . $width . '"
-                    height="' . $height . '">
-                        <param name="movie" value="' . $url . '"></param>
-                        <embed src="' . $url . '"
-                            width="' . $width . '"
-                            height="' . $height . '"
-                            type="application/x-shockwave-flash"
-                            wmode="opaque"
-                            style="width:' . $width . 'px; height:' . $height . 'px;"
-                            id="VideoPlayback"
-                            flashvars="">
-                        </embed>
-                </object>';
+        $out = <<<EOF
+<object
+    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+    width="$width"
+    height="$height">
+        <param name="movie" value="$url"></param>
+        <embed src="$url"
+            width="$width"
+            height="$height"
+            type="application/x-shockwave-flash"
+            wmode="opaque"
+            style="width:${width}px; height:${height}px;"
+            id="VideoPlayback"
+            flashvars="">
+        </embed>
+</object>
+EOF;
 
         return $out;
     }

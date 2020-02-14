@@ -25,8 +25,8 @@ class StatsTest extends SaitoTestCase
     {
         $UserOnline = TableRegistry::get('UserOnline');
 
-        $UserOnline->setOnline(1, false);
-        $UserOnline->setOnline(2, true);
+        $UserOnline->setOnline('1', false);
+        $UserOnline->setOnline('2', true);
 
         $Stats = new Stats();
 

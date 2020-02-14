@@ -109,9 +109,11 @@ EOF;
         $id = $posting['id'];
         $useLineCache = ($level > 0) && ($this->_LineCache !== null);
 
-        $threadLine = $this->_LineCache->get($id);
-        if ($useLineCache && $threadLine) {
-            return $threadLine;
+        if ($useLineCache) {
+            $threadLine = $this->_LineCache->get($id);
+            if ($threadLine) {
+                return $threadLine;
+            }
         }
 
         $subject = $this->_Helper->getSubject($node);

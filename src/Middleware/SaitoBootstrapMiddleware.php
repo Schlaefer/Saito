@@ -39,7 +39,7 @@ class SaitoBootstrapMiddleware implements MiddlewareInterface
                 // Automatic browser favicon.ico request messes-up installer state.
                 return new Response(['status' => 503]);
             }
-            $request = $this->forceRediret($request, 'Installer', 'controller');
+            $request = $this->forceRediret($request, 'Installer', 'Install');
 
             return $handler->handle($request);
         } elseif (strpos($url, 'install/finished')) {

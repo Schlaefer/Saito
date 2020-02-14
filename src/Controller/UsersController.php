@@ -67,13 +67,10 @@ class UsersController extends AppController
         if ($this->AuthUser->login()) {
             // Redirect query-param in URL.
             $target = $this->getRequest()->getQuery('redirect');
-            // AuthenticationService puts the full local path into the redirect
-            // parameter, so we have to strip the base-path off again.
-            $target = Router::normalize($target);
             // Referer from Request
-            $target = $target ?: $this->referer(null, true);
+            $target = $target ?: $this->referer();
 
-            if (empty($target)) {
+            if (empty($target) || $this->Referer->wasAction('login')) {
                 $target = '/';
             }
 
@@ -147,6 +144,7 @@ class UsersController extends AppController
      */
     public function register()
     {
+        $this->viewBuilder()->setHelpers(['Siezi/SimpleCaptcha.SimpleCaptcha']);
         $this->set('status', 'view');
 
         $this->AuthUser->logout();
@@ -874,7 +872,7 @@ class UsersController extends AppController
 
         $this->CurrentUser->set('slidetab_order', $order);
 
-        $this->response = $this->response->withStringBody(true);
+        $this->response = $this->getResponse()->withStringBody('1');
 
         return $this->response;
     }

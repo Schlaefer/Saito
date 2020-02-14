@@ -112,9 +112,9 @@ class UploadsControllerTest extends IntegrationTestCase
                     'id' => 3,
                     'mime' => 'image/jpeg',
                     'name' => '1_ebd536d37aff03f2b570329b20ece832.jpg',
-                    'thumbnail_url' => '/api/v2/uploads/thumb/3?h=e1fddb2ea8f448fac14ec06b88d4ce94',
+                    'thumbnail_url' => 'http://localhost/api/v2/uploads/thumb/3?h=e1fddb2ea8f448fac14ec06b88d4ce94',
                     'title' => 'my new-upload.png',
-                    'url' => '/useruploads/1_ebd536d37aff03f2b570329b20ece832.jpg',
+                    'url' => 'http://localhost/useruploads/1_ebd536d37aff03f2b570329b20ece832.jpg',
                 ],
             ],
         ];
@@ -157,9 +157,9 @@ class UploadsControllerTest extends IntegrationTestCase
                     'mime' => 'image/svg+xml',
                     'name' => '1_853fe7aa4ef213b0c11f4b739cf444a8.svg',
                     'size' => 108,
-                    'thumbnail_url' => '/api/v2/uploads/thumb/3?h=1d57b148ad44d4caf90fa1cd98729678',
+                    'thumbnail_url' => 'http://localhost/api/v2/uploads/thumb/3?h=1d57b148ad44d4caf90fa1cd98729678',
                     'title' => 'tmp_svg.svg',
-                    'url' => '/useruploads/1_853fe7aa4ef213b0c11f4b739cf444a8.svg',
+                    'url' => 'http://localhost/useruploads/1_853fe7aa4ef213b0c11f4b739cf444a8.svg',
                 ],
             ],
         ];
@@ -221,8 +221,8 @@ class UploadsControllerTest extends IntegrationTestCase
         $upload = $Uploads->find('all')->last();
 
         $exif = $readExif($upload->get('file'));
-        $this->assertNotContains('EXIF', $exif['SectionsFound']);
-        $this->assertNotContains('IFD0', $exif['SectionsFound']);
+        $this->assertStringNotContainsString('EXIF', $exif['SectionsFound']);
+        $this->assertStringNotContainsString('IFD0', $exif['SectionsFound']);
     }
 
     public function testAddFailureMaxUploadsPerUser()
@@ -336,9 +336,9 @@ class UploadsControllerTest extends IntegrationTestCase
                         'mime' => 'image/jpeg',
                         'name' => '3-another-upload.jpg',
                         'size' => 50000,
-                        'thumbnail_url' => '/api/v2/uploads/thumb/2?h=be7ef71551c4245f82223d0c8e652eee',
+                        'thumbnail_url' => 'http://localhost/api/v2/uploads/thumb/2?h=be7ef71551c4245f82223d0c8e652eee',
                         'title' => '3-another-upload.jpg',
-                        'url' => '/useruploads/3-another-upload.jpg',
+                        'url' => 'http://localhost/useruploads/3-another-upload.jpg',
                     ],
                 ],
             ],

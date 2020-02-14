@@ -29,7 +29,7 @@ class RefererComponent extends Component
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         $baseUrl = Router::url('/', true);
-        $referer = $event->getSubject()->referer();
+        $referer = $event->getSubject()->referer(null, false);
         if (strpos($referer, $baseUrl) !== 0) {
             $this->last = [];
 

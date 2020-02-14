@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Saito\Test\Cache;
 
 use App\Lib\Saito\Test\Cache\ItemCacheMock;
+use Saito\Cache\SaitoCacheEngineAppCache;
 use Saito\Test\SaitoTestCase;
 
 class ItemCacheTest extends SaitoTestCase
@@ -44,7 +45,7 @@ class ItemCacheTest extends SaitoTestCase
             ->setConstructorArgs(['test', null, $options])
             ->setMethods($methods)
             ->getMock();
-        $this->CacheEngine = $this->getMockBuilder(stdClasss::class)
+        $this->CacheEngine = $this->getMockBuilder(SaitoCacheEngineAppCache::class)
             ->setMethods(['read', 'write'])
             ->getMock();
         $this->ItemCache->setCacheEngine($this->CacheEngine);

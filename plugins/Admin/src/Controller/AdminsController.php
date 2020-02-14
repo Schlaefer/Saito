@@ -18,9 +18,6 @@ use Saito\Event\SaitoEventManager;
  */
 class AdminsController extends AdminAppController
 {
-
-    public $helpers = ['Sitemap.Sitemap'];
-
     /**
      * Amdin area homepage.
      *

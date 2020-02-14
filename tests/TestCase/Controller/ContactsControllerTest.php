@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use Cake\Mailer\Email;
+use Cake\Mailer\Message;
 use Saito\Test\IntegrationTestCase;
 
-class ContactsControllerTestCase extends IntegrationTestCase
+class ContactsControllerTest extends IntegrationTestCase
 {
     public $fixtures = [
         'app.Category',
@@ -37,7 +37,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
             ->method('send')
             ->with(
                 $this->callback(
-                    function (Email $email) {
+                    function (Message $email) {
                         $this->assertEquals(
                             $email->getFrom(),
                             ['system@example.com' => 'macnemo']
@@ -58,7 +58,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
             ->method('send')
             ->with(
                 $this->callback(
-                    function (Email $email) {
+                    function (Message $email) {
                         $this->assertEquals(
                             $email->getFrom(),
                             ['fo3@example.com' => 'fo3@example.com']
@@ -77,6 +77,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
                 )
             );
         $this->post('/contacts/owner', $data);
+        $this->assertResponseCode(302);
     }
 
     /**
@@ -144,7 +145,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
             ->method('send')
             ->with(
                 $this->callback(
-                    function (Email $email) {
+                    function (Message $email) {
                         $this->assertEquals(
                             $email->getFrom(),
                             ['fo3@example.com' => 'fo3@example.com']
@@ -159,7 +160,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
                         );
                         $this->assertStringContainsString(
                             'message-text',
-                            $email->message('text')
+                            $email->getBodyText('text')
                         );
                         $this->assertEquals($email->getSubject(), 'subject');
 
@@ -193,7 +194,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
             ->method('send')
             ->with(
                 $this->callback(
-                    function (Email $email) {
+                    function (Message $email) {
                         $this->assertEquals(
                             $email->getFrom(),
                             ['ulysses@example.com' => 'Ulysses']

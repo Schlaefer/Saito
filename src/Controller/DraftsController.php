@@ -51,7 +51,7 @@ class DraftsController extends ApiAppController
             ],
         ];
         $this->set('data', $response);
-        $this->set('_serialize', ['data']);
+        $this->viewBuilder()->setOption('serialize', ['data']);
     }
 
     /**
@@ -101,6 +101,6 @@ class DraftsController extends ApiAppController
             $this->Drafts->save($draft);
             $this->set('data', []);
         }
-        $this->set('_serialize', ['data']);
+        $this->viewBuilder()->setOption('serialize', ['data']);
     }
 }

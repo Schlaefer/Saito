@@ -52,6 +52,7 @@ class AuthUserComponentTest extends IntegrationTestCase
     {
         parent::setUp();
 
+        $this->loadRoutes();
         $this->_setup();
     }
 
@@ -92,7 +93,7 @@ class AuthUserComponentTest extends IntegrationTestCase
         $cookie = $this->controller->getResponse()->getCookie('Saito-JWT');
         $this->assertNotEmpty($cookie);
         $this->assertSame('Saito-JWT', $cookie['name']);
-        $this->assertFalse($cookie['httpOnly']);
+        $this->assertFalse($cookie['httponly']);
     }
 
     /**
@@ -112,7 +113,7 @@ class AuthUserComponentTest extends IntegrationTestCase
         $cookie = $this->controller->getResponse()->getCookie('Saito-JWT');
         $this->assertNotEmpty($cookie);
         $this->assertSame('Saito-JWT', $cookie['name']);
-        $this->assertSame('1', $cookie['expire']);
+        $this->assertSame(1, $cookie['expires']);
     }
 
     /**
@@ -180,7 +181,7 @@ class AuthUserComponentTest extends IntegrationTestCase
             ->authenticators()
             ->get('Cookie');
         $expire = $authProvider->getConfig('cookie.expire');
-        $this->assertWithinRange($expire->getTimestamp(), (int)$cookie['expire'], 2);
+        $this->assertWithinRange($expire->getTimestamp(), (int)$cookie['expires'], 2);
         $this->assertEquals($webroot, $cookie['path']);
     }
 
@@ -193,7 +194,7 @@ class AuthUserComponentTest extends IntegrationTestCase
         $result = $service->authenticate($request, $response);
 
         $request = $request->withAttribute('authentication', $service);
-        $request = $request->withAttribute('authenticationResult', $result['result']);
+        // $request = $request->withAttribute('authenticationResult', $result['result']);
 
         $controller = new Controller($request, $response);
 

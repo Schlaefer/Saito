@@ -114,7 +114,7 @@ trait AssertTrait
                 if ($flash['message'] !== $message) {
                     continue;
                 }
-                if ($element !== null && $flash['element'] !== 'Flash/' . $element) {
+                if ($element !== null && $flash['element'] !== 'flash/' . $element) {
                     continue;
                 }
 

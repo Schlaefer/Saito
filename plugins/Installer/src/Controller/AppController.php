@@ -15,7 +15,6 @@ use Cake\Cache\Cache;
 use Cake\Controller\Controller;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
-use Cake\Event\EventInterface;
 use Cake\I18n\I18n;
 use Cake\Log\LogTrait;
 use Cake\ORM\Table;
@@ -48,23 +47,18 @@ class AppController extends Controller
         $this->loadModel('Settings');
         $this->migrations = $this->initializeMigrations($this->Settings);
 
+        $this->viewBuilder()->setHelpers(
+            [
+                'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
+                'Flash' => ['className' => 'BootstrapUI.Flash'],
+                'Form' => ['className' => 'BootstrapUI.Form'],
+                'Html' => ['className' => 'BootstrapUI.Html'],
+                'Paginator' => ['className' => 'BootstrapUI.Paginator'],
+            ] + $this->viewBuilder()->getHelpers()
+        );
+
         $locale = Configure::read('Saito.language');
         I18n::setLocale($locale);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function beforeRender(EventInterface $event)
-    {
-        parent::beforeRender($event);
-        $this->viewBuilder()->setHelpers([
-            'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
-            'Flash' => ['className' => 'BootstrapUI.Flash'],
-            'Form' => ['className' => 'BootstrapUI.Form'],
-            'Html' => ['className' => 'BootstrapUI.Html'],
-            'Paginator' => ['className' => 'BootstrapUI.Paginator'],
-        ]);
     }
 
     /**

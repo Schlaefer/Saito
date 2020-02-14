@@ -18,7 +18,7 @@ echo __(
                 $user->get('id'),
                 '?' => ['c' => $user->get('activate_code')],
             ],
-            true
+            ['fullBase' => true]
         ),
     ]
 );

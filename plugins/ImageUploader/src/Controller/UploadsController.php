@@ -26,8 +26,6 @@ use Saito\User\Permission\ResourceAI;
  */
 class UploadsController extends ApiAppController
 {
-    public $helpers = ['ImageUploader.ImageUploader'];
-
     /**
      * {@inheritDoc}
      */
@@ -35,6 +33,7 @@ class UploadsController extends ApiAppController
     {
         parent::initialize();
         $this->loadModel('Users');
+        $this->viewBuilder()->setHelpers(['ImageUploader.ImageUploader']);
     }
 
     /**

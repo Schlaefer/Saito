@@ -7,7 +7,7 @@ use App\Controller\Component\ThreadsComponent;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Http\Response;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Saito\Test\Model\Table\SaitoTableTestCase;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
@@ -46,7 +46,7 @@ class ThreadsComponentTest extends SaitoTableTestCase
     {
         parent::setUp();
         // Setup our component and fake test controller
-        $request = new Request();
+        $request = new ServerRequest();
         $response = new Response();
         $this->controller = new Controller($request, $response);
         $registry = new ComponentRegistry($this->controller);

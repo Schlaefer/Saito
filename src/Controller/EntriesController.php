@@ -185,7 +185,7 @@ class EntriesController extends AppController
 
         // inline open
         if ($this->request->is('ajax')) {
-            return $this->render('/Element/entry/view_posting');
+            return $this->render('/element/entry/view_posting');
         }
 
         // full page request
@@ -256,7 +256,7 @@ class EntriesController extends AppController
      * @param string $id posting-ID
      * @return void|\Cake\Http\Response
      */
-    public function threadLine($id = null)
+    public function threadline($id = null)
     {
         $posting = $this->Entries->get($id)->toPosting()->withCurrentUser($this->CurrentUser);
         if (!$this->CurrentUser->getCategories()->permission('read', $posting->get('category'))) {
@@ -382,10 +382,9 @@ class EntriesController extends AppController
             throw new NotFoundException();
         }
 
-        /** @var \App\Model\Entity\Entry $entry */
-        $entry = $this->Entries->findById($sourceId)->first();
+        $entry = $this->Entries->get($sourceId);
 
-        if (!$entry || !$entry->isRoot()) {
+        if (!$entry->isRoot()) {
             throw new NotFoundException();
         }
 

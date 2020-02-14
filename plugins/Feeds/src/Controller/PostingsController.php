@@ -23,8 +23,6 @@ use Feeds\Model\Behavior\FeedsPostingBehavior;
  */
 class PostingsController extends AppController
 {
-    public $helpers = ['Feeds.Feeds'];
-
     /**
      * {@inheritDoc}
      */
@@ -35,6 +33,8 @@ class PostingsController extends AppController
         /** @var \App\Model\Table\EntriesTable $EntriesTable */
         $EntriesTable = $this->loadModel('Entries');
         $EntriesTable->addBehavior(FeedsPostingBehavior::class);
+
+        $this->viewBuilder()->setHelpers(['Feeds.Feeds']);
     }
 
     /**

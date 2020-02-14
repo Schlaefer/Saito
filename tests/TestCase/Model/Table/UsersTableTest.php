@@ -163,7 +163,7 @@ class UsersTableTest extends SaitoTableTestCase
         $result = $this->Table->get($userId)->get('logins');
         $this->assertEquals($expected, $result);
 
-        $_lastLogin = new \DateTime($user->get('last_login'));
+        $_lastLogin = $user->get('last_login');
         $now = new \DateTime();
         /* on a decently performing server the timestamp is maybe not equal
          * but within one second time diff
@@ -180,7 +180,7 @@ class UsersTableTest extends SaitoTableTestCase
         $result = $this->Table->get($userId)->get('logins');
         $this->assertEquals($expected, $result);
 
-        $_lastLogin = new \DateTime($user->get('last_login'));
+        $_lastLogin = $user->get('last_login');
         $now = new \DateTime();
         /* on a decently performing server the timestamp is maybe not equal
          * but within one second time diff

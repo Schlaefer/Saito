@@ -24,9 +24,11 @@ use Cake\Event\Event;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
+use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use DateTimeInterface;
 use Saito\App\Registry;
+use Saito\User\Upload\AvatarFilenameListener;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -144,8 +146,8 @@ class UsersTable extends AppTable
                 'proffer',
                 'Proffer\Model\Validation\ProfferRules'
             )
-            ->allowEmpty('avatar_dir')
-            ->allowEmpty('avatar')
+            ->allowEmptyString('avatar_dir')
+            ->allowEmptyString('avatar')
             ->add(
                 'avatar',
                 'avatar-extension',
@@ -374,10 +376,10 @@ class UsersTable extends AppTable
      */
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
-        $table->setColumnType('avatar', 'proffer.file');
-        $table->setColumnType('user_category_custom', 'serialize');
+        $schema->setColumnType('avatar', 'proffer.file');
+        $schema->setColumnType('user_category_custom', 'serialize');
 
-        return $table;
+        return $schema;
     }
 
     /**

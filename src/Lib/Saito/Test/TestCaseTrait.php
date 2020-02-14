@@ -15,6 +15,7 @@ use Cake\Core\Configure;
 use Cake\Event\EventManager;
 use Cake\Filesystem\File;
 use Cake\I18n\I18n;
+use Cake\Mailer\Transport\DebugTransport;
 use Cake\Mailer\TransportFactory;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -139,7 +140,7 @@ trait TestCaseTrait
      */
     protected function mockMailTransporter()
     {
-        $mock = $this->createMock('Cake\Mailer\Transport\DebugTransport');
+        $mock = $this->createMock(DebugTransport::class);
         TransportFactory::drop('saito');
         TransportFactory::setConfig('saito', $mock);
 

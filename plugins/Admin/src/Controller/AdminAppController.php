@@ -16,16 +16,6 @@ use Cake\Event\EventInterface;
 
 class AdminAppController extends AppController
 {
-    public $helpers = [
-        'Admin.Admin',
-        // Bootstrap-UI-plugin helpers overwrite default Cake helpers
-        'Html' => ['className' => 'BootstrapUI.Html'],
-        'Form' => ['className' => 'BootstrapUI.Form'],
-        'Flash' => ['className' => 'BootstrapUI.Flash'],
-        'Paginator' => ['className' => 'BootstrapUI.Paginator'],
-        'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
-    ];
-
     /**
      * {@inheritDoc}
      */
@@ -33,5 +23,14 @@ class AdminAppController extends AppController
     {
         parent::beforeFilter($event);
         $this->viewBuilder()->setLayout('Admin.admin');
+        $this->viewBuilder()->setHelpers(
+            [
+                'Breadcrumbs' => ['className' => 'BootstrapUI.Breadcrumbs'],
+                'Flash' => ['className' => 'BootstrapUI.Flash'],
+                'Form' => ['className' => 'BootstrapUI.Form'],
+                'Html' => ['className' => 'BootstrapUI.Html'],
+                'Paginator' => ['className' => 'BootstrapUI.Paginator'],
+            ] + $this->viewBuilder()->getHelpers()
+        );
     }
 }

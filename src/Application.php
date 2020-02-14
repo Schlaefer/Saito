@@ -30,12 +30,15 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Event\EventManagerInterface;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
+use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\Middleware\EncryptedCookieMiddleware;
 use Cake\Http\Middleware\SecurityHeadersMiddleware;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Saito\App\Registry;
+use Saito\RememberTrait;
 use Stopwatch\Lib\Stopwatch;
 
 /**
@@ -46,6 +49,8 @@ use Stopwatch\Lib\Stopwatch;
  */
 class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
+    use RememberTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -155,6 +160,22 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 new AuthenticationMiddleware($this)
             );
 
+        /// CSRF
+        $csrf = new CsrfProtectionMiddleware([
+            'expiry' => time() + 10800,
+            'cookieName' => PHP_SAPI !== 'cli'
+                // Nice looking Saito-CSRF cookie name
+                ? Configure::read('Session.cookie') . '-CSRF'
+                // The security mock in testing doesn't allow seeting
+                // a different cookie-name.
+                : 'csrfToken',
+        ]);
+        $csrf->whitelistCallback(function (ServerRequest $request) {
+            return $this->isApiRoute($request) || $request->getParam('plugin') === 'Installer';
+        });
+        $middlewareQueue->insertAfter(EncryptedCookieMiddleware::class, $csrf);
+
+        /// Security Header X-Frame
         $security = (new SecurityHeadersMiddleware())
             ->setXFrameOptions(strtolower(Configure::read('Saito.X-Frame-Options')));
         $middlewareQueue->add($security);
@@ -171,9 +192,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
-        $isApi = (new DefaultUrlChecker())
-            ->check($request, ['#api/v2#'], ['useRegex' => true]);
-        if ($isApi) {
+        if ($this->isApiRoute($request)) {
             return AuthenticationServiceFactory::buildJwt();
         }
 
@@ -217,5 +236,19 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Migrations');
 
         // Load more plugins here
+    }
+
+    /**
+     * Check if current request is on an API route
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Current request
+     * @return bool
+     */
+    protected function isApiRoute(ServerRequestInterface $request): bool
+    {
+        return $this->remember('isApiRoute', function () use ($request) {
+            return (new DefaultUrlChecker())
+                ->check($request, ['#api/v2#'], ['useRegex' => true]);
+        });
     }
 }

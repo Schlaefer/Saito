@@ -10,6 +10,7 @@ use Cake\Http\Response;
 use Cake\Http\ServerRequest;
 use Saito\User\Cookie\Storage;
 use Saito\User\CurrentUser\CurrentUserFactory;
+use Saito\User\LastRefresh\LastRefreshDummy;
 
 class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
 {
@@ -194,7 +195,8 @@ class ReadPostingsCookieTest extends \Saito\Test\SaitoTestCase
             ->setMethods($methods)
             ->getMock();
         $this->ReadPostings->setLastRefresh(
-            $this->getMockBuilder(stdClass::class)
+            $this->getMockBuilder(LastRefreshDummy::class)
+                ->setConstructorArgs([$currentUser])
                 ->setMethods(['isNewerThan'])
                 ->getMock()
         );

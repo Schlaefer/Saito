@@ -3,31 +3,15 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\EntriesController;
 use App\Model\Entity\Entry;
+use ArgumentCountError;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Error\PHP7ErrorException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
-
-class EntriesMockController extends EntriesController
-{
-    // @codingStandardsIgnoreStart
-    public $uses = ['Entries'];
-
-    // @codingStandardsIgnoreEnd
-
-    public function getInitialThreads(
-        $User,
-        $order = ['Entry.last_answer' => 'DESC']
-    ) {
-        $this->_getInitialThreads($User, $order);
-    }
-}
 
 /**
  * Class EntriesControllerTestCase
@@ -333,7 +317,7 @@ class EntriesControllerTest extends IntegrationTestCase
         // uses contents to check in slidetabs
         $this->get('/entries/index');
         $this->assertResponseOk();
-        $result = $this->_response->getBody();
+        $result = $this->_getBodyAsString();
         // uses <body>-HTML only: exclude <head> which may contain unescaped JS-data
         preg_match('/<body(.*)<\/body>/sm', $result, $matches);
         $result = $matches[0];
@@ -349,8 +333,14 @@ class EntriesControllerTest extends IntegrationTestCase
     {
         $mergeMethod = 'threadMerge';
         $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
-        $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
-        $Entries->expects($this->never())->method('threadMerge');
+        $Entries = $this->getMockForTable('Entries', ['__call']);
+        $Entries
+            ->expects($this->any())
+            ->method('__call')
+            ->willReturnCallback(function () use ($mergeMethod) {
+                $args = func_get_args();
+                $this->assertNotEquals($args[0], $mergeMethod);
+            });
 
         $this->_loginUser(2);
         $this->mockSecurity();
@@ -362,12 +352,18 @@ class EntriesControllerTest extends IntegrationTestCase
     {
         $mergeMethod = 'threadMerge';
         $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
-        $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
-        $Entries->expects($this->never())->method('threadMerge');
+        $Entries = $this->getMockForTable('Entries', ['__call']);
+        $Entries
+            ->expects($this->any())
+            ->method('__call')
+            ->willReturnCallback(function () use ($mergeMethod) {
+                $args = func_get_args();
+                $this->assertNotEquals($args[0], $mergeMethod);
+            });
 
         $this->_loginUser(2);
         $this->mockSecurity();
-        $this->expectException('Cake\Http\Exception\NotFoundException');
+        $this->expectException(RecordNotFoundException::class);
         $this->post('/entries/merge/9999', ['targetId' => 2]);
     }
 
@@ -375,8 +371,8 @@ class EntriesControllerTest extends IntegrationTestCase
     {
         $mergeMethod = 'threadMerge';
         $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
-        $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
-        $Entries->expects($this->never())->method('threadMerge');
+        $Entries = $this->getMockForTable('Entries', ['__call']);
+        $Entries->expects($this->never())->method('__call')->with($this->equalTo($mergeMethod));
 
         $this->_loginUser(2);
         $this->mockSecurity();
@@ -388,8 +384,8 @@ class EntriesControllerTest extends IntegrationTestCase
     {
         $mergeMethod = 'threadMerge';
         $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
-        $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
-        $Entries->expects($this->never())->method('threadMerge');
+        $Entries = $this->getMockForTable('Entries', ['__call']);
+        $Entries->expects($this->never())->method('__call')->with($this->equalTo($mergeMethod));
 
         $this->expectException(SaitoForbiddenException::class);
 
@@ -402,11 +398,11 @@ class EntriesControllerTest extends IntegrationTestCase
     {
         $mergeMethod = 'threadMerge';
         $this->assertTrue(is_callable([$this->Table, $mergeMethod]));
-        $Entries = $this->getMockForTable('Entries', [$mergeMethod]);
+        $Entries = $this->getMockForTable('Entries', ['__call']);
 
         $Entries->expects($this->exactly(1))
-            ->method('threadMerge')
-            ->with(4, 2)
+            ->method('__call')
+            ->with($mergeMethod, [4, 2])
             ->will($this->returnValue(true));
 
         $this->_loginUser(2);
@@ -430,7 +426,7 @@ class EntriesControllerTest extends IntegrationTestCase
     public function testEditNoEntryId()
     {
         $this->_loginUser(2);
-        $this->expectException(PHP7ErrorException::class);
+        $this->expectException(ArgumentCountError::class);
         $this->get('entries/edit/');
     }
 
@@ -460,7 +456,7 @@ class EntriesControllerTest extends IntegrationTestCase
         Configure::write('Saito.Settings.edit_delay', '3');
         $Table = TableRegistry::get('Entries');
         $posting = $Table->findById(3)->first();
-        $editDelay = Configure::read('Saito.Settings.edit_delay');
+        $editDelay = (int)Configure::read('Saito.Settings.edit_delay');
         $posting->set('edited', $posting->get('time')->addMinutes($editDelay)->addSeconds(-1));
         $posting->set('edited_by', $posting->get('name'));
         $Table->save($posting);
@@ -481,7 +477,7 @@ class EntriesControllerTest extends IntegrationTestCase
         Configure::write('Saito.Settings.edit_delay', '3');
         $Table = TableRegistry::get('Entries');
         $posting = $Table->findById(3)->first();
-        $editDelay = Configure::read('Saito.Settings.edit_delay');
+        $editDelay = (int)Configure::read('Saito.Settings.edit_delay');
         $posting->set('edited', $posting->get('time')->addMinutes($editDelay)->addSeconds(1));
         $posting->set('edited_by', $posting->get('name'));
         $Table->save($posting);

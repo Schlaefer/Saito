@@ -142,7 +142,7 @@ class BbcodeParserTest extends SaitoTestCase
         $result = $this->_Parser->parse($input, ['multimedia' => true]);
         $this->assertStringContainsString('<img src', $result);
         $result = $this->_Parser->parse($input, ['multimedia' => false]);
-        $this->assertNotContains('<img src', $result);
+        $this->assertStringNotContainsString('<img src', $result);
     }
 
     public function testLink()
@@ -358,7 +358,7 @@ class BbcodeParserTest extends SaitoTestCase
         // don't hash code
         $input = '[code]#2234[/code]';
         $result = $this->_Parser->parse($input);
-        $this->assertNotContains('>#2234</a>', $result);
+        $this->assertStringNotContainsString('>#2234</a>', $result);
 
         // not a valid hash
         $input = '#2234t';
@@ -385,7 +385,7 @@ class BbcodeParserTest extends SaitoTestCase
 
         $input = '[code]@Alice[/code]';
         $result = $this->_Parser->parse($input);
-        $this->assertNotContains('>@Alice</a>', $result);
+        $this->assertStringNotContainsString('>@Alice</a>', $result);
     }
 
     public function testAtLinkKnownUsersLinebreak()
@@ -518,9 +518,21 @@ class BbcodeParserTest extends SaitoTestCase
     {
         $bbcode = '[flash_video]//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;hl=en_US|560|315[/flash_video]';
         $expected = <<<EOF
-			<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="560" height="315">
-									<param name="movie" value="//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;amp;hl=en_US"></param>
-									<embed src="//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;amp;hl=en_US" width="560" height="315" type="application/x-shockwave-flash" wmode="opaque" style="width:560px; height:315px;" id="VideoPlayback" flashvars=""> </embed> </object>
+<object
+    classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+    width="560"
+    height="315">
+        <param name="movie" value="//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;amp;hl=en_US"></param>
+        <embed src="//www.youtube.com/v/MrBRPYlrGF8?version=3&amp;amp;hl=en_US"
+            width="560"
+            height="315"
+            type="application/x-shockwave-flash"
+            wmode="opaque"
+            style="width:560px; height:315px;"
+            id="VideoPlayback"
+            flashvars="">
+        </embed>
+</object>
 EOF;
         $actual = $this->_Parser->parse(
             $bbcode,
@@ -583,7 +595,7 @@ EOF;
         $input = '[code]http://heise.de/foobar[/code]';
         $needle = 'heise.de/foobar</a>';
         $result = $this->_Parser->parse($input);
-        $this->assertNotContains($result, $needle);
+        $this->assertStringNotContainsString($result, $needle);
 
         // no autolink in [url]
         $input = '[url=http://a.com/]http://b.de/[/url]';
@@ -1060,7 +1072,7 @@ EOF;
     {
         $input = '[file]test.txt[/file]';
         $result = $this->_Parser->parse($input);
-        $this->assertHtml($input, $result);
+        $this->assertHtml([$input], $result);
     }
 
     public function testSmiliesNoSmiliesInCodeTag()
@@ -1068,7 +1080,7 @@ EOF;
         $input = '[code text]:)[/code]';
         $needle = '<img';
         $result = $this->_Parser->parse($input, ['cache' => false]);
-        $this->assertNotContains($needle, $result);
+        $this->assertStringNotContainsString($needle, $result);
     }
 
     public function testCodeNestedTags()
@@ -1126,7 +1138,7 @@ EOF;
     {
         $input = '[code bash]pre http://example.com post[/code]';
         $result = $this->_Parser->parse($input);
-        $this->assertNotContains('autoLink', $result);
+        $this->assertStringNotContainsString('autoLink', $result);
     }
 
     public function testQuote()
@@ -1214,7 +1226,7 @@ EOF;
 
         $result = $this->_Parser->parse($input);
 
-        $this->assertHtml($url, $result);
+        $this->assertHtml([$url], $result);
     }
 
     public function testEmbedDisabledWithAutolinking()
@@ -1378,13 +1390,8 @@ EOF;
     public function tearDown(): void
     {
         parent::tearDown();
-        if ($this->server_name) {
-            $_SERVER['SERVER_NAME'] = $this->server_name;
-        }
-
-        if ($this->server_name) {
-            $_SERVER['SERVER_PORT'] = $this->server_port;
-        }
+        $_SERVER['SERVER_NAME'] = $this->server_name ?? null;
+        $_SERVER['SERVER_PORT'] = $this->server_port ?? null;
 
         Configure::write('Saito.Settings.autolink', $this->autolink);
 

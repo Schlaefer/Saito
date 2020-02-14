@@ -53,14 +53,11 @@ $this->end();
         ) {
             $cells[] = [
                 __('user_type'),
-                $this->Html->para(null, $this->Permissions->roleAsString($user->getRole())) .
-                $this->Html->para(
-                    null,
-                    $this->Html->link(
-                        __('user.role.set.btn'),
-                        ['action' => 'role', $user->get('id')]
-                    )
-                ),
+                $this->Html->para('', $this->Permissions->roleAsString($user->getRole())) .
+                $this->Html->para('', $this->Html->link(
+                    __('user.role.set.btn'),
+                    ['action' => 'role', $user->get('id')]
+                )),
             ];
         } else {
             $cells[] = [__('user_type'), $this->Permissions->roleAsString($user->getRole())];
@@ -92,7 +89,7 @@ $this->end();
             __('user.set.avatar.t'),
             '/users/avatar/' . $user->get('id')
         );
-        $avatarEdit = $this->Html->para(null, $avatarEditLink);
+        $avatarEdit = $this->Html->para('', $avatarEditLink);
         $cells[] = [
             __('user.avatar.t'),
             $avatar . $avatarEdit,

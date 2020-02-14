@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Controller;
 
 use Authentication\Authenticator\UnauthenticatedException;
-use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Http\Exception\BadRequestException;
+use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use InvalidArgumentException;
@@ -266,7 +266,7 @@ class PostingsControllerTest extends IntegrationTestCase
         $this->loginJwt(1);
         $data = ['id' => 9999, 'subject' => 'foo'];
 
-        $this->expectException(RecordNotFoundException::class);
+        $this->expectException(NotFoundException::class);
 
         $this->put('api/v2/postings/9999', $data);
     }

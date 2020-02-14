@@ -15,6 +15,7 @@ use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Log\LogTrait;
 use Cake\Mailer\Mailer;
+use Cake\Mailer\Message;
 use Cake\Mailer\Transport\DebugTransport;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
@@ -52,68 +53,73 @@ class SaitoEmailComponent extends Component
         $from = new SaitoEmailContact($params['sender']);
         $to = new SaitoEmailContact($params['recipient']);
 
-        $email = new Mailer('saito');
+        $mailer = new Mailer('saito');
+        $mailer->viewBuilder()->setTemplate($params['template']);
+        $params['viewVars']['message'] = $params['message'];
+        $mailer->setViewVars($params['viewVars'] + $defaults['viewVars']);
+
+        $email = new Message();
         $email->setEmailFormat('text')
             ->setFrom($from->toCake())
             ->setTo($to->toCake())
-            ->setSubject($params['subject'])
-            ->viewBuilder()->setTemplate($params['template']);
-
-        $params['viewVars']['message'] = $params['message'];
-        $email->setViewVars($params['viewVars'] + $defaults['viewVars']);
+            ->setSubject($params['subject']);
 
         if ($params['ccsender']) {
-            $this->_sendCopyToOriginalSender($email);
+            $this->_sendCopyToOriginalSender($mailer, $email);
         }
-        $this->_send($email);
+
+        $this->_send($mailer, $email);
     }
 
     /**
      * Sends a copy of a completely configured email to the author
      *
-     * @param \Cake\Mailer\Mailer $email email
+     * @param \Cake\Mailer\Mailer $mailer Mailer.
+     * @param \Cake\Mailer\Message $email Email.
      * @return void
      */
-    protected function _sendCopyToOriginalSender(Mailer $email)
+    protected function _sendCopyToOriginalSender(Mailer $mailer, Message $email)
     {
         /* set new subject */
-        $email = clone $email;
-        $to = new SaitoEmailContact($email->getTo());
-        $subject = $email->getSubject();
+        $ccEmail = clone $email;
+        $to = new SaitoEmailContact($ccEmail->getTo());
+        $subject = $ccEmail->getSubject();
         $data = ['subject' => $subject, 'recipient-name' => $to->getName()];
         $subject = __('Copy of your message: ":subject" to ":recipient-name"');
         $subject = Text::insert($subject, $data);
-        $email->setSubject($subject);
+        $ccEmail->setSubject($subject);
 
-        $email->setTo($email->getFrom());
+        $ccEmail->setTo($ccEmail->getFrom());
         $from = new SaitoEmailContact('system');
-        $email->setFrom($from->toCake());
+        $ccEmail->setFrom($from->toCake());
 
-        $this->_send($email);
+        $this->_send($mailer, $ccEmail);
     }
 
     /**
      * Sends the completely configured email
      *
-     * @param \Cake\Mailer\Mailer $email email
+     * @param \Cake\Mailer\Mailer $mailer Mailer.
+     * @param \Cake\Mailer\Message $email Email.
      * @return void
      */
-    protected function _send(Mailer $email)
+    protected function _send(Mailer $mailer, Message $email)
     {
-        $debug = Configure::read('Saito.debug.email');
-        if ($debug) {
-            $transport = new DebugTransport();
-            $email->setTransport($transport);
-        }
-
         $sender = (new SaitoEmailContact('system'))->toCake();
         if ($email->getFrom() !== $sender) {
             $email->setSender($sender);
         }
-        $result = $email->send();
 
+        $debug = Configure::read('Saito.debug.email');
         if ($debug) {
-            $this->log($result, 'debug');
+            $mailer = new DebugTransport();
+            $result = $mailer->send($email);
+
+            $this->log(print_r($result, true), 'debug');
+
+            return;
         }
+
+        $mailer->setMessage($email)->send();
     }
 }

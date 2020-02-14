@@ -38,6 +38,8 @@ class ContactFormOwner extends ContactForm
      */
     public function validationDefault(Validator $validator): Validator
     {
+        $validator = parent::validationDefault($validator);
+
         $validator
             ->notEmptyString('sender_contact')
             ->add('sender_contact', [

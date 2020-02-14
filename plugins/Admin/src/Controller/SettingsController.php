@@ -18,12 +18,6 @@ use Cake\Http\Exception\NotFoundException;
  */
 class SettingsController extends AdminAppController
 {
-        // TODO
-    public $helpers = [
-        'Admin.Setting',
-        'TimeH',
-    ];
-
     protected $settingsShownInAdminIndex = [
         'autolink' => ['type' => 'bool'],
         'bbcode_img' => ['type' => 'bool'],
@@ -65,6 +59,10 @@ class SettingsController extends AdminAppController
     {
         parent::initialize();
         $this->loadModel('Settings');
+        $this->viewBuilder()->setHelpers([
+            'Admin.Setting',
+            'TimeH',
+        ]);
     }
 
     /**

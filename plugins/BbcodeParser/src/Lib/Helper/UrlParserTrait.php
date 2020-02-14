@@ -74,7 +74,7 @@ trait UrlParserTrait
             // use Cakes Validation class to detect valid URL
             $validator = new Validator();
             $validator->add('url', ['url' => ['rule' => 'url']]);
-            $errors = $validator->errors(['url' => $url]);
+            $errors = $validator->validate(['url' => $url]);
             if (empty($errors)) {
                 $url = 'http://' . $url;
             }
