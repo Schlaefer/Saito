@@ -1,13 +1,14 @@
-# Docker file for Saito 5
+# Docker file for Saito
 
 # Apache Webserver with PHP
-FROM php:7.2-apache
+FROM php:7.4-apache
 
- #install all the system dependencies and enable PHP modules
-RUN apt-get update && apt-get install -y \
+# chromium for headless testing
+RUN apt-get update && apt-get install -y chromium
+
+#install all the system dependencies and enable PHP modules
+RUN apt-get update&& apt-get install -y \
       gettext \
-      libgd-dev \
-      # libpng-dev \
       libicu-dev \
       libpq-dev \
       libmcrypt-dev \
@@ -16,12 +17,15 @@ RUN apt-get update && apt-get install -y \
       zlib1g-dev \
       libzip-dev \
       unzip \
-      # chromium for headless testing
-      chromium
+      libonig-dev \
+      ### For gd
+      libgd-dev \
+      libfreetype6-dev \
+      libjpeg62-turbo-dev \
+      libpng-dev
 
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
-    && docker-php-ext-install \
-      gd \
+    && docker-php-ext-install -j$(nproc) \
       exif \
       intl \
       mbstring \
@@ -32,13 +36,17 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
       zip \
       opcache
 
+# Configure and install GD
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install -j$(nproc) gd
+
 # Install apcu
 RUN pecl install apcu-5.1.18
 RUN docker-php-ext-enable apcu
 RUN echo "apc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
 
 # Install xdebug
-RUN pecl install xdebug-2.7.1
+RUN pecl install xdebug-2.9.1
 RUN docker-php-ext-enable xdebug
 RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
       && echo "xdebug.default_enable=1"  >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -46,10 +54,6 @@ RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xd
       && echo "xdebug.remote_autostart=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
       && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
       && echo "xdebug.profiler_output_dir=/var/www/html/tmp" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-# Configure and install GD
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-install -j$(nproc) gd
 
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
@@ -68,7 +72,7 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # RUN sed -i -e "s/html/html\/app\/webroot/g" /etc/apache2/sites-enabled/000-default.conf
 
 #change the web_root to cakephp /var/www/html/webroot folder
-RUN echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/memory_limit.ini
+RUN echo "memory_limit=350M" >> /usr/local/etc/php/conf.d/memory_limit.ini
 RUN echo "upload_max_filesize=20M" >> /usr/local/etc/php/conf.d/memory_limit.ini
 
 # enable apache module rewrite

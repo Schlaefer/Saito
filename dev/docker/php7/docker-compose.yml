@@ -3,12 +3,12 @@ version: "3.1"
 services:
     webserver:
       build: apache
-      container_name: saito5-webserver-72
+      container_name: saito6-webserver-74
       volumes:
         - ./../../../:/var/www/html
       ports:
         - "8080:80"
-        # Karma test runner
+        # Port of Karma test runner
         - "9876:9876"
 
     mailhog:
@@ -20,7 +20,7 @@ services:
     mysql:
       image: mysql:5.6
       command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-#      restart: always
+      # restart: always
       container_name: saito5-mysql-6
       working_dir: /mysql_data
       volumes:
