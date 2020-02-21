@@ -9,8 +9,10 @@ use Cake\Core\Configure;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
+use Cake\Filesystem\Folder;
 use Cake\Mailer\Message;
 use Cake\ORM\TableRegistry;
+use Laminas\Diactoros\UploadedFile;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 use Saito\User\Permission\ResourceAC;
@@ -1204,8 +1206,6 @@ class UsersControllerTest extends IntegrationTestCase
         $this->post('/users/avatar/9');
     }
 
-    // TODO
-    /*
     public function testAvatarPostNewPicture()
     {
         $userId = 3;
@@ -1231,13 +1231,7 @@ class UsersControllerTest extends IntegrationTestCase
             file_put_contents($testFile, $imageData);
 
             $data = [
-                'avatar' => [
-                    'tmp_name' => $testFile,
-                    'error' => 0,
-                    'name' => 'test.png',
-                    'type' => 'image/png',
-                    'size' => strlen($imageData),
-                ],
+                'avatar' => new UploadedFile($testFile, strlen($imageData), UPLOAD_ERR_OK, 'test.png', 'image/png'),
                 'avatarDelete' => null,
             ];
 
@@ -1297,12 +1291,7 @@ class UsersControllerTest extends IntegrationTestCase
         file_put_contents($testFile, $imageData);
 
         $data = [
-            'avatar' => [
-                'tmp_name' => $testFile,
-                'error' => 0,
-                'name' => 'test.png',
-                'type' => 'image/png',
-            ],
+            'avatar' => new UploadedFile($testFile, 999, UPLOAD_ERR_OK, 'test.png', 'image/png'),
             'avatarDelete' => null,
         ];
 
@@ -1333,12 +1322,7 @@ class UsersControllerTest extends IntegrationTestCase
         file_put_contents($testFile, $imageData);
 
         $data = [
-            'avatar' => [
-                'tmp_name' => $testFile,
-                'error' => 0,
-                'name' => 'test.png',
-                'type' => 'image/png',
-            ],
+            'avatar' => new UploadedFile($testFile, 999, UPLOAD_ERR_OK, 'test.png', 'image/png'),
             'avatarDelete' => null,
         ];
 
@@ -1369,12 +1353,7 @@ class UsersControllerTest extends IntegrationTestCase
         file_put_contents($testFile, $imageData);
 
         $data = [
-            'avatar' => [
-                'tmp_name' => $testFile,
-                'error' => 0,
-                'name' => 'test.mp4',
-                'type' => 'image/png',
-            ],
+            'avatar' => new UploadedFile($testFile, 999, UPLOAD_ERR_OK, 'test.mp4', 'image/png'),
             'avatarDelete' => null,
         ];
 
@@ -1383,7 +1362,6 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertArrayHasKey('avatar-extension', $errors['avatar']);
         $this->assertResponseOk();
     }
-    */
 
     public function testLogoutSuccess()
     {

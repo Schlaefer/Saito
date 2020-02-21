@@ -16,6 +16,7 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Response;
 use Cake\I18n\Time;
+use Psr\Http\Message\UploadedFileInterface;
 use Saito\App\Registry;
 use Saito\Exception\Logger\ExceptionLogger;
 use Saito\Exception\Logger\ForbiddenLogger;
@@ -447,34 +448,47 @@ class UsersController extends AppController
             );
         }
 
-        if ($this->request->is('post') || $this->request->is('put')) {
-            $data = [
-                'avatar' => $this->request->getData('avatar'),
-                'avatarDelete' => $this->request->getData('avatarDelete'),
-            ];
-            if (!empty($data['avatarDelete'])) {
-                $data = [
-                    'avatar' => null,
-                    'avatar_dir' => null,
-                ];
-            }
-            $patched = $this->Users->patchEntity($user, $data);
-            $errors = $patched->getErrors();
-            if (empty($errors) && $this->Users->save($patched)) {
-                return $this->redirect(['action' => 'edit', $userId]);
-            } else {
-                $this->Flash->set(
-                    __('The user could not be saved. Please, try again.'),
-                    ['element' => 'error']
-                );
-            }
-        }
-
         $this->set('user', $user);
-
         $this->set(
             'titleForPage',
             __('user.avatar.edit.t', [$user->get('username')])
+        );
+
+        if (!$this->request->is('post') && !$this->request->is('put')) {
+            return;
+        }
+        $data = [
+            'avatar' => $this->request->getData('avatar'),
+            'avatarDelete' => $this->request->getData('avatarDelete'),
+        ];
+
+        if (!empty($data['avatarDelete'])) {
+            $data = [
+                'avatar' => null,
+                'avatar_dir' => null,
+            ];
+            // Proffer doesn't support setting an upload field to 'null'. So we
+            // just remove Proffer as we handling the deletion in
+            // ourself AvatarFilenameListener anyway.
+            $this->Users->removeBehavior('Proffer');
+        } elseif (!($data['avatar'] instanceof UploadedFileInterface)) {
+            return;
+        } elseif ($data['avatar']->getError() !== UPLOAD_ERR_OK) {
+            return;
+        }
+
+        $patched = $this->Users->patchEntity($user, $data);
+        $errors = $patched->getErrors();
+        if (empty($errors) && $this->Users->save($patched)) {
+            /// Do redirect for POST-GET cycle
+            $here = $this->redirect($this->request->getAttribute('here'));
+
+            return $this->redirect($here);
+        }
+
+        $this->Flash->set(
+            __('The user could not be saved. Please, try again.'),
+            ['element' => 'error']
         );
     }
 

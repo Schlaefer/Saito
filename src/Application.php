@@ -107,9 +107,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin(\SpectrumColorpicker\Plugin::class);
         $this->addPlugin(\Stopwatch\Plugin::class);
 
-        // TODO
-        // $this->addPlugin('Proffer');
-
         $this->loadDefaultThemePlugin();
 
         Stopwatch::stop('Application::bootstrap');

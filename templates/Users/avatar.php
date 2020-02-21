@@ -17,37 +17,34 @@ $this->end();
         <?= $this->Layout->panelHeading($titleForPage, ['pageHeading' => true]) ?>
     </div>
     <div class='card-body panel-form'>
-        <div class="row">
-            <div class="col-2">
-                <?= $this->User->getAvatar($user) ?>
-            </div>
-            <div class="col-10">
-                <?php
-                echo $this->Form->create($user, ['class' => 'form-inline', 'type' => 'file']);
-                echo $this->Form->control(
-                    'avatar',
-                    ['label' => false, 'type' => 'file', 'required' => false]
-                );
-                ?>
-                <?php
-                echo $this->Form->button(
-                    __('gn.btn.save.t'),
-                    ['class' => 'btn btn-primary']
-                );
-                $avatar = $user->get('avatar');
-                if (!empty($avatar)) {
+        <?= $this->Form->create($user, ['type' => 'file']) ?>
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column mr-4" style="text-align:center">
+                    <?= $this->User->getAvatar($user) ?>
+                    <?php
+                        $avatar = $user->get('avatar');
+                        if (!empty($avatar)) {
+                            echo $this->Form->button(
+                                __('gn.btn.delete.t'),
+                                [
+                                    'class' => 'btn btn-link',
+                                    'name' => 'avatarDelete',
+                                    'value' => '1',
+                                ]
+                            );
+                        }
+                    ?>
+                </div>
+                <div class="form-group form-inline mb">
+                        <?= $this->Form->control( 'avatar', ['label' => false, 'type' => 'file', 'required' => false]) ?>
+                    <?php
                     echo $this->Form->button(
-                        __('gn.btn.delete.t'),
-                        [
-                            'class' => 'btn btn-link',
-                            'name' => 'avatarDelete',
-                            'value' => '1',
-                        ]
+                        __('gn.btn.save.t'),
+                        ['class' => 'btn btn-primary']
                     );
-                }
-                echo $this->Form->end();
-                ?>
+                    ?>
+                </div>
             </div>
-        </div>
+        <?= $this->Form->end() ?>
     </div>
 </div>

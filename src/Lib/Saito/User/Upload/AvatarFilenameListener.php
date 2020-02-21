@@ -67,8 +67,11 @@ class AvatarFilenameListener implements EventListenerInterface
             $this->deleteExistingFilesForUser($user);
         }
 
+        /** @var \Psr\Http\Message\UploadedFileInterface $avatar */
+        $avatar = $user->get('avatar');
+
         // Detect and select the right file extension
-        switch ($user->get('avatar')['type']) {
+        switch ($avatar->getClientMediaType()) {
             default:
             case "image/jpeg":
                 $ext = '.jpg';
@@ -89,7 +92,6 @@ class AvatarFilenameListener implements EventListenerInterface
 
         // Change the filename in both the path to be saved, and in the entity data for saving to the db
         $path->setFilename($newFilename);
-        $user['avatar']['name'] = $newFilename;
 
         // Must return the modified path instance, so that things are saved in the right place
         return $path;
