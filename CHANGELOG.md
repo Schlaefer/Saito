@@ -12,6 +12,8 @@
 
 ### Changes
 
+- ＋ Requires PHP 7.4+
+
 ### Update Notes
 
 ## [Next]
