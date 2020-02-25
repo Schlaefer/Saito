@@ -25,4 +25,12 @@ class RemovedSaitoUser extends SaitoUser
         ];
         parent::__construct($settings);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRole(): string
+    {
+        return 'deletedUser';
+    }
 }

@@ -551,14 +551,16 @@ class EntriesController extends AppController
      * @param BasicPostingInterface $posting posting for root entry
      * @return void
      */
-    protected function _setRootEntry(BasicPostingInterface $posting)
+    protected function _setRootEntry(BasicPostingInterface $posting): void
     {
         if (!$posting->isRoot()) {
+            /** @var \App\Model\Entity\Entry root */
             $root = $this->Entries->find()
-                ->select(['user_id', 'Users.user_type'])
+                ->select(['id', 'user_id', 'Users.user_type'])
                 ->where(['Entries.id' => $posting->get('tid')])
                 ->contain(['Users'])
                 ->first();
+            $root = $root->toPosting();
         } else {
             $root = $posting;
         }
