@@ -29,7 +29,9 @@
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
 - ✓ Missing navigation links in search head
+- ✓ Internal error viewing posting where the thread starter was deleted
 - Δ Set default period for advanced search to the last 12 months #354
+- Δ Switches Bota-theme night/day button icon #366
 - Uploader
   - ＋ Default target-size for resizing images is configurable
   - Δ Default target-size for resizing images is reduced from 820 kB to 450 kB
