@@ -9,10 +9,13 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace App\Shell;
+namespace App\Command;
 
-use Cake\Console\Shell;
+use Cake\Command\Command;
+use Cake\Console\Arguments;
+use Cake\Console\ConsoleIo;
 use Saito\App\Registry;
+use Saito\RememberTrait;
 use Saito\User\CurrentUser\CurrentUserFactory;
 
 /**
@@ -21,16 +24,9 @@ use Saito\User\CurrentUser\CurrentUserFactory;
  * @property \App\Model\Table\EntriesTable $Entries
  * @property \App\Model\Table\UsersTable $Users
  */
-class SaitoDummyDataShell extends Shell
+class SaitoDummyDataCommand extends Command
 {
-    public $uses = ['Entry', 'User'];
-
-    protected $_Categories = null;
-
-    /**
-     * @var array
-     */
-    protected $_Users;
+    use RememberTrait;
 
     protected $_text = null;
 
@@ -113,28 +109,26 @@ class SaitoDummyDataShell extends Shell
     /**
      * {@inheritDoc}
      */
-    public function main()
+    public function execute(Arguments $args, ConsoleIo $io)
     {
-        $this->generateUsers();
-        $this->generatePostings();
+        $io->out('Hello world.');
+        $this->generateUsers($io);
+        $this->generatePostings($io);
     }
 
     /**
      * Generate postings
      *
+     * @param \Cake\Console\ConsoleIo $io I/O
      * @return void
      */
-    public function generatePostings()
+    public function generatePostings(ConsoleIo $io)
     {
-        $nPostings = (int)$this->in(
-            'Number of postings to generate?',
-            null,
-            '100'
-        );
+        $nPostings = (int)$io->ask('Number of postings to generate?', '100');
         if ($nPostings === 0) {
             return;
         }
-        $ratio = (int)$this->in('Average answers per thread?', null, '10');
+        $ratio = (int)$io->ask('Average answers per thread?', '10');
         $seed = $nPostings / $ratio;
 
         for ($i = 0; $i < $nPostings; $i++) {
@@ -168,7 +162,7 @@ class SaitoDummyDataShell extends Shell
                 );
             }
 
-            $this->_progress($i, $nPostings);
+            $this->_progress($io, $i, $nPostings);
 
             $id = $posting->get('id');
             $this->_Threads[] = [
@@ -178,23 +172,20 @@ class SaitoDummyDataShell extends Shell
             ];
         }
 
-        $this->out('');
-        $this->out("Generated $i postings.");
+        $io->out('');
+        $io->out("Generated $i postings.");
     }
 
     /**
      * generate users
      *
+     * @param \Cake\Console\ConsoleIo $io I/O
      * @return void
      */
-    public function generateUsers()
+    public function generateUsers(ConsoleIo $io)
     {
         $max = count($this->_users);
-        $n = (int)$this->in(
-            "Number of users to generate (max: $max)?",
-            null,
-            '0'
-        );
+        $n = (int)$io->ask("Number of users to generate (max: $max)?", '0');
         if ($n === 0) {
             return;
         }
@@ -212,30 +203,31 @@ class SaitoDummyDataShell extends Shell
                 'user_email' => "$name@example.com",
             ];
             $this->Users->register($data, true);
-            $this->_progress($i++, $n);
+            $this->_progress($io, $i++, $n);
         }
 
-        $this->out('');
-        $this->out("Generated $i users.");
+        $io->out('');
+        $io->out("Generated $i users.");
     }
 
     /**
      * Update progress
      *
+     * @param \Cake\Console\ConsoleIo $io I/O
      * @param int $i current
      * @param int $off 100%
      * @return void
      */
-    protected function _progress($i, $off)
+    protected function _progress($io, $i, $off)
     {
         if ($i < 1) {
             return;
         }
-        $this->out('.', 0);
+        $io->out('.', 0);
         $line = $i % 50;
-        if ($i > 1 && $line) {
+        if ($i > 1 && !$line) {
             $percent = (int)floor($i / $off * 100);
-            $this->out(sprintf(' %3s%%', $percent), 1);
+            $io->out(sprintf(' %3s%%', $percent), 1);
         }
     }
 
@@ -246,15 +238,15 @@ class SaitoDummyDataShell extends Shell
      */
     protected function _randomCategory()
     {
-        if ($this->_Categories === null) {
-            $this->_Categories = $this->Entries->Categories->find(
+        $categories = $this->remember('existingCategories', function (): array {
+            return $this->Entries->Categories->find(
                 'all',
                 ['fields' => ['id']]
             )->toArray();
-        }
-        $id = array_rand($this->_Categories, 1);
+        });
+        $id = array_rand($categories, 1);
 
-        return $this->_Categories[$id]->get('id');
+        return $categories[$id]->get('id');
     }
 
     /**
@@ -264,15 +256,15 @@ class SaitoDummyDataShell extends Shell
      */
     protected function _randomUser()
     {
-        if ($this->_Users === null) {
-            $this->_Users = $this->Users->find(
+        $users = $this->remember('existingUsers', function (): array {
+            return $this->Users->find(
                 'all',
                 ['conditions' => ['activate_code' => 0]]
             )->toArray();
-        }
-        $id = array_rand($this->_Users, 1);
+        });
+        $id = array_rand($users, 1);
 
-        $user = CurrentUserFactory::createDummy($this->_Users[$id]->toArray());
+        $user = CurrentUserFactory::createDummy($users[$id]->toArray());
         $user->set('user_type', 'admin');
 
         return $user;
