@@ -71,7 +71,7 @@ class UsersController extends AppController
             // Referer from Request
             $target = $target ?: $this->referer();
 
-            if (empty($target) || $this->Referer->wasAction('login')) {
+            if (empty($target) && $this->Referer->wasAction('login')) {
                 $target = '/';
             }
 

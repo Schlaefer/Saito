@@ -152,6 +152,23 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertFalse($this->_controller->CurrentUser->isLoggedIn());
     }
 
+    /**
+     * Tests that /login?redirect=<foo> redirects to <foo> after login
+     */
+    public function testLoginSuccessRedirectQueryParam()
+    {
+        $this->mockSecurity();
+        $AuthUserMock = $this->getMockOnController('AuthUser', ['authorizeAction', 'login']);
+        $AuthUserMock->expects($this->atLeastOnce())
+            ->method('authorizeAction');
+        $AuthUserMock->expects($this->once())
+            ->method('login')
+            ->will($this->returnValue(true));
+        $data = ['username' => 'Alice', 'password' => 'test'];
+        $this->post('/login?redirect=%2Fusers%2Fedit%2F1', $data);
+        $this->assertRedirectContains('/users/edit/1');
+    }
+
     public function testLoginUserNotActivated()
     {
         $this->mockSecurity();
