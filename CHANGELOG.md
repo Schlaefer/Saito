@@ -13,8 +13,13 @@
 ### Changes
 
 - ＋ Requires PHP 7.4+
+- ＋ Updates to CakePHP 4
 
 ### Update Notes
+
+#### CakePHP 4
+
+Refer to the CakePHP 4 documentation for all changes. Note that the template file extension changes from `.ctp` to `.php` and that template files move from `View/Templates/` to `templates/` in the folder hierarchy.
 
 ## [Next]
 
