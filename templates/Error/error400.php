@@ -30,24 +30,24 @@ if (Configure::read('debug')) :
 $this->end();
 endif;
 ?>
-<div class="panel">
-    <div class="panel-content richtext">
+<div class="panel panel-center">
+    <div class="richtext">
         <h2><?= h($message) ?></h2>
         <p>
             <strong><?= __d('cake', 'Error') ?>: </strong>
             <?= __d('cake', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>") ?>
         </p>
     </div>
+    <?php
+    $shpErrorPages = [SaitoBlackholeException::class => 8];
+    $errorClass = get_class($error);
+    if (isset($shpErrorPages[$errorClass])) :
+        $this->helpers()->load('SaitoHelp.SaitoHelp');
+        $help = $this->SaitoHelp->icon(
+            $shpErrorPages[$errorClass],
+            ['label' => true]
+        );
+        echo $this->Html->para(null, $help);
+    endif;
+    ?>
 </div>
-<?php
-$shpErrorPages = [SaitoBlackholeException::class => 8];
-$errorClass = get_class($error);
-if (isset($shpErrorPages[$errorClass])) :
-    $this->helpers()->load('SaitoHelp.SaitoHelp');
-    $help = $this->SaitoHelp->icon(
-        $shpErrorPages[$errorClass],
-        ['label' => true]
-    );
-    echo $this->Html->para(null, $help);
-endif;
-?>

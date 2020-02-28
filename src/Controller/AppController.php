@@ -17,6 +17,7 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Event\EventInterface;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
+use Closure;
 use Saito\App\Registry;
 use Saito\App\SettingsImmutable;
 use Saito\Event\SaitoEventManager;
@@ -34,6 +35,7 @@ use Stopwatch\Lib\Stopwatch;
  * @property \App\Controller\Component\ThemesComponent $Themes
  * @property \App\Controller\Component\TitleComponent $Title
  * @property \App\Model\Table\UsersTable $Users
+ * @property \Cake\Controller\Component\FormProtectionComponent $FormProtection
  */
 class AppController extends Controller
 {
@@ -75,7 +77,9 @@ class AppController extends Controller
         // Leave in front to have it available in all Components
         $this->loadComponent('Detectors.Detectors');
         $this->loadComponent('Authentication.Authentication');
-        $this->loadComponent('Security', ['blackHoleCallback' => 'blackhole']);
+        $this->loadComponent('FormProtection', [
+            'validationFailureCallback' => Closure::fromCallable([$this, 'blackhole']),
+        ]);
         $this->loadComponent('RequestHandler', ['enableBeforeRedirect' => false]);
         $this->loadComponent('Cron.Cron');
         $this->loadComponent('CacheSupport');
@@ -183,14 +187,14 @@ class AppController extends Controller
     /**
      * Handle request-blackhole.
      *
-     * @param string $type type
+     * @param \Exception $exception PHP exception
      * @return void
      * @throws \Saito\Exception\SaitoBlackholeException
      */
-    public function blackhole($type)
+    public function blackhole(\Exception $exception): void
     {
         throw new \Saito\Exception\SaitoBlackholeException(
-            $type,
+            $exception->getMessage(),
             ['CurrentUser' => $this->CurrentUser]
         );
     }

@@ -442,7 +442,7 @@ class EntriesController extends AppController
         parent::beforeFilter($event);
         Stopwatch::start('Entries->beforeFilter()');
 
-        $this->Security->setConfig(
+        $this->FormProtection->setConfig(
             'unlockedActions',
             ['solve', 'view']
         );
@@ -538,7 +538,7 @@ class EntriesController extends AppController
     protected function _setRootEntry(BasicPostingInterface $posting): void
     {
         if (!$posting->isRoot()) {
-            /** @var \App\Model\Entity\Entry root */
+            /** @var \App\Model\Entity\Entry $root */
             $root = $this->Entries->find()
                 ->select(['id', 'user_id', 'Users.user_type'])
                 ->where(['Entries.id' => $posting->get('tid')])

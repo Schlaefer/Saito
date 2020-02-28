@@ -23,11 +23,10 @@ class ApiAppController extends AppController
      */
     public function initialize(): void
     {
-        // TODO empty: remove
         parent::initialize();
 
-        if ($this->components()->has('Security')) {
-            $this->components()->unload('Security');
+        if ($this->components()->has('FormProtection')) {
+            $this->components()->unload('FormProtection');
         }
     }
 }

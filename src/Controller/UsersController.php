@@ -930,7 +930,7 @@ class UsersController extends AppController
         Stopwatch::start('Users->beforeFilter()');
 
         $unlocked = ['slidetabToggle', 'slidetabOrder'];
-        $this->Security->setConfig('unlockedActions', $unlocked);
+        $this->FormProtection->setConfig('unlockedActions', $unlocked);
 
         $this->Authentication->allowUnauthenticated(['login', 'logout', 'register', 'rs']);
         $this->AuthUser->authorizeAction('register', 'saito.core.user.register');
@@ -940,9 +940,9 @@ class UsersController extends AppController
         // See https://github.com/Schlaefer/Saito/issues/339
         if (
             ($this->getRequest()->getParam('action') === 'login')
-            && $this->components()->has('Security')
+            && $this->components()->has('FormProtection')
         ) {
-            $this->components()->unload('Security');
+            $this->components()->unload('FormProtection');
         }
 
         Stopwatch::stop('Users->beforeFilter()');
