@@ -22,19 +22,24 @@ trait AssertTrait
     /**
      * assert contains tag
      *
-     * @param array $expected expected
+     * @param string|array $expected expected
      * @param string $result HTML
+     * @param int $count How often the tag is expected.
      * @return void
      */
-    public function assertContainsTag($expected, $result)
+    public function assertContainsTag($expected, string $result, int $count = 1): void
     {
+        if (is_string($expected)) {
+            $expected = [$expected => []];
+        }
+
         do {
             $crawler = new Crawler();
             $crawler->addHtmlContent($result);
             $selector = key($expected);
             $node = $crawler->filter($selector);
             $this->assertEquals(
-                1,
+                $count,
                 $node->count(),
                 "Selector '$selector' not found."
             );
@@ -48,52 +53,21 @@ trait AssertTrait
     }
 
     /**
-     * tests if XPath exists in HTML Source
-     *
-     * @param string $html HTML
-     * @param string $path XPath
-     * @param int $count how many times should XPath exist in HTML
+     * Assert result does not contain tag
+     * @param string $selector Tag as CSS selector query
+     * @param string $result HTML result to check
      * @return void
      */
-    public function assertXPath($html, $path, $count = 1): void
+    public function assertNotContainsTag(string $selector, string $result): void
     {
-        $xpath = $this->_getDOMXPath($html);
-        $length = $xpath->query($path)->length;
-
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($result);
+        $node = $crawler->filter($selector);
         $this->assertEquals(
-            $count,
-            $length,
-            "Failed XPath. Expected '$path' to be found $count times instead of $length."
+            0,
+            $node->count(),
+            "Selector '$selector' was not expected to be found."
         );
-    }
-
-    /**
-     * assert not xpath
-     *
-     * @param string $html path
-     * @param string $path path
-     * @return void
-     */
-    public function assertNotXPath($html, $path): void
-    {
-        $this->assertXPath($html, $path, 0);
-    }
-
-    /**
-     * get dom xpath
-     *
-     * @param string $html HTML
-     * @return \DOMXPath
-     */
-    protected function _getDOMXPath($html)
-    {
-        $document = new \DOMDocument();
-        libxml_use_internal_errors(true);
-        $document->loadHTML('<!DOCTYPE html>' . $html);
-        $xpath = new \DOMXPath($document);
-        libxml_clear_errors();
-
-        return $xpath;
     }
 
     /**

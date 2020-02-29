@@ -50,7 +50,8 @@
 
     "phing/phing": "^2.16",
     "symfony/css-selector": "*",
-    "symfony/dom-crawler": "*"
+    "symfony/dom-crawler": "*",
+    "masterminds/html5": "^2.7"
   },
   "suggest": {
     "cakephp/cakephp-codesniffer": "Allows to check the code against the coding standards used in CakePHP."

@@ -47,19 +47,19 @@ class ThreadHtmlRendererTest extends SaitoTestCase
             ->method('isIgnored')
             ->will($this->returnValue(true));
 
-        $xPathQuery = '//ul[@data-id=1]/li[contains(@class,"ignored")]';
+        $query = 'ul[data-id=1]>li[class~="ignored"]';
 
         //= posting should be ignored
         $options = ['maxThreadDepthIndent' => 25];
         $renderer = new ThreadHtmlRenderer($this->PostingHelper, $options);
         $result = $renderer->render($entries);
-        $this->assertXPath($result, $xPathQuery);
+        $this->assertContainsTag($query, $result);
 
         //= posting should not ignored with 'ignore' => false flag set
         $options['ignore'] = false;
         $renderer->setOptions($options);
         $result = $renderer->render($entries);
-        $this->assertNotXPath($result, $xPathQuery);
+        $this->assertNotContainsTag($query, $result);
     }
 
     public function testNesting()
@@ -100,9 +100,9 @@ class ThreadHtmlRendererTest extends SaitoTestCase
         );
         $result = $renderer->render($entries);
 
-        $this->assertXPath($result, '//ul[@data-id=1]/li', 2);
-        $this->assertXPath($result, '//ul[@data-id=1]/li/ul/li', 3);
-        $this->assertXPath($result, '//ul[@data-id=1]/li/ul/li/ul/li');
+        $this->assertContainsTag('ul[data-id=1] > li', $result, 2);
+        $this->assertContainsTag('ul[data-id=1] > li > ul > li', $result, 3);
+        $this->assertContainsTag('ul[data-id=1] > li > ul > li > ul > li', $result);
     }
 
     public function testThreadMaxDepth()

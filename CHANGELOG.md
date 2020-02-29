@@ -16,6 +16,8 @@
 - ＋ Updates to CakePHP 4
 - Uploader
   - ＋ Configurable storage adapter (filesystem, AWS, Azure, (S)FTP, …)
+- Internal changes:
+  - − Removes `AsserTrait::assertXPath` for `AssertTrait::assertContainsTag`
 
 ### Update Notes
 

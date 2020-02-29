@@ -1183,7 +1183,15 @@ class UsersControllerTest extends IntegrationTestCase
         $this->_loginUser(2);
         $this->get('users/view/5');
         $result = (string)$this->_response->getBody();
-        $this->assertXPath($result, '//input[@value=5][@name="lockUserId"]');
+        $expected = [
+            'input[name="lockUserId"]' => [
+                'attributes' => [
+                    'name' => 'lockUserId',
+                    'value' => 5,
+                ],
+            ],
+        ];
+        $this->assertResponseContainsTags($expected);
     }
 
     public function testAvatarGetNotLoggedInFailure()
