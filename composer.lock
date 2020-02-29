@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "223bf7c846009bb098f1c41af3309ea0",
+    "content-hash": "bbb3e3f8732bed84c2495ffca560781d",
     "packages": [
         {
             "name": "aura/di",
@@ -318,16 +318,16 @@
         },
         {
             "name": "cakephp/migrations",
-            "version": "4.x-dev",
+            "version": "3.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/migrations.git",
-                "reference": "875513dca5f77c062b8d64d2a04a46aa8f625ebb"
+                "reference": "4cc2222dbde87fa6827d76ede01e13ce3ff5c78f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/migrations/zipball/875513dca5f77c062b8d64d2a04a46aa8f625ebb",
-                "reference": "875513dca5f77c062b8d64d2a04a46aa8f625ebb",
+                "url": "https://api.github.com/repos/cakephp/migrations/zipball/4cc2222dbde87fa6827d76ede01e13ce3ff5c78f",
+                "reference": "4cc2222dbde87fa6827d76ede01e13ce3ff5c78f",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,7 @@
             "require-dev": {
                 "cakephp/bake": "^2.0",
                 "cakephp/cakephp": "^4.0",
-                "cakephp/cakephp-codesniffer": "^4.0",
+                "cakephp/cakephp-codesniffer": "dev-next",
                 "phpunit/phpunit": "^8.0"
             },
             "suggest": {
@@ -367,7 +367,7 @@
                 "cakephp",
                 "migrations"
             ],
-            "time": "2020-02-13T10:22:27+00:00"
+            "time": "2019-12-18T08:16:53+00:00"
         },
         {
             "name": "cakephp/plugin-installer",
@@ -658,7 +658,7 @@
         },
         {
             "name": "friendsofcake/bootstrap-ui",
-            "version": "dev-cake-4-bs-4",
+            "version": "3.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
@@ -709,16 +709,16 @@
         },
         {
             "name": "friendsofcake/search",
-            "version": "dev-cake-4.x",
+            "version": "6.0.0-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/search.git",
-                "reference": "76ba448ade232feeb5a5bcd5456901babacc7209"
+                "reference": "7f74d9628a5978d6369a5cd086412363bc145253"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/76ba448ade232feeb5a5bcd5456901babacc7209",
-                "reference": "76ba448ade232feeb5a5bcd5456901babacc7209",
+                "url": "https://api.github.com/repos/FriendsOfCake/search/zipball/7f74d9628a5978d6369a5cd086412363bc145253",
+                "reference": "7f74d9628a5978d6369a5cd086412363bc145253",
                 "shasum": ""
             },
             "require": {
@@ -757,7 +757,7 @@
                 "prg",
                 "search"
             ],
-            "time": "2020-02-24T09:23:07+00:00"
+            "time": "2019-12-22T08:18:20+00:00"
         },
         {
             "name": "geshi/geshi",
@@ -1704,23 +1704,23 @@
         },
         {
             "name": "mobiledetect/mobiledetectlib",
-            "version": "2.8.34",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/serbanghita/Mobile-Detect.git",
-                "reference": "6f8113f57a508494ca36acbcfa2dc2d923c7ed5b"
+                "reference": "cf8f99c1575e6fdb2df4bb65248d351395312479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/6f8113f57a508494ca36acbcfa2dc2d923c7ed5b",
-                "reference": "6f8113f57a508494ca36acbcfa2dc2d923c7ed5b",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/cf8f99c1575e6fdb2df4bb65248d351395312479",
+                "reference": "cf8f99c1575e6fdb2df4bb65248d351395312479",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.8.35||~5.7"
+                "phpunit/phpunit": "*"
             },
             "type": "library",
             "autoload": {
@@ -1739,7 +1739,7 @@
                 {
                     "name": "Serban Ghita",
                     "email": "serbanghita@gmail.com",
-                    "homepage": "http://mobiledetect.net",
+                    "homepage": "http://ghita.org",
                     "role": "Developer"
                 }
             ],
@@ -1752,7 +1752,7 @@
                 "mobile detector",
                 "php mobile detect"
             ],
-            "time": "2019-09-18T18:44:20+00:00"
+            "time": "2014-04-21T18:09:41+00:00"
         },
         {
             "name": "psr/container",
@@ -6193,10 +6193,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "cakephp/migrations": 20,
         "davidyell/proffer": 20,
-        "friendsofcake/bootstrap-ui": 20,
-        "friendsofcake/search": 20,
         "cakephp/bake": 0,
         "cakephp/cakephp-codesniffer": 0,
         "cakephp/debug_kit": 0,
