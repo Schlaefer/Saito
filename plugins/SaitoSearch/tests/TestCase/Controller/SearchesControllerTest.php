@@ -143,7 +143,13 @@ class SearchesControllerTest extends IntegrationTestCase
         $this->get('/searches/advanced');
 
         $actualMonth = $this->viewVariable('month');
-        $expectedMonth = (new DateTimeImmutable())->format('n');
+        $today = new DateTimeImmutable();
+        $expectedMonth = $today->format('n');
+        /// Leap years are fun! \o/
+        if ($today->format('m-d') === '02-29') {
+            $expectedMonth++;
+        }
+
         $this->assertEquals($expectedMonth, $actualMonth);
     }
 }
