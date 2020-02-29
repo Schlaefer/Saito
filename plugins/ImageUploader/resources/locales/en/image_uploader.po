@@ -19,6 +19,9 @@ msgstr ""
 "Error: Server didnd't receive a file. The filesize probably exceeds the"
 " the server limit."
 
+msgid "add.failure.noext"
+msgstr "Error: File name doesn't have an extension."
+
 msgid "delete.failure"
 msgstr "Error: Deletion failed."
 

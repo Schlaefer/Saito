@@ -15,6 +15,8 @@ use Api\Controller\ApiAppController;
 use Api\Error\Exception\GenericApiException;
 use Cake\Cache\Cache;
 use Cake\Utility\Security;
+use ImageUploader\Lib\MimeType;
+use Psr\Http\Message\UploadedFileInterface;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\User\Permission\ResourceAI;
 
@@ -72,7 +74,10 @@ class UploadsController extends ApiAppController
     public function add()
     {
         $submitted = $this->request->getData('upload.0.file');
-        if (!is_array($submitted)) {
+        if (
+            !($submitted instanceof UploadedFileInterface)
+            || $submitted->getError() !== UPLOAD_ERR_OK
+        ) {
             throw new GenericApiException(__d('image_uploader', 'add.failure'));
         }
 
@@ -90,23 +95,30 @@ class UploadsController extends ApiAppController
             );
         }
 
-        $parts = explode('.', $submitted['name']);
+        $filename = $submitted->getClientFilename();
+        $parts = explode('.', $filename);
+        if (count($parts) < 2) {
+            throw new GenericApiException(__d('image_uploader', 'add.failure.noext'));
+        }
         $ext = array_pop($parts);
         $name = $this->CurrentUser->getId() .
                 '_' .
-                substr(Security::hash($submitted['name'], 'sha256'), 32) .
+                substr(Security::hash($filename, 'sha256'), 32) .
                 '.' .
                 $ext;
+        $filepath = $submitted->getStream()->getMetadata('uri');
         $data = [
-            'document' => $submitted,
+            'tmp_name' => $filepath,
             'name' => $name,
-            'title' => $submitted['name'],
-            'size' => $submitted['size'],
+            'title' => $filename,
+            'type' => MimeType::get($filepath, $name),
+            'size' => filesize($filepath),
             'user_id' => $userId,
         ];
         $document = $this->Uploads->newEntity($data);
 
-        if (!$this->Uploads->save($document)) {
+        $entity = $this->Uploads->save($document);
+        if (!$entity) {
             $errors = $document->getErrors();
             $msg = $errors ? current(current($errors)) : null;
             throw new GenericApiException($msg);

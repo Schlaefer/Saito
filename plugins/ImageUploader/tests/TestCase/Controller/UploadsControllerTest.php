@@ -19,6 +19,7 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use ImageUploader\Model\Table\UploadsTable;
+use Laminas\Diactoros\UploadedFile;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
 
@@ -44,6 +45,8 @@ class UploadsControllerTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        Configure::write('Saito.language', 'bzs');
 
         $this->file = new File(TMP . 'my new-upload.png');
         $this->mockMediaFile($this->file);
@@ -234,7 +237,7 @@ class UploadsControllerTest extends IntegrationTestCase
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
-        $this->expectExceptionMessage('Error: Reached the maximal number of 1 uploads.');
+        $this->expectExceptionMessage('validation.error.maxNumberOfItems');
 
         $this->upload($this->file);
 
@@ -253,7 +256,7 @@ class UploadsControllerTest extends IntegrationTestCase
         $count = $Uploads->find()->count();
 
         $this->expectException(GenericApiException::class);
-        $this->expectExceptionMessage('Error: File size exceeds allowed limit of 10 Bytes.');
+        $this->expectExceptionMessage('validation.error.fileSize');
 
         $this->upload($this->file);
 
@@ -271,7 +274,7 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->expectException(GenericApiException::class);
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessage('File with same name already uploaded');
+        $this->expectExceptionMessage('validation.error.fileExists');
 
         $this->loginJwt(1);
         $this->upload($file);
@@ -288,10 +291,32 @@ class UploadsControllerTest extends IntegrationTestCase
 
         $this->expectException(GenericApiException::class);
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessage((string)$max);
+        $this->expectExceptionMessage('vld.uploads.title.maxlength');
         $this->upload($file);
 
         $file->delete();
+    }
+
+    public function testAddFailureFilenameHasNoExtension()
+    {
+        $this->loginJwt(1);
+        $pathWithoutExtension = TMP . 'file';
+        $this->file->copy($pathWithoutExtension);
+        $file = new File($pathWithoutExtension);
+
+        $this->expectException(GenericApiException::class);
+        $this->expectExceptionMessage('add.failure.noext');
+        $this->upload($file);
+
+        $file->delete();
+    }
+
+    public function testAddFailureFileDidntMakeIt()
+    {
+        $this->loginJwt(1);
+        $this->expectException(GenericApiException::class);
+        $this->expectExceptionMessage('add.failure');
+        $this->post('api/v2/uploads.json', []);
     }
 
     public function testIndexNoAuthorization()
@@ -397,12 +422,13 @@ class UploadsControllerTest extends IntegrationTestCase
         $data = [
             'upload' => [
                 0 => [
-                    'file' => [
-                        'tmp_name' => $file->path,
-                        'name' => $file->name() . '.' . $file->ext(),
-                        'size' => $file->size(),
-                        'type' => $file->mime(),
-                    ],
+                    'file' => new UploadedFile(
+                        $file->path,
+                        $file->size(),
+                        UPLOAD_ERR_OK,
+                        $file->name() . ($file->ext() ? '.' . $file->ext() : ''),
+                        $file->mime(),
+                    ),
                 ],
             ],
         ];

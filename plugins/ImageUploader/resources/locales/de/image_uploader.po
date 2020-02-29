@@ -19,6 +19,9 @@ msgstr ""
 "Fehler: Der Server hat keine Datei erhalten. Die Datei überschreitet"
 " womöglich die erlaubte Uploadgröße des Servers."
 
+msgid "add.failure.noext"
+msgstr "Fehler: Dateiname hat keine Endung."
+
 msgid "delete.failure"
 msgstr "Fehler: Löschen fehlgeschlagen."
 

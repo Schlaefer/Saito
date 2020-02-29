@@ -20,7 +20,6 @@ use Cake\ORM\RulesChecker;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
 use claviska\SimpleImage;
-use ImageUploader\Lib\MimeType;
 use ImageUploader\Model\Entity\Upload;
 
 /**
@@ -65,7 +64,7 @@ class UploadsTable extends AppTable
             ->requirePresence(['name', 'size', 'type', 'user_id'], 'create');
 
         $validator->add(
-            'document',
+            'tmp_name',
             [
                 'file' => [
                     'rule' => [$this, 'validateFile'],
@@ -125,21 +124,9 @@ class UploadsTable extends AppTable
     /**
      * {@inheritDoc}
      */
-    public function beforeMarshal(Event $event, \ArrayObject $data)
-    {
-        if (!empty($data['document'])) {
-            /// Set mime/type by what is determined on the server about the file.
-            $data['type'] = MimeType::get($data['document']['tmp_name'], $data['name']);
-            $data['document']['type'] = $data['type'];
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function beforeSave(Event $event, Upload $entity, \ArrayObject $options)
     {
-        if (!$entity->isDirty('name') && !$entity->isDirty('document')) {
+        if (!$entity->isDirty('name') && !$entity->isDirty('tmp_name')) {
             return true;
         }
         try {
@@ -174,7 +161,7 @@ class UploadsTable extends AppTable
         /** @var \Cake\Filesystem\File $file */
         $file = $entity->get('file');
         try {
-            $tmpFile = new File($entity->get('document')['tmp_name']);
+            $tmpFile = new File($entity->get('tmp_name'));
             if (!$tmpFile->exists()) {
                 throw new \RuntimeException('Uploaded file not found.');
             }
@@ -306,13 +293,15 @@ class UploadsTable extends AppTable
         /** @var \ImageUploader\Lib\UploaderConfig $UploaderConfig */
         $UploaderConfig = Configure::read('Saito.Settings.uploader');
 
+        $type = $context['data']['type'];
+
         /// Check file type
-        if (!$UploaderConfig->hasType($check['type'])) {
-            return __d('image_uploader', 'validation.error.mimeType', $check['type']);
+        if (!$UploaderConfig->hasType($type)) {
+            return __d('image_uploader', 'validation.error.mimeType', $type);
         }
 
         /// Check file size
-        $size = $UploaderConfig->getSize($check['type']);
+        $size = $UploaderConfig->getSize($type);
         if (!Validation::fileSize($check, '<', $size)) {
             return __d(
                 'image_uploader',

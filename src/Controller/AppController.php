@@ -127,6 +127,10 @@ class AppController extends Controller
             ],
         ]]);
 
+        $this->Themes->set($this->CurrentUser);
+        $this->_setConfigurationFromGetParams();
+        $this->_l10nRenderFile();
+
         Stopwatch::stop('App->beforeFilter()');
     }
 
@@ -136,9 +140,6 @@ class AppController extends Controller
     public function beforeRender(\Cake\Event\EventInterface $event)
     {
         Stopwatch::start('App->beforeRender()');
-        $this->Themes->set($this->CurrentUser);
-        $this->_setConfigurationFromGetParams();
-        $this->_l10nRenderFile();
 
         $this->set('SaitoSettings', new SettingsImmutable(Configure::read('Saito.Settings')));
         $this->set('SaitoEventManager', SaitoEventManager::getInstance());
