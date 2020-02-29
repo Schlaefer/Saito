@@ -8,21 +8,25 @@ declare(strict_types=1);
  * unit tests in this file.
  */
 
+use Cake\Cache\Cache;
+use Cake\Cache\Engine\ArrayEngine;
 use Cake\Core\Configure;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 
-/**
- * Test runner bootstrap.
- *
- * Add additional configuration/setup your application needs when running
- * unit tests in this file.
- */
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 require dirname(__DIR__) . '/config/bootstrap.php';
 
 $_SERVER['PHP_SELF'] = '/';
+
+/// Use in-memory cache engine for tests
+foreach (Cache::configured() as $cacheKey) {
+    $config = Cache::getConfigOrFail($cacheKey);
+    $config['className'] = ArrayEngine::class;
+    Cache::drop($cacheKey);
+    Cache::setConfig($cacheKey, $config);
+}
 
 // otherwise Security mock fails with debug info
 Configure::write('debug', true);

@@ -17,6 +17,7 @@
 - Uploader
   - ＋ Configurable storage adapter (filesystem, AWS, Azure, (S)FTP, …)
 - Internal changes:
+  - Δ Use Cake's in-memory cache engine for PHP-tests
   - − Removes `AsserTrait::assertXPath` for `AssertTrait::assertContainsTag`
 
 ### Update Notes
