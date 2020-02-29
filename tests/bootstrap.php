@@ -9,6 +9,8 @@ declare(strict_types=1);
  */
 
 use Cake\Core\Configure;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 
 /**
  * Test runner bootstrap.
@@ -25,8 +27,12 @@ $_SERVER['PHP_SELF'] = '/';
 // otherwise Security mock fails with debug info
 Configure::write('debug', true);
 
+define('TEST_TMP_DIR', TMP . 'tests' . DS);
+
 // test userupload in tmp directory
-Configure::write('Saito.Settings.uploadDirectory', TMP . 'tests' . DS);
+Configure::write('Saito.Settings.uploadDirectory', TEST_TMP_DIR);
+Configure::read('Saito.Settings.uploader')
+    ->setStorageFileSystem(new Filesystem(new Local(TEST_TMP_DIR)));
 
 // disable <asset-url>?<timestamp> for tests
 Configure::write('Asset.timestamp', false);

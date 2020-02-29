@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 namespace Plugin\BbcodeParser\src\Lib\Helper;
 
+use Cake\Core\Configure;
 use Cake\Validation\Validator;
 use Saito\DomainParser;
+use Saito\RememberTrait;
 
 /**
  * @property \MailObfuscator\View\Helper\MailObfuscatorHelper $MailObfuscator
@@ -20,6 +22,8 @@ use Saito\DomainParser;
  */
 trait UrlParserTrait
 {
+    use RememberTrait;
+
     /**
      * Enforces HTTPS-scheme on URL
      *
@@ -138,14 +142,15 @@ trait UrlParserTrait
     /**
      * Creates an URL to an uploaded file based on $id
      *
-     * @param string $id currently name in uploads folder
+     * @param string $path currently name in uploads folder
      * @return string URL
      */
-    protected function _linkToUploadedFile(string $id): string
+    protected function _linkToUploadedFile(string $path): string
     {
-        // @bogus, there's an user-config for that
-        $root = '/useruploads/';
+        $generator = $this->remember('urlGenerator', function (): UploadUrlInterface {
+            return Configure::read('Saito.Settings.UploadUrl');
+        });
 
-        return $this->Url->build($root . $id, ['fullBase' => true]);
+        return $generator->build($path);
     }
 }

@@ -14,6 +14,8 @@
 
 - ＋ Requires PHP 7.4+
 - ＋ Updates to CakePHP 4
+- Uploader
+  - ＋ Configurable storage adapter (filesystem, AWS, Azure, (S)FTP, …)
 
 ### Update Notes
 

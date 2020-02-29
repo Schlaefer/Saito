@@ -14,12 +14,11 @@ namespace ImageUploader\Model\Table;
 use App\Lib\Model\Table\AppTable;
 use Cake\Core\Configure;
 use Cake\Event\Event;
-use Cake\Filesystem\File;
 use Cake\I18n\Number;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
-use claviska\SimpleImage;
+use ImageUploader\Lib\UploadStorage;
 use ImageUploader\Model\Entity\Upload;
 
 /**
@@ -37,6 +36,12 @@ class UploadsTable extends AppTable
      * Constrained to 191 due to InnoDB index max-length on MySQL 5.6.
      */
     public const FILENAME_MAXLENGTH = 191;
+
+    /**
+     * Handles persistent storage
+     * @var \ImageUploader\Lib\UploadStorage
+     */
+    private UploadStorage $uploadStorage;
 
     /**
      * {@inheritDoc}
@@ -126,13 +131,12 @@ class UploadsTable extends AppTable
      */
     public function beforeSave(Event $event, Upload $entity, \ArrayObject $options)
     {
-        if (!$entity->isDirty('name') && !$entity->isDirty('tmp_name')) {
-            return true;
-        }
-        try {
-            $this->moveUpload($entity);
-        } catch (\Throwable $e) {
-            return false;
+        if ($entity->isDirty('name') || $entity->isDirty('tmp_name')) {
+            try {
+                $this->getUploadStorage()->upload($entity);
+            } catch (\Throwable $e) {
+                return false;
+            }
         }
 
         return true;
@@ -143,142 +147,13 @@ class UploadsTable extends AppTable
      */
     public function beforeDelete(Event $event, Upload $entity, \ArrayObject $options)
     {
-        if ($entity->get('file')->exists()) {
-            return $entity->get('file')->delete();
+        try {
+            $this->getUploadStorage()->delete($entity);
+        } catch (\Throwable $e) {
+            return false;
         }
 
         return true;
-    }
-
-    /**
-     * Puts uploaded file into upload folder
-     *
-     * @param \ImageUploader\Model\Entity\Upload $entity upload
-     * @return void
-     */
-    private function moveUpload(Upload $entity): void
-    {
-        /** @var \Cake\Filesystem\File $file */
-        $file = $entity->get('file');
-        try {
-            $tmpFile = new File($entity->get('tmp_name'));
-            if (!$tmpFile->exists()) {
-                throw new \RuntimeException('Uploaded file not found.');
-            }
-
-            if (!$tmpFile->copy($file->path)) {
-                throw new \RuntimeException('Uploaded file could not be moved');
-            }
-
-            $mime = $file->info()['mime'];
-            switch ($mime) {
-                case 'image/png':
-                    $file = $this->convertToJpeg($file);
-                    $entity->set('type', $file->mime());
-                    // fall through: png is further processed as jpeg
-                    // no break
-                case 'image/jpeg':
-                    $this->fixOrientation($file);
-                    /** @var \ImageUploader\Lib\UploaderConfig $UploaderConfig */
-                    $UploaderConfig = Configure::read('Saito.Settings.uploader');
-                    $this->resize($file, $UploaderConfig->getMaxResize());
-                    $entity->set('size', $file->size());
-                    break;
-                default:
-            }
-
-            $entity->set('name', $file->name);
-        } catch (\Throwable $e) {
-            if ($file->exists()) {
-                $file->delete();
-            }
-            throw new \RuntimeException('Moving uploaded file failed.');
-        }
-    }
-
-    /**
-     * Convert image file to jpeg
-     *
-     * @param \Cake\Filesystem\File $file the non-jpeg image file handler
-     * @return \Cake\Filesystem\File handler to jpeg file
-     */
-    private function convertToJpeg(File $file): File
-    {
-        $jpeg = new File($file->folder()->path . DS . $file->name() . '.jpg');
-
-        try {
-            (new SimpleImage())
-                ->fromFile($file->path)
-                ->toFile($jpeg->path, 'image/jpeg', 75);
-        } catch (\Throwable $e) {
-            if ($jpeg->exists()) {
-                $jpeg->delete();
-            }
-            throw new \RuntimeException('Converting file to jpeg failed.');
-        } finally {
-            $file->delete();
-        }
-
-        return $jpeg;
-    }
-
-    /**
-     * Fix image orientation according to image exif data
-     *
-     * @param \Cake\Filesystem\File $file file
-     * @return \Cake\Filesystem\File handle to fixed file
-     */
-    private function fixOrientation(File $file): File
-    {
-        $new = new File($file->path);
-        (new SimpleImage())
-            ->fromFile($file->path)
-            ->autoOrient()
-            ->toFile($new->path, null, 75);
-
-        return $new;
-    }
-
-    /**
-     * Resizes a file
-     *
-     * @param \Cake\Filesystem\File $file file to resize
-     * @param int $target size in bytes
-     * @return void
-     */
-    private function resize(File $file, int $target): void
-    {
-        $size = $file->size();
-        if ($size < $target) {
-            return;
-        }
-
-        $raw = $file->read();
-
-        [$width, $height] = getimagesizefromstring($raw);
-        $ratio = $size / $target;
-        $ratio = sqrt($ratio);
-
-        $newwidth = (int)($width / $ratio);
-        $newheight = (int)($height / $ratio);
-        $destination = imagecreatetruecolor($newwidth, $newheight);
-
-        $source = imagecreatefromstring($raw);
-        imagecopyresized($destination, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
-        $raw = $destination;
-
-        $type = $file->mime();
-        switch ($type) {
-            case 'image/jpeg':
-                imagejpeg($destination, $file->path);
-                break;
-            case 'image/png':
-                imagepng($destination, $file->path);
-                break;
-            default:
-                throw new \RuntimeException();
-        }
     }
 
     /**
@@ -311,5 +186,20 @@ class UploadsTable extends AppTable
         }
 
         return true;
+    }
+
+    /**
+     * Getter for UploadHandler
+     * @return \ImageUploader\Lib\UploadStorage UploadHandler
+     */
+    protected function getUploadStorage(): UploadStorage
+    {
+        if (empty($this->uploadStorage)) {
+            /** @var \ImageUploader\Lib\UploaderConfig $UploaderConfig */
+            $UploaderConfig = Configure::read('Saito.Settings.uploader');
+            $this->uploadStorage = new UploadStorage($UploaderConfig->getStorageFilesystem());
+        }
+
+        return $this->uploadStorage;
     }
 }

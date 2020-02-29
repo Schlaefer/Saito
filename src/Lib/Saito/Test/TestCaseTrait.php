@@ -19,6 +19,8 @@ use Cake\Mailer\Transport\DebugTransport;
 use Cake\Mailer\TransportFactory;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
 use Saito\App\Registry;
 use Saito\Cache\CacheSupport;
 
@@ -51,6 +53,34 @@ trait TestCaseTrait
     {
         $this->_restoreSettings();
         $this->_clearCaches();
+        $this->_clearTmpFolder();
+    }
+
+    /**
+     * Clear test tmp folder
+     * @return void
+     */
+    protected function _clearTmpFolder(): void
+    {
+        $this->_clearFolder();
+    }
+
+    /**
+     * Clears a folder within the test folder
+     * @param null|string $path  Path to folder (null clears root)
+     * @return void
+     */
+    private function _clearFolder(?string $path = null): void
+    {
+        $fs = new Filesystem(new Local(TEST_TMP_DIR));
+        $contents = $fs->listContents($path);
+        foreach ($contents as $content) {
+            $basename = $content['basename'];
+            if (strpos($basename, '.') === 0) {
+                continue;
+            }
+            $fs->delete($basename);
+        }
     }
 
     /**

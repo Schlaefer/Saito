@@ -48,6 +48,7 @@ class Upload extends Entity
      * Virtual property getting a File to the upload
      *
      * @return File handle to the file
+     * TODO remove
      */
     public function _getFile(): File
     {

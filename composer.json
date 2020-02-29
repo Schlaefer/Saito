@@ -36,7 +36,8 @@
     "embed/embed": "^3.3",
     "layershifter/tld-extract": "^2.0",
     "cakephp/authentication": "^2.0",
-    "firebase/php-jwt": "^5.0"
+    "firebase/php-jwt": "^5.0",
+    "league/flysystem": "^1.0"
   },
   "require-dev": {
     "cakephp/bake": "@stable",

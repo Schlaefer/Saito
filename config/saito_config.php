@@ -1,5 +1,10 @@
 <?php
 
+use ImageUploader\Lib\UploaderConfig;
+use ImageUploader\Lib\UploadUrlLocal;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+
 /**
  * Saito Enduser Configuration
  */
@@ -37,8 +42,13 @@ $config = [
              */
             'ParserPlugin' => \Plugin\BbcodeParser\src\Lib\Markup::class,
             /**
+             * Generate link to uploaded file
+             */
+            'UploadUrl' => new UploadUrlLocal('/useruploads/'),
+            /**
              * Upload directory root with trailing slash
              */
+            // TODO remove; still used by avatars
             'uploadDirectory' => WWW_ROOT . 'useruploads' . DIRECTORY_SEPARATOR,
             /**
              * Category-select in posting-form is prepopulated with a category
@@ -101,9 +111,12 @@ $config = [
  * Uploader Configuration
  */
 
-use ImageUploader\Lib\UploaderConfig;
-
 $config['Saito']['Settings']['uploader'] = (new UploaderConfig())
+    /**
+     * Place where uploads are stored
+     * @see https://flysystem.thephpleague.com/ for available adapters
+     */
+    ->setStorageFileSystem(new Filesystem(new Local(WWW_ROOT . 'useruploads' . DIRECTORY_SEPARATOR)))
     /**
      * Max number of uploads per user
      */

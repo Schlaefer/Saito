@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace ImageUploader\Lib;
 
 use Cake\Utility\Text;
+use League\Flysystem\FilesystemInterface;
 
 /**
  * Configuration class for the uploader
@@ -40,6 +41,11 @@ class UploaderConfig
      * @var int Default target size for resizing a type in bytes
      */
     private $defaultResize = 450000;
+
+    /**
+     * @var \League\Flysystem\FilesystemInterface Storage place for file system
+     */
+    private FilesystemInterface $filesystem;
 
     /**
      * Set default max file size when resizing a type
@@ -183,5 +189,28 @@ class UploaderConfig
     public function hasType(string $type): bool
     {
         return !empty($this->types[$type]);
+    }
+
+    /**
+     * Filesystem setter
+     *
+     * @param \League\Flysystem\FilesystemInterface $filesystem Filesystem
+     * @return self
+     */
+    public function setStorageFileSystem(FilesystemInterface $filesystem): self
+    {
+        $this->filesystem = $filesystem;
+
+        return $this;
+    }
+
+    /**
+     * Filesystem getter
+     *
+     * @return \League\Flysystem\FilesystemInterface Filesystem
+     */
+    public function getStorageFilesystem(): FilesystemInterface
+    {
+        return $this->filesystem;
     }
 }
