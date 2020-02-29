@@ -11,6 +11,8 @@ declare(strict_types=1);
 use Cake\Cache\Cache;
 use Cake\Cache\Engine\ArrayEngine;
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
+use Cake\Utility\Security;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 
@@ -20,9 +22,18 @@ require dirname(__DIR__) . '/config/bootstrap.php';
 
 $_SERVER['PHP_SELF'] = '/';
 
+// Allow setting test DB from env (e.g. travis-ci)
+if (getenv('DB_DSN_TEST')) {
+    ConnectionManager::drop('test');
+    ConnectionManager::setConfig('test', ['url' => getenv('DB_DSN_TEST')]);
+}
+
+Security::setSalt('a-long-but-not-random-string-value');
+Configure::write('Security.cookieSalt', 'a-long-but-not-random-string-value');
+
 /// Use in-memory cache engine for tests
 foreach (Cache::configured() as $cacheKey) {
-    $config = Cache::getConfigOrFail($cacheKey);
+    $config = Cache::getConfig($cacheKey);
     $config['className'] = ArrayEngine::class;
     Cache::drop($cacheKey);
     Cache::setConfig($cacheKey, $config);
