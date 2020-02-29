@@ -99,6 +99,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin(\SaitoSearch\Plugin::class, ['routes' => true]);
         $this->addPlugin(\Sitemap\Plugin::class, ['bootstrap' => true, 'routes' => true]);
         $this->addPlugin(\ImageUploader\Plugin::class, ['routes' => true]);
+        $this->addPlugin(\Siezi\SimpleCaptcha\Plugin::class);
 
         $this->addPlugin(\Cron\Plugin::class);
         $this->addPlugin(\Commonmark\Plugin::class);

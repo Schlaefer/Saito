@@ -26,7 +26,7 @@
     "davidyell/proffer": "cake-4-dev",
     "jbbcode/jbbcode": "~1.4",
     "markstory/geshi": "^4",
-    "siezi/cakephp-simple-captcha": "*",
+    "siezi/cakephp-simple-captcha": "^1.0",
     "yzalis/identicon": "*",
     "league/commonmark": "^1.0",
     "suin/php-rss-writer": "^1.6",
