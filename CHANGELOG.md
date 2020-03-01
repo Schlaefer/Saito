@@ -36,6 +36,7 @@ Refer to the CakePHP 4 documentation for all changes. Note that the template fil
 - ＋ Adds permission `saito.core.user.lastLogin.view` to see a user's last login (defaults to admin)
 - ＋ Emit event `saito.core.user.activate.after` after user activation
 - ＋ Emit event `saito.core.user.register.after` after user registration
+- ＋ Adds plugin "Local" for local customization
 - ✓ Improves wrapping of long words and links in posting #365
 - ✓ Fixes localization in advanced search #364
 - ✓ Missing navigation links in search head
@@ -58,6 +59,8 @@ Refer to the CakePHP 4 documentation for all changes. Note that the template fil
 ### Update Notes
 
 Plugins subscribing to events may have to update event-names. See *docs/dev-hooks.md* for available events.
+
+The plugin Local in "plugins/local" allows extending the forum in a CakePHP fashion without running composer.
 
 ## [5.6.0] - 2020-01-03
 
