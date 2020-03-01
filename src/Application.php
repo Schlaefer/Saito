@@ -102,6 +102,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         $this->addPlugin('Proffer');
 
+        $this->addPlugin('Local');
         $this->loadDefaultThemePlugin();
 
         Stopwatch::stop('Application::bootstrap');

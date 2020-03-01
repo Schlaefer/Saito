@@ -81,6 +81,8 @@
       "ImageUploader\\Test\\": "plugins/ImageUploader/tests",
       "Installer\\": "plugins/Installer/src",
       "Installer\\Test\\": "plugins/Installer/tests",
+      "Local\\": "./plugins/Local/src/",
+      "Local\\Test\\": "./plugins/Local/tests/",
       "SaitoHelp\\": "./plugins/SaitoHelp/src",
       "SaitoSearch\\": "./plugins/SaitoSearch/src",
       "Sitemap\\": "./plugins/Sitemap/src",
