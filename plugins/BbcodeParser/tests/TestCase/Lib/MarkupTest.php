@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace BbcodeParser\Test\Lib;
 
-use Plugin\BbcodeParser\src\Lib\Markup;
+use BbcodeParser\Lib\Markup;
 use Saito\Markup\MarkupSettings;
 use Saito\Test\SaitoTestCase;
 

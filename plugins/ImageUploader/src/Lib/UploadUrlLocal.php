@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace ImageUploader\Lib;
 
 use Cake\Routing\Router;
-use Plugin\BbcodeParser\src\Lib\Helper\UploadUrlInterface;
+use BbcodeParser\Lib\Helper\UploadUrlInterface;
 
 class UploadUrlLocal implements UploadUrlInterface
 {

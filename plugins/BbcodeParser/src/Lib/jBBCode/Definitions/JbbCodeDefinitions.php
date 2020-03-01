@@ -9,11 +9,11 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
+namespace BbcodeParser\Lib\jBBCode\Definitions;
 
 use Cake\Cache\Cache;
-use Plugin\BbcodeParser\src\Lib\Helper\Message;
-use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
+use BbcodeParser\Lib\Helper\Message;
+use BbcodeParser\Lib\Helper\UrlParserTrait;
 use Saito\DomainParser;
 
 /**

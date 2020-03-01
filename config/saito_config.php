@@ -40,7 +40,7 @@ $config = [
              *
              * Parser hould be placed in app/Plugin/<name>Parser
              */
-            'ParserPlugin' => \Plugin\BbcodeParser\src\Lib\Markup::class,
+            'ParserPlugin' => \BbcodeParser\Lib\Markup::class,
             /**
              * Generate link to uploaded file
              */

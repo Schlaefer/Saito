@@ -9,9 +9,9 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
+namespace BbcodeParser\Lib\jBBCode\Visitors;
 
-use Plugin\BbcodeParser\src\Lib\Helper\UrlParserTrait;
+use BbcodeParser\Lib\Helper\UrlParserTrait;
 
 /**
  * Handles all implicit linking in a text (autolink URLs, tags, ...)

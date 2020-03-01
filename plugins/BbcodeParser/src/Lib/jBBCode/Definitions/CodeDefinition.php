@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib\jBBCode\Definitions;
+namespace BbcodeParser\Lib\jBBCode\Definitions;
 
 use Cake\View\Helper;
 use JBBCode\ElementNode;

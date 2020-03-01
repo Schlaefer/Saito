@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib\Processors;
+namespace BbcodeParser\Lib\Processors;
 
 class BbcodeProcessorCollection
 {
@@ -18,7 +18,7 @@ class BbcodeProcessorCollection
     /**
      * Add processor to collection.
      *
-     * @param \Plugin\BbcodeParser\src\Lib\Processors\BbcodeProcessor $Preprocessor processor
+     * @param \BbcodeParser\Lib\Processors\BbcodeProcessor $Preprocessor processor
      * @param array $options options
      * @return void
      */

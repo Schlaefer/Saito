@@ -9,10 +9,10 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib;
+namespace BbcodeParser\Lib;
 
 use Cake\View\Helper;
-use Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
+use BbcodeParser\Lib\jBBCode\Visitors;
 use Saito\Markup\MarkupSettings;
 
 class Parser
@@ -343,7 +343,7 @@ class Parser
                     $this->_Parser->addCodeDefinition($builder->build());
                     break;
                 case 'class':
-                    $class = '\Plugin\BbcodeParser\src\Lib\jBBCode\Definitions\\' . ucfirst($title);
+                    $class = '\BbcodeParser\Lib\jBBCode\Definitions\\' . ucfirst($title);
                     $this->_Parser->addCodeDefinition(new $class($this->_Helper, $options));
                     break;
                 default:

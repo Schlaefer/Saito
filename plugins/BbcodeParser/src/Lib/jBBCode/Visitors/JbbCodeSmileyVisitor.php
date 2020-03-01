@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib\jBBCode\Visitors;
+namespace BbcodeParser\Lib\jBBCode\Visitors;
 
 use App\View\Helper\ParserHelper;
 use Saito\Markup\MarkupSettings;

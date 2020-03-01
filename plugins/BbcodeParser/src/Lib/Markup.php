@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib;
+namespace BbcodeParser\Lib;
 
 use App\View\Helper\ParserHelper;
 use Saito\Markup\MarkupInterface;
@@ -18,15 +18,15 @@ use Saito\Markup\MarkupSettings;
 class Markup implements MarkupInterface
 {
     /**
-     * @var \Plugin\BbcodeParser\src\Lib\Editor|null
+     * @var \BbcodeParser\Lib\Editor|null
      */
     protected $editor;
     /**
-     * @var \Plugin\BbcodeParser\src\Lib\Parser|null
+     * @var \BbcodeParser\Lib\Parser|null
      */
     protected $parser;
     /**
-     * @var \Plugin\BbcodeParser\src\Lib\Preprocessor|null
+     * @var \BbcodeParser\Lib\Preprocessor|null
      */
     protected $preproccesor;
     /**
@@ -148,7 +148,7 @@ class Markup implements MarkupInterface
     /**
      * Get editor
      *
-     * @return \Plugin\BbcodeParser\src\Lib\Editor
+     * @return \BbcodeParser\Lib\Editor
      */
     protected function getEditor(): Editor
     {

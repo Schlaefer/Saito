@@ -106,7 +106,7 @@ trait TestCaseTrait
         $this->saitoSettings = Configure::read('Saito.Settings');
         $this->saitoPermissions = clone Configure::read('Saito.Permission.Resources');
         $this->setI18n('en');
-        Configure::write('Saito.Settings.ParserPlugin', \Plugin\BbcodeParser\src\Lib\Markup::class);
+        Configure::write('Saito.Settings.ParserPlugin', \BbcodeParser\Lib\Markup::class);
         Configure::write('Saito.Settings.uploader', clone $this->saitoSettings['uploader']);
     }
 

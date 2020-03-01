@@ -15,7 +15,7 @@ use App\View\Helper\ParserHelper;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\View\View;
-use Plugin\BbcodeParser\src\Lib\Parser;
+use BbcodeParser\Lib\Parser;
 use Saito\Markup\MarkupSettings;
 use Saito\Test\SaitoTestCase;
 use Saito\User\Userlist\UserlistModel;

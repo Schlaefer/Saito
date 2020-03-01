@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license http://opensource.org/licenses/MIT
  */
 
-namespace Plugin\BbcodeParser\src\Lib\Processors;
+namespace BbcodeParser\Lib\Processors;
 
 use Saito\Markup\MarkupSettings;
 
