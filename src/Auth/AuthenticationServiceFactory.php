@@ -62,6 +62,10 @@ class AuthenticationServiceFactory
                     ['className' => LegacyPasswordHasherSaltless::class, 'hashType' => 'md5'],
                 ],
             ],
+            'resolver' => [
+                'className' => 'Authentication.Orm',
+                'finder' => 'profile',
+            ],
         ]);
 
         // Authenticators are checked in order of registration.
