@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace BbcodeParser\Lib;
 
-use Cake\View\Helper;
 use BbcodeParser\Lib\jBBCode\Visitors;
+use Cake\View\Helper;
 use Saito\Markup\MarkupSettings;
 
 class Parser

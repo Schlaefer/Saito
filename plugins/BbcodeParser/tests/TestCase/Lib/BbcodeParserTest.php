@@ -12,10 +12,10 @@ declare(strict_types=1);
 namespace BbcodeParser\Test\Lib;
 
 use App\View\Helper\ParserHelper;
+use BbcodeParser\Lib\Parser;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\View\View;
-use BbcodeParser\Lib\Parser;
 use Saito\Markup\MarkupSettings;
 use Saito\Test\SaitoTestCase;
 use Saito\User\Userlist\UserlistModel;

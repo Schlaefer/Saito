@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace ImageUploader\Lib;
 
-use Cake\Routing\Router;
 use BbcodeParser\Lib\Helper\UploadUrlInterface;
+use Cake\Routing\Router;
 
 class UploadUrlLocal implements UploadUrlInterface
 {

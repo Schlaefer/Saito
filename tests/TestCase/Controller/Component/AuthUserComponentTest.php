@@ -13,7 +13,6 @@ namespace App\Test\TestCase\Controller\Component;
 
 use App\Auth\AuthenticationServiceFactory;
 use App\Controller\Component\AuthUserComponent;
-use App\Model\Table\UserIgnoresTable;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Authentication\PasswordHasher\PasswordHasherFactory;
 use Cake\Controller\ComponentRegistry;

@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace BbcodeParser\Lib\jBBCode\Definitions;
 
-use Cake\Cache\Cache;
 use BbcodeParser\Lib\Helper\Message;
 use BbcodeParser\Lib\Helper\UrlParserTrait;
+use Cake\Cache\Cache;
 use Saito\DomainParser;
 
 /**
