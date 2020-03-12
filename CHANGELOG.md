@@ -22,7 +22,11 @@
 - ✓ Internal error viewing posting where the thread starter was deleted
 - ✓ Fixes user-blocking not working
 - Δ Set default period for advanced search to the last 12 months #354
-- Δ Switches Bota-theme night/day button icon #366
+- Layout
+  - ＋ Adds navigation to Mix-view on entries/view thread overview #370
+  - Δ Change thread-tool menu on entries/index #367
+  - Δ Switches Bota-theme night/day button icon #366
+  - Δ Change avatar presentation entries/view
 - Uploader
   - ＋ Default target-size for resizing images is configurable
   - Δ Default target-size for resizing images is reduced from 820 kB to 450 kB

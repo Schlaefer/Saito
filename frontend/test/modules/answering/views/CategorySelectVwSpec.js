@@ -1,6 +1,5 @@
 import AnswerModel from 'modules/answering/models/AnswerModel';
 import CategorySelect from 'modules/answering/views/CategorySelectVw';
-import { SubjectInputView as View } from 'modules/answering/views/SubjectInputVw';
 import _ from 'underscore';
 
 describe('answering form', function () {
@@ -29,7 +28,8 @@ describe('answering form', function () {
 
       const html = view.getUI('select');
 
-      expect(html).toContainHtml('<option value=""></option>');
+      debugger;
+      expect(html).toContainHtml(`<option value="" disabled="disabled" selected="selected">answer.cat.l</option>`);
     });
 
     it('shows with autoselect category true', function () {
@@ -41,7 +41,7 @@ describe('answering form', function () {
 
       const html = view.getUI('select');
 
-      expect(html).not.toContainHtml('<option value=""></option>');
+      expect(html).not.toContainHtml(`<option value="" disabled="disabled" selected="selected">answer.cat.l</option>`);
     });
 
     it('shows categories', function () {

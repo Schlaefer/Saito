@@ -62,4 +62,19 @@ class PostingHelperTest extends SaitoTestCase
         $result = $this->Helper->getFastLink($posting);
         $this->assertEquals($expected, $result);
     }
+
+    public function testUrlToMix()
+    {
+        $data = [
+            'id' => 4,
+            'tid' => 2,
+        ];
+        $posting = new Posting($data);
+
+        $result = $this->Helper->urlToMix($posting);
+        $this->assertEquals('/entries/mix/2#4', $result);
+
+        $result = $this->Helper->urlToMix($posting, false);
+        $this->assertEquals('/entries/mix/2', $result);
+    }
 }

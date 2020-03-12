@@ -194,6 +194,23 @@ class PostingHelper extends AppHelper
     }
 
     /**
+     * Generate URL to mix view from Posting
+     *
+     * @param PostingInterface $posting Posting to generate URL for
+     * @param bool $jump Jump to posting in mix view
+     * @return string
+     */
+    public function urlToMix(PostingInterface $posting, bool $jump = true): string
+    {
+        $tid = $posting->get('tid');
+        $webroot = $this->getView()->getRequest()->getAttribute('webroot');
+        $url = "${webroot}entries/mix/${tid}";
+        $url .= $jump ? '#' . $posting->get('id') : '';
+
+        return $url;
+    }
+
+    /**
      * Gets SaitoEventManager
      *
      * @return SaitoEventManager

@@ -878,16 +878,12 @@ msgid "Apply"
 msgstr ""
 
 #: src/Template/Element/entry/thread_cached_init.ctp:13
-msgid "btn-showThreadInMixView"
-msgstr "mix"
+msgid "gn.btn.mix.t"
+msgstr "Mix-view"
 
 #: src/Template/Element/entry/thread_cached_init.ctp:14
 msgid "gn.btn.collapse.t"
-msgstr "Un-/Fold"
-
-#: src/Template/Element/entry/thread_cached_init.ctp:15
-msgid "gn.btn.more.t"
-msgstr "more"
+msgstr "Open or collapse thread"
 
 #: src/Template/Element/entry/view_content.ctp:68
 msgid "{0} edited by {1}"

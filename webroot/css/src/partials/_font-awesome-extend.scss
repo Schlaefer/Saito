@@ -3,7 +3,6 @@
 ******************************************************************************/
 
 .fa-thread {
-  padding-top: 1px;
   font-family: inherit;
   &:before {
     content: "\2022";
@@ -43,6 +42,12 @@
   @extend .fa-wrench;
 }
 
+.fa-mix {
+  @extend .fa-align-right;
+  @extend .fa-flip-horizontal;
+  @extend .fa-flip-vertical;
+}
+
 .fa-multimedia {
   @extend .fa-clipboard;
 }
@@ -62,11 +67,11 @@
 }
 
 .fa-thread-open {
-  @extend .fa-angle-down;
+  @extend .fa-chevron-down;
 }
 
 .fa-thread-closed {
-  @extend .fa-angle-right;
+  @extend .fa-chevron-right;
 }
 
 .fa-huge {

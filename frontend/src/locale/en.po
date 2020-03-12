@@ -28,7 +28,7 @@ msgstr "Submit"
 
 #: frontend/src/modules/answering/views/CategorySelectVw.ts:23
 msgid "answer.cat.l"
-msgstr "Category"
+msgstr "Select a category"
 
 #: frontend/src/modules/answering/buttons/CiteBtnVw.ts:23
 msgid "answer.cite.t"

@@ -96,7 +96,6 @@ class EntriesController extends AppController
         $this->request->getSession()->write('paginator.lastPage', $currentPage);
         $this->set('showDisclaimer', true);
         $this->set('showBottomNavigation', true);
-        $this->set('allowThreadCollapse', true);
         $this->Slidetabs->show();
 
         $this->_setupCategoryChooser($this->CurrentUser);

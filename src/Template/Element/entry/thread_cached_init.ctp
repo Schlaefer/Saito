@@ -3,23 +3,19 @@ use Stopwatch\Lib\Stopwatch;
 
 Stopwatch::start('entries/thread_cached_init');
 
-$allowThreadCollapse = $allowThreadCollapse ?? false;
-
 /*
  * Caching the localized threadbox title tags.
  * Depending on the number of threads on the page i10n can cost several ms.
  */
 $l10nCache = [
-    'mix' => __('btn-showThreadInMixView'),
-    'collapse' => __('gn.btn.collapse.t'),
-    'more' => __('gn.btn.more.t'),
+    'mix' => h(__('gn.btn.mix.t')),
+    'collapse' => h(__('gn.btn.collapse.t')),
 ];
-$toolboxButtonsToDisplay = ['mix' => 1, 'panel-info' => false];
 
 if (!isset($toolboxButtons)) {
     $toolboxButtons = [];
 }
-$toolboxButtons += $toolboxButtonsToDisplay;
+$toolboxButtons += ['collapse' => true];
 
 foreach ($entriesSub as $entrySub) :
     // the entry currently viewed (e.g. entries/view)
@@ -34,38 +30,26 @@ foreach ($entriesSub as $entrySub) :
     $css = ($entrySub->getThread()->get('root')->isIgnored()) ? 'ignored' : '';
     ?>
     <div class="threadBox <?= $css ?>" data-id="<?= $entrySub->get('id') ?>">
-        <?php if ($toolboxButtons['panel-info']) : ?>
-            <div class="threadBox-tools lefty-aside">
-                <a href="<?= $this->request->getAttribute('webroot') ?>entries/mix/<?= $entrySub->get('tid') ?>" class="btn btn-link" rel="nofollow">
-                    <?= $l10nCache['mix']; ?>
-                </a>
+            <div class="threadBox-tools">
                 <?php
-                /**
-                 * More menu
-                 */
-                $button1 = <<<EOF
-<a href="#" class="dropdown-item btn-threadCollapse">
-<i class="fa fa-thread-open"></i> &nbsp; {$l10nCache['collapse']}
-</a>
-EOF;
-                $style = '';
-                if (!$allowThreadCollapse || !$entrySub->hasAnswers()) {
-                    $style = 'visibility: hidden;';
+                $class = 'infoText';
+                if ($toolboxButtons['collapse'] && $entrySub->hasAnswers()) {
+                    $class = 'btn-threadCollapse';
                 }
-                echo $this->Layout->dropdownMenuButton(
-                    [$button1],
-                    [
-                        'title' => $l10nCache['more'],
-                        'class' => 'btn btn-link',
-                        'style' => $style,
-                    ]
-                );
                 ?>
-                <div class="clearfix"></div>
-            </div>
-        <?php endif; ?>
+                <button href="#" class="btn btn-link threadBox-tools-btn <?= $class ?>">
+                    <i class="fa fa-fw fa-thread-open" title="<?= $l10nCache['collapse'] ?>";></i>
+                </button>
 
-        <div class="threadBox-body panel flex-lefty-item">
+                <a href="<?= $this->Posting->urlToMix($entrySub)?>"
+                    class="btn btn-link threadBox-tools-btn"
+                    title="<?= $l10nCache['mix'] ?>"
+                    rel="nofollow">
+                        <i class="fa fa-fw fa-mix"></i>
+                    </a>
+            </div>
+
+        <div class="threadBox-body">
             <div class="threadBox-threadTree">
                 <?= $rendered; ?>
             </div>

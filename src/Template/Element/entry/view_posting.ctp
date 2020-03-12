@@ -23,13 +23,10 @@ $jsEntry = json_encode(
 );
 ?>
 <div class="postingLayout js-entry-view-core" data-id="<?= $entry->get('id') ?>">
-    <div class="postingLayout-main grid-lefty">
-        <div class="postingLayout-aside lefty-aside">
+    <div class="postingLayout-main">
+        <div class="postingLayout-aside">
             <div class="postingLayout-aside-item">
                 <?= $this->User->getAvatar($entry->get('user')) ?>
-            </div>
-            <div class="postingLayout-aside-item">
-                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
             </div>
         </div>
         <div class="postingLayout-body">

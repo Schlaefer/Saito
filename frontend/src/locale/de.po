@@ -28,7 +28,7 @@ msgstr "Eintragen"
 
 #: frontend/src/modules/answering/views/CategorySelectVw.ts:23
 msgid "answer.cat.l"
-msgstr "Kategorie"
+msgstr "Kategorie wählen"
 
 #: frontend/src/modules/answering/buttons/CiteBtnVw.ts:23
 msgid "answer.cite.t"
