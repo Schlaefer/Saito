@@ -198,13 +198,17 @@ class PostingHelper extends AppHelper
      *
      * @param PostingInterface $posting Posting to generate URL for
      * @param bool $jump Jump to posting in mix view
+     * @param bool $base Add base in front
      * @return string
      */
-    public function urlToMix(PostingInterface $posting, bool $jump = true): string
+    public function urlToMix(PostingInterface $posting, bool $jump = true, bool $base = true): string
     {
         $tid = $posting->get('tid');
-        $webroot = $this->getView()->getRequest()->getAttribute('webroot');
-        $url = "${webroot}entries/mix/${tid}";
+        $url = '';
+        if ($base) {
+            $url .= $this->getView()->getRequest()->getAttribute('base');
+        }
+        $url .= "/entries/mix/${tid}";
         $url .= $jump ? '#' . $posting->get('id') : '';
 
         return $url;
