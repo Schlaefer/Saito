@@ -108,8 +108,9 @@ class JsDataHelper extends AppHelper
     {
         $key = Configure::read('Session.cookie') . '-CSRF';
         $token = $View->getRequest()->getCookie($key);
-        if (is_array($token)) {
-            // @bogus In which situation is that not a string or null?
+        if ($token === null) {
+            // First request without CSRF cookie set yet. CSRF set as new cookie
+            // in this request.
             $token = $View->getResponse()->getCookie($key)['value'];
         }
         $header = 'X-CSRF-Token';
