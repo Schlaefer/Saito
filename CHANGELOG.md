@@ -5,7 +5,7 @@
 - Δ Changed
 - − Removed
 
-## [5.7.0]
+## [5.7.0] - 2020-03-25
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...5.7.0)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.7.0.zip)
