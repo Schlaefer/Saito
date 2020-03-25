@@ -5,6 +5,9 @@
 .sass-cache
 /node_modules
 
+### CakePHP 4 ###
+/config/app_local.php
+
 ### CakePHP 3 ###
 schema-dump-default.lock
 /logs

@@ -111,7 +111,7 @@ class PostingHelper extends AppHelper
                 'Saito.Settings.thread_depth_indent'
             ),
             'renderer' => 'thread',
-            'rootWrap' => false
+            'rootWrap' => false,
         ];
         $renderer = $options['renderer'];
         unset($options['renderer']);
@@ -160,7 +160,7 @@ class PostingHelper extends AppHelper
         $out .= '</span>';
 
         $additionalBadges = $this->getSaitoEventManager()->dispatch(
-            'Request.Saito.View.Posting.badges',
+            'saito.core.posting.view.badges.request',
             ['posting' => $entry->toArray()]
         );
         if ($additionalBadges) {
@@ -191,6 +191,27 @@ class PostingHelper extends AppHelper
     public function getSubject(BasicPostingInterface $posting)
     {
         return \h($posting->get('subject')) . ($posting->isNt() ? ' n/t' : '');
+    }
+
+    /**
+     * Generate URL to mix view from Posting
+     *
+     * @param PostingInterface $posting Posting to generate URL for
+     * @param bool $jump Jump to posting in mix view
+     * @param bool $base Add base in front
+     * @return string
+     */
+    public function urlToMix(PostingInterface $posting, bool $jump = true, bool $base = true): string
+    {
+        $tid = $posting->get('tid');
+        $url = '';
+        if ($base) {
+            $url .= $this->getView()->getRequest()->getAttribute('base');
+        }
+        $url .= "/entries/mix/${tid}";
+        $url .= $jump ? '#' . $posting->get('id') : '';
+
+        return $url;
     }
 
     /**

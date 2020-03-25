@@ -13,7 +13,7 @@ $this->set('titleForPage', $title);
     <div class="card-body panel-content richtext">
         <?= $this->Html->nestedList([
             $this->Html->link(__d('feeds', 'postings.new.t'), '/feeds/postings/new.rss'),
-            $this->Html->link(__d('feeds', 'threads.new.t'), '/feeds/postings/threads.rss')
+            $this->Html->link(__d('feeds', 'threads.new.t'), '/feeds/postings/threads.rss'),
         ]); ?>
     </div>
 </div>

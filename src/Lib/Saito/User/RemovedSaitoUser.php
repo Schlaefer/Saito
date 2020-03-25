@@ -21,8 +21,16 @@ class RemovedSaitoUser extends SaitoUser
     {
         $settings = [
             'id' => null,
-            'username' => __('user.removed.placeholder')
+            'username' => __('user.removed.placeholder'),
         ];
         parent::__construct($settings);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRole(): string
+    {
+        return 'deletedUser';
     }
 }

@@ -96,7 +96,7 @@ class SaitoDummyDataShell extends Shell
         'Sun',
         'Teresa',
         'Tom',
-        'Walt'
+        'Walt',
     ];
 
     /**
@@ -209,7 +209,7 @@ class SaitoDummyDataShell extends Shell
                 'username' => $name,
                 'password' => 'test',
                 'password_confirm' => 'test',
-                'user_email' => "$name@example.com"
+                'user_email' => "$name@example.com",
             ];
             $this->Users->register($data, true);
             $this->_progress($i++, $n);

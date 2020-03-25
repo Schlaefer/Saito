@@ -12,19 +12,10 @@ declare(strict_types=1);
 
 namespace SaitoSearch\Test\Controller;
 
+use Cake\ORM\TableRegistry;
+use DateTimeImmutable;
 use Saito\Exception\SaitoForbiddenException;
 use Saito\Test\IntegrationTestCase;
-
-/*
-class SearchesMockController extends SearchesController
-{
-
-    public function sanitize($string)
-    {
-        return $this->_sanitize($string);
-    }
-}
-*/
 
 /**
  * SearchesController Test Case
@@ -48,7 +39,7 @@ class SearchesControllerTest extends IntegrationTestCase
     /**
      * Sorting search results by rank
      */
-    public function testSimpleSortByRank()
+    public function testSearchSimpleSortByRank()
     {
         $this->skipOnDataSource('Postgres');
         $this->_loginUser(1);
@@ -65,7 +56,7 @@ class SearchesControllerTest extends IntegrationTestCase
     /**
      * Admin Category results should be in search results for admin
      */
-    public function testSimpleAccession()
+    public function testSearchSimpleAccession()
     {
         $this->skipOnDataSource('Postgres');
         $this->_loginUser(1);
@@ -79,9 +70,8 @@ class SearchesControllerTest extends IntegrationTestCase
     /**
      * Admin Category results shouldn't be in search results for user
      */
-    public function testSimpleNoAccession()
+    public function testSearchSimpleNoAccession()
     {
-        $this->skipOnDataSource('Postgres');
         $this->_loginUser(3);
 
         $this->get('/searches/simple?searchTerm="Third+Thread+First_Subject"');
@@ -93,26 +83,35 @@ class SearchesControllerTest extends IntegrationTestCase
     /**
      * Admin Category results should be in search results for admin
      */
-    public function testAdvancedAccession()
+    public function testSearchAdvancedAccession()
     {
-        $this->_loginUser(1);
+        $url = '/searches/advanced?subject=Third+Thread+First_Subject&year[year]=1999';
 
-        $this->get('/searches/advanced?subject=Third+Thread+First_Subject');
+        /// No access for normal user
+        $this->_loginUser(3);
+        $this->get($url);
         $result = $this->viewVariable('results');
+        $this->assertCount(0, $result);
 
+        /// Access for admin
+        $this->_loginUser(1);
+        $this->get($url);
+        $result = $this->viewVariable('results');
         $this->assertCount(1, $result);
     }
 
-    /**
-     * Admin Category results shouldn't be in search results for user
-     */
-    public function testAdvancedNoAccessionPassive()
+    public function testAdvancedSearchWithNoExistingPostings()
     {
         $this->_loginUser(3);
 
-        $this->get('/searches/advanced?subject=Third+Thread+First_Subject');
-        $result = $this->viewVariable('results');
+        $EntriesTable = TableRegistry::getTableLocator()->get('Entries');
+        $EntriesTable->deleteAll('id > 0');
 
+        $url = '/searches/advanced?subject=foo';
+        $this->get($url);
+
+        $this->assertResponseCode(200);
+        $result = $this->viewVariable('results');
         $this->assertCount(0, $result);
     }
 
@@ -128,9 +127,29 @@ class SearchesControllerTest extends IntegrationTestCase
     {
         $this->_loginUser(1);
 
-        $this->get('/searches/advanced?name=Alice');
+        $this->get('/searches/advanced?name=Alice&year[year]=1999');
 
         $results = $this->viewVariable('results');
         $this->assertNotEmpty($results);
+    }
+
+    /**
+     * Limit default search range to the last year
+     */
+    public function testSearchAdvancedSinceLastYear()
+    {
+        $this->_loginUser(3);
+
+        $this->get('/searches/advanced');
+
+        $actualMonth = $this->viewVariable('month');
+        $today = new DateTimeImmutable();
+        $expectedMonth = $today->format('n');
+        /// Leap years are fun! \o/
+        if ($today->format('m-d') === '02-29') {
+            $expectedMonth++;
+        }
+
+        $this->assertEquals($expectedMonth, $actualMonth);
     }
 }

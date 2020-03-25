@@ -16,7 +16,6 @@ use Cake\TestSuite\TestCase;
 
 abstract class SaitoTestCase extends TestCase
 {
-
     use AssertTrait;
     use TestCaseTrait;
 

@@ -101,7 +101,7 @@ class ExceptionLogger
             return;
         }
         if (!($data['CurrentUser'] instanceof CurrentUserInterface)) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
         $CurrentUser = $data['CurrentUser'];
         if ($CurrentUser->isLoggedIn()) {

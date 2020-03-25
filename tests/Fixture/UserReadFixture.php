@@ -16,33 +16,33 @@ class UserReadFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'user_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'entry_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'created' => ['type' => 'datetime', 'null' => true, 'default' => null],
         'modified' => ['type' => 'datetime', 'null' => true, 'default' => null],
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     /**
@@ -54,7 +54,7 @@ class UserReadFixture extends TestFixture
         [
             'id' => 1,
             'user_id' => 9999,
-            'entry_id' => 9999
+            'entry_id' => 9999,
         ],
         [
             'id' => 2,

@@ -78,7 +78,7 @@ class UserOnlineTable extends Table
                 [
                     'isUnique' => [
                         'rule' => 'validateUnique',
-                        'provider' => 'table'
+                        'provider' => 'table',
                     ],
                 ]
             );
@@ -191,12 +191,12 @@ class UserOnlineTable extends Table
             [
                 'contain' => [
                     'Users' => [
-                        'fields' => ['id', 'user_type', 'username']
-                    ]
+                        'fields' => ['id', 'user_type', 'username'],
+                    ],
                 ],
                 'conditions' => ['UserOnline.logged_in' => true],
                 'fields' => ['id'],
-                'order' => ['LOWER(Users.username)' => 'ASC']
+                'order' => ['LOWER(Users.username)' => 'ASC'],
             ]
         );
         Stopwatch::stop('UserOnline->getLoggedIn()');

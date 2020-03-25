@@ -20,7 +20,7 @@ class SmileyLoaderTest extends SaitoTestCase
                 'image' => 'wink.svg',
                 'title' => 'Wink',
                 'code' => ';-)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'sort' => 1,
@@ -28,7 +28,7 @@ class SmileyLoaderTest extends SaitoTestCase
                 'image' => 'wink.svg',
                 'title' => 'Wink',
                 'code' => ';)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'sort' => 2,
@@ -36,7 +36,7 @@ class SmileyLoaderTest extends SaitoTestCase
                 'image' => 'smile_image.png',
                 'title' => 'Smile',
                 'code' => ':-)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'sort' => 3,
@@ -44,8 +44,8 @@ class SmileyLoaderTest extends SaitoTestCase
                 'image' => 'coffee',
                 'title' => 'Coffee',
                 'code' => '[_]P',
-                'type' => 'font'
-            ]
+                'type' => 'font',
+            ],
         ];
         $result = $loader->get();
         $this->assertEquals($expected, $result);

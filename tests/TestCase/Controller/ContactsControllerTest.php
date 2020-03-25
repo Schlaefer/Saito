@@ -16,7 +16,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
         'app.UserOnline',
         'app.UserIgnore',
         'app.UserRead',
-        'app.Setting'
+        'app.Setting',
     ];
 
     public function testContactEmailSuccessWithCc()
@@ -26,7 +26,7 @@ class ContactsControllerTestCase extends IntegrationTestCase
             'sender_contact' => 'fo3@example.com',
             'subject' => 'subject',
             'text' => 'text',
-            'cc' => '1'
+            'cc' => '1',
         ];
 
         $transproter = $this->mockMailTransporter();
@@ -91,9 +91,9 @@ class ContactsControllerTestCase extends IntegrationTestCase
         $tags = [
             'input#sender-contact' => [
                 'attributes' => [
-                    'type' => 'email'
-                ]
-            ]
+                    'type' => 'email',
+                ],
+            ],
         ];
         $this->assertResponseContainsTags($tags);
     }

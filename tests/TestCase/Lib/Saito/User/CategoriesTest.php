@@ -29,14 +29,14 @@ class CategoriesTest extends SaitoTestCase
         $result = $Lib->getAll('read', 'select');
         $expected = [
             3 => 'Another Ontopic',
-            2 => 'Ontopic'
+            2 => 'Ontopic',
         ];
         $this->assertEquals($result, $expected);
 
         $result = $Lib->getAll('read');
         $expected = [
             3 => 3,
-            2 => 2
+            2 => 2,
         ];
         $this->assertEquals($result, $expected);
 
@@ -90,7 +90,7 @@ class CategoriesTest extends SaitoTestCase
         $expected = [
             3 => 'Another Ontopic',
             2 => 'Ontopic',
-            4 => 'Offtopic'
+            4 => 'Offtopic',
         ];
         $this->assertEquals($expected, $result);
     }

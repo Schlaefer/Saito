@@ -157,7 +157,7 @@ class Stopwatch
             'utime' => $utime - self::$_userStart,
             'wdiff' => $wdiff,
             'udiff' => $udiff,
-            'mem' => memory_get_usage()
+            'mem' => memory_get_usage(),
         ];
 
         // endtime
@@ -287,7 +287,7 @@ class Stopwatch
         foreach (self::$_events as $v) {
             $data[] = [
                 'label' => $v['title'],
-                'data' => [[1, $v['wdiff']], [2, $v['udiff']]]
+                'data' => [[1, $v['wdiff']], [2, $v['udiff']]],
             ];
         }
         $out = json_encode($data);

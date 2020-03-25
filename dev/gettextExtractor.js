@@ -1,17 +1,31 @@
+/**
+ * Extract Gettext strings from Javascript
+ * 
+ * @see https://github.com/lukasgeiter/gettext-extractor
+ */
+
 const { GettextExtractor, JsExtractors, HtmlExtractors } = require('gettext-extractor');
 
 let extractor = new GettextExtractor();
 
-extractor
-    .createJsParser([
-        JsExtractors.callExpression('$.i18n.__', {
-            arguments: {
-                text: 0,
-            }
-        }),
-    ])
-   .parseFilesGlob('./frontend/src/**/*.@(ts|js|tsx|jsx|html)');
+/**
+ * Default extractor
+ * 
+ * disabled in favor of HTML extractor below
+ */
+// extractor
+//     .createJsParser([
+//         JsExtractors.callExpression('$.i18n.__', {
+//             arguments: {
+//                 text: 0,
+//             }
+//         }),
+//     ])
+//    .parseFilesGlob('./frontend/src/**/*.@(ts|js|tsx|jsx|html)');
 
+/**
+ * Extract localization from JS snippets in .ctp Cake template files
+ */
 extractor
     .createJsParser([
         JsExtractors.callExpression('$.i18n.__', {
@@ -22,6 +36,9 @@ extractor
     ])
    .parseFilesGlob('./src/Template/**/*.@(ctp)');
 
+/**
+* Main extractor catching Saito JS localization strings
+*/
 extractor
   .createHtmlParser([
     (node, fileName, addMessage) => {

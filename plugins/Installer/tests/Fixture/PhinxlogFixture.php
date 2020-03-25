@@ -22,7 +22,7 @@ class PhinxlogFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'migration_name' => [
             'type' => 'string',
@@ -34,19 +34,19 @@ class PhinxlogFixture extends TestFixture
             'null' => true,
             'default' => null,
             'collate' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'end_time' => [
             'type' => 'datetime',
             'null' => true,
             'default' => null,
             'collate' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'user_automaticaly_mark_as_read' => [
             'type' => 'boolean',
             'null' => false,
-            'default' => '0'
+            'default' => '0',
         ],
     ];
 

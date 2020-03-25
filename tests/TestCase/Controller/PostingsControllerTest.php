@@ -35,13 +35,13 @@ class PostingsControllerTest extends IntegrationTestCase
         'app.UserBlock',
         'app.UserIgnore',
         'app.UserOnline',
-        'app.UserRead'
+        'app.UserRead',
     ];
 
     public function testAddFailureNoAuthorization()
     {
         $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
+            'headers' => ['Accept' => 'application/json'],
         ]);
 
         $this->expectException(UnauthenticatedException::class);
@@ -131,7 +131,7 @@ class PostingsControllerTest extends IntegrationTestCase
     public function testMetaFailureAuthorization()
     {
         $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
+            'headers' => ['Accept' => 'application/json'],
         ]);
 
         $this->expectException(UnauthenticatedException::class);
@@ -219,7 +219,7 @@ class PostingsControllerTest extends IntegrationTestCase
     public function testEditFailureUnauthorized()
     {
         $this->configRequest([
-            'headers' => ['Accept' => 'application/json']
+            'headers' => ['Accept' => 'application/json'],
         ]);
 
         $this->expectException(UnauthenticatedException::class);

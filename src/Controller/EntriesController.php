@@ -64,7 +64,7 @@ class EntriesController extends AppController
     /**
      * posting index
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function index()
     {
@@ -96,7 +96,6 @@ class EntriesController extends AppController
         $this->request->getSession()->write('paginator.lastPage', $currentPage);
         $this->set('showDisclaimer', true);
         $this->set('showBottomNavigation', true);
-        $this->set('allowThreadCollapse', true);
         $this->Slidetabs->show();
 
         $this->_setupCategoryChooser($this->CurrentUser);
@@ -177,7 +176,7 @@ class EntriesController extends AppController
      * View posting.
      *
      * @param string $id posting-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function view(string $id)
     {
@@ -216,7 +215,7 @@ class EntriesController extends AppController
     /**
      * Add new posting.
      *
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function add()
     {
@@ -228,7 +227,7 @@ class EntriesController extends AppController
      * Edit posting
      *
      * @param string $id posting-ID
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      * @throws NotFoundException
      * @throws BadRequestException
      */
@@ -269,7 +268,7 @@ class EntriesController extends AppController
      * Get thread-line to insert after an inline-answer
      *
      * @param string $id posting-ID
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function threadLine($id = null)
     {
@@ -297,7 +296,7 @@ class EntriesController extends AppController
         //$this->request->allowMethod(['post', 'delete']);
         $id = (int)$id;
         if (!$id) {
-            throw new NotFoundException;
+            throw new NotFoundException();
         }
         /* @var Entry $posting */
         $posting = $this->Entries->get($id);
@@ -426,17 +425,18 @@ class EntriesController extends AppController
      * @param string $id posting-ID
      * @param string $toggle property
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     public function ajaxToggle($id = null, $toggle = null)
     {
         $allowed = ['fixed', 'locked'];
-        if (!$id
+        if (
+            !$id
             || !$toggle
             || !$this->request->is('ajax')
             || !in_array($toggle, $allowed)
         ) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
 
         $posting = $this->Entries->get($id);
@@ -485,9 +485,10 @@ class EntriesController extends AppController
             'Saito.Settings.category_chooser_global'
         );
         if (!$globalActivation) {
-            if (!Configure::read(
-                'Saito.Settings.category_chooser_user_override'
-            )
+            if (
+                !Configure::read(
+                    'Saito.Settings.category_chooser_user_override'
+                )
             ) {
                 return;
             }
@@ -528,7 +529,8 @@ class EntriesController extends AppController
 
         if ($this->CurrentUser->isLoggedIn()) {
             // Only logged in users see the answering buttons if they …
-            if (// … directly on entries/view but not inline
+            if (
+// … directly on entries/view but not inline
                 ($this->request->getParam('action') === 'view' && !$this->request->is('ajax'))
                 // … directly in entries/mix
                 || $this->request->getParam('action') === 'mix'
@@ -548,14 +550,16 @@ class EntriesController extends AppController
      * @param BasicPostingInterface $posting posting for root entry
      * @return void
      */
-    protected function _setRootEntry(BasicPostingInterface $posting)
+    protected function _setRootEntry(BasicPostingInterface $posting): void
     {
         if (!$posting->isRoot()) {
+            /** @var \App\Model\Entity\Entry root */
             $root = $this->Entries->find()
-                ->select(['user_id', 'Users.user_type'])
+                ->select(['id', 'user_id', 'Users.user_type'])
                 ->where(['Entries.id' => $posting->get('tid')])
                 ->contain(['Users'])
                 ->first();
+            $root = $root->toPosting();
         } else {
             $root = $posting;
         }

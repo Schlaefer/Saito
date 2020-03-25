@@ -23,8 +23,8 @@ class CategoriesController extends AdminAppController
 
     public $paginate = [
         'order' => [
-            'Categories.category_order' => 'asc'
-        ]
+            'Categories.category_order' => 'asc',
+        ],
     ];
 
     /**
@@ -45,7 +45,7 @@ class CategoriesController extends AdminAppController
     {
         $this->paginate = [
             'limit' => 1000, // limit high enough so that no paging should occur
-            'order' => ['Categories.category_order' => 'ASC']
+            'order' => ['Categories.category_order' => 'ASC'],
         ];
         $this->set('categories', $this->paginate());
     }
@@ -53,7 +53,7 @@ class CategoriesController extends AdminAppController
     /**
      * add new category
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function add()
     {
@@ -89,13 +89,13 @@ class CategoriesController extends AdminAppController
      * edit category
      *
      * @param string $id category-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function edit($id)
     {
         try {
             if (empty($id)) {
-                throw new BadRequestException;
+                throw new BadRequestException();
             }
             $category = $this->Categories->get($id);
         } catch (\Exception $e) {
@@ -129,13 +129,13 @@ class CategoriesController extends AdminAppController
      *
      * @param string $id category-ID
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function delete($id)
     {
         try {
             if (empty($id)) {
-                throw new BadRequestException;
+                throw new BadRequestException();
             }
             $category = $this->Categories->get($id);
         } catch (\Exception $e) {

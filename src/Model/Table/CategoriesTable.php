@@ -48,7 +48,7 @@ class CategoriesTable extends AppSettingTable
             ->add(
                 'category_order',
                 [
-                    'isNumeric' => ['rule' => 'numeric']
+                    'isNumeric' => ['rule' => 'numeric'],
                 ]
             )
             ->add(

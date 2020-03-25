@@ -20,7 +20,7 @@ if (Cache::getConfig('bbcodeParserEmbed') === null) {
             'prefix' => 'saito_embed-',
             'path' => CACHE,
             'groups' => ['embed'],
-            'duration' => '+1 month'
+            'duration' => '+1 month',
         ]
     );
 }

@@ -22,7 +22,6 @@ use Stopwatch\Lib\Stopwatch;
 
 class Stats
 {
-
     use RememberTrait;
 
     /**

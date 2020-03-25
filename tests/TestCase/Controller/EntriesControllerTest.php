@@ -54,7 +54,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
         'app.UserBlock',
         'app.UserIgnore',
         'app.UserOnline',
-        'app.UserRead'
+        'app.UserRead',
     ];
 
     public function setUp()
@@ -174,7 +174,7 @@ class EntriesControllerTestCase extends IntegrationTestCase
                     1 => 1,
                     2 => 1,
                     4 => 0,
-                    9999 => 1
+                    9999 => 1,
                 ],
             ]
         );

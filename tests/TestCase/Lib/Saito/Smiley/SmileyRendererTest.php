@@ -24,7 +24,7 @@ class SmileyRenderTest extends SaitoTestCase
                 'image' => 'wink.png',
                 'title' => 'Wink',
                 'code' => ';)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'order' => 2,
@@ -32,7 +32,7 @@ class SmileyRenderTest extends SaitoTestCase
                 'image' => 'smile_image.svg',
                 'title' => 'Smile',
                 'code' => ':-)',
-                'type' => 'image'
+                'type' => 'image',
             ],
             [
                 'order' => 3,
@@ -40,7 +40,7 @@ class SmileyRenderTest extends SaitoTestCase
                 'image' => 'coffee',
                 'title' => 'Coffee',
                 'code' => '[_]P',
-                'type' => 'font'
+                'type' => 'font',
             ],
         ];
         Cache::write('Saito.Smilies.data', $smiliesFixture);
@@ -67,8 +67,8 @@ class SmileyRenderTest extends SaitoTestCase
                 'src' => $this->Helper->getView()->getRequest()->getAttribute('webroot') . 'img/smilies/wink.png',
                 'alt' => ';)',
                 'class' => 'saito-smiley-image',
-                'title' => 'Wink'
-            ]
+                'title' => 'Wink',
+            ],
         ];
         $result = $this->Renderer->replace($input);
         $this->assertHtml($expected, $result);
@@ -80,8 +80,8 @@ class SmileyRenderTest extends SaitoTestCase
         $expected = [
             'i' => [
                 'class' => 'saito-smiley-font saito-smiley-coffee',
-                'title' => 'Coffee'
-            ]
+                'title' => 'Coffee',
+            ],
         ];
         $result = $this->Renderer->replace($input);
         $this->assertHtml($expected, $result);
@@ -99,8 +99,8 @@ class SmileyRenderTest extends SaitoTestCase
                 'src' => $this->Helper->getView()->getRequest()->getAttribute('webroot') . 'img/smilies/wink.png',
                 'alt' => ';)',
                 'class' => 'saito-smiley-image',
-                'title' => 'Wink'
-            ]
+                'title' => 'Wink',
+            ],
         ];
         $result = $this->Renderer->replace($input);
         $this->assertHtml($expected, $result);

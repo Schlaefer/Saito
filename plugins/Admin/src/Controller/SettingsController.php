@@ -23,7 +23,7 @@ class SettingsController extends AdminAppController
 
     public $helpers = [
         'Admin.Setting',
-        'TimeH'
+        'TimeH',
     ];
 
     protected $settingsShownInAdminIndex = [
@@ -52,7 +52,6 @@ class SettingsController extends AdminAppController
         'store_ip' => ['type' => 'bool'],
         'store_ip_anonymized' => ['type' => 'bool'],
         'subject_maxlength' => 1,
-        'text_word_maxlength' => 1,
         'thread_depth_indent' => 1,
         'timezone' => 1,
         'topics_per_page' => 1,
@@ -90,17 +89,17 @@ class SettingsController extends AdminAppController
      *
      * @param string|null $id settings-ID
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function edit(string $id = null)
     {
         if (empty($id)) {
-            throw new NotFoundException;
+            throw new NotFoundException();
         }
 
         $setting = $this->Settings->get($id);
         if (empty($setting)) {
-            throw new NotFoundException;
+            throw new NotFoundException();
         }
 
         if ($this->request->is(['post', 'put'])) {

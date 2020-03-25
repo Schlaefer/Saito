@@ -8,10 +8,10 @@ echo __(
                 'controller' => 'users',
                 'action' => 'rs',
                 $user->get('id'),
-                '?' => ['c' => $user->get('activate_code')]
+                '?' => ['c' => $user->get('activate_code')],
             ],
             true
-        )
+        ),
     ]
 );
 echo $this->element('email/text/footer');

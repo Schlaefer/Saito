@@ -26,7 +26,7 @@ class StopwatchHelper extends Helper
 {
     public $helpers = [
         'Html',
-        'Number'
+        'Number',
     ];
 
     /**
@@ -64,7 +64,7 @@ class StopwatchHelper extends Helper
         $out = $this->Html->script(
             [
                 'Stopwatch.jquery.flot.min.js',
-                'Stopwatch.jquery.flot.stack.min.js'
+                'Stopwatch.jquery.flot.stack.min.js',
             ]
         );
         $out .= '<div id="stopwatch-plot" style="width:300px;height:600px;"></div>';

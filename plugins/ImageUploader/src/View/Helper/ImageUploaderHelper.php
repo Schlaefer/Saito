@@ -51,7 +51,7 @@ class ImageUploaderHelper extends AppHelper
                     [
                         '_name' => 'imageUploader-thumbnail',
                         'id' => $image->get('id'),
-                        '?' => ['h' => $image->get('hash')]
+                        '?' => ['h' => $image->get('hash')],
                     ],
                     ['fullBase' => true]
                 ),

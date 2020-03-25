@@ -76,7 +76,7 @@ class MarkAsReadComponent extends Component
         }
 
         $options += [
-            'enabled' => $CU->get('user_automaticaly_mark_as_read')
+            'enabled' => $CU->get('user_automaticaly_mark_as_read'),
         ];
 
         if (!$options['enabled']) {

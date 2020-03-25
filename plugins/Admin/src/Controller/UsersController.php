@@ -43,7 +43,7 @@ class UsersController extends AdminAppController
                     'user_type',
                     'user_email',
                     'registered',
-                    'user_lock'
+                    'user_lock',
                 ]
             )
             ->order(['username' => 'asc'])
@@ -54,7 +54,7 @@ class UsersController extends AdminAppController
     /**
      * add user
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function add()
     {

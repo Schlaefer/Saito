@@ -16,7 +16,7 @@
             '{0} online ({1})',
             [
                 $this->Html->link(__('user_area_linkname'), '/users/index'),
-                $registered
+                $registered,
             ]
         );
 ?>

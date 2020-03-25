@@ -33,9 +33,9 @@ class JsonApiExceptionRenderer extends ExceptionRenderer
             'errors' => [
                 [
                     'title' => $this->controller->viewVars['message'],
-                    'code' => $this->controller->viewVars['code']
-                ]
-            ]
+                    'code' => $this->controller->viewVars['code'],
+                ],
+            ],
         ];
 
         if (Configure::read('debug')) {

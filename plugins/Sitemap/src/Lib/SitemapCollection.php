@@ -34,7 +34,7 @@ class SitemapCollection
                     'prefix' => 'saito_',
                     'engine' => 'File',
                     'groups' => ['sitemap'],
-                    'path' => CACHE
+                    'path' => CACHE,
                 ]
             );
         }

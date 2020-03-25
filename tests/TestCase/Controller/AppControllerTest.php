@@ -19,7 +19,7 @@ class AppControllerTest extends IntegrationTestCase
         'app.UserIgnore',
         'app.UserOnline',
         'app.UserRead',
-        'plugin.Bookmarks.Bookmark'
+        'plugin.Bookmarks.Bookmark',
     ];
 
     /**

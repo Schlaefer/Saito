@@ -50,7 +50,7 @@ class DraftsController extends ApiAppController
             'id' => $draft->get('id'),
             'attributes' => [
                 'id' => $draft->get('id'),
-            ]
+            ],
         ];
         $this->set('data', $response);
         $this->set('_serialize', ['data']);
@@ -91,7 +91,7 @@ class DraftsController extends ApiAppController
                 'id' => null,
                 'attributes' => [
                     'id' => null,
-                ]
+                ],
             ];
             $this->set('data', $response);
         } else {

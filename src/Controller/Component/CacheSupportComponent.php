@@ -57,7 +57,7 @@ class CacheSupportComponent extends Component
     {
         $this->LineCache = new ItemCache(
             'Saito.LineCache',
-            new SaitoCacheEngineAppCache,
+            new SaitoCacheEngineAppCache(),
             // duration: update relative time values in HTML at least every hour
             ['duration' => 3600, 'maxItems' => 600]
         );

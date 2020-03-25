@@ -50,7 +50,7 @@ class AvatarFilenameListener implements EventListenerInterface
     {
         return [
             'Proffer.afterPath' => 'change',
-            'Model.afterSaveCommit' => 'onModelAfterSaveCommit'
+            'Model.afterSaveCommit' => 'onModelAfterSaveCommit',
         ];
     }
 

@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Installer\Lib;
 
 use App\Test\Fixture\UserFixture;
-
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;

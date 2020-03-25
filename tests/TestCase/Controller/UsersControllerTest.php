@@ -116,8 +116,8 @@ class UsersControllerTest extends IntegrationTestCase
                     'name' => 'username',
                     'required' => 'required',
                     'tabindex' => '100',
-                    'type' => 'text'
-                ]
+                    'type' => 'text',
+                ],
             ],
             'input#password' => [
                 'attributes' => [
@@ -125,9 +125,9 @@ class UsersControllerTest extends IntegrationTestCase
                     'name' => 'password',
                     'required' => 'required',
                     'tabindex' => '101',
-                    'type' => 'password'
-                ]
-            ]
+                    'type' => 'password',
+                ],
+            ],
         ];
         $this->assertContainsTag($username, (string)$this->_response->getBody());
 
@@ -177,7 +177,7 @@ class UsersControllerTest extends IntegrationTestCase
         $transporter
             ->expects($this->once())
             ->method('send')
-            ->will($this->throwException(new \Exception));
+            ->will($this->throwException(new \Exception()));
 
         Configure::write('Saito.Settings.tos_enabled', false);
         $data = [
@@ -203,7 +203,7 @@ class UsersControllerTest extends IntegrationTestCase
         $exists = $Users->exists(
             [
                 'username' => 'NewUser1',
-                'activate_code >' => 0
+                'activate_code >' => 0,
             ]
         );
         $this->assertTrue($exists);
@@ -222,8 +222,8 @@ class UsersControllerTest extends IntegrationTestCase
                     'name' => 'username',
                     'required' => 'required',
                     'tabindex' => '1',
-                    'type' => 'text'
-                ]
+                    'type' => 'text',
+                ],
             ],
             'input#user-email' => [
                 'attributes' => [
@@ -231,25 +231,25 @@ class UsersControllerTest extends IntegrationTestCase
                     'name' => 'user_email',
                     'required' => 'required',
                     'tabindex' => '2',
-                    'type' => 'text'
-                ]
+                    'type' => 'text',
+                ],
             ],
             'input#password' => [
                 'attributes' => [
                     'autocomplete' => 'new-password',
                     'name' => 'password',
                     'tabindex' => '3',
-                    'type' => 'password'
-                ]
+                    'type' => 'password',
+                ],
             ],
             'input#password-confirm' => [
                 'attributes' => [
                     'autocomplete' => 'new-password',
                     'name' => 'password_confirm',
                     'tabindex' => '4',
-                    'type' => 'password'
-                ]
-            ]
+                    'type' => 'password',
+                ],
+            ],
         ];
         $this->assertContainsTag($expected, (string)$this->_response->getBody());
     }
@@ -307,7 +307,7 @@ class UsersControllerTest extends IntegrationTestCase
             'user_email' => 'NewUser1@example.com',
             'password' => 'NewUser1spassword',
             'password_confirm' => 'NewUser1spassword',
-            'tos_confirm' => '0'
+            'tos_confirm' => '0',
         ];
 
         $exists = $Users->exists(['username' => 'NewUser1']);
@@ -355,7 +355,7 @@ class UsersControllerTest extends IntegrationTestCase
         $exists = $Users->exists(
             [
                 'username' => 'NewUser1',
-                'activate_code >' => 0
+                'activate_code >' => 0,
             ]
         );
         $this->assertTrue($exists);
@@ -381,7 +381,7 @@ class UsersControllerTest extends IntegrationTestCase
         $exists = $Users->exists(
             [
                 'username' => 'NewUser1',
-                'activate_code >' => 0
+                'activate_code >' => 0,
             ]
         );
         $this->assertTrue($exists);
@@ -514,7 +514,7 @@ class UsersControllerTest extends IntegrationTestCase
             ],
             'CatMeta' => [
                 'All' => '1',
-            ]
+            ],
         ];
 
         $this->mockSecurity();
@@ -1228,7 +1228,7 @@ class UsersControllerTest extends IntegrationTestCase
                     'type' => 'image/png',
                     'size' => strlen($imageData),
                 ],
-                'avatarDelete' => null
+                'avatarDelete' => null,
             ];
 
             $this->post('/users/avatar/3', $data);
@@ -1256,7 +1256,7 @@ class UsersControllerTest extends IntegrationTestCase
 
         $data = [
             'avatar' => [],
-            'avatarDelete' => 1
+            'avatarDelete' => 1,
         ];
         $this->post('/users/avatar/3', $data);
 
@@ -1291,9 +1291,9 @@ class UsersControllerTest extends IntegrationTestCase
                 'tmp_name' => $testFile,
                 'error' => 0,
                 'name' => 'test.png',
-                'type' => 'image/png'
+                'type' => 'image/png',
             ],
-            'avatarDelete' => null
+            'avatarDelete' => null,
         ];
 
         $this->post('/users/avatar/3', $data);
@@ -1327,9 +1327,9 @@ class UsersControllerTest extends IntegrationTestCase
                 'tmp_name' => $testFile,
                 'error' => 0,
                 'name' => 'test.png',
-                'type' => 'image/png'
+                'type' => 'image/png',
             ],
-            'avatarDelete' => null
+            'avatarDelete' => null,
         ];
 
         $this->post('/users/avatar/3', $data);
@@ -1363,9 +1363,9 @@ class UsersControllerTest extends IntegrationTestCase
                 'tmp_name' => $testFile,
                 'error' => 0,
                 'name' => 'test.mp4',
-                'type' => 'image/png'
+                'type' => 'image/png',
             ],
-            'avatarDelete' => null
+            'avatarDelete' => null,
         ];
 
         $this->post('/users/avatar/3', $data);

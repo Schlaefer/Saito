@@ -9,7 +9,7 @@
     "backbone.babysitter": "^0.1.0",
     "backbone.localstorage": "^2.0.0",
     "backbone.marionette": "^4.0.0",
-    "bootstrap": "^4.3.0",
+    "bootstrap": "^4.4.0",
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.16",
     "favico.js": "^0.3.10",

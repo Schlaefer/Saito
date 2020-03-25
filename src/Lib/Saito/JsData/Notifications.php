@@ -27,14 +27,14 @@ class Notifications
     {
         $defaults = [
             'type' => 'notice',
-            'channel' => 'notification'
+            'channel' => 'notification',
         ];
         $options = array_merge($defaults, $options);
 
         $nm = [
             'message' => $message,
             'type' => $options['type'],
-            'channel' => $options['channel']
+            'channel' => $options['channel'],
         ];
         if (isset($options['title'])) {
             $nm['title'] = $options['title'];

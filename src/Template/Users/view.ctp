@@ -13,7 +13,7 @@ $ResourceAI = (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId
 $urlToHistory = [
     'controller' => 'searches',
     'action' => 'advanced',
-    '?' => ['name' => $user->get('username')]
+    '?' => ['name' => $user->get('username')],
 ];
 
 $role = $this->Permissions->roleAsString($user->getRole());
@@ -21,18 +21,18 @@ $table = [
     [
         __('username_marking'),
         h($user->get('username')) . " <span class='infoText'>({$role})</span>",
-    ]
+    ],
 ];
 
 $table[] = [
     __('user.avatar.t'),
-    $this->User->getAvatar($user, ['link' => false])
+    $this->User->getAvatar($user, ['link' => false]),
 ];
 
 if (!$user->isActivated() && $CurrentUser->permission('saito.core.user.activate.view')) {
     $table[] = [
         h(__('user.actv.t')),
-        h(__('user.actv.ny'))
+        h(__('user.actv.ny')),
     ];
 }
 
@@ -46,7 +46,7 @@ if ($user->isLocked()) {
 if ($user->get('user_real_name')) {
     $table[] = [
         __('user_real_name'),
-        h($user->get('user_real_name'))
+        h($user->get('user_real_name')),
     ];
 }
 
@@ -67,14 +67,14 @@ if ($user->get('user_email') && ($user->get('personal_messages') || $viewContact
 if ($user->get('user_hp')) {
     $table[] = [
         __('user_hp'),
-        $this->User->linkExternalHomepage($user->get('user_hp'))
+        $this->User->linkExternalHomepage($user->get('user_hp')),
     ];
 }
 
 if ($user->get('user_place')) {
     $table[] = [
         __('user_place'),
-        h($user->get('user_place'))
+        h($user->get('user_place')),
     ];
 }
 
@@ -83,8 +83,17 @@ $table[] = [
     $this->TimeH->formatTime(
         $user->get('registered'),
         '%d.%m.%Y'
-    )
+    ),
 ];
+
+if ($CurrentUser->permission('saito.core.user.lastLogin.view')) {
+    $table[] = [
+        h(__('user.lastLogin.t')),
+        empty($user->get('last_login'))
+            ? __('user.lastLogin.never')
+            : $this->TimeH->formatTime($user->get('last_login')),
+    ];
+}
 
 $table[] = [
     __('user_postings'),
@@ -92,14 +101,14 @@ $table[] = [
         $user->numberOfPostings(),
         $urlToHistory,
         ['escape' => false]
-    )
+    ),
 ];
 
 // helpful postings
 if ($solved) {
     $table[] = [
         $this->Posting->solvedBadge(),
-        $solved
+        $solved,
     ];
 }
 
@@ -108,7 +117,7 @@ $ignoreHelp = $this->SaitoHelp->icon(7);
 if ($user->get('ignore_count') > 0) {
     $table[] = [
         __('user_ignored_by'),
-        $user->get('ignore_count') . $ignoreHelp
+        $user->get('ignore_count') . $ignoreHelp,
     ];
     $ignoreHelp = '';
 }
@@ -130,7 +139,7 @@ if ($user->get('ignores') && count($user->get('ignores')->toArray())) {
     }
     $table[] = [
         __('user_ignores'),
-        $this->Html->nestedList($o) . $ignoreHelp
+        $this->Html->nestedList($o) . $ignoreHelp,
     ];
 }
 
@@ -138,20 +147,20 @@ if ($user->get('ignores') && count($user->get('ignores')->toArray())) {
 if ($user->get('profile')) {
     $table[] = [
         __('user_profile'),
-        $this->Parser->parse($user->get('profile'))
+        $this->Parser->parse($user->get('profile')),
     ];
 }
 
 if ($user->get('signature')) {
     $table[] = [
         __('user_signature'),
-        $this->Parser->parse($user->get('signature'), ['embed' => false])
+        $this->Parser->parse($user->get('signature'), ['embed' => false]),
     ];
 }
 
 //= get additional profile info from plugins
 $items = $SaitoEventManager->dispatch(
-    'Request.Saito.View.User.beforeFullProfile',
+    'saito.core.user.profile.render.request',
     ['user' => $user, 'View' => $this]
 );
 if ($items) {
@@ -181,7 +190,7 @@ if ($items) {
                 ['action' => 'edit', $user->get('id')],
                 [
                     'id' => 'btn_user_edit',
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-primary',
                 ]
             );
         }
@@ -198,7 +207,7 @@ if ($items) {
                         'class' => 'btn shp',
                         'data' => ['id' => $user->get('id')],
                         'data-shpid' => 7,
-                        'escape' => false
+                        'escape' => false,
                     ]
                 );
             } else {
@@ -212,7 +221,7 @@ if ($items) {
                         'class' => 'btn shp',
                         'data' => ['id' => $user->get('id')],
                         'data-shpid' => 7,
-                        'escape' => false
+                        'escape' => false,
                     ]
                 );
             }
@@ -281,7 +290,7 @@ if ($items) {
                     __('Block User'),
                     [
                         'class' => 'btn btn-link',
-                        'type' => 'submit'
+                        'type' => 'submit',
                     ]
                 );
                 $lock[] = "&nbsp;";
@@ -295,7 +304,7 @@ if ($items) {
                         'step' => 21600,
                         'style' => 'vertical-align: middle;',
                         'type' => 'range',
-                        'value' => $defaultValue
+                        'value' => $defaultValue,
                     ]
                 );
                 $lock[] = $this->Form->hidden(

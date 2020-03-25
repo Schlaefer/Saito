@@ -14,7 +14,7 @@ class CategoriesTableTest extends SaitoTableTestCase
         'app.Category',
         'app.Entry',
         'app.User',
-        'app.UserOnline'
+        'app.UserOnline',
     ];
 
     public function testUpdateEvent()

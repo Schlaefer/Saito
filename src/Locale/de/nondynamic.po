@@ -249,14 +249,6 @@ msgid "subject_maxlength_exp"
 msgstr "Maximale Zeichenanzahl in Betreff."
 
 #
-msgid "text_word_maxlength"
-msgstr "Wordlänge"
-
-#
-msgid "text_word_maxlength_exp"
-msgstr "Maximale Zeichenanzahl pro Wort."
-
-#
 msgid "video_domains_allowed"
 msgstr "Einbettbare (Video-) Quellen"
 

@@ -67,7 +67,8 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
      */
     public function isRead($id, $timestamp = null)
     {
-        if (($timestamp !== null)
+        if (
+            ($timestamp !== null)
             && $this->LastRefresh->isNewerThan($timestamp)
         ) {
             return true;
@@ -99,7 +100,7 @@ abstract class ReadPostingsAbstract implements ReadPostingsInterface
         }
 
         if (empty($postings)) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
 
         // performance: don't store entries covered by timestamp

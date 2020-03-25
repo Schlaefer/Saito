@@ -61,7 +61,7 @@ class AdminsController extends AdminAppController
     public function plugins()
     {
         $plugins = SaitoEventManager::getInstance()
-            ->dispatch('Request.Saito.View.Admin.plugins');
+            ->dispatch('saito.plugin.admin.plugins.request');
         $this->set(compact('plugins'));
     }
 }

@@ -30,7 +30,7 @@ abstract class HtmlRendererAbstract
     protected $_defaults = [
         'currentEntry' => null,
         'ignore' => true,
-        'rootWrap' => false
+        'rootWrap' => false,
     ];
 
     protected $_settings;

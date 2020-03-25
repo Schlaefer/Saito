@@ -63,7 +63,7 @@ class UploadsFixture extends TestFixture
                 'size' => 1000000,
                 'user_id' => 1,
                 'created' => '2018-05-15 17:11:24',
-                'modified' => '2018-05-15 17:11:24'
+                'modified' => '2018-05-15 17:11:24',
             ],
             [
                 'id' => 2,
@@ -73,7 +73,7 @@ class UploadsFixture extends TestFixture
                 'size' => 50000,
                 'user_id' => 3,
                 'created' => '2018-05-15 17:13:00',
-                'modified' => '2018-05-15 17:13:00'
+                'modified' => '2018-05-15 17:13:00',
             ],
         ];
         parent::init();

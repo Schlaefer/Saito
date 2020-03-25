@@ -80,7 +80,7 @@ class DetectorsComponent extends Component
         'integromedb',
         'siteexplorer.info',
         'proximic',
-        'changedetection'
+        'changedetection',
     ];
 
     protected $_isBot = null;

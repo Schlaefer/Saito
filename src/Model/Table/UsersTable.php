@@ -57,7 +57,7 @@ class UsersTable extends AppTable
      * {@inheritDoc}
      */
     protected $_defaultConfig = [
-        'user_name_disallowed_chars' => ['\'', ';', '&', '<', '>']
+        'user_name_disallowed_chars' => ['\'', ';', '&', '<', '>'],
     ];
 
     /**
@@ -75,7 +75,7 @@ class UsersTable extends AppTable
                 'userBlockGc' => [
                     'id' => 'User.userBlockGc',
                     'due' => '+15 minutes',
-                ]
+                ],
             ]
         );
 
@@ -90,8 +90,8 @@ class UsersTable extends AppTable
                         'square' => ['w' => 100, 'h' => 100],
                     ],
                     // Options are Imagick, Gd or Gmagick
-                    'thumbnailMethod' => 'Gd'
-                ]
+                    'thumbnailMethod' => 'Gd',
+                ],
             ]
         );
         $this->getEventManager()->on(new AvatarFilenameListener($avatarRootDir));
@@ -130,8 +130,8 @@ class UsersTable extends AppTable
                 'sort' => [
                     'UserBlocks.ended IS NULL DESC',
                     'UserBlocks.ended' => 'DESC',
-                    'UserBlocks.id' => 'DESC'
-                ]
+                    'UserBlocks.id' => 'DESC',
+                ],
             ]
         );
     }
@@ -158,7 +158,7 @@ class UsersTable extends AppTable
                 'avatar-extension',
                 [
                     'rule' => ['extension', ['jpg', 'jpeg', 'png']],
-                    'message' => __('user.avatar.error.extension', ['jpg, jpeg, png'])
+                    'message' => __('user.avatar.error.extension', ['jpg, jpeg, png']),
                 ]
             )
             ->add(
@@ -166,7 +166,7 @@ class UsersTable extends AppTable
                 'avatar-size',
                 [
                     'rule' => ['fileSize', Validation::COMPARE_LESS, '3MB'],
-                    'message' => __('user.avatar.error.size', ['3'])
+                    'message' => __('user.avatar.error.size', ['3']),
                 ]
             )
             ->add(
@@ -174,7 +174,7 @@ class UsersTable extends AppTable
                 'avatar-mime',
                 [
                     'rule' => ['mimetype', ['image/jpeg', 'image/png']],
-                    'message' => __('user.avatar.error.mime')
+                    'message' => __('user.avatar.error.mime'),
                 ]
             )
             ->add(
@@ -185,14 +185,14 @@ class UsersTable extends AppTable
                         'dimensions',
                         [
                             'min' => ['w' => 100, 'h' => 100],
-                            'max' => ['w' => 1500, 'h' => 1500]
-                        ]
+                            'max' => ['w' => 1500, 'h' => 1500],
+                        ],
                     ],
                     'message' => __(
                         'user.avatar.error.dimension',
                         ['100x100', '1500x1500']
                     ),
-                    'provider' => 'proffer'
+                    'provider' => 'proffer',
                 ]
             );
 
@@ -204,8 +204,8 @@ class UsersTable extends AppTable
                     'pwConfirm' => [
                         'rule' => [$this, 'validateConfirmPassword'],
                         'last' => true,
-                        'message' => __('error_password_confirm')
-                    ]
+                        'message' => __('error_password_confirm'),
+                    ],
                 ]
             );
 
@@ -217,8 +217,8 @@ class UsersTable extends AppTable
                     'pwCheckOld' => [
                         'rule' => [$this, 'validateCheckOldPassword'],
                         'last' => true,
-                        'message' => 'validation_error_pwCheckOld'
-                    ]
+                        'message' => 'validation_error_pwCheckOld',
+                    ],
                 ]
             );
 
@@ -231,24 +231,24 @@ class UsersTable extends AppTable
                         'rule' => 'validateIsUniqueCiString',
                         'provider' => 'saito',
                         'last' => true,
-                        'message' => __('error_name_reserved')
+                        'message' => __('error_name_reserved'),
                     ],
                     'isUsernameEqual' => [
                         'on' => 'create',
                         'last' => true,
-                        'rule' => [$this, 'validateUsernameEqual']
+                        'rule' => [$this, 'validateUsernameEqual'],
                     ],
                     'hasAllowedChars' => [
                         'rule' => [$this, 'validateHasAllowedChars'],
                         'message' => __(
                             'model.user.validate.username.hasAllowedChars'
-                        )
+                        ),
                     ],
                     'isNotEmoji' => [
                         'rule' => 'utf8',
                         'message' => __(
                             'model.user.validate.username.hasAllowedChars'
-                        )
+                        ),
                     ],
                     'maxLength' => [
                         'last' => true,
@@ -267,13 +267,13 @@ class UsersTable extends AppTable
                         'rule' => 'validateUnique',
                         'provider' => 'table',
                         'last' => true,
-                        'message' => __('error_email_reserved')
+                        'message' => __('error_email_reserved'),
                     ],
                     'isEmail' => [
                         'rule' => ['email', true],
                         'last' => true,
-                        'message' => __('error_email_wrong')
-                    ]
+                        'message' => __('error_email_wrong'),
+                    ],
                 ]
             );
 
@@ -291,7 +291,7 @@ class UsersTable extends AppTable
             [
                 'allowedType' => [
                     'rule' => [$this, 'validateUserRoleExists'],
-                ]
+                ],
             ]
         );
 
@@ -318,7 +318,7 @@ class UsersTable extends AppTable
                 'activate_code',
                 [
                     'numeric' => ['rule' => ['numeric']],
-                    'between' => ['rule' => ['range', 0, 9999999]]
+                    'between' => ['rule' => ['range', 0, 9999999]],
                 ]
             );
 
@@ -348,8 +348,8 @@ class UsersTable extends AppTable
                 'user_color_new_postings',
                 [
                     'hexformat' => [
-                        'rule' => ['custom', '/^#?[a-f0-9]{0,6}$/i']
-                    ]
+                        'rule' => ['custom', '/^#?[a-f0-9]{0,6}$/i'],
+                    ],
                 ]
             );
         $validator
@@ -358,8 +358,8 @@ class UsersTable extends AppTable
                 'user_color_old_postings',
                 [
                     'hexformat' => [
-                        'rule' => ['custom', '/^#?[a-f0-9]{0,6}$/i']
-                    ]
+                        'rule' => ['custom', '/^#?[a-f0-9]{0,6}$/i'],
+                    ],
                 ]
             );
         $validator
@@ -368,8 +368,8 @@ class UsersTable extends AppTable
                 'user_color_actual_posting',
                 [
                     'hexformat' => [
-                        'rule' => ['custom', '/^#?[a-f0-9]{0,6}$/i']
-                    ]
+                        'rule' => ['custom', '/^#?[a-f0-9]{0,6}$/i'],
+                    ],
                 ]
             );
 
@@ -424,7 +424,7 @@ class UsersTable extends AppTable
     {
         $data = [
             'logins' => $user->get('logins') + $amount,
-            'last_login' => bDate()
+            'last_login' => bDate(),
         ];
         $this->patchEntity($user, $data);
         if (!$this->save($user)) {
@@ -660,14 +660,14 @@ class UsersTable extends AppTable
     {
         $defaults = [
             'registered' => bDate(),
-            'user_type' => 'user'
+            'user_type' => 'user',
         ];
         $fields = [
             'password',
             'registered',
             'user_email',
             'user_type',
-            'username'
+            'username',
         ];
 
         if ($activate !== true) {
@@ -690,7 +690,13 @@ class UsersTable extends AppTable
         if (!empty($errors)) {
             return $user;
         }
-        $this->save($user);
+        $user = $this->save($user);
+        if ($user !== false) {
+            $this->dispatchDbEvent('saito.core.user.register.after', [
+                'subject' => $user,
+                'table' => $this,
+            ]);
+        }
 
         return $user;
     }
@@ -707,7 +713,7 @@ class UsersTable extends AppTable
         $this->deleteAll(
             [
                 'activate_code >' => 0,
-                'registered <' => bDate(time() - 86400)
+                'registered <' => bDate(time() - 86400),
             ]
         );
     }
@@ -751,12 +757,15 @@ class UsersTable extends AppTable
         }
 
         $user->set('activate_code', 0);
-        $success = $this->save($user);
-        if (empty($success)) {
+        $user = $this->save($user);
+        if ($user === false) {
             return false;
         }
 
-        $this->dispatchDbEvent('Model.User.afterActivate', ['User' => $user]);
+        $this->dispatchDbEvent('saito.core.user.activate.after', [
+            'subject' => $user,
+            'table' => $this,
+        ]);
 
         return ['status' => 'activated', 'User' => $user];
     }
@@ -781,8 +790,8 @@ class UsersTable extends AppTable
                         'conditions' => [
                             [
                                 'Entries.solves >' => '0',
-                                'Entries.user_id' => $userId
-                            ]
+                                'Entries.user_id' => $userId,
+                            ],
                         ],
                     ],
                     'Root' => [
@@ -792,8 +801,8 @@ class UsersTable extends AppTable
                         'conditions' => [
                             'Root.id = Entries.solves',
                             'Root.user_id != Users.id',
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -845,7 +854,8 @@ class UsersTable extends AppTable
         } else {
             //=if set a single category
             $category = (int)$category;
-            if ($category > 0 && $this->Entries->Categories->exists((int)$category)
+            if (
+                $category > 0 && $this->Entries->Categories->exists((int)$category)
             ) {
                 $active = $category;
             } else {
@@ -884,7 +894,7 @@ class UsersTable extends AppTable
                         return $query->enableHydration(false)->select(
                             ['blocked_user_id', 'user_id']
                         );
-                    }
+                    },
                 ]
             );
 

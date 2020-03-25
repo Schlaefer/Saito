@@ -32,7 +32,7 @@ $this->end();
                         [
                             'class' => 'btn btn-link',
                             'name' => 'avatarDelete',
-                            'value' => '1'
+                            'value' => '1',
                         ]
                     );
                 }

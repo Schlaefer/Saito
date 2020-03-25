@@ -36,8 +36,8 @@
     },
 
     templates: {
-      theme: '<i class="fa fa-sun-o"></i>',
-      night: '<i class="fa fa-moon-o"></i>'
+      theme: '<i class="fa fa-moon-o"></i>',
+      night: '<i class="fa fa-sun-o"></i>'
     },
 
     _switchTheme: function (event) {

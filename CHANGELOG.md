@@ -5,19 +5,51 @@
 - Δ Changed
 - − Removed
 
-## [Next]
+## [5.7.0] - 2020-03-25
 
-- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...<next>)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...5.7.0)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.7.0.zip)
 
 ### Changes
 
+- ＋ Adds permission `saito.core.user.lastLogin.view` to see a user's last login (defaults to admin)
+- ＋ Emit event `saito.core.user.activate.after` after user activation
+- ＋ Emit event `saito.core.user.register.after` after user registration
+- ＋ Adds plugin "Local" for local customization
+- ✓ Improves wrapping of long words and links in posting #365
+- ✓ Fixes localization in advanced search #364
+- ✓ Missing navigation links in search head
+- ✓ Internal error viewing posting where the thread starter was deleted
+- ✓ Fixes user-blocking not working
+- Δ Set default period for advanced search to the last 12 months #354
+- Layout
+  - ＋ Adds navigation to Mix-view on entries/view thread overview #370
+  - Δ Change thread-tool menu on entries/index #367
+  - Δ Switches Bota-theme night/day button icon #366
+  - Δ Change avatar presentation entries/view
+- Uploader
+  - ＋ Default target-size for resizing images is configurable
+  - Δ Default target-size for resizing images is reduced from 820 kB to 450 kB
+- Internal code changes
+  - ＋ Tests PHP 7.4 on travis-ci
+  - ＋ Run phpcbf and phpcs with multiple threads
+  - ＋ Improve error display before settings are loaded
+  - ✓ Fixes phpstan deprecated warnings
+  - Δ Improves scanning of JS localizaton strings
+  - Δ Updates core JS-, CSS- and PHP-libraries
+  - Δ Updates travis-ci environment from trusty to bionic
+  - Δ Consolidates PHP event names updates documentation
+
 ### Update Notes
 
-## [5.6.0]
+Plugins subscribing to events may have to update event-names. See *docs/dev-hooks.md* for available events.
+
+The plugin Local in "plugins/local" allows extending the forum in a CakePHP fashion without running composer.
+
+## [5.6.0] - 2020-01-03
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-5.6.0.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.6.0.zip)
 
 ### Changes
 
@@ -387,7 +419,7 @@ body {
 
 Otherwise you have to bring your own Bootstrap-theme and layout additional forum properties from scratch.
 
-## [4.1.10] - 2019-06-10
+## [4.10.1] - 2019-06-10
 
 ### What's new
 

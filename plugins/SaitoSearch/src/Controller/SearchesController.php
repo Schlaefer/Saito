@@ -17,8 +17,8 @@ use App\Model\Table\EntriesTable;
 use Cake\Chronos\Chronos;
 use Cake\Database\Driver\Mysql;
 use Cake\Event\Event;
-use Cake\Http\Exception\BadRequestException;
 use Cake\Http\Response;
+use Cake\I18n\FrozenDate;
 use SaitoSearch\Lib\SimpleSearchString;
 use Saito\Exception\SaitoForbiddenException;
 use Search\Controller\Component\PrgComponent;
@@ -70,9 +70,11 @@ class SearchesController extends AppController
      */
     public function simple()
     {
+        $this->set('titleForPage', __d('saito_search', 'simple.t'));
+
         $defaults = [
             'searchTerm' => '',
-            'order' => 'time'
+            'order' => 'time',
         ];
 
         // @td pgsql
@@ -97,11 +99,11 @@ class SearchesController extends AppController
             'finder' => [
                 $finder => [
                     'categories' => $this->CurrentUser->getCategories()->getAll('read'),
-                    'searchTerm' => $searchString
-                ]
+                    'searchTerm' => $searchString,
+                ],
             ],
             // only sort paginate for "page"-query-param
-            'whitelist' => ['page']
+            'whitelist' => ['page'],
         ];
 
         $results = $this->Paginator->paginate($this->Entries, $config);
@@ -118,22 +120,30 @@ class SearchesController extends AppController
      */
     public function advanced()
     {
+        $this->set('titleForPage', __d('saito_search', 'advanced.t'));
+
         $queryData = $this->request->getQueryParams();
 
-        //// Setup time filter data
+        $now = Chronos::now();
+
+        /// Setup time filter data
         $first = $this->Entries->find()
             ->order(['id' => 'ASC'])
             ->first();
         if ($first) {
             $startDate = $first->get('time');
+            /// Limit default search range to one year in the past
+            $aYearAgo = new FrozenDate('-1 year');
+            $defaultDate = $startDate < $aYearAgo ? $aYearAgo : $startDate;
         } else {
-            $startDate = Chronos::now();
+            /// No entries yet
+            $startDate = $defaultDate = $now;
         }
         $startYear = $startDate->format('Y');
 
         // calculate current month and year
-        $month = $queryData['month']['month'] ?? $startDate->format('n');
-        $year = $queryData['year']['year'] ?? $startYear;
+        $month = $queryData['month']['month'] ?? $defaultDate->month;
+        $year = $queryData['year']['year'] ?? $defaultDate->year;
         $this->set(compact('month', 'year', 'startYear'));
 
         /// Category drop-down data
@@ -153,11 +163,11 @@ class SearchesController extends AppController
 
         /// Time filter
         $time = Chronos::createFromDate($year, $month, 1);
-        if ($time->year !== $startDate->year || $time->month !== $startDate->month) {
+        if ($now->year !== $defaultDate->year || $now->month !== $defaultDate->month) {
             $query->where(['time >=' => $time]);
         }
 
-        //// Category filter
+        /// Category filter
         $categories = array_flip($categories);
         if (!empty($queryData['category_id'])) {
             $category = $queryData['category_id'];

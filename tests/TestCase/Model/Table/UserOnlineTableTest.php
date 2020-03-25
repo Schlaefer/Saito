@@ -23,14 +23,14 @@ class UserOnlineTableTest extends SaitoTableTestCase
         'app.Category',
         'app.Entry',
         'app.User',
-        'app.UserOnline'
+        'app.UserOnline',
     ];
 
     protected $_fields = [
         'logged_in',
         'time',
         'user_id',
-        'uuid'
+        'uuid',
     ];
 
     public function testSetOnlineSuccess()
@@ -41,7 +41,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'uuid' => '5',
             'user_id' => 5,
             'time' => (string)time(),
-            'logged_in' => true
+            'logged_in' => true,
         ];
         $this->Table->setOnline((string)$_userId, true);
 
@@ -64,7 +64,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'uuid' => substr(($_userId), 0, 32),
             'user_id' => null,
             'time' => (string)time(),
-            'logged_in' => 0
+            'logged_in' => 0,
         ];
         $this->Table->setOnline((string)$_userId, false);
 
@@ -123,7 +123,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $this->_startUsersOnline[0] = [
             'uuid' => substr(($_userId), 0, 32),
             'user_id' => null,
-            'logged_in' => false
+            'logged_in' => false,
         ];
         $this->Table->setOnline((string)$_userId, false);
 
@@ -147,7 +147,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
         $this->_startUsersOnline[0] = [
             'uuid' => '5',
             'user_id' => 5,
-            'logged_in' => 1
+            'logged_in' => 1,
         ];
         $this->Table->setOnline((string)$_userId, true);
 
@@ -194,7 +194,7 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'uuid' => '6',
             'user_id' => 6,
             'time' => time(),
-            'logged_in' => true
+            'logged_in' => true,
         ];
         $this->Table->setOnline((string)$_userId, true);
 
@@ -241,8 +241,8 @@ class UserOnlineTableTest extends SaitoTableTestCase
             'user' => [
                 'id' => 3,
                 'username' => 'Ulysses',
-                'user_type' => 'user'
-            ]
+                'user_type' => 'user',
+            ],
         ];
         $this->assertEquals($result, $expected);
     }

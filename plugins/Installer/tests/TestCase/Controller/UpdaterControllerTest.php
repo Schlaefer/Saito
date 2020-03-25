@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Installer\Test\TestCase\Controller;
 
-use App\Model\Table\SettingsTable;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\File;

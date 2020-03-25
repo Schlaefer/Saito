@@ -115,7 +115,7 @@ class UserHelper extends AppHelper
     {
         $options += [
             'title' => $user->get('username'),
-            'escape' => true
+            'escape' => true,
         ];
         $id = $user->get('id');
 
@@ -125,7 +125,8 @@ class UserHelper extends AppHelper
         if (empty($id)) {
             // removed user
             $html = $name;
-        } elseif (($link === true)
+        } elseif (
+            ($link === true)
             || ($link instanceof CurrentUserInterface && $link->isLoggedIn())
         ) {
             return $this->Html->link($name, '/users/view/' . $id, $options);
@@ -154,11 +155,11 @@ class UserHelper extends AppHelper
                 'class' => 'avatar-image',
                 'link' => [
                     'class' => 'avatar-link',
-                    'escape' => false
+                    'escape' => false,
                 ],
                 'size' => 50,
                 'style' => '',
-                'tag' => 'span'
+                'tag' => 'span',
             ];
             $options = array_replace_recursive($defaults, $options);
             $size = $options['size'];
@@ -171,7 +172,7 @@ class UserHelper extends AppHelper
             } else {
                 $name = $user->get('username');
                 $hdpi = 2 * $size;
-                $imgUri = (new Identicon)->getImageDataUri($name, $hdpi);
+                $imgUri = (new Identicon())->getImageDataUri($name, $hdpi);
             }
 
             $style = "background-image: url({$imgUri});" . $options['style'];

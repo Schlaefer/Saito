@@ -18,7 +18,7 @@
                     '/admin/users/index',
                     [
                         'class' => 'nav-link dropdown-toggle',
-                        'data-toggle' => 'dropdown'
+                        'data-toggle' => 'dropdown',
                     ]
                 );
                 echo $this->Html->nestedList(
@@ -32,7 +32,7 @@
                             __('user.block.history'),
                             '/admin/users/block',
                             ['class' => 'dropdown-item']
-                        )
+                        ),
                     ],
                     ['class' => 'dropdown-menu']
                 );
@@ -46,14 +46,14 @@
             </li>
             <?php
             //= plugins
-            $items = $SaitoEventManager->dispatch('Request.Saito.View.Admin.plugins');
+            $items = $SaitoEventManager->dispatch('saito.plugin.admin.plugins.request');
             if ($items) {
                 $dropdown = $this->Html->link(
                     __('Plugins'),
                     '#',
                     [
                         'class' => 'nav-link dropdown-toggle',
-                        'data-toggle' => 'dropdown'
+                        'data-toggle' => 'dropdown',
                     ]
                 );
 

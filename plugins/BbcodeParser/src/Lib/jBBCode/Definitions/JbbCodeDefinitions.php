@@ -248,7 +248,7 @@ class Flash extends Iframe
 
     protected static $_flashVideoDomainsWithHttps = [
         'vimeo' => 1,
-        'youtube' => 1
+        'youtube' => 1,
     ];
 
     /**

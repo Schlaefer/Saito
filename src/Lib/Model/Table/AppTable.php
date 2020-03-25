@@ -63,7 +63,7 @@ class AppTable extends Table
     public function increment($where, $field, $amount = 1)
     {
         if (!is_int($amount)) {
-            throw new \InvalidArgumentException;
+            throw new \InvalidArgumentException();
         }
 
         if (is_numeric($where)) {

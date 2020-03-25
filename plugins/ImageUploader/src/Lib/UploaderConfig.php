@@ -31,6 +31,32 @@ class UploaderConfig
     /** @var array allowed mime types */
     private $types = [];
 
+    /** @var int Default target size for resizing a type in bytes */
+    private $defaultResize = 450000;
+
+    /**
+     * Set default max file size when resizing a type
+     *
+     * @param int $size Size in bytes
+     * @return self
+     */
+    public function setDefaultMaxResize(int $size): self
+    {
+        $this->defaultResize = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get max file size when resizing a type
+     *
+     * @return int Size in bytes
+     */
+    public function getMaxResize(): int
+    {
+        return $this->defaultResize;
+    }
+
     /**
      * Sets max allowed uploads per user
      *

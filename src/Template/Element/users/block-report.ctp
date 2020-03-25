@@ -58,7 +58,7 @@ $format = ($mode === 'full') ? 'eng' : 'normal';
                 $block->get('ends'),
                 [
                     'accuracy' => 'hour',
-                    'relativeStringFuture' => __d('cake', 'in %s')
+                    'relativeStringFuture' => __d('cake', 'in %s'),
                 ]
             ),
         ];
@@ -81,7 +81,7 @@ $format = ($mode === 'full') ? 'eng' : 'normal';
                     'controller' => 'users',
                     'action' => 'unlock',
                     'admin' => false,
-                    $block['id']
+                    $block['id'],
                 ]
             );
         }

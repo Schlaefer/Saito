@@ -18,23 +18,21 @@ $jsEntry = json_encode(
             (new ResourceAI())->onRole($rootEntry->get('user')->getRole())->onOwner($rootEntry->get('user_id'))
         ),
         'tid' => (int)$entry->get('tid'),
-        'time' => $this->TimeH->dateToIso($entry->get('time'))
+        'time' => $this->TimeH->dateToIso($entry->get('time')),
     ]
 );
 ?>
 <div class="postingLayout js-entry-view-core" data-id="<?= $entry->get('id') ?>">
-    <div class="postingLayout-main grid-lefty">
-        <div class="postingLayout-aside lefty-aside">
+    <div class="postingLayout-main">
+        <div class="postingLayout-aside">
             <div class="postingLayout-aside-item">
                 <?= $this->User->getAvatar($entry->get('user')) ?>
-            </div>
-            <div class="postingLayout-aside-item">
-                <?= $this->User->linkToUserProfile($entry->get('user'), $CurrentUser) ?>
             </div>
         </div>
         <div class="postingLayout-body">
             <?php
-            if (!$CurrentUser->get('user_signatures_hide') &&
+            if (
+                !$CurrentUser->get('user_signatures_hide') &&
                 $entry->get('user')->get('signature') &&
                 !$entry->isNt()
             ) {
@@ -45,7 +43,7 @@ $jsEntry = json_encode(
                 [
                     'entry' => $entry,
                     'level' => $level,
-                    'signature' => $showSignature
+                    'signature' => $showSignature,
                 ]
             );
             ?>
@@ -59,10 +57,10 @@ $jsEntry = json_encode(
                 <?php
                 //= get additional actions from plugins
                 $items = $SaitoEventManager->dispatch(
-                    'Request.Saito.View.Posting.footerActions',
+                    'saito.core.posting.view.footerActions.request',
                     [
                         'posting' => $entry->toArray(),
-                        'View' => $this
+                        'View' => $this,
                     ]
                 );
                 foreach ($items as $item) {
@@ -83,7 +81,7 @@ $jsEntry = json_encode(
                     $title,
                     [
                         'class' => 'btn btn-primary',
-                        'disabled' => 'disabled'
+                        'disabled' => 'disabled',
                     ]
                 );
             } elseif (!$isAnsweringForbidden) {
@@ -119,7 +117,7 @@ $jsEntry = json_encode(
                 if ($CurrentUser->permission('saito.core.posting.pinAndLock')) {
                     $ajaxToggleOptions = [
                         'fixed' => 'fa fa-fw fa-thumb-tack',
-                        'locked' => 'fa fa-fw fa-lock'
+                        'locked' => 'fa fa-fw fa-lock',
                     ];
                     foreach ($ajaxToggleOptions as $key => $icon) {
                         if (($entry->get($key) == 0)) {
@@ -132,7 +130,7 @@ $jsEntry = json_encode(
 
                         $options = [
                             'class' => 'dropdown-item js-btn-toggle-' . $key,
-                            'escape' => false
+                            'escape' => false,
                         ];
                         $menuItems[] = $this->Html->link(
                             $title,

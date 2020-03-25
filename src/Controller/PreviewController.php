@@ -31,7 +31,7 @@ class PreviewController extends ApiAppController
     /**
      * Generate posting preview for JSON frontend.
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function preview()
     {

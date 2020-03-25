@@ -84,6 +84,9 @@ $config['Saito']['Permission']['Resources'] = (new Resources())
     // Change a user's email address
     ->add((new Resource('saito.core.user.email.set'))
         ->allow((new ResourceAC())->asRole('admin')))
+    // Show last login date
+    ->add((new Resource('saito.core.user.lastLogin.view'))
+        ->allow((new ResourceAC())->asRole('admin')))
     // Allows locking-out of users
     ->add((new Resource('saito.core.user.lock.set'))
         ->allow((new ResourceAC())->asRole('mod')->onRole('user'))

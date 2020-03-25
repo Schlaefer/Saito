@@ -9,7 +9,7 @@
 <body>
     <div id="site">
         <?php
-        /**
+        /*
          * Header
          */
         echo $this->fetch('theme_header');
@@ -21,8 +21,10 @@
         $navRight = $this->element('layout/header_subnav_right');
 
         $navCenter = '';
-        if ($this->request->getParam('controller') !== 'Entries'
-            || !in_array($this->request->getParam('action'), ['mix', 'view'])) {
+        if (
+            $this->request->getParam('controller') !== 'Entries'
+            || !in_array($this->request->getParam('action'), ['mix', 'view'])
+        ) {
             $navCenter = $this->fetch('headerSubnavCenter');
             if (empty($navCenter)) {
                 $navCenter = $this->Layout->pageHeading($titleForPage);
@@ -38,19 +40,19 @@
          * Slidetabs
          */
         if (!empty($slidetabs)) {
-            \Stopwatch\Lib\Stopwatch::start('Slidetabs');
+            Stopwatch\Lib\Stopwatch::start('Slidetabs');
             // made visible by frontend if ready
             echo '<aside id="slidetabs" style="visibility: hidden;">';
             foreach ($slidetabs as $slidetab) {
                 echo $this->cell($slidetab, ['CurrentUser' => $CurrentUser]);
             }
             echo '</aside>';
-            \Stopwatch\Lib\Stopwatch::end('Slidetabs');
+            Stopwatch\Lib\Stopwatch::end('Slidetabs');
         }
         ?>
 
         <?php
-        /**
+        /*
          * Content
          */
         ?>

@@ -76,8 +76,10 @@ class ContactsController extends AppController
         }
         $this->set('user', $recipient);
 
-        if (!$recipient->get('personal_messages')
-            && !$this->CurrentUser->permission('saito.core.user.contact')) {
+        if (
+            !$recipient->get('personal_messages')
+            && !$this->CurrentUser->permission('saito.core.user.contact')
+        ) {
             throw new BadRequestException(null, 1562415010);
         }
 
@@ -96,7 +98,7 @@ class ContactsController extends AppController
      * @param Form $contact contact-form
      * @param mixed $recipient recipient
      * @param mixed $sender sender
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     protected function _contact(Form $contact, $recipient, $sender)
     {

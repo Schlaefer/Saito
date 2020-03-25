@@ -50,7 +50,7 @@ class Plugin extends BasePlugin
                 'prefix' => 'saito_thumbnails-',
                 'path' => CACHE,
                 'groups' => ['uploads'],
-                'duration' => '+1 year'
+                'duration' => '+1 year',
             ]
         );
     }

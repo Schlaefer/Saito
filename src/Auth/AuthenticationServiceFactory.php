@@ -63,8 +63,12 @@ class AuthenticationServiceFactory
                     ['className' => Mlf2PasswordHasher::class],
                     // Mylittleforum 1 legacy passwords
                     ['className' => LegacyPasswordHasherSaltless::class, 'hashType' => 'md5'],
-                ]
-            ]
+                ],
+            ],
+            'resolver' => [
+                'className' => 'Authentication.Orm',
+                'finder' => 'profile',
+            ],
         ]);
 
         // Authenticators are checked in order of registration.
@@ -85,7 +89,7 @@ class AuthenticationServiceFactory
                     'httpOnly' => true,
                     'name' => Configure::read('Security.cookieAuthName'),
                     'path' => Router::url('/', false),
-                ]
+                ],
             ]
         );
         $service->loadAuthenticator(

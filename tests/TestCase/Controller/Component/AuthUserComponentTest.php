@@ -14,6 +14,7 @@ namespace App\Test\TestCase\Controller\Component;
 
 use App\Auth\AuthenticationServiceFactory;
 use App\Controller\Component\AuthUserComponent;
+use App\Model\Table\UserIgnoresTable;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Authentication\PasswordHasher\PasswordHasherFactory;
 use Cake\Controller\ComponentRegistry;
@@ -22,9 +23,12 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
+use Cake\Http\ServerRequestFactory;
+use Cake\Http\Session;
 use Cake\ORM\TableRegistry;
 use Psr\Http\Message\ServerRequestInterface;
 use Saito\Test\IntegrationTestCase;
+use Saito\User\CurrentUser\CurrentUserInterface;
 
 class AuthUserComponentTest extends IntegrationTestCase
 {
@@ -36,6 +40,7 @@ class AuthUserComponentTest extends IntegrationTestCase
         'app.Entry',
         'app.Setting',
         'app.User',
+        'app.UserIgnore',
         'app.UserOnline',
     ];
 
@@ -145,6 +150,40 @@ class AuthUserComponentTest extends IntegrationTestCase
 
         $payload = \Firebase\JWT\JWT::decode($cookie['value'], $jwtKey, ['HS256']);
         $this->assertEquals(1, $payload->sub);
+    }
+
+    public function testLoginSuccessSession()
+    {
+        $request = ServerRequestFactory::fromGlobals();
+
+        /** @var UserIgnoresTable $Ignores */
+        $Ignores = TableRegistry::getTableLocator()->get('UserIgnores');
+        $Ignores->ignore(3, 7);
+
+        $session = $this->getMockBuilder(Session::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['read'])
+            ->getMock();
+        $session->expects($this->at(0))
+           ->method('read')
+           ->with('Auth')
+           ->will($this->returnValue([
+               'username' => 'Ulysses',
+           ]));
+
+        $request = $request->withAttribute('session', $session);
+        $this->_setup($request);
+
+        $this->component->login();
+
+        /// CurrentUser exists and is set
+        $CU = $this->component->getUser();
+        $this->assertInstanceOf(CurrentUserInterface::class, $CU);
+        $this->assertSame($CU, $this->controller->CurrentUser);
+        $this->assertEquals('Ulysses', $CU->get('username'));
+
+        /// Check that ignores data is attached to CurrentUser
+        $this->assertTrue($CU->ignores(7));
     }
 
     /**

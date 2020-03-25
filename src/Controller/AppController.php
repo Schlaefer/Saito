@@ -77,7 +77,7 @@ class AppController extends Controller
      * @var array default configuration
      */
     protected $_defaultConfig = [
-        'showStopwatch' => false
+        'showStopwatch' => false,
     ];
 
     /**
@@ -134,7 +134,8 @@ class AppController extends Controller
         Stopwatch::start('App->beforeFilter()');
 
         // disable forum with admin pref
-        if (Configure::read('Saito.Settings.forum_disabled') &&
+        if (
+            Configure::read('Saito.Settings.forum_disabled') &&
             $this->request->getParam('action') !== 'login' &&
             !$this->CurrentUser->permission('saito.core.admin.backend')
         ) {
@@ -195,7 +196,8 @@ class AppController extends Controller
 
         //= activate stopwatch
         $stopwatch = $this->request->getQuery('stopwatch');
-        if ($stopwatch && Configure::read('Saito.Settings.stopwatch_get')
+        if (
+            $stopwatch && Configure::read('Saito.Settings.stopwatch_get')
         ) {
             $this->setConfig('showStopwatch', true);
         };
@@ -235,7 +237,7 @@ class AppController extends Controller
         return $this->redirect([
             '_name' => 'login',
             '?' => ['redirect' => $here],
-            'plugin' => false
+            'plugin' => false,
         ]);
     }
 

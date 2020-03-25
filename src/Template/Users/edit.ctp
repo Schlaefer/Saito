@@ -7,7 +7,7 @@ echo $this->Layout->navbarBack(
     [
         'controller' => 'users',
         'action' => 'view',
-        $user->get('id')
+        $user->get('id'),
     ]
 );
 $this->end();
@@ -23,7 +23,7 @@ $this->end();
         if ($CurrentUser->permission('saito.core.user.name.set', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
             $cells[] = [
                 __('username_marking'),
-                $this->Form->control('username', ['class' => 'form-control', 'label' => false])
+                $this->Form->control('username', ['class' => 'form-control', 'label' => false]),
             ];
         } else {
             $cells[] = [__('username_marking'), h($user->get('username'))];
@@ -32,15 +32,16 @@ $this->end();
         if ($CurrentUser->permission('saito.core.user.email.set', (new ResourceAI())->onRole($user->getRole())->onOwner($user->getId()))) {
             $cells[] = [
                 __('userlist_email'),
-                $this->Form->control('user_email', ['class' => 'form-control', 'label' => false])
+                $this->Form->control('user_email', ['class' => 'form-control', 'label' => false]),
             ];
         } else {
             $cells[] = [__('userlist_email'), h($user->get('user_email'))];
         }
 
         $idP = (new ResourceAI())->onRole($user->getRole());
-        if ($CurrentUser->permission('saito.core.user.role.set.restricted', $idP)
-        || $CurrentUser->permission('saito.core.user.role.set.unrestricted', $idP)
+        if (
+            $CurrentUser->permission('saito.core.user.role.set.restricted', $idP)
+            || $CurrentUser->permission('saito.core.user.role.set.unrestricted', $idP)
         ) {
             $cells[] = [
                 __('user_type'),
@@ -51,7 +52,7 @@ $this->end();
                         __('user.role.set.btn'),
                         ['action' => 'role', $user->get('id')]
                     )
-                )
+                ),
             ];
         } else {
             $cells[] = [__('user_type'), $this->Permissions->roleAsString($user->getRole())];
@@ -64,9 +65,9 @@ $this->end();
                     __('change_password_link'),
                     [
                         'action' => 'changepassword',
-                        $user->get('id')
+                        $user->get('id'),
                     ]
-                )
+                ),
             ];
         } elseif ($CurrentUser->permission('saito.core.user.password.set')) {
             $cells[] = [
@@ -86,19 +87,19 @@ $this->end();
         $avatarEdit = $this->Html->para(null, $avatarEditLink);
         $cells[] = [
             __('user.avatar.t'),
-            $avatar . $avatarEdit
+            $avatar . $avatarEdit,
         ];
 
         $cells[] = [
             __('user_real_name'),
             $this->Form->control('user_real_name', ['class' => 'form-control', 'label' => false]) .
-            $this->Html->para('exp', __('user_real_name_exp'))
+            $this->Html->para('exp', __('user_real_name_exp')),
         ];
 
         $cells[] = [
             __('user_hp'),
             $this->Form->control('user_hp', ['class' => 'form-control', 'label' => false]) .
-            $this->Html->para('exp', __('user_hp_exp'))
+            $this->Html->para('exp', __('user_hp_exp')),
         ];
 
         //= place and maps
@@ -117,7 +118,7 @@ $this->end();
                 'profile',
                 ['class' => 'form-control', 'rows' => '5', 'label' => false]
             ) .
-            $this->Html->para('exp', __('user_profile_exp'))
+            $this->Html->para('exp', __('user_profile_exp')),
         ];
 
         $cells[] = [
@@ -126,7 +127,7 @@ $this->end();
                 'signature',
                 ['class' => 'form-control', 'rows' => '5', 'label' => false]
             ) .
-            $this->Html->para('exp', __('user_signature_exp'))
+            $this->Html->para('exp', __('user_signature_exp')),
         ];
 
         echo $this->Html->tag(
@@ -150,7 +151,7 @@ $this->end();
                             'label' => false,
                             'options' => [
                                 '0' => __('user_sort_last_answer_time', 1),
-                                '1' => __('user_sort_last_answer_last_answer', 1)
+                                '1' => __('user_sort_last_answer_last_answer', 1),
                             ],
                             'type' => 'radio',
                         ]
@@ -193,7 +194,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'text' => __('user_signatures_hide_exp')
+                                    'text' => __('user_signatures_hide_exp'),
                                 ],
                             ]
                         )
@@ -207,7 +208,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'text' => __('user_signatures_images_hide_exp')
+                                    'text' => __('user_signatures_images_hide_exp'),
                                 ],
                             ]
                         )
@@ -244,7 +245,7 @@ $this->end();
                                 [
                                     'options' => $availableThemes,
                                     'label' => false,
-                                    'val' => $currentTheme
+                                    'val' => $currentTheme,
                                 ]
                             ) ?>
                         <p class="exp"> <?= __('user_theme_exp') ?> </p>
@@ -265,7 +266,7 @@ $this->end();
                         'user_color_new_postings',
                         [
                             'label' => false,
-                            'style' => 'height: auto; display: block; width: 100%'
+                            'style' => 'height: auto; display: block; width: 100%',
                         ]
                     )
                         ?>
@@ -276,7 +277,7 @@ $this->end();
                         'user_color_old_postings',
                         [
                             'label' => false,
-                            'style' => 'height: auto; display: block; width: 100%'
+                            'style' => 'height: auto; display: block; width: 100%',
                         ]
                     )
                                     ?>
@@ -287,7 +288,7 @@ $this->end();
                         'user_color_actual_posting',
                         [
                             'label' => false,
-                            'style' => 'height: auto; display: block; width: 100%'
+                            'style' => 'height: auto; display: block; width: 100%',
                         ]
                     )
                                     ?>
@@ -306,7 +307,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'text' => __('inline_view_on_click_exp')
+                                    'text' => __('inline_view_on_click_exp'),
                                 ],
                             ]
                         )
@@ -325,7 +326,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'text' => __('user_show_thread_collapsed_exp')
+                                    'text' => __('user_show_thread_collapsed_exp'),
                                 ],
                             ]
                         )
@@ -344,7 +345,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'text' => __('user_pers_msg_exp')
+                                    'text' => __('user_pers_msg_exp'),
                                 ],
                             ]
                         )
@@ -353,9 +354,10 @@ $this->end();
                 </td>
             </tr>
 
-            <?php if (!$SaitoSettings->get('category_chooser_global')
+            <?php if (
+            !$SaitoSettings->get('category_chooser_global')
                 && $SaitoSettings->get('category_chooser_user_override')
-            ) : ?>
+) : ?>
             <tr>
                 <td>
                     <?= __('user_category_override') ?>
@@ -369,7 +371,7 @@ $this->end();
                                 'class' => 'form-check-input',
                                 'label' => [
                                     'class' => 'form-check-label',
-                                    'text' => __('user_category_override_exp')
+                                    'text' => __('user_category_override_exp'),
                                 ],
                             ]
                         )
@@ -384,10 +386,10 @@ $this->end();
         <?php
         //= get additional profile info from plugins
         $items = $SaitoEventManager->dispatch(
-            'Request.Saito.View.User.edit',
+            'saito.core.user.edit.render.request',
             [
                 'user' => $user,
-                'View' => $this
+                'View' => $this,
             ]
         );
         if ($items) {

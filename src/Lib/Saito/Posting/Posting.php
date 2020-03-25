@@ -22,7 +22,6 @@ use Saito\User\SaitoUser;
 
 class Posting implements PostingInterface
 {
-
     use BasicPostingTrait;
     use UserPostingTrait;
 
@@ -63,7 +62,7 @@ class Posting implements PostingInterface
         $this->_level = $options['level'];
 
         if (!$tree) {
-            $tree = new Thread;
+            $tree = new Thread();
         }
         $this->_Thread = $tree;
         $this->_Thread->add($this);

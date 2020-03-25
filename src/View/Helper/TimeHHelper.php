@@ -20,7 +20,7 @@ class TimeHHelper extends AppHelper
 {
 
     public $helpers = [
-        'Time'
+        'Time',
     ];
 
     protected static $_timezoneGroups = [
@@ -169,7 +169,7 @@ class TimeHHelper extends AppHelper
     {
         $options += [
             'datetime' => date(DATE_RFC3339, $timestamp),
-            'title' => strftime("%F %T", $timestamp)
+            'title' => strftime("%F %T", $timestamp),
         ];
         $attributes = [];
         foreach ($options as $attribute => $value) {

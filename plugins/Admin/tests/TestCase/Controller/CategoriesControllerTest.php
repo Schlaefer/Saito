@@ -32,7 +32,7 @@ class CategoriesControllerTest extends IntegrationTestCase
         'app.UserBlock',
         'app.UserIgnore',
         'app.UserRead',
-        'app.UserOnline'
+        'app.UserOnline',
     ];
 
     public function setUp()

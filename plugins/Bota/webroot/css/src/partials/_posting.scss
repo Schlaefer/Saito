@@ -14,21 +14,21 @@
 
 .postingLayout-main {
   @extend .grid-lefty;
+  grid-template-columns: fit-content(20%) auto;
 
   grid-template-areas:
     'aside content'
     '. compose';
 
-  @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
-    grid-template-areas:
-      'aside'
-      'content'
-      'compose';
+  @media only screen and (max-width: map-get($grid-breakpoints, md)) {
+    grid-area: none;
   }
 }
 
 .postingLayout-aside {
-  @extend .panel-info;
+  @extend .d-none;
+  @extend .d-md-block;
+  @extend .m-2;
   @extend .small;
   @extend .text-center;
 
@@ -36,18 +36,14 @@
 }
 
 .postingLayout-aside-item {
-  @extend .mr-3;
-  @extend .mr-lg-0;
 }
 
 .postingLayout-body {
   grid-area: content;
 
   max-width: $readingWidth;
-
-  @media only screen and (max-width: map-get($grid-breakpoints, lg)) {
-    margin-top: 1em;
-  }
+  // Overide grid default. Long words/links would always widen the layout.
+  min-width: 0;
 }
 
 .postingLayout-actions {

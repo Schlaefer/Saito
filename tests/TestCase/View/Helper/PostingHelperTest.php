@@ -39,7 +39,7 @@ class PostingHelperTest extends SaitoTestCase
             'tid' => 1,
             'pid' => 1,
             'subject' => 'Subject',
-            'text' => 'Text'
+            'text' => 'Text',
         ];
         $posting = new Posting($data);
         $expected = '<a href="localhost/entries/view/3" class="">Subject</a>';
@@ -61,5 +61,20 @@ class PostingHelperTest extends SaitoTestCase
         $expected = '<a href="localhost/entries/view/3" class="">Subject n/t</a>';
         $result = $this->Helper->getFastLink($posting);
         $this->assertEquals($expected, $result);
+    }
+
+    public function testUrlToMix()
+    {
+        $data = [
+            'id' => 4,
+            'tid' => 2,
+        ];
+        $posting = new Posting($data);
+
+        $result = $this->Helper->urlToMix($posting);
+        $this->assertEquals('/entries/mix/2#4', $result);
+
+        $result = $this->Helper->urlToMix($posting, false);
+        $this->assertEquals('/entries/mix/2', $result);
     }
 }

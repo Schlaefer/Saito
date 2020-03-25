@@ -28,7 +28,7 @@ class DraftsTableTest extends SaitoTableTestCase
     public $Drafts;
 
     public $fixtures = [
-        'app.Draft'
+        'app.Draft',
     ];
 
     public function setUp()

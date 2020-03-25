@@ -11,7 +11,7 @@ class EntryFixture extends TestFixture
         'edited' => null,
         'edited_by' => null,
         'locked' => 0,
-        'solves' => 0
+        'solves' => 0,
     ];
 
     public $fields = [
@@ -19,49 +19,49 @@ class EntryFixture extends TestFixture
             'type' => 'datetime',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'modified' => [
             'type' => 'datetime',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'pid' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'comment' => ''
+            'comment' => '',
         ],
         'tid' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'comment' => ''
+            'comment' => '',
         ],
         'time' => [
             'type' => 'timestamp',
             'null' => false,
             'default' => 'CURRENT_TIMESTAMP',
-            'comment' => ''
+            'comment' => '',
         ],
         'last_answer' => [
             'type' => 'timestamp',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'edited' => [
             'type' => 'timestamp',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'edited_by' => [
             'type' => 'string',
@@ -73,7 +73,7 @@ class EntryFixture extends TestFixture
             'type' => 'integer',
             'null' => true,
             'default' => '0',
-            'comment' => ''
+            'comment' => '',
         ],
         'name' => [
             'type' => 'string',
@@ -91,7 +91,7 @@ class EntryFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'comment' => ''
+            'comment' => '',
         ],
         'text' => [
             'type' => 'text',
@@ -103,25 +103,25 @@ class EntryFixture extends TestFixture
             'type' => 'boolean',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'fixed' => [
             'type' => 'boolean',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'views' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'comment' => ''
+            'comment' => '',
         ],
         'flattr' => [
             'type' => 'boolean',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'ip' => [
             'type' => 'string',
@@ -133,26 +133,26 @@ class EntryFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'length' => 4
+            'length' => 4,
         ],
         'solves' => ['type' => 'integer', 'null' => false, 'default' => '0'],
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_indexes' => [
             'fulltext' => [
                 'type' => TableSchema::INDEX_FULLTEXT,
                 'columns' => ['name', 'subject', 'text'],
-            ]
+            ],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
             'engine' => 'InnoDB',
-        ]
+        ],
     ];
 
     /**
@@ -198,7 +198,7 @@ class EntryFixture extends TestFixture
             'time' => '2000-01-01 20:01:00',
             'last_answer' => '2000-01-01 20:01:00',
             'category_id' => 2,
-            'user_id' => 2
+            'user_id' => 2,
         ],
         [
             'id' => 3,
@@ -214,7 +214,7 @@ class EntryFixture extends TestFixture
             'edited' => '2000-01-01 20:04:00',
             'edited_by' => 'Ulysses',
             'ip' => '1.1.1.1',
-            'solves' => 1
+            'solves' => 1,
         ],
         [
             'id' => 7,
@@ -228,7 +228,7 @@ class EntryFixture extends TestFixture
             'user_id' => 3,
             'name' => 'Ulysses',
             'ip' => '1.1.1.1',
-            'solves' => 1
+            'solves' => 1,
         ],
         [
             'id' => 8,
@@ -241,7 +241,7 @@ class EntryFixture extends TestFixture
             'category_id' => 2,
             'user_id' => 3,
             'name' => 'Ulysses',
-            'ip' => '1.1.1.1'
+            'ip' => '1.1.1.1',
         ],
         [
             'id' => 9,
@@ -254,7 +254,7 @@ class EntryFixture extends TestFixture
             'category_id' => 2,
             'user_id' => 3,
             'name' => 'Ulysses',
-            'ip' => '1.1.1.1'
+            'ip' => '1.1.1.1',
         ],
         // thread 2
         // -------------------------------------
@@ -268,7 +268,7 @@ class EntryFixture extends TestFixture
             'last_answer' => '2000-01-04 20:02:00',
             'category_id' => 4, // accession = 1
             'user_id' => 1,
-            'locked' => 1
+            'locked' => 1,
         ],
         [
             'id' => 5,
@@ -283,7 +283,7 @@ class EntryFixture extends TestFixture
             'name' => 'Ulysses',
             'ip' => '1.1.1.1',
             'locked' => 1,
-            'solves' => 4
+            'solves' => 4,
         ],
         [
             'id' => 12,
@@ -296,7 +296,7 @@ class EntryFixture extends TestFixture
             'category_id' => 4,
             'user_id' => 2,
             'locked' => 1,
-            'solves' => 4
+            'solves' => 4,
         ],
         // thread 3
         // -------------------------------------
@@ -311,7 +311,7 @@ class EntryFixture extends TestFixture
             'category_id' => 1, // accession = 2
             'user_id' => 1,
             'name' => 'Alice',
-            'ip' => '1.1.1.3'
+            'ip' => '1.1.1.3',
         ],
         // thread 4
         // -------------------------------------
@@ -325,7 +325,7 @@ class EntryFixture extends TestFixture
             'last_answer' => '2000-01-01 10:59:00',
             'category_id' => 2, // accession = 0
             'user_id' => 3,
-            'locked' => 1
+            'locked' => 1,
         ],
         // thread 5
         // -------------------------------------
@@ -352,7 +352,7 @@ class EntryFixture extends TestFixture
             'time' => '2000-01-01 12:00:00',
             'last_answer' => '2000-01-01 12:00:00',
             'category_id' => 2, // !important accession = 0
-            'user_id' => 1
+            'user_id' => 1,
         ],
         // thread 7
         // -------------------------------------
@@ -365,7 +365,7 @@ class EntryFixture extends TestFixture
             'time' => '2000-01-01 12:01:00',
             'last_answer' => '2000-01-01 12:01:00',
             'category_id' => 5, // !important
-            'user_id' => 1
+            'user_id' => 1,
         ],
         [
             'id' => 15,
@@ -376,7 +376,7 @@ class EntryFixture extends TestFixture
             'time' => '2000-01-01 12:02:00',
             'last_answer' => '2000-01-01 12:02:00',
             'category_id' => 5, // !important
-            'user_id' => 1
+            'user_id' => 1,
         ],
     ];
 

@@ -38,7 +38,7 @@ class SmiliesController extends AdminAppController
         $this->paginate = [
             'contain' => ['SmileyCodes'],
             'limit' => 1000, // limit high enough so that no paging should occur
-            'order' => ['Smiley.order' => 'ASC']
+            'order' => ['Smiley.order' => 'ASC'],
         ];
 
         $this->set('smilies', $this->paginate($this->Smilies));

@@ -8,7 +8,7 @@ $userMenu = [];
 $userMenu['index'] = [
     'url' => '/users/index',
     'title' => __d('page_titles', 'users/index'),
-    'icon' => 'users'
+    'icon' => 'users',
 ];
 
 //// render menu

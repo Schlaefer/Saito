@@ -13,8 +13,8 @@ class SettingFixture extends TestFixture
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     public $records = [
@@ -44,7 +44,6 @@ class SettingFixture extends TestFixture
         ['id' => '26', 'name' => 'store_ip_anonymized', 'value' => '1'],
         ['id' => '27', 'name' => 'bbcode_img', 'value' => '1'],
         ['id' => '28', 'name' => 'signature_separator', 'value' => '⁂'],
-        ['id' => '29', 'name' => 'text_word_maxlength', 'value' => '120'],
         [
                 'id' => '30',
                 'name' => 'video_domains_allowed',

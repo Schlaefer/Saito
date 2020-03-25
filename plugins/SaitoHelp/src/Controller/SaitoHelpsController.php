@@ -121,7 +121,7 @@ class SaitoHelpsController extends AppController
             'file' => $name,
             'id' => $id,
             'lang' => $lang,
-            'text' => $text
+            'text' => $text,
         ];
         $result = new Entity($data);
 

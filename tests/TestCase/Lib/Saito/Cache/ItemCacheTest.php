@@ -49,10 +49,10 @@ class ItemCacheTest extends SaitoTestCase
             1 => [
                 'metadata' => [
                     'created' => $this->time,
-                    'content_last_updated' => $this->time - 3600
+                    'content_last_updated' => $this->time - 3600,
                 ],
                 'content' => 'foo',
-            ]
+            ],
         ];
     }
 
@@ -105,31 +105,31 @@ class ItemCacheTest extends SaitoTestCase
             0 => [
                 'metadata' => [
                     'created' => $this->time - $duration - 2,
-                    'content_last_updated' => $this->time
+                    'content_last_updated' => $this->time,
                 ],
                 'content' => 'foo',
             ],
             1 => [
                 'metadata' => [
                     'created' => $this->time - $duration - 1,
-                    'content_last_updated' => $this->time
+                    'content_last_updated' => $this->time,
                 ],
                 'content' => 'foo',
             ],
             2 => [
                 'metadata' => [
                     'created' => $this->time - $duration,
-                    'content_last_updated' => $this->time
+                    'content_last_updated' => $this->time,
                 ],
                 'content' => 'foo',
             ],
             3 => [
                 'metadata' => [
                     'created' => $this->time - $duration + 1,
-                    'content_last_updated' => $this->time
+                    'content_last_updated' => $this->time,
                 ],
                 'content' => 'foo',
-            ]
+            ],
         ];
 
         $this->CacheEngine->expects($this->once())->method('read')

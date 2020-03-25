@@ -36,7 +36,7 @@ class CurrencyRendererHelperTest extends TestCase
                 'a' => ['href' => 'http://tempest.island'],
                 'i' => ['class' => 'fa fa-home fa-lg'],
                 '/i',
-                '/a'
+                '/a',
             ],
             $actual
         );

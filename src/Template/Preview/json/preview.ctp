@@ -10,7 +10,7 @@ $out = [
         'html' => $this->element(
             '/entry/view_content',
             ['entry' => $posting, 'level' => 0]
-        )
+        ),
     ],
 ];
 

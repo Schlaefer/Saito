@@ -30,7 +30,7 @@ trait AssertTrait
     public function assertContainsTag($expected, $result)
     {
         do {
-            $crawler = new Crawler;
+            $crawler = new Crawler();
             $crawler->addHtmlContent($result);
             $selector = key($expected);
             $node = $crawler->filter($selector);
@@ -88,7 +88,7 @@ trait AssertTrait
      */
     protected function _getDOMXPath($html)
     {
-        $document = new \DOMDocument;
+        $document = new \DOMDocument();
         libxml_use_internal_errors(true);
         $document->loadHTML('<!DOCTYPE html>' . $html);
         $xpath = new \DOMXPath($document);

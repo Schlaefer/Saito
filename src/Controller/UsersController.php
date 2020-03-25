@@ -40,7 +40,7 @@ class UsersController extends AppController
         'SpectrumColorpicker.SpectrumColorpicker',
         'Posting',
         'Siezi/SimpleCaptcha.SimpleCaptcha',
-        'Text'
+        'Text',
     ];
 
     /**
@@ -112,7 +112,7 @@ class UsersController extends AppController
                     $time = new Time($ends);
                     $data = [
                         'name' => $username,
-                        'end' => $time->timeAgoInWords(['accuracy' => 'hour'])
+                        'end' => $time->timeAgoInWords(['accuracy' => 'hour']),
                     ];
                     $message = __('user.block.pubExpEnds', $data);
                 } else {
@@ -124,14 +124,14 @@ class UsersController extends AppController
         // don't autofill password
         $this->setRequest($this->getRequest()->withData('password', ''));
 
-        $Logger = new ForbiddenLogger;
+        $Logger = new ForbiddenLogger();
         $Logger->write(
             "Unsuccessful login for user: $username",
             ['msgs' => [$message]]
         );
 
         $this->Flash->set($message, [
-            'element' => 'error', 'params' => ['title' => __('user.authe.e.t')]
+            'element' => 'error', 'params' => ['title' => __('user.authe.e.t')],
         ]);
     }
 
@@ -217,7 +217,7 @@ class UsersController extends AppController
                     'subject' => $subject,
                     'sender' => 'register',
                     'template' => 'user_register',
-                    'viewVars' => ['user' => $user]
+                    'viewVars' => ['user' => $user],
                 ]
             );
         } catch (\Exception $e) {
@@ -270,15 +270,15 @@ class UsersController extends AppController
             'user_type' => [__('user_type'), []],
             'UserOnline.logged_in' => [
                 __('userlist_online'),
-                ['direction' => 'desc']
+                ['direction' => 'desc'],
             ],
-            'registered' => [__('registered'), ['direction' => 'desc']]
+            'registered' => [__('registered'), ['direction' => 'desc']],
         ];
         $showBlocked = $this->CurrentUser->permission('saito.core.user.lock.view');
         if ($showBlocked) {
             $menuItems['user_lock'] = [
                 __('user.set.lock.t'),
-                ['direction' => 'desc']
+                ['direction' => 'desc'],
             ];
         }
 
@@ -289,7 +289,7 @@ class UsersController extends AppController
             'limit' => 400,
             'order' => [
                 'UserOnline.logged_in' => 'desc',
-            ]
+            ],
         ];
         $users = $this->paginate($this->Users);
 
@@ -327,7 +327,7 @@ class UsersController extends AppController
      *
      * @param int $blockedId user to ignore
      * @param bool $set block or unblock
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     protected function _ignore($blockedId, $set)
     {
@@ -362,7 +362,7 @@ class UsersController extends AppController
                     [
                         'controller' => 'users',
                         'action' => 'view',
-                        $viewedUser->get('id')
+                        $viewedUser->get('id'),
                     ]
                 );
 
@@ -377,7 +377,7 @@ class UsersController extends AppController
      * View user profile.
      *
      * @param null $id user-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function view($id = null)
     {
@@ -399,7 +399,7 @@ class UsersController extends AppController
                     'UserBlocks' => function ($q) {
                         return $q->find('assocUsers');
                     },
-                    'UserOnline'
+                    'UserOnline',
                 ]
             )
             ->where(['Users.id' => (int)$id])
@@ -440,12 +440,12 @@ class UsersController extends AppController
      * Set user avatar.
      *
      * @param string $userId user-ID
-     * @return void|\Cake\Network\Response
+     * @return void|\Cake\Http\Response
      */
     public function avatar($userId)
     {
         if (!$this->Users->exists($userId)) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
 
         /** @var User */
@@ -465,12 +465,12 @@ class UsersController extends AppController
         if ($this->request->is('post') || $this->request->is('put')) {
             $data = [
                 'avatar' => $this->request->getData('avatar'),
-                'avatarDelete' => $this->request->getData('avatarDelete')
+                'avatarDelete' => $this->request->getData('avatarDelete'),
             ];
             if (!empty($data['avatarDelete'])) {
                 $data = [
                     'avatar' => null,
-                    'avatar_dir' => null
+                    'avatar_dir' => null,
                 ];
             }
             $patched = $this->Users->patchEntity($user, $data);
@@ -498,7 +498,7 @@ class UsersController extends AppController
      *
      * @param null $id user-ID
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function edit($id = null)
     {
@@ -546,7 +546,7 @@ class UsersController extends AppController
      * delete user
      *
      * @param string $id user-ID
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      */
     public function delete($id)
     {
@@ -591,7 +591,7 @@ class UsersController extends AppController
                     'prefix' => false,
                     'controller' => 'users',
                     'action' => 'view',
-                    $id
+                    $id,
                 ]
             );
         }
@@ -607,14 +607,14 @@ class UsersController extends AppController
     /**
      * Lock user.
      *
-     * @return \Cake\Network\Response|void
+     * @return \Cake\Http\Response|void
      * @throws BadRequestException
      */
     public function lock()
     {
         $form = new BlockForm();
         if (!$form->validate($this->request->getData())) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
 
         $id = (int)$this->request->getData('lockUserId');
@@ -854,18 +854,18 @@ class UsersController extends AppController
     /**
      * Set slidetab-order.
      *
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      * @throws BadRequestException
      */
     public function slidetabOrder()
     {
         if (!$this->request->is('ajax')) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
 
         $order = $this->request->getData('slidetabOrder');
         if (!$order) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
 
         $allowed = $this->Slidetabs->getAvailable();
@@ -902,7 +902,7 @@ class UsersController extends AppController
      * Set category for user.
      *
      * @param string|null $id category-ID
-     * @return \Cake\Network\Response
+     * @return \Cake\Http\Response
      */
     public function setcategory(?string $id = null)
     {
@@ -936,8 +936,10 @@ class UsersController extends AppController
 
         // Login form times-out and degrades user experience.
         // See https://github.com/Schlaefer/Saito/issues/339
-        if (($this->getRequest()->getParam('action') === 'login')
-            && $this->components()->has('Security')) {
+        if (
+            ($this->getRequest()->getParam('action') === 'login')
+            && $this->components()->has('Security')
+        ) {
             $this->components()->unload('Security');
         }
 

@@ -4,7 +4,7 @@ echo $this->Form->create(
     null,
     [
         'url' => ['_name' => 'login', '?' => ['redirect' => $redirect]],
-        'id' => 'login_form'
+        'id' => 'login_form',
     ]
 );
 

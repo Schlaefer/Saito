@@ -12,19 +12,19 @@ class UserBlockFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => true
+            'unsigned' => true,
         ],
         'created' => [
             'type' => 'datetime',
             'null' => true,
             'default' => null,
-            'comment' => ''
+            'comment' => '',
         ],
         'user_id' => [
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => true
+            'unsigned' => true,
         ],
         'reason' => [
             'type' => 'string',
@@ -35,7 +35,7 @@ class UserBlockFixture extends TestFixture
             'type' => 'integer',
             'null' => true,
             'default' => null,
-            'unsigned' => true
+            'unsigned' => true,
         ],
         'ends' => ['type' => 'datetime', 'null' => true, 'default' => null],
         'ended' => ['type' => 'datetime', 'null' => true, 'default' => null],
@@ -46,12 +46,12 @@ class UserBlockFixture extends TestFixture
             'length' => 32,
         ],
         '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id']]
+            'primary' => ['type' => 'primary', 'columns' => ['id']],
         ],
         '_options' => [
             'charset' => 'utf8mb4',
             'collate' => 'utf8mb4_unicode_ci',
-            'engine' => 'InnoDB'
+            'engine' => 'InnoDB',
         ],
     ];
 
@@ -62,7 +62,7 @@ class UserBlockFixture extends TestFixture
             'blocked_by_user_id' => 1,
             'created' => '2014-08-10 08:59:43',
             'ends' => '2014-08-11 08:59:43',
-            'ended' => null
+            'ended' => null,
         ],
         [
             'id' => 2,
@@ -70,7 +70,7 @@ class UserBlockFixture extends TestFixture
             'blocked_by_user_id' => 1,
             'created' => '2014-08-12 08:59:43',
             'ends' => null,
-            'ended' => null
+            'ended' => null,
         ],
     ];
 }

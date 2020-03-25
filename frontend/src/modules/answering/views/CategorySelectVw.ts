@@ -20,12 +20,9 @@ export default class CategorySelectVw extends View<Model> {
             },
             template: _.template(`
                 <div class="d-flex" style="width: 100%">
-                    <label class="col-form-label mr-3" for="category-id">
-                        <%- $.i18n.__('answer.cat.l') %>
-                    </label>
                     <select name="category_id" class="form-control" tabindex="1" required="required" id="category-id">
                         <% if (!autoselectCategory) { %>
-                            <option value=""></option>
+                            <option value="" disabled="disabled" selected="selected"><%- $.i18n.__('answer.cat.l') %></option>
                         <% } %>
                         <% for (category of categories) { %>
                             <option

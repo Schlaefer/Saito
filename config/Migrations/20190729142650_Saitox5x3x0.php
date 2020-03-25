@@ -50,9 +50,9 @@ class Saitox5x3x0 extends AbstractMigration
                 'null' => false,
             ])
             ->addColumn('modified', 'timestamp', [
-                'default' => '0000-00-00 00:00:00',
+                'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addIndex(
                 [

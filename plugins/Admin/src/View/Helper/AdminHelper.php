@@ -32,7 +32,7 @@ class AdminHelper extends AppHelper
         'Breadcrumbs',
         'SaitoHelp',
         'Html',
-        'TimeH'
+        'TimeH',
     ];
 
     /**
@@ -164,7 +164,7 @@ class AdminHelper extends AppHelper
         $this->Html->script(
             [
                 '../js/node_modules/datatables.net/js/jquery.dataTables.js',
-                '../js/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js'
+                '../js/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
             ],
             ['block' => 'script']
         );

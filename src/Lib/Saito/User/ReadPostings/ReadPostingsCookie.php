@@ -92,7 +92,8 @@ class ReadPostingsCookie extends ReadPostingsAbstract
             return $this->readPostings;
         }
         $this->readPostings = $this->storage->read();
-        if (empty($this->readPostings)
+        if (
+            empty($this->readPostings)
             || !preg_match('/^[0-9\.]*$/', $this->readPostings)
         ) {
             $this->readPostings = [];

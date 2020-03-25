@@ -12,66 +12,66 @@ class CategoryFixture extends TestFixture
             'type' => 'integer',
             'null' => false,
             'default' => null,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'category_order' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'category' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
             'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
+            'charset' => 'utf8',
         ],
         'description' => [
             'type' => 'string',
             'null' => true,
             'default' => null,
             'collate' => 'utf8_unicode_ci',
-            'charset' => 'utf8'
+            'charset' => 'utf8',
         ],
         'accession' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
             'length' => 4,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'accession_new_thread' => [
             'type' => 'integer',
             'null' => false,
             'default' => 1,
             'length' => 4,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'accession_new_posting' => [
             'type' => 'integer',
             'null' => false,
             'default' => 1,
             'length' => 4,
-            'unsigned' => false
+            'unsigned' => false,
         ],
         'thread_count' => [
             'type' => 'integer',
             'null' => false,
             'default' => '0',
-            'unsigned' => false
+            'unsigned' => false,
         ],
         '_constraints' => [
             'primary' => [
                 'type' => 'primary',
-                'columns' => ['id']
-            ]
+                'columns' => ['id'],
+            ],
         ],
         '_options' => [
             'charset' => 'utf8',
             'collate' => 'utf8_unicode_ci',
-            'engine' => 'InnoDB'
-        ]
+            'engine' => 'InnoDB',
+        ],
     ];
 
     public $records = [
@@ -113,7 +113,7 @@ class CategoryFixture extends TestFixture
             'accession' => 1,
             'accession_new_thread' => 2,
             'accession_new_posting' => 1,
-            'thread_count' => 2
+            'thread_count' => 2,
         ],
         [
             'id' => 5,

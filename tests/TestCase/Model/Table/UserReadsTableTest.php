@@ -24,7 +24,7 @@ class UserReadsTableTest extends SaitoTableTestCase
         'app.UserOnline',
         'app.Entry',
         'app.Category',
-        'plugin.Bookmarks.Bookmark'
+        'plugin.Bookmarks.Bookmark',
     ];
 
     /**

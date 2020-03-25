@@ -39,9 +39,11 @@ class UpdaterStartForm extends Form
             ->notEmpty('dbname')
             ->add('dbname', 'custom', [
                 'rule' => [$this, 'validateDbName'],
-            ])
+            ]);
+
+        $validator
             ->requirePresence('dbpassword')
-            ->notEmpty('dbpassword')
+            ->allowEmpty('dbpassword')
             ->add('dbpassword', 'custom', [
                 'rule' => [$this, 'validateDbPassword'],
             ]);

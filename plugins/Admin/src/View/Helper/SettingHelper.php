@@ -29,7 +29,7 @@ class SettingHelper extends AppHelper
 
     public $helpers = [
         'Html',
-        'SaitoHelp'
+        'SaitoHelp',
     ];
 
     /**
@@ -48,7 +48,7 @@ class SettingHelper extends AppHelper
         array $options = []
     ) {
         $defaults = [
-            'nav-title' => $tableName
+            'nav-title' => $tableName,
         ];
         $options += $defaults;
 
@@ -121,7 +121,7 @@ class SettingHelper extends AppHelper
                     __('edit'),
                     ['controller' => 'settings', 'action' => 'edit', $name],
                     ['class' => 'btn btn-primary']
-                )
+                ),
             ]
         );
     }
@@ -138,7 +138,7 @@ class SettingHelper extends AppHelper
                 __('Key'),
                 __('Value'),
                 __('Explanation'),
-                __('Actions')
+                __('Actions'),
             ]
         );
     }

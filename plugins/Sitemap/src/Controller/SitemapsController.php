@@ -22,11 +22,11 @@ class SitemapsController extends AppController
     public $uses = false;
 
     public $helpers = [
-            'Sitemap.Sitemap'
+            'Sitemap.Sitemap',
     ];
 
     public $generators = [
-            'SitemapEntries'
+            'SitemapEntries',
     ];
 
     protected $_Generators = null;
@@ -61,12 +61,12 @@ class SitemapsController extends AppController
     public function file($file)
     {
         if (empty($file)) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
         try {
             $this->set('urls', $this->_Generators->content($file));
         } catch (\Exception $e) {
-            throw new BadRequestException;
+            throw new BadRequestException();
         }
     }
 }
