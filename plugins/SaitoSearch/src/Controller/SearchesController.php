@@ -124,6 +124,8 @@ class SearchesController extends AppController
 
         $queryData = $this->request->getQueryParams();
 
+        $now = Chronos::now();
+
         /// Setup time filter data
         $first = $this->Entries->find()
             ->order(['id' => 'ASC'])
@@ -135,7 +137,7 @@ class SearchesController extends AppController
             $defaultDate = $startDate < $aYearAgo ? $aYearAgo : $startDate;
         } else {
             /// No entries yet
-            $startDate = $defaultDate = Chronos::now();
+            $startDate = $defaultDate = $now;
         }
         $startYear = $startDate->format('Y');
 
@@ -161,7 +163,7 @@ class SearchesController extends AppController
 
         /// Time filter
         $time = Chronos::createFromDate($year, $month, 1);
-        if ($time->year !== $defaultDate->year || $time->month !== $defaultDate->month) {
+        if ($now->year !== $defaultDate->year || $now->month !== $defaultDate->month) {
             $query->where(['time >=' => $time]);
         }
 

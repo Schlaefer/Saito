@@ -20,7 +20,7 @@ $this->start('headerSubnavRight');
 $mixTitle = h(__('gn.btn.mix.t'));
 echo $this->Layout->navbarItem(
     $this->Layout->textWithIcon($mixTitle, 'mix'),
-    $this->Posting->urlToMix($entry),
+    $this->Posting->urlToMix($entry, true, false),
     ['rel' => 'nofollow', 'escape' => false, 'title' => $mixTitle]
 );
 $this->end();

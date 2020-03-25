@@ -41,7 +41,7 @@ foreach ($entriesSub as $entrySub) :
                     <i class="fa fa-fw fa-thread-open" title="<?= $l10nCache['collapse'] ?>";></i>
                 </button>
 
-                <a href="<?= $this->Posting->urlToMix($entrySub)?>"
+                <a href="<?= $this->Posting->urlToMix($entrySub, false)?>"
                     class="btn btn-link threadBox-tools-btn"
                     title="<?= $l10nCache['mix'] ?>"
                     rel="nofollow">
