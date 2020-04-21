@@ -13,6 +13,7 @@
 ### Changes
 
 - ＋ Adds .webp images to allowed upload mime-types #372
+- ✓ Fixes Thread Collpase user setting not working in 5.x #371
 
 ## [5.7.0] - 2020-03-25
 

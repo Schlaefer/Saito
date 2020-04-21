@@ -74,7 +74,7 @@ class JsDataHelper extends AppHelper
             'msg' => $this->notifications()->getAll(),
             'request' => [
                 'action' => $request->getParam('action'),
-                'controller' => $request->getParam('controller'),
+                'controller' => mb_strtolower($request->getParam('controller')),
                 'isMobile' => $request->is('mobile'),
                 'csrf' => $this->_getCsrf($View),
             ],
