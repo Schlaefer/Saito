@@ -5,6 +5,15 @@
 - Δ Changed
 - − Removed
 
+## [next] -
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.0...<next>)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-<next>.zip)
+
+### Changes
+
+- ＋ Adds .webp images to allowed upload mime-types #372
+
 ## [5.7.0] - 2020-03-25
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...5.7.0)

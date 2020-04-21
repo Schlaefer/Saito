@@ -123,6 +123,7 @@ $config['Saito']['Settings']['uploader'] = (new UploaderConfig())
     ->addType('image/jpeg', '19MB')
     ->addType('image/png', '19MB')
     ->addType('image/svg+xml')
+    ->addType('image/webp')
     ->addType('text/plain')
     ->addType('video/mp4')
     ->addType('video/webm');
