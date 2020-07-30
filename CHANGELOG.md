@@ -17,6 +17,7 @@
 - ✓ Fixes URL with paranthesis pair omits closing on autolink #373
 - ✓ Fixes delete category and move existing posts
 - ✓ Fixes missing l10n de merge thread
+- ✓ Fixes text-field to submit-button alignment on simple search
 
 ## [5.7.0] - 2020-03-25
 
