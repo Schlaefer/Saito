@@ -84,14 +84,11 @@ class BbcodeParserTest extends SaitoTestCase
                     'style' => 'display: inline;',
                 ],
             ],
-            ['script' => true],
-            'preg:/(.*?)"string":" te &quot;&#039; xt"(.*?)(?=<)/',
-            '/script',
             [
                 'a' => [
                     'href' => '#',
                     'class' => 'richtext-spoiler-link',
-                    'onclick',
+                    'onclick' => 'preg:/.*" te &amp;quot;&amp;#039; xt".*/',
                 ],
             ],
             'preg:/.*▇ Spoiler ▇.*?(?=<)/',

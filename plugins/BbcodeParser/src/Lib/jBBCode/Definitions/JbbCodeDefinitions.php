@@ -436,16 +436,15 @@ class Spoiler extends CodeDefinition
             STR_PAD_BOTH
         );
 
-        $json = json_encode(['string' => $content]);
-        $id = 'spoiler_' . rand(0, 9999999999999);
+        // Escape HTML-special chars to prevent injection
+        $spoilerContent = htmlentities($content);
+        // Encode content for JS usage
+        $spoilerContent = json_encode($spoilerContent);
 
         $out = <<<EOF
 <div class="richtext-spoiler" style="display: inline;">
-	<script>
-		window.$id = $json;
-	</script>
 	<a href="#" class="richtext-spoiler-link"
-		onclick='this.parentNode.innerHTML = window.$id.string; delete window.$id; return false;'
+		onclick='this.parentNode.innerHTML = $spoilerContent; return false;'
 		>
 		$title
 	</a>
