@@ -1073,7 +1073,7 @@ msgstr "Thread {0} anfügen"
 
 #: src/Template/Entries/merge.ctp:11
 msgid "Merge onto posting with ID:"
-msgstr ""
+msgstr "Anfügen an Posting mit ID:"
 
 #: src/Template/Users/avatar.ctp:25 src/Template/Users/edit.ctp:405
 msgid "gn.btn.save.t"
