@@ -99,6 +99,24 @@ class CategoriesControllerTest extends IntegrationTestCase
     }
 
     /**
+     * Test showing of delete form
+     *
+     * @return void
+     */
+    public function testDeleteGetForm(): void
+    {
+        $this->_loginUser(1);
+        $source = 2;
+        $target = 4;
+
+        $this->get('/admin/categories/delete/2');
+
+        $targetCategories = $this->viewVariable('targetCategories');
+        $this->assertCount(4, $targetCategories);
+        $this->assertArraySubset([4 => 'Offtopic', 5 => 'Trash'], $targetCategories);
+    }
+
+    /**
      * delete category and merge postings into other category
      */
     public function testDeleteMerge()

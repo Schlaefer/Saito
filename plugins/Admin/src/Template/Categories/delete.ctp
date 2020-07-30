@@ -23,6 +23,7 @@
             'targetCategory',
             [
                 'label' => __d('admin', 'cat.del.mbd.l'),
+                'options' => $targetCategories,
                 'type' => 'select',
             ]
         );

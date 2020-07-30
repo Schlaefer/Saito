@@ -186,7 +186,7 @@ class CategoriesController extends AdminAppController
         /* get categories for target <select> */
         $targetCategories = $this->CurrentUser->getCategories()->getAll(
             'read',
-            'list'
+            'select'
         );
         unset($targetCategories[$id]);
 

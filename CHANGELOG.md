@@ -15,6 +15,7 @@
 - ＋ Adds .webp images to allowed upload mime-types #372
 - ✓ Fixes Thread Collpase user setting not working in 5.x #371
 - ✓ Fixes URL with paranthesis pair omits closing on autolink #373
+- ✓ Fixes delete category and move existing posts
 
 ## [5.7.0] - 2020-03-25
 
