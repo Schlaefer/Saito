@@ -21,11 +21,44 @@ class UploaderConfigTest extends TestCase
     {
         $config = new UploaderConfig();
 
-        $this->assertEquals(450000, $config->getMaxResize());
+        $this->assertEquals(650000, $config->getMaxResize());
 
         $newDefaultSize = random_int(1, 1000);
         $config->setDefaultMaxResize($newDefaultSize);
         $this->assertEquals($newDefaultSize, $config->getMaxResize());
+
+        $config->setDefaultMaxResize('1 MB');
+        $this->assertEquals(1048576, $config->getMaxResize());
+    }
+
+    public function testMaxResizeNotValid()
+    {
+        $config = new UploaderConfig();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(1596199482);
+
+        $config->setDefaultMaxResize(true);
+    }
+
+    public function testSetImageCompressionQuality()
+    {
+        $config = new UploaderConfig();
+
+        $this->assertEquals(92, $config->getJpegCompressionFactor());
+        $new = random_int(0, 100);
+        $config->setImageCompressionQuality($new);
+        $this->assertEquals($new, $config->getJpegCompressionFactor());
+    }
+
+    public function testSetImageCompressionQualityNotValid()
+    {
+        $config = new UploaderConfig();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionCode(1596204082);
+
+        $config->setImageCompressionQuality(101);
     }
 
     public function testDefaultSize()

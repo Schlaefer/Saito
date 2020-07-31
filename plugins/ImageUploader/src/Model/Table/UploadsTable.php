@@ -41,6 +41,13 @@ class UploadsTable extends AppTable
     public const FILENAME_MAXLENGTH = 191;
 
     /**
+     * Uploader Configuration
+     *
+     * @var \ImageUploader\Lib\UploaderConfig
+     */
+    protected $UploaderConfig;
+
+    /**
      * {@inheritDoc}
      */
     public function initialize(array $config)
@@ -49,6 +56,8 @@ class UploadsTable extends AppTable
         $this->setEntityClass(Upload::class);
 
         $this->belongsTo('Users', ['foreignKey' => 'user_id']);
+
+        $this->UploaderConfig = Configure::read('Saito.Settings.uploader');
     }
 
     /**
@@ -92,9 +101,7 @@ class UploadsTable extends AppTable
      */
     public function buildRules(RulesChecker $rules)
     {
-        /** @var \ImageUploader\Lib\UploaderConfig */
-        $UploaderConfig = Configure::read('Saito.Settings.uploader');
-        $nMax = $UploaderConfig->getMaxNumberOfUploadsPerUser();
+        $nMax = $this->UploaderConfig->getMaxNumberOfUploadsPerUser();
         $rules->add(
             function (Upload $entity, array $options) use ($nMax) {
                 $count = $this->findByUserId($entity->get('user_id'))->count();
@@ -193,9 +200,7 @@ class UploadsTable extends AppTable
                     // no break
                 case 'image/jpeg':
                     $this->fixOrientation($file);
-                    /** @var \ImageUploader\Lib\UploaderConfig */
-                    $UploaderConfig = Configure::read('Saito.Settings.uploader');
-                    $this->resize($file, $UploaderConfig->getMaxResize());
+                    $this->resize($file, $this->UploaderConfig->getMaxResize());
                     $entity->set('size', $file->size());
                     break;
                 default:
@@ -223,7 +228,7 @@ class UploadsTable extends AppTable
         try {
             (new SimpleImage())
                 ->fromFile($file->path)
-                ->toFile($jpeg->path, 'image/jpeg', 75);
+                ->toFile($jpeg->path, 'image/jpeg', 100);
         } catch (\Throwable $e) {
             if ($jpeg->exists()) {
                 $jpeg->delete();
@@ -248,7 +253,7 @@ class UploadsTable extends AppTable
         (new SimpleImage())
             ->fromFile($file->path)
             ->autoOrient()
-            ->toFile($new->path, null, 75);
+            ->toFile($new->path, null, 100);
 
         return $new;
     }
@@ -259,6 +264,7 @@ class UploadsTable extends AppTable
      * @param File $file file to resize
      * @param int $target size in bytes
      * @return void
+     * @throws \RuntimeException on resizing error
      */
     private function resize(File $file, int $target): void
     {
@@ -271,21 +277,33 @@ class UploadsTable extends AppTable
 
         list($width, $height) = getimagesizefromstring($raw);
         $ratio = $size / $target;
-        $ratio = sqrt($ratio);
+        $qualityImprovementFactor = 1.2;
+        $ratio = sqrt($ratio) / $qualityImprovementFactor;
 
         $newwidth = (int)($width / $ratio);
         $newheight = (int)($height / $ratio);
         $destination = imagecreatetruecolor($newwidth, $newheight);
+        if ($destination === false) {
+            throw new \RuntimeException();
+        }
 
         $source = imagecreatefromstring($raw);
-        imagecopyresized($destination, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
-        $raw = $destination;
+        if ($source === false) {
+            throw new \RuntimeException();
+        }
+        $success = imagecopyresampled($destination, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+        if ($success === false) {
+            throw new \RuntimeException();
+        }
 
         $type = $file->mime();
         switch ($type) {
             case 'image/jpeg':
-                imagejpeg($destination, $file->path);
+                imagejpeg(
+                    $destination,
+                    $file->path,
+                    $this->UploaderConfig->getJpegCompressionFactor()
+                );
                 break;
             case 'image/png':
                 imagepng($destination, $file->path);

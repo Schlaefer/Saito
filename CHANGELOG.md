@@ -20,6 +20,7 @@
 - ✓ Fixes missing l10n de merge thread
 - ✓ Fixes text-field to submit-button alignment on simple search
 - ✓ Fixes spoiler tags are not revealed reliably
+- ✓ Fixes image compression is to aggressive #374
 
 ## [5.7.0] - 2020-03-25
 
