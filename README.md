@@ -21,7 +21,7 @@ A lot of optimization went into serving long existing, small- to mid-sized commu
 
 ## Requirements
 
-- PHP 7.2+
+- PHP 7.2+ (extensions: gd, exif, intl, mbstring, pdo, simplexml)
 - Database (MySQL/MariaDB tested, [others untested](https://book.cakephp.org/3.0/en/orm/database-basics.html#supported-databases)).
 
 ## Get Started

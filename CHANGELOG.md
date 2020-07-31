@@ -13,6 +13,7 @@
 ### Changes
 
 - ＋ Adds .webp images to allowed upload mime-types #372
+- ＋ Adds required PHP extensions to readme.md
 - ✓ Fixes Thread Collpase user setting not working in 5.x #371
 - ✓ Fixes URL with paranthesis pair omits closing on autolink #373
 - ✓ Fixes delete category and move existing posts
