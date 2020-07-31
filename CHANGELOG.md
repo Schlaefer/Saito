@@ -8,7 +8,7 @@
 ## [next] -
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.0...<next>)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-<next>.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
 
 ### Changes
 
@@ -25,7 +25,7 @@
 ## [5.7.0] - 2020-03-25
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...5.7.0)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.7.0.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.7.0/saito-release-master-5.7.0.zip)
 
 ### Changes
 
@@ -66,7 +66,7 @@ The plugin Local in "plugins/local" allows extending the forum in a CakePHP fash
 ## [5.6.0] - 2020-01-03
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.6.0.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.6.0/saito-release-master-5.6.0.zip)
 
 ### Changes
 
