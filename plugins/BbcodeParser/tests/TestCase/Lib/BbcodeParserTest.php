@@ -84,14 +84,11 @@ class BbcodeParserTest extends SaitoTestCase
                     'style' => 'display: inline;',
                 ],
             ],
-            ['script' => true],
-            'preg:/(.*?)"string":" te &quot;&#039; xt"(.*?)(?=<)/',
-            '/script',
             [
                 'a' => [
                     'href' => '#',
                     'class' => 'richtext-spoiler-link',
-                    'onclick',
+                    'onclick' => 'preg:/.*" te &amp;quot;&amp;#039; xt".*/',
                 ],
             ],
             'preg:/.*▇ Spoiler ▇.*?(?=<)/',
@@ -647,6 +644,38 @@ EOF;
             'http://www.example.com/foobar',
             '/a',
             ') text',
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+
+        $input = 'some (www.example.com/foo_(bar)) text';
+        $expected = [
+            'some (',
+            'a' => [
+                'class' => 'richtext-link truncate',
+                'href' => 'http://www.example.com/foo_(bar)',
+                'rel' => 'external',
+                'target' => '_blank',
+            ],
+            'http://www.example.com/foo_(bar)',
+            '/a',
+            ') text',
+        ];
+        $result = $this->_Parser->parse($input);
+        $this->assertHtml($expected, $result);
+
+        $input = 'some www.example.com/foo_(bar) text';
+        $expected = [
+            'some ',
+            'a' => [
+                'class' => 'richtext-link truncate',
+                'href' => 'http://www.example.com/foo_(bar)',
+                'rel' => 'external',
+                'target' => '_blank',
+            ],
+            'http://www.example.com/foo_(bar)',
+            '/a',
+            ' text',
         ];
         $result = $this->_Parser->parse($input);
         $this->assertHtml($expected, $result);

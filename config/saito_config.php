@@ -113,6 +113,14 @@ $config['Saito']['Settings']['uploader'] = (new UploaderConfig())
      */
     ->setDefaultMaxFileSize('8MB')
     /**
+     * Threshold file size (and rough target) for resizing images (jpeg/png)
+     */
+    ->setDefaultMaxResize('650kB')
+    /**
+     * Image quality factor when resizing images (integer between 0 and 100)
+     */
+    ->setImageCompressionQuality(92)
+    /**
      * Allowed mime/types
      */
     ->addType('audio/mpeg')
@@ -123,6 +131,7 @@ $config['Saito']['Settings']['uploader'] = (new UploaderConfig())
     ->addType('image/jpeg', '19MB')
     ->addType('image/png', '19MB')
     ->addType('image/svg+xml')
+    ->addType('image/webp')
     ->addType('text/plain')
     ->addType('video/mp4')
     ->addType('video/webm');

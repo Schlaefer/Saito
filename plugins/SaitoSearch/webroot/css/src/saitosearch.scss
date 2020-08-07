@@ -9,6 +9,8 @@
 
   .search_main {
     display: flex;
+    // Vertically center search field and search button
+    align-items: center;
 
     :first-child {
       flex: auto;

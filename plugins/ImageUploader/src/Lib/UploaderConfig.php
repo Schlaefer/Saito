@@ -31,17 +31,80 @@ class UploaderConfig
     /** @var array allowed mime types */
     private $types = [];
 
-    /** @var int Default target size for resizing a type in bytes */
-    private $defaultResize = 450000;
+    /** @var int Threshold (and rough target) for resizing images in bytes */
+    private $defaultResize = 650000;
+
+    /** @var int Jpeg compression factor between 0 and 100 */
+    private $jpegCompression = 92;
+
+    /**
+     * Set image compression quality
+     *
+     * @param int $quality Integer between 0 and 100
+     * @throws \InvalidArgumentException if quality isn't valid.
+     * @return self
+     */
+    public function setImageCompressionQuality(int $quality): self
+    {
+        if ($quality < 0 || $quality > 100) {
+            throw new \InvalidArgumentException(
+                "Image compression quality must be between 0 and 100.",
+                1596204082
+            );
+        }
+        $this->setJpegCompressionFactor($quality);
+
+        return $this;
+    }
+
+    /**
+     * Set JPEG compression quality
+     *
+     * @param int $compression Number between 0 and 100
+     * @return self
+     * @throws \InvalidArgumentException if compression factor isn't valid.
+     */
+    protected function setJpegCompressionFactor(int $compression): self
+    {
+        if ($compression < 0 || $compression > 100) {
+            throw new \InvalidArgumentException(
+                "Jpeg compression factor must be between 0 and 100.",
+                1596187723
+            );
+        }
+        $this->jpegCompression = $compression;
+
+        return $this;
+    }
+
+    /**
+     * Get Jpeg compression factor
+     *
+     * @return int
+     */
+    public function getJpegCompressionFactor(): int
+    {
+        return $this->jpegCompression;
+    }
 
     /**
      * Set default max file size when resizing a type
      *
-     * @param int $size Size in bytes
+     * @param string|int $size Size in bytes as int or string e.g. "3MB"
      * @return self
+     * @throws \InvalidArgumentException if size isn't valid.
      */
-    public function setDefaultMaxResize(int $size): self
+    public function setDefaultMaxResize($size): self
     {
+        if (is_string($size)) {
+            $size = (int)Text::parseFileSize($size, $this->defaultResize);
+        }
+        if (!is_int($size)) {
+            throw new \InvalidArgumentException(
+                'Default max resize isn\'t a number.',
+                1596199482
+            );
+        }
         $this->defaultResize = $size;
 
         return $this;

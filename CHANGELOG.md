@@ -5,10 +5,32 @@
 - Δ Changed
 - − Removed
 
+## [next] -
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.1...<next>)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
+
+## [5.7.1] -
+
+- [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.0...5.7.1)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.7.1/saito-release-master-5.7.1.zip)
+
+### Changes
+
+- ＋ Adds .webp images to allowed upload mime-types #372
+- ＋ Adds required PHP extensions to readme.md
+- ✓ Fixes Thread Collpase user setting not working in 5.x #371
+- ✓ Fixes URL with paranthesis pair omits closing on autolink #373
+- ✓ Fixes delete category and move existing posts
+- ✓ Fixes missing l10n de merge thread
+- ✓ Fixes text-field to submit-button alignment on simple search
+- ✓ Fixes spoiler tags are not revealed reliably
+- ✓ Fixes image compression is to aggressive #374
+
 ## [5.7.0] - 2020-03-25
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.6.0...5.7.0)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.7.0.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.7.0/saito-release-master-5.7.0.zip)
 
 ### Changes
 
@@ -49,7 +71,7 @@ The plugin Local in "plugins/local" allows extending the forum in a CakePHP fash
 ## [5.6.0] - 2020-01-03
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.5.0...5.6.0)
-- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/saito-release-master-5.6.0.zip)
+- [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.6.0/saito-release-master-5.6.0.zip)
 
 ### Changes
 
