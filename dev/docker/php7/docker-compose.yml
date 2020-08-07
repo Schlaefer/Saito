@@ -19,7 +19,7 @@ services:
 
     mysql:
       image: mysql:5.6
-      command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_flush_log_at_trx_commit=1
 #      restart: always
       container_name: saito5-mysql-6
       working_dir: /mysql_data
