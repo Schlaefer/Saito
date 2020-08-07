@@ -10,7 +10,7 @@
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.1...<next>)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
 
-## [5.7.1] -
+## [5.7.1] - 2020-08-07
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.0...5.7.1)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/5.7.1/saito-release-master-5.7.1.zip)
