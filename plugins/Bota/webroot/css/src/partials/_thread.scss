@@ -1,16 +1,13 @@
-// Common
+// Hide postings of ignored users
 // -------------------------------------
-.threadBox.ignored {
+// Match whole thread if ignored user is root author.
+.threadBox.ignored,
+// Match answer of ignored user.
+li.ignored,
+// Match all answers to answer of ignored user.
+li.ignored + li:not(.threadLeaf) {
+  // Hide ignored posting
   display: none;
-}
-
-.threadLeaf.ignored {
-  opacity: 0;
-}
-
-.mix .ignored .postingLayout {
-  visibility: hidden;
-  height: 1em;
 }
 
 // Tread Tree/Collection

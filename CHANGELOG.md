@@ -10,6 +10,11 @@
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.1...<next>)
 - [Download release-zip](https://github.com/Schlaefer/Saito/releases/download/<next>/saito-release-master-<next>.zip)
 
+### Changes
+
+- ＋ Stricter content hiding for ignored users
+
+
 ## [5.7.1] - 2020-08-07
 
 - [Full commit-log](https://github.com/Schlaefer/Saito/compare/5.7.0...5.7.1)
