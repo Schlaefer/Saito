@@ -12,8 +12,8 @@
 
 ### Changes
 
-- ＋ Stricter content hiding for ignored users
-
+- Δ Stricter content hiding for ignored users
+- Δ Updates library for embedding 3rd-party content
 
 ## [5.7.1] - 2020-08-07
 
